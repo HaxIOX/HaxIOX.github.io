@@ -13,7 +13,7 @@
   
   <title>
     
-      Rmoteid接收端开发 
+      公钥与私钥 
       
       
       |
@@ -153,48 +153,183 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">Rmoteid接收端开发</div>
+      <div class="post-title">公钥与私钥</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-05-28 17:18:36
+          2025-05-29 09:00:21
         </span>
         
       </div>
       <div class="markdown-body">
-        <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
-<li>GB42590标准</li>
-<li>F3411.40165-UAS-Remote-ID国际标准</li>
-<li>ESP32系列开发板</li>
-<li>ESP-IDF</li>
-<li><a target="_blank" rel="noopener" href="https://www.faa.gov/uas/getting_started/remote_id">无人机的远程识别 |美国联邦航空管理局</a></li>
-<li><a target="_blank" rel="noopener" href="https://thedroneprofessor.com/wp-content/uploads/2022/11/F3411.40165-UAS-Remote-ID.pdf?utm_source=chatgpt.com">F3411.40165-UAS-Remote-ID.pdf</a></li>
+        <h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><ol>
+<li><p><strong>公钥／私钥一一对应</strong></p>
+<ul>
+<li>私钥 → 推算出公钥；公钥无法反推私钥。</li>
+<li>只有与服务器 <code>authorized_keys</code> 中某行公钥匹配的那把私钥，才能登录。</li>
 </ul>
-<h1 id="WIFI-Beacon"><a href="#WIFI-Beacon" class="headerlink" title="WIFI Beacon"></a>WIFI Beacon</h1><p>现在无人机都需要 采用WI-FI Beacon广播协议发送报文，ESP32没有官方例程，所以去<a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/network/esp_wifi.html#_CPPv417esp_wifi_80211_tx16wifi_interface_tPKvib">官方文档</a>找相关方法</p>
-<p>根据GB42590文件了解到wifi信标帧格式，于是用两个ESP32开发板，分别为接收端与发射端开发</p>
-<img src="/2025/05/22/143-rmoteid-jie-shou-duan-kai-fa/1747904815392.png" class="" width="1747904815392">
-
-
-
-<h1 id="发送端"><a href="#发送端" class="headerlink" title="发送端"></a>发送端</h1><h1 id="接收端"><a href="#接收端" class="headerlink" title="接收端"></a>接收端</h1><h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>1.<strong>可以接收到发送端的数据，但是接收不到无人机的数据</strong></p>
+</li>
+<li><p><strong><code>authorized_keys</code> 的格式</strong></p>
+<ul>
+<li><p>存放在用户目录下（如 <code>/root/.ssh/authorized_keys</code>）</p>
+</li>
+<li><p>文件中<strong>每行一把</strong>公钥：</p>
+<pre class="line-numbers language-none"><code class="language-none">ssh-rsa AAAAB3… user@host
+ssh-ed25519 BBBBB… deploy@ci<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>可以有多把公钥，任何一把对应的私钥都可登录；删行即可撤销访问。</p>
+</li>
+</ul>
+<p><del>不知道为什么ZGO家的服务器只有初始重装时的ssh密钥才可以，后续面板添加的无效</del></p>
 <blockquote>
-<p>无人机需要起飞才可以</p>
+<p>是的，面板有问题，公钥没有被加入到<code>/root/.ssh/authorized_keys</code></p>
 </blockquote>
-<ol start="13">
-<li>无人机开始广播远程识别信号的条件是什么？</li>
+</li>
 </ol>
-<p>The drone will start broadcasting the FAA Remote ID signal when all of the following conditions are met.<br>当满足以下所有条件时，无人机将开始广播 FAA Remote ID 信号。</p>
-<p>• The drone has built-in Remote ID functionality.<br>• 无人机具有内置的 Remote ID 功能。</p>
-<p>• The drone is within airspace of the United States.<br>• 飞行器在美国领空内。</p>
-<p>• The drone is in flight (i.e. the propellers are turning).<br>• 飞行器正在飞行（即螺旋桨在转动）。</p>
-<p><a target="_blank" rel="noopener" href="https://support.dji.com/help/content?customId=en-us03400007747&documentType=artical&lang=en&paperDocType=paper&re=HK&spaceId=34">大疆国外RID文件</a></p>
+<h1 id="密钥登录部署"><a href="#密钥登录部署" class="headerlink" title="密钥登录部署"></a>密钥登录部署</h1><ol>
+<li><p><strong>在本地生成一对密钥</strong>(在哪生成都可以)</p>
+<pre class="line-numbers language-none"><code class="language-none">ssh-keygen -t rsa -b 2048 -f ~&#x2F;.ssh&#x2F;my_id_rsa  
+# 这会生成 ~&#x2F;.ssh&#x2F;my_id_rsa（私钥）和 ~&#x2F;.ssh&#x2F;my_id_rsa.pub（公钥）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>把公钥传到服务器</strong></p>
+<ul>
+<li><p>通过 ZGO 面板：</p>
+<ul>
+<li>在 “Add SSH Key” 界面，只粘入 <code>my_id_rsa.pub</code> 的内容，点击 <strong>Save</strong>（<strong>不要</strong>点 Generate）。</li>
+</ul>
+</li>
+<li><p>或者手动：</p>
+<pre class="line-numbers language-none"><code class="language-none">mkdir -p &#x2F;root&#x2F;.ssh
+chmod 700 &#x2F;root&#x2F;.ssh
+echo &#39;ssh-rsa AAAA…your-key… user@host&#39; \
+  &gt;&gt; &#x2F;root&#x2F;.ssh&#x2F;authorized_keys
+chmod 600 &#x2F;root&#x2F;.ssh&#x2F;authorized_keys<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li><p><strong>验证 <code>authorized_keys</code></strong></p>
+<pre class="line-numbers language-none"><code class="language-none">cat &#x2F;root&#x2F;.ssh&#x2F;authorized_keys
+# 确认里面有一整行从 my_id_rsa.pub 复制过来的公钥
+ls -ld &#x2F;root&#x2F;.ssh           # 应该是 700
+ls -l  &#x2F;root&#x2F;.ssh&#x2F;authorized_keys  # 应该是 600<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>用私钥登录</strong><br> 在你本地（或 Termius、WSL、Git Bash）执行：</p>
+<pre class="line-numbers language-none"><code class="language-none">ssh -i ~&#x2F;.ssh&#x2F;my_id_rsa root@38.49.38.67<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><strong>调试</strong><br> 如果仍然失败，加上 <code>-vvv</code>：</p>
+<pre class="line-numbers language-none"><code class="language-none">ssh -vvv -i ~&#x2F;.ssh&#x2F;my_id_rsa root@38.49.38.67<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>看到 <code>Offering public key: ... my_id_rsa</code> 且 <code>Server accepts key:</code> 就会通过。</p>
+</li>
+</ol>
+<hr>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ul>
+<li><strong>主机密钥</strong>（<code>/etc/ssh/ssh_host_*</code> 文件）只是 <strong>服务器</strong> 用来证明「我真的是这台机器」，与你能否「以 root 身份登录」无直接关系。</li>
+<li><strong>用户密钥</strong>（你生成的 <code>id_rsa</code>&#x2F;<code>.pub</code>）才是验证「你是谁」的凭证，必须加入对应用户的 <code>authorized_keys</code>。</li>
+</ul>
+<p>在 <code>/root/.ssh/authorized_keys</code> 里目前只放了一行公钥；但实际上你可以往这个文件里<strong>每行添加一串公钥</strong>，也就相当于授权了多把私钥。(但其实没必要同一把私钥就可以)</p>
+<hr>
+<p><strong>1. <code>authorized_keys</code> 能存放多把公钥</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;root&#x2F;.ssh&#x2F;authorized_keys  内容示例：
+ssh-rsa AAAAB3Nza… 第一把公钥 user1@pc1
+ssh-rsa AAAAB3Nza… 第二把公钥 user2@laptop
+ssh-ed25519 AAAAC3Nza… 第三把公钥 deploy@ci<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><strong>每行一把</strong>：文件里每一行都是一把整的公钥。</li>
+<li><strong>多把公钥</strong>：只要把更多公钥追加到这个文件，就能让对应的私钥都能登录。</li>
+<li><strong>撤销访问</strong>：删除某一行就马上失效。</li>
+</ul>
+<hr>
+<p><strong>2. <code>/etc/ssh</code> 目录下那些文件是什么</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sshd_config</code></td>
+<td>文件</td>
+<td>SSH 服务端配置，控制监听端口、认证方式、根登录等。</td>
+</tr>
+<tr>
+<td><code>sshd_config.d/</code></td>
+<td>目录</td>
+<td>用于拆分存放额外的服务端配置片段。</td>
+</tr>
+<tr>
+<td><code>ssh_config</code></td>
+<td>文件</td>
+<td>SSH 客户端配置，控制发起连接时的默认行为（比如默认端口、默认私钥路径等）。</td>
+</tr>
+<tr>
+<td><code>ssh_config.d/</code></td>
+<td>目录</td>
+<td>拆分存放额外的客户端配置。</td>
+</tr>
+<tr>
+<td><code>moduli</code></td>
+<td>文件</td>
+<td>DH 密钥交换时用到的一组大素数列表，支持多种 <code>diffie-hellman-group-*</code> 算法。</td>
+</tr>
+<tr>
+<td><code>ssh_host_rsa_key</code></td>
+<td>文件（私钥）</td>
+<td>服务器的 RSA 主机私钥，用于向客户端证明“我就是这台服务器”。</td>
+</tr>
+<tr>
+<td><code>ssh_host_rsa_key.pub</code></td>
+<td>文件（公钥）</td>
+<td>上面那把私钥对应的公钥，客户端第一次连接时会保存到 <code>known_hosts</code>，用于后续验证服务器身份。</td>
+</tr>
+<tr>
+<td><code>ssh_host_ecdsa_key</code></td>
+<td>文件（私钥）</td>
+<td>服务器的 ECDSA 主机私钥。</td>
+</tr>
+<tr>
+<td><code>ssh_host_ecdsa_key.pub</code></td>
+<td>文件（公钥）</td>
+<td>对应 ECDSA 主机公钥。</td>
+</tr>
+<tr>
+<td><code>ssh_host_ed25519_key</code></td>
+<td>文件（私钥）</td>
+<td>服务器的 Ed25519 主机私钥。</td>
+</tr>
+<tr>
+<td><code>ssh_host_ed25519_key.pub</code></td>
+<td>文件（公钥）</td>
+<td>对应 Ed25519 主机公钥。</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>主机密钥</strong>（<code>ssh_host_*</code>）只关乎“服务器身份”，让客户端确认它连的是正确的机器；</li>
+<li><strong>用户公钥</strong>（<code>authorized_keys</code>）才关乎“谁能登录”，与 <code>/etc/ssh</code> 下的主机密钥完全无关。</li>
+</ul>
+<hr>
+<h2 id="增加公钥"><a href="#增加公钥" class="headerlink" title="增加公钥"></a>增加公钥</h2><ol>
+<li><p>编辑 <code>/root/.ssh/authorized_keys</code>：</p>
+<pre class="line-numbers language-none"><code class="language-none">vim &#x2F;root&#x2F;.ssh&#x2F;authorized_keys<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>每行粘入一个新的公钥字符串（完整的 <code>ssh-rsa AAAA…</code> 或 <code>ssh-ed25519 …</code>）。</p>
+</li>
+<li><p>保存后保证权限仍然是：</p>
+<pre class="line-numbers language-none"><code class="language-none">chmod 700 &#x2F;root&#x2F;.ssh
+chmod 600 &#x2F;root&#x2F;.ssh&#x2F;authorized_keys<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>此后，任何对应这些公钥的私钥都可以用来登录 <code>root</code>。</p>
+</li>
+</ol>
 
       </div>
       
         <div class="prev-or-next">
           <div class="post-foot-next">
             
-              <a href="/2025/05/21/142-esp-idf-kai-fa-esp32/" target="_self">
+              <a href="/2025/05/22/143-rmoteid-jie-shou-duan-kai-fa/" target="_self">
                 <i class="iconfont icon-chevronleft"></i>
                 <span>Prev</span>
               </a>
@@ -203,13 +338,13 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-05-28 17:18:36
+              2025-05-29 09:00:21
             </span>
             
           </div>
           <div class="post-foot-prev">
             
-              <a href="/2025/05/24/148-gong-yao-yu-si-yao/" target="_self">
+              <a href="/2025/05/27/144-gong-mo-dian-lu/" target="_self">
                 <span>Next</span>
                 <i class="iconfont icon-chevronright"></i>
               </a>
@@ -226,7 +361,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WIFI-Beacon"><span class="toc-text">WIFI Beacon</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E7%AB%AF"><span class="toc-text">发送端</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E7%AB%AF"><span class="toc-text">接收端</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%86%E9%92%A5%E7%99%BB%E5%BD%95%E9%83%A8%E7%BD%B2"><span class="toc-text">密钥登录部署</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E5%85%AC%E9%92%A5"><span class="toc-text">增加公钥</span></a></li></ol></li></ol>
       
     </div>
   </div>
@@ -514,12 +649,12 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Rmoteid%E6%8E%A5%E6%94%B6%E7%AB%AF%E5%BC%80%E5%8F%91 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F05%2F22%2F143-rmoteid-jie-shou-duan-kai-fa%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%85%AC%E9%92%A5%E4%B8%8E%E7%A7%81%E9%92%A5 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F05%2F24%2F148-gong-yao-yu-si-yao%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
         
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/05/22/143-rmoteid-jie-shou-duan-kai-fa/" target="_blank" title="Facebook">
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/05/24/148-gong-yao-yu-si-yao/" target="_blank" title="Facebook">
             <i class="iconfont icon-facebooksquare"></i>
           </a>
         

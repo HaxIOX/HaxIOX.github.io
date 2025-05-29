@@ -157,12 +157,12 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-05-28 17:20:57
+          2025-05-29 10:26:27
         </span>
         
       </div>
       <div class="markdown-body">
-        <h1 id="Git-指令速查"><a href="#Git-指令速查" class="headerlink" title="Git 指令速查"></a>Git 指令速查</h1><table>
+        <h2 id="Git-指令速查"><a href="#Git-指令速查" class="headerlink" title="Git 指令速查"></a>Git 指令速查</h2><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -206,35 +206,24 @@
 <td>合并指定分支到当前分支</td>
 </tr>
 </tbody></table>
-<h1 id="日常回退"><a href="#日常回退" class="headerlink" title="日常回退"></a>日常回退</h1><p><strong>看历史快照</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">git log --oneline<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>一行一个提交，短哈希+信息，快速定位目标版。</p>
-<p><strong>安全撤销某次提交（保留后续历史）</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">git revert &lt;commit_hash&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>会生成一个“反向”提交，适合已推送到远程的场景。</p>
-<p><strong>硬回退到某个提交（丢弃之后所有改动）</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">git reset --hard &lt;commit_hash&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>只用在本地，或者你确定要强写远程时配合 <code>git push --force</code>。</p>
-<p><strong>临时查看某个提交状态</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">git checkout &lt;commit_hash&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>进入 detached-HEAD，可以浏览当时的代码，不改分支。</p>
-<h1 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h1><ol>
+<h2 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h2><ol>
 <li><p><strong>进入项目目录</strong><br> 在资源管理器中右键 → <strong>Git Bash Here</strong></p>
 </li>
 <li><p><strong>初始化本地仓库</strong></p>
 <pre class="line-numbers language-none"><code class="language-none">git init<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 <li><p><strong>配置全局用户信息</strong><br> 仅需首次配置，或者当你换了机器／账户时再执行：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git config --global user.name  &quot;whh&quot;
-git config --global user.email &quot;email&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git config --global user.name  &quot;HaxIOX&quot;
+git config --global user.email &quot;isgeek01@gmail.com&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p> 本地用户配置</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git config user.name  &quot;whh&quot;
 git config user.email &quot;email&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">git config --get user.name
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">git config --get user.email<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 <li><p>查看当前配置**</p>
 <pre class="line-numbers language-none"><code class="language-none">git config --list<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
@@ -280,13 +269,7 @@ git config user.email &quot;email&quot;<span aria-hidden="true" class="line-numb
 </blockquote>
 </li>
 </ul>
-<h1 id="强制回退"><a href="#强制回退" class="headerlink" title="强制回退"></a>强制回退</h1><p>1.回退到上一个提交（合并之前）</p>
-<pre class="line-numbers language-none"><code class="language-none">git reset --hard HEAD^  <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>2.强制推送，把远程也覆盖回去</p>
-<pre class="line-numbers language-none"><code class="language-none">git push origin main --force<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">VIBTEK@DESKTOP-TG673JB MINGW64 ~&#x2F;Desktop&#x2F;Detector (master)
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">VIBTEK@DESKTOP-TG673JB MINGW64 ~&#x2F;Desktop&#x2F;Detector (master)
 $ git push -u origin main
 error: src refspec main does not match any
 error: failed to push some refs to &#39;codeup.aliyun.com:67975038cfc95bafa621705d&#x2F;d
@@ -365,6 +348,12 @@ git push origin main<span aria-hidden="true" class="line-numbers-rows"><span></s
 <p>或者 HTTPS 地址：</p>
 <pre class="line-numbers language-none"><code class="language-none">git remote set-url origin https:&#x2F;&#x2F;github.com&#x2F;yourname&#x2F;new-repo.git<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ol>
+<p><strong>添加远程 origin</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">git remote add origin git@github.com:HaxIOX&#x2F;HaxIOX.github.io.git
+
+ git remote set-url origin git@github.com:HaxIOX&#x2F;Hexo-source.git
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
 <h2 id="Hexo仓库"><a href="#Hexo仓库" class="headerlink" title="Hexo仓库"></a>Hexo仓库</h2><h3 id="修改历史用户名"><a href="#修改历史用户名" class="headerlink" title="修改历史用户名"></a>修改历史用户名</h3><p><strong>源文件</strong></p>
 <h3 id="A-用-git-filter-branch"><a href="#A-用-git-filter-branch" class="headerlink" title="A. 用 git filter-branch"></a>A. 用 <code>git filter-branch</code></h3><blockquote>
 <p><strong>注意</strong>：此命令会重写整个历史，所有提交的 hash 都会变，后续需要强推 (<code>--force</code>) 并告知团队重新拉取。</p>
@@ -401,12 +390,20 @@ git gc --prune&#x3D;now --aggressive<span aria-hidden="true" class="line-numbers
   --replace-email &#39;old@example.com&#x3D;newemail@example.com&#39; \
   --replace-text &lt;(printf &#39;old-name&#x3D;&gt;新用户名\n&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
+<pre class="line-numbers language-none"><code class="language-none">git filter-repo --force --commit-callback &#39;
+# 把所有 author_name、committer_name 为 OldUser 的提交统一改成 git filter-repo
+if commit.author_name &#x3D;&#x3D; b&quot;wangjiqi&quot;:
+    commit.author_name &#x3D; b&quot;HaxIOX&quot;
+if commit.committer_name &#x3D;&#x3D; b&quot;wangjiqi&quot;:
+    commit.committer_name &#x3D; b&quot;HaxIOX&quot;
+&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>具体用法可见<a target="_blank" rel="noopener" href="https://github.com/newren/git-filter-repo">官方文档</a>。</p>
 <p>或者</p>
 <pre class="line-numbers language-none"><code class="language-none">git filter-repo \
   --replace-email 旧邮箱&#x3D;新邮箱 \
   --replace-name 旧用户名&#x3D;新用户名 \
-  --force<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+  --force  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>强制推送</p>
 <pre class="line-numbers language-none"><code class="language-none">git push --force --tags origin +refs&#x2F;heads&#x2F;*:refs&#x2F;heads&#x2F;*<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
@@ -432,7 +429,7 @@ git gc --prune&#x3D;now --aggressive<span aria-hidden="true" class="line-numbers
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-05-28 17:20:57
+              2025-05-29 10:26:27
             </span>
             
           </div>
@@ -455,7 +452,7 @@ git gc --prune&#x3D;now --aggressive<span aria-hidden="true" class="line-numbers
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Git-%E6%8C%87%E4%BB%A4%E9%80%9F%E6%9F%A5"><span class="toc-text">Git 指令速查</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%A5%E5%B8%B8%E5%9B%9E%E9%80%80"><span class="toc-text">日常回退</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">项目初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Clone-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="toc-text">Clone 远程仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E3%80%81%E6%8F%90%E4%BA%A4%E4%B8%8E%E6%8E%A8%E9%80%81"><span class="toc-text">添加、提交与推送</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%89%E5%8F%96%E6%9B%B4%E6%96%B0%E4%B8%8E-Rebas"><span class="toc-text">拉取更新与 Rebas</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E5%9B%9E%E9%80%80"><span class="toc-text">强制回退</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E4%B8%A4%E7%AB%AF%E5%8E%86%E5%8F%B2"><span class="toc-text">合并两端历史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%B7%B2%E6%9C%89%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-text">修改已有远程仓库的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo%E4%BB%93%E5%BA%93"><span class="toc-text">Hexo仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%8E%86%E5%8F%B2%E7%94%A8%E6%88%B7%E5%90%8D"><span class="toc-text">修改历史用户名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-%E7%94%A8-git-filter-branch"><span class="toc-text">A. 用 git filter-branch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E7%94%A8%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84-git-filter-repo%EF%BC%88%E9%9C%80%E8%A6%81%E5%85%88%E5%AE%89%E8%A3%85%EF%BC%89"><span class="toc-text">B. 用更现代的 git filter-repo（需要先安装）</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-%E6%8C%87%E4%BB%A4%E9%80%9F%E6%9F%A5"><span class="toc-text">Git 指令速查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">项目初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clone-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="toc-text">Clone 远程仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E3%80%81%E6%8F%90%E4%BA%A4%E4%B8%8E%E6%8E%A8%E9%80%81"><span class="toc-text">添加、提交与推送</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%89%E5%8F%96%E6%9B%B4%E6%96%B0%E4%B8%8E-Rebas"><span class="toc-text">拉取更新与 Rebas</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E4%B8%A4%E7%AB%AF%E5%8E%86%E5%8F%B2"><span class="toc-text">合并两端历史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%B7%B2%E6%9C%89%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-text">修改已有远程仓库的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo%E4%BB%93%E5%BA%93"><span class="toc-text">Hexo仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%8E%86%E5%8F%B2%E7%94%A8%E6%88%B7%E5%90%8D"><span class="toc-text">修改历史用户名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-%E7%94%A8-git-filter-branch"><span class="toc-text">A. 用 git filter-branch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E7%94%A8%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84-git-filter-repo%EF%BC%88%E9%9C%80%E8%A6%81%E5%85%88%E5%AE%89%E8%A3%85%EF%BC%89"><span class="toc-text">B. 用更现代的 git filter-repo（需要先安装）</span></a></li></ol></li></ol>
       
     </div>
   </div>
