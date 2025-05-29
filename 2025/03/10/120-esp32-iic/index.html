@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      ESP32 IIC开发 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">ESP32 IIC开发</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-04-07 14:21:20
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>1.多个iic地址，只有第一个初始化会起作用</p>
+<h4 id="1️⃣-I2C-地址冲突或线路不通"><a href="#1️⃣-I2C-地址冲突或线路不通" class="headerlink" title="1️⃣ I2C 地址冲突或线路不通"></a>1️⃣ <strong>I2C 地址冲突或线路不通</strong></h4><ul>
+<li>APDS-9930 默认 I2C 地址是 <code>0x39</code>。</li>
+<li>如果多个 I2C 设备（如 TSL2591）使用不同的 I2C 引脚（你现在是分别 <code>Wire.begin(8, 9)</code> 和 <code>Wire.begin(10, 11)</code>），那么 <strong>只有一个 Wire 对象在起作用</strong>，后初始化的会覆盖前面的。</li>
+</ul>
+<p>✅ <strong>解决方法：</strong> 使用多个 I2C 设备时，应创建多个 <code>TwoWire</code> 对象（即多个 I2C 总线）：</p>
+<pre class="line-numbers language-C" data-language="C"><code class="language-C">TwoWire Wire_TSL &#x3D; TwoWire(0);
+TwoWire Wire_APDS &#x3D; TwoWire(1);
+Wire_TSL.begin(TSL2591_SDA, TSL2591_SCL);
+Wire_APDS.begin(APDS9930_SDA, APDS9930_SCL);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>并告诉 apds.begin() 用哪个 I2C 对象（如果库支持），否则你只能用一个总线！<br>然后这个库需要手动配置传感器的iic库，获取地址，读取数据什么的</p>
+<h2 id="🧩-常见格式符号说明"><a href="#🧩-常见格式符号说明" class="headerlink" title="🧩 常见格式符号说明"></a>🧩 常见格式符号说明</h2><table>
+<thead>
+<tr>
+<th>格式符</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>%d</code></td>
+<td>int</td>
+<td><strong>有符号十进制整数</strong>（e.g., <code>123</code>，<code>-42</code>）</td>
+</tr>
+<tr>
+<td><code>%u</code></td>
+<td>unsigned int</td>
+<td><strong>无符号十进制整数</strong>（不能是负数）</td>
+</tr>
+<tr>
+<td><code>%x</code> &#x2F; <code>%X</code></td>
+<td>unsigned int</td>
+<td><strong>无符号十六进制</strong>（小写 &#x2F; 大写字母）</td>
+</tr>
+<tr>
+<td><code>%f</code></td>
+<td>float &#x2F; double</td>
+<td><strong>浮点数</strong>，默认保留 6 位小数</td>
+</tr>
+<tr>
+<td><code>%0.2f</code></td>
+<td>float &#x2F; double</td>
+<td><strong>浮点数，保留两位小数</strong></td>
+</tr>
+<tr>
+<td><code>%c</code></td>
+<td>char</td>
+<td>单个字符</td>
+</tr>
+<tr>
+<td><code>%s</code></td>
+<td>char*</td>
+<td>字符串（C 风格字符串）</td>
+</tr>
+<tr>
+<td><code>%%</code></td>
+<td>—</td>
+<td>输出 <code>%</code> 字符本身</td>
+</tr>
+</tbody></table>
+<h3 id="问题-1"><a href="#问题-1" class="headerlink" title="问题"></a>问题</h3><ol>
+<li></li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">💡 TSL2591: ���?O lux
+📟 APDS9930: 20
+💡 TSL2591: ���?O lux<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>🛑 <strong>问题点：</strong><br>你传入的是 <code>String</code> 类型（<code>tsl_lux</code>），但 <code>printf()</code> 只接受 <em><em>C 风格字符串（char</em>）</em>*，不能直接接受 Arduino 的 <code>String</code> 类型，会导致输出乱码（例如 <code>���?O</code>）。</p>
+<h3 id="✅-正确写法-1（用-Serial-print）："><a href="#✅-正确写法-1（用-Serial-print）：" class="headerlink" title="✅ 正确写法 1（用 Serial.print）："></a>✅ 正确写法 1（用 <code>Serial.print</code>）：</h3><pre class="line-numbers language-none"><code class="language-none">cpp
+
+
+复制编辑
+Serial.print(&quot;💡 &quot;);
+Serial.print(tsl_lux);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="✅-正确写法-2（转换为-c-str-）："><a href="#✅-正确写法-2（转换为-c-str-）：" class="headerlink" title="✅ 正确写法 2（转换为 c_str()）："></a>✅ 正确写法 2（转换为 c_str()）：</h3><pre class="line-numbers language-none"><code class="language-none">cpp
+
+
+复制编辑
+Serial.printf(&quot;💡 TSL2591:\n%s&quot;, tsl_lux.c_str());<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>因为 <code>String.c_str()</code> 返回的是底层的 <code>const char*</code>，这样才能被 <code>printf()</code> 正确识别。</p>
+<p>2.<strong>android 蓝牙ble 133,Android 关于蓝牙BLE引发Gatt133的问题</strong></p>
+<p><a target="_blank" rel="noopener" href="https://huaweicloud.csdn.net/64e5c64c4165333c3076a8b0.html">android 蓝牙ble 133</a></p>
+<p>3.<strong>传感器初始化失败</strong></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">if (!tsl.begin()) &#123;
+  Serial.println(&quot;❌ 初始化失败&quot;);
+  while (1);  &#x2F;&#x2F; 👉 死循环：程序卡死，永远不再往下执行
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>while(1)</code>会导致两个问题</p>
+<ul>
+<li>当该传感器未连接时，程序卡死，蓝牙无法连接</li>
+</ul>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/03/10/131-lora/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-04-07 14:21:20
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/03/10/119-esp32-ble/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%EF%B8%8F%E2%83%A3-I2C-%E5%9C%B0%E5%9D%80%E5%86%B2%E7%AA%81%E6%88%96%E7%BA%BF%E8%B7%AF%E4%B8%8D%E9%80%9A"><span class="toc-text">1️⃣ I2C 地址冲突或线路不通</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A7%A9-%E5%B8%B8%E8%A7%81%E6%A0%BC%E5%BC%8F%E7%AC%A6%E5%8F%B7%E8%AF%B4%E6%98%8E"><span class="toc-text">🧩 常见格式符号说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98-1"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E6%AD%A3%E7%A1%AE%E5%86%99%E6%B3%95-1%EF%BC%88%E7%94%A8-Serial-print%EF%BC%89%EF%BC%9A"><span class="toc-text">✅ 正确写法 1（用 Serial.print）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E6%AD%A3%E7%A1%AE%E5%86%99%E6%B3%95-2%EF%BC%88%E8%BD%AC%E6%8D%A2%E4%B8%BA-c-str-%EF%BC%89%EF%BC%9A"><span class="toc-text">✅ 正确写法 2（转换为 c_str()）：</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP32%20IIC%E5%BC%80%E5%8F%91 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F03%2F10%2F120-esp32-iic%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/03/10/120-esp32-iic/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      油猴脚本 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">油猴脚本</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-05-14 15:21:41
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="浏览器脚本-vs-用户脚本呢"><a href="#浏览器脚本-vs-用户脚本呢" class="headerlink" title="浏览器脚本 vs. 用户脚本呢"></a>浏览器脚本 vs. 用户脚本呢</h2><ol>
+<li><strong>JavaScript 脚本</strong>：<ul>
+<li><strong>执行环境</strong>：通常嵌入在网页中，通过 <code>&lt;script&gt;</code> 标签加载，或者在浏览器的控制台中运行。</li>
+<li><strong>目的</strong>：实现页面功能、处理用户交互、操作 DOM（文档对象模型）等。</li>
+</ul>
+</li>
+<li><strong>用户脚本</strong>：<ul>
+<li><strong>执行环境</strong>：由用户脚本管理器（如 Tampermonkey 或 Greasemonkey）注入到网页中。它们运行在用户的浏览器中，可以修改网页的行为和外观。</li>
+<li><strong>目的</strong>：用户定制网页的功能，添加额外的功能或修复网页上的问题。</li>
+</ul>
+</li>
+</ol>
+<h3 id="document-addEventListener"><a href="#document-addEventListener" class="headerlink" title="document.addEventListener"></a><code>document.addEventListener</code></h3><p><code>document.addEventListener</code> 是 JavaScript 的标准方法，用于在指定的事件发生时执行指定的函数。这是 DOM API 的一部分，允许你在网页上监听和处理用户交互或其他事件。</p>
+<p>用法示例：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">javascript复制代码document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'DOMContentLoaded'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 代码在文档完全加载后运行</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'页面加载完成'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>Node.js 环境</strong></p>
+<p>如果你在 Node.js 环境中运行 JavaScript 代码，<code>document</code> 对象是不存在的，因为 Node.js 是一个服务器端的 JavaScript 环境，没有浏览器提供的 DOM API。</p>
+<p><strong>解决方法</strong>：</p>
+<ul>
+<li>如果你需要在 Node.js 中处理网页内容，考虑使用类似 <code>jsdom</code> 的库来模拟浏览器环境。</li>
+</ul>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">javascript复制代码<span class="token keyword">const</span> <span class="token punctuation">&#123;</span> <span class="token constant">JSDOM</span> <span class="token punctuation">&#125;</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'jsdom'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> dom <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JSDOM</span><span class="token punctuation">(</span><span class="token string">'&lt;html>&lt;body>&lt;h1>Hello world&lt;/h1>&lt;/body>&lt;/html>'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> document <span class="token operator">=</span> dom<span class="token punctuation">.</span>window<span class="token punctuation">.</span>document<span class="token punctuation">;</span>
+
+<span class="token comment">// 现在你可以使用 document 对象</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'h1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>textContent<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出: Hello world</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="不知道为啥，安装完还是不好使"><a href="#不知道为啥，安装完还是不好使" class="headerlink" title="不知道为啥，安装完还是不好使"></a><strong>不知道为啥，安装完还是不好使</strong></h3><p>##自动登录实例</p>
+<p>稀土掘金</p>
+<ul>
+<li>速度太快会跳验证码</li>
+<li>需要过拖图验证码</li>
+</ul>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'use strict'</span><span class="token punctuation">;</span>
+    <span class="token comment">//alert('HelloWorld')</span>
+    document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">".login-button"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">let</span> time<span class="token operator">=</span><span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=></span><span class="token punctuation">&#123;</span>
+    document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">".clickable"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'[name="mobile"]'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token operator">=</span><span class="token string">'13304272398'</span>
+    document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'[name="loginPassword"]'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token operator">=</span><span class="token string">'522411Wjq.'</span>
+    <span class="token comment">//document.querySelector('[class="btn btn-login"]').click()</span>
+    <span class="token keyword">let</span> submitButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'.btn.btn-login'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+      <span class="token comment">// 检查提交按钮是否存在，并点击提交</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>submitButton<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                submitButton<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 点击登录按钮</span>
+                <span class="token function">clearInterval</span><span class="token punctuation">(</span>time<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 清除定时器</span>
+            <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">1000</span>
+<span class="token punctuation">)</span>
+
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>输入似乎并没有延时，仍会跳转验证1</p>
+<h3 id="V1-1"><a href="#V1-1" class="headerlink" title="V1.1"></a>V1.1</h3><ul>
+<li>会来回切换登录</li>
+</ul>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'use strict'</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 点击登录按钮</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">let</span> loginButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">".login-button"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>loginButton<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            loginButton<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token function">getRandomDelay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 模拟点击验证码按钮，并填写手机号和密码</span>
+    <span class="token keyword">let</span> time <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">let</span> secretcheckButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">".clickable"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> mobileField <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'[name="mobile"]'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> passwordField <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'[name="loginPassword"]'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> submitButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'.btn.btn-login'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 如果验证码按钮存在，开始后续操作</span>
+        <span class="token comment">//if (secretcheckButton) &#123;</span>
+            <span class="token comment">// 点击验证码按钮</span>
+            <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+                secretcheckButton<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token function">getRandomDelay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword">if</span><span class="token punctuation">(</span>mobileField<span class="token operator">&amp;&amp;</span>passwordField<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">// 输入手机号</span>
+            <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+                mobileField<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">'13304272398'</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token function">getRandomDelay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// 输入密码</span>
+            <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+                passwordField<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">'522411Wjq.'</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token function">getRandomDelay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token comment">// 检查提交按钮是否存在，并点击提交</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>submitButton<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+                    submitButton<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 点击登录按钮</span>
+                    <span class="token function">clearInterval</span><span class="token punctuation">(</span>time<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 清除定时器</span>
+                <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token function">getRandomDelay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+       <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 随机延迟函数，返回 500ms 到 3500ms 之间的随机值</span>
+    <span class="token keyword">function</span> <span class="token function">getRandomDelay</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">3000</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">2000</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="待完成、、、、"><a href="#待完成、、、、" class="headerlink" title="待完成、、、、"></a>待完成、、、、</h3><h2 id="百度网盘链接提取"><a href="#百度网盘链接提取" class="headerlink" title="百度网盘链接提取"></a>百度网盘链接提取</h2><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// ==UserScript==</span>
+<span class="token comment">// @name         百度网盘链接及提取码处理</span>
+<span class="token comment">// @namespace    http://tampermonkey.net/</span>
+<span class="token comment">// @version      1.0</span>
+<span class="token comment">// @description  识别并处理百度网盘链接及其提取码，自动填写提取码</span>
+<span class="token comment">// @author       南北的猫</span>
+<span class="token comment">// @match        *://*/*</span>
+<span class="token comment">// @match        *://pan.baidu.com/*</span>
+<span class="token comment">// @grant        none</span>
+<span class="token comment">// ==/UserScript==</span>
+
+<span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'use strict'</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 在非百度网盘页面上识别链接及提取码</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>location<span class="token punctuation">.</span>href<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span><span class="token string">"pan.baidu.com"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'mouseup'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">let</span> selectedText <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">getSelection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">let</span> match <span class="token operator">=</span> selectedText<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">https?:\/\/pan.baidu.com\/s\/[a-zA-Z0-9_\-]+(\s*提取码:\s*(\w+))?</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>match<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">let</span> link <span class="token operator">=</span> match<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token keyword">let</span> extractCode <span class="token operator">=</span> match<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>extractCode<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token keyword">let</span> confirmJump <span class="token operator">=</span> <span class="token function">confirm</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">检测到百度网盘链接：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>link<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">\n提取码：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>extractCode<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">\n是否跳转并尝试使用提取码？</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>confirmJump<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        <span class="token comment">// 将提取码存储在localStorage，以便在跳转后使用</span>
+                        localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'autoFillExtractCode'</span><span class="token punctuation">,</span> extractCode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        window<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>link<span class="token punctuation">,</span> <span class="token string">'_blank'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">confirm</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">检测到百度网盘链接：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>link<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">\n是否跳转？</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        window<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>link<span class="token punctuation">,</span> <span class="token string">'_blank'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 在百度网盘页面尝试自动填写提取码</span>
+        window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'load'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">let</span> autoFillExtractCode <span class="token operator">=</span> localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'autoFillExtractCode'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>autoFillExtractCode<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">let</span> codeInput <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'input selector'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 更新为实际的提取码输入框选择器</span>
+                <span class="token keyword">let</span> submitButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'button selector'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 更新为实际的提交按钮选择器</span>
+
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>codeInput <span class="token operator">&amp;&amp;</span> submitButton<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    codeInput<span class="token punctuation">.</span>value <span class="token operator">=</span> autoFillExtractCode<span class="token punctuation">;</span>
+                    submitButton<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    localStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'autoFillExtractCode'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 清理localStorage</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="改进版"><a href="#改进版" class="headerlink" title="改进版"></a>改进版</h3><p>美化弹窗</p>
+<ul>
+<li>弹窗按钮需要先点击一下按钮以外，才能成功点击按钮（未解决）</li>
+</ul>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'use strict'</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 显示自定义弹窗的函数</span>
+    <span class="token keyword">function</span> <span class="token function">showCustomDialog</span><span class="token punctuation">(</span><span class="token parameter">message<span class="token punctuation">,</span> callback</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 移除现有弹窗和遮罩层</span>
+        <span class="token keyword">let</span> existingDialog <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'.custom-dialog'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> existingOverlay <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'.custom-overlay'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>existingDialog<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">removeChild</span><span class="token punctuation">(</span>existingDialog<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>existingOverlay<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">removeChild</span><span class="token punctuation">(</span>existingOverlay<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token comment">// 创建遮罩层</span>
+        <span class="token keyword">let</span> overlay <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'div'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        overlay<span class="token punctuation">.</span>className <span class="token operator">=</span> <span class="token string">'custom-overlay'</span><span class="token punctuation">;</span> 
+        overlay<span class="token punctuation">.</span>style<span class="token punctuation">.</span>position <span class="token operator">=</span> <span class="token string">'fixed'</span><span class="token punctuation">;</span>
+        overlay<span class="token punctuation">.</span>style<span class="token punctuation">.</span>top <span class="token operator">=</span> <span class="token string">'0'</span><span class="token punctuation">;</span>
+        overlay<span class="token punctuation">.</span>style<span class="token punctuation">.</span>left <span class="token operator">=</span> <span class="token string">'0'</span><span class="token punctuation">;</span>
+        overlay<span class="token punctuation">.</span>style<span class="token punctuation">.</span>width <span class="token operator">=</span> <span class="token string">'100%'</span><span class="token punctuation">;</span>
+        overlay<span class="token punctuation">.</span>style<span class="token punctuation">.</span>height <span class="token operator">=</span> <span class="token string">'100%'</span><span class="token punctuation">;</span>
+        overlay<span class="token punctuation">.</span>style<span class="token punctuation">.</span>backgroundColor <span class="token operator">=</span> <span class="token string">'rgba(0, 0, 0, 0.5)'</span><span class="token punctuation">;</span>
+        overlay<span class="token punctuation">.</span>style<span class="token punctuation">.</span>zIndex <span class="token operator">=</span> <span class="token string">'1000'</span><span class="token punctuation">;</span>
+        document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>overlay<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 创建弹窗容器</span>
+        <span class="token keyword">let</span> dialog <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'div'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span>className <span class="token operator">=</span> <span class="token string">'custom-dialog'</span><span class="token punctuation">;</span> 
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>position <span class="token operator">=</span> <span class="token string">'fixed'</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>top <span class="token operator">=</span> <span class="token string">'20px'</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>left <span class="token operator">=</span> <span class="token string">'50%'</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>transform <span class="token operator">=</span> <span class="token string">'translateX(-50%)'</span><span class="token punctuation">;</span> 
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>backgroundColor <span class="token operator">=</span> <span class="token string">'#fff'</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>padding <span class="token operator">=</span> <span class="token string">'20px'</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>borderRadius <span class="token operator">=</span> <span class="token string">'10px'</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>boxShadow <span class="token operator">=</span> <span class="token string">'0px 4px 10px rgba(0, 0, 0, 0.1)'</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>zIndex <span class="token operator">=</span> <span class="token string">'1001'</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>textAlign <span class="token operator">=</span> <span class="token string">'center'</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>width <span class="token operator">=</span> <span class="token string">'300px'</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>maxHeight <span class="token operator">=</span> <span class="token string">'80vh'</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span>style<span class="token punctuation">.</span>overflow <span class="token operator">=</span> <span class="token string">'auto'</span><span class="token punctuation">;</span>
+        document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>dialog<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 显示消息（换行处理）</span>
+        <span class="token keyword">let</span> messageEl <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'p'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        messageEl<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> message<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\n</span><span class="token regex-delimiter">/</span><span class="token regex-flags">g</span></span><span class="token punctuation">,</span> <span class="token string">'&lt;br>'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+        messageEl<span class="token punctuation">.</span>style<span class="token punctuation">.</span>marginBottom <span class="token operator">=</span> <span class="token string">'20px'</span><span class="token punctuation">;</span>
+        messageEl<span class="token punctuation">.</span>style<span class="token punctuation">.</span>wordWrap <span class="token operator">=</span> <span class="token string">'break-word'</span><span class="token punctuation">;</span> 
+        messageEl<span class="token punctuation">.</span>style<span class="token punctuation">.</span>wordBreak <span class="token operator">=</span> <span class="token string">'break-all'</span><span class="token punctuation">;</span> 
+        dialog<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>messageEl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 创建按钮容器</span>
+        <span class="token keyword">let</span> buttonsContainer <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'div'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        buttonsContainer<span class="token punctuation">.</span>style<span class="token punctuation">.</span>display <span class="token operator">=</span> <span class="token string">'flex'</span><span class="token punctuation">;</span>
+        buttonsContainer<span class="token punctuation">.</span>style<span class="token punctuation">.</span>justifyContent <span class="token operator">=</span> <span class="token string">'space-between'</span><span class="token punctuation">;</span>
+        buttonsContainer<span class="token punctuation">.</span>style<span class="token punctuation">.</span>width <span class="token operator">=</span> <span class="token string">'100%'</span><span class="token punctuation">;</span>
+        dialog<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>buttonsContainer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 创建确定按钮</span>
+        <span class="token keyword">let</span> confirmButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'button'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        confirmButton<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token string">'确定'</span><span class="token punctuation">;</span>
+        confirmButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>backgroundColor <span class="token operator">=</span> <span class="token string">'#007bff'</span><span class="token punctuation">;</span> 
+        confirmButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>color <span class="token operator">=</span> <span class="token string">'#fff'</span><span class="token punctuation">;</span>
+        confirmButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>border <span class="token operator">=</span> <span class="token string">'none'</span><span class="token punctuation">;</span>
+        confirmButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>padding <span class="token operator">=</span> <span class="token string">'10px 20px'</span><span class="token punctuation">;</span>
+        confirmButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>borderRadius <span class="token operator">=</span> <span class="token string">'5px'</span><span class="token punctuation">;</span>
+        confirmButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>cursor <span class="token operator">=</span> <span class="token string">'pointer'</span><span class="token punctuation">;</span>
+        confirmButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>flex <span class="token operator">=</span> <span class="token string">'1'</span><span class="token punctuation">;</span>  
+        confirmButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>marginRight <span class="token operator">=</span> <span class="token string">'10px'</span><span class="token punctuation">;</span>
+        buttonsContainer<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>confirmButton<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 创建取消按钮</span>
+        <span class="token keyword">let</span> cancelButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'button'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cancelButton<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token string">'取消'</span><span class="token punctuation">;</span>
+        cancelButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>backgroundColor <span class="token operator">=</span> <span class="token string">'#6c757d'</span><span class="token punctuation">;</span> 
+        cancelButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>color <span class="token operator">=</span> <span class="token string">'#fff'</span><span class="token punctuation">;</span>
+        cancelButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>border <span class="token operator">=</span> <span class="token string">'none'</span><span class="token punctuation">;</span>
+        cancelButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>padding <span class="token operator">=</span> <span class="token string">'10px 20px'</span><span class="token punctuation">;</span>
+        cancelButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>borderRadius <span class="token operator">=</span> <span class="token string">'5px'</span><span class="token punctuation">;</span>
+        cancelButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>cursor <span class="token operator">=</span> <span class="token string">'pointer'</span><span class="token punctuation">;</span>
+        cancelButton<span class="token punctuation">.</span>style<span class="token punctuation">.</span>flex <span class="token operator">=</span> <span class="token string">'1'</span><span class="token punctuation">;</span>  
+        buttonsContainer<span class="token punctuation">.</span><span class="token function">appendChild</span><span class="token punctuation">(</span>cancelButton<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 添加按钮点击事件</span>
+        <span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'弹窗创建完成'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            confirmButton<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'确定按钮点击'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">callback</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+                <span class="token function">removeDialogAndOverlay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            cancelButton<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'取消按钮点击'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">callback</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+                <span class="token function">removeDialogAndOverlay</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 移除弹窗和遮罩层</span>
+        <span class="token keyword">function</span> <span class="token function">removeDialogAndOverlay</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'移除弹窗和遮罩层'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">removeChild</span><span class="token punctuation">(</span>dialog<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            document<span class="token punctuation">.</span>body<span class="token punctuation">.</span><span class="token function">removeChild</span><span class="token punctuation">(</span>overlay<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 监听百度网盘链接和提取码</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>location<span class="token punctuation">.</span>href<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span><span class="token string">"pan.baidu.com"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'mouseup'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">let</span> selectedText <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">getSelection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">let</span> match <span class="token operator">=</span> selectedText<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">https?:\/\/pan.baidu.com\/s\/[a-zA-Z0-9_\-]+(\s*提取码:\s*(\w+))?</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>match<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">let</span> link <span class="token operator">=</span> match<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token keyword">let</span> extractCode <span class="token operator">=</span> match<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>extractCode<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token function">showCustomDialog</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">检测到百度网盘链接：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>link<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">\n提取码：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>extractCode<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">\n是否跳转并尝试使用提取码？</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">confirmJump</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span>confirmJump<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                            localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'autoFillExtractCode'</span><span class="token punctuation">,</span> extractCode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                            window<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>link<span class="token punctuation">,</span> <span class="token string">'_blank'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token punctuation">&#125;</span>
+                    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                    <span class="token function">showCustomDialog</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">检测到百度网盘链接：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>link<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">\n是否跳转？</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">confirmJump</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span>confirmJump<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                            window<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>link<span class="token punctuation">,</span> <span class="token string">'_blank'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token punctuation">&#125;</span>
+                    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 自动填写提取码</span>
+        window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'load'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">let</span> autoFillExtractCode <span class="token operator">=</span> localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'autoFillExtractCode'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>autoFillExtractCode<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">let</span> codeInput <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'input#code'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">let</span> submitButton <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'button#submitBtn'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>codeInput <span class="token operator">&amp;&amp;</span> submitButton<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    codeInput<span class="token punctuation">.</span>value <span class="token operator">=</span> autoFillExtractCode<span class="token punctuation">;</span>
+                    submitButton<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    localStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'autoFillExtractCode'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h2><p>与python脚本不同，python是发起请求，js可以调库点击，一个是模拟浏览器发请求，一个是让浏览器发请求</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://learn.scriptcat.org/%E6%B2%B9%E7%8C%B4%E6%95%99%E7%A8%8B/%E5%85%A5%E9%97%A8%E7%AF%87/%E8%84%9A%E6%9C%AC%E8%87%AA%E5%8A%A8%E5%8C%96%E4%B9%8B%E6%A8%A1%E6%8B%9F%E7%82%B9%E5%87%BB%E5%92%8C%E8%A1%A8%E5%8D%95%E5%A1%AB%E5%86%99/">脚本自动化之模拟点击和表单填写 | 油猴开发指南 (scriptcat.org)</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/07/28/115-shi-shi-hui-lu-api-wan-shan/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-05-14 15:21:41
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/02/13/117-ge-ren-zhu-ye/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%84%9A%E6%9C%AC-vs-%E7%94%A8%E6%88%B7%E8%84%9A%E6%9C%AC%E5%91%A2"><span class="toc-text">浏览器脚本 vs. 用户脚本呢</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#document-addEventListener"><span class="toc-text">document.addEventListener</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E7%9F%A5%E9%81%93%E4%B8%BA%E5%95%A5%EF%BC%8C%E5%AE%89%E8%A3%85%E5%AE%8C%E8%BF%98%E6%98%AF%E4%B8%8D%E5%A5%BD%E4%BD%BF"><span class="toc-text">不知道为啥，安装完还是不好使</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V1-1"><span class="toc-text">V1.1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%85%E5%AE%8C%E6%88%90%E3%80%81%E3%80%81%E3%80%81%E3%80%81"><span class="toc-text">待完成、、、、</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E9%93%BE%E6%8E%A5%E6%8F%90%E5%8F%96"><span class="toc-text">百度网盘链接提取</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E8%BF%9B%E7%89%88"><span class="toc-text">改进版</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%84%9F%E5%8F%97"><span class="toc-text">感受</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%B2%B9%E7%8C%B4%E8%84%9A%E6%9C%AC + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2024%2F09%2F10%2F116-bai-du-wang-pan-lian-jie-tiao-zhuan%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2024/09/10/116-bai-du-wang-pan-lian-jie-tiao-zhuan/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
