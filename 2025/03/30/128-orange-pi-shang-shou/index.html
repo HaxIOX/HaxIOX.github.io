@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      Orange Pi 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">Orange Pi</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-06-02 11:42:48
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h1 id="Orange-Pi"><a href="#Orange-Pi" class="headerlink" title="Orange Pi"></a>Orange Pi</h1><h2 id="1-连接WiFi"><a href="#1-连接WiFi" class="headerlink" title="1.连接WiFi"></a>1.连接WiFi</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">sudo apt install python3-pip -y<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>nmcli d wifi connect “你的WiFi名称” password “你的WiFi密码”</p>
+<p>ls &#x2F;dev&#x2F;ttyUSB*</p>
+<h2 id="2-启动网络接口"><a href="#2-启动网络接口" class="headerlink" title="2. 启动网络接口"></a><strong>2. 启动网络接口</strong></h2><p>如果你是通过 <strong>Wi-Fi</strong> 连接的，检查无线网络是否启用：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo ifconfig wlan0 up  # 启用 Wi-Fi 接口
+sudo dhclient wlan0    # 获取 IP 地址<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>如果是 <strong>有线</strong> 连接：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo ifconfig eth0 up  # 启用以太网接口
+sudo dhclient eth0    # 获取 IP 地址<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>配网</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl restart networking
+nmcli dev wifi  # 列出可用的 Wi-Fi 网络
+nmcli dev wifi connect &quot;VIBTEK-2.4G&quot; password &quot;vibrantech@1305-1&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">auto wlan0
+iface wlan0 inet dhcp
+    wpa-ssid &quot;VIBTEK-2.4G&quot;
+    wpa-psk &quot;vibrantech@1305-1&quot;
+
+sudo nmcli dev wifi connect &quot;VIBTEK-2.4G&quot; password &quot;vibrantech@1305-1&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>是的，<strong>如果你当前使用的是香橙派的 AP（热点）模式</strong>，那么它不会自动连接外部 WiFi，也就 <strong>无法访问互联网</strong>。你需要 <strong>切换回 WiFi 客户端模式</strong> 来连接外网，然后再进行软件安装和更新。</p>
+<hr>
+<h3 id="🚀-1-关闭-AP-模式"><a href="#🚀-1-关闭-AP-模式" class="headerlink" title="🚀 1. 关闭 AP 模式"></a><strong>🚀 1. 关闭 AP 模式</strong></h3><p>你之前使用 <code>create_ap</code> 设置了 AP 模式，现在需要 <strong>关闭它</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl stop create_ap
+sudo systemctl disable create_ap<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>然后 <strong>停止 hostapd 和 dnsmasq</strong>（AP 相关服务）：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl stop hostapd
+sudo systemctl stop dnsmasq<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="🚀-2-连接外部-WiFi"><a href="#🚀-2-连接外部-WiFi" class="headerlink" title="🚀 2. 连接外部 WiFi"></a><strong>🚀 2. 连接外部 WiFi</strong></h3><p>如果你的 Orange Pi 需要连接外部 WiFi 才能访问互联网，运行：</p>
+<pre class="line-numbers language-none"><code class="language-none">nmcli d wifi list  # 列出可用 WiFi
+nmcli d wifi connect &quot;你的WiFi名称&quot; password &quot;你的WiFi密码&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>然后检查 <strong>是否成功获取 IP</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">ip addr show wlan0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果 IP 仍然是 <code>0.0.0.0</code>，尝试：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo dhclient wlan0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>测试网络是否恢复：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">ping -c 4 8.8.8.8<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果 <code>ping</code> 成功，你的 Orange Pi <strong>已经联网，可以安装 pyserial 了！</strong></p>
+<hr>
+<h3 id="🚀-3-安装-pyserial"><a href="#🚀-3-安装-pyserial" class="headerlink" title="🚀 3. 安装 pyserial"></a><strong>🚀 3. 安装 pyserial</strong></h3><p>联网后，运行：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo apt update
+sudo apt install python3-pip -y
+pip3 install pyserial<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="🚀-4-重新切换回-AP-模式（可选）"><a href="#🚀-4-重新切换回-AP-模式（可选）" class="headerlink" title="🚀 4. 重新切换回 AP 模式（可选）"></a><strong>🚀 4. 重新切换回 AP 模式（可选）</strong></h3><p>如果安装完成后，你想重新开启 <strong>AP（热点）模式</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl enable create_ap
+sudo systemctl start create_ap<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>如果你之前 <strong>手动启动了 hostapd 和 dnsmasq</strong>，也可以手动启动：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl start hostapd
+sudo systemctl start dnsmasq<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="🚀-总结"><a href="#🚀-总结" class="headerlink" title="🚀 总结"></a><strong>🚀 总结</strong></h3><p>✅ <strong>关闭 AP 模式，恢复 WiFi 客户端模式</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl stop create_ap
+sudo systemctl disable create_ap
+sudo systemctl stop hostapd
+sudo systemctl stop dnsmasq<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>✅ <strong>连接外部 WiFi</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">nmcli d wifi connect &quot;WiFi名称&quot; password &quot;WiFi密码&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>✅ <strong>检查网络</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">ping -c 4 8.8.8.8<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>✅ <strong>安装 pyserial</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">sudo apt update
+sudo apt install python3-pip -y
+pip3 install pyserial<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>✅ <strong>安装完成后，恢复 AP（热点）模式</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl start create_ap<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p> <strong>🔍 为什么 nmcli 失败，而 wpa_supplicant 手动连接可以成功？</strong></p>
+<p>ChatGPT 说：</p>
+<p>这是因为 <strong>nmcli 依赖于 NetworkManager，而 wpa_supplicant 是直接控制 WiFi 适配器的工具</strong>。以下是具体的原因分析：</p>
+<hr>
+<p><strong>🔹 1. nmcli 依赖 NetworkManager</strong></p>
+<p><code>nmcli</code> 是 <code>NetworkManager</code> 的命令行工具，它的工作流程如下：</p>
+<ol>
+<li><strong>检查 NetworkManager 是否运行</strong>（如果 <code>systemctl status NetworkManager</code> 显示 <code>inactive</code>，<code>nmcli</code> 也会失败）。</li>
+<li><strong>通过 NetworkManager 管理 WiFi 适配器</strong>，但如果 <code>NetworkManager</code> 没有正确检测到 <code>wlan0</code>，它就无法管理 WiFi 连接。</li>
+<li><strong>如果 wlan0 处于 Master 模式（AP模式）或者被 rfkill 软禁用</strong>，<code>nmcli</code> 可能不会自动调整状态，而是直接报错。</li>
+</ol>
+<p>🛑 <strong>如果 NetworkManager 没有正确管理 wlan0，那么 nmcli 就会失败！</strong></p>
+<h3 id="AP配网"><a href="#AP配网" class="headerlink" title="AP配网"></a>AP配网</h3><h3 id="问题-1"><a href="#问题-1" class="headerlink" title="问题"></a>问题</h3><p><img src="/Orange_Pi%E4%B8%8A%E6%89%8B/1742957043881.png" alt="1742957043881"></p>
+<p>你的 <code>dnsmasq</code> <strong>启动成功</strong>，但日志显示：</p>
+<pre class="line-numbers language-none"><code class="language-none">Failed to set DNS configuration: Unit dbus-org.freedesktop.network1.service not found.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这个错误意味着 <strong>系统缺少 systemd-networkd 相关的服务</strong>，可能会导致 <strong>连接 WiFi 但无法获取 IP</strong>。</p>
+<p><strong>🔹 2. 修复 systemd-networkd 服务</strong></p>
+<p>如果 <code>dnsmasq</code> 依赖的 <code>dbus-org.freedesktop.network1.service</code> <strong>不存在</strong>，可能是 <code>systemd-networkd</code> <strong>未安装或未启动</strong>。</p>
+<p>检查：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl status systemd-networkd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果 <strong>未安装</strong>，安装它：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo apt install systemd-networkd -y<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果 <strong>未启动</strong>，启动并设置为开机启动：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl enable --now systemd-networkd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然后 <strong>重启 dnsmasq</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl restart dnsmasq<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>你的 <code>hostapd</code> 失败的 <strong>核心错误</strong> 是：</p>
+<pre class="line-numbers language-none"><code class="language-none">nl80211: Beacon set failed: -12 (Cannot allocate memory)
+Failed to set beacon parameters
+wlan0: Unable to setup interface.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>这意味着 <strong>无线网卡驱动或内存分配问题</strong> 导致 <code>wlan0</code> 无法正常工作。我们可以尝试以下方法解决。</p>
+<h2 id="🚀-在-Ubuntu-上配置-AP（WiFi-热点）"><a href="#🚀-在-Ubuntu-上配置-AP（WiFi-热点）" class="headerlink" title="🚀 在 Ubuntu 上配置 AP（WiFi 热点）"></a><strong>🚀 在 Ubuntu 上配置 AP（WiFi 热点）</strong></h2><p>你已经重装了 Ubuntu，现在我们 <strong>从零开始</strong> 配置 <strong>AP 热点</strong>（即 WiFi 共享）。</p>
+<hr>
+<p><strong>📌 1. 更新系统</strong></p>
+<p>确保系统是最新的：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo apt update &amp;&amp; sudo apt upgrade -y<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<p> <strong>📌 2. 安装 AP 相关软件</strong></p>
+<p>我们需要 <strong>hostapd（WiFi 热点管理）</strong> 和 <strong>dnsmasq（DHCP 服务器）</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo apt install -y hostapd dnsmasq iw<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>安装后 <strong>先停止 hostapd 和 dnsmasq</strong>（稍后配置）：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl stop hostapd
+sudo systemctl stop dnsmasq<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<p><strong>📌 3. 关闭 wpa_supplicant（防止 WiFi 自动连接）</strong></p>
+<p>如果 <code>wpa_supplicant</code> 在运行，它会干扰 AP 模式：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl stop wpa_supplicant
+sudo systemctl disable wpa_supplicant
+sudo killall wpa_supplicant<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>检查是否仍在运行：</p>
+<pre class="line-numbers language-none"><code class="language-none">ps aux | grep wpa_supplicant<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果仍然有输出，删除：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo rm -rf &#x2F;var&#x2F;run&#x2F;wpa_supplicant<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<p> <strong>📌 4. 配置 hostapd（WiFi 热点）</strong></p>
+<p>编辑 <code>hostapd.conf</code>：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo nano &#x2F;etc&#x2F;hostapd&#x2F;hostapd.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>粘贴以下内容：</p>
+<pre class="line-numbers language-none"><code class="language-none">interface&#x3D;wlan0
+driver&#x3D;nl80211
+ssid&#x3D;OrangePi_AP
+hw_mode&#x3D;g
+channel&#x3D;6
+ieee80211n&#x3D;1
+wmm_enabled&#x3D;1
+ht_capab&#x3D;[HT40][SHORT-GI-20][DSSS_CCK-40]
+macaddr_acl&#x3D;0
+auth_algs&#x3D;1
+ignore_broadcast_ssid&#x3D;0
+wpa&#x3D;2
+wpa_passphrase&#x3D;12345678
+wpa_key_mgmt&#x3D;WPA-PSK
+rsn_pairwise&#x3D;CCMP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>保存退出</strong>（按 <code>CTRL + X</code> → <code>Y</code> → <code>Enter</code>）。</p>
+<p>然后告诉 <code>hostapd</code> 读取配置：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo nano &#x2F;etc&#x2F;default&#x2F;hostapd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>找到：</p>
+<pre class="line-numbers language-none"><code class="language-none">#DAEMON_CONF&#x3D;&quot;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>改成：</p>
+<pre class="line-numbers language-none"><code class="language-none">DAEMON_CONF&#x3D;&quot;&#x2F;etc&#x2F;hostapd&#x2F;hostapd.conf&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<p><strong>📌 5. 配置 dnsmasq（DHCP 服务器）</strong></p>
+<p><strong>备份原 dnsmasq 配置</strong>（防止冲突）：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo mv &#x2F;etc&#x2F;dnsmasq.conf &#x2F;etc&#x2F;dnsmasq.conf.bak<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>创建新的 dnsmasq.conf</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo nano &#x2F;etc&#x2F;dnsmasq.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>粘贴：</p>
+<pre class="line-numbers language-none"><code class="language-none">interface&#x3D;wlan0
+dhcp-range&#x3D;192.168.4.2,192.168.4.20,255.255.255.0,24h<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>保存退出</strong>（<code>CTRL + X</code> → <code>Y</code> → <code>Enter</code>）。</p>
+<hr>
+<p><strong>📌 6. 配置 wlan0 静态 IP</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">sudo nano &#x2F;etc&#x2F;network&#x2F;interfaces<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>添加：</p>
+<pre class="line-numbers language-none"><code class="language-none">auto wlan0
+iface wlan0 inet static
+    address 192.168.4.1
+    netmask 255.255.255.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>保存退出</strong>。</p>
+<hr>
+<p><strong>📌 7. 手动切换 wlan0 到 AP 模式</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">sudo ip link set wlan0 down
+sudo iw dev wlan0 set type __ap
+sudo ip link set wlan0 up<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>检查 <code>wlan0</code> 是否成功进入 AP 模式：</p>
+<pre class="line-numbers language-none"><code class="language-none">iw dev wlan0 info<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果输出：</p>
+<pre class="line-numbers language-none"><code class="language-none">Interface wlan0
+        type AP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>说明 <strong>成功</strong>，可以继续下一步。</p>
+<hr>
+<p><strong>📌 8. 启动 hostapd 和 dnsmasq</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl restart hostapd
+sudo systemctl restart dnsmasq<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>让它们开机自动启动</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl enable hostapd
+sudo systemctl enable dnsmasq<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>检查状态：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl status hostapd
+sudo systemctl status dnsmasq<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>如果 <strong>显示 active (running)</strong>，说明成功！</p>
+<hr>
+<p><strong>📌 9. 启用 NAT（让热点设备可以上网，可选）</strong></p>
+<p>如果你的 <strong>Orange Pi 连接了以太网 eth0</strong>，可以启用 NAT：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>让规则 <strong>永久生效</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo sh -c &quot;iptables-save &gt; &#x2F;etc&#x2F;iptables.ipv4.nat&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>开机自动应用</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo nano &#x2F;etc&#x2F;rc.local<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在 <code>exit 0</code> 之前添加：</p>
+<pre class="line-numbers language-none"><code class="language-none">iptables-restore &lt; &#x2F;etc&#x2F;iptables.ipv4.nat<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>保存退出</strong>（<code>CTRL + X</code> → <code>Y</code> → <code>Enter</code>）。</p>
+<hr>
+<p><strong>📌 10. 重新启动系统</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">sudo reboot<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<p><strong>📌 11. 测试 AP 热点</strong></p>
+<ol>
+<li><p><strong>用手机&#x2F;电脑搜索 WiFi</strong></p>
+<ul>
+<li>WiFi 名称：<code>OrangePi_AP</code></li>
+<li>密码：<code>12345678</code></li>
+</ul>
+</li>
+<li><p><strong>连接 WiFi，检查 IP</strong></p>
+<ul>
+<li>手机应该获取到 <code>192.168.4.x</code> 的 IP 地址</li>
+</ul>
+</li>
+<li><p><strong>如果有 eth0 连接，测试能否访问互联网</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">ping -c 4 8.8.8.8<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果能 ping 通，说明热点设备可以上网。</p>
+</li>
+</ol>
+<p>sudo create_ap –no-virt -m nat wlan0 end0 Orangepi 123456789</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/03/29/127-fusion360/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-06-02 11:42:48
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/04/01/130-mqtt-fu-wu-qi/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Orange-Pi"><span class="toc-text">Orange Pi</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%BF%9E%E6%8E%A5WiFi"><span class="toc-text">1.连接WiFi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%90%AF%E5%8A%A8%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3"><span class="toc-text">2. 启动网络接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%9A%80-1-%E5%85%B3%E9%97%AD-AP-%E6%A8%A1%E5%BC%8F"><span class="toc-text">🚀 1. 关闭 AP 模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%9A%80-2-%E8%BF%9E%E6%8E%A5%E5%A4%96%E9%83%A8-WiFi"><span class="toc-text">🚀 2. 连接外部 WiFi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%9A%80-3-%E5%AE%89%E8%A3%85-pyserial"><span class="toc-text">🚀 3. 安装 pyserial</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%9A%80-4-%E9%87%8D%E6%96%B0%E5%88%87%E6%8D%A2%E5%9B%9E-AP-%E6%A8%A1%E5%BC%8F%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-text">🚀 4. 重新切换回 AP 模式（可选）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%9A%80-%E6%80%BB%E7%BB%93"><span class="toc-text">🚀 总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AP%E9%85%8D%E7%BD%91"><span class="toc-text">AP配网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98-1"><span class="toc-text">问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%80-%E5%9C%A8-Ubuntu-%E4%B8%8A%E9%85%8D%E7%BD%AE-AP%EF%BC%88WiFi-%E7%83%AD%E7%82%B9%EF%BC%89"><span class="toc-text">🚀 在 Ubuntu 上配置 AP（WiFi 热点）</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Orange%20Pi + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F03%2F30%2F128-orange-pi-shang-shou%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/03/30/128-orange-pi-shang-shou/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

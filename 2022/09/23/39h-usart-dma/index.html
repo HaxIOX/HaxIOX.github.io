@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      F407串口DMA收发数据 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">F407串口DMA收发数据</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-06-02 11:42:48
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/STM32F407/" title="STM32F407">
+                    #STM32F407
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/USART-DMA/" title="USART_DMA">
+                    #USART_DMA
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h2 id="📕DMA-是什么？"><a href="#📕DMA-是什么？" class="headerlink" title="📕DMA 是什么？"></a>📕DMA 是什么？</h2><p>全称 Direct Memory Access，即直接存储器访问。<br>作用:给 CPU 解放出来，让 CPU 不用去管数据的传输，只管数据的处理。<br>正常情况下，数据如果想要传输，得由 CPU 先读取目标数据，再传向目标地址。有了 DMA 后，传输的事就是 DMA 做的了，CPU 只要初始化 DMA 就可以了。<br>STM32F4 最多有 2 个 DMA 控制器，2 个 DMA 控制器总共有 16 个数据流（每个控制器 8 个），8 个数据流中每一个都连接到专用硬件 DMA 通道（请求）。每个 DMA 控制器都用于管理一个或者多个外设的存储器访问请求。每个数据流总共可以有多达 8 个通道（或请求）（理论上一共就是 16x8&#x3D;128 个通道，实际上每个通道都固定了对应的映射，所以并没有 128 个），每个通道都有一个仲裁器，用于处理 DMA 请求间的优先级。</p>
+<p>注：每个数据流只能同时接一个通道！</p>
+<img src="/2022/09/23/39h-usart-dma/01.png" class="">
+
+<p>DMA 传输，由源地址-&gt;目标地址，源地址和目标地址都可以是外设、存储器的地址。</p>
+<p>特别的，当<code>存储器</code>到<code>存储器</code>时候，<code>仅限于DMA2</code>控制器；一般没有外设到外设。</p>
+<p>可设置独立的源和目标传输宽度（字节（8 位）、半字（16 位）、字（32 位））：源和目标的数据宽度不相等时，DMA 自动封装&#x2F;解封必要的传输数据来优化带宽。这个特性仅在 FIFO 模式下可用。如：A 设置 8 位传输出去，B 设置 32 位接收，FIFO 会等 A 传出 4 次，共 32 位数据，然后封装成 B 的一次“字”的接收。</p>
+<img src="/2022/09/23/39h-usart-dma/02.png" class="">
+<p>DMA1 控制器 AHB 外设端口与 DMA2 控制器的情况不同，不连接到总线矩阵，因此，仅 DMA2 数据流能够执行存储器到<br>存储器的传输</p>
+<img src="/2022/09/23/39h-usart-dma/03.png" class="">
+<img src="/2022/09/23/39h-usart-dma/04.png" class="">
+<p>流配置过程</p>
+<img src="/2022/09/23/39h-usart-dma/05.jpg" class="">
+<img src="/2022/09/23/39h-usart-dma/06.jpg" class="">
+
+<h3 id="常用的-DMA-库函数"><a href="#常用的-DMA-库函数" class="headerlink" title="常用的 DMA 库函数"></a>常用的 DMA 库函数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">void DMA_Init(DMA_Stream_TypeDef* DMAy_Streamx, DMA_InitTypeDef* DMA_InitStruct);
+void DMA_Cmd(DMA_Stream_TypeDef* DMAy_Streamx, FunctionalState NewState);
+
+void DMA_SetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx, uint16_t Counter);
+uint16_t DMA_GetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx);
+
+void DMA_DoubleBufferModeConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t Memory1BaseAddr,uint32_t DMA_CurrentMemory);
+void DMA_DoubleBufferModeCmd();
+void DMA_MemoryTargetConfig(DMA_Stream_TypeDef* DMAy_Streamx,uint32_t MemoryBaseAddr, uint32_t DMA_MemoryTarget);
+uint32_t DMA_GetCurrentMemoryTarget(DMA_Stream_TypeDef* DMAy_Streamx);
+
+FunctionalState DMA_GetCmdStatus(DMA_Stream_TypeDef* DMAy_Streamx);
+uint32_t DMA_GetFIFOStatus(DMA_Stream_TypeDef* DMAy_Streamx);
+FlagStatus DMA_GetFlagStatus(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FLAG);
+void DMA_ClearFlag(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FLAG);
+void DMA_ITConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT, FunctionalState NewState);
+
+ITStatus DMA_GetITStatus(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT);
+void DMA_ClearITPendingBit(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_42513925/article/details/81481467">DMA 库函数功能</a></p>
+<h3 id="外设-DMA-使能库函数"><a href="#外设-DMA-使能库函数" class="headerlink" title="外设 DMA 使能库函数"></a>外设 DMA 使能库函数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">void USART_DMACmd(USART_TypeDef* USARTx, uint16_t USART_DMAReq,FunctionalState NewState);
+void ADC_DMACmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+void DAC_DMACmd(uint32_t DAC_Channel, FunctionalState NewState);
+void I2C_DMACmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void SDIO_DMACmd(FunctionalState NewState);
+void SPI_I2S_DMACmd(SPI_TypeDef* SPIx, uint16_t SPI_I2S_DMAReq,FunctionalState NewState);
+void TIM_DMAConfig(TIM_TypeDef* TIMx, uint16_t TIM_DMABase,uint16_t TIM_DMABurstLength)
+void TIM_DMACmd(TIM_TypeDef* TIMx, uint16_t TIM_DMASource,FunctionalState NewState);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="DMA-Init"><a href="#DMA-Init" class="headerlink" title="DMA_Init();"></a>DMA_Init();</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">void DMA_Init(DMA_Stream_TypeDef* DMAy_Streamx, DMA_InitTypeDef* DMA_InitStruct);
+typedef struct
+&#123;
+  uint32_t DMA_Channel;                &#x2F;&#x2F;DMA_Channel_0~ DMA_Channel_7
+  uint32_t DMA_PeripheralBaseAddr;     &#x2F;&#x2F;设置 DMA 传输的外设基地址，比如要进行串口DMA 传输，那么外设基地址为
+                                       &#x2F;&#x2F;串口接受发送数据存储器 USART1-&gt;DR 的地址，表示方法为&amp;USART1-&gt;DR
+
+  uint32_t DMA_Memory0BaseAddr;        &#x2F;&#x2F;内存基地址，也就是我们存放 DMA 传输数据的内存地址。
+  uint32_t DMA_DIR;                    &#x2F;&#x2F;设置数据传输方向，从外设读取数据到内存,选择目的地
+  uint32_t DMA_BufferSize;             &#x2F;&#x2F;设置一次传输数据量的大小
+  uint32_t DMA_PeripheralInc;          &#x2F;&#x2F;设置传输数据的时候外设地址是不变还是递增。如果设置为递增，那么下一次
+                                       &#x2F;&#x2F;传输的时候地址加 1，这里因为我们是一直往固定外设地址&amp;USART1-&gt;DR
+                                       &#x2F;&#x2F;发送数据，所以地址不递增，值为 DMA_PeripheralInc_Disable；
+
+  uint32_t DMA_MemoryInc;              &#x2F;&#x2F;设置传输数据时候内存地址是否递增
+                                       &#x2F;&#x2F;这里我们的场景是将内存中连续存储单元的数据发送到串口，毫无疑问内存地
+                                       &#x2F;&#x2F;址是需要递增的，所以值为 DMA_MemoryInc_Enable
+
+  uint32_t DMA_PeripheralDataSize;     &#x2F;&#x2F;设置外设的数据长度是为字节传输（8bits）
+                                       &#x2F;&#x2F;半字传输(16bits),还是字传输(32bits)
+  uint32_t DMA_MemoryDataSize;         &#x2F;&#x2F;内存的数据长度,跟上一个意思相近
+  uint32_t DMA_Mode;                   &#x2F;&#x2F;设置 DMA模式,分为循环模式和铺铜模式
+  uint32_t DMA_Priority;               &#x2F;&#x2F;设置 DMA通道的优先级,有低,中,高,超高三种模式
+                                       &#x2F;&#x2F;DMA仲裁器将根据这些优先级的设置来决定先执行那个数据流的DMA
+                                       &#x2F;&#x2F;优先级相同的时候,根据硬件上的编号来决定哪个先执行（编号越小越优先）
+
+  uint32_t DMA_FIFOMode;               &#x2F;&#x2F;来设置是否开启 FIFO 模式
+  uint32_t DMA_FIFOThreshold;          &#x2F;&#x2F;设置FIFO阈值.根据前面讲解可以为FIFO容量的1&#x2F;4,1&#x2F;2,3&#x2F;4以及1倍
+
+  uint32_t DMA_MemoryBurst;            &#x2F;&#x2F;用来配置存储器突发传输配置,可以选择为 4 个节拍的增量突发传输
+                                       &#x2F;&#x2F;DMA_MemoryBurst_INC4.8个节拍,16个节拍,单次传输
+  uint32_t DMA_PeripheralBurst;        &#x2F;&#x2F;配置外设突发传输配置。
+&#125;DMA_InitTypeDef;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="DMA-配置程序过程"><a href="#DMA-配置程序过程" class="headerlink" title="DMA 配置程序过程"></a>DMA 配置程序过程</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">  DMA_InitTypeDef DMA_InitStructure ();  &#x2F;&#x2F;定义DMA结构体
+
+① RCC_AHB1PeriphClockCmd();  使能DMA时钟
+
+②  DMA_DeInit();
+
+③ USART_DMACmd();  使能串口DMA发送,串口DMA使能函数：
+
+④ DMA_GetCmdStatus();  查询DMA的EN位，确保数据流就绪，可以配置
+
+⑤ DMA_SetCurrDataCounter();  设置通道当前剩余数据量
+
+⑥ DMA_Cmd();  使能DMA1通道，启动传输。
+
+⑤ DMA_GetFlagStatus();  查询DMA传输状态
+
+⑥ DMA_GetCurrDataCounter();  获取&#x2F;设置通道当前剩余数据量：<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="代码理解-😶"><a href="#代码理解-😶" class="headerlink" title="代码理解 😶"></a>代码理解 😶</h2><p>1.配置 usart 部分</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">注意:1.引脚复用映射
+     2.复用推挽输出
+     (STM32的IO都是通用接口
+     因此在作为特殊用途如串口输出时，需要对该IO口的设置成端口复用,区别于普通推挽输出)
+     3.&#x2F;&#x2F;使能串口
+       USART_Cmd(Usartx, ENABLE);
+       &#x2F;&#x2F;开启串口空闲中断
+       USART_ITConfig(Usartx, USART_IT_IDLE, ENABLE);
+       他的工作原理为：
+       当STM32的串口接收完一包数据后，会产生一个空闲中断。
+       这个中断在串口其他任何状态都不产生，只会在接收完一包数据后才会产生，一包数据可以是1个字节或者多个字节.
+       因此，我们可以在这个空闲中断函数中，设置一个接收完成标志位。
+       只需要在主程序中检测这个标志位就知道数据是否接收完成.
+       if(USART_GetITStatus(USART1,USART_IT_IDLE) !&#x3D; RESET) &#x2F;&#x2F;接收中断(接收到的数据必须是0x0d 0x0a结尾)  RESET是0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="http://blog.uuudiy.com/2022/09/29/42h-f407-gpio/">为什么是复用推挽输出</a><br><a target="_blank" rel="noopener" href="https://www.guyuehome.com/35488">串口空闲检测中断</a> 2.配置 DMA 部分 😶‍🌫️</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">注意:1.使能DMA时钟
+   使能 DMA2 时钟，并等待数据流可配置。
+   DMA 的时钟使能是通过 AHB1ENR 寄存器来控制的，这里我们要先使能时钟，才可以配置 DMA
+   相关寄存器。所以先要使能DMA2的时钟。另外，要对配置寄存器（DMA_SxCR）进行设置，必须
+   先等待其最低位为&#96;0&#96;也就是 DMA 传输禁止了才可以进行配置。
+   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2,ENABLE);    &#x2F;&#x2F;DMA2 时钟使能
+   等待 DMA 可配置，也就是等待 DMA_SxCR 寄存器最低位为 0 的方法为：
+   while (DMA_GetCmdStatus(DMA_Streamx) !&#x3D; DISABLE)&#123;&#125;    &#x2F;&#x2F;等待 DMA 可配置
+
+    2.初始化DMA通道参数
+    3.使能串口DMA发送
+    4.查询DMA的EN位，确保数据流就绪，可以配置
+    5.设置通道当前剩余数据量
+    6.使能DMA1通道，启动传输。
+    7.查询DMA传输状态
+    8.获取&#x2F;设置通道当前剩余数据量<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&#x2F;&#x2F;DMA 的发送初始化函数</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">    @Usartx             指定的串口，如 USART1
+    @Par                DMA外设地址，如 (u32)&amp;USART1-&gt;DR
+    @DMA_Streamx_tx     代表DMA1的发送数据流，DMA1_Stream0~DMA1_Stream7
+    @DMA_Chx            代表DMA的通道选择，DMA_Channel_0~DMA_Channel_7
+    @Tx_Buf             代表DMA的发送缓冲区
+    @Tx_Size            代表发送数据个数
+    @DMA_Streamx_Irqn   DMA数据流的中断，如 DMA2_Stream7_IRQn
+
+void Init_Dma_Tx_Config(USART_TypeDef *Usartx,u32 Par, DMA_Stream_TypeDef *DMA_Streamx_Tx,
+                        u32 DMA_Chx,u32 Tx_Buf, u16 Tx_Size, u32 DMA_Streamx_Irqn)
+&#123;
+    DMA_InitStructure.DMA_Channel &#x3D; DMA_Chx;                                   &#x2F;&#x2F;通道选择
+    DMA_InitStructure.DMA_PeripheralBaseAddr &#x3D; Par;                            &#x2F;&#x2F;DMA外设地址
+    DMA_InitStructure.DMA_Memory0BaseAddr &#x3D; Tx_Buf;                            &#x2F;&#x2F;DMA 存储器0地址
+    DMA_InitStructure.DMA_DIR &#x3D; DMA_DIR_MemoryToPeripheral;                    &#x2F;&#x2F;存储器到外设模式
+    DMA_InitStructure.DMA_BufferSize &#x3D; Tx_Size;                                &#x2F;&#x2F;数据传输量
+    DMA_InitStructure.DMA_PeripheralInc &#x3D; DMA_PeripheralInc_Disable;           &#x2F;&#x2F;外设非增量模式
+    DMA_InitStructure.DMA_MemoryInc &#x3D; DMA_MemoryInc_Enable;                    &#x2F;&#x2F;存储器增量模式
+    DMA_InitStructure.DMA_PeripheralDataSize &#x3D; DMA_PeripheralDataSize_Byte;    &#x2F;&#x2F;外设数据长度:8位
+    DMA_InitStructure.DMA_MemoryDataSize &#x3D; DMA_MemoryDataSize_Byte;            &#x2F;&#x2F;存储器数据长度:8位
+    DMA_InitStructure.DMA_Mode &#x3D; DMA_Mode_Normal;                              &#x2F;&#x2F; 使用普通模式
+    DMA_InitStructure.DMA_Priority &#x3D; DMA_Priority_Medium;                      &#x2F;&#x2F;中等优先级
+    DMA_InitStructure.DMA_FIFOMode &#x3D; DMA_FIFOMode_Disable;                     &#x2F;&#x2F;初始化DMA_FIFOMode
+    DMA_InitStructure.DMA_FIFOThreshold &#x3D; DMA_FIFOThreshold_Full;              &#x2F;&#x2F;FIFO 阈值选择。
+    DMA_InitStructure.DMA_MemoryBurst &#x3D; DMA_MemoryBurst_Single;                &#x2F;&#x2F;存储器突发单次传输
+    DMA_InitStructure.DMA_PeripheralBurst &#x3D; DMA_PeripheralBurst_Single;        &#x2F;&#x2F;外设突发单次传输
+    DMA_Init(DMA_Streamx_Tx, &amp;DMA_InitStructure);                               &#x2F;&#x2F;初始化
+    DMAStream
+    &#x2F;&#x2F;DMA 中断设置
+    NVIC_InitStructure.NVIC_IRQChannel &#x3D; DMA_Streamx_Irqn;                     &#x2F;&#x2F;DMA发送数据流中断通道
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority &#x3D; 0;                  &#x2F;&#x2F;抢占优先级0
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority &#x3D; 0;                         &#x2F;&#x2F;子优先级0
+    NVIC_InitStructure.NVIC_IRQChannelCmd &#x3D; ENABLE;                            &#x2F;&#x2F;IRQ通道使能
+    NVIC_Init(&amp;NVIC_InitStructure);                                            &#x2F;&#x2F;根据指定的参数初始化NVIC寄存器
+
+    USART_DMACmd(Usartx,USART_DMAReq_Tx,ENABLE);                               &#x2F;&#x2F;使能串口1的DMA发送
+    DMA_Cmd(DMA_Streamx_Tx, DISABLE);                                          &#x2F;&#x2F;关闭DMA传输
+    DMA_ITConfig(DMA_Streamx_Tx,DMA_IT_TC,ENABLE);                             &#x2F;&#x2F;使能DMA的发送数据流中断
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>&#x2F;&#x2F;DMA 的接收初始化函数</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">    @Usartx             指定的串口，如 USART1
+    @Par                DMA外设地址，如 (u32)&amp;USART1-&gt;DR
+    @DMA_Streamx_rx     代表DMA1的接收数据流，DMA1_Stream0~DMA1_Stream7
+    @DMA_Chx            代表DMA的通道选择，DMA_Channel_0~DMA_Channel_7
+    @Rx_Buf             代表DMA的接收缓冲区
+    @Rx_Size            代表接收数据个数
+
+void Init_Dma_Rx_Config(USART_TypeDef *Usartx, u32 Par, DMA_Stream_TypeDef *DMA_Streamx_Rx,
+                        u32 DMA_Chx,u32 Rx_Buf, u16 Rx_Size)
+&#123;
+    DMA_InitStructure.DMA_Channel &#x3D; DMA_Chx;                                 &#x2F;&#x2F;通道选择
+    DMA_InitStructure.DMA_PeripheralBaseAddr &#x3D; Par;                          &#x2F;&#x2F;DMA外设地址
+    DMA_InitStructure.DMA_Memory0BaseAddr &#x3D; Rx_Buf;                          &#x2F;&#x2F;DMA 存储器0地址
+    DMA_InitStructure.DMA_DIR &#x3D; DMA_DIR_PeripheralToMemory ;                 &#x2F;&#x2F;外设到存储器模式
+    DMA_InitStructure.DMA_BufferSize &#x3D; Rx_Size;                              &#x2F;&#x2F;数据传输量
+    DMA_InitStructure.DMA_PeripheralInc &#x3D; DMA_PeripheralInc_Disable;         &#x2F;&#x2F;外设非增量模式
+    DMA_InitStructure.DMA_MemoryInc &#x3D; DMA_MemoryInc_Enable;                  &#x2F;&#x2F;存储器增量模式
+    DMA_InitStructure.DMA_PeripheralDataSize &#x3D; DMA_PeripheralDataSize_Byte;  &#x2F;&#x2F;外设数据长度:8位
+    DMA_InitStructure.DMA_MemoryDataSize &#x3D; DMA_MemoryDataSize_Byte;          &#x2F;&#x2F;存储器数据长度:8位
+    DMA_InitStructure.DMA_Mode &#x3D; DMA_Mode_Normal;                            &#x2F;&#x2F; 使用普通模式
+    DMA_InitStructure.DMA_Priority &#x3D; DMA_Priority_Medium;                    &#x2F;&#x2F;中等优先级
+    DMA_InitStructure.DMA_FIFOMode &#x3D; DMA_FIFOMode_Disable;                   &#x2F;&#x2F;初始化DMA_FIFOMode
+    DMA_InitStructure.DMA_FIFOThreshold &#x3D; DMA_FIFOThreshold_Full;            &#x2F;&#x2F;FIFO 阈值选择。
+    DMA_InitStructure.DMA_MemoryBurst &#x3D; DMA_MemoryBurst_Single;              &#x2F;&#x2F;存储器突发单次传输
+    DMA_InitStructure.DMA_PeripheralBurst &#x3D; DMA_PeripheralBurst_Single;      &#x2F;&#x2F;外设突发单次传输
+    DMA_Init(DMA_Streamx_Rx, &amp;DMA_InitStructure);                            &#x2F;&#x2F;初始化DMA Stream
+
+    USART_DMACmd(Usartx,USART_DMAReq_Rx,ENABLE);                             &#x2F;&#x2F;使能串口的DMA接收
+    DMA_Cmd(DMA_Streamx_Rx, ENABLE);                                         &#x2F;&#x2F;开启DMA传输
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="DMA-的发送使能"><a href="#DMA-的发送使能" class="headerlink" title="DMA 的发送使能"></a>DMA 的发送使能</h3><p>DMA 配置 mormal 模式只能进行一次数据的发送<br>circular 模式可以持续发送相同的数据。但是要多次发送不同的数据<br>normal 模式下需要进行一下操作</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">DMA1_Channel4-&gt;CCR&amp;&#x3D;~(1&lt;&lt;0);   &#x2F;&#x2F;关闭DMA1的通道四
+DMA1_Channel4-&gt;CNDTR&#x3D;9;        &#x2F;&#x2F;设置DMA数据计数器的值
+DMA1_Channel4-&gt;CCR|&#x3D;1&lt;&lt;0;      &#x2F;&#x2F;使能DMA1的通道四
+
+上面是使用了直接操作寄存器的方式实现了需求
+DMA_Cmd(DMA1_Channel4,DISABLE);
+DMA_SetCurrDataCounter(DMA1_Channel4,9);
+DMA_Cmd(DMA1_Channel4,ENABLE);
+这样每次调用DMA发送函数时,相当于重新计数,达到多次发送不同数据的效果<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">    @DMA_Streamx_tx             &#x2F;&#x2F;代表DMA的发送数据流
+    @DMA1_Stream0~DMA1_Stream7  &#x2F;&#x2F;DMA2_Stream0~DMA2_Stream7
+    @ndtr                       &#x2F;&#x2F;代表DMA的发送数据个数
+void Dma_Send_Enable(DMA_Stream_TypeDef *DMA_Streamx_tx,u16 ndtr)
+&#123;
+    DMA_Cmd(DMA_Streamx_tx, DISABLE);                         &#x2F;&#x2F;关闭DMA传输
+    while (DMA_GetCmdStatus(DMA_Streamx_tx) !&#x3D; DISABLE);      &#x2F;&#x2F;确保DMA可以被设置
+    DMA_SetCurrDataCounter(DMA_Streamx_tx,ndtr);              &#x2F;&#x2F;数据传输量
+    DMA_Cmd(DMA_Streamx_tx, ENABLE);                          &#x2F;&#x2F;开启DMA传输
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="DMA-的发送完成中断函数"><a href="#DMA-的发送完成中断函数" class="headerlink" title="DMA 的发送完成中断函数"></a>DMA 的发送完成中断函数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">void DMA2_Stream7_IRQHandler(void)
+&#123;
+    if(DMA_GetFlagStatus(DMA2_Stream7,DMA_FLAG_TCIF7)!&#x3D;RESET) &#x2F;&#x2F;等待DMA2_Steam7传输完成
+    &#123;
+        DMA_ClearFlag(DMA2_Stream7,DMA_FLAG_TCIF7);           &#x2F;&#x2F;清除DMA2_Steam7传输完成标志
+        DMA_Cmd(DMA2_Stream7,DISABLE);                        &#x2F;&#x2F;关闭DMA
+        DMA_ClearITPendingBit(DMA2_Stream7, DMA_IT_TCIF7);    &#x2F;&#x2F;清除中断屏蔽位
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<img src="/2022/09/23/39h-usart-dma/08.png" class="">
+
+<h3 id="串口-1-的空闲中断函数"><a href="#串口-1-的空闲中断函数" class="headerlink" title="串口 1 的空闲中断函数"></a>串口 1 的空闲中断函数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">void USART1_IRQHandler(void)
+&#123;
+    u16 i;                                                       &#x2F;&#x2F;串口空闲中断,idle置1说明接收到了一包数据
+    if(USART_GetITStatus(USART1,USART_IT_IDLE) !&#x3D; RESET)         &#x2F;&#x2F;接收中断,RESET&#x3D;0
+        DMA_Cmd(DMA2_Stream5, DISABLE);                          &#x2F;&#x2F;关闭DMA,防止处理其间有数据
+
+        &#x2F;&#x2F;先读SR，再读DR，是为了清除IDLE中断
+        i &#x3D; USART1-&gt;SR;                                          &#x2F;&#x2F;读SR寄存器(状态寄存器)
+        i &#x3D; USART1-&gt;DR;                                          &#x2F;&#x2F;读DR寄存器(数据寄存器)
+
+        rx_len &#x3D; BufferLen - DMA_GetCurrDataCounter(DMA2_Stream5);  &#x2F;&#x2F;获得这一帧数据的长度,获得这一帧数据的长度
+                                                                    &#x2F;&#x2F;DMA缓存的大小 - 剩余 DMA缓存大小
+        if(rx_len !&#x3D;0)                                              &#x2F;&#x2F;这一帧数据长度不为0
+        &#123;
+            rx_flag &#x3D; 1;                                            &#x2F;&#x2F;数据帧接收标志置1
+            for(i&#x3D;0;i&lt;rx_len;i++)
+            &#123;
+                SendBuffer[i]&#x3D; ReceiveBuffer[i];                    &#x2F;&#x2F;将接收的数据保存
+            &#125;
+            for(i&#x3D;0;i&lt;rx_len;i++)                                   &#x2F;&#x2F;将接收缓冲区清零
+            &#123;
+                ReceiveBuffer[i]&#x3D;0;                                 &#x2F;&#x2F;这段我理解的是利用串口空闲中断标志位,rx_flag作为dma_send函数是否发
+                                                                    &#x2F;&#x2F;送的标志位
+            &#125;
+        &#125;
+        &#x2F;&#x2F;清除DMA2_Steam5传输完成标志
+        DMA_ClearFlag(DMA2_Stream5,DMA_FLAG_TCIF5 | DMA_FLAG_FEIF5 | DMA_FLAG_DMEIF5 | DMA_FLAG_TEIF5 | DMA_FLAG_HTIF5);
+        DMA_SetCurrDataCounter(DMA2_Stream5, BufferLen);            &#x2F;&#x2F;设置DMA接收单元的长度
+        DMA_Cmd(DMA2_Stream5, ENABLE);                              &#x2F;&#x2F;打开DMA
+
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<img src="/2022/09/23/39h-usart-dma/07.png" class="">
+
+<h3 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">int main(void)
+&#123;
+
+    LED_Init();
+    delay_init(168);          &#x2F;&#x2F;初始化延时函数
+    Init_Clock_Config();                     &#x2F;&#x2F;时钟初始化
+    Init_Gpio_Config();                      &#x2F;&#x2F;GPIO引脚初始化
+    Init_Usart_Config(USART1,19200);          &#x2F;&#x2F;串口初始化
+    Init_Usart_Nvic_Config(USART1_IRQn);     &#x2F;&#x2F;串口中断初始化
+
+    &#x2F;&#x2F;DMA 发送数据流初始化
+    Init_Dma_Tx_Config(USART1, (u32)(&amp;USART1-&gt;DR), DMA2_Stream7, DMA_Channel_4, (u32)SendBuffer, BufferLen, DMA2_Stream7_IRQn);
+    &#x2F;&#x2F;DMA 接收数据流初始化
+    Init_Dma_Rx_Config(USART1, (u32)(&amp;USART1-&gt;DR), DMA2_Stream5, DMA_Channel_4, (u32)ReceiveBuffer, BufferLen);
+
+    while(1)
+    &#123;
+        &#x2F;&#x2F;接收到一帧数据
+        if(rx_flag)
+        &#123;
+            &#x2F;&#x2F;将接收到的数据发送到设备
+            Dma_Send_Enable(DMA2_Stream7, rx_len);        &#x2F;&#x2F;这里我不理解为什么是rx_len,而不是sendbuffer ,rx_len不只是个长度吗
+                                                          &#x2F;&#x2F;数据长度即数据本身,原理应该跟已知计数最大值,
+                                                          &#x2F;&#x2F;求计数初值&#x3D;计数最大值-要计的个数相似
+                                                          &#x2F;&#x2F;传输的数据实际上就是0 1
+            &#x2F;&#x2F;数据帧接收标志清零
+            rx_flag &#x3D; 0;
+        &#125;
+
+        LED1 &#x3D; !LED1;     &#x2F;&#x2F;LED灯闪烁，表示程序正常运行
+        delay_ms(100);                    &#x2F;&#x2F;延时300ms
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>📖 我可能需要恶补一下 c 语言 😭<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_62722416/article/details/126540746?spm=1001.2101.3001.6650.17&utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-17-126540746-blog-121202129.t0_edu_mlt&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-17-126540746-blog-121202129.t0_edu_mlt&utm_relevant_index=22">DMA 配置</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28959531/article/details/81219150?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-5-81219150-blog-122668801.pc_relevant_aa_2&spm=1001.2101.3001.4242.4&utm_relevant_index=8">STM32F407ZGT6 串口 DMA</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2022/09/12/38m-matlab/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-06-02 11:42:48
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/STM32F407/" title="STM32F407">
+                        #STM32F407
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/USART-DMA/" title="USART_DMA">
+                        #USART_DMA
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2022/09/27/40h-sbd-diode/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%95DMA-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">📕DMA 是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84-DMA-%E5%BA%93%E5%87%BD%E6%95%B0"><span class="toc-text">常用的 DMA 库函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E8%AE%BE-DMA-%E4%BD%BF%E8%83%BD%E5%BA%93%E5%87%BD%E6%95%B0"><span class="toc-text">外设 DMA 使能库函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DMA-Init"><span class="toc-text">DMA_Init();</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA-%E9%85%8D%E7%BD%AE%E7%A8%8B%E5%BA%8F%E8%BF%87%E7%A8%8B"><span class="toc-text">DMA 配置程序过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3-%F0%9F%98%B6"><span class="toc-text">代码理解 😶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DMA-%E7%9A%84%E5%8F%91%E9%80%81%E4%BD%BF%E8%83%BD"><span class="toc-text">DMA 的发送使能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DMA-%E7%9A%84%E5%8F%91%E9%80%81%E5%AE%8C%E6%88%90%E4%B8%AD%E6%96%AD%E5%87%BD%E6%95%B0"><span class="toc-text">DMA 的发送完成中断函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3-1-%E7%9A%84%E7%A9%BA%E9%97%B2%E4%B8%AD%E6%96%AD%E5%87%BD%E6%95%B0"><span class="toc-text">串口 1 的空闲中断函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%87%BD%E6%95%B0"><span class="toc-text">主函数</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + F407%E4%B8%B2%E5%8F%A3DMA%E6%94%B6%E5%8F%91%E6%95%B0%E6%8D%AE + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2022%2F09%2F23%2F39h-usart-dma%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2022/09/23/39h-usart-dma/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

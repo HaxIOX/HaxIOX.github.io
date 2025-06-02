@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      ESP32系统板 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">ESP32系统板</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-06-02 11:42:48
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h3 id="ESP32核心部分电路"><a href="#ESP32核心部分电路" class="headerlink" title="ESP32核心部分电路"></a>ESP32核心部分电路</h3><p>这个设计的核心作用是<strong>稳定电压、滤波高频噪声、提供瞬时电流补偿</strong>。（去耦）</p>
+<img src="/2025/03/26/124-esp32-xi-tong-ban/1742883409569.png" class="" width="1742883409569">
+
+<table>
+<thead>
+<tr>
+<th><strong>信号名称</strong></th>
+<th><strong>功能</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ESP_3V3</strong></td>
+<td>3.3V 电源，通常来自 <strong>外部 LDO（低压差稳压器）</strong>，用于<strong>给整个 ESP32 供电</strong>。</td>
+</tr>
+<tr>
+<td><strong>VDD3V3</strong></td>
+<td>3.3V 电源，可能是 <strong>ESP32 内部 LDO 输出的 3.3V</strong>，供给内部电路。</td>
+</tr>
+</tbody></table>
+<p> <strong>⚡ 关键对比</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>功能</strong></th>
+<th><strong>ESP32-S3 模块（WROOM&#x2F;WROVER）</strong></th>
+<th><strong>Arduino Nano ESP32</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>USB 直连功能</strong></td>
+<td>❌ <strong>不支持（部分版本）</strong>，需要外部 UART 转 USB 芯片</td>
+<td>✅ <strong>支持原生 USB</strong>，无需额外芯片</td>
+</tr>
+<tr>
+<td><strong>串口调试</strong></td>
+<td>需要 <strong>CH340&#x2F;CP2102</strong> 连接 TX&#x2F;RX</td>
+<td>USB 直接作为 <strong>CDC 虚拟串口</strong></td>
+</tr>
+<tr>
+<td><strong>烧录方式</strong></td>
+<td>通过 UART（需要 USB 转串口）</td>
+<td>直接通过 USB-C 端口烧录</td>
+</tr>
+<tr>
+<td><strong>USB-OTG</strong></td>
+<td>仅部分支持</td>
+<td><strong>完全支持（GPIO19, GPIO20）</strong></td>
+</tr>
+</tbody></table>
+<h3 id="TYPE-C电路"><a href="#TYPE-C电路" class="headerlink" title="TYPE-C电路"></a>TYPE-C电路</h3><h3 id="USB-to-UART电路"><a href="#USB-to-UART电路" class="headerlink" title="USB to UART电路"></a>USB to UART电路</h3><p> ✅ 为了扩展更多 USB 功能，实际使用的两颗芯片是：</p>
+<ol>
+<li><strong>CH343P</strong>：典型的 <strong>USB 转串口（USB to UART）芯片</strong></li>
+<li><strong>CH334F</strong>：一颗 <strong>多口 USB HUB 控制芯片</strong></li>
+</ol>
+<h3 id="1-CH343P-USB-转-UART"><a href="#1-CH343P-USB-转-UART" class="headerlink" title="1. CH343P - USB 转 UART"></a>1. <strong>CH343P - USB 转 UART</strong></h3><ul>
+<li>接在 <strong>ESP32-S3 的 UART0（TXD0 &#x2F; RXD0）</strong> 上</li>
+<li>作用：<ul>
+<li>提供 <strong>固件烧录</strong></li>
+<li>提供 <strong>串口日志输出（serial log）</strong></li>
+<li>配合 DTR&#x2F;RTS 控制 IO0&#x2F;EN，实现 <strong>自动下载（Auto Download）</strong></li>
+</ul>
+</li>
+<li>属于开发板中最基础的调试功能。</li>
+</ul>
+<hr>
+<h3 id="2-CH334F-USB-HUB-芯片"><a href="#2-CH334F-USB-HUB-芯片" class="headerlink" title="2. CH334F - USB HUB 芯片"></a>2. <strong>CH334F - USB HUB 芯片</strong></h3><ul>
+<li>是一颗 <strong>4口 USB Hub 控制器</strong>。</li>
+<li>作用是：<ul>
+<li>将主控 USB 总线 <strong>一分多</strong>，扩展出多个 USB 接口</li>
+<li>其中一个端口连接 <strong>CH343P（USB转串口）</strong></li>
+<li>其余端口可供：<ul>
+<li>其他外设（比如 USB HID、U盘、摄像头）</li>
+<li>甚至接入 ESP32-S3 自身的 <strong>USB OTG接口</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="FDC6333C"><a href="#FDC6333C" class="headerlink" title="FDC6333C"></a>FDC6333C</h3><p> 🔸 Q1：P沟MOSFET，主控3.3V输出通断</p>
+<ul>
+<li><strong>输入：3.3V</strong></li>
+<li><strong>输出：3V3_OP</strong></li>
+<li><strong>控制端 G1（通过 R3 下拉）</strong><ul>
+<li>控制条件是：<ul>
+<li>若 G1 &#x3D; 0V → MOSFET 导通 → 输出 3.3V</li>
+<li>若 G1 ≈ 3.3V → MOSFET 关断 → 输出断开</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>用途</strong>：当你想控制是否把板上的 3.3V 电压输出到其他模块（比如外设），可以控制这个开关。</li>
+</ul>
+<p>🔸 Q2：PMOS，用于 VBUS 控制</p>
+<ul>
+<li>VBUS 来自 USB</li>
+<li>G2 通过 R5 拉高（100k）</li>
+<li>R4 是限流电阻（100R）</li>
+<li>G2 控制 Q2 的导通<ul>
+<li>如果 G2 拉低（比如被芯片拉低），则 VBUS 可以导通</li>
+<li>如果保持拉高，则 MOSFET 关断，VBUS 不会输出</li>
+</ul>
+</li>
+<li><strong>用途猜测</strong>：<ul>
+<li>起到 <strong>VBUS 电源隔离 &#x2F; 控制作用</strong></li>
+<li>或者保护电路，在 USB 插入时由 MCU 控制是否导通 VBUS，防止反插损坏</li>
+</ul>
+</li>
+</ul>
+<h3 id="复位电路"><a href="#复位电路" class="headerlink" title="复位电路"></a>复位电路</h3><h3 id="自动下载电路"><a href="#自动下载电路" class="headerlink" title="自动下载电路"></a>自动下载电路</h3><h3 id="USB-TO-UART"><a href="#USB-TO-UART" class="headerlink" title="USB TO UART"></a>USB TO UART</h3><p>✅ 常见的 USB 转 UART 芯片对比</p>
+<table>
+<thead>
+<tr>
+<th>芯片型号</th>
+<th>厂商</th>
+<th>最大波特率</th>
+<th>驱动支持</th>
+<th>供电电压</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>CP2102N</strong></td>
+<td>Silicon Labs</td>
+<td>3 Mbps</td>
+<td>Windows &#x2F; macOS &#x2F; Linux</td>
+<td>3.3V &#x2F; 5V</td>
+<td>稳定、广泛使用，体积小，功耗低</td>
+</tr>
+<tr>
+<td><strong>CH340G</strong></td>
+<td>WCH（南京沁恒）</td>
+<td>2 Mbps</td>
+<td>Windows &#x2F; macOS &#x2F; Linux</td>
+<td>5V（默认），支持3.3V</td>
+<td>便宜，兼容性还行</td>
+</tr>
+<tr>
+<td><strong>FT232RL</strong></td>
+<td>FTDI</td>
+<td>3 Mbps</td>
+<td>非常强（驱动成熟）</td>
+<td>3.3V &#x2F; 5V 可选</td>
+<td>稳定、高品质，但贵</td>
+</tr>
+<tr>
+<td><strong>PL2303</strong></td>
+<td>Prolific</td>
+<td>1 Mbps</td>
+<td>Windows &#x2F; Linux（部分新版驱动不稳定）</td>
+<td>3.3V &#x2F; 5V</td>
+<td>较老，驱动有兼容问题</td>
+</tr>
+<tr>
+<td><strong>CP2104</strong></td>
+<td>Silicon Labs</td>
+<td>1 Mbps</td>
+<td>多平台支持</td>
+<td>3.3V &#x2F; 5V</td>
+<td>CP2102系列的变种，低功耗小封装</td>
+</tr>
+</tbody></table>
+<hr>
+<p>✅ 简单说说为什么不能直接用 USB 的 <strong>D+ &#x2F; D-</strong> 连到 UART 的 <strong>TX &#x2F; RX</strong></p>
+<p>这问题非常关键，很多人初学时会误以为 USB 是“串口”，就直接连了——其实这样会烧芯片，原因如下：</p>
+<hr>
+<p>❌ <strong>USB 和 UART 是完全不同的通信协议和电气标准</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>USB（D+ &#x2F; D-）</th>
+<th>UART（TX &#x2F; RX）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>物理信号</td>
+<td>差分信号（一对线）</td>
+<td>单端信号（各一根）</td>
+</tr>
+<tr>
+<td>协议复杂度</td>
+<td>高（有握手、地址、包头、CRC等）</td>
+<td>低（起始位+数据+校验位）</td>
+</tr>
+<tr>
+<td>驱动需求</td>
+<td>需要USB主机控制器</td>
+<td>可直接点对点通信</td>
+</tr>
+<tr>
+<td>电平标准</td>
+<td>USB 2.0 是 3.3V 差分信号</td>
+<td>通常为TTL电平（3.3V 或 5V）</td>
+</tr>
+</tbody></table>
+<hr>
+<p>🎯 简单比喻理解：</p>
+<ul>
+<li><strong>USB</strong> 像是高速公路，有专门的“收费站”（协议控制器），车辆（数据包）必须按规矩走，还得有“入口”设备（主机）。</li>
+<li><strong>UART</strong> 像是村里的小路，你说一句我回一句，简单直接，谁都能上。</li>
+</ul>
+<p>你拿 <strong>USB D+&#x2F;D- 去接 UART TX&#x2F;RX</strong>，就像拿两个插头对着接，<strong>信号根本不一样，不但通信不了，还可能烧掉IO口或者芯片内部ESD电路</strong>。✅ 总结一句话</p>
+<blockquote>
+<p><strong>不能直接连 D+&#x2F;D- 到 TX&#x2F;RX，是因为它们用的不是一种“语言”和“电平方式”，而且 USB 需要专用控制器，UART 不行。</strong></p>
+</blockquote>
+<h3 id="C3与S3对比"><a href="#C3与S3对比" class="headerlink" title="C3与S3对比"></a>C3与S3对比</h3><p>🔧 一、芯片对比：ESP32-C3 vs ESP32-S3</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th><strong>ESP32-C3</strong></th>
+<th><strong>ESP32-S3</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU 架构</td>
+<td>单核 RISC-V @160MHz</td>
+<td>双核 Xtensa LX7 @240MHz</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>~400KB SRAM</td>
+<td>~512KB SRAM</td>
+</tr>
+<tr>
+<td>PSRAM 支持</td>
+<td>❌ 无原生支持</td>
+<td>✅ 支持外挂 PSRAM</td>
+</tr>
+<tr>
+<td>Wi-Fi</td>
+<td>✅ 2.4GHz b&#x2F;g&#x2F;n</td>
+<td>✅ 2.4GHz b&#x2F;g&#x2F;n</td>
+</tr>
+<tr>
+<td>BLE</td>
+<td>✅ BLE 5.0, Long Range</td>
+<td>✅ BLE 5.0, LE Audio</td>
+</tr>
+<tr>
+<td>GPIO 数量</td>
+<td>22</td>
+<td>44</td>
+</tr>
+<tr>
+<td>USB 接口</td>
+<td>✅ USB Device</td>
+<td>✅ USB OTG（Host + Device）</td>
+</tr>
+<tr>
+<td>LCD &#x2F; 摄像头支持</td>
+<td>❌ 无</td>
+<td>✅ 支持 LCD、CAM 接口</td>
+</tr>
+<tr>
+<td>安全特性</td>
+<td>AES, RNG, Secure Boot, Flash加密</td>
+<td>更多安全特性 + AI加速器</td>
+</tr>
+<tr>
+<td>封装尺寸</td>
+<td>QFN 5x5 mm</td>
+<td>QFN 7x7 mm</td>
+</tr>
+</tbody></table>
+<hr>
+<p>📦 二、模组对比：ESP32-C3-WROOM-02 vs ESP32-S3-WROOM-1</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th><strong>ESP32-C3-WROOM-02</strong></th>
+<th><strong>ESP32-S3-WROOM-1&#x2F;1U</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>核心芯片</td>
+<td>ESP32-C3</td>
+<td>ESP32-S3</td>
+</tr>
+<tr>
+<td>Flash</td>
+<td>4MB &#x2F; 8MB</td>
+<td>4MB &#x2F; 8MB &#x2F; 16MB</td>
+</tr>
+<tr>
+<td>PSRAM</td>
+<td>❌ 无</td>
+<td>✅ 可选 2MB &#x2F; 8MB</td>
+</tr>
+<tr>
+<td>GPIO 暴露数量</td>
+<td>15–22 个视封装而定</td>
+<td>高达 42 个视封装而定</td>
+</tr>
+<tr>
+<td>模组尺寸</td>
+<td>18 × 20 mm</td>
+<td>18 × 20.5 mm</td>
+</tr>
+<tr>
+<td>天线类型</td>
+<td>PCB 天线 &#x2F; 外接 IPEX</td>
+<td>PCB 天线 &#x2F; 外接 IPEX</td>
+</tr>
+<tr>
+<td>工作温度范围</td>
+<td>-40°C ~ +85°C</td>
+<td>-40°C ~ +105°C</td>
+</tr>
+<tr>
+<td>认证</td>
+<td>CE, FCC, SRRC 等</td>
+<td>CE, FCC, SRRC 等</td>
+</tr>
+</tbody></table>
+<h3 id="滤波"><a href="#滤波" class="headerlink" title="滤波"></a>滤波</h3><ol>
+<li><strong>LC 滤波器</strong></li>
+</ol>
+<ul>
+<li><p>因为它的核心是一个 <strong>电感（L）+ 一堆电容（C）</strong></p>
+</li>
+<li><p>是最常用的电源滤波结构之一</p>
+</li>
+<li><p>简单说就是：</p>
+<blockquote>
+<p>“LC Power Filter” 或 “LC 滤波网络”</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<ol start="2">
+<li><strong>π（π型）滤波器 &#x2F; Pi Filter</strong></li>
+</ol>
+<ul>
+<li><p>因为它长得像希腊字母 π（Pi）：</p>
+<pre class="line-numbers language-none"><code class="language-none">lua
+
+
+复制编辑
+  C
+ ---|
+      |
++V ---L---+----&gt; 输出
+      |   |
+     ---  C
+      GND<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>就是 “<strong>电容 - 电感 - 电容</strong>” 的组合结构</p>
+</li>
+<li><p>特点是滤波带宽广、高低频都能压得住</p>
+</li>
+</ul>
+<hr>
+<ol start="3">
+<li><strong>电源去耦滤波器 &#x2F; Power Decoupling Filter</strong></li>
+</ol>
+<ul>
+<li>强调它用于给电源去耦、稳压的作用</li>
+<li>常见于 MCU、Wi-Fi、射频类芯片前级电源净化</li>
+</ul>
+<p> 📐 二、电容封装区别（0805 vs 1206）</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th><strong>0805</strong></th>
+<th><strong>1206</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可承受电压</td>
+<td>一般 ≤ 25V</td>
+<td>可达 50V（看具体型号）</td>
+</tr>
+<tr>
+<td>最大容量（X7R）</td>
+<td>常用值 ≤ 22μF</td>
+<td>可支持更大（如 47μF）</td>
+</tr>
+<tr>
+<td>纹波电流能力</td>
+<td>中等</td>
+<td>更好，更稳定</td>
+</tr>
+<tr>
+<td>PCB 占空间</td>
+<td>小，适合紧凑</td>
+<td>略大，适合主供电路径滤波</td>
+</tr>
+</tbody></table>
+<p>✅ <strong>总结：</strong></p>
+<blockquote>
+<p>如果你需要更大电容值、更稳定的供电，<strong>选 1206 更稳；</strong><br> 如果你空间小、滤波不是很关键，<strong>选 0805 更省面积。</strong></p>
+</blockquote>
+<hr>
+<p>🌀 三、电感封装区别（0805 vs 1206）</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th><strong>0805</strong></th>
+<th><strong>1206</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>电感量可选范围</td>
+<td>多，但电流低（<del>0.3</del>0.6A）</td>
+<td>电流承载更高（<del>1</del>2A）</td>
+</tr>
+<tr>
+<td>DCR 阻抗</td>
+<td>较高，压降大</td>
+<td>较低，更适合电源主路径使用</td>
+</tr>
+<tr>
+<td>EMI 抗性</td>
+<td>较弱（多数非屏蔽）</td>
+<td>可选屏蔽型，抗干扰更强</td>
+</tr>
+<tr>
+<td>易焊性</td>
+<td>更小，手焊困难</td>
+<td>更好焊，适合手工和贴片机兼容</td>
+</tr>
+</tbody></table>
+<h2 id="ESP32-C3"><a href="#ESP32-C3" class="headerlink" title="ESP32_C3"></a>ESP32_C3</h2><p>不加</p>
+<h3 id="B5819W-肖特基二极管"><a href="#B5819W-肖特基二极管" class="headerlink" title="B5819W 肖特基二极管"></a><strong>B5819W 肖特基二极管</strong></h3><p>实现防反灌电压</p>
+<h2 id="测试点"><a href="#测试点" class="headerlink" title="测试点"></a>测试点</h2><p>电流测试点</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/03/21/122-esp32-s3-chuan-gan-qi/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-06-02 11:42:48
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/03/28/126-micradar/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ESP32%E6%A0%B8%E5%BF%83%E9%83%A8%E5%88%86%E7%94%B5%E8%B7%AF"><span class="toc-text">ESP32核心部分电路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TYPE-C%E7%94%B5%E8%B7%AF"><span class="toc-text">TYPE-C电路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USB-to-UART%E7%94%B5%E8%B7%AF"><span class="toc-text">USB to UART电路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-CH343P-USB-%E8%BD%AC-UART"><span class="toc-text">1. CH343P - USB 转 UART</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-CH334F-USB-HUB-%E8%8A%AF%E7%89%87"><span class="toc-text">2. CH334F - USB HUB 芯片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FDC6333C"><span class="toc-text">FDC6333C</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E4%BD%8D%E7%94%B5%E8%B7%AF"><span class="toc-text">复位电路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E4%B8%8B%E8%BD%BD%E7%94%B5%E8%B7%AF"><span class="toc-text">自动下载电路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USB-TO-UART"><span class="toc-text">USB TO UART</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C3%E4%B8%8ES3%E5%AF%B9%E6%AF%94"><span class="toc-text">C3与S3对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%A4%E6%B3%A2"><span class="toc-text">滤波</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ESP32-C3"><span class="toc-text">ESP32_C3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#B5819W-%E8%82%96%E7%89%B9%E5%9F%BA%E4%BA%8C%E6%9E%81%E7%AE%A1"><span class="toc-text">B5819W 肖特基二极管</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%82%B9"><span class="toc-text">测试点</span></a>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP32%E7%B3%BB%E7%BB%9F%E6%9D%BF + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F03%2F26%2F124-esp32-xi-tong-ban%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/03/26/124-esp32-xi-tong-ban/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
