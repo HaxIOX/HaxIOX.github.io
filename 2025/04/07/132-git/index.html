@@ -157,7 +157,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-05-29 10:26:27
+          2025-06-03 09:20:45
         </span>
         
       </div>
@@ -206,6 +206,15 @@
 <td>合并指定分支到当前分支</td>
 </tr>
 </tbody></table>
+<p>⚠️：<strong>多个本地端推送一定要先拉取最新仓库</strong></p>
+<ol>
+<li><p>切到主干分支：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git checkout main<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>拉取并以变基方式更新到远程最新：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git pull --rebase origin main<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ol>
+<p>这样本地的 <code>main</code> 就会同步到远程的最新提交。之后再从 <code>main</code> 分出一个 feature 分支去开发，就能保证你的改动是基于最新代码进行的，避免后续合并冲突</p>
 <h2 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h2><ol>
 <li><p><strong>进入项目目录</strong><br> 在资源管理器中右键 → <strong>Git Bash Here</strong></p>
 </li>
@@ -429,7 +438,7 @@ if commit.committer_name &#x3D;&#x3D; b&quot;wangjiqi&quot;:
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-05-29 10:26:27
+              2025-06-03 09:20:45
             </span>
             
           </div>
