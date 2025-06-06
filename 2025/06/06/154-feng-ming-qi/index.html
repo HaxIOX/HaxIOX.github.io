@@ -10,10 +10,13 @@
   <!-- 用于搜索引擎的文章摘要 -->
   
   
-    <meta name="robots" content="noindex" />
-  
   
   <title>
+    
+      154-蜂鸣器 
+      
+      
+      |
     
      南北的猫
   </title>
@@ -105,177 +108,164 @@
 
 
       <div class="flex-container">
-        <div class="container index">
-  <div class="post-list">
-    <!-- 遍历渲染文章 -->
-    
-      <div class="post-item" title="C语言">
-        <div class="time-m-d">2023-08-08</div>
-        <div class="title">
-          <a href="/2023/08/08/72c-c/">
-            
-              
-                <span>C语言</span>
-              
-            
-          </a>
-        </div>
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">154-蜂鸣器</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-06-06 16:26:49
+        </span>
+        
       </div>
-    
-      <div class="post-item" title="K210">
-        <div class="time-m-d">2023-08-03</div>
-        <div class="title">
-          <a href="/2023/08/03/71h-k210/">
-            
-              
-                <span>K210</span>
-              
-            
-          </a>
-        </div>
+      <div class="markdown-body">
+        <h1 id="蜂鸣器"><a href="#蜂鸣器" class="headerlink" title="蜂鸣器"></a>蜂鸣器</h1><p>响度与电压成正比</p>
+<p>音色与频率呈正比，频率越高，声音越尖</p>
+<h3 id="有源蜂鸣器-震荡源"><a href="#有源蜂鸣器-震荡源" class="headerlink" title="有源蜂鸣器(震荡源)"></a>有源蜂鸣器(震荡源)</h3><p>发声原理:振荡器产生音频信号电流通过线圈,产生磁场,电磁线圈和磁场一起起作用使振动磨片周期震动</p>
+<blockquote>
+<p>电生磁,使震动膜片震动</p>
+</blockquote>
+<p><code>需要大电流</code>,所以会连接一个三极管因为三极管有开关和放大作用,51单片机只有10ma的电流</p>
+<h3 id="无源蜂鸣器"><a href="#无源蜂鸣器" class="headerlink" title="无源蜂鸣器"></a>无源蜂鸣器</h3><h1 id="蜂鸣器驱动电路"><a href="#蜂鸣器驱动电路" class="headerlink" title="蜂鸣器驱动电路"></a>蜂鸣器驱动电路</h1><h2 id="NPN"><a href="#NPN" class="headerlink" title="NPN"></a>NPN</h2>
+
+
+
+<img src="/2025/06/06/154-feng-ming-qi/1749198164271.png" class="" width="1749198164271">
+
+<img src="/2025/06/06/154-feng-ming-qi/1749198179112.png" class="" width="1749198179112">
+
+
+
+<p>图一比图二更响亮</p>
+<p><strong>完善电路</strong></p>
+<p>续流二极管：蜂鸣器本质上是一个感性元件，其电流不能瞬变，因此必须有一个续流二极管提供续流。否则，在蜂鸣器两端会产生几十伏的尖峰电压，可能损坏三极管，并干扰整个电路系统的其他部分。</p>
+<p>滤波电容： 作用是滤波，滤除蜂鸣器电流对其他部分的影响，也可以改善电源的交流阻抗，如果可能，最好是再并联一个220uF的电解电容。</p>
+<h2 id="PNP"><a href="#PNP" class="headerlink" title="PNP"></a>PNP</h2><p>PNP三极管是高电平截止，低电平导通</p>
+<img src="/2025/06/06/154-feng-ming-qi/1749198065262.png" class="" width="1749198065262">
+
+
+
+<img src="/2025/06/06/154-feng-ming-qi/1749198078912.png" class="" width="1749198078912">
+
+
+
+
+
+<h2 id="贴片电容"><a href="#贴片电容" class="headerlink" title="贴片电容"></a>贴片电容</h2><p><strong>贴片电容</strong>102等于1NF，103等于10NF， 104等于100NF，105等于1UF，106等于10UF</p>
+<p>102，即10×102 pF&#x3D;1nF;</p>
+<p>103，即10×103 pF&#x3D;10nF;</p>
+<p>104，即10×104 pF&#x3D;100nF;</p>
+<p>105，即10×105 pF&#x3D;1000nF&#x3D;1uF;</p>
+<p>106，即10×106 pF&#x3D;10000nF&#x3D;10uF</p>
+<p>10u+是10u钽电容</p>
+<p>电阻同理,102就是10*10平方&#x3D;1000Ω&#x3D;1k</p>
+<p><a target="_blank" rel="noopener" href="https://www.semiee.com/file/TWGMC/TWGMC-SI2301.pdf">https://www.semiee.com/file/TWGMC/TWGMC-SI2301.pdf</a>)</p>
+
       </div>
-    
-      <div class="post-item" title="Keil_仿真_逻辑分析仪器">
-        <div class="time-m-d">2023-07-27</div>
-        <div class="title">
-          <a href="/2023/07/27/70h-keil-fang-zhen-luo-ji-fen-xi-yi-qi/">
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
             
-              
-                <span>Keil_仿真_逻辑分析仪器</span>
-              
+              <a href="/2025/06/03/153-arduino-an-zhuang-ameba-kai-fa-ban/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
             
-          </a>
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-06-06 16:26:49
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/06/06/155-wireshark-de-shi-yong-fang-fa/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
         </div>
-      </div>
+      
+    </div>
     
-      <div class="post-item" title="舵机">
-        <div class="time-m-d">2023-07-25</div>
-        <div class="title">
-          <a href="/2023/07/25/69h-duo-ji/">
-            
-              
-                <span>舵机</span>
-              
-            
-          </a>
-        </div>
-      </div>
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%9C%82%E9%B8%A3%E5%99%A8"><span class="toc-text">蜂鸣器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E6%BA%90%E8%9C%82%E9%B8%A3%E5%99%A8-%E9%9C%87%E8%8D%A1%E6%BA%90"><span class="toc-text">有源蜂鸣器(震荡源)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E6%BA%90%E8%9C%82%E9%B8%A3%E5%99%A8"><span class="toc-text">无源蜂鸣器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%9C%82%E9%B8%A3%E5%99%A8%E9%A9%B1%E5%8A%A8%E7%94%B5%E8%B7%AF"><span class="toc-text">蜂鸣器驱动电路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#NPN"><span class="toc-text">NPN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PNP"><span class="toc-text">PNP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%B4%E7%89%87%E7%94%B5%E5%AE%B9"><span class="toc-text">贴片电容</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
     
-      <div class="post-item" title="重学STM32">
-        <div class="time-m-d">2023-07-20</div>
-        <div class="title">
-          <a href="/2023/07/20/68h-chong-xue-stm32/">
-            
-              
-                <span>重学STM32</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="OpenMV">
-        <div class="time-m-d">2023-07-05</div>
-        <div class="title">
-          <a href="/2023/07/05/67h-openmv/">
-            
-              
-                <span>OpenMV</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="STM32+OLED多级菜单">
-        <div class="time-m-d">2023-07-01</div>
-        <div class="title">
-          <a href="/2023/07/01/66h-stm32-oled/">
-            
-              
-                <span>STM32+OLED多级菜单</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="STM32+ESP8266+MQTT+ONENET">
-        <div class="time-m-d">2023-06-29</div>
-        <div class="title">
-          <a href="/2023/06/29/65h-stm32-esp8266-mqtt-onenet/">
-            
-              
-                <span>STM32+ESP8266+MQTT+ONENET</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="STM32的BOOt引脚">
-        <div class="time-m-d">2023-06-11</div>
-        <div class="title">
-          <a href="/2023/06/11/64h-stm32-de-boot-yin-jiao/">
-            
-              
-                <span>STM32的BOOt引脚</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="51单片机驱动数码管">
-        <div class="time-m-d">2023-06-03</div>
-        <div class="title">
-          <a href="/2023/06/03/63h-51-dan-pian-ji-qu-dong-shu-ma-guan/">
-            
-              
-                <span>51单片机驱动数码管</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="步进电机">
-        <div class="time-m-d">2023-05-24</div>
-        <div class="title">
-          <a href="/2023/05/24/62h-bu-jin-dian-ji/">
-            
-              
-                <span>步进电机</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="三极管">
-        <div class="time-m-d">2023-05-24</div>
-        <div class="title">
-          <a href="/2023/05/24/61h-san-ji-guan/">
-            
-              
-                <span>三极管</span>
-              
-            
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
       </div>
     
   </div>
-  <nav class="post-navigation">
-    
-      <a href="/page/7/"><i class="iconfont icon-angleleft"></i></a>
-    
-    <span class="page-num">8 / 13</span>
-    
-      <a href="/page/9/"><i class="iconfont icon-angleright"></i></a>
-    
-  </nav>
-</div>
+
 
         
 <div class="footer">
@@ -532,6 +522,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + 154-%E8%9C%82%E9%B8%A3%E5%99%A8 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F06%2F06%2F154-feng-ming-qi%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/06/06/154-feng-ming-qi/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>
