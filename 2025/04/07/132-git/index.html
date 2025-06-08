@@ -157,7 +157,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-06-02 15:12:31
+          2025-06-08 19:49:13
         </span>
         
       </div>
@@ -215,6 +215,12 @@
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git pull --rebase origin main<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ol>
 <p>这样本地的 <code>main</code> 就会同步到远程的最新提交。之后再从 <code>main</code> 分出一个 feature 分支去开发，就能保证你的改动是基于最新代码进行的，避免后续合并冲突</p>
+<p>执行git pull的时候，相当于以此执行了下面的结合体</p>
+<ul>
+<li>git fetch ：从云端拉取最新代码</li>
+<li>git merge：将云端代码与本地代码合并</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/n1KbNaT46SwVPCBxpW31ow">使用git pull拉取代码</a></p>
 <h2 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h2><ol>
 <li><p><strong>进入项目目录</strong><br> 在资源管理器中右键 → <strong>Git Bash Here</strong></p>
 </li>
@@ -292,7 +298,7 @@ $ git merge origin&#x2F;master
 fatal: refusing to merge unrelated histories<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p>当你在本地和远程各自独立 <code>git init</code> 过一次，两个仓库就没有共同的祖先提交，Git 默认会拒绝合并“无关联历史”。</p>
-<h2 id="合并两端历史"><a href="#合并两端历史" class="headerlink" title="合并两端历史"></a>合并两端历史</h2><ol>
+<h3 id="合并两端历史"><a href="#合并两端历史" class="headerlink" title="合并两端历史"></a>合并两端历史</h3><ol>
 <li><p><strong>拉取远程并允许合并无关联历史</strong></p>
 <pre class="line-numbers language-none"><code class="language-none">git pull origin master --allow-unrelated-histories<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
@@ -342,7 +348,7 @@ git push origin main<span aria-hidden="true" class="line-numbers-rows"><span></s
 <blockquote>
 <p><strong>⚠️ 警告</strong>：强制推送会把远程分支改回你本地的状态，会丢掉远程已有的所有改动。务必在确认没有他人依赖这些提交时才使用。</p>
 </blockquote>
-<h2 id="修改已有远程仓库的地址"><a href="#修改已有远程仓库的地址" class="headerlink" title="修改已有远程仓库的地址"></a>修改已有远程仓库的地址</h2><ol>
+<h3 id="修改已有远程仓库的地址"><a href="#修改已有远程仓库的地址" class="headerlink" title="修改已有远程仓库的地址"></a>修改已有远程仓库的地址</h3><ol>
 <li><p><strong>查看当前远程地址</strong></p>
 <pre class="line-numbers language-none"><code class="language-none">git remote -v<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
@@ -438,7 +444,7 @@ if commit.committer_name &#x3D;&#x3D; b&quot;wangjiqi&quot;:
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-06-02 15:12:31
+              2025-06-08 19:49:13
             </span>
             
           </div>
@@ -461,7 +467,7 @@ if commit.committer_name &#x3D;&#x3D; b&quot;wangjiqi&quot;:
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-%E6%8C%87%E4%BB%A4%E9%80%9F%E6%9F%A5"><span class="toc-text">Git 指令速查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">项目初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clone-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="toc-text">Clone 远程仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E3%80%81%E6%8F%90%E4%BA%A4%E4%B8%8E%E6%8E%A8%E9%80%81"><span class="toc-text">添加、提交与推送</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%89%E5%8F%96%E6%9B%B4%E6%96%B0%E4%B8%8E-Rebas"><span class="toc-text">拉取更新与 Rebas</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E4%B8%A4%E7%AB%AF%E5%8E%86%E5%8F%B2"><span class="toc-text">合并两端历史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%B7%B2%E6%9C%89%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-text">修改已有远程仓库的地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo%E4%BB%93%E5%BA%93"><span class="toc-text">Hexo仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%8E%86%E5%8F%B2%E7%94%A8%E6%88%B7%E5%90%8D"><span class="toc-text">修改历史用户名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-%E7%94%A8-git-filter-branch"><span class="toc-text">A. 用 git filter-branch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E7%94%A8%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84-git-filter-repo%EF%BC%88%E9%9C%80%E8%A6%81%E5%85%88%E5%AE%89%E8%A3%85%EF%BC%89"><span class="toc-text">B. 用更现代的 git filter-repo（需要先安装）</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-%E6%8C%87%E4%BB%A4%E9%80%9F%E6%9F%A5"><span class="toc-text">Git 指令速查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">项目初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clone-%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="toc-text">Clone 远程仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E3%80%81%E6%8F%90%E4%BA%A4%E4%B8%8E%E6%8E%A8%E9%80%81"><span class="toc-text">添加、提交与推送</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%89%E5%8F%96%E6%9B%B4%E6%96%B0%E4%B8%8E-Rebas"><span class="toc-text">拉取更新与 Rebas</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E4%B8%A4%E7%AB%AF%E5%8E%86%E5%8F%B2"><span class="toc-text">合并两端历史</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%B7%B2%E6%9C%89%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E5%9C%B0%E5%9D%80"><span class="toc-text">修改已有远程仓库的地址</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo%E4%BB%93%E5%BA%93"><span class="toc-text">Hexo仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%8E%86%E5%8F%B2%E7%94%A8%E6%88%B7%E5%90%8D"><span class="toc-text">修改历史用户名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-%E7%94%A8-git-filter-branch"><span class="toc-text">A. 用 git filter-branch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E7%94%A8%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84-git-filter-repo%EF%BC%88%E9%9C%80%E8%A6%81%E5%85%88%E5%AE%89%E8%A3%85%EF%BC%89"><span class="toc-text">B. 用更现代的 git filter-repo（需要先安装）</span></a></li></ol></li></ol>
       
     </div>
   </div>
