@@ -13,7 +13,7 @@
   
   <title>
     
-      ESP32_WIFI_Sniff 
+      ESP-IDF开发ESP32 UART 
       
       
       |
@@ -153,168 +153,101 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">ESP32_WIFI_Sniff</div>
+      <div class="post-title">ESP-IDF开发ESP32 UART</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-05-28 17:18:48
+          2025-06-09 16:52:19
         </span>
         
       </div>
       <div class="markdown-body">
         <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
-<li><p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/network/esp_wifi.html">Wi-Fi 库 - ESP32-S3 - — ESP-IDF 编程指南 v5.4.1 文档</a></p>
+<li><p>ESP IDF</p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32/api-guides/wifi.html">Wi-Fi 驱动程序 - ESP32 - — ESP-IDF 编程指南 v5.4.1 文档</a></p>
+<li><p>ESP32-S3</p>
 </li>
-<li></li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/peripherals/uart.html">通用异步接收器&#x2F;发送器 (UART)  — ESP-IDF 编程指南 v5.4.1 文档</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/espressif/esp-idf/blob/v5.4.1/examples/peripherals/uart/uart_async_rxtxtasks/main/uart_async_rxtxtasks_main.c">官方例程</a></p>
+</li>
 </ul>
-<h2 id="Wi-Fi-协议模式"><a href="#Wi-Fi-协议模式" class="headerlink" title="Wi-Fi 协议模式"></a><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32/api-guides/wifi.html#id40">Wi-Fi 协议模式</a></h2><p>目前，IDF 支持以下协议模式：</p>
-<table>
-<thead>
-<tr>
-<th>协议模式</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>802.11b</td>
-<td>调用函数 <code>esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_11B)</code>，将 station&#x2F;AP 设置为仅 802.11b 模式。</td>
-</tr>
-<tr>
-<td>802.11bg</td>
-<td>调用函数 &#96;esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_11B</td>
-</tr>
-<tr>
-<td>802.11g</td>
-<td>调用函数 &#96;esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_11B</td>
-</tr>
-<tr>
-<td>802.11bgn</td>
-<td>调用函数 &#96;esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_11B</td>
-</tr>
-<tr>
-<td>802.11gn</td>
-<td>调用函数 &#96;esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_11B</td>
-</tr>
-<tr>
-<td>802.11 BGNLR</td>
-<td>调用函数 &#96;esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_11B</td>
-</tr>
-<tr>
-<td>802.11 LR</td>
-<td>调用函数 <code>esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_LR)</code>，将 station&#x2F;AP 设置为 LR 模式。<strong>此模式是乐鑫的专利模式，可以达到 1 公里视线范围。请确保 station 和 AP 同时连接至 ESP 设备。</strong></td>
-</tr>
-</tbody></table>
-<h2 id="Wi-Fi-Sniffer-模式"><a href="#Wi-Fi-Sniffer-模式" class="headerlink" title="Wi-Fi Sniffer 模式"></a><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32/api-guides/wifi.html#wi-fi-sniffer">Wi-Fi Sniffer 模式</a></h2><p>Wi-Fi Sniffer 模式可以通过 <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32/api-reference/network/esp_wifi.html#_CPPv424esp_wifi_set_promiscuousb"><code>esp_wifi_set_promiscuous()</code></a> 使能。如果使能 Sniffer 模式， <strong>可以</strong> 向应用程序转储以下数据包。</p>
-<blockquote>
-<ul>
-<li>802.11 管理帧</li>
-<li>802.11 数据帧，包括 MPDU、AMPDU、AMSDU 等</li>
-<li>802.11 MIMO 帧，Sniffer 模式仅转储 MIMO 帧的长度。</li>
-<li>802.11 控制帧</li>
-<li>802.11 CRC 错误帧</li>
-</ul>
-</blockquote>
-<p><strong>不可以</strong> 向应用程序转储以下数据包。</p>
-<blockquote>
-<ul>
-<li>802.11 其它错误帧</li>
-</ul>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>函数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/esp_err.html#_CPPv49esp_err_t">esp_err_t</a> <strong>esp_wifi_set_promiscuous_rx_cb</strong><strong>(</strong><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv421wifi_promiscuous_cb_t">wifi_promiscuous_cb_t</a> <strong>cb</strong><strong>)</strong><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv430esp_wifi_set_promiscuous_rx_cb21wifi_promiscuous_cb_t"></a></td>
-<td>混杂模式下注册回调</td>
-</tr>
-<tr>
-<td><em><strong>typedef</strong></em> <strong>void</strong> **(<strong><em><strong><strong><strong>wifi_promiscuous_cb_t</strong></strong>)</strong></em>*(*<em><strong>void</strong> <em><strong><strong><strong>buf</strong></strong>,</strong> <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/network/esp_wifi.html#_CPPv427wifi_promiscuous_pkt_type_t">wifi_promiscuous_pkt_type_t</a> <strong>type</strong></em></em>)</strong></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>esp_wifi_set_promiscuous_rx_cb</strong><strong>(</strong><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv421wifi_promiscuous_cb_t">wifi_promiscuous_cb_t</a> <strong>cb</strong><strong>)</strong></td>
-<td>设置混杂模式</td>
-</tr>
-<tr>
-<td><strong>esp_wifi_get_promiscuous</strong>**(**<strong>bool</strong> *<strong><strong><strong>en</strong></strong>)</strong></td>
-<td>获取混杂模式状态</td>
-</tr>
-<tr>
-<td><strong>esp_wifi_set_config</strong><strong>(</strong><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv416wifi_interface_t">wifi_interface_t</a> <strong>interface</strong><strong>,</strong> <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv413wifi_config_t">wifi_config_t</a> *<strong><strong><strong>conf</strong></strong>)</strong></td>
-<td>设置STA&#x2F;AT模式</td>
-</tr>
-<tr>
-<td><strong>esp_wifi_set_vendor_ie</strong><strong>(<strong><strong>bool</strong> <strong>enable</strong></strong>,</strong> <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv421wifi_vendor_ie_type_t">wifi_vendor_ie_type_t</a> <strong>type</strong><strong>,</strong> <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv419wifi_vendor_ie_id_t">wifi_vendor_ie_id_t</a> <strong>idx</strong><strong>,</strong> <em><strong>const</strong></em> <strong>void</strong> *<strong><strong><strong>vnd_ie</strong></strong>)</strong></td>
-<td>Set 802.11 Vendor-Specific Information Element.</td>
-</tr>
-<tr>
-<td><strong>esp_wifi_set_vendor_ie_cb</strong><strong>(</strong><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv418esp_vendor_ie_cb_t">esp_vendor_ie_cb_t</a> <strong>cb</strong><strong>,</strong> <strong>void</strong> *<strong><strong><strong>ctx</strong></strong>)</strong></td>
-<td>Register Vendor-Specific Information Element monitoring callback.</td>
-</tr>
-<tr>
-<td>esp_wifi_80211_tx(<a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv416wifi_interface_t">wifi_interface_t</a> ifx, <em>const</em> void *buffer, int len, bool en_sys_seq)</td>
-<td>Send raw ieee80211 data.</td>
-</tr>
-<tr>
-<td><strong>esp_wifi_config_80211_tx_rate</strong><strong>(</strong><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv416wifi_interface_t">wifi_interface_t</a> <strong>ifx</strong><strong>,</strong> <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv415wifi_phy_rate_t">wifi_phy_rate_t</a> <strong>rate</strong><strong>)</strong></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h1 id="发"><a href="#发" class="headerlink" title="发"></a>发</h1><h1 id="收"><a href="#收" class="headerlink" title="收"></a>收</h1><p>1.使用ESP32混杂模式（Promiscuous）接收Beacon帧</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; 1. 定义回调函数处理接收到的数据
-void wifi_promiscuous_cb(void *buf, wifi_promiscuous_pkt_type_t type) &#123;
-    if (type !&#x3D; WIFI_PKT_MGMT) return; &#x2F;&#x2F; 只处理管理帧
-    
-    const wifi_promiscuous_pkt_t *promiscuous_pkt &#x3D; (wifi_promiscuous_pkt_t *)buf;
-    const wifi_ieee80211_packet_t *ipkt &#x3D; (wifi_ieee80211_packet_t *)promiscuous_pkt-&gt;payload;
-    const wifi_ieee80211_mac_hdr_t *hdr &#x3D; &amp;ipkt-&gt;hdr;
-    
-    &#x2F;&#x2F; Beacon帧类型为0x80
-    if (hdr-&gt;frame_ctrl[0] &#x3D;&#x3D; 0x80) &#123;
-        &#x2F;&#x2F; 这里处理Beacon数据
-        &#x2F;&#x2F; - SSID
-        &#x2F;&#x2F; - 信号强度（RSSI）
-        &#x2F;&#x2F; - 信道信息
-        &#x2F;&#x2F; - 其他IE（Information Elements）
+<h1 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/peripherals/uart.html#uart-api-setting-communication-parameters">设置通信参数</a> - 设置波特率、数据位、停止位等</li>
+<li><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/peripherals/uart.html#uart-api-setting-communication-pins">设置通信管脚</a> - 分配连接设备的管脚</li>
+<li><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/peripherals/uart.html#uart-api-driver-installation">安装驱动程序</a> - 为 UART 驱动程序分配 ESP32-S3 资源</li>
+<li><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/peripherals/uart.html#uart-api-running-uart-communication">运行 UART 通信</a> - 发送&#x2F;接收数据</li>
+<li><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/peripherals/uart.html#uart-api-using-interrupts">使用中断</a> - 触发特定通信事件的中断</li>
+<li><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/peripherals/uart.html#uart-api-deleting-driver">删除驱动程序</a> - 如无需 UART 通信，则释放已分配的资</li>
+</ol>
+<h1 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h1><h1 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h1><pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &quot;freertos&#x2F;FreeRTOS.h&quot;
+#include &quot;freertos&#x2F;task.h&quot;
+#include &quot;esp_system.h&quot;
+#include &quot;esp_log.h&quot;
+#include &quot;driver&#x2F;uart.h&quot;
+#include &quot;string.h&quot;
+#include &quot;driver&#x2F;gpio.h&quot;
+
+static const int RX_BUF_SIZE &#x3D; 1024;
+
+#define TXD_PIN (GPIO_NUM_4)
+#define RXD_PIN (GPIO_NUM_5)
+
+void uart_init(void)
+&#123;
+    const uart_config_t uart_config &#x3D; &#123;
+        .baud_rate &#x3D; 115200,
+        .data_bits &#x3D; UART_DATA_8_BITS,
+        .parity &#x3D; UART_PARITY_DISABLE,
+        .stop_bits &#x3D; UART_STOP_BITS_1,
+        .flow_ctrl &#x3D; UART_HW_FLOWCTRL_DISABLE,
+        .source_clk &#x3D; UART_SCLK_DEFAULT,
+    &#125;;
+    &#x2F;&#x2F; We won&#39;t use a buffer for sending data.
+    uart_driver_install(UART_NUM_0, RX_BUF_SIZE * 2, 0, 0, NULL, 0);
+    uart_param_config(UART_NUM_0, &amp;uart_config);
+    uart_set_pin(UART_NUM_0, TXD_PIN, RXD_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+&#125;
+
+static void tx_task(void *arg)
+&#123;
+    static const char *TX_TASK_TAG &#x3D; &quot;TX_TASK&quot;;
+    esp_log_level_set(TX_TASK_TAG, ESP_LOG_INFO);
+    while (1)
+    &#123;
+        &#x2F;&#x2F; sendData(TX_TASK_TAG, &quot;Hello world&quot;);
+        &#x2F;&#x2F; Write data to UART.
+        char *test_str &#x3D; &quot;Hello World!\n&quot;;
+        uart_write_bytes(UART_NUM_0, (const char *)test_str, strlen(test_str));
+        vTaskDelay(2000 &#x2F; portTICK_PERIOD_MS);
     &#125;
 &#125;
 
-&#x2F;&#x2F; 2. 初始化WiFi并设置为混杂模式
-void init_wifi_promiscuous(void) &#123;
-    wifi_init_config_t cfg &#x3D; WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_wifi_init(&amp;cfg));
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-    ESP_ERROR_CHECK(esp_wifi_start());
-    
-    &#x2F;&#x2F; 注册回调函数
-    esp_wifi_set_promiscuous_rx_cb(wifi_promiscuous_cb);
-    &#x2F;&#x2F; 启用混杂模式
-    esp_wifi_set_promiscuous(true);
-    &#x2F;&#x2F; 设置信道（可选，也可以进行信道扫描）
-    esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+void app_main(void)
+&#123;
+    uart_init();
+    &#x2F;&#x2F; xTaskCreate(rx_task, &quot;uart_rx_task&quot;, 1024 * 2, NULL, configMAX_PRIORITIES - 1, NULL);
+    xTaskCreate(tx_task, &quot;uart_tx_task&quot;, 1024 * 2, NULL, configMAX_PRIORITIES - 2, NULL);
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-
-
-<h1 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h1><p><a target="_blank" rel="noopener" href="https://www.reddit.com/r/esp32/comments/iqmd7d/wanted_to_figure_out_by_how_much_i_could_extend/">esp32 的传输范围</a></p>
-<p>ESP32 <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html">WIFI库</a></p>
+<h1 id="学习方法"><a href="#学习方法" class="headerlink" title="学习方法"></a>学习方法</h1><p>GPT推荐的，直接看参考手册有点费劲</p>
+<p><strong>1.先看官方示例（examples）再看 API</strong><br> ESP-IDF 的安装目录或 GitHub 上都带有大量示例工程。先运行、调试一个最简单的 UART 收发示例，把流程跑通，再回过头带着“我到底做了什么”去看 API 文档，理解成本会低很多。</p>
+<p><strong>2.阅读英文原版</strong><br> 中文翻译有时不够准确或不够及时，英文原版通常更清晰，也能保证术语一致。地址：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/v5.4.1/esp32s3/api-reference/peripherals/uart.html">https://docs.espressif.com/projects/esp-idf/en/v5.4.1/esp32s3/api-reference/peripherals/uart.html</a></p>
+</blockquote>
+<p><strong>3.利用社区资料和博客</strong><br> 例如在 ESP32 中文社区、掘金、知乎、ESP32 论坛里，很多大佬会写「如何从零撸 UART 驱动」这样带有完整注释的教程，配图讲原理，帮助理解底层细节。</p>
+<p><strong>4.梳理宏和结构体</strong><br> 在本地建个笔记，把常用的 <code>uart_config_t</code>、<code>uart_event_t</code>、<code>uart_isr_handle_t</code> 等结构体和宏（如 <code>UART_NUM_1</code>、<code>UART_TX_FIFO_EMPTY_INT_ENA_M</code>）抄一份表格，画成时序图或流程图，加深印象。</p>
+<p><strong>5.结合芯片 TRM 看硬件原理</strong><br> ESP32-S3 的技术参考手册（TRM）里对 UART 硬件寄存器、FIFO、DMA 通道有更详细的电路和状态机描述，配合 API 调用看，能把软件控制和硬件行为对应起来。</p>
+<p><strong>6.动手实验、加入调试</strong><br> 在代码里加上 <code>ESP_LOGI()</code> 打印，或者接上逻辑分析仪&#x2F;示波器，看寄存器写入、TX&#x2F;RX 信号波形。实操往往比 “纯读文档” 更能帮你串起知识点。</p>
 
       </div>
       
         <div class="prev-or-next">
           <div class="post-foot-next">
             
-              <a href="/2025/05/27/144-gong-mo-dian-lu/" target="_self">
+              <a href="/2025/06/08/157-todolist-wang-zhan-da-jian/" target="_self">
                 <i class="iconfont icon-chevronleft"></i>
                 <span>Prev</span>
               </a>
@@ -323,13 +256,13 @@ void init_wifi_promiscuous(void) &#123;
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-05-28 17:18:48
+              2025-06-09 16:52:19
             </span>
             
           </div>
           <div class="post-foot-prev">
             
-              <a href="/2025/05/28/146-cursor-shi-yong-di-san-fang-api/" target="_self">
+              <a href="/2025/06/09/159-c-yu-yan-hui-lu/" target="_self">
                 <span>Next</span>
                 <i class="iconfont icon-chevronright"></i>
               </a>
@@ -346,7 +279,7 @@ void init_wifi_promiscuous(void) &#123;
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Wi-Fi-%E5%8D%8F%E8%AE%AE%E6%A8%A1%E5%BC%8F"><span class="toc-text">Wi-Fi 协议模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Wi-Fi-Sniffer-%E6%A8%A1%E5%BC%8F"><span class="toc-text">Wi-Fi Sniffer 模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%91"><span class="toc-text">发</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%B6"><span class="toc-text">收</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4"><span class="toc-text">范围</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Function"><span class="toc-text">Function</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Demo"><span class="toc-text">Demo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95"><span class="toc-text">学习方法</span></a></li></ol>
       
     </div>
   </div>
@@ -634,12 +567,12 @@ void init_wifi_promiscuous(void) &#123;
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP32_WIFI_Sniff + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F05%2F28%2F145-esp32-wifi-sniff%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP-IDF%E5%BC%80%E5%8F%91ESP32%20UART + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F06%2F09%2F158-esp-idf-kai-fa-esp32-uart%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
         
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/05/28/145-esp32-wifi-sniff/" target="_blank" title="Facebook">
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/06/09/158-esp-idf-kai-fa-esp32-uart/" target="_blank" title="Facebook">
             <i class="iconfont icon-facebooksquare"></i>
           </a>
         
