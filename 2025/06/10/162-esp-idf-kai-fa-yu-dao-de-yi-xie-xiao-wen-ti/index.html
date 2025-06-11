@@ -157,7 +157,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-06-10 17:28:02
+          2025-06-11 09:40:26
         </span>
         
       </div>
@@ -171,6 +171,51 @@ idf.py build<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
 <p>2.库找不到,但是可以正常烧录</p>
 <img src="/2025/06/10/162-esp-idf-kai-fa-yu-dao-de-yi-xie-xiao-wen-ti/1749547477330.png" class="" width="1749547477330">
 
+<h3 id="1-确认-compile-commands-json-存在"><a href="#1-确认-compile-commands-json-存在" class="headerlink" title="1. 确认 compile_commands.json 存在"></a>1. 确认 <code>compile_commands.json</code> 存在</h3><p>在项目根目录下敲：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dir build\compile_commands.json<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果这个文件真的在，就可以继续；如果不在，就先运行一次</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">idf.py reconfigure<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>或者</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">idf.py build<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>保证它生成了 <code>build/compile_commands.json</code>。</p>
+<hr>
+<h3 id="2-修改或创建-vscode-c-cpp-properties-json"><a href="#2-修改或创建-vscode-c-cpp-properties-json" class="headerlink" title="2. 修改或创建 .vscode/c_cpp_properties.json"></a>2. 修改或创建 <code>.vscode/c_cpp_properties.json</code></h3><p>在你工程根目录下，新建（或修改）<code>.vscode/c_cpp_properties.json</code>，内容改成这样：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">&#123;
+  &quot;version&quot;: 4,
+  &quot;configurations&quot;: [
+    &#123;
+      &quot;name&quot;: &quot;ESP-IDF&quot;,
+      &#x2F;&#x2F; 点这里指给 C&#x2F;C++ 扩展，看它用哪个 compile_commands.json
+      &quot;compileCommands&quot;: &quot;$&#123;workspaceFolder&#125;&#x2F;build&#x2F;compile_commands.json&quot;,
+      &#x2F;&#x2F; 如果也想手动列 include 路径，可加在下面：
+      &quot;includePath&quot;: [
+        &quot;$&#123;workspaceFolder&#125;&#x2F;main&quot;,
+        &quot;$&#123;workspaceFolder&#125;&#x2F;components&#x2F;**&quot;
+      ],
+      &quot;defines&quot;: [],
+      &quot;intelliSenseMode&quot;: &quot;gcc-x64&quot;,
+      &quot;cStandard&quot;: &quot;c11&quot;,
+      &quot;cppStandard&quot;: &quot;c++17&quot;
+    &#125;
+  ]
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p><strong>注意</strong>：</p>
+<ul>
+<li><code>&quot;compileCommands&quot;</code> 一定要指向你工程下的 <code>build/compile_commands.json</code>，这样 IntelliSense 才能自动捞到所有 IDF 组件的 include 路径和编译选项。</li>
+<li><code>includePath</code> 只用来补充你自己组件里的头文件，跟 IDF 自带的组件没关系。</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="3-重载-VS-Code"><a href="#3-重载-VS-Code" class="headerlink" title="3. 重载 VS Code"></a>3. 重载 VS Code</h3><ol>
+<li>保存 <code>c_cpp_properties.json</code></li>
+<li>按 <strong>Ctrl+Shift+P</strong> → 输入 <strong>“Reload Window”</strong> → 回车</li>
+</ol>
+<p>重载完成之后，IntelliSense 就会根据你 <code>compile_commands.json</code> 里的信息，把所有 <code>freertos/task.h</code>、<code>driver/uart.h</code>、<code>esp_event.h</code>……都识别出来，红色波浪线就没了。</p>
 <p>3.如果是直接复制项目进行改动(包括项目名字),容易出现,改动后的固件少录不进去,一直烧录之前的固件</p>
 <h3 id="问题核心：应用程序不匹配，Wi-Fi-代码根本没运行"><a href="#问题核心：应用程序不匹配，Wi-Fi-代码根本没运行" class="headerlink" title="问题核心：应用程序不匹配，Wi-Fi 代码根本没运行"></a>问题核心：应用程序不匹配，Wi-Fi 代码根本没运行</h3><p>您提供的日志中最关键的一条信息是：</p>
 <pre class="line-numbers language-none"><code class="language-none">--- Warning: Checksum mismatch between flashed and built applications. Checksum of built application is e6a935ffbf3d6e1cf8c0abfa80a2d54465a8cf48bdc4a6d8c404aa944e4e5b38<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
@@ -242,7 +287,7 @@ idf.py monitor<span aria-hidden="true" class="line-numbers-rows"><span></span><s
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-06-10 17:28:02
+              2025-06-11 09:40:26
             </span>
             
           </div>
@@ -260,7 +305,7 @@ idf.py monitor<span aria-hidden="true" class="line-numbers-rows"><span></span><s
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#IDF"><span class="toc-text">IDF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%A0%B8%E5%BF%83%EF%BC%9A%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%B8%8D%E5%8C%B9%E9%85%8D%EF%BC%8CWi-Fi-%E4%BB%A3%E7%A0%81%E6%A0%B9%E6%9C%AC%E6%B2%A1%E8%BF%90%E8%A1%8C"><span class="toc-text">问题核心：应用程序不匹配，Wi-Fi 代码根本没运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90"><span class="toc-text">具体原因分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E6%AD%A5%E9%AA%A4"><span class="toc-text">验证步骤</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#IDF"><span class="toc-text">IDF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%A1%AE%E8%AE%A4-compile-commands-json-%E5%AD%98%E5%9C%A8"><span class="toc-text">1. 确认 compile_commands.json 存在</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BF%AE%E6%94%B9%E6%88%96%E5%88%9B%E5%BB%BA-vscode-c-cpp-properties-json"><span class="toc-text">2. 修改或创建 .vscode&#x2F;c_cpp_properties.json</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%87%8D%E8%BD%BD-VS-Code"><span class="toc-text">3. 重载 VS Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%A0%B8%E5%BF%83%EF%BC%9A%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%B8%8D%E5%8C%B9%E9%85%8D%EF%BC%8CWi-Fi-%E4%BB%A3%E7%A0%81%E6%A0%B9%E6%9C%AC%E6%B2%A1%E8%BF%90%E8%A1%8C"><span class="toc-text">问题核心：应用程序不匹配，Wi-Fi 代码根本没运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90"><span class="toc-text">具体原因分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E6%AD%A5%E9%AA%A4"><span class="toc-text">验证步骤</span></a></li></ol></li></ol></li></ol>
       
     </div>
   </div>

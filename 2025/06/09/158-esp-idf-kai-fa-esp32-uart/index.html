@@ -157,7 +157,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-06-09 16:52:19
+          2025-06-11 17:15:47
         </span>
         
       </div>
@@ -206,7 +206,7 @@ void uart_init(void)
     &#x2F;&#x2F; We won&#39;t use a buffer for sending data.
     uart_driver_install(UART_NUM_0, RX_BUF_SIZE * 2, 0, 0, NULL, 0);
     uart_param_config(UART_NUM_0, &amp;uart_config);
-    uart_set_pin(UART_NUM_0, TXD_PIN, RXD_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+    &#x2F;&#x2F;uart_set_pin(UART_NUM_0, TXD_PIN, RXD_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
 &#125;
 
 static void tx_task(void *arg)
@@ -231,6 +231,39 @@ void app_main(void)
 &#125;
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ol>
+<li><p>关于ESP32-S3将USB-OTG与Uart0都引出到Type-c，但是前者却无法通信，ESP32-C3确可以正常</p>
+<p>需要配置</p>
+<blockquote>
+<p>ctrl+shift+p输入 menuconfig 开启usb cdc</p>
+</blockquote>
+<p>开启后会出现无法烧录的问题</p>
+<pre class="line-numbers language-none"><code class="language-none">-- Configuring incomplete, errors occurred!
+HINT: The component &#39;esp_log&#39; could not be found. This could be because: component name was misspelled, the component was not added to the build, the component has been moved to the IDF component manager, the component has been removed and refactored into some other component or the component may not be supported by the selected target.
+Please look out for component in &#39;https:&#x2F;&#x2F;components.espressif.com&#39; and add using &#39;idf.py add-dependency&#39; command.
+Refer to the migration guide for more details about moved components.
+Refer to the build-system guide for more details about how components are found and included in the build.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>暂未解决，且程序也需要改动，不能使用UART来进行通信</p>
+<p><strong>设置的不对，直接在menuconfig中搜索不知道把什么东西设置成cdc模式了</strong></p>
+</li>
+</ol>
+<p>​       应该搜索<code>ESP System Settings</code></p>
+<img src="/2025/06/09/158-esp-idf-kai-fa-esp32-uart/1749631568465.png" class="" width="1749631568465">
+
+<ol start="2">
+<li>又出现</li>
+</ol>
+<p><strong><code>esp32:ninja: build stopped: subcommand failed. ninja failed with exit code 1.</code></strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">REQUIRES esp_tinyusb
+idf.py add-dependency espressif&#x2F;esp_tinyusb
+idf.py fullclean
+idf.py build<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mondraker/article/details/135834794">ESP-IDF:如何在menuconfig中设置</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/stable/esp32s3/api-guides/usb-otg-console.html">USB OTG 控制台 - ESP32-S3 - — ESP-IDF 编程指南 v5.4.1 文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/stable/esp32s3/api-reference/kconfig.html#config-esp-console-uart">项目配置 - ESP32-S3 - — ESP-IDF 编程指南 v5.4.1 文档</a></p>
+<p>并且ESP32-C3在IDF中并不需要配置USB-CDC,可以直接进行烧录</p>
 <h1 id="学习方法"><a href="#学习方法" class="headerlink" title="学习方法"></a>学习方法</h1><p>GPT推荐的，直接看参考手册有点费劲</p>
 <p><strong>1.先看官方示例（examples）再看 API</strong><br> ESP-IDF 的安装目录或 GitHub 上都带有大量示例工程。先运行、调试一个最简单的 UART 收发示例，把流程跑通，再回过头带着“我到底做了什么”去看 API 文档，理解成本会低很多。</p>
 <p><strong>2.阅读英文原版</strong><br> 中文翻译有时不够准确或不够及时，英文原版通常更清晰，也能保证术语一致。地址：</p>
@@ -256,7 +289,7 @@ void app_main(void)
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-06-09 16:52:19
+              2025-06-11 17:15:47
             </span>
             
           </div>
@@ -279,7 +312,7 @@ void app_main(void)
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Function"><span class="toc-text">Function</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Demo"><span class="toc-text">Demo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95"><span class="toc-text">学习方法</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Function"><span class="toc-text">Function</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Demo"><span class="toc-text">Demo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95"><span class="toc-text">学习方法</span></a></li></ol>
       
     </div>
   </div>
