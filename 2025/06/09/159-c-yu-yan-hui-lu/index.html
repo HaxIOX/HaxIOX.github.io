@@ -13,7 +13,7 @@
   
   <title>
     
-      ESP32_WIFI_Sniff 
+      C语言回炉 
       
       
       |
@@ -153,168 +153,99 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">ESP32_WIFI_Sniff</div>
+      <div class="post-title">C语言回炉</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-06-02 11:42:48
+          2025-06-14 18:13:40
         </span>
         
       </div>
       <div class="markdown-body">
-        <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
-<li><p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/network/esp_wifi.html">Wi-Fi 库 - ESP32-S3 - — ESP-IDF 编程指南 v5.4.1 文档</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32/api-guides/wifi.html">Wi-Fi 驱动程序 - ESP32 - — ESP-IDF 编程指南 v5.4.1 文档</a></p>
-</li>
-<li></li>
-</ul>
-<h2 id="Wi-Fi-协议模式"><a href="#Wi-Fi-协议模式" class="headerlink" title="Wi-Fi 协议模式"></a><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32/api-guides/wifi.html#id40">Wi-Fi 协议模式</a></h2><p>目前，IDF 支持以下协议模式：</p>
-<table>
-<thead>
-<tr>
-<th>协议模式</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>802.11b</td>
-<td>调用函数 <code>esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_11B)</code>，将 station&#x2F;AP 设置为仅 802.11b 模式。</td>
-</tr>
-<tr>
-<td>802.11bg</td>
-<td>调用函数 &#96;esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_11B</td>
-</tr>
-<tr>
-<td>802.11g</td>
-<td>调用函数 &#96;esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_11B</td>
-</tr>
-<tr>
-<td>802.11bgn</td>
-<td>调用函数 &#96;esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_11B</td>
-</tr>
-<tr>
-<td>802.11gn</td>
-<td>调用函数 &#96;esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_11B</td>
-</tr>
-<tr>
-<td>802.11 BGNLR</td>
-<td>调用函数 &#96;esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_11B</td>
-</tr>
-<tr>
-<td>802.11 LR</td>
-<td>调用函数 <code>esp_wifi_set_protocol(ifx, WIFI_PROTOCOL_LR)</code>，将 station&#x2F;AP 设置为 LR 模式。<strong>此模式是乐鑫的专利模式，可以达到 1 公里视线范围。请确保 station 和 AP 同时连接至 ESP 设备。</strong></td>
-</tr>
-</tbody></table>
-<h2 id="Wi-Fi-Sniffer-模式"><a href="#Wi-Fi-Sniffer-模式" class="headerlink" title="Wi-Fi Sniffer 模式"></a><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32/api-guides/wifi.html#wi-fi-sniffer">Wi-Fi Sniffer 模式</a></h2><p>Wi-Fi Sniffer 模式可以通过 <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32/api-reference/network/esp_wifi.html#_CPPv424esp_wifi_set_promiscuousb"><code>esp_wifi_set_promiscuous()</code></a> 使能。如果使能 Sniffer 模式， <strong>可以</strong> 向应用程序转储以下数据包。</p>
+        <h1 id="库"><a href="#库" class="headerlink" title="库"></a>库</h1><pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &lt;stdio.h&gt;      &#x2F;&#x2F; 标准输入输出库: 提供了像 snprintf 这样的函数，用于格式化字符串。
+#include &lt;string.h&gt;     &#x2F;&#x2F; 字符串处理库: 提供了像 strlen, strncpy, strcmp 这样的函数，用于操作C风格字符串。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h1 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h1><h2 id="snprintf"><a href="#snprintf" class="headerlink" title="snprintf"></a>snprintf</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; snprintf(char *str, size_t size, const char *format, ...);
+    &#x2F;&#x2F; 安全的格式化输出函数，它会将格式化的结果写入 str，最多写入 size-1 个字符，并自动添加 &#39;\0&#39;。
+    &#x2F;&#x2F; %d: 整数, %02X: 两位大写十六进制数 (不足两位前面补0), %s: 字符串。
+    &#x2F;&#x2F; \&quot; 转义双引号，使其作为普通字符出现在输出字符串中。
+    &#x2F;&#x2F; \r\n: 回车换行符。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <blockquote>
+<p><code>TYPE_HEX=0x%02X</code>：固定文本，<code>%02X</code> 会被第三个变量 <code>type_code</code> 的值替换。</p>
 <ul>
-<li>802.11 管理帧</li>
-<li>802.11 数据帧，包括 MPDU、AMPDU、AMSDU 等</li>
-<li>802.11 MIMO 帧，Sniffer 模式仅转储 MIMO 帧的长度。</li>
-<li>802.11 控制帧</li>
-<li>802.11 CRC 错误帧</li>
+<li><code>X</code>：表示以大写字母输出十六进制数。</li>
+<li><code>02</code>：表示最少输出两位，如果不足两位，前面用 <code>0</code> 填充。例如，如果 <code>type_code</code> 是10（十六进制是A），会输出 <code>0A</code>；如果是255（十六进制是FF），会输出 <code>FF</code>。</li>
 </ul>
 </blockquote>
-<p><strong>不可以</strong> 向应用程序转储以下数据包。</p>
+<h2 id="strlen"><a href="#strlen" class="headerlink" title="strlen"></a>strlen</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">strlen(data_line) 获取 data_line 字符串的长度 (不包括末尾的空字符 &#39;\0&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="strncpy"><a href="#strncpy" class="headerlink" title="strncpy"></a>strncpy</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; strncpy(destination, source, num);
+&#x2F;&#x2F; 从源字符串 source 复制最多 num 个字符到目标字符串 destination。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="atoi"><a href="#atoi" class="headerlink" title="atoi"></a>atoi</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">atoi(const char *str); 将数字字符串转换为整数 (int)。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="strtol"><a href="#strtol" class="headerlink" title="strtol"></a>strtol</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; strtol(const char *nptr, char **endptr, int base);
+    &#x2F;&#x2F; 将字符串 nptr 按照 base 指定的进制转换为长整数 (long int)。
+    &#x2F;&#x2F; NULL 作为第二个参数表示不关心转换结束的位置。
+    &#x2F;&#x2F; 16 表示按十六进制转换。
+    &#x2F;&#x2F; (uint8_t) 是类型转换，将结果转换为8位无符号整数。
+    uint8_t type_code &#x3D; (uint8_t)strtol(type_str, NULL, 16);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="malloc"><a href="#malloc" class="headerlink" title="malloc"></a>malloc</h1><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; 在任务函数内部定义
+uint8_t *data_tmp &#x3D; (uint8_t *)malloc(UART_BUF_SIZE);
+uint8_t *data_tmp: 定义一个指向 uint8_t（无符号8位整数，即字节）类型的指针 data_tmp。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>malloc(UART_BUF_SIZE): 从<code>堆内存中动态分配一块内存</code>。UART_BUF_SIZE 是一个预定义的宏，指定了分配内存的大小（例如 1024 字节）。</p>
+<p>(uint8_t <em>): 强制类型转换，因为 malloc 函数返回的是一个通用的 void</em> 指针。</p>
 <blockquote>
-<ul>
-<li>802.11 其它错误帧</li>
-</ul>
+<p>作用: 这个 data_tmp 缓冲区用来临时存放从 UART 驱动的内部环形缓冲区（Ring Buffer）中读取出来的原始字节数据。我们一次性从驱动读取一批数据到这里，然后再逐字节地进行分析和处理，这样比一个字节一个字节地调用 uart_read_bytes 效率更高。</p>
 </blockquote>
-<table>
-<thead>
-<tr>
-<th>函数</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/esp_err.html#_CPPv49esp_err_t">esp_err_t</a> <strong>esp_wifi_set_promiscuous_rx_cb</strong><strong>(</strong><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv421wifi_promiscuous_cb_t">wifi_promiscuous_cb_t</a> <strong>cb</strong><strong>)</strong><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv430esp_wifi_set_promiscuous_rx_cb21wifi_promiscuous_cb_t"></a></td>
-<td>混杂模式下注册回调</td>
-</tr>
-<tr>
-<td><em><strong>typedef</strong></em> <strong>void</strong> **(<strong><em><strong><strong><strong>wifi_promiscuous_cb_t</strong></strong>)</strong></em>*(*<em><strong>void</strong> <em><strong><strong><strong>buf</strong></strong>,</strong> <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/network/esp_wifi.html#_CPPv427wifi_promiscuous_pkt_type_t">wifi_promiscuous_pkt_type_t</a> <strong>type</strong></em></em>)</strong></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>esp_wifi_set_promiscuous_rx_cb</strong><strong>(</strong><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv421wifi_promiscuous_cb_t">wifi_promiscuous_cb_t</a> <strong>cb</strong><strong>)</strong></td>
-<td>设置混杂模式</td>
-</tr>
-<tr>
-<td><strong>esp_wifi_get_promiscuous</strong>**(**<strong>bool</strong> *<strong><strong><strong>en</strong></strong>)</strong></td>
-<td>获取混杂模式状态</td>
-</tr>
-<tr>
-<td><strong>esp_wifi_set_config</strong><strong>(</strong><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv416wifi_interface_t">wifi_interface_t</a> <strong>interface</strong><strong>,</strong> <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv413wifi_config_t">wifi_config_t</a> *<strong><strong><strong>conf</strong></strong>)</strong></td>
-<td>设置STA&#x2F;AT模式</td>
-</tr>
-<tr>
-<td><strong>esp_wifi_set_vendor_ie</strong><strong>(<strong><strong>bool</strong> <strong>enable</strong></strong>,</strong> <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv421wifi_vendor_ie_type_t">wifi_vendor_ie_type_t</a> <strong>type</strong><strong>,</strong> <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv419wifi_vendor_ie_id_t">wifi_vendor_ie_id_t</a> <strong>idx</strong><strong>,</strong> <em><strong>const</strong></em> <strong>void</strong> *<strong><strong><strong>vnd_ie</strong></strong>)</strong></td>
-<td>Set 802.11 Vendor-Specific Information Element.</td>
-</tr>
-<tr>
-<td><strong>esp_wifi_set_vendor_ie_cb</strong><strong>(</strong><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv418esp_vendor_ie_cb_t">esp_vendor_ie_cb_t</a> <strong>cb</strong><strong>,</strong> <strong>void</strong> *<strong><strong><strong>ctx</strong></strong>)</strong></td>
-<td>Register Vendor-Specific Information Element monitoring callback.</td>
-</tr>
-<tr>
-<td>esp_wifi_80211_tx(<a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv416wifi_interface_t">wifi_interface_t</a> ifx, <em>const</em> void *buffer, int len, bool en_sys_seq)</td>
-<td>Send raw ieee80211 data.</td>
-</tr>
-<tr>
-<td><strong>esp_wifi_config_80211_tx_rate</strong><strong>(</strong><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv416wifi_interface_t">wifi_interface_t</a> <strong>ifx</strong><strong>,</strong> <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html#_CPPv415wifi_phy_rate_t">wifi_phy_rate_t</a> <strong>rate</strong><strong>)</strong></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h1 id="发"><a href="#发" class="headerlink" title="发"></a>发</h1><h1 id="收"><a href="#收" class="headerlink" title="收"></a>收</h1><p>1.使用ESP32混杂模式（Promiscuous）接收Beacon帧</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; 1. 定义回调函数处理接收到的数据
-void wifi_promiscuous_cb(void *buf, wifi_promiscuous_pkt_type_t type) &#123;
-    if (type !&#x3D; WIFI_PKT_MGMT) return; &#x2F;&#x2F; 只处理管理帧
-    
-    const wifi_promiscuous_pkt_t *promiscuous_pkt &#x3D; (wifi_promiscuous_pkt_t *)buf;
-    const wifi_ieee80211_packet_t *ipkt &#x3D; (wifi_ieee80211_packet_t *)promiscuous_pkt-&gt;payload;
-    const wifi_ieee80211_mac_hdr_t *hdr &#x3D; &amp;ipkt-&gt;hdr;
-    
-    &#x2F;&#x2F; Beacon帧类型为0x80
-    if (hdr-&gt;frame_ctrl[0] &#x3D;&#x3D; 0x80) &#123;
-        &#x2F;&#x2F; 这里处理Beacon数据
-        &#x2F;&#x2F; - SSID
-        &#x2F;&#x2F; - 信号强度（RSSI）
-        &#x2F;&#x2F; - 信道信息
-        &#x2F;&#x2F; - 其他IE（Information Elements）
-    &#125;
-&#125;
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; static const char *TAG &#x3D; &quot;UART_FILTER_FORWARD&quot;;
+&#x2F;&#x2F; 定义一个静态常量字符指针 TAG。
+&#x2F;&#x2F; &#39;static&#39; 意味着这个变量只在当前文件 (main.c) 中可见。
+&#x2F;&#x2F; &#39;const char *&#39; 表示它是一个指向常量字符（字符串字面量）的指针。
+&#x2F;&#x2F; ESP_LOGx 系列宏使用这个 TAG 来标识日志信息的来源模块，方便调试。
+static const char *TAG &#x3D; &quot;UART_FILTER_FORWARD&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-&#x2F;&#x2F; 2. 初始化WiFi并设置为混杂模式
-void init_wifi_promiscuous(void) &#123;
-    wifi_init_config_t cfg &#x3D; WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_wifi_init(&amp;cfg));
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-    ESP_ERROR_CHECK(esp_wifi_start());
-    
-    &#x2F;&#x2F; 注册回调函数
-    esp_wifi_set_promiscuous_rx_cb(wifi_promiscuous_cb);
-    &#x2F;&#x2F; 启用混杂模式
-    esp_wifi_set_promiscuous(true);
-    &#x2F;&#x2F; 设置信道（可选，也可以进行信道扫描）
-    esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="指针类型转换和结构体成员访问"><a href="#指针类型转换和结构体成员访问" class="headerlink" title="指针类型转换和结构体成员访问"></a>指针类型转换和结构体成员访问</h1><pre class="line-numbers language-c" data-language="c"><code class="language-c">const wifi_promiscuous_pkt_t *pkt &#x3D; (wifi_promiscuous_pkt_t *)buf;
+const uint8_t *payload &#x3D; pkt-&gt;payload; &#x2F;&#x2F; payload是数据包的实际内容
+const int len &#x3D; pkt-&gt;rx_ctrl.sig_len;  &#x2F;&#x2F; len是数据包的长度<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-
-
-<h1 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h1><p><a target="_blank" rel="noopener" href="https://www.reddit.com/r/esp32/comments/iqmd7d/wanted_to_figure_out_by_how_much_i_could_extend/">esp32 的传输范围</a></p>
-<p>ESP32 <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_wifi.html">WIFI库</a></p>
+<ul>
+<li><strong>const wifi_promiscuous_pkt_t *pkt &#x3D; (wifi_promiscuous_pkt_t *)buf;</strong><ul>
+<li><code>buf</code>: 通常，<code>buf</code> 是一个 <code>void *</code> 类型的指针，它指向从网卡混杂模式（promiscuous mode）捕获到的原始数据包的起始地址。混杂模式允许网卡接收所有流经它的数据包，而不仅仅是发给它自己的数据包。</li>
+<li><code>(wifi_promiscuous_pkt_t *)buf</code>: 这是一个<strong>强制类型转换 (type casting)</strong>。它告诉编译器，将 <code>buf</code> 这个 <code>void *</code> 指针所指向的内存区域，按照 <code>wifi_promiscuous_pkt_t</code> 结构体的定义来解释。</li>
+<li><code>const wifi_promiscuous_pkt_t *pkt</code>: 定义了一个名为 <code>pkt</code> 的<strong>常量指针</strong>，它指向一个 <code>wifi_promiscuous_pkt_t</code> 类型的结构体。<code>const</code> 关键字表示通过 <code>pkt</code> 指针不能修改它所指向的数据。</li>
+<li><strong>作用：</strong> 这行代码的目的是将捕获到的原始数据 <code>buf</code> 解释为一个预定义的 <code>wifi_promiscuous_pkt_t</code> 结构体。这个结构体通常定义了 Wi-Fi 捕获数据包的通用格式，包括一些控制信息和实际的载荷数据。</li>
+</ul>
+</li>
+<li><strong>const uint8_t *payload &#x3D; pkt-&gt;payload;</strong><ul>
+<li><code>pkt-&gt;payload</code>: 这里使用了<strong>箭头操作符 -&gt;</strong>。当 <code>pkt</code> 是一个指向结构体的指针时，<code>pkt-&gt;payload</code> 用于访问 <code>pkt</code> 所指向的 <code>wifi_promiscuous_pkt_t</code> 结构体内部的 <code>payload</code> 成员。</li>
+<li><code>payload</code> 成员通常是一个 <code>uint8_t *</code> 类型的指针，它指向数据包的<strong>实际内容</strong>，也就是 MAC 帧的头部和载荷部分。</li>
+<li><strong>作用：</strong> 这一步从解析后的数据包结构体中提取出我们最关心的部分——数据包的实际有效载荷，并将其存储在一个 <code>const uint8_t *</code> 类型的指针 <code>payload</code> 中，方便后续处理。</li>
+</ul>
+</li>
+<li>**const int len &#x3D; pkt-&gt;rx_ctrl.sig_len; **<ul>
+<li><code>pkt-&gt;rx_ctrl</code>: 同样使用箭头操作符访问 <code>pkt</code> 指向的结构体中的 <code>rx_ctrl</code> 成员。<code>rx_ctrl</code> 通常是一个嵌套的结构体，包含接收到的数据包的各种控制信息，比如信号强度、数据包长度等。</li>
+<li><code>rx_ctrl.sig_len</code>: 访问 <code>rx_ctrl</code> 结构体中的 <code>sig_len</code> 成员。<code>sig_len</code> 通常代表了<strong>实际接收到的数据包的有效长度</strong>（信号长度）。</li>
+<li><strong>作用：</strong> 获取数据包的长度，这在后续遍历 <code>payload</code> 时非常重要，可以避免越界访问。</li>
+</ul>
+</li>
+</ul>
+<h1 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h1><ul>
+<li><p>const: 数据是只读的</p>
+</li>
+<li><p>static: 作用域限制在当前文件</p>
+</li>
+</ul>
 
       </div>
       
         <div class="prev-or-next">
           <div class="post-foot-next">
             
-              <a href="/2025/05/27/144-gong-mo-dian-lu/" target="_self">
+              <a href="/2025/06/09/158-esp-idf-kai-fa-esp32-uart/" target="_self">
                 <i class="iconfont icon-chevronleft"></i>
                 <span>Prev</span>
               </a>
@@ -323,13 +254,13 @@ void init_wifi_promiscuous(void) &#123;
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-06-02 11:42:48
+              2025-06-14 18:13:40
             </span>
             
           </div>
           <div class="post-foot-prev">
             
-              <a href="/2025/05/28/146-cursor-shi-yong-di-san-fang-api/" target="_self">
+              <a href="/2025/06/10/160-ieee802-11-xie-yi/" target="_self">
                 <span>Next</span>
                 <i class="iconfont icon-chevronright"></i>
               </a>
@@ -346,7 +277,7 @@ void init_wifi_promiscuous(void) &#123;
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Wi-Fi-%E5%8D%8F%E8%AE%AE%E6%A8%A1%E5%BC%8F"><span class="toc-text">Wi-Fi 协议模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Wi-Fi-Sniffer-%E6%A8%A1%E5%BC%8F"><span class="toc-text">Wi-Fi Sniffer 模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%91"><span class="toc-text">发</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%B6"><span class="toc-text">收</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4"><span class="toc-text">范围</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%93"><span class="toc-text">库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#snprintf"><span class="toc-text">snprintf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strlen"><span class="toc-text">strlen</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strncpy"><span class="toc-text">strncpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#atoi"><span class="toc-text">atoi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strtol"><span class="toc-text">strtol</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#malloc"><span class="toc-text">malloc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E6%88%90%E5%91%98%E8%AE%BF%E9%97%AE"><span class="toc-text">指针类型转换和结构体成员访问</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">关键字</span></a></li></ol>
       
     </div>
   </div>
@@ -634,12 +565,12 @@ void init_wifi_promiscuous(void) &#123;
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP32_WIFI_Sniff + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F05%2F28%2F145-esp32-wifi-sniff%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + C%E8%AF%AD%E8%A8%80%E5%9B%9E%E7%82%89 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F06%2F09%2F159-c-yu-yan-hui-lu%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
         
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/05/28/145-esp32-wifi-sniff/" target="_blank" title="Facebook">
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/06/09/159-c-yu-yan-hui-lu/" target="_blank" title="Facebook">
             <i class="iconfont icon-facebooksquare"></i>
           </a>
         
