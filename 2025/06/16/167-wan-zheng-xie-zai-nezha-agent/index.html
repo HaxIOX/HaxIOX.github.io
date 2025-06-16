@@ -13,7 +13,7 @@
   
   <title>
     
-      LoRa 
+      完整卸载nezha-agent 
       
       
       |
@@ -153,65 +153,85 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">LoRa</div>
+      <div class="post-title">完整卸载nezha-agent</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-05-14 15:29:53
+          2025-06-16 13:54:55
         </span>
         
       </div>
       <div class="markdown-body">
-        <h2 id="LoRa"><a href="#LoRa" class="headerlink" title="LoRa"></a>LoRa</h2><p>什么是LoRa？</p>
-<p>LoRa是创建<strong>长距离通信连接的物理层无线调制技术</strong>，属于<strong>线性调制扩频技术</strong>(Chirp Spread Spectrum，CSS)的一种，也叫<strong>宽带线性调频技术</strong>(Chirp Modulation)。这种调制技术可以实现在不同频率上发送<strong>长距离和低功耗</strong>的信号。通过调整发送功率和传输速率，使LoRa设备可以适应不同的应用场景和需求。</p>
-<p>LoRa属于低功耗广域物联网LPWAN，LPWAN是英文Low Power Wide Area Network 的缩写，即低功耗广域物联网的意思。<strong>专为远距离、超带宽、低功耗、大量连接、组网灵活</strong>的物联网应用而设计，因此被广泛部署在智慧安防、智能家居和楼宇、智能抄表、智慧农业、工业控制、新能源等多个垂直行业。</p>
-<p>常见的LoRa应用中使用的网络架构包括 <strong>私有协议网络</strong> 和 <strong>LoRaWAN网络</strong>。</p>
-<h3 id="Lora配置"><a href="#Lora配置" class="headerlink" title="Lora配置"></a>Lora配置</h3><p>类似于串口配置</p>
-<p>AT指令配置，指令结尾要加\r\n</p>
-<h3 id="Lora网关配置"><a href="#Lora网关配置" class="headerlink" title="Lora网关配置"></a>Lora网关配置</h3><ol>
-<li>AP配置&#x2F;串口配置&#x2F;ssh配置</li>
-<li>配置mqtt服务器的IP、端口、用户名、密码、主体qos</li>
-<li>配置lora设备数据上报周期</li>
-<li>网关的频率、信道与 LoRa 模块一致。</li>
-</ol>
-<h3 id="SN"><a href="#SN" class="headerlink" title="SN"></a>SN</h3><p>1.网关后台查看</p>
-<p>2.设备白名单，手动添加</p>
-<p>3.通过mqtt订阅查看</p>
-<p>4.将采集到的 传感器数据和 SN 一并打包，通过 LoRa 发送</p>
-<h2 id="🏷️-2-SN-归属谁？"><a href="#🏷️-2-SN-归属谁？" class="headerlink" title="🏷️ 2. SN 归属谁？"></a>🏷️ <strong>2. SN 归属谁？</strong></h2><ul>
-<li><strong>SN 是 LoRa 终端设备的标识</strong>，而不是传感器的 SN。</li>
-<li>终端设备 &#x3D; <strong>MCU + LoRa 模块 + 传感器</strong></li>
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>由于nezha面板的服务器后套删除后，一段时间内还会生成新的，甚至是出现两条。初步怀疑是因为同时安装多个面板造成的，比如当这一条数据还没有出现在面板上的时候，复制的安装命令可能还是同一个。</p>
+<h1 id="杀进程卸载agent"><a href="#杀进程卸载agent" class="headerlink" title="杀进程卸载agent"></a>杀进程卸载agent</h1><h2 id="第一步：停止正在运行的-Agent-进程"><a href="#第一步：停止正在运行的-Agent-进程" class="headerlink" title="第一步：停止正在运行的 Agent 进程"></a><strong>第一步：停止正在运行的 Agent 进程</strong></h2><p>这是最关键的一步。Agent 可能以多种方式在后台运行，你需要根据当初的安装方式找到并停止它。请登录到<strong>正确的服务器</strong>（用面板上显示的IP地址登录），然后依次尝试以下方法：</p>
+<p><strong>方法一：检查直接运行的进程 (最通用)</strong></p>
+<p>这是查找任何残留进程的最终方法。</p>
+<ol>
+<li><p><strong>查找进程ID (PID):</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">ps aux | grep nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><strong>分析结果：</strong></p>
+<ul>
+<li><p>如果你看到<strong>两行</strong>结果，其中一行<strong>不包含 grep</strong>，那么你就找到了真正的 Agent 进程。记下它的 PID（通常是第二列的数字）。</p>
+<pre class="line-numbers language-none"><code class="language-none"># 示例输出 (找到了!)
+root      1234  0.1  0.5 ... &#x2F;opt&#x2F;nezha&#x2F;agent&#x2F;nezha-agent -s ...
+root      5678  0.0  0.1 ... grep nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>如果你只看到<strong>一行</strong>，且该行包含 <code>grep nezha-agent</code>，那么说明<strong>没有 Agent 进程在运行</strong>，你可以直接跳到第二步。</p>
+</li>
 </ul>
-<h3 id="✅-数据发送流程"><a href="#✅-数据发送流程" class="headerlink" title="✅ 数据发送流程"></a>✅ <strong>数据发送流程</strong></h3><ol>
-<li><p><strong>毫米波雷达</strong> 采集到人体感应、距离、速度等数据。</p>
 </li>
-<li><p><strong>MCU</strong> 读取雷达数据，并读取 <strong>LoRa 设备的 SN</strong>。</p>
-</li>
-<li><p>MCU 将数据和 SN 一起打包，构造成 JSON 格式。</p>
-</li>
-<li><p>通过 <strong>LoRa 模块</strong>发送数据到网关。</p>
-</li>
-<li><p><strong>网关</strong> 将数据透传到 MQTT 服务器或云平台。</p>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;
-  &quot;sn&quot;: &quot;SN1234567890&quot;,        &#x2F;&#x2F; LoRa 设备的唯一标识
-  &quot;sensor&quot;: &quot;mmWave&quot;,
-  &quot;distance&quot;: 1.5,             &#x2F;&#x2F; 测量到的距离（单位：米）
-  &quot;speed&quot;: 0.3,                &#x2F;&#x2F; 速度（单位：m&#x2F;s）
-  &quot;timestamp&quot;: &quot;2025-03-17T12:00:00Z&quot;
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p><strong>杀死进程 (如果找到了):</strong></p>
+<pre class="line-numbers language-none"><code class="language-none"># 将 1234 替换为你找到的真实 PID
+kill -9 1234<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
 </ol>
-<p><strong>SN（序列号）是由</strong> <strong>ESP32</strong> <strong>或终端设备（lora）主动发送的</strong>，而不是 LoRa 网关自动识别的。</p>
-<p>1.网关不对数据进行处理，识别和处理服务器干，存储到数据库</p>
-<p>2.网关白名单配置，可添加设备的sn（不是所有的网关都支持这个功能）</p>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Un5qMhjMacTH78gWEX3G7Q">https://mp.weixin.qq.com/s/Un5qMhjMacTH78gWEX3G7Q</a></p>
+<p><strong>方法二：检查 systemd 服务 (如果用 systemctl 安装)</strong></p>
+<p>这是在现代 Linux 系统上最标准的管理方式。</p>
+<ol>
+<li><p><strong>检查服务状态：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">systemctl status nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果显示 <code>active (running)</code>，说明服务正在运行。</p>
+</li>
+<li><p><strong>停止并禁用服务：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl stop nezha-agent      # 停止当前运行的服务
+sudo systemctl disable nezha-agent   # 禁用服务，防止服务器重启后自动运行<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ol>
+<p><strong>方法三：检查 Docker 容器 (如果用 Docker 安装)</strong></p>
+<ol>
+<li><p><strong>查找 Agent 容器：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">docker ps -a | grep nezha<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><strong>停止并删除容器：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none"># 将 nezha-agent 替换为你找到的真实容器名或ID
+docker stop nezha-agent
+docker rm nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>如果你是用 <code>docker-compose</code>，请到 <code>docker-compose.yml</code> 文件所在目录执行 <code>docker-compose down</code>。</p>
+</li>
+</ol>
+<hr>
+<h2 id="第二步：删除-Agent-的相关文件"><a href="#第二步：删除-Agent-的相关文件" class="headerlink" title="第二步：删除 Agent 的相关文件"></a><strong>第二步：删除 Agent 的相关文件</strong></h2><p>卸载 Agent 包括停止服务、卸载服务，以及删除相关文件。以下是 Ubuntu 系统的卸载步骤：</p>
+<ol>
+<li><p>停止并卸载服务：</p>
+<pre class="line-numbers language-none"><code class="language-none">cd &#x2F;opt&#x2F;nezha&#x2F;agent&#x2F;
+.&#x2F;nezha-agent service uninstall<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>删除 Agent 文件夹：</p>
+<pre class="line-numbers language-none"><code class="language-none">rm -rf &#x2F;opt&#x2F;nezha&#x2F;agent&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ol>
+<p>如果安装了多个服务并想要全部卸载，可以使用 Agent 安装脚本的卸载功能：</p>
+<p>bash</p>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;agent.sh uninstall<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://nezha.wiki/guide/agent.html">安装 Agent | 哪吒服务器监控</a></p>
 
       </div>
       
         <div class="prev-or-next">
           <div class="post-foot-next">
             
-              <a href="/2025/03/01/118-esp32-ap-mo-shi/" target="_self">
+              <a href="/2025/06/14/166-da-jian-du-jiao-shu-qia/" target="_self">
                 <i class="iconfont icon-chevronleft"></i>
                 <span>Prev</span>
               </a>
@@ -220,13 +240,13 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-05-14 15:29:53
+              2025-06-16 13:54:55
             </span>
             
           </div>
           <div class="post-foot-prev">
             
-              <a href="/2025/03/10/120-esp32-iic/" target="_self">
+              <a href="/2025/06/16/168-linux-huan-jing-xia-bian-yi/" target="_self">
                 <span>Next</span>
                 <i class="iconfont icon-chevronright"></i>
               </a>
@@ -243,7 +263,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LoRa"><span class="toc-text">LoRa</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Lora%E9%85%8D%E7%BD%AE"><span class="toc-text">Lora配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lora%E7%BD%91%E5%85%B3%E9%85%8D%E7%BD%AE"><span class="toc-text">Lora网关配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SN"><span class="toc-text">SN</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8F%B7%EF%B8%8F-2-SN-%E5%BD%92%E5%B1%9E%E8%B0%81%EF%BC%9F"><span class="toc-text">🏷️ 2. SN 归属谁？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E6%95%B0%E6%8D%AE%E5%8F%91%E9%80%81%E6%B5%81%E7%A8%8B"><span class="toc-text">✅ 数据发送流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9D%80%E8%BF%9B%E7%A8%8B%E5%8D%B8%E8%BD%BDagent"><span class="toc-text">杀进程卸载agent</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E5%81%9C%E6%AD%A2%E6%AD%A3%E5%9C%A8%E8%BF%90%E8%A1%8C%E7%9A%84-Agent-%E8%BF%9B%E7%A8%8B"><span class="toc-text">第一步：停止正在运行的 Agent 进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%88%A0%E9%99%A4-Agent-%E7%9A%84%E7%9B%B8%E5%85%B3%E6%96%87%E4%BB%B6"><span class="toc-text">第二步：删除 Agent 的相关文件</span></a></li></ol></li></ol>
       
     </div>
   </div>
@@ -531,12 +551,12 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + LoRa + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F03%2F10%2F131-lora%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%AE%8C%E6%95%B4%E5%8D%B8%E8%BD%BDnezha-agent + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F06%2F16%2F167-wan-zheng-xie-zai-nezha-agent%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
         
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/03/10/131-lora/" target="_blank" title="Facebook">
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/06/16/167-wan-zheng-xie-zai-nezha-agent/" target="_blank" title="Facebook">
             <i class="iconfont icon-facebooksquare"></i>
           </a>
         

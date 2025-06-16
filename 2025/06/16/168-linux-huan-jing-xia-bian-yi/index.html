@@ -13,7 +13,7 @@
   
   <title>
     
-      LoRa 
+      linux环境下编译 
       
       
       |
@@ -153,65 +153,27 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">LoRa</div>
+      <div class="post-title">linux环境下编译</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-05-14 15:29:53
+          2025-06-16 17:41:58
         </span>
         
       </div>
       <div class="markdown-body">
-        <h2 id="LoRa"><a href="#LoRa" class="headerlink" title="LoRa"></a>LoRa</h2><p>什么是LoRa？</p>
-<p>LoRa是创建<strong>长距离通信连接的物理层无线调制技术</strong>，属于<strong>线性调制扩频技术</strong>(Chirp Spread Spectrum，CSS)的一种，也叫<strong>宽带线性调频技术</strong>(Chirp Modulation)。这种调制技术可以实现在不同频率上发送<strong>长距离和低功耗</strong>的信号。通过调整发送功率和传输速率，使LoRa设备可以适应不同的应用场景和需求。</p>
-<p>LoRa属于低功耗广域物联网LPWAN，LPWAN是英文Low Power Wide Area Network 的缩写，即低功耗广域物联网的意思。<strong>专为远距离、超带宽、低功耗、大量连接、组网灵活</strong>的物联网应用而设计，因此被广泛部署在智慧安防、智能家居和楼宇、智能抄表、智慧农业、工业控制、新能源等多个垂直行业。</p>
-<p>常见的LoRa应用中使用的网络架构包括 <strong>私有协议网络</strong> 和 <strong>LoRaWAN网络</strong>。</p>
-<h3 id="Lora配置"><a href="#Lora配置" class="headerlink" title="Lora配置"></a>Lora配置</h3><p>类似于串口配置</p>
-<p>AT指令配置，指令结尾要加\r\n</p>
-<h3 id="Lora网关配置"><a href="#Lora网关配置" class="headerlink" title="Lora网关配置"></a>Lora网关配置</h3><ol>
-<li>AP配置&#x2F;串口配置&#x2F;ssh配置</li>
-<li>配置mqtt服务器的IP、端口、用户名、密码、主体qos</li>
-<li>配置lora设备数据上报周期</li>
-<li>网关的频率、信道与 LoRa 模块一致。</li>
-</ol>
-<h3 id="SN"><a href="#SN" class="headerlink" title="SN"></a>SN</h3><p>1.网关后台查看</p>
-<p>2.设备白名单，手动添加</p>
-<p>3.通过mqtt订阅查看</p>
-<p>4.将采集到的 传感器数据和 SN 一并打包，通过 LoRa 发送</p>
-<h2 id="🏷️-2-SN-归属谁？"><a href="#🏷️-2-SN-归属谁？" class="headerlink" title="🏷️ 2. SN 归属谁？"></a>🏷️ <strong>2. SN 归属谁？</strong></h2><ul>
-<li><strong>SN 是 LoRa 终端设备的标识</strong>，而不是传感器的 SN。</li>
-<li>终端设备 &#x3D; <strong>MCU + LoRa 模块 + 传感器</strong></li>
+        <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
+<li>unbuntu 22.04</li>
+<li>gcc</li>
+<li>make</li>
 </ul>
-<h3 id="✅-数据发送流程"><a href="#✅-数据发送流程" class="headerlink" title="✅ 数据发送流程"></a>✅ <strong>数据发送流程</strong></h3><ol>
-<li><p><strong>毫米波雷达</strong> 采集到人体感应、距离、速度等数据。</p>
-</li>
-<li><p><strong>MCU</strong> 读取雷达数据，并读取 <strong>LoRa 设备的 SN</strong>。</p>
-</li>
-<li><p>MCU 将数据和 SN 一起打包，构造成 JSON 格式。</p>
-</li>
-<li><p>通过 <strong>LoRa 模块</strong>发送数据到网关。</p>
-</li>
-<li><p><strong>网关</strong> 将数据透传到 MQTT 服务器或云平台。</p>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;
-  &quot;sn&quot;: &quot;SN1234567890&quot;,        &#x2F;&#x2F; LoRa 设备的唯一标识
-  &quot;sensor&quot;: &quot;mmWave&quot;,
-  &quot;distance&quot;: 1.5,             &#x2F;&#x2F; 测量到的距离（单位：米）
-  &quot;speed&quot;: 0.3,                &#x2F;&#x2F; 速度（单位：m&#x2F;s）
-  &quot;timestamp&quot;: &quot;2025-03-17T12:00:00Z&quot;
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ol>
-<p><strong>SN（序列号）是由</strong> <strong>ESP32</strong> <strong>或终端设备（lora）主动发送的</strong>，而不是 LoRa 网关自动识别的。</p>
-<p>1.网关不对数据进行处理，识别和处理服务器干，存储到数据库</p>
-<p>2.网关白名单配置，可添加设备的sn（不是所有的网关都支持这个功能）</p>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Un5qMhjMacTH78gWEX3G7Q">https://mp.weixin.qq.com/s/Un5qMhjMacTH78gWEX3G7Q</a></p>
-
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="无法上网"><a href="#无法上网" class="headerlink" title="无法上网"></a>无法上网</h2><h2 id="无法使用主机代理"><a href="#无法使用主机代理" class="headerlink" title="无法使用主机代理"></a>无法使用主机代理</h2>
       </div>
       
         <div class="prev-or-next">
           <div class="post-foot-next">
             
-              <a href="/2025/03/01/118-esp32-ap-mo-shi/" target="_self">
+              <a href="/2025/06/16/167-wan-zheng-xie-zai-nezha-agent/" target="_self">
                 <i class="iconfont icon-chevronleft"></i>
                 <span>Prev</span>
               </a>
@@ -220,16 +182,11 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-05-14 15:29:53
+              2025-06-16 17:41:58
             </span>
             
           </div>
           <div class="post-foot-prev">
-            
-              <a href="/2025/03/10/120-esp32-iic/" target="_self">
-                <span>Next</span>
-                <i class="iconfont icon-chevronright"></i>
-              </a>
             
           </div>
         </div>
@@ -243,7 +200,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LoRa"><span class="toc-text">LoRa</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Lora%E9%85%8D%E7%BD%AE"><span class="toc-text">Lora配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lora%E7%BD%91%E5%85%B3%E9%85%8D%E7%BD%AE"><span class="toc-text">Lora网关配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SN"><span class="toc-text">SN</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8F%B7%EF%B8%8F-2-SN-%E5%BD%92%E5%B1%9E%E8%B0%81%EF%BC%9F"><span class="toc-text">🏷️ 2. SN 归属谁？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E6%95%B0%E6%8D%AE%E5%8F%91%E9%80%81%E6%B5%81%E7%A8%8B"><span class="toc-text">✅ 数据发送流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E4%B8%8A%E7%BD%91"><span class="toc-text">无法上网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E4%B8%BB%E6%9C%BA%E4%BB%A3%E7%90%86"><span class="toc-text">无法使用主机代理</span></a></li></ol></li></ol>
       
     </div>
   </div>
@@ -531,12 +488,12 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + LoRa + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F03%2F10%2F131-lora%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + linux%E7%8E%AF%E5%A2%83%E4%B8%8B%E7%BC%96%E8%AF%91 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F06%2F16%2F168-linux-huan-jing-xia-bian-yi%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
         
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/03/10/131-lora/" target="_blank" title="Facebook">
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/06/16/168-linux-huan-jing-xia-bian-yi/" target="_blank" title="Facebook">
             <i class="iconfont icon-facebooksquare"></i>
           </a>
         
