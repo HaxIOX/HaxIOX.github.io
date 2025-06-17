@@ -157,7 +157,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-06-16 17:41:58
+          2025-06-17 12:18:02
         </span>
         
       </div>
@@ -167,7 +167,66 @@
 <li>gcc</li>
 <li>make</li>
 </ul>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="无法上网"><a href="#无法上网" class="headerlink" title="无法上网"></a>无法上网</h2><h2 id="无法使用主机代理"><a href="#无法使用主机代理" class="headerlink" title="无法使用主机代理"></a>无法使用主机代理</h2>
+<h1 id="配置使用主机代理"><a href="#配置使用主机代理" class="headerlink" title="配置使用主机代理"></a>配置使用主机代理</h1><h2 id="主机配置"><a href="#主机配置" class="headerlink" title="主机配置"></a>主机配置</h2><p>主机<code>ipconfig</code>查看 <code>VMware Network Adapter VMnet8</code>对应ip</p>
+<p>v2ray在设置-&gt;参数设置-&gt;允许局域网的连接</p>
+<img src="/2025/06/16/168-linux-huan-jing-xia-bian-yi/1750128429093.png" class="" width="1750128429093">
+
+<h2 id="虚拟机配置"><a href="#虚拟机配置" class="headerlink" title="虚拟机配置"></a>虚拟机配置</h2><p>然后在虚拟机里配置主机的ip与局域网端口</p>
+<img src="/2025/06/16/168-linux-huan-jing-xia-bian-yi/1750128388524.png" class="" width="1750128388524">
+
+<p><strong>测试</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ping 192.168.208.1
+curl -x http:&#x2F;&#x2F;192.168.208.1:10808 http:&#x2F;&#x2F;www.google.com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>一把这个时候<code>curl</code>可以成功,ping如果不通关闭防火墙试一下</p>
+<h1 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h1><p>由于 Ubuntu 24.04 LTS 的新版「应用中心」不再支持 DEB 安装包，我们需要先安装 GDebi 工具来解决 DEB 的安装问题。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt install gdebi<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>下载好.deb格式的安装包后,右键<code>GDebi 软件包安装程序</code>打开</p>
+<h1 id="浏览器配置代理"><a href="#浏览器配置代理" class="headerlink" title="浏览器配置代理"></a>浏览器配置代理</h1><h2 id="Edge"><a href="#Edge" class="headerlink" title="Edge"></a>Edge</h2><p>edge 走得是系统代理，直接设系统代理就行。如果你想单独给 edge 设置代理要装插件实现</p>
+<h2 id="Firefox"><a href="#Firefox" class="headerlink" title="Firefox"></a>Firefox</h2><p>浏览器设置界面最下面<code>Network Settings</code></p>
+<img src="/2025/06/16/168-linux-huan-jing-xia-bian-yi/1750127450490.png" class="" width="1750127450490">
+
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="无法上网"><a href="#无法上网" class="headerlink" title="无法上网"></a>无法上网</h2><p><strong>NetworkManager 的全局网络状态被禁用了</strong></p>
+<p><code>/var/lib/NetworkManager/NetworkManager.state</code> </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">[main]
+NetworkingEnabled&#x3D;false<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Error: Connection activation failed: No suitable device found for this connection (device lo not available because device is strictly unmanaged).
+
+manager: Networking is disabled by state file<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>解决方法：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmcli networking on
+
+nmcli connection up ens33-conn
+
+nmcli device status<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h2 id="无法使用主机代理"><a href="#无法使用主机代理" class="headerlink" title="无法使用主机代理"></a>无法使用主机代理</h2><p>1.<strong>公共网络的防火墙需要关闭</strong></p>
+<p>检查 v2ray 是否监听 0.0.0.0（支持局域网访问）</p>
+<p>打开 v2rayN → 设置 → 代理端口 → 确保监听地址为：</p>
+<pre class="line-numbers language-none"><code class="language-none">0.0.0.0:10808<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>不要是 <code>127.0.0.1:10808</code>（仅限本机）</p>
+<p>你也可以在主机上执行（CMD）：</p>
+<pre class="line-numbers language-none"><code class="language-none">netstat -an | findstr 10808<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>应该能看到：</p>
+<pre class="line-numbers language-none"><code class="language-none">TCP    0.0.0.0:10808       LISTENING<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="添加规则放行-VMware-和-ping"><a href="#添加规则放行-VMware-和-ping" class="headerlink" title="添加规则放行 VMware 和 ping"></a>添加规则放行 VMware 和 ping</h3><p>如果你不希望关闭防火墙，可以用管理员 PowerShell 添加规则：</p>
+<pre class="line-numbers language-none"><code class="language-none"># 放行 v2ray 端口
+New-NetFirewallRule -DisplayName &quot;Allow v2ray 10808&quot; -Direction Inbound -Protocol TCP -LocalPort 10808 -Action Allow -InterfaceAlias &quot;VMware Network Adapter VMnet8&quot;
+
+# 放行 ping（ICMPv4）
+New-NetFirewallRule -DisplayName &quot;Allow ICMPv4 ping from VM&quot; -Protocol ICMPv4 -IcmpType 8 -Direction Inbound -Action Allow -InterfaceAlias &quot;VMware Network Adapter VMnet8&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行完之后，<strong>重新测试 ping 和 curl</strong>。</p>
+<p>2.<strong>在虚拟机中的本机ip段需要对应</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.xzr.moe/archives/124/">参考文章</a></p>
+
       </div>
       
         <div class="prev-or-next">
@@ -182,7 +241,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-06-16 17:41:58
+              2025-06-17 12:18:02
             </span>
             
           </div>
@@ -200,7 +259,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E4%B8%8A%E7%BD%91"><span class="toc-text">无法上网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E4%B8%BB%E6%9C%BA%E4%BB%A3%E7%90%86"><span class="toc-text">无法使用主机代理</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E4%B8%BB%E6%9C%BA%E4%BB%A3%E7%90%86"><span class="toc-text">配置使用主机代理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="toc-text">主机配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="toc-text">虚拟机配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6"><span class="toc-text">安装软件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="toc-text">浏览器配置代理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Edge"><span class="toc-text">Edge</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Firefox"><span class="toc-text">Firefox</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E4%B8%8A%E7%BD%91"><span class="toc-text">无法上网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E4%B8%BB%E6%9C%BA%E4%BB%A3%E7%90%86"><span class="toc-text">无法使用主机代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%A7%84%E5%88%99%E6%94%BE%E8%A1%8C-VMware-%E5%92%8C-ping"><span class="toc-text">添加规则放行 VMware 和 ping</span></a></li></ol></li></ol></li></ol>
       
     </div>
   </div>
