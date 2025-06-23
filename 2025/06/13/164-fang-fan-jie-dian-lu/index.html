@@ -34,6 +34,10 @@
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
 
   <!-- jquery3.3.1 -->
   
@@ -157,19 +161,23 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-06-13 17:23:23
+          2025-06-23 14:01:21
         </span>
         
       </div>
       <div class="markdown-body">
         <h1 id="防反接电路"><a href="#防反接电路" class="headerlink" title="防反接电路"></a>防反接电路</h1><p>1.串联肖特基二极管（简单，但有压降）</p>
 <p><strong>2.P-MOSFET 防反接</strong>:</p>
-<p><img src="/164-%E4%BF%9D%E6%8A%A4%E7%94%B5%E8%B7%AF/1749801991441.png" alt="1749801991441"></p>
+<img src="/2025/06/13/164-fang-fan-jie-dian-lu/1749801991441.png" class="" width="1749801991441">
+
 <p>由于体二极管的存在(也叫寄生二极管),使<code>PMOS</code>在未导通的情况下,也会有电流通过,约0.7v压降。</p>
 <p>电源5v正接时，S 极的电压迅速上升至5V-0.7V&#x3D;4.7V，Vg接地&#x3D;0V&lt;Vs,MOS管导通。</p>
 <p>电源5V反接时，体二极管不导通，且Vg&#x3D;5V&gt;Vs&#x3D;0V,MOS管截止,故起到保护作用</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/dong6016/article/details/146826081?spm=1001.2101.3001.6650.5&utm_medium=distribute.pc_relevant.none-task-blog-2~default~YuanLiJiHua~Position-5-146826081-blog-130384315.235%5Ev43%5Epc_blog_bottom_relevance_base6&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~YuanLiJiHua~Position-5-146826081-blog-130384315.235%5Ev43%5Epc_blog_bottom_relevance_base6&utm_relevant_index=9">电源防反接电路</a></p>
-<h2 id="我的一些问题"><a href="#我的一些问题" class="headerlink" title="我的一些问题"></a>我的一些问题</h2><p><img src="/164-%E4%BF%9D%E6%8A%A4%E7%94%B5%E8%B7%AF/1749804318481.png" alt="1749804318481"></p>
+<h2 id="我的一些问题"><a href="#我的一些问题" class="headerlink" title="我的一些问题"></a>我的一些问题</h2><img src="/2025/06/13/164-fang-fan-jie-dian-lu/1749804318481.png" class="" width="1749804318481">
+
+
+
 <h3 id="1-那这种情况下呢-vg和vs不都是5v码-反接的话-还是说-负载有一定的阻抗-vg还是大于vs"><a href="#1-那这种情况下呢-vg和vs不都是5v码-反接的话-还是说-负载有一定的阻抗-vg还是大于vs" class="headerlink" title="1.那这种情况下呢,vg和vs不都是5v码,反接的话,还是说,负载有一定的阻抗,vg还是大于vs"></a>1.那这种情况下呢,vg和vs不都是5v码,反接的话,还是说,负载有一定的阻抗,vg还是大于vs</h3><h4 id="Gemini-说："><a href="#Gemini-说：" class="headerlink" title="Gemini 说："></a>Gemini 说：</h4><blockquote>
 <ol>
 <li><strong>您的第二个问题“负载有一定的阻抗”</strong> 在这里不起作用。因为负载的另一端连接的是 <code>GND</code> 端子（现在是+5V），但电流要形成回路，必须先通过 MOSFET。既然 MOSFET 这里是断路，负载再小也没有用。</li>
@@ -277,7 +285,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-06-13 17:23:23
+              2025-06-23 14:01:21
             </span>
             
           </div>
