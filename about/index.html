@@ -155,8 +155,92 @@
   <!-- 关于页 url形式：https://yoursite/about/ -->
     <div class="container about-index">
       <div class="markdown-body">
-        <p><del>在家</del>在校大学生,喜欢搞一些好玩的东西,接触的比较晚,努力<del>摸鱼</del>学习ing</p>
-<p>现在已经是牛马啦，一直想在家里躺平，但是猫猫太可爱，我现在有3只猫猫了，为爱当牛马啦。</p>
+        <h1 id="Me"><a href="#Me" class="headerlink" title="Me"></a>Me</h1><p><del>在家</del>在校大学生,喜欢搞一些好玩的东西,接触的比较晚,努力<del>摸鱼</del>学习ing</p>
+<p>现在已经是牛马啦，一直想在家里躺平，但是猫猫太可爱，我现在有3只猫猫了，为爱当牛马啦———2025-2-24。</p>
+<p>今年23岁零两个月，思考一下后续的学习计划和职业发展吧。</p>
+<p>目前是在小公司工作，招的是硬件工程师，负责的工作是嵌入式软件，硬件，选型，画板，焊接，测试，采购，市场调研，偶尔3d打印，并且项目主要使用ESP32系列芯片软件也是停留在arduino的应用层，正在转向ESP-IDF开发。</p>
+<p>现在纠结是偏向嵌入式软件，还是硬件</p>
+<blockquote>
+<p>根据gemini分析,当讲市场对嵌入式软件工程师的需求远大于硬件,薪资上限也高</p>
+</blockquote>
+<p>那么我对自己的定位就是<strong>懂基础硬件的嵌入式软件工程师</strong></p>
+<h1 id="学习路线"><a href="#学习路线" class="headerlink" title="学习路线"></a>学习路线</h1><h2 id="2025年"><a href="#2025年" class="headerlink" title="2025年"></a>2025年</h2><ul>
+<li><p><input disabled="" type="checkbox"> 
+熟练掌握C语言，到可以随手写个指针函数，数组之类的程度</p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+熟练掌握ESP-IDF对ESP系列芯片进行开发,GPIO, UART, I2C, SPI, ADC, FreeRTOS, Wi-Fi, BLE</p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+封装自己的ESP-IDF底层库,uart,iic,spi,timer,pwm等</p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+在ESP32上重写所有Arduino项目，用纯粹的C语言和ESP-IDF实现。</p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+linux环境变异(RTL8720DN)</p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+用环形缓冲区处理串口数据</p>
+</li>
+</ul>
+<h2 id="2026"><a href="#2026" class="headerlink" title="2026"></a>2026</h2><ul>
+<li><p><strong>目标:</strong> 掌握主流平台和操作系统，具备独立开发复杂系统驱动和应用的能力。</p>
+</li>
+<li><p>学习内容:</p>
+<ol>
+<li><p>ARM架构与STM32:</p>
+<ul>
+<li><input disabled="" type="checkbox"> 直接通过操作寄存器来点灯、配中断、配串口。然后学习使用HAL库和CubeMX，对比两种方式的优劣。</li>
+</ul>
+</li>
+<li><p>RTOS原理与实践:</p>
+<ul>
+<li><input disabled="" type="checkbox"> 直接直接在STM32上移植并运行FreeRTOS，手动创建任务、信号量、消息队列，解决任务间同步与通信问题。</li>
+</ul>
+</li>
+<li><p>嵌入式Linux入门:</p>
+<p>开发板:购买一块树莓派或更专业的ARM-Linux开发板（如正点原子、野火的IMX6ULL板）。</p>
+<ul>
+<li><input disabled="" type="checkbox"> 直接学习Linux常用命令，学习交叉编译，构建最小根文件系统，编写第一个Linux下的驱动程序（例如LED驱动）。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p><strong>深入RTOS或嵌入式Linux:</strong></p>
+<ul>
+<li><p><strong>RTOS方向:</strong> 深入研究FreeRTOS或Zephyr的源码，理解其设计哲学，甚至能对其进行裁剪和移植。</p>
+</li>
+<li><p><strong>Linux方向:</strong> 学习嵌入式Linux开发，包括U-Boot移植、内核裁剪、根文件系统构建、驱动开发（字符设备、块设备、网络设备）。这是通往高薪职位的必经之路。</p>
+<p><strong>掌握网络与协议栈:</strong> 精通TCP&#x2F;IP、UDP协议栈，熟悉MQTT、CoAP、HTTP等物联网常用应用层协议。能够进行网络编程和性能优化。</p>
+<p><strong>构建软件架构能力:</strong> 学习软件工程思想，掌握模块化、分层化、组件化的设计方法，能够搭建可复用、可扩展、高可靠的嵌入式软件系统。</p>
+<p><strong>项目管理与领导力:</strong> 如果有机会，可以尝试带领小团队，负责项目规划、任务分解和风险控制。</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="2027年"><a href="#2027年" class="headerlink" title="2027年"></a>2027年</h2><ul>
+<li><strong>目标:</strong> 成为领域内的专家，能够设计和主导大型项目。</li>
+<li>学习内容:<ol>
+<li><strong>Linux驱动开发深化:</strong> 深入学习字符设备、平台设备驱动模型（platform driver model）、设备树（Device Tree）。</li>
+<li><strong>网络与物联网协议:</strong> 深入研究TCP&#x2F;IP协议栈源码（如LwIP），学习音视频传输（RTP&#x2F;RTSP）、Web服务器等高级网络编程。</li>
+<li><strong>软件工程与架构:</strong> 学习UML建模，掌握常见的设计模式（单例、工厂、观察者等）在嵌入式领域的应用。阅读优秀开源项目的源码（如U-Boot, Zephyr, NuttX）来学习其架构设计。</li>
+<li><strong>面向未来的技术:</strong> 关注并实践TinyML（在MCU上运行机器学习模型）、嵌入式安全（加密、安全启动）、低功耗蓝牙（BLE Mesh）等。</li>
+</ol>
+</li>
+</ul>
+<h2 id="书籍与资源"><a href="#书籍与资源" class="headerlink" title="书籍与资源"></a>书籍与资源</h2><ul>
+<li><input disabled="" type="checkbox"> 《C Primer Plus》2025-6-26</li>
+<li><input disabled="" type="checkbox"> 《C陷阱与缺陷》 &amp; 《C专家编程》</li>
+<li><input disabled="" type="checkbox"> TinyUSB, LwIP, FreeRTOS开源项目</li>
+<li><input disabled="" type="checkbox"> 《深入理解计算机系统 (CSAPP)》</li>
+<li><input disabled="" type="checkbox"> 《STM32库开发实战指南》</li>
+<li><input disabled="" type="checkbox"> 《ARM Cortex-M3与Cortex-M4权威指南》</li>
+<li><input disabled="" type="checkbox"> 《嵌入式实时操作系统FreeRTOS原理与实践》</li>
+<li><input disabled="" type="checkbox"> 《奔跑吧Linux内核》</li>
+<li><input disabled="" type="checkbox"> 《嵌入式Linux应用开发完全手册》</li>
+</ul>
 
       </div>
     </div>
