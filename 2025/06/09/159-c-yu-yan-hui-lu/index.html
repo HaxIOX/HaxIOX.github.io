@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-06-30 17:37:59
+          2025-07-01 17:35:09
         </span>
         
       </div>
@@ -193,6 +193,20 @@
 
 <h2 id="atoi"><a href="#atoi" class="headerlink" title="atoi"></a>atoi</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">atoi(const char *str); 将数字字符串转换为整数 (int)。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
+<p>缺点是会将浮点数转变为整数，840.5-&gt;840</p>
+<p><code>atoi</code> (ASCII to Integer) 函数在 C 和 C++ 中用于将字符串转换为整数。它的转换规则如下：</p>
+<ol>
+<li><strong>跳过前导空白字符</strong>：例如空格、制表符等。</li>
+<li><strong>处理可选的正负号</strong>：<code>+</code> 或 <code>-</code>。</li>
+<li><strong>读取连续的数字字符</strong>：’0’ 到 ‘9’。</li>
+<li><strong>在第一个非数字字符处停止</strong>：一旦遇到不属于数字的字符，它就会停止解析，并返回到目前为止已经成功转换的整数值。</li>
+</ol>
+<h2 id="atof"><a href="#atof" class="headerlink" title="atof"></a>atof</h2><p>⚠️:atoi与atof在严肃的程序里是不被推荐的由于(缺乏错误处理和会出现未定义协议)</p>
+<p><strong>f 后缀的意义</strong>: 在 C&#x2F;C++ 中，浮点数字面量默认是 <code>double</code> (双精度浮点数) 类型。</p>
+<ul>
+<li><code>1240.0</code> 是一个 <code>double</code> 类型的值（通常占8个字节）。</li>
+<li><code>1240.0f</code> 是一个 <code>float</code> 类型的值（通常占4个字节）。</li>
+</ul>
 <h2 id="strtol"><a href="#strtol" class="headerlink" title="strtol"></a>strtol</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; strtol(const char *nptr, char **endptr, int base);
     &#x2F;&#x2F; 将字符串 nptr 按照 base 指定的进制转换为长整数 (long int)。
     &#x2F;&#x2F; NULL 作为第二个参数表示不关心转换结束的位置。
@@ -266,7 +280,7 @@ const int len &#x3D; pkt-&gt;rx_ctrl.sig_len;  &#x2F;&#x2F; len是数据包的�
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-06-30 17:37:59
+              2025-07-01 17:35:09
             </span>
             
           </div>
@@ -289,7 +303,7 @@ const int len &#x3D; pkt-&gt;rx_ctrl.sig_len;  &#x2F;&#x2F; len是数据包的�
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%93"><span class="toc-text">库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#scanf"><span class="toc-text">scanf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#snprintf"><span class="toc-text">snprintf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strlen"><span class="toc-text">strlen</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strncpy"><span class="toc-text">strncpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#atoi"><span class="toc-text">atoi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strtol"><span class="toc-text">strtol</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#malloc"><span class="toc-text">malloc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E6%88%90%E5%91%98%E8%AE%BF%E9%97%AE"><span class="toc-text">指针类型转换和结构体成员访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#printf"><span class="toc-text">printf</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">关键字</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%93"><span class="toc-text">库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#scanf"><span class="toc-text">scanf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#snprintf"><span class="toc-text">snprintf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strlen"><span class="toc-text">strlen</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strncpy"><span class="toc-text">strncpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#atoi"><span class="toc-text">atoi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#atof"><span class="toc-text">atof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strtol"><span class="toc-text">strtol</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#malloc"><span class="toc-text">malloc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E6%88%90%E5%91%98%E8%AE%BF%E9%97%AE"><span class="toc-text">指针类型转换和结构体成员访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#printf"><span class="toc-text">printf</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">关键字</span></a></li></ol>
       
     </div>
   </div>
