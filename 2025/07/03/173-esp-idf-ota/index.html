@@ -13,7 +13,7 @@
   
   <title>
     
-      173-ESP_IDF_OTA 
+      ESP_IDF_OTA 
       
       
       |
@@ -157,11 +157,11 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">173-ESP_IDF_OTA</div>
+      <div class="post-title">ESP_IDF_OTA</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-07-03 16:20:22
+          2025-07-04 17:38:53
         </span>
         
               <span class="post-tags">
@@ -209,7 +209,10 @@ CONFIG_EXAMPLE_USE_CERT_BUNDLE&#x3D;y
 # CONFIG_EXAMPLE_FIRMWARE_UPGRADE_BIND_IF is not set
 # end of Example Configuration<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><pre class="line-numbers language-none"><code class="language-none">W (370) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ol>
+<li></li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">W (370) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.
 I (383) sleep_gpio: Configure to isolate all GPIO pins in sleep state
 I (389) sleep_gpio: Enable automatic switching of GPIO sleep configuration
 I (396) main_task: Started on CPU0
@@ -342,6 +345,11 @@ E (1077) esp_core_dump_flash: No core dump partition found!
 <p>可能是由于固件是arduino编译的,并且需要古剑名字要与项目名字一致</p>
 </blockquote>
 <p>⚠️：出现烧录与ota更新现象不同的情况，先将固件升级到最新</p>
+<p>2.一直更新</p>
+<blockquote>
+<p>代码被配置为在每次启动时都尝试执行 OTA 更新，并且由于您的 OTA 服务器始终提供“相同版本”的固件，导致设备陷入了一个无限更新循环。</p>
+</blockquote>
+<p>版本管理</p>
 
       </div>
       
@@ -357,7 +365,7 @@ E (1077) esp_core_dump_flash: No core dump partition found!
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-07-03 16:20:22
+              2025-07-04 17:38:53
             </span>
             
                   <span class="post-tags">
@@ -680,7 +688,7 @@ E (1077) esp_core_dump_flash: No core dump partition found!
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + 173-ESP_IDF_OTA + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F07%2F03%2F173-esp-idf-ota%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP_IDF_OTA + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F07%2F03%2F173-esp-idf-ota%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
