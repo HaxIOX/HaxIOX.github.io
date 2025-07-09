@@ -10,10 +10,13 @@
   <!-- 用于搜索引擎的文章摘要 -->
   
   
-    <meta name="robots" content="noindex" />
-  
   
   <title>
+    
+      win10修改右键菜单 
+      
+      
+      |
     
      南北的猫
   </title>
@@ -109,84 +112,128 @@
 
 
       <div class="flex-container">
-        <div class="container index">
-  <div class="post-list">
-    <!-- 遍历渲染文章 -->
-    
-      <div class="post-item" title="npm安装依赖问题">
-        <div class="time-m-d">2022-05-06</div>
-        <div class="title">
-          <a href="/2022/05/06/5l-npm-dependence/">
-            
-              
-                <span>npm安装依赖问题</span>
-              
-            
-          </a>
-        </div>
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">win10修改右键菜单</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-07-09 11:50:39
+        </span>
+        
       </div>
-    
-      <div class="post-item" title="linux搭建MC服务器">
-        <div class="time-m-d">2022-05-04</div>
-        <div class="title">
-          <a href="/2022/05/04/4l-linux-establish-minecraft/">
-            
-              
-                <span>linux搭建MC服务器</span>
-              
-            
-          </a>
-        </div>
+      <div class="markdown-body">
+        <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>每次使用vscode打开esp-idf时都得拖动文件夹到vscode图标，于是想直接将用vscode打开项目加入到鼠标右键菜单中。需要修改注册表</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h1 id="右键打开文件"><a href="#右键打开文件" class="headerlink" title="右键打开文件"></a>右键打开文件</h1><p>首先<code>win+r</code>输入<code>regedit</code>,然后找到<code>HKEY_CLASSES_ROOT\*\shell</code></p>
+<p> 在shell下新建“<code>VisualCode</code>”项，在右侧窗口的“<strong>默认</strong>”双击，在数据里输入“<code>用VSCode打开</code>”。这是右键上显示的文字，可以随便写，只是为了方便查看</p>
+<p>然后新建<code>可扩充字符串值</code>，命名为<code>Icon</code>，双击，把<code>&quot;D:\anzhuang\Microsoft VS Code\Code.exe&quot;</code>放进数据就可以了。</p>
+<p>然后新建项<code>Command</code>,输入值为<code>&quot;D:\anzhuang\Microsoft VS Code\Code.exe&quot; &quot;%1&quot;</code>。<strong>其中的%1表示要打开的文件参数</strong>。⚠️注意文件路径到.exe</p>
+<h2 id="右键打开文件夹"><a href="#右键打开文件夹" class="headerlink" title="右键打开文件夹"></a>右键打开文件夹</h2><p>找到<code>HKEY_CLASSES_ROOT\Directory\shell</code>分支，其他步骤相同</p>
+<h2 id="右键空白处"><a href="#右键空白处" class="headerlink" title="右键空白处"></a>右键空白处</h2><p>右键文件夹空白处，打开文件夹</p>
+<p>只需要将把 <code>%1</code> 改为<code>%V</code>，例如：<code>&quot;D:\anzhuang\Microsoft VS Code\Code.exe&quot; &quot;%V&quot;</code></p>
+<p>其他不变</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/428704111">(3 封私信 &#x2F; 14 条消息) 右键菜单加入用VSCode打开文件和文件夹 - 知乎</a></p>
+
       </div>
-    
-      <div class="post-item" title="linux常用命令">
-        <div class="time-m-d">2022-05-04</div>
-        <div class="title">
-          <a href="/2022/05/04/3l-linux-common-command/">
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
             
-              
-                <span>linux常用命令</span>
-              
+              <a href="/2025/07/08/175-tp4056-chong-fang-dian-xin-pian/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
             
-          </a>
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-07-09 11:50:39
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
         </div>
-      </div>
+      
+    </div>
     
-      <div class="post-item" title="hexo搭建过程中遇到的坑">
-        <div class="time-m-d">2022-05-03</div>
-        <div class="title">
-          <a href="/2022/05/03/2l-hexo-pit/">
-            
-              
-                <span>hexo搭建过程中遇到的坑</span>
-              
-            
-          </a>
-        </div>
-      </div>
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B5%B7%E5%9B%A0"><span class="toc-text">起因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%B3%E9%94%AE%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6"><span class="toc-text">右键打开文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%B3%E9%94%AE%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-text">右键打开文件夹</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%B3%E9%94%AE%E7%A9%BA%E7%99%BD%E5%A4%84"><span class="toc-text">右键空白处</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
     
-      <div class="post-item" title="linux搭建hexo博客(本地端)">
-        <div class="time-m-d">2022-05-03</div>
-        <div class="title">
-          <a href="/2022/05/03/1l-hexo-blog/">
-            
-              
-                <span>linux搭建hexo博客(本地端)</span>
-              
-            
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
       </div>
     
   </div>
-  <nav class="post-navigation">
-    
-      <a href="/page/14/"><i class="iconfont icon-angleleft"></i></a>
-    
-    <span class="page-num">15 / 15</span>
-    
-  </nav>
-</div>
+
 
         
 <div class="footer">
@@ -443,6 +490,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + win10%E4%BF%AE%E6%94%B9%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F07%2F09%2F176-win10-xiu-gai-you-jian-cai-dan%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/07/09/176-win10-xiu-gai-you-jian-cai-dan/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>
