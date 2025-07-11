@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-07-10 17:42:57
+          2025-07-11 14:32:34
         </span>
         
               <span class="post-tags">
@@ -179,6 +179,7 @@
       <div class="markdown-body">
         <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>我需要使用ESP32作为主机接受USB CDC设备的数据并转发打印出来</p>
 <h1 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h1><p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/api-reference/peripherals/usb_host.html">USB Host - ESP32-S3 - — ESP-IDF 编程指南 latest 文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/espressif/esp-idf/tree/5b11d5b2/examples/peripherals/usb/host/cdc/cdc_acm_host">esp-idf&#x2F;examples&#x2F;peripherals&#x2F;usb&#x2F;host&#x2F;cdc&#x2F;cdc_acm_host at 5b11d5b26a8bf151fc6bac400158859eedd413bc · espressif&#x2F;esp-idf</a></p>
 <h1 id="USB-OTG"><a href="#USB-OTG" class="headerlink" title="USB OTG"></a>USB OTG</h1><p><strong>USB OTG (On-The-Go)</strong> 本质上是一种 <strong>USB 功能的规范</strong>，它赋予了 USB 端口<strong>角色动态切换的能力</strong>。</p>
 <ul>
 <li><strong>不是一个通信协议本身：</strong> USB OTG 自身不定义如何传输数据（比如数据包的格式、时序等），那些是 USB 2.0&#x2F;3.0 等基础 USB 协议层的工作。</li>
@@ -244,7 +245,16 @@
 </ul>
 <p>两者缺一不可。你的 ESP32-S3 必须具备 <strong>OTG 能力</strong>并扮演<strong>主机角色</strong>，才能去连接和管理那个 <strong>USB CDC 设备</strong>，进而解析它发送的模拟串口数据。</p>
 <p>希望这次的解释能让你彻底明白它们的区别和联系！</p>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="从机端"><a href="#从机端" class="headerlink" title="从机端"></a>从机端</h2><h2 id="主机端"><a href="#主机端" class="headerlink" title="主机端"></a>主机端</h2>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="从机端"><a href="#从机端" class="headerlink" title="从机端"></a>从机端</h2><h2 id="主机端"><a href="#主机端" class="headerlink" title="主机端"></a>主机端</h2><p><strong>可以分开供电</strong></p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>device接电脑端可以正常识别到，接host端识别不到</p>
+<p>已经排除：</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 供电问题，host与device分别供电</li>
+<li><input checked="" disabled="" type="checkbox"> 数据线也多次更换过</li>
+<li><input disabled="" type="checkbox"> 开发板，目前device使用的是自制的板子</li>
+<li><input disabled="" type="checkbox"> </li>
+</ul>
+
       </div>
       
         <div class="prev-or-next">
@@ -259,7 +269,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-07-10 17:42:57
+              2025-07-11 14:32:34
             </span>
             
                   <span class="post-tags">
@@ -288,7 +298,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%87%E6%A1%A3"><span class="toc-text">文档</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#USB-OTG"><span class="toc-text">USB OTG</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#USB-CDC"><span class="toc-text">USB CDC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#USB-CDC-%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%BD%8D%E7%BD%AE"><span class="toc-text">USB CDC 的实现位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E8%84%91%E7%AB%AF%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%9A%E6%8F%90%E4%BE%9B%E9%A9%B1%E5%8A%A8"><span class="toc-text">电脑端的作用：提供驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E6%9D%BF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0-CDC"><span class="toc-text">开发板如何实现 CDC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-ESP32-S3-%E4%BD%9C%E4%B8%BA%E4%B8%BB%E6%9C%BA%E6%97%B6%E4%B8%8D%E9%9C%80%E8%A6%81-CDC"><span class="toc-text">为什么 ESP32-S3 作为主机时不需要 CDC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E6%9C%AC%E8%B4%A8%EF%BC%9A"><span class="toc-text">总结本质：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E6%9C%BA%E7%AB%AF"><span class="toc-text">从机端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E7%AB%AF"><span class="toc-text">主机端</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%87%E6%A1%A3"><span class="toc-text">文档</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#USB-OTG"><span class="toc-text">USB OTG</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#USB-CDC"><span class="toc-text">USB CDC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#USB-CDC-%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%BD%8D%E7%BD%AE"><span class="toc-text">USB CDC 的实现位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E8%84%91%E7%AB%AF%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%9A%E6%8F%90%E4%BE%9B%E9%A9%B1%E5%8A%A8"><span class="toc-text">电脑端的作用：提供驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E6%9D%BF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0-CDC"><span class="toc-text">开发板如何实现 CDC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-ESP32-S3-%E4%BD%9C%E4%B8%BA%E4%B8%BB%E6%9C%BA%E6%97%B6%E4%B8%8D%E9%9C%80%E8%A6%81-CDC"><span class="toc-text">为什么 ESP32-S3 作为主机时不需要 CDC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E6%9C%AC%E8%B4%A8%EF%BC%9A"><span class="toc-text">总结本质：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E6%9C%BA%E7%AB%AF"><span class="toc-text">从机端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E7%AB%AF"><span class="toc-text">主机端</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li></ol>
       
     </div>
   </div>
