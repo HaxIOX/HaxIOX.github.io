@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-07-14 17:43:38
+          2025-07-16 15:10:47
         </span>
         
       </div>
@@ -269,7 +269,7 @@
 检查板子是否支持USB-OT</p>
 </li>
 <li><p><input disabled="" type="checkbox"> 
-ESP32 USB OTG作为host时，必须要给从机供电才可以通信</p>
+ESP32 USB OTG作为host时，必须要给从机供电才可以通信（<code>且必须是5V</code>, 根据 USB 2.0 规范，VBUS 的电压范围通常在 <strong>4.75V 到 5.25V</strong> 之间（即 5V±5%）。）</p>
 <h6 id="ChatGPT-说："><a href="#ChatGPT-说：" class="headerlink" title="ChatGPT 说："></a>ChatGPT 说：</h6><p>是的。按照 USB 规范，任何主机（DFP）在与从设备（UFP）通信前，都必须在 VBUS（Type-C 上的 5 V 引脚）上提供电压信号，否则从设备既不会完成枚举，也不会响应任何数据传输请求。</p>
 <ul>
 <li><strong>VBUS 存在是枚举的前提</strong>：USB 设备在上电后会检测到 VBUS 的 5 V，然后才会上拉 D+（或 D–）以示“就绪”，主机检测到这一拉电阻后才会开始枚举流程。</li>
@@ -462,13 +462,14 @@ E (1245) cdc_acm_ops: cdc_acm_host_line_coding_get(25): line_coding_get function
 <blockquote>
 <p>❌ CH340E 并不符合标准 CDC ACM 类，ESP32-S3 的 CDC Host 驱动无法识别它，即使 VID&#x2F;PID 正确。</p>
 </blockquote>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>讨论<strong>电流负载</strong>时，我们指的是 <strong>在该特定电压下，所有连接到该电压轨道的设备总共会消耗多少电流</strong>。s</p>
 
       </div>
       
         <div class="prev-or-next">
           <div class="post-foot-next">
             
-              <a href="/2025/07/09/176-win10-xiu-gai-you-jian-cai-dan/" target="_self">
+              <a href="/2025/07/08/175-tp4056-chong-fang-dian-xin-pian/" target="_self">
                 <i class="iconfont icon-chevronleft"></i>
                 <span>Prev</span>
               </a>
@@ -477,11 +478,16 @@ E (1245) cdc_acm_ops: cdc_acm_host_line_coding_get(25): line_coding_get function
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-07-14 17:43:38
+              2025-07-16 15:10:47
             </span>
             
           </div>
           <div class="post-foot-prev">
+            
+              <a href="/2025/07/09/176-win10-xiu-gai-you-jian-cai-dan/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
             
           </div>
         </div>
@@ -495,7 +501,7 @@ E (1245) cdc_acm_ops: cdc_acm_host_line_coding_get(25): line_coding_get function
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%87%E6%A1%A3"><span class="toc-text">文档</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B"><span class="toc-text">心路历程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E4%B8%B2%E5%8F%A3"><span class="toc-text">虚拟串口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">工作原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#USB-OTG"><span class="toc-text">USB OTG</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#USB-CDC"><span class="toc-text">USB CDC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#USB-CDC-%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%BD%8D%E7%BD%AE"><span class="toc-text">USB CDC 的实现位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E8%84%91%E7%AB%AF%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%9A%E6%8F%90%E4%BE%9B%E9%A9%B1%E5%8A%A8"><span class="toc-text">电脑端的作用：提供驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E6%9D%BF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0-CDC"><span class="toc-text">开发板如何实现 CDC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-ESP32-S3-%E4%BD%9C%E4%B8%BA%E4%B8%BB%E6%9C%BA%E6%97%B6%E4%B8%8D%E9%9C%80%E8%A6%81-CDC"><span class="toc-text">为什么 ESP32-S3 作为主机时不需要 CDC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E6%9C%AC%E8%B4%A8%EF%BC%9A"><span class="toc-text">总结本质：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E6%9C%BA%E7%AB%AF"><span class="toc-text">从机端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E7%AB%AF"><span class="toc-text">主机端</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#ChatGPT-%E8%AF%B4%EF%BC%9A"><span class="toc-text">ChatGPT 说：</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CH340"><span class="toc-text">CH340</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A7%A0-%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="toc-text">🧠 问题分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%94%AC-CH340-%E4%B8%8E-CDC-ACM-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">🔬  CH340 与 CDC ACM 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%A8-%E6%80%BB%E7%BB%93"><span class="toc-text">🚨 总结</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%87%E6%A1%A3"><span class="toc-text">文档</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B"><span class="toc-text">心路历程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E4%B8%B2%E5%8F%A3"><span class="toc-text">虚拟串口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">工作原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#USB-OTG"><span class="toc-text">USB OTG</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#USB-CDC"><span class="toc-text">USB CDC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#USB-CDC-%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%BD%8D%E7%BD%AE"><span class="toc-text">USB CDC 的实现位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E8%84%91%E7%AB%AF%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%9A%E6%8F%90%E4%BE%9B%E9%A9%B1%E5%8A%A8"><span class="toc-text">电脑端的作用：提供驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E6%9D%BF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0-CDC"><span class="toc-text">开发板如何实现 CDC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-ESP32-S3-%E4%BD%9C%E4%B8%BA%E4%B8%BB%E6%9C%BA%E6%97%B6%E4%B8%8D%E9%9C%80%E8%A6%81-CDC"><span class="toc-text">为什么 ESP32-S3 作为主机时不需要 CDC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E6%9C%AC%E8%B4%A8%EF%BC%9A"><span class="toc-text">总结本质：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E6%9C%BA%E7%AB%AF"><span class="toc-text">从机端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E7%AB%AF"><span class="toc-text">主机端</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#ChatGPT-%E8%AF%B4%EF%BC%9A"><span class="toc-text">ChatGPT 说：</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CH340"><span class="toc-text">CH340</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%A7%A0-%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="toc-text">🧠 问题分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%94%AC-CH340-%E4%B8%8E-CDC-ACM-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">🔬  CH340 与 CDC ACM 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%9A%A8-%E6%80%BB%E7%BB%93"><span class="toc-text">🚨 总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-text">补充</span></a></li></ol>
       
     </div>
   </div>
