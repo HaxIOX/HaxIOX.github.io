@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-07-10 13:54:58
+          2025-07-18 17:23:03
         </span>
         
               <span class="post-tags">
@@ -177,7 +177,11 @@
           
       </div>
       <div class="markdown-body">
-        <h1 id="RGB-驱动原理"><a href="#RGB-驱动原理" class="headerlink" title="RGB 驱动原理"></a>RGB 驱动原理</h1><h1 id="WS2812"><a href="#WS2812" class="headerlink" title="WS2812"></a>WS2812</h1><h1 id="驱动demo"><a href="#驱动demo" class="headerlink" title="驱动demo"></a>驱动demo</h1><h1 id="组件库"><a href="#组件库" class="headerlink" title="组件库"></a>组件库</h1><p><a target="_blank" rel="noopener" href="https://components.espressif.com/components?q=usb_host+">Search • ESP Component Registry</a></p>
+        <h1 id="RGB-驱动原理"><a href="#RGB-驱动原理" class="headerlink" title="RGB 驱动原理"></a>RGB 驱动原理</h1><p>XL-5050RGBC-WS2812B是一种集成了WS2812B控制芯片的RGB LED，这意味着它是一个<strong>可寻址的LED</strong>。与普通RGB LED需要外部电流控制芯片（如移位寄存器或PWM驱动器）不同，WS2812B内部已经包含了这些控制逻辑。</p>
+<h1 id="WS2812B"><a href="#WS2812B" class="headerlink" title="WS2812B"></a>WS2812B</h1><p>WS2812B的工作原理是单行线通信，通过Din接收数据，解码后控制该LED亮灭，然后通过Dout传递给下一个LED的DIN实现级联。</p>
+<h1 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h1><p><a target="_blank" rel="noopener" href="https://item.szlcsc.com/datasheet/WS2812B-2020/1051115.html?spm=sc.gbn.xds.a___sc.hm.hd.ss&lcsc_vid=R1BfVFQCFVALVlJURFQLAwUFQFVfUwFRQAcIV1wDFQUxVlNTRVlfXlBXRVNbVDtW">WS2812B-2020 -PDF数据手册-参考资料-立创商城</a></p>
+<h1 id="RMT驱动"><a href="#RMT驱动" class="headerlink" title="RMT驱动"></a>RMT驱动</h1><p>RMT是<strong>一个为了处理复杂时序协议而设计的高度集成、高效率的“脉冲序列收发器”</strong>，它<strong>内置了类似于 DMA 的数据传输机制</strong>来驱动其<strong>精密的脉冲生成单元</strong>。这使得它在处理像 WS2812B 这种需要微秒级精确时序的设备时，比传统的 DMA+定时器组合更加方便和高效。</p>
+<h1 id="驱动demo"><a href="#驱动demo" class="headerlink" title="驱动demo"></a>驱动demo</h1><h1 id="组件库"><a href="#组件库" class="headerlink" title="组件库"></a>组件库</h1><p><a target="_blank" rel="noopener" href="https://components.espressif.com/components?q=usb_host+">Search • ESP Component Registry</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012121390/article/details/139135372">ESP-IDF使用LED组件实现各种LED效果控制_esp-idf led-CSDN博客</a></p>
 <p><a target="_blank" rel="noopener" href="https://embeddedexplorer.com/controlling-rgb-leds-using-esp32-component-esp-idf/">Controlling RGB LEDs using ESP32 Component (ESP-IDF)</a></p>
 
@@ -195,7 +199,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-07-10 13:54:58
+              2025-07-18 17:23:03
             </span>
             
                   <span class="post-tags">
@@ -229,7 +233,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RGB-%E9%A9%B1%E5%8A%A8%E5%8E%9F%E7%90%86"><span class="toc-text">RGB 驱动原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WS2812"><span class="toc-text">WS2812</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A9%B1%E5%8A%A8demo"><span class="toc-text">驱动demo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E5%BA%93"><span class="toc-text">组件库</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RGB-%E9%A9%B1%E5%8A%A8%E5%8E%9F%E7%90%86"><span class="toc-text">RGB 驱动原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WS2812B"><span class="toc-text">WS2812B</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%87%E6%A1%A3"><span class="toc-text">文档</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RMT%E9%A9%B1%E5%8A%A8"><span class="toc-text">RMT驱动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A9%B1%E5%8A%A8demo"><span class="toc-text">驱动demo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E5%BA%93"><span class="toc-text">组件库</span></a></li></ol>
       
     </div>
   </div>

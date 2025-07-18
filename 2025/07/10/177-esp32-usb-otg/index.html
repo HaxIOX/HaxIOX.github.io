@@ -161,9 +161,20 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-07-16 17:38:17
+          2025-07-18 13:42:15
         </span>
         
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/ESP32/" title="ESP32">
+                    #ESP32
+                  </a>
+                </span>
+                
+              </span>
+          
       </div>
       <div class="markdown-body">
         <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>我需要使用ESP32作为主机接受USB CDC设备的数据并转发打印出来</p>
@@ -236,18 +247,15 @@
 </ul>
 </li>
 </ol>
-<p><strong>例子：</strong> 很多 Arduino 板子（比如 Uno 的 ATmega328P 通过 CH340&#x2F;ATmega16U2 芯片实现 USB 转串口，或者 Leonardo、Due、ESP32 等芯片本身就集成 USB OTG&#x2F;Device 功能，并直接通过固件实现 CDC）就是通过这种方式实现 USB 虚拟串口的。当你把它们插到电脑上，它们就会被识别为一个串口。</p>
 <h3 id="为什么-ESP32-S3-作为主机时不需要-CDC"><a href="#为什么-ESP32-S3-作为主机时不需要-CDC" class="headerlink" title="为什么 ESP32-S3 作为主机时不需要 CDC"></a>为什么 ESP32-S3 作为主机时不需要 CDC</h3><ul>
 <li><strong>CDC 是设备端的能力</strong>，让设备能伪装成串口。</li>
 <li><strong>USB 主机需要 CDC 驱动</strong>，才能和这些 CDC 设备通信。</li>
 </ul>
-<p>希望这次能彻底帮你厘清这些概念！还有其他不清楚的地方吗</p>
 <h2 id="总结本质："><a href="#总结本质：" class="headerlink" title="总结本质："></a>总结本质：</h2><ul>
 <li><strong>USB OTG 的本质是：</strong> USB 端口<strong>角色动态切换的规范</strong>。它解决了“谁是老大”的问题，让设备可以根据连接对象动态切换为“主机”或“设备”。</li>
 <li><strong>USB CDC 的本质是：</strong> 一种 <strong>USB 设备类别规范</strong>，用于定义如何通过 USB 接口来<strong>模拟传统串行通信</strong>功能。它解决了“怎么通信”（以串口形式）的问题。</li>
 </ul>
 <p>两者缺一不可。你的 ESP32-S3 必须具备 <strong>OTG 能力</strong>并扮演<strong>主机角色</strong>，才能去连接和管理那个 <strong>USB CDC 设备</strong>，进而解析它发送的模拟串口数据。</p>
-<p>希望这次的解释能让你彻底明白它们的区别和联系！</p>
 <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="从机端"><a href="#从机端" class="headerlink" title="从机端"></a>从机端</h2><p>…</p>
 <h2 id="主机端"><a href="#主机端" class="headerlink" title="主机端"></a>主机端</h2><p><a target="_blank" rel="noopener" href="https://github.com/espressif/esp-idf/tree/5b11d5b26a8bf151fc6bac400158859eedd413bc/examples/peripherals/usb/host/cdc/cdc_acm_vcp/main">例程</a></p>
 <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>device接电脑端可以正常识别到，接host端识别不到</p>
@@ -281,53 +289,7 @@ ESP32 USB OTG作为host时，必须要给从机供电才可以通信（<code>且
 </ul>
 <h1 id="CH340"><a href="#CH340" class="headerlink" title="CH340"></a>CH340</h1><p>下面的是示例 <a target="_blank" rel="noopener" href="https://github.com/espressif/esp-idf/tree/5b11d5b2/examples/peripherals/usb/host/cdc/cdc_acm_host">peripherals&#x2F;usb&#x2F;host&#x2F;cdc&#x2F;cdc_acm_host</a> 接CH340E的打印数据,接入后Host一直在重启</p>
 <p>你遇到的问题是：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">D (94) boot: mapped partition table 0x8000 at 0x3c008000
-D (99) flash_parts: partition table verified, 4 entries
-I (104) boot: Partition Table:
-I (107) boot: ## Label            Usage          Type ST Offset   Length
-D (113) boot: load partition table entry 0x3c008000
-D (118) boot: type&#x3D;1 subtype&#x3D;2
-I (120) boot:  0 nvs              WiFi data        01 02 00009000 00006000
-D (127) boot: load partition table entry 0x3c008020
-D (132) boot: type&#x3D;1 subtype&#x3D;1
-I (134) boot:  1 phy_init         RF data          01 01 0000f000 00001000
-D (141) boot: load partition table entry 0x3c008040
-D (146) boot: type&#x3D;0 subtype&#x3D;0
-I (148) boot:  2 factory          factory app      00 00 00010000 00100000
-I (155) boot: End of partition table
-D (158) boot: Trying partition index -1 offs 0x10000 size 0x100000
-D (164) esp_image: reading image header @ 0x10000
-D (169) bootloader_flash: mmu set block paddr&#x3D;0x00010000 (was 0xffffffff)
-D (175) esp_image: image header: 0xe9 0x06 0x02 0x01 403753d8
-I (181) esp_image: segment 0: paddr&#x3D;00010020 vaddr&#x3D;3c030020 size&#x3D;0eb90h ( 60304) map
-D (188) esp_image: free data page_count 0x00000200
-D (193) bootloader_flash: rodata starts from paddr&#x3D;0x00010020, size&#x3D;0xeb90, will be mapped to vaddr&#x3D;0x3c000000
-D (213) bootloader_flash: mmu set block paddr&#x3D;0x00010000 (was 0xffffffff)
-I (213) esp_image: segment 1: paddr&#x3D;0001ebb8 vaddr&#x3D;3fc92e00 size&#x3D;01460h (  5216) load
-D (216) esp_image: free data page_count 0x00000200
-D (221) bootloader_flash: rodata starts from paddr&#x3D;0x0001ebb8, size&#x3D;0x1460, will be mapped to vaddr&#x3D;0x3c000000
-D (232) bootloader_flash: mmu set block paddr&#x3D;0x00020000 (was 0xffffffff)
-I (237) esp_image: segment 2: paddr&#x3D;00020020 vaddr&#x3D;42000020 size&#x3D;22a64h (141924) map
-D (245) esp_image: free data page_count 0x00000200
-D (249) bootloader_flash: rodata starts from paddr&#x3D;0x00020020, size&#x3D;0x22a64, will be mapped to vaddr&#x3D;0x3c000000
-D (284) bootloader_flash: mmu set block paddr&#x3D;0x00040000 (was 0xffffffff)
-I (284) esp_image: segment 3: paddr&#x3D;00042a8c vaddr&#x3D;3fc94260 size&#x3D;01638h (  5688) load
-D (287) esp_image: free data page_count 0x00000200
-D (291) bootloader_flash: rodata starts from paddr&#x3D;0x00042a8c, size&#x3D;0x1638, will be mapped to vaddr&#x3D;0x3c000000
-D (302) bootloader_flash: mmu set block paddr&#x3D;0x00040000 (was 0xffffffff)
-I (308) esp_image: segment 4: paddr&#x3D;000440cc vaddr&#x3D;40374000 size&#x3D;0ed48h ( 60744) load
-D (315) esp_image: free data page_count 0x00000200
-D (320) bootloader_flash: rodata starts from paddr&#x3D;0x000440cc, size&#x3D;0xed48, will be mapped to vaddr&#x3D;0x3c000000
-D (342) bootloader_flash: mmu set block paddr&#x3D;0x00050000 (was 0xffffffff)
-I (343) esp_image: segment 5: paddr&#x3D;00052e1c vaddr&#x3D;600fe000 size&#x3D;0001ch (    28) load
-D (345) esp_image: free data page_count 0x00000200
-D (350) bootloader_flash: rodata starts from paddr&#x3D;0x00052e1c, size&#x3D;0x1c, will be mapped to vaddr&#x3D;0x3c000000
-D (359) bootloader_flash: mmu set block paddr&#x3D;0x00050000 (was 0xffffffff)
-D (366) boot: Calculated hash: 0f6a45c3e1934805441952d3fb1bd2a4d54f76d62cc03c7e3c8207484837893f
-I (380) boot: Loaded app from partition at offset 0x10000
-I (380) boot: Disabling RNG early entropy source...
-D (384) boot: Mapping segment 0 as DROM
-D (388) boot: Mapping segment 2 as IROM
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">D (388) boot: Mapping segment 2 as IROM
 D (391) boot: calling set_cache_and_start_app
 D (395) boot: configure drom and irom and start
 D (400) boot: start: 0x403753d8
@@ -415,7 +377,7 @@ bMaxPower 98mA
                 wMaxPacketSize 8
                 bInterval 1
 I (1245) USB-CDC: Setting up line coding
-E (1245) cdc_acm_ops: cdc_acm_host_line_coding_get(25): line_coding_get function not supported<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+E (1245) cdc_acm_ops: cdc_acm_host_line_coding_get(25): line_coding_get function not supported<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <hr>
 <h2 id="🧠-问题分析"><a href="#🧠-问题分析" class="headerlink" title="🧠 问题分析"></a>🧠 问题分析</h2><p>结合日志和代码行为，说明 <strong>ESP32-S3 成功检测到 USB 设备连接（即CH340E），但无法打开该设备进行 CDC 通信</strong>。这通常意味着：</p>
@@ -478,9 +440,20 @@ E (1245) cdc_acm_ops: cdc_acm_host_line_coding_get(25): line_coding_get function
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-07-16 17:38:17
+              2025-07-18 13:42:15
             </span>
             
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/ESP32/" title="ESP32">
+                        #ESP32
+                      </a>
+                    </span>
+                    
+                  </span>
+              
           </div>
           <div class="post-foot-prev">
             
