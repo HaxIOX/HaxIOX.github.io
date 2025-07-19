@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      测量电源纹波 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">测量电源纹波</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-07-19 22:27:37
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="测量工具"><a href="#测量工具" class="headerlink" title="测量工具"></a>测量工具</h2><ul>
+<li>示波器</li>
+<li>万用表</li>
+</ul>
+<h2 id="示波器测量电源纹波"><a href="#示波器测量电源纹波" class="headerlink" title="示波器测量电源纹波"></a>示波器测量电源纹波</h2><ul>
+<li>（按对应通道按键设置例CH1）</li>
+<li>交流耦合</li>
+<li>带宽显示20MHZ（过高会有高频噪声）</li>
+<li><code>x10 </code>+ <code>x10</code>的探头</li>
+<li>一般20mv，20ms以上（这个设置低了，超过太多的看不到）</li>
+<li>接地弹簧</li>
+<li>auto</li>
+<li>带负载与空载均需要测试</li>
+</ul>
+<h3 id="🔧-推荐测点："><a href="#🔧-推荐测点：" class="headerlink" title="🔧 推荐测点："></a>🔧 推荐测点：</h3><ul>
+<li>测量点 &#x3D; 电源滤波电容正端（靠近负载）</li>
+<li>接地点 &#x3D; 该电容负端（靠近GND面）</li>
+<li>探头贴近焊盘，线尽可能短</li>
+</ul>
+<h2 id="PCB问题"><a href="#PCB问题" class="headerlink" title="PCB问题"></a>PCB问题</h2><ol>
+<li><strong>PCB布局未形成有效“电流环闭合路径”</strong></li>
+</ol>
+<p>从你的第二张 PCB 图可以看出：</p>
+<ul>
+<li>电感 L2 与 C8~C11 的<strong>GND 走线偏细或绕线过长</strong></li>
+<li>电容布在一起，但并没有<strong>尽量靠近实际负载（如U12或主控）</strong></li>
+<li>电源线与地回路不够对称，<strong>GND平面割裂严重</strong></li>
+</ul>
+<ol start="2">
+<li><strong>电容ESR叠加&#x2F;电容摆放不当</strong></li>
+</ol>
+<ul>
+<li>你用了多个 MLCC（多层陶瓷电容）并联，如果它们走线不等长、没有共同的接地短路径，<strong>等效串联阻抗（ESR）会相互抵消或增强纹波</strong></li>
+<li>最好每个大电容 + 一个 100nF，且靠近负载芯片或高频源（如DC-DC）</li>
+</ul>
+<hr>
+<ol start="3">
+<li><strong>滤波电感参数不匹配实际纹波频率</strong></li>
+</ol>
+<ul>
+<li>如果你后面接的是 <strong>开关频率在 500kHz~1MHz</strong> 的 DC-DC，但你用了 4.7uH 电感 + 电容组合</li>
+<li>那么 LC 滤波器的截止频率未必刚好覆盖纹波主频</li>
+</ul>
+<p>fc&#x3D;12πLC≈33kHz（对L&#x3D;4.7uH，C&#x3D;22uF）f_c &#x3D; \frac{1}{2\pi\sqrt{LC}} ≈ 33kHz（对 L&#x3D;4.7uH，C&#x3D;22uF）fc&#x3D;2πLC1≈33kHz（对L&#x3D;4.7uH，C&#x3D;22uF）</p>
+<p>→ 对高频纹波（如 500kHz）可能衰减有限</p>
+<h2 id="纹波优化方案"><a href="#纹波优化方案" class="headerlink" title="纹波优化方案"></a>纹波优化方案</h2><ul>
+<li>电源头</li>
+</ul>
+<p><strong>方案一：改善PCB布局（首推）</strong></p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>电容尽量贴近负载或电源引脚</td>
+<td>降低高频回路阻抗</td>
+</tr>
+<tr>
+<td>所有滤波电容共用一块“完整接地面”</td>
+<td>防止回路漂移、地弹效应</td>
+</tr>
+<tr>
+<td>GND 必须为大面积实心平面</td>
+<td>避免切割地平面造成电磁干扰</td>
+</tr>
+<tr>
+<td>电感前电容（C8）接地更短、更粗</td>
+<td>保证高频能量快速回路闭合</td>
+</tr>
+</tbody></table>
+<p><strong>方案二：电容组合优化</strong></p>
+<table>
+<thead>
+<tr>
+<th>动作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>为每个大电容搭配一个 0.1uF 的贴片陶瓷电容</td>
+<td>高频旁路有效，贴近芯片引脚</td>
+</tr>
+<tr>
+<td>保持单个高频电容（如 C12）靠近负载主控电源脚</td>
+<td>而非都放一排</td>
+</tr>
+<tr>
+<td>确认电容为 X5R&#x2F;X7R 型号（低ESR）</td>
+<td>陶瓷贴片电容优于钽电容</td>
+</tr>
+</tbody></table>
+<hr>
+<p><strong>方案三：必要时替换电感或加 LC 级联</strong></p>
+<table>
+<thead>
+<tr>
+<th>动作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>增加二级 LC 结构（两段 L+C）</td>
+<td>提高滤波深度</td>
+</tr>
+<tr>
+<td>替换为 2.2uH 或 10uH 进行实验</td>
+<td>结合开关频率实际纹波频点调整 LC 截止频率</td>
+</tr>
+</tbody></table>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/tian362/article/details/125222134">电源测试周之电压纹波测试注意事项_纹波为什么要在20mhz下测试-CSDN博客</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/04/16/136-chang-yong-dc-dc-xin-pian-fang-an/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-07-19 22:27:37
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/04/29/138-usb-bu-shi-bie-duan-kou-hao/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E9%87%8F%E5%B7%A5%E5%85%B7"><span class="toc-text">测量工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E6%B3%A2%E5%99%A8%E6%B5%8B%E9%87%8F%E7%94%B5%E6%BA%90%E7%BA%B9%E6%B3%A2"><span class="toc-text">示波器测量电源纹波</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%A7-%E6%8E%A8%E8%8D%90%E6%B5%8B%E7%82%B9%EF%BC%9A"><span class="toc-text">🔧 推荐测点：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PCB%E9%97%AE%E9%A2%98"><span class="toc-text">PCB问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%B9%E6%B3%A2%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88"><span class="toc-text">纹波优化方案</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%B5%8B%E9%87%8F%E7%94%B5%E6%BA%90%E7%BA%B9%E6%B3%A2 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F04%2F17%2F137-ce-liang-dian-yuan-wen-bo%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/04/17/137-ce-liang-dian-yuan-wen-bo/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

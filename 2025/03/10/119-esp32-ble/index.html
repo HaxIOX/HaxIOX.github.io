@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      ESP32_S3_BLE学习记录 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.1.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">ESP32_S3_BLE学习记录</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-07-19 22:27:37
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h3 id="BLE-是什么？"><a href="#BLE-是什么？" class="headerlink" title="BLE 是什么？"></a>BLE 是什么？</h3><p>BLE（Bluetooth Low Energy）是一种低功耗、短距离的通信协议，用于设备间小数据传输，非常适合传感器、穿戴设备、手机通信等场景。</p>
+<h3 id="BLE-基础架构"><a href="#BLE-基础架构" class="headerlink" title="BLE 基础架构"></a>BLE 基础架构</h3><p>ESP32 做 BLE Server（外设）时，通常有以下几个重要概念：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Server（服务端）</strong></td>
+<td>ESP32 作为 BLE 外设</td>
+</tr>
+<tr>
+<td><strong>Service（服务）</strong></td>
+<td>类似一个功能模块（例如心率服务）</td>
+</tr>
+<tr>
+<td><strong>Characteristic（特征值）</strong></td>
+<td>一个数据单元，支持读&#x2F;写&#x2F;通知</td>
+</tr>
+<tr>
+<td><strong>UUID</strong></td>
+<td>用于标识 Service 和 Characteristic</td>
+</tr>
+</tbody></table>
+<h3 id="环境安装配置"><a href="#环境安装配置" class="headerlink" title="环境安装配置"></a>环境安装配置</h3><ul>
+<li>VScode+Platform</li>
+</ul>
+<p> ✅ 1. <code>BLEServer *pServer = BLEDevice::createServer();</code></p>
+<ul>
+<li><code>BLEServer *</code>：意思是 <code>pServer</code> 是一个 <strong>指针</strong>，它指向一个 BLE 服务器对象。</li>
+<li><code>BLEDevice::createServer()</code>：这是 <strong>类 BLEDevice</strong> 中的一个 <strong>静态函数</strong>，它会新建一个服务器并返回。</li>
+</ul>
+<blockquote>
+<p>📦 类似于：你打电话叫了个外卖服务员回来，给他起了个名字 <code>pServer</code>。</p>
+</blockquote>
+<hr>
+<p> ✅ 2. <code>pService-&gt;start();</code></p>
+<ul>
+<li><code>pService</code> 是之前你通过 <code>pServer-&gt;createService(...)</code> 得到的服务对象。</li>
+<li><code>.start()</code> 就是告诉这个服务：<strong>开始广播、准备接收连接！</strong></li>
+</ul>
+<blockquote>
+<p>📦 类似于：你已经设置好了服务员该做什么，现在告诉他 “开始工作”。</p>
+</blockquote>
+<pre class="line-numbers language-none"><code class="language-none">BLEServer* pServer &#x3D; BLEDevice::createServer();     &#x2F;&#x2F; 创建 BLE 服务器
+BLEService* pService &#x3D; pServer-&gt;createService(&quot;xxxx&quot;); &#x2F;&#x2F; 创建一个服务
+pService-&gt;start();                                  &#x2F;&#x2F; 启动这个服务<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<table>
+<thead>
+<tr>
+<th>C++ 符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>*</code></td>
+<td>指针（代表一个对象地址）</td>
+</tr>
+<tr>
+<td><code>-&gt;</code></td>
+<td>通过指针访问对象的成员</td>
+</tr>
+<tr>
+<td><code>.</code></td>
+<td>普通对象访问成员</td>
+</tr>
+</tbody></table>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>1.好的，不支持nano，<code>nano</code>只有<code>arduino ide</code>和<code>micropython</code>支持哦，喜提重刷固件</p>
+<blockquote>
+<p>支持，搜索nano esp32</p>
+</blockquote>
+<ol start="2">
+<li></li>
+</ol>
+<p>第一个可以连接<code>serial bluetooth</code>，第二个不可以</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">BLEDevice::init(&quot;ESP32-S3-BLE&quot;);
+pServer &#x3D; BLEDevice::createServer();
+BLEService* pService &#x3D; pServer-&gt;createService(BLEUUID((uint16_t)0xFFE0));
+pCharacteristic &#x3D; pService-&gt;createCharacteristic(
+                    BLEUUID((uint16_t)0xFFE1),
+                    BLECharacteristic::PROPERTY_READ | 
+                    BLECharacteristic::PROPERTY_WRITE | 
+                    BLECharacteristic::PROPERTY_NOTIFY);
+pCharacteristic-&gt;addDescriptor(new BLE2902());
+pService-&gt;start();
+BLEAdvertising* pAdvertising &#x3D; BLEDevice::getAdvertising();
+pAdvertising-&gt;addServiceUUID(BLEUUID((uint16_t)0xFFE0));
+pAdvertising-&gt;start();
+Serial.println(&quot;✅ BLE 初始化完成，等待连接...&quot;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">BLEDevice::init(&quot;ESP32-BLE-Demo&quot;);
+
+BLEServer *pServer &#x3D; BLEDevice::createServer();
+BLEService *pService &#x3D; pServer-&gt;createService(&quot;12345678-1234-5678-1234-56789abcdef0&quot;);
+
+pCharacteristic &#x3D; pService-&gt;createCharacteristic(
+  &quot;abcdefab-1234-5678-1234-56789abcdef0&quot;,
+  BLECharacteristic::PROPERTY_READ |
+  BLECharacteristic::PROPERTY_WRITE |
+  BLECharacteristic::PROPERTY_NOTIFY
+);
+
+pCharacteristic-&gt;setValue(&quot;Hello BLE!&quot;);
+pCharacteristic-&gt;addDescriptor(new BLE2902());  &#x2F;&#x2F; 启用 notify
+
+pService-&gt;start();
+BLEAdvertising *pAdvertising &#x3D; BLEDevice::getAdvertising();
+pAdvertising-&gt;addServiceUUID(&quot;12345678-1234-5678-1234-56789abcdef0&quot;);
+pAdvertising-&gt;start();
+
+Serial.println(&quot;📡 等待 BLE 连接...&quot;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>原因：</strong></p>
+<p>很多手机 App 默认只扫描常见 BLE 串口服务 UUID（如 0xFFE0）</p>
+<p> 🔍 小结对比</p>
+<table>
+<thead>
+<tr>
+<th>比较项</th>
+<th>第一段（能连）</th>
+<th>第二段（不能连）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>UUID 类型</td>
+<td>16位（标准串口服务）</td>
+<td>128位（自定义）</td>
+</tr>
+<tr>
+<td>兼容性</td>
+<td>高</td>
+<td>低</td>
+</tr>
+<tr>
+<td>App 支持</td>
+<td>nRF &#x2F; Serial Terminal 可用</td>
+<td>nRF 支持，自定义 App 才能用</td>
+</tr>
+<tr>
+<td>推荐用法</td>
+<td>开发阶段串口调试</td>
+<td>特定项目中自定义服务</td>
+</tr>
+</tbody></table>
+<p>🔷 <code>BLEUUID</code> 是什么？</p>
+<p><code>BLEUUID</code> 是 <strong>一个类</strong>，用来表示 <strong>UUID（通用唯一识别码）</strong>，用于标识 BLE 的：</p>
+<ul>
+<li>服务（Service）</li>
+<li>特征值（Characteristic）</li>
+<li>描述符（Descriptor）</li>
+</ul>
+<p>BLE 中一切都是基于 UUID 来识别的。S</p>
+<hr>
+<p>🔶 <code>0xFFE0</code> 是什么？</p>
+<ul>
+<li><code>0xFFE0</code> 是一个 <strong>16 位的 UUID</strong></li>
+<li>它常被用于类似串口服务（BLE UART）的自定义协议（如 Nordic 的 UART 或 HM-10 模块）</li>
+</ul>
+<p>例如：</p>
+<ul>
+<li><code>FFE0</code>：服务 UUID（Service UUID）</li>
+<li><code>FFE1</code>：特征值 UUID（Characteristic UUID）</li>
+</ul>
+<p>这是一种 <strong>简化写法</strong>，完整 UUID 是 128 位，系统内部会自动扩展它：</p>
+<pre class="line-numbers language-none"><code class="language-none">复制编辑
+0x0000FFE0-0000-1000-8000-00805F9B34FB<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>⚠️注意</p>
+<p>轻易不要东GPIO0，另外出现ESP32频繁自启的情况，可以使用固件烧录工具擦除后重新烧录固件</p>
+<h2 id="ESP32-BLE广播收发-advertise"><a href="#ESP32-BLE广播收发-advertise" class="headerlink" title="ESP32_BLE广播收发(advertise)"></a>ESP32_BLE广播收发(advertise)</h2><p><strong>✅ 常见的 BLE 广播 Type 类型</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>Type (Hex)</strong></th>
+<th><strong>说明</strong></th>
+<th><strong>示例数据</strong></th>
+<th><strong>解析</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0x01</code></td>
+<td>设备 Flags（标志位）</td>
+<td><code>0x06</code></td>
+<td><strong>BLE 设备类型</strong></td>
+</tr>
+<tr>
+<td><code>0x02</code></td>
+<td>16-bit Service UUID（部分）</td>
+<td><code>0x0A 18</code></td>
+<td><strong>GATT 服务 UUID</strong></td>
+</tr>
+<tr>
+<td><code>0x03</code></td>
+<td>16-bit Service UUID（完整）</td>
+<td><code>0x0A 18</code></td>
+<td><strong>完整 UUID</strong></td>
+</tr>
+<tr>
+<td><code>0x07</code></td>
+<td>128-bit Service UUID</td>
+<td><code>0xFB 34 9B 5F 80 00 00 80 00 10 00 00 00 00 00 00 00</code></td>
+<td><strong>自定义服务 UUID</strong></td>
+</tr>
+<tr>
+<td><code>0x08</code></td>
+<td>短设备名称（Short Local Name）</td>
+<td><code>0x45 53 50 33</code></td>
+<td><strong>“ESP3”</strong></td>
+</tr>
+<tr>
+<td><code>0x09</code></td>
+<td>完整设备名称（Complete Local Name）</td>
+<td><code>0x45 53 50 33 32 5F 57 49 46 49</code></td>
+<td><strong>“ESP32_WIFI”</strong></td>
+</tr>
+<tr>
+<td><code>0x0A</code></td>
+<td>发射功率（Tx Power Level）</td>
+<td><code>0x09</code></td>
+<td><strong>+9 dBm</strong></td>
+</tr>
+<tr>
+<td><code>0x12</code></td>
+<td>设备厂商数据（Manufacturer Data）</td>
+<td><code>0xDE AD BE EF 12 34 56 78</code></td>
+<td><strong>HEX 数据</strong></td>
+</tr>
+<tr>
+<td><code>0xFF</code></td>
+<td>厂商数据（Manufacturer Data）</td>
+<td>✅ <strong>可自定义</strong></td>
+<td>设备私有数据</td>
+</tr>
+</tbody></table>
+<h3 id="nRF广播"><a href="#nRF广播" class="headerlink" title="nRF广播"></a>nRF广播</h3><p> <strong>📌 BLEAdvertising（广播） vs. GATT（连接）</strong></p>
+<p><strong>BLE（蓝牙低功耗）有两种主要通信方式：</strong></p>
+<ol>
+<li><strong>BLEAdvertising（广播）</strong> → <strong>ESP32 发送广播数据，无需连接</strong></li>
+<li><strong>GATT（通用属性协议）</strong> → <strong>ESP32 作为服务器，支持客户端连接并交互数据</strong></li>
+<li>BLEAdvertising（广播）**</li>
+</ol>
+<p>🔹 <strong>示例代码</strong></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">BLEDevice::init(&quot;ESP32_Broadcaster&quot;);
+BLEAdvertising *pAdvertising &#x3D; BLEDevice::getAdvertising();
+pAdvertising-&gt;setAdvertisementData(advertisementData);
+pAdvertising-&gt;start();**<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>🔹超长数据的广播</p>
+<p>** 方案 1：使用 Scan Response 发送额外数据**</p>
+<p><strong>原理</strong>：</p>
+<ul>
+<li><strong>广播包（Advertising Data）</strong> 发送前 <strong>部分数据（如 SSID）</strong></li>
+<li><strong>扫描响应包（Scan Response）</strong> 发送 <strong>剩余数据（如密码）</strong></li>
+<li><strong>nRF Connect 或 ESP32 扫描端可同时获取这两个数据包</strong></li>
+</ul>
+<p> <strong>📌 Scannable 模式（可扫描模式）</strong></p>
+<p>**Scannable（可扫描）**模式是一种 <strong>BLE 广播模式</strong>，允许接收端设备请求额外的信息。通常用于 <strong>发送超出广播包长度的数据</strong>。</p>
+<p><strong>NRF配置</strong></p>
+<p>✅scannable</p>
+<ol start="2">
+<li>GATT（连接模式)**</li>
+</ol>
+<p>🔹 <strong>示例代码</strong></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">BLEServer *pServer &#x3D; BLEDevice::createServer();
+BLEService *pService &#x3D; pServer-&gt;createService(SERVICE_UUID);
+BLECharacteristic *pCharacteristic &#x3D; pService-&gt;createCharacteristic(
+    CHARACTERISTIC_UUID,
+    BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE
+);
+pService-&gt;start();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>🔹 <strong>📲 手机用 nRF Connect 连接 ESP32 并读写数据</strong></p>
+<hr>
+<p> 🚀 3. 主要区别</p>
+<table>
+<thead>
+<tr>
+<th><strong>对比项</strong></th>
+<th><strong>BLEAdvertising（广播）</strong></th>
+<th><strong>GATT（连接模式）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>连接需求</strong></td>
+<td>❌ 无需连接（所有设备可接收）</td>
+<td>✅ 需要设备连接</td>
+</tr>
+<tr>
+<td><strong>数据大小</strong></td>
+<td>⚠️ 限制 31 字节（BLE 4.2）<mark>超过会不广播</mark>，255 字节（BLE 5.0）</td>
+<td>✅ 可发送大数据（分包方式）</td>
+</tr>
+<tr>
+<td><strong>数据传输</strong></td>
+<td>📡 只能发送，不能接收</td>
+<td>🔄 双向通信（读&#x2F;写&#x2F;通知）</td>
+</tr>
+<tr>
+<td><strong>私密性</strong></td>
+<td>❌ 公开广播，所有设备都能接收</td>
+<td>✅ 仅连接设备可读写</td>
+</tr>
+<tr>
+<td><strong>使用场景</strong></td>
+<td>广告、iBeacon、简单数据广播</td>
+<td>设备控制、传感器数据、BLE 串口</td>
+</tr>
+</tbody></table>
+<h3 id="ESP32轮流广播"><a href="#ESP32轮流广播" class="headerlink" title="ESP32轮流广播"></a>ESP32轮流广播</h3><p><strong>Demo</strong></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &lt;BLEDevice.h&gt;
+#include &lt;BLEUtils.h&gt;
+#include &lt;BLEAdvertising.h&gt;
+
+BLEAdvertising* pAdvertising;
+int toggle &#x3D; 0;
+
+const char* ssid &#x3D; &quot;VIBTEK-2.4G&quot;;
+const char* password &#x3D; &quot;vibrantech@1305-1&quot;;
+
+void broadcastData(uint16_t companyID, const char* payload) &#123;
+    std::string mData;
+    mData +&#x3D; (char)(companyID &amp; 0xFF);         &#x2F;&#x2F; 低位
+    mData +&#x3D; (char)((companyID &gt;&gt; 8) &amp; 0xFF);  &#x2F;&#x2F; 高位
+    mData +&#x3D; payload;
+
+    BLEAdvertisementData adData;
+    adData.setManufacturerData(mData);
+    pAdvertising-&gt;setAdvertisementData(adData);
+    pAdvertising-&gt;start();
+&#125;
+
+void setup() &#123;
+    Serial.begin(115200);
+    BLEDevice::init(&quot;ESP32_BLE_Sender&quot;);
+    pAdvertising &#x3D; BLEDevice::getAdvertising();
+&#125;
+
+void loop() &#123;
+    if (toggle &#x3D;&#x3D; 0) &#123;
+        Serial.println(&quot;📡 广播 SSID&quot;);
+        broadcastData(0x1234, ssid);
+    &#125; else &#123;
+        Serial.println(&quot;📡 广播密码&quot;);
+        broadcastData(0x2345, password);
+    &#125;
+
+    toggle &#x3D; 1 - toggle;  &#x2F;&#x2F; 切换
+    delay(2000);          &#x2F;&#x2F; 每 2 秒轮流广播一次
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="接收"><a href="#接收" class="headerlink" title="接收"></a>接收</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &lt;BLEDevice.h&gt;
+#include &lt;BLEScan.h&gt;
+#include &lt;WiFi.h&gt;
+#include &lt;Preferences.h&gt;
+
+#define BUTTON_PIN 6  &#x2F;&#x2F; 连接按键的 GPIO 引脚
+
+#define SCAN_TIME 5  
+#define SSID_COMPANY_ID 0x1234  
+#define PASS_COMPANY_ID 0x2345  
+
+const int ledPin &#x3D; 13;    &#x2F;&#x2F; the number of the LED pin
+
+BLEScan *pBLEScan;
+Preferences preferences;
+
+String receivedSSID &#x3D; &quot;&quot;;
+String receivedPassword &#x3D; &quot;&quot;;
+bool wifiConnected &#x3D; false; &#x2F;&#x2F; 记录 WiFi 连接状态
+
+
+&#x2F;&#x2F; 清除 WiFi 配置
+void clearWiFiConfig() &#123;
+    Serial.println(&quot;❌ 按键触发！正在删除 WiFi 配置信息...&quot;);
+    preferences.begin(&quot;wifi-config&quot;, false);
+    preferences.clear(); &#x2F;&#x2F; **删除整个 WiFi 存储**
+    preferences.putString(&quot;ssid&quot;, &quot;&quot;); &#x2F;&#x2F; 确保 WiFi 信息被覆盖
+    preferences.putString(&quot;password&quot;, &quot;&quot;);
+    preferences.end();
+
+    WiFi.disconnect(true, true); &#x2F;&#x2F; **彻底断开 WiFi 并清除缓存**
+    Serial.println(&quot;✅ WiFi 配置已删除，ESP32 将重新启动！&quot;);
+    delay(2000);
+    ESP.restart();  &#x2F;&#x2F; **重启 ESP32**
+&#125;
+
+void connectToWiFi(String ssid, String password) &#123;
+    Serial.printf(&quot;\n📡 连接 WiFi...\n🔹 SSID: %s\n🔹 密码: %s\n&quot;, ssid.c_str(), password.c_str());
+    WiFi.begin(ssid.c_str(), password.c_str());
+    int timeout &#x3D; 10;
+    while (WiFi.status() !&#x3D; WL_CONNECTED &amp;&amp; timeout-- &gt; 0) &#123;
+        delay(1000);
+        Serial.print(&quot;.&quot;);
+    &#125;
+
+    if (WiFi.status() &#x3D;&#x3D; WL_CONNECTED) &#123;
+        Serial.println(&quot;\n✅ WiFi 连接成功！&quot;);
+        Serial.print(&quot;🔹 IP 地址: &quot;);
+        Serial.println(WiFi.localIP());
+        
+        preferences.begin(&quot;wifi-config&quot;, false);
+        preferences.putString(&quot;ssid&quot;, ssid);
+        preferences.putString(&quot;password&quot;, password);
+        preferences.end();
+        Serial.println(&quot;✅ WiFi 信息已存储！&quot;);
+
+        wifiConnected &#x3D; true; &#x2F;&#x2F; 标记 WiFi 连接成功
+    &#125; else &#123;
+        Serial.println(&quot;\n❌ WiFi 连接失败！&quot;);
+    &#125;
+&#125;
+
+class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks &#123;
+    void onResult(BLEAdvertisedDevice advertisedDevice) &#123;
+        if (wifiConnected) return; &#x2F;&#x2F; WiFi 连接成功后，停止解析 BLE 数据
+
+        if (advertisedDevice.haveManufacturerData()) &#123;
+            String manufacturerData &#x3D; advertisedDevice.getManufacturerData();
+
+            if (manufacturerData.length() &lt; 2) return;
+
+            uint16_t companyID &#x3D; (manufacturerData[1] &lt;&lt; 8) | manufacturerData[0]; &#x2F;&#x2F;合成16位
+            String receivedData &#x3D; manufacturerData.substring(2);&#x2F;&#x2F;从索引2开始
+
+            if (companyID &#x3D;&#x3D; SSID_COMPANY_ID) &#123;
+                receivedSSID &#x3D; receivedData;
+                Serial.printf(&quot;\n 发现 SSID 广播: %s\n&quot;, receivedSSID.c_str());
+            &#125; 
+            else if (companyID &#x3D;&#x3D; PASS_COMPANY_ID) &#123;
+                receivedPassword &#x3D; receivedData;
+                Serial.printf(&quot;\n 发现密码广播: %s\n&quot;, receivedPassword.c_str());
+            &#125;
+
+            if (receivedSSID.length() &gt; 0 &amp;&amp; receivedPassword.length() &gt; 0) &#123;
+                connectToWiFi(receivedSSID, receivedPassword);
+                receivedSSID &#x3D; &quot;&quot;;
+                receivedPassword &#x3D; &quot;&quot;;
+            &#125;
+        &#125;
+    &#125;
+&#125;;
+
+void setup() &#123;
+    Serial.begin(115200);
+    Serial.println(&quot; 开始扫描 BLE 广播数据...&quot;);
+
+    &#x2F;&#x2F; pinMode(BUTTON_PIN, INPUT_PULLUP); &#x2F;&#x2F; 设置按键为上拉模式
+    pinMode(ledPin, OUTPUT);
+    preferences.begin(&quot;wifi-config&quot;, true);
+    String storedSSID &#x3D; preferences.getString(&quot;ssid&quot;, &quot;&quot;);
+    String storedPassword &#x3D; preferences.getString(&quot;password&quot;, &quot;&quot;);
+    preferences.end();
+
+    if (storedSSID.length() &gt; 0 &amp;&amp; storedPassword.length() &gt; 0) &#123;
+        Serial.println(&quot; 发现存储的 WiFi 配置，尝试连接...&quot;);
+        connectToWiFi(storedSSID, storedPassword);
+    &#125; else &#123;
+        Serial.println(&quot; 未找到 WiFi 配置，等待 BLE 配置...&quot;);
+    &#125;
+
+    if (!wifiConnected) &#123;
+        BLEDevice::init(&quot;ESP32_BLE_Receiver&quot;);
+        pBLEScan &#x3D; BLEDevice::getScan();
+        pBLEScan-&gt;setAdvertisedDeviceCallbacks(new MyAdvertisedDeviceCallbacks());
+        pBLEScan-&gt;setActiveScan(true);
+    &#125;
+&#125;
+
+void loop() &#123;
+    if (!wifiConnected) &#123;
+        Serial.println(&quot;\n 重新扫描 BLE 广播数据...&quot;);
+        pBLEScan-&gt;start(SCAN_TIME, false);
+        digitalWrite(ledPin, HIGH);
+        delay(2000);
+        digitalWrite(ledPin, LOW);
+        delay(1000);
+        digitalWrite(ledPin, HIGH);
+        delay(2000);
+    &#125; else &#123;
+        Serial.println(&quot;\n WiFi 已连接，停止 BLE 扫描&quot;);
+        digitalWrite(ledPin, HIGH);
+        delay(10000); &#x2F;&#x2F; 避免过快打印
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/03/10/120-esp32-iic/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-07-19 22:27:37
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/03/12/121-esp32-s3-wifi/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#BLE-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">BLE 是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BLE-%E5%9F%BA%E7%A1%80%E6%9E%B6%E6%9E%84"><span class="toc-text">BLE 基础架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE"><span class="toc-text">环境安装配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ESP32-BLE%E5%B9%BF%E6%92%AD%E6%94%B6%E5%8F%91-advertise"><span class="toc-text">ESP32_BLE广播收发(advertise)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nRF%E5%B9%BF%E6%92%AD"><span class="toc-text">nRF广播</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ESP32%E8%BD%AE%E6%B5%81%E5%B9%BF%E6%92%AD"><span class="toc-text">ESP32轮流广播</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6"><span class="toc-text">接收</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP32_S3_BLE%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F03%2F10%2F119-esp32-ble%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/03/10/119-esp32-ble/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
