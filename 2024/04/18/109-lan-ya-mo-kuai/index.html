@@ -161,17 +161,18 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-05-14 15:22:16
+          2025-07-23 13:15:07
         </span>
         
       </div>
       <div class="markdown-body">
-        <h2 id="HC-05"><a href="#HC-05" class="headerlink" title="HC-05"></a>HC-05</h2><p>模块的指令结构为：AT+&lt;&#x3D;PARAM&gt;，<strong>在发送末尾添加回车\r\n）</strong>，否则模块不响应。</p>
+        <h2 id="HC-05"><a href="#HC-05" class="headerlink" title="HC-05"></a>HC-05</h2><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>接<code>USB TO TTL</code></p>
 <p>进入命令响应工作模式有两种方法：</p>
 <ul>
-<li>模块上电，未配对情况下就是AT模式，波特率为模块本身的波特率，默认：9600，发送一次AT指令时需要置高一次PIO11；</li>
-<li>PIO11 置高电平后，再给模块上电，此时模块进入AT 模式，波特率固定为：38400，可以直接发送AT指令。</li>
+<li>未配对情况下，模块上电就是AT模式，波特率为模块本身的波特率，默认：9600，发送一次AT指令时需要置高一次PIO11；</li>
+<li>配对后调试，PIO11 置高电平后，再给模块上电，此时模块进入AT 模式，波特率固定为：38400，可以直接发送AT指令。</li>
 </ul>
+<p>发送<code>AT</code>,响应OK,然后<code>AT+UART:115200,0,0</code>设置波特率为115200,0停止位，0校验位</p>
 <h3 id="AT指令"><a href="#AT指令" class="headerlink" title="AT指令"></a>AT指令</h3><p>比如我要查看模块的版本：</p>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c">串口发送：AT+VERSION?\r\n
 模块回应：+VERSION:2.0-20100601<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
@@ -238,17 +239,12 @@ AT+RMAAD           清空配对列表<span aria-hidden="true" class="line-number
 发送： AT+ROLE&#x3D;0（设置模块为从模式 Slave）
 返回： +ROLE&#x3D;0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>波特率参数</p>
-<blockquote>
-<p>1———1200<br>2———2400<br>3———4800<br>4———9600<br>5———19200<br>6———38400<br>7———57600<br>8———115200<br>9———230400<br>A———460800<br>B———921600<br>C———1382400</p>
-</blockquote>
 <h2 id="电脑连接蓝牙模块"><a href="#电脑连接蓝牙模块" class="headerlink" title="电脑连接蓝牙模块"></a>电脑连接蓝牙模块</h2><p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E8%93%9D%E7%89%99%E6%A8%A1%E5%9D%97&spm=1001.2101.3001.7020">蓝牙模块</a>HC05支持SPP协议，使用PC机自带蓝牙（或者蓝牙适配器）与HC05连接后，可在电脑端虚拟出串口，这样上位机软件就可以像操作串口一样与HC05通信。</p>
 <img src="/2024/04/18/109-lan-ya-mo-kuai/image-20240418150252453.png" class="" title="image-20240418150252453">
 
 <img src="/2024/04/18/109-lan-ya-mo-kuai/image-20240418150309451.png" class="" title="image-20240418150309451">## 
 
 <p>串口软件软件连接COM23就可以实现无线串口功能了</p>
-<p>2017年盘锦市兴隆台区兴隆中学班主任雷敬华,</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><a target="_blank" rel="noopener" href="https://shequ.stmicroelectronics.cn/thread-627049-1-1.html">HC-05蓝牙串口通信模块使用详解（手机蓝牙控制STM32单片机） (stmicroelectronics.cn)</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lisgsheng/article/details/131690150?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3-131690150-blog-121734788.235%5Ev43%5Epc_blog_bottom_relevance_base8&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3-131690150-blog-121734788.235%5Ev43%5Epc_blog_bottom_relevance_base8&utm_relevant_index=4">HC05模块与笔记本蓝牙连接_hc-05 电脑-CSDN博客</a></p>
 
@@ -266,7 +262,7 @@ AT+RMAAD           清空配对列表<span aria-hidden="true" class="line-number
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-05-14 15:22:16
+              2025-07-23 13:15:07
             </span>
             
           </div>
@@ -289,7 +285,7 @@ AT+RMAAD           清空配对列表<span aria-hidden="true" class="line-number
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HC-05"><span class="toc-text">HC-05</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AT%E6%8C%87%E4%BB%A4"><span class="toc-text">AT指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HC-06"><span class="toc-text">HC-06</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AT%E6%8C%87%E4%BB%A4-1"><span class="toc-text">AT指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E8%84%91%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E6%A8%A1%E5%9D%97"><span class="toc-text">电脑连接蓝牙模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HC-05"><span class="toc-text">HC-05</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AT%E6%8C%87%E4%BB%A4"><span class="toc-text">AT指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HC-06"><span class="toc-text">HC-06</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AT%E6%8C%87%E4%BB%A4-1"><span class="toc-text">AT指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E8%84%91%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E6%A8%A1%E5%9D%97"><span class="toc-text">电脑连接蓝牙模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
       
     </div>
   </div>
