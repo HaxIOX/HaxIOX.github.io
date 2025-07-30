@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-07-28 15:58:06
+          2025-07-30 16:22:10
         </span>
         
       </div>
@@ -171,6 +171,9 @@
 #include &lt;stdlib.h&gt;    &#x2F;&#x2F;malloc 和 free<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <h1 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h1><h2 id="scanf"><a href="#scanf" class="headerlink" title="scanf"></a>scanf</h2><p>python中的input，当遇到第一个空白时就不再输入。</p>
+<h2 id="sscanf"><a href="#sscanf" class="headerlink" title="sscanf"></a>sscanf</h2><p>按照格式提取字符串</p>
+<pre class="line-numbers language-none"><code class="language-none">int sscanf(const char *str, const char *format, ...);str：要读取的源字符串。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <h2 id="snprintf"><a href="#snprintf" class="headerlink" title="snprintf"></a>snprintf</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; snprintf(char *str, size_t size, const char *format, ...);
     &#x2F;&#x2F; 安全的格式化输出函数，它会将格式化的结果写入 str，最多写入 size-1 个字符，并自动添加 &#39;\0&#39;。
     &#x2F;&#x2F; %d: 整数, %02X: 两位大写十六进制数 (不足两位前面补0), %s: 字符串。
@@ -215,9 +218,13 @@
     &#x2F;&#x2F; (uint8_t) 是类型转换，将结果转换为8位无符号整数。
     uint8_t type_code &#x3D; (uint8_t)strtol(type_str, NULL, 16);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h2 id="strcmp"><a href="#strcmp" class="headerlink" title="strcmp"></a>strcmp</h2><pre class="line-numbers language-none"><code class="language-none">int result1 &#x3D; strcmp(s1, s2); <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="strcmp"><a href="#strcmp" class="headerlink" title="strcmp"></a>strcmp</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">int result1 &#x3D; strcmp(s1, s2); <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>比较字符数，s1大于s2，则result&#x3D;1，反之等于-1，相等则为0。</p>
+<h2 id="strncmp"><a href="#strncmp" class="headerlink" title="strncmp"></a>strncmp</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">int strncmp(const char *s1, const char *s2, size_t n);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>比较字符串</p>
+<p><strong>n</strong>：最多比较的字符数。</p>
 <h2 id="malloc"><a href="#malloc" class="headerlink" title="malloc"></a>malloc</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; 在任务函数内部定义
 uint8_t *data_tmp &#x3D; (uint8_t *)malloc(UART_BUF_SIZE);
 uint8_t *data_tmp: 定义一个指向 uint8_t（无符号8位整数，即字节）类型的指针 data_tmp。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
@@ -298,7 +305,7 @@ const int len &#x3D; pkt-&gt;rx_ctrl.sig_len;  &#x2F;&#x2F; len是数据包的�
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-07-28 15:58:06
+              2025-07-30 16:22:10
             </span>
             
           </div>
@@ -321,7 +328,7 @@ const int len &#x3D; pkt-&gt;rx_ctrl.sig_len;  &#x2F;&#x2F; len是数据包的�
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%93"><span class="toc-text">库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#scanf"><span class="toc-text">scanf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#snprintf"><span class="toc-text">snprintf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strlen"><span class="toc-text">strlen</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strncpy"><span class="toc-text">strncpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#atoi"><span class="toc-text">atoi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#atof"><span class="toc-text">atof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strtol"><span class="toc-text">strtol</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strcmp"><span class="toc-text">strcmp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#malloc"><span class="toc-text">malloc</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E6%88%90%E5%91%98%E8%AE%BF%E9%97%AE"><span class="toc-text">指针类型转换和结构体成员访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#printf"><span class="toc-text">printf</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">关键字</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-text">分文件管理</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%93"><span class="toc-text">库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#scanf"><span class="toc-text">scanf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sscanf"><span class="toc-text">sscanf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#snprintf"><span class="toc-text">snprintf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strlen"><span class="toc-text">strlen</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strncpy"><span class="toc-text">strncpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#atoi"><span class="toc-text">atoi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#atof"><span class="toc-text">atof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strtol"><span class="toc-text">strtol</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strcmp"><span class="toc-text">strcmp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strncmp"><span class="toc-text">strncmp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#malloc"><span class="toc-text">malloc</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E6%88%90%E5%91%98%E8%AE%BF%E9%97%AE"><span class="toc-text">指针类型转换和结构体成员访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#printf"><span class="toc-text">printf</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">关键字</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-text">分文件管理</span></a></li></ol>
       
     </div>
   </div>
