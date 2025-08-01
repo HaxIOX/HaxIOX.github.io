@@ -13,7 +13,7 @@
   
   <title>
     
-      181-linux to windows 无线串口 
+      linux to windows 无线串口 
       
       
       |
@@ -157,16 +157,44 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">181-linux to windows 无线串口</div>
+      <div class="post-title">linux to windows 无线串口</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-07-24 09:42:47
+          2025-07-31 09:38:26
         </span>
         
       </div>
       <div class="markdown-body">
-        
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>使用蓝牙透传时，发现高速数据会卡顿，于是想试一下别的无线传输方式</p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
+<li>Orangepi</li>
+<li>socat</li>
+<li>有人的tcp转虚拟串口</li>
+</ul>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p><strong>将串口数据通过TCP&#x2F;IP隧道传输</strong>，让Windows端通过虚拟串口软件接收数据。</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="1-Linux端配置-串口-TCP"><a href="#1-Linux端配置-串口-TCP" class="headerlink" title="1. Linux端配置 (串口 -&gt; TCP)"></a><strong>1. Linux端配置 (串口 -&gt; TCP)</strong></h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 安装socat
+sudo apt install socat
+
+# 将串口&#x2F;dev&#x2F;ttyS0的数据转发到TCP 8888端口
+socat -d -d TCP-LISTEN:8888,reuseaddr,fork FILE:&#x2F;dev&#x2F;ttyS0,raw,echo&#x3D;0,b115200<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><strong>参数说明</strong>：<ul>
+<li><code>b115200</code>：波特率（按实际设备修改）</li>
+<li><code>reuseaddr</code>：允许端口重用</li>
+<li><code>fork</code>：保持服务持续运行</li>
+<li>如果串口需要权限，可添加<code>sudo</code>或配置udev规则</li>
+</ul>
+</li>
+</ul>
+<h2 id="Windows端配置"><a href="#Windows端配置" class="headerlink" title="Windows端配置"></a>Windows端配置</h2><p><a target="_blank" rel="noopener" href="https://www.usr.cn/Download/31.html">USR-VCOM</a></p>
+<ul>
+<li>tcp client</li>
+<li>配置监听ip与端口（也就是linux端ip与端口）</li>
+</ul>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>经过测试发现同样出现卡顿现象，且待测试模块的上位机无法识别虚拟串口</p>
+
       </div>
       
         <div class="prev-or-next">
@@ -181,7 +209,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-07-24 09:42:47
+              2025-07-31 09:38:26
             </span>
             
           </div>
@@ -197,6 +225,23 @@
       
     </div>
     
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Linux%E7%AB%AF%E9%85%8D%E7%BD%AE-%E4%B8%B2%E5%8F%A3-TCP"><span class="toc-text">1. Linux端配置 (串口 -&gt; TCP)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows%E7%AB%AF%E9%85%8D%E7%BD%AE"><span class="toc-text">Windows端配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-text">测试</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
 
     
       <div class="comments-container">
@@ -475,7 +520,7 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + 181-linux%20to%20windows%20%E6%97%A0%E7%BA%BF%E4%B8%B2%E5%8F%A3 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F07%2F24%2F181-linux-to-windows-wu-xian-chuan-kou%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + linux%20to%20windows%20%E6%97%A0%E7%BA%BF%E4%B8%B2%E5%8F%A3 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F07%2F24%2F181-linux-to-windows-wu-xian-chuan-kou%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
