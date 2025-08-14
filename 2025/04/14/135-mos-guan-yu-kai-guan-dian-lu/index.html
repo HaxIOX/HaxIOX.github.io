@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-07-18 13:44:16
+          2025-08-14 17:30:32
         </span>
         
       </div>
@@ -176,7 +176,7 @@
 <img src="/2025/04/14/135-mos-guan-yu-kai-guan-dian-lu/1749801559251.png" class="" width="1749801559251">
 
 <p><strong>PMOS</strong>管,体二极管的方向相反</p>
-<h2 id="AO3400A"><a href="#AO3400A" class="headerlink" title="AO3400A"></a>AO3400A</h2><ul>
+<h2 id="NMOS"><a href="#NMOS" class="headerlink" title="NMOS"></a>NMOS</h2><h3 id="AO3400A"><a href="#AO3400A" class="headerlink" title="AO3400A"></a>AO3400A</h3><ul>
 <li><p>1个N沟道 耐压:30V 电流:5.8A</p>
 </li>
 <li><p><strong>阈值电压：1.4v</strong></p>
@@ -219,7 +219,7 @@
 <td>负载地线电位不稳定时会给 MCU 带来风险</td>
 </tr>
 </tbody></table>
-<hr>
+<h2 id="PMOS"><a href="#PMOS" class="headerlink" title="PMOS"></a>PMOS</h2><hr>
 <h3 id="高边开关（High-Side-Switch）"><a href="#高边开关（High-Side-Switch）" class="headerlink" title="高边开关（High-Side Switch）"></a>高边开关（High-Side Switch）</h3><h3 id="1-P-沟道-MOSFET-简单高边开关"><a href="#1-P-沟道-MOSFET-简单高边开关" class="headerlink" title="1. P 沟道 MOSFET 简单高边开关"></a>1. P 沟道 MOSFET 简单高边开关</h3><pre class="line-numbers language-none"><code class="language-none">+VCC ──●─── 源(S) Q2(P-MOS) 漏(D)───→── 负载 ──→── GND
        │
       R_pullup
@@ -332,7 +332,17 @@
 <p>注意：</p>
 <p>供电电流不能太小，否则会一直自动重启</p>
 <p><strong>基础开关电路的理解</strong></p>
+<p>上半部分是开关机电路，首先Key_BAT被拉高，按键按下后被拉低，mcu控制BAT_Control拉高保持，NPN三极管高电平导通导致AO3401 PMOS的栅极G被拉低，使MOS管导通。</p>
+<p><strong>右下角电路是电源切换电路</strong></p>
+<p>当电池供电时，Q2的栅极为低电平，Q2截止，但是通过体二极管，将VCC缓慢拉高为4.7V</p>
+<p>当usb供电时，Vg由于下拉电阻，电压远小于5v，Vcc&#x3D;5v（如下图可见）,Vgs&lt;0，Q2导通</p>
+<p><strong>还是有点困惑</strong></p>
 <p><a target="_blank" rel="noopener" href="https://chatgpt.com/share/685e6742-ea44-8008-8e6b-942e1cbcd014">https://chatgpt.com/share/685e6742-ea44-8008-8e6b-942e1cbcd014</a></p>
+<img src="/2025/04/14/135-mos-guan-yu-kai-guan-dian-lu/1755150245962.png" class="" width="1755150245962">
+
+<img src="/2025/04/14/135-mos-guan-yu-kai-guan-dian-lu/1755136464584.png" class="" width="1755136464584">
+
+<p>这是开关机电路，当检测到按键按下的时候电路导通，且拉高PCA_IO0_6为高电平，NPN三极管导通，使Pmos持续导通。</p>
 <h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/CodeWorkerLiMing/p/12007346.html">MOS管做开关之初理解 - wdliming - 博客园</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44115082/article/details/109193826">MOS管的使用_mos管限流电路-CSDN博客</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Mb4y1k7fd?spm_id_from=333.788.videopod.sections&vd_source=e33ad22b3d91cb180bef532ce5877b2e">【知识】既然有了nmos 为啥还要pmos_哔哩哔哩_bilibili</a></p>
@@ -351,7 +361,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-07-18 13:44:16
+              2025-08-14 17:30:32
             </span>
             
           </div>
@@ -374,7 +384,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mos%E7%AE%A1"><span class="toc-text">Mos管</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#AO3400A"><span class="toc-text">AO3400A</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8E%E8%BE%B9%E5%BC%80%E5%85%B3%EF%BC%88Low-Side-Switch%EF%BC%89"><span class="toc-text">低边开关（Low-Side Switch）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%94%B5%E8%B7%AF%E5%BD%A2%E5%BC%8F"><span class="toc-text">1. 电路形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">2. 工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">3. 优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E8%BE%B9%E5%BC%80%E5%85%B3%EF%BC%88High-Side-Switch%EF%BC%89"><span class="toc-text">高边开关（High-Side Switch）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-P-%E6%B2%9F%E9%81%93-MOSFET-%E7%AE%80%E5%8D%95%E9%AB%98%E8%BE%B9%E5%BC%80%E5%85%B3"><span class="toc-text">1. P 沟道 MOSFET 简单高边开关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-N-%E6%B2%9F%E9%81%93-MOSFET-%E2%80%9C%E9%A9%B1%E5%8A%A8-%E9%AB%98%E8%BE%B9%E2%80%9D-%E6%96%B9%E6%A1%88"><span class="toc-text">2. N 沟道 MOSFET “驱动+高边” 方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E8%A6%81%E7%82%B9"><span class="toc-text">3. 工作原理要点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%A8%E6%9E%81%E9%A9%B1%E5%8A%A8%E4%B8%8E%E4%BF%9D%E6%8A%A4"><span class="toc-text">门极驱动与保护</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%95%E6%97%B6%E7%94%A8%E5%93%AA%E4%B8%80%E7%A7%8D%EF%BC%9F"><span class="toc-text">何时用哪一种？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%85%B3%E7%94%B5%E8%B7%AF%E5%9B%BE"><span class="toc-text">开关电路图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Mos%E7%AE%A1"><span class="toc-text">Mos管</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#NMOS"><span class="toc-text">NMOS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AO3400A"><span class="toc-text">AO3400A</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8E%E8%BE%B9%E5%BC%80%E5%85%B3%EF%BC%88Low-Side-Switch%EF%BC%89"><span class="toc-text">低边开关（Low-Side Switch）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%94%B5%E8%B7%AF%E5%BD%A2%E5%BC%8F"><span class="toc-text">1. 电路形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">2. 工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">3. 优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PMOS"><span class="toc-text">PMOS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E8%BE%B9%E5%BC%80%E5%85%B3%EF%BC%88High-Side-Switch%EF%BC%89"><span class="toc-text">高边开关（High-Side Switch）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-P-%E6%B2%9F%E9%81%93-MOSFET-%E7%AE%80%E5%8D%95%E9%AB%98%E8%BE%B9%E5%BC%80%E5%85%B3"><span class="toc-text">1. P 沟道 MOSFET 简单高边开关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-N-%E6%B2%9F%E9%81%93-MOSFET-%E2%80%9C%E9%A9%B1%E5%8A%A8-%E9%AB%98%E8%BE%B9%E2%80%9D-%E6%96%B9%E6%A1%88"><span class="toc-text">2. N 沟道 MOSFET “驱动+高边” 方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E8%A6%81%E7%82%B9"><span class="toc-text">3. 工作原理要点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%A8%E6%9E%81%E9%A9%B1%E5%8A%A8%E4%B8%8E%E4%BF%9D%E6%8A%A4"><span class="toc-text">门极驱动与保护</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%95%E6%97%B6%E7%94%A8%E5%93%AA%E4%B8%80%E7%A7%8D%EF%BC%9F"><span class="toc-text">何时用哪一种？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%85%B3%E7%94%B5%E8%B7%AF%E5%9B%BE"><span class="toc-text">开关电路图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol>
       
     </div>
   </div>
