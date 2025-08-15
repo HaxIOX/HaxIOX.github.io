@@ -161,12 +161,208 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-08-14 14:21:41
+          2025-08-15 17:09:11
         </span>
         
       </div>
       <div class="markdown-body">
-        
+        <h1 id="Arduino"><a href="#Arduino" class="headerlink" title="Arduino"></a>Arduino</h1><p>测试Demo，安装esp_camera库，实现网站实时显示摄像头内容。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &quot;esp_camera.h&quot;
+#include &lt;WiFi.h&gt;
+#include &quot;esp_http_server.h&quot; &#x2F;&#x2F; 需要包含这个库来创建网页服务器
+&#x2F;&#x2F; 替换为您的 Wi-Fi 名称和密码
+const char* ssid &#x3D; &quot;&quot;;
+const char* password &#x3D; &quot;&quot;;
+
+
+&#x2F;&#x2F; #define PWDN_GPIO_NUM      5  &#x2F;&#x2F; OV_PWDN 
+&#x2F;&#x2F; #define RESET_GPIO_NUM     4  &#x2F;&#x2F; OV_RESET 
+&#x2F;&#x2F; #define XCLK_GPIO_NUM      -1  &#x2F;&#x2F; 这个引脚需要手动连接到模块的 XCLK 输入点
+&#x2F;&#x2F; #define SIOD_GPIO_NUM      2  &#x2F;&#x2F; OV_SDA 
+&#x2F;&#x2F; #define SIOC_GPIO_NUM      1  &#x2F;&#x2F; OV_SCL 
+
+&#x2F;&#x2F; #define Y9_GPIO_NUM        9  &#x2F;&#x2F; OV_D7 
+&#x2F;&#x2F; #define Y8_GPIO_NUM        10 &#x2F;&#x2F; OV_D6 
+&#x2F;&#x2F; #define Y7_GPIO_NUM        11 &#x2F;&#x2F; OV_D5 
+&#x2F;&#x2F; #define Y6_GPIO_NUM        12 &#x2F;&#x2F; OV_D4 
+&#x2F;&#x2F; #define Y5_GPIO_NUM        14 &#x2F;&#x2F; OV_D3 
+&#x2F;&#x2F; #define Y4_GPIO_NUM        13 &#x2F;&#x2F; OV_D2 
+&#x2F;&#x2F; #define Y3_GPIO_NUM        16 &#x2F;&#x2F; OV_D1 
+&#x2F;&#x2F; #define Y2_GPIO_NUM        15 &#x2F;&#x2F; OV_D0 
+&#x2F;&#x2F; #define VSYNC_GPIO_NUM     6  &#x2F;&#x2F; OV_VSYNC 
+&#x2F;&#x2F; #define HREF_GPIO_NUM      7  &#x2F;&#x2F; OV_HREF 
+&#x2F;&#x2F; #define PCLK_GPIO_NUM      8  &#x2F;&#x2F; OV_PCLK 
+
+
+
+
+
+&#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+&#x2F;&#x2F;       摄像头引脚定义 (根据您的模块修改)
+&#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+#define PWDN_GPIO_NUM      5
+#define RESET_GPIO_NUM     4
+#define XCLK_GPIO_NUM      -1  &#x2F;&#x2F; -1 表示模块自带时钟，ESP32不提供
+#define SIOD_GPIO_NUM      2
+#define SIOC_GPIO_NUM      1
+
+#define Y9_GPIO_NUM        9
+#define Y8_GPIO_NUM        10
+#define Y7_GPIO_NUM        11
+#define Y6_GPIO_NUM        12
+#define Y5_GPIO_NUM        14
+#define Y4_GPIO_NUM        13
+#define Y3_GPIO_NUM        16
+#define Y2_GPIO_NUM        15
+
+#define VSYNC_GPIO_NUM     6
+#define HREF_GPIO_NUM      7
+#define PCLK_GPIO_NUM      8
+
+
+&#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+&#x2F;&#x2F; 以下是 startCameraServer 函数的完整实现，是解决问题的关键
+&#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+
+static esp_err_t stream_handler(httpd_req_t *req)&#123;
+  camera_fb_t * fb &#x3D; NULL;
+  esp_err_t res &#x3D; ESP_OK;
+  size_t _jpg_buf_len &#x3D; 0;
+  uint8_t * _jpg_buf &#x3D; NULL;
+  char * part_buf[64];
+
+  res &#x3D; httpd_resp_set_type(req, &quot;multipart&#x2F;x-mixed-replace;boundary&#x3D;--frame&quot;);
+  if(res !&#x3D; ESP_OK)&#123;
+    return res;
+  &#125;
+
+  while(true)&#123;
+    fb &#x3D; esp_camera_fb_get();
+    if (!fb) &#123;
+      Serial.println(&quot;Camera capture failed&quot;);
+      res &#x3D; ESP_FAIL;
+    &#125; else &#123;
+      if(fb-&gt;format !&#x3D; PIXFORMAT_JPEG)&#123;
+        bool jpeg_converted &#x3D; frame2jpg(fb, 80, &amp;_jpg_buf, &amp;_jpg_buf_len);
+        esp_camera_fb_return(fb);
+        fb &#x3D; NULL;
+        if(!jpeg_converted)&#123;
+          Serial.println(&quot;JPEG compression failed&quot;);
+          res &#x3D; ESP_FAIL;
+        &#125;
+      &#125; else &#123;
+        _jpg_buf_len &#x3D; fb-&gt;len;
+        _jpg_buf &#x3D; fb-&gt;buf;
+      &#125;
+    &#125;
+    if(res &#x3D;&#x3D; ESP_OK)&#123;
+      size_t hlen &#x3D; snprintf((char *)part_buf, 64, &quot;Content-Type: image&#x2F;jpeg\r\nContent-Length: %u\r\n\r\n&quot;, _jpg_buf_len);
+      res &#x3D; httpd_resp_send_chunk(req, (const char *)part_buf, hlen);
+    &#125;
+    if(res &#x3D;&#x3D; ESP_OK)&#123;
+      res &#x3D; httpd_resp_send_chunk(req, (const char *)_jpg_buf, _jpg_buf_len);
+    &#125;
+    if(res &#x3D;&#x3D; ESP_OK)&#123;
+      res &#x3D; httpd_resp_send_chunk(req, &quot;\r\n--frame\r\n&quot;, strlen(&quot;\r\n--frame\r\n&quot;));
+    &#125;
+    if(fb)&#123;
+      esp_camera_fb_return(fb);
+      fb &#x3D; NULL;
+      _jpg_buf &#x3D; NULL;
+    &#125; else if(_jpg_buf)&#123;
+      free(_jpg_buf);
+      _jpg_buf &#x3D; NULL;
+    &#125;
+    if(res !&#x3D; ESP_OK)&#123;
+      break;
+    &#125;
+  &#125;
+  return res;
+&#125;
+
+void startCameraServer()&#123;
+  httpd_handle_t stream_httpd &#x3D; NULL;
+  httpd_config_t config &#x3D; HTTPD_DEFAULT_CONFIG();
+
+  httpd_uri_t stream_uri &#x3D; &#123;
+    .uri       &#x3D; &quot;&#x2F;&quot;,
+    .method    &#x3D; HTTP_GET,
+    .handler   &#x3D; stream_handler,
+    .user_ctx  &#x3D; NULL
+  &#125;;
+
+  if (httpd_start(&amp;stream_httpd, &amp;config) &#x3D;&#x3D; ESP_OK) &#123;
+    httpd_register_uri_handler(stream_httpd, &amp;stream_uri);
+  &#125;
+&#125;
+
+&#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+&#x2F;&#x2F; 主程序
+&#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+
+void setup() &#123;
+  Serial.begin(115200);
+  Serial.setDebugOutput(true);
+  Serial.println();
+
+  camera_config_t config;
+  config.ledc_channel &#x3D; LEDC_CHANNEL_0;
+  config.ledc_timer &#x3D; LEDC_TIMER_0;
+  config.pin_d0 &#x3D; Y2_GPIO_NUM;
+  config.pin_d1 &#x3D; Y3_GPIO_NUM;
+  config.pin_d2 &#x3D; Y4_GPIO_NUM;
+  config.pin_d3 &#x3D; Y5_GPIO_NUM;
+  config.pin_d4 &#x3D; Y6_GPIO_NUM;
+  config.pin_d5 &#x3D; Y7_GPIO_NUM;
+  config.pin_d6 &#x3D; Y8_GPIO_NUM;
+  config.pin_d7 &#x3D; Y9_GPIO_NUM;
+  config.pin_xclk &#x3D; XCLK_GPIO_NUM;
+  config.pin_pclk &#x3D; PCLK_GPIO_NUM;
+  config.pin_vsync &#x3D; VSYNC_GPIO_NUM;
+  config.pin_href &#x3D; HREF_GPIO_NUM;
+  config.pin_sccb_sda &#x3D; SIOD_GPIO_NUM;
+  config.pin_sccb_scl &#x3D; SIOC_GPIO_NUM;
+  config.pin_pwdn &#x3D; PWDN_GPIO_NUM;
+  config.pin_reset &#x3D; RESET_GPIO_NUM;
+  &#x2F;&#x2F; config.xclk_freq_hz &#x3D; 0; &#x2F;&#x2F; 当pin_xclk为-1时，此项无效
+  config.xclk_freq_hz &#x3D; 20000000; &#x2F;&#x2F; 提供一个非零的虚拟值，例如20MHz
+  config.pixel_format &#x3D; PIXFORMAT_JPEG;
+
+  &#x2F;&#x2F; 对于高分辨率 (OV5640 支持 UXGA, QXGA 等)
+  &#x2F;&#x2F; 您可能需要使用 PSRAM。请确保您的 ESP32-S3 开发板有 PSRAM。
+  config.frame_size &#x3D; FRAMESIZE_UXGA; &#x2F;&#x2F; 1600x1200
+  config.jpeg_quality &#x3D; 12; &#x2F;&#x2F; 质量可以适当调整 (0-63, 数值越小质量越高)
+  config.fb_count &#x3D; 2;
+  config.fb_location &#x3D; CAMERA_FB_IN_PSRAM; &#x2F;&#x2F; 强制使用PSRAM
+
+  &#x2F;&#x2F; 初始化摄像头
+  esp_err_t err &#x3D; esp_camera_init(&amp;config);
+  if (err !&#x3D; ESP_OK) &#123;
+    Serial.printf(&quot;摄像头初始化失败，错误码: 0x%x&quot;, err);
+    return;
+  &#125;
+  Serial.println(&quot;摄像头初始化成功！&quot;);
+
+  &#x2F;&#x2F; 连接 WiFi
+  WiFi.begin(ssid, password);
+  while (WiFi.status() !&#x3D; WL_CONNECTED) &#123;
+    delay(500);
+    Serial.print(&quot;.&quot;);
+  &#125;
+  Serial.println(&quot;\nWiFi 已连接&quot;);
+  Serial.print(&quot;摄像头视频流地址: http:&#x2F;&#x2F;&quot;);
+  Serial.println(WiFi.localIP());
+
+  &#x2F;&#x2F; 启动网页服务器
+  startCameraServer();
+&#125;
+
+void loop() &#123;
+  &#x2F;&#x2F; 主循环保持空闲，因为服务器在后台运行
+  delay(10000);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
       </div>
       
         <div class="prev-or-next">
@@ -181,7 +377,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-08-14 14:21:41
+              2025-08-15 17:09:11
             </span>
             
           </div>
@@ -197,6 +393,23 @@
       
     </div>
     
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Arduino"><span class="toc-text">Arduino</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
 
     
       <div class="comments-container">

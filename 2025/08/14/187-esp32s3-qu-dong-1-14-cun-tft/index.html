@@ -13,7 +13,7 @@
   
   <title>
     
-      187-ESP32S3驱动1.14寸TFT 
+      ESP32S3驱动1.14寸TFT 
       
       
       |
@@ -157,16 +157,44 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">187-ESP32S3驱动1.14寸TFT</div>
+      <div class="post-title">ESP32S3驱动1.14寸TFT</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-08-14 14:24:13
+          2025-08-15 17:31:02
         </span>
         
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/LCD/" title="LCD">
+                    #LCD
+                  </a>
+                </span>
+                
+              </span>
+          
       </div>
       <div class="markdown-body">
-        
+        <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
+<li>ST7789</li>
+<li>ESP-IDF</li>
+<li>ESP32-S3</li>
+</ul>
+<h1 id="分区表"><a href="#分区表" class="headerlink" title="分区表"></a>分区表</h1><p>放在项目目录下，在menuconfig中开启</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># ESP-IDF Partition Table
+# Name,   Type, SubType, Offset,  Size, Flags
+nvs,      data, nvs,     ,        24K,
+phy_init, data, phy,     ,        4K,
+factory,  app,  factory, ,        1M,
+storage,  data, spiffs,  ,        1M,<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h1><h3 id="Arduino"><a href="#Arduino" class="headerlink" title="Arduino"></a>Arduino</h3><p>微雪电子的程序可以用来测试<a target="_blank" rel="noopener" href="https://www.waveshare.net/wiki/ESP32-S3-GEEK#ESP-IDF.E5.BC.80.E5.8F.91">ESP32-S3-GEEK - Waveshare Wiki</a></p>
+<h3 id="ESP-IDF"><a href="#ESP-IDF" class="headerlink" title="ESP-IDF"></a>ESP-IDF</h3><p>在这个项目的基础上修改<a target="_blank" rel="noopener" href="https://github.com/espressif/esp-idf/tree/v5.5/examples/peripherals/lcd/tjpgd">esp-idf&#x2F;examples&#x2F;peripherals&#x2F;lcd&#x2F;tjpgd at v5.5 · espressif&#x2F;esp-idf</a></p>
+<p>采用</p>
+<h1 id="参考项目"><a href="#参考项目" class="headerlink" title="参考项目"></a>参考项目</h1><p><a target="_blank" rel="noopener" href="https://github.com/nopnop2002/esp-idf-st7789?tab=readme-ov-file">nopnop2002&#x2F;esp-idf-st7789：用于 esp-idf 的 ST7789 驱动程序</a></p>
+
       </div>
       
         <div class="prev-or-next">
@@ -181,17 +209,50 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-08-14 14:24:13
+              2025-08-15 17:31:02
             </span>
             
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/LCD/" title="LCD">
+                        #LCD
+                      </a>
+                    </span>
+                    
+                  </span>
+              
           </div>
           <div class="post-foot-prev">
+            
+              <a href="/2025/08/15/188-yi-yuan-eg800kcn/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
             
           </div>
         </div>
       
     </div>
     
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E8%A1%A8"><span class="toc-text">分区表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Demo"><span class="toc-text">Demo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Arduino"><span class="toc-text">Arduino</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ESP-IDF"><span class="toc-text">ESP-IDF</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%A1%B9%E7%9B%AE"><span class="toc-text">参考项目</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
 
     
       <div class="comments-container">
@@ -470,7 +531,7 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + 187-ESP32S3%E9%A9%B1%E5%8A%A81.14%E5%AF%B8TFT + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F08%2F14%2F187-esp32s3-qu-dong-1-14-cun-tft%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP32S3%E9%A9%B1%E5%8A%A81.14%E5%AF%B8TFT + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F08%2F14%2F187-esp32s3-qu-dong-1-14-cun-tft%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
