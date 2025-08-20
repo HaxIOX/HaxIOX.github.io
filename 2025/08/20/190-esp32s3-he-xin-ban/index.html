@@ -10,10 +10,13 @@
   <!-- 用于搜索引擎的文章摘要 -->
   
   
-    <meta name="robots" content="noindex" />
-  
   
   <title>
+    
+      ESP32S3核心板 
+      
+      
+      |
     
      南北的猫
   </title>
@@ -109,177 +112,204 @@
 
 
       <div class="flex-container">
-        <div class="container index">
-  <div class="post-list">
-    <!-- 遍历渲染文章 -->
-    
-      <div class="post-item" title="🐍JS逆向看准网">
-        <div class="time-m-d">2023-09-01</div>
-        <div class="title">
-          <a href="/2023/09/01/80p-js-ni-xiang-kan-zhun-wang/">
-            
-              
-                <span>🐍JS逆向看准网</span>
-              
-            
-          </a>
-        </div>
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">ESP32S3核心板</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-08-20 17:36:58
+        </span>
+        
       </div>
-    
-      <div class="post-item" title="🔋有道翻译js逆向">
-        <div class="time-m-d">2023-08-27</div>
-        <div class="title">
-          <a href="/2023/08/27/79p-js-ni-xiang/">
-            
-              
-                <span>🔋有道翻译js逆向</span>
-              
-            
-          </a>
-        </div>
+      <div class="markdown-body">
+        <h1 id="ESP32-S3-硬件调试与外设驱动问题总结"><a href="#ESP32-S3-硬件调试与外设驱动问题总结" class="headerlink" title="ESP32-S3 硬件调试与外设驱动问题总结"></a>ESP32-S3 硬件调试与外设驱动问题总结</h1><hr>
+<h2 id="1-晶振未起振问题"><a href="#1-晶振未起振问题" class="headerlink" title="1. 晶振未起振问题"></a>1. 晶振未起振问题</h2><ul>
+<li><strong>现象</strong><ul>
+<li>上电后 ESP32-S3 无法识别 USB 端口；</li>
+<li>使用示波器测试 XTAL_P&#x2F;XTAL_N 无电压，只有 mV 级噪声；</li>
+<li>整机电流仅 7 mA；</li>
+<li>反复重焊后有时能识别端口，但不稳定。</li>
+</ul>
+</li>
+<li><strong>分析</strong><ul>
+<li>ESP32-S3 内部有起振电路，通过 XTAL_P&#x2F;XTAL_N 接入外部晶振；</li>
+<li>芯片会在启动时给晶振两端加“起振电流”，需要合适的负载电容和 PCB 布局；</li>
+<li>如果测不到电压，说明起振电路未工作，可能是：<ol>
+<li>晶振本身焊接不良 &#x2F; 损坏；</li>
+<li>负载电容不合适（过大或过小都可能不起振）；</li>
+<li>GND 或电源焊接不良；</li>
+<li>芯片内部损坏。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><strong>结论</strong><ul>
+<li>单凭 0 V 无法完全确认是芯片损坏；</li>
+<li>常用排查手段：换晶振 &#x2F; 电容，检查 GND 焊接完整性；</li>
+<li>使用信号源注入法可辅助判断晶振电路是否能正常放大。</li>
+<li>重焊芯片与晶振</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-Flash-烧录与启动问题"><a href="#2-Flash-烧录与启动问题" class="headerlink" title="2. Flash 烧录与启动问题"></a>2. Flash 烧录与启动问题</h2><ul>
+<li><strong>现象</strong><ul>
+<li>烧录失败，提示 <em>Failed to connect to ESP32-S3: No serial data received</em>；</li>
+<li>烧录后出现 <code>invalid header: 0xffffffff</code>；</li>
+<li>日志中提示 <em>No bootable app partitions in the partition table</em>；</li>
+<li>测试发现 VDD_SPI 与 SPIHD 短路。</li>
+</ul>
+</li>
+<li><strong>分析</strong><ul>
+<li><code>0xffffffff</code> 常见于 flash 读不到数据（供电&#x2F;走线问题&#x2F;短路）；</li>
+<li>确认短路点去除后，可以正常烧录；</li>
+<li>若分区表错误，需重新烧录正确的分区表和固件。</li>
+</ul>
+</li>
+<li><strong>注意点</strong><ul>
+<li>Flash 电源 VDD_SPI 要稳定；</li>
+<li>SPI Flash 走线要短且阻抗匹配；</li>
+<li>助焊剂残留可能引起短路。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="3-USB-UART-烧录"><a href="#3-USB-UART-烧录" class="headerlink" title="3. USB &amp; UART 烧录"></a>3. USB &amp; UART 烧录</h2><ul>
+<li><strong>现象</strong><ul>
+<li>原生 USB 无法识别；</li>
+<li>Arduino框架下UART无数据输出；</li>
+<li>后来通过打开Arduino的USB CDC 可识别并烧录成功。</li>
+</ul>
+</li>
+<li><strong>分析</strong><ul>
+<li>原因大多为焊接不良；</li>
+<li>USB 需要 DP&#x2F;DM 正确走线、差分阻抗控制、上拉电阻正常。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="4-WiFi-信号与天线问题"><a href="#4-WiFi-信号与天线问题" class="headerlink" title="4. WiFi 信号与天线问题"></a>4. WiFi 信号与天线问题</h2><ul>
+<li><strong>现象</strong><ul>
+<li>扫描 WiFi 网络时，只能搜到极少数热点。</li>
+</ul>
+</li>
+<li><strong>分析</strong><ul>
+<li>可能原因：<ol>
+<li>天线设计问题：四层板时若在天线下方铺铜，会严重削弱信号；</li>
+<li>天线匹配电路不合理；</li>
+<li>WiFi 模块屏蔽层接地不良。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
       </div>
-    
-      <div class="post-item" title="NE555信号发生器">
-        <div class="time-m-d">2023-08-26</div>
-        <div class="title">
-          <a href="/2023/08/26/78h-ne555-xin-hao-fa-sheng-qi/">
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
             
-              
-                <span>NE555信号发生器</span>
-              
+              <a href="/2025/08/15/189-spi-tong-xin/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
             
-          </a>
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-08-20 17:36:58
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/08/20/191-pca9555-kuo-zhan-xin-pian/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
         </div>
-      </div>
+      
+    </div>
     
-      <div class="post-item" title="继电器模块">
-        <div class="time-m-d">2023-08-24</div>
-        <div class="title">
-          <a href="/2023/08/24/77h-ji-dian-qi-mo-kuai/">
-            
-              
-                <span>继电器模块</span>
-              
-            
-          </a>
-        </div>
-      </div>
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ESP32-S3-%E7%A1%AC%E4%BB%B6%E8%B0%83%E8%AF%95%E4%B8%8E%E5%A4%96%E8%AE%BE%E9%A9%B1%E5%8A%A8%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93"><span class="toc-text">ESP32-S3 硬件调试与外设驱动问题总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%99%B6%E6%8C%AF%E6%9C%AA%E8%B5%B7%E6%8C%AF%E9%97%AE%E9%A2%98"><span class="toc-text">1. 晶振未起振问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Flash-%E7%83%A7%E5%BD%95%E4%B8%8E%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98"><span class="toc-text">2. Flash 烧录与启动问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-USB-UART-%E7%83%A7%E5%BD%95"><span class="toc-text">3. USB &amp; UART 烧录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-WiFi-%E4%BF%A1%E5%8F%B7%E4%B8%8E%E5%A4%A9%E7%BA%BF%E9%97%AE%E9%A2%98"><span class="toc-text">4. WiFi 信号与天线问题</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
     
-      <div class="post-item" title="Auto360与3D打印">
-        <div class="time-m-d">2023-08-24</div>
-        <div class="title">
-          <a href="/2023/08/24/76h-auto360-yu-3d-da-yin/">
-            
-              
-                <span>Auto360与3D打印</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="矩阵按键">
-        <div class="time-m-d">2023-08-22</div>
-        <div class="title">
-          <a href="/2023/08/22/75h-ju-zhen-an-jian/">
-            
-              
-                <span>矩阵按键</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="Simulink">
-        <div class="time-m-d">2023-08-13</div>
-        <div class="title">
-          <a href="/2023/08/13/74s-simulink/">
-            
-              
-                <span>Simulink</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="73P_树莓派">
-        <div class="time-m-d">2023-08-12</div>
-        <div class="title">
-          <a href="/2023/08/12/73p-shu-mei-pai/">
-            
-              
-                <span>73P_树莓派</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="C语言">
-        <div class="time-m-d">2023-08-08</div>
-        <div class="title">
-          <a href="/2023/08/08/72c-c/">
-            
-              
-                <span>C语言</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="K210">
-        <div class="time-m-d">2023-08-03</div>
-        <div class="title">
-          <a href="/2023/08/03/71h-k210/">
-            
-              
-                <span>K210</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="Keil_仿真_逻辑分析仪器">
-        <div class="time-m-d">2023-07-27</div>
-        <div class="title">
-          <a href="/2023/07/27/70h-keil-fang-zhen-luo-ji-fen-xi-yi-qi/">
-            
-              
-                <span>Keil_仿真_逻辑分析仪器</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="舵机">
-        <div class="time-m-d">2023-07-25</div>
-        <div class="title">
-          <a href="/2023/07/25/69h-duo-ji/">
-            
-              
-                <span>舵机</span>
-              
-            
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
       </div>
     
   </div>
-  <nav class="post-navigation">
-    
-      <a href="/page/9/"><i class="iconfont icon-angleleft"></i></a>
-    
-    <span class="page-num">10 / 16</span>
-    
-      <a href="/page/11/"><i class="iconfont icon-angleright"></i></a>
-    
-  </nav>
-</div>
+
 
         
 <div class="footer">
@@ -536,6 +566,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP32S3%E6%A0%B8%E5%BF%83%E6%9D%BF + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F08%2F20%2F190-esp32s3-he-xin-ban%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/08/20/190-esp32s3-he-xin-ban/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>
