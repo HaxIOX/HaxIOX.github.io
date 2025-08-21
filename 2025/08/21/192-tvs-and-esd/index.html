@@ -10,10 +10,13 @@
   <!-- 用于搜索引擎的文章摘要 -->
   
   
-    <meta name="robots" content="noindex" />
-  
   
   <title>
+    
+      TVS and ESD 
+      
+      
+      |
     
      南北的猫
   </title>
@@ -109,177 +112,165 @@
 
 
       <div class="flex-container">
-        <div class="container index">
-  <div class="post-list">
-    <!-- 遍历渲染文章 -->
-    
-      <div class="post-item" title="局域网文件传输">
-        <div class="time-m-d">2025-07-19</div>
-        <div class="title">
-          <a href="/2025/07/19/180-ju-yu-wang-wen-jian-chuan-shu/">
-            
-              
-                <span>局域网文件传输</span>
-              
-            
-          </a>
-        </div>
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">TVS and ESD</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-08-21 17:36:48
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/TVS/" title="TVS">
+                    #TVS
+                  </a>
+                </span>
+                
+              </span>
+          
       </div>
-    
-      <div class="post-item" title="电阻-电容-电感">
-        <div class="time-m-d">2025-07-16</div>
-        <div class="title">
-          <a href="/2025/07/16/179-dian-zu-dian-rong-dian-gan/">
-            
-              
-                <span>电阻-电容-电感</span>
-              
-            
-          </a>
-        </div>
+      <div class="markdown-body">
+        <h3 id="TVS与ESD的区别"><a href="#TVS与ESD的区别" class="headerlink" title="TVS与ESD的区别"></a>TVS与ESD的区别</h3><p>TVS (Transient Voltage Suppressor，瞬态电压抑制器) 和 ESD (Electrostatic Discharge，静电放电) 保护器件虽然都是用于保护电路免受过电压的损害，但它们的设计和应用场景有所不同。<strong>可以说，它们最主要的区别就是使用用途的区别。</strong></p>
+<ol>
+<li><strong>保护对象不同:</strong><ul>
+<li><strong>TVS二极管</strong>：主要用于抑制电路上因雷击、电源波动、开关感性负载等产生的高能量、持续时间较长的<strong>浪涌(Surge)</strong>。它能承受较大的瞬时功率和电流。</li>
+<li><strong>ESD二极管</strong>：主要用于防护因人体、设备等接触产生的持续时间极短（纳秒甚至皮秒级）但电压很高的<strong>静电放电(ESD)</strong>。它通常用在信号接口、按键等容易被人体接触的位置。</li>
+</ul>
+</li>
+<li><strong>功率和电容差异:</strong><ul>
+<li><strong>功率</strong>：TVS二极管的功率通常比ESD二极管大得多，可以从几百瓦到几千瓦，以吸收浪涌带来的巨大能量。ESD二极管的功率则小得多。</li>
+<li><strong>结电容</strong>：TVS二极管的结电容通常较大，不适合用于高速信号线的保护，因为较大的电容会影响信号质量。ESD二极管为了不影响高速数据传输（如USB、HDMI），通常设计成极低的结电容（皮法甚至更低）。</li>
+</ul>
+</li>
+</ol>
+<p><strong>总结来说</strong>，可以把TVS看作是电路的“防洪大坝”，用来抵御大的浪涌；而把ESD看作是接口的“防静电门卫”，专门防止静电悄悄溜进去损坏娇气的芯片。</p>
+<h3 id="电路图分析"><a href="#电路图分析" class="headerlink" title="电路图分析"></a>电路图分析</h3><p><strong>这个电路图中的D1毫无疑问是TVS二极管。</strong></p>
+<p>依据有两点：</p>
+<ol>
+<li><strong>应用位置</strong>: 该二极管并联在电源（VBAT）和地（GND）之间，这是TVS管用于电源浪涌保护的典型接法。当VBAT上出现高于其工作电压的瞬时高压时，TVS会迅速导通，将浪涌电流泄放到地，从而将电压钳位在一个安全的水平，保护后端的“Module”（模块）。</li>
+</ol>
+<h3 id="为什么电路图符号画的是二极管？"><a href="#为什么电路图符号画的是二极管？" class="headerlink" title="为什么电路图符号画的是二极管？"></a>为什么电路图符号画的是二极管？</h3><p>这是一个很常见的情况。TVS二极管本质上是一种特殊的<strong>雪崩二极管</strong>（Avalanche Diode），其工作原理和伏安特性曲线与稳压二极管（Zener Diode）非常相似。因此，在电路图绘制中：</p>
+<ul>
+<li><strong>符号通用性</strong>：很多电路设计软件（CAD）的元件库里，会用稳压二极管的符号来表示单向TVS二极管。您图中的符号就是一个标准的二极管符号，有时为了更精确，也会用类似稳压二极管的符号（在阴极线上加一个小折角）。</li>
+<li><strong>功能表达</strong>：从功能的角度看，这个符号准确地表达了其单向导通和反向击穿钳位的特性。工程师看到这个符号用在电源防护的位置，结合上下文，就能理解它是一个TVS保护器件。</li>
+<li><strong>简洁性</strong>：虽然有专门的TVS符号，但在实际工程应用中，为了图纸的简洁和通用性，使用通用的二极管或稳压管符号来代替是很普遍的做法。</li>
+</ul>
+
       </div>
-    
-      <div class="post-item" title="TPS54627稳压芯片">
-        <div class="time-m-d">2025-07-16</div>
-        <div class="title">
-          <a href="/2025/07/16/178-tps54627-wen-ya-xin-pian/">
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
             
-              
-                <span>TPS54627稳压芯片</span>
-              
+              <a href="/2025/08/20/191-pca9555-kuo-zhan-xin-pian/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
             
-          </a>
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-08-21 17:36:48
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/TVS/" title="TVS">
+                        #TVS
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
         </div>
-      </div>
+      
+    </div>
     
-      <div class="post-item" title="ESP32-USB-OTG">
-        <div class="time-m-d">2025-07-10</div>
-        <div class="title">
-          <a href="/2025/07/10/177-esp32-usb-otg/">
-            
-              
-                <span>ESP32-USB-OTG</span>
-              
-            
-          </a>
-        </div>
-      </div>
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#TVS%E4%B8%8EESD%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">TVS与ESD的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E8%B7%AF%E5%9B%BE%E5%88%86%E6%9E%90"><span class="toc-text">电路图分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%B5%E8%B7%AF%E5%9B%BE%E7%AC%A6%E5%8F%B7%E7%94%BB%E7%9A%84%E6%98%AF%E4%BA%8C%E6%9E%81%E7%AE%A1%EF%BC%9F"><span class="toc-text">为什么电路图符号画的是二极管？</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
     
-      <div class="post-item" title="win10修改右键菜单">
-        <div class="time-m-d">2025-07-09</div>
-        <div class="title">
-          <a href="/2025/07/09/176-win10-xiu-gai-you-jian-cai-dan/">
-            
-              
-                <span>win10修改右键菜单</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="TP4056充放电芯片">
-        <div class="time-m-d">2025-07-08</div>
-        <div class="title">
-          <a href="/2025/07/08/175-tp4056-chong-fang-dian-xin-pian/">
-            
-              
-                <span>TP4056充放电芯片</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="ESP32-S3驱动WS2812_RGB灯">
-        <div class="time-m-d">2025-07-08</div>
-        <div class="title">
-          <a href="/2025/07/08/174-esp32-s3-qu-dong-ws2812-rgb-deng/">
-            
-              
-                <span>ESP32-S3驱动WS2812_RGB灯</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="ESP_IDF_OTA">
-        <div class="time-m-d">2025-07-03</div>
-        <div class="title">
-          <a href="/2025/07/03/173-esp-idf-ota/">
-            
-              
-                <span>ESP_IDF_OTA</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="USB TO TTL模块DIY">
-        <div class="time-m-d">2025-06-24</div>
-        <div class="title">
-          <a href="/2025/06/24/172-usb-to-ttl-mo-kuai-diy/">
-            
-              
-                <span>USB TO TTL模块DIY</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="驱动LED点阵屏">
-        <div class="time-m-d">2025-06-22</div>
-        <div class="title">
-          <a href="/2025/06/22/171-qu-dong-led-dian-zhen-ping/">
-            
-              
-                <span>驱动LED点阵屏</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="Proteus仿真入门">
-        <div class="time-m-d">2025-06-21</div>
-        <div class="title">
-          <a href="/2025/06/21/170-proteus-fang-zhen-ru-men/">
-            
-              
-                <span>Proteus仿真入门</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="基于stm32的班级投票系统">
-        <div class="time-m-d">2025-06-21</div>
-        <div class="title">
-          <a href="/2025/06/21/169-ji-yu-stm32-de-duo-ren-tou-piao-xi-tong/">
-            
-              
-                <span>基于stm32的班级投票系统</span>
-              
-            
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
       </div>
     
   </div>
-  <nav class="post-navigation">
-    
-      <a href="/"><i class="iconfont icon-angleleft"></i></a>
-    
-    <span class="page-num">2 / 16</span>
-    
-      <a href="/page/3/"><i class="iconfont icon-angleright"></i></a>
-    
-  </nav>
-</div>
+
 
         
 <div class="footer">
@@ -536,6 +527,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + TVS%20and%20ESD + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F08%2F21%2F192-tvs-and-esd%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/08/21/192-tvs-and-esd/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>
