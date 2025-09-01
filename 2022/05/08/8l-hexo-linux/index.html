@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      hexo博客搭建linux服务器部分 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">hexo博客搭建linux服务器部分</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-09-01 09:44:10
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/hexo/" title="hexo">
+                    #hexo
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h2 id="部署环境与准备"><a href="#部署环境与准备" class="headerlink" title="部署环境与准备"></a>部署环境与准备</h2><p>1.环境</p>
+<ul>
+<li>本地Windows10操作系统<br>Ubuntu20.06系统云服务器</li>
+</ul>
+<p>2.准备</p>
+<ul>
+<li>Hexo 本地博客,上一篇文章本地端已经搭建完成<br><a target="_blank" rel="noopener" href="http://www.isgeek.top/2022/05/03/1l-hexo-blog/">linux搭建hexo博客(本地端)</a></li>
+</ul>
+<p>3.流程</p>
+<blockquote>
+<p>安装最新版git,编译并安装,配置环境,</p>
+<p>设置秘钥,新建用户用来连接服务器,安装nginx,建立git库</p>
+</blockquote>
+<h2 id="云服务器配置Git"><a href="#云服务器配置Git" class="headerlink" title="云服务器配置Git"></a>云服务器配置Git</h2><h3 id="安装依赖库"><a href="#安装依赖库" class="headerlink" title="安装依赖库"></a>安装依赖库</h3><p>centos</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>debian</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">apt-get install -y curl libcurl4-openssl-dev expat libexpat1-dev gettext libgettextpo-dev libssl-dev zlib1g-dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="安装编译工具"><a href="#安装编译工具" class="headerlink" title="安装编译工具"></a>安装编译工具</h3><p>centos</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum install gcc perl-ExtUtils-MakeMaker package<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>debian</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">apt-get install -y build-essential perl<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="查看git的版本"><a href="#查看git的版本" class="headerlink" title="查看git的版本"></a>查看git的版本</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">git version
+yum remove git -y      #删除git
+apt-get remove git -y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="下载解压最新版"><a href="#下载解压最新版" class="headerlink" title="下载解压最新版"></a>下载解压最新版</h3><p>现在可以使用<strong>apt</strong>安装</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt update
+sudo apt install git<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>也可以使用<strong>wget</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd &#x2F;usr&#x2F;local&#x2F;src #切换到下载的目录 
+wget https:&#x2F;&#x2F;www.kernel.org&#x2F;pub&#x2F;software&#x2F;scm&#x2F;git&#x2F;git-2.39.0.tar.gz #下载最新版 
+tar -zxvf git-2.39.0.tar.gz #解压到当前文件夹<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="编译并安装"><a href="#编译并安装" class="headerlink" title="编译并安装"></a>编译并安装</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd git-2.39.0    #进入文件夹
+make prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;git all    #编译源码
+make prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;git install    #安装路径<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="配置git环境变量"><a href="#配置git环境变量" class="headerlink" title="配置git环境变量"></a>配置git环境变量</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">echo &#39;export PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;git&#x2F;bin&#39; &gt;&gt; &#x2F;etc&#x2F;bashrc
+source &#x2F;etc&#x2F;bashrc   &#x2F;&#x2F;刷新环境变量
+git --version        &#x2F;&#x2F;查看版本号<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">&#x2F;usr&#x2F;bin 目录下创建了一个名为 git-receive-pack 的符号链接
+该链接指向了源文件 &#x2F;usr&#x2F;local&#x2F;git&#x2F;bin&#x2F;git-receive-pack
+
+#确保 git-receive-pack 可执行文件可以在系统的 PATH 中找到，从而解决了与 Git 相关的问题
+ln -s &#x2F;usr&#x2F;local&#x2F;git&#x2F;bin&#x2F;git-receive-pack &#x2F;usr&#x2F;bin&#x2F;git-receive-pack
+
+#可能原因为环境变量配置失败,没办法在环境变量中找到执行命令<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="🚨注意"><a href="#🚨注意" class="headerlink" title="🚨注意:"></a>🚨注意:</h3><p>将 <strong>export PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;git&#x2F;bin</strong>添加到当前的 Shell 会话中，以<strong>临时</strong>更改 PATH 环境变量，以便在当前 Shell 会话中查找 <code>git</code> 命令的路径。</p>
+<p>这个更改只在当前会话中有效，当你关闭该终端会话时，它会失效。</p>
+<p><strong>echo export PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;git&#x2F;bin&gt;&gt; &#x2F;etc&#x2F;bashrc</strong>：这个命令与上述命令相似，但它将指定的文本附加到 <code>/etc/bashrc</code> 文件的末尾，这是一个系统级的 Bash 配置文件。</p>
+<p>这意味着当任何用户登录到系统时，都会执行 <code>/etc/bashrc</code> 中的命令，从而永久更改 PATH 环境变量</p>
+<h3 id="创建git用户"><a href="#创建git用户" class="headerlink" title="创建git用户"></a>创建git用户</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">adduser 用户   #自己起一个就行
+passwd 密码    #这个密码必须复杂,过于简单会被破解
+~mPr^DLB&amp;C^TwYfGI9klL(Pi*TY!(Kyr+n^WJ5IQ
+#修改权限
+chmod 740 &#x2F;etc&#x2F;sudoers
+
+vim &#x2F;etc&#x2F;sudoers 
+
+root ALL&#x3D;(ALL) ALL 
+用户 ALL&#x3D;(ALL) ALL<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="本地端使用Gitbash创建密钥"><a href="#本地端使用Gitbash创建密钥" class="headerlink" title="本地端使用Gitbash创建密钥"></a>本地端使用Gitbash创建密钥</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ssh-keygen -t rsa
+.将本地创建&#96;id_rsa.pub&#96;中文件复制(此文件在c盘.&#x2F;ssh文件夹)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="服务器端"><a href="#服务器端" class="headerlink" title="服务器端"></a>服务器端</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">su 用户    
+mkdir ~&#x2F;.ssh
+vim ~&#x2F;.ssh&#x2F;authorized_keys
+
+ssh -v 用户@服务器ip  #测试可以连接服务器上<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="创建网站目录并设置权限"><a href="#创建网站目录并设置权限" class="headerlink" title="创建网站目录并设置权限"></a>创建网站目录并设置权限</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">su root
+mkdir &#x2F;home&#x2F;hexo
+
+#给用户对当前目录下的所有文件与子目录进行相同的拥有者变更
+chown 用户名:用户名 -R &#x2F;home&#x2F;hexo 
+
+#chown maobing:maobing -R &#x2F;home&#x2F;hexo
+#chown用于将指定文件的所有者修改为指定用户或组<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">apt install -y nginx             #可能会出现没有安装包的问题
+systemctl start nginx.service    #启动服务
+
+#如果出现没有可用的软件包的问题
+yum install epel-release epel    #安装扩展
+yum update                       #更新<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="修改Nginx配置文件"><a href="#修改Nginx配置文件" class="headerlink" title="修改Nginx配置文件"></a>修改Nginx配置文件</h3><blockquote>
+<p>vim &#x2F;etc&#x2F;nginx&#x2F;nginx.conf </p>
+</blockquote>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
+
+    listen       80 default_server;
+    listen       [::]:80 default_server;
+
+    server_name  fuchenchenle.cn;        #域名
+    root         &#x2F;home&#x2F;hexo;             #网站目录
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>或者(推荐)</p>
+<blockquote>
+<p>vim &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;hexo.conf</p>
+</blockquote>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
+    listen 80;
+    server_name www.isgeek.top; # 你的域名
+    root &#x2F;home&#x2F;hexo; # 网站目录的路径
+    location &#x2F; &#123;
+        try_files $uri $uri&#x2F; &#x3D;404;
+    &#125;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#检查语法错误
+nginx -t<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>使用 ln 命令创建一个符号链接到 &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F; 目录。该目录包含了 Nginx 服务器实际使用的虚拟主机配置文件。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ln -s &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;hexo.conf &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#重启服务器
+systemctl restart nginx.service  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="⭐️建立git库"><a href="#⭐️建立git库" class="headerlink" title="⭐️建立git库"></a>⭐️建立git库</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd &#x2F;home&#x2F;用户
+
+# !!!!新版需要设置,否则会一直找不到到仓库
+git config --global init.defaultBranch master
+git init --bare blog.git
+
+chown 用户:用户 -R blog.git
+#chown maobing:maobing -R blog.git<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="同步网站根目录"><a href="#同步网站根目录" class="headerlink" title="同步网站根目录"></a>同步网站根目录</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">vim blog.git&#x2F;hooks&#x2F;post-receive
+
+#!&#x2F;bin&#x2F;sh
+git --work-tree&#x3D;&#x2F;home&#x2F;hexo --git-dir&#x3D;&#x2F;home&#x2F;用户&#x2F;blog.git checkout -f
+
+#修改权限!
+chmod +x &#x2F;home&#x2F;用户&#x2F;blog.git&#x2F;hooks&#x2F;post-receive   
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="在windows10本地hexo目录修改-config-yml文件"><a href="#在windows10本地hexo目录修改-config-yml文件" class="headerlink" title="在windows10本地hexo目录修改_config.yml文件"></a>在windows10本地hexo目录修改_config.yml文件</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">deploy:
+  type: git
+   #用户名@服务器Ip:git仓库位置
+  repository: 用户@49.232.59.235:&#x2F;home&#x2F;fuchen&#x2F;blog.git 
+  branch: master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="本机gitbash部署"><a href="#本机gitbash部署" class="headerlink" title="本机gitbash部署"></a>本机gitbash部署</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo clean
+hexo g -d
+hexo cl &amp;&amp; hexo g &amp;&amp; hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2022/05/08/7h-keil-error/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-09-01 09:44:10
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/hexo/" title="hexo">
+                        #hexo
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2022/05/09/9h-destroy-chips/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83%E4%B8%8E%E5%87%86%E5%A4%87"><span class="toc-text">部署环境与准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AEGit"><span class="toc-text">云服务器配置Git</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%BA%93"><span class="toc-text">安装依赖库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7"><span class="toc-text">安装编译工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8Bgit%E7%9A%84%E7%89%88%E6%9C%AC"><span class="toc-text">查看git的版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E8%A7%A3%E5%8E%8B%E6%9C%80%E6%96%B0%E7%89%88"><span class="toc-text">下载解压最新版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%B9%B6%E5%AE%89%E8%A3%85"><span class="toc-text">编译并安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEgit%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-text">配置git环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%9A%A8%E6%B3%A8%E6%84%8F"><span class="toc-text">🚨注意:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAgit%E7%94%A8%E6%88%B7"><span class="toc-text">创建git用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E7%AB%AF%E4%BD%BF%E7%94%A8Gitbash%E5%88%9B%E5%BB%BA%E5%AF%86%E9%92%A5"><span class="toc-text">本地端使用Gitbash创建密钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF"><span class="toc-text">服务器端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%BD%91%E7%AB%99%E7%9B%AE%E5%BD%95%E5%B9%B6%E8%AE%BE%E7%BD%AE%E6%9D%83%E9%99%90"><span class="toc-text">创建网站目录并设置权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Nginx"><span class="toc-text">安装Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9Nginx%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">修改Nginx配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%AD%90%EF%B8%8F%E5%BB%BA%E7%AB%8Bgit%E5%BA%93"><span class="toc-text">⭐️建立git库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E7%BD%91%E7%AB%99%E6%A0%B9%E7%9B%AE%E5%BD%95"><span class="toc-text">同步网站根目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8windows10%E6%9C%AC%E5%9C%B0hexo%E7%9B%AE%E5%BD%95%E4%BF%AE%E6%94%B9-config-yml%E6%96%87%E4%BB%B6"><span class="toc-text">在windows10本地hexo目录修改_config.yml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E6%9C%BAgitbash%E9%83%A8%E7%BD%B2"><span class="toc-text">本机gitbash部署</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BAlinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E5%88%86 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2022%2F05%2F08%2F8l-hexo-linux%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2022/05/08/8l-hexo-linux/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

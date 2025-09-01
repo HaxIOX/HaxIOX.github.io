@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      STM32单片机的定时器 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">STM32单片机的定时器</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-09-01 09:44:10
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="基本定时器框图"><a href="#基本定时器框图" class="headerlink" title="基本定时器框图"></a>基本定时器框图</h2><p>定时器的常用功能主要为<strong>定时中断</strong>, <strong>PWM生成</strong></p>
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240316213946464.png" class="" title="image-20240316213946464">
+
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240316213942990.png" class="" title="image-20240316213942990">
+
+
+
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240316213952782.png" class="" title="image-20240316213952782">
+
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240316213956447.png" class="" title="image-20240316213956447">
+
+<h2 id="STM32时钟树"><a href="#STM32时钟树" class="headerlink" title="STM32时钟树"></a>STM32时钟树</h2><p>SystemInit()就是用来配置时钟树的,左边为时钟产生电路,右边为分配电路, 内部四个振荡源, 启动内部时钟, 暂时以内部8MHz为系统时钟,启动外部时钟,PLL锁相环9倍频到72MHz,锁相环稳定输出后切换系统时钟为72MHz</p>
+<p>❗注意:</p>
+<p>若外部晶振出现问题, css会把时钟切换到内部时钟,此时系统的时钟就慢了九倍</p>
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240317081714282.png" class="" title="image-20240317081714282">
+
+<h2 id="定时中断模式"><a href="#定时中断模式" class="headerlink" title="定时中断模式"></a>定时中断模式</h2><img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240316214042758.png" class="" title="image-20240316214042758">
+
+<p>这两个函数的区别</p>
+<blockquote>
+<ul>
+<li><p><strong>TIM_TimeBaseInit</strong>是根据你设定的参数初始化时基单元</p>
+</li>
+<li><p><strong>TIM_TimeBaseStructInit</strong>是将每一个参数按默认参数初始化</p>
+<ul>
+<li>(即设置为预定义的默认值。这些默认值是根据STM32微控制器库的规定预设的，通常是为了确保定时器模块能以一个基本且稳定的配置开始工作，即使开发者没有显式设置所有的参数)。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240317075352159.png" class="" title="image-20240317075352159">
+
+<h3 id="TIM1-RepetitionCounter"><a href="#TIM1-RepetitionCounter" class="headerlink" title="TIM1_RepetitionCounter"></a>TIM1_RepetitionCounter</h3><p><code>TIM1_RepetitionCounter</code>设置涉及到STM32微控制器中高级定时器的一个特性，即重复计数器（Repetition Counter，简称RCR）。</p>
+<p>这个计数器的作用是<strong>定义在定时器产生一个更新事件（通常是计时周期结束并重新开始的标志）之前, 计数器需要完成的计数周期数</strong>。换句话说，<em>RCR决定了定时器需要计数多少次才触发一次更新事件</em>。</p>
+<h3 id="RCR的工作原理"><a href="#RCR的工作原理" class="headerlink" title="RCR的工作原理"></a>RCR的工作原理</h3><blockquote>
+<p>当RCR设置为某个值N时，定时器的向下计数器会从N开始计数，每次到0时，产生一个更新事件，并且计数器重新从N开始计数。这样，更新事件的产生不再是每个计数周期结束时发生，而是每N+1个周期发生一次。</p>
+</blockquote>
+<p>设置为0时，表示每个周期结束都会产生更新事件，即没有重复计数的延迟。</p>
+<h3 id="TIM-ClearFlag"><a href="#TIM-ClearFlag" class="headerlink" title="TIM_ ClearFlag"></a>TIM_ ClearFlag</h3><img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240317080908937.png" class="" title="image-20240317080908937">
+
+<p>放在这里清除</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">TIM_ClearFlag(TIM2, TIM_FLAG_Update);                           
+TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>因为<strong>TIM_TimeBaseInit()初始化函数</strong>的末尾手动生成了一个更新事件,重新装在预分频器和重复计数器的值</p>
+<blockquote>
+<p>预分频器有缓冲寄存器,写入的值只有在更新事件时, 才会真正起作用,</p>
+<p>这句代码手动生成了一个更新事件, 让预分频器的值立刻生效</p>
+</blockquote>
+<p>产生的问题:</p>
+<ul>
+<li>更新事件与更新中断几乎同时发生, <strong>更新中断会置中断标志位, 初始化结束后就会立刻进入中断</strong>, 所以在初始化之后, <strong>手动清除中断标志位</strong>就可以解决这个问题</li>
+</ul>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;* Generate an update event to reload the Prescaler and the Repetition counter
+   values immediately *&#x2F;
+TIMx-&gt;EGR &#x3D; TIM_PSCReloadMode_Immediate;   <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="ARR与PSC"><a href="#ARR与PSC" class="headerlink" title="ARR与PSC"></a>ARR与PSC</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">TIM_TimeBaseInitStructure.TIM_Period &#x3D; 10000-1;                &#x2F;&#x2F;自动重装载值 ARR
+TIM_TimeBaseInitStructure.TIM_Prescaler &#x3D; 7200-1;              &#x2F;&#x2F;预分频系数 PSC<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>ARR↑, PSC↓,以更快的速度计更多的数</p>
+<p>也就是说ARR越大, 计数上限越大, 同时频率越高;PSC越小, 频率越高</p>
+<blockquote>
+<p>72MHz&#x2F;720&#x3D;0.1MHz  1&#x2F;0.1MHz&#x3D;10us 10us*10000&#x3D;0.1s计数一次</p>
+<p>1&#x2F;((72MHz&#x2F;7200)*10000)&#x3D;1s</p>
+</blockquote>
+<h2 id="外部中断模式"><a href="#外部中断模式" class="headerlink" title="外部中断模式"></a>外部中断模式</h2><p>外部触发定时器计数, 与外部中断相似</p>
+<h2 id="输出比较模式"><a href="#输出比较模式" class="headerlink" title="输出比较模式"></a>输出比较模式</h2><p>也就是PWM模式</p>
+<p>PWM脉冲宽度调制, 实际上是通过开、关、开、关实现等效模拟量(只对有惯性作用的起作用,比如电机、LED等)</p>
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240319113441437.png" class="" title="image-20240319113441437">
+
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240319113626758.png" class="" title="image-20240319113626758">
+
+<p>下图, 如果没有ccr, 就是正常的计数值到自动重装载值清零为一个周期</p>
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240318114913262.png" class="" title="image-20240318114913262">
+
+<p>公式如下:</p>
+<p>比如: </p>
+<ul>
+<li><p>要频率为10k, 那么72M&#x2F;(psc+1)&#x2F;100&#x3D;10k, 则psc+1&#x3D;72</p>
+</li>
+<li><p>占空比为50%, ccr&#x3D;50</p>
+</li>
+<li><p>分辨率为1%, 那么从后往前推arr+1&#x3D;100</p>
+</li>
+</ul>
+<p>关于为什都是+1</p>
+<p>因为计数器溢出不是65535溢出而是第65536时溢出, 所以实际上计数值要多1</p>
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240319113356763.png" class="" title="image-20240319113356763">
+
+<h3 id="呼吸灯"><a href="#呼吸灯" class="headerlink" title="呼吸灯"></a>呼吸灯</h3><p>原理: 通过调节占空比, 改变LED亮灭时长, 人眼看上去就是呼吸灯的效果</p>
+<p>出现BUG, 不知道为啥, 就是江协科技的代码烧进去正常使用, 复制到新的工程就不好使了</p>
+<p>解决: </p>
+<p>加上就没反应了,其实这里应该断点调试,但是我选择了一个一个对,后来发现就剩delay不一样了,换了之后也好了</p>
+<p>还以为是delay出了问题,结果是<strong>我没初始化delay</strong>, 所以程序应该是卡住了</p>
+<p>另外,频率不能太低否则会一直闪烁</p>
+<h3 id="舵机控制"><a href="#舵机控制" class="headerlink" title="舵机控制"></a>舵机控制</h3><img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240319113514350.png" class="" title="image-20240319113514350">
+
+<p><strong>角度占空比换算</strong></p>
+<p>所以**(angle&#x2F;180<em>2+0.5)&#x2F;20*100</em>*, </p>
+<blockquote>
+<ul>
+<li>角度映射成脉冲宽度 angle&#x2F;180*(2.5-0.5)</li>
+<li>脉冲宽度&#x2F;20(周期)&#x3D;占空比</li>
+<li>因为ccr&#x2F;arr&#x3D;占空比,故换算出此时的ccr</li>
+</ul>
+</blockquote>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">❌TIM_SetCompare2(TIM2,((angle&#x2F;180)*2+0.5)&#x2F;20*100);
+  没错,这么算是正确的,公式复杂了一些
+   CCR &#x3D; (最小脉宽 + (angle&#x2F;180) * 脉宽范围) &#x2F; 定时器周期 * ARR<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>pulse&#x3D;(180&#x2F;180)*(2.5-0.5)+0.5角度换算脉冲宽度</p>
+<p>pulse&#x2F;20(周期)&#x3D;占空比&#x3D;0.125&#x3D;12.5%&#x2F;100(ARR)&#x3D;CCR</p>
+</blockquote>
+<p>简单想,就是把0<del>180对应到2.5</del>12.5</p>
+<p>根据占空比为2.5%~12.5%</p>
+<p>根据<strong>0.5&#x2F;20</strong><del><strong>2.5&#x2F;20</strong>&#x3D;<strong>2.5&#x2F;100</strong></del><strong>12.5&#x2F;100</strong>的对应关系,其实就是<strong>占空比</strong></p>
+<p>✔️其实就是0.5~2.5ms&#x2F;20ms&#x3D;占空比(2.5%12.5%)  ARR&#x3D;100,那么对应占空比的CCR为2.5-12.5</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">TIM_SetCompare2(TIM2,angle&#x2F;180*10+2.5);           
+&#x2F;&#x2F;这个也没错,之前失效的原因是更改ARR后没有更改PSC,导致周期发生变化<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>单位HZ对应s,即20ms的频率为1&#x2F;0.02&#x3D;50hz,即舵机频率为50HZ</p>
+<p>那么<strong>Freq&#x3D;CK_PSC&#x2F;(PSC+1)&#x2F;(ARR+1)&#x3D;50HZ,</strong></p>
+<p>找一个比较好计算的值,可以设置PSC为72,ARR为20000, 20k对应20ms,CCR&#x3D;500对应0.5ms</p>
+<h3 id="驱动电机"><a href="#驱动电机" class="headerlink" title="驱动电机"></a>驱动电机</h3><p>电机的频率一般式<strong>5K~20KHZ</strong>,根据公式72&#x2F;(psc+1)&#x2F;(arr+1)&#x3D;20K</p>
+<p>可令(psc+1)&#x3D;0, (arr+1)&#x3D;3600</p>
+<h3 id="非PID控制电机位置"><a href="#非PID控制电机位置" class="headerlink" title="非PID控制电机位置"></a>非PID控制电机位置</h3><p>以前写的,忘了咋算,难道是试出来的</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">Load(-800,1000);  &#x2F;&#x2F;0.73s一圈左右                               
+delay_ms(762);    &#x2F;&#x2F;但是没有达到,取三次脉冲平均值计算,有误差,但是误差变小了
+t2&#x3D;Read_Speed(2);
+t4&#x3D;Read_Speed(4);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>72m&#x2F;7200&#x3D;10k,1560&#x2F;10k&#x2F;2&#x3D;760</p>
+<p>我当时很有可能是通过<strong>实际测试固定占空比的脉冲数</strong>,然后<strong>1560除以脉冲数</strong>就得到了<strong>固定占空比转一圈</strong>的时间</p>
+<h2 id="输入捕获模式"><a href="#输入捕获模式" class="headerlink" title="输入捕获模式"></a>输入捕获模式</h2><p>IC（Input Capture）输入捕获</p>
+<blockquote>
+<p>输入捕获模式下，当通道输入引脚出现指定电平跳变时，当前CNT的值将被锁存到CCR中，可用于测量PWM波形的频率、占空比、脉冲间隔、电平持续时间等参数每个高级定时器和通用定时器都拥有4个输入捕获通道</p>
+<p>可配置为PWMI模式，同时测量频率和占空比可配合主从触发模式，实现硬件全自动测量</p>
+</blockquote>
+<p>ps: 电机振动可以发声</p>
+<p><strong>测频方法</strong></p>
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240319113335201.png" class="" title="image-20240319113335201">
+
+<p>标准频率Fc就是时钟&#x2F;预分频系数,就是定时器自增的频率</p>
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240319113712211.png" class="" title="image-20240319113712211">
+
+<p><strong>主从触发模式</strong></p>
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240319113804333.png" class="" title="image-20240319113804333">
+
+<p>🔺重点</p>
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240319113836650.png" class="" title="image-20240319113836650">
+
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240319113852705.png" class="" title="image-20240319113852705">
+
+
+
+<h3 id="易错"><a href="#易错" class="headerlink" title="易错"></a>易错</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">void IC_Init(void)
+&#123;
+  &#x2F;&#x2F; 初始化RCC时钟配置
+  &#x2F;&#x2F;定时器时钟开启
+    
+  &#x2F;&#x2F;输入比较引脚初始化
+  &#x2F;&#x2F;时基单元初始化
+    
+  &#x2F;&#x2F;下面是输入捕获初始化
+  TIM_ICInitTypeDef TIM_ICInitStructure;
+  TIM_ICInitStructure.TIM_Channel &#x3D; TIM_Channel_1;
+  TIM_ICInitStructure.TIM_ICFilter &#x3D; 0xF;                       &#x2F;&#x2F;输入捕获滤波器配置
+  TIM_ICInitStructure.TIM_ICPolarity &#x3D; TIM_ICPolarity_Rising; &#x2F;&#x2F; 捕获信号的极性设置，这里设置为上升沿触发捕获
+  TIM_ICInitStructure.TIM_ICPrescaler &#x3D; TIM_ICPSC_DIV1;         &#x2F;&#x2F;输入捕获分频系数,这里选择
+  TIM_ICInitStructure.TIM_ICSelection &#x3D; TIM_ICSelection_DirectTI;
+  TIM_PWMIConfig(TIM3,&amp;TIM_ICInitStructure);                    &#x2F;&#x2F;PWMI交叉模式, 相当于下面配置,只有通道1、2能用 
+
+	&#x2F;&#x2F; 手动配置通道2间接捕获模式
+    &#x2F;&#x2F;  TIM_ICInitStructure.TIM_Channel &#x3D; TIM_Channel_2;
+	&#x2F;&#x2F;  TIM_ICInitStructure.TIM_ICFilter &#x3D; 0xF;
+	&#x2F;&#x2F;  TIM_ICInitStructure.TIM_ICPolarity &#x3D; TIM_ICPolarity_Falling;
+	&#x2F;&#x2F;  TIM_ICInitStructure.TIM_ICPrescaler &#x3D; TIM_ICPSC_DIV1;        
+	&#x2F;&#x2F;  TIM_ICInitStructure.TIM_ICSelection &#x3D; TIM_ICSelection_IndirectTI;
+    
+  &#x2F;&#x2F; 初始化定时器3的输入捕获功能
+  TIM_ICInit(TIM3, &amp;TIM_ICInitStructure);                       
+  &#x2F;&#x2F; 选择定时器3的输入触发源，这里选择的是TI1FP1（通道1的滤波后上升沿触发）
+  TIM_SelectInputTrigger(TIM3,TIM_TS_TI1FP1);                   &#x2F;&#x2F;选择输入触发源
+  &#x2F;&#x2F; 设置定时器3的从模式为重置模式，使定时器可以在触发输入时自动重置计数器,清零
+  TIM_SelectSlaveMode(TIM3,TIM_SlaveMode_Reset);               
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>DirectTI</strong></p>
+<p> 表示 <strong>Direct Input Capture</strong>,直接输入捕获. 当设置为 <code>TIM_ICSelection_DirectTI</code> 时，意味着输入捕获通道（如 IC1, IC2, IC3, IC4）直接连接到相应的外部引脚（即 TI1, TI2, TI3, TI4）上</p>
+<p><strong>TIM_ICSelection_IndirectTI</strong>置为间接捕获模式，IC2将从IC1的信号捕获，即使物理上连接到TI2</p>
+<p>即实现了<strong>通道一捕获频率,通道2捕获占空比</strong>,IC2选择下降沿,是因为占空比&#x3D;高电平脉冲宽度&#x2F;周期</p>
+<p><strong>频率获取函数</strong></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">uint32_t IC_GetFreq(void)
+&#123;
+ 	&#x2F;&#x2F;捕获的是CNT计数值,Freq&#x3D;1M&#x2F;N
+	return 1000000 &#x2F; (TIM_GetCapture1(TIM3) + 1); &#x2F;&#x2F;因为计数器从0开始计数,所以实际计数值&#x3D;N+1
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>占空比计算函数</strong></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">uint32_t IC_GetDuty(void)
+&#123;
+    &#x2F;&#x2F;占空比的结果是0~1的数,所以*100变成整数
+	return (TIM_GetCapture2(TIM3)+1)*100&#x2F; (TIM_GetCapture1(TIM3)+1);
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>整型除法会导致小数部分丢失，导致结果总是0。当0乘以100后，结果仍然是0,<strong>所以*100要放在前面</strong></p>
+<p>🔺注意<strong>类型转换</strong>的问题,或者可以使用(float)强制类型转换,函数类型也换成float,也可以</p>
+<h2 id="编码器模式"><a href="#编码器模式" class="headerlink" title="编码器模式"></a>编码器模式</h2><img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240322140930096.png" class="" title="image-20240322140930096">
+
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240322145039480.png" class="" title="image-20240322145039480">
+
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240322145045852.png" class="" title="image-20240322145045852">
+
+<h3 id="编码器测速"><a href="#编码器测速" class="headerlink" title="编码器测速"></a>编码器测速</h3><p><strong>M法测速</strong><br>又叫做频率测量法,统计固定时间内的编码器脉冲数,M法适合测量高速。</p>
+<p>假设：</p>
+<p>编码器单圈总脉冲数为C（常数）</p>
+<p>统计时间为T0</p>
+<p> 该时间内统计到的编码器脉冲数为M 0 </p>
+<p>则：转速n（圈&#x2F;秒）的计算公式为：</p>
+<img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240323075808389.png" class="" title="image-20240323075808389">
+
+<p><strong>例:</strong></p>
+<p>假如编码器线数为11,减速比为30</p>
+<p>则电机转动一圈的脉冲数为11*30&#x3D;330</p>
+<p>则速度为CNT&#x2F;(11*30)&#x2F;t&#x3D;单位时间转几圈</p>
+<p><strong>脉冲控制电机速度</strong>,编码器读数</p>
+<p>通过一秒几个脉冲,然后延时</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hbsyaaa/article/details/113784920">编码器计数原理与电机测速原理</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/03/12/97-stm32-dan-pian-ji-de-exti-wai-bu-zhong-duan/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-09-01 09:44:10
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/03/17/99-tai-shan-pai-xue-xi-bi-ji-1/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9A%E6%97%B6%E5%99%A8%E6%A1%86%E5%9B%BE"><span class="toc-text">基本定时器框图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#STM32%E6%97%B6%E9%92%9F%E6%A0%91"><span class="toc-text">STM32时钟树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%B8%AD%E6%96%AD%E6%A8%A1%E5%BC%8F"><span class="toc-text">定时中断模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TIM1-RepetitionCounter"><span class="toc-text">TIM1_RepetitionCounter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RCR%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">RCR的工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TIM-ClearFlag"><span class="toc-text">TIM_ ClearFlag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ARR%E4%B8%8EPSC"><span class="toc-text">ARR与PSC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E4%B8%AD%E6%96%AD%E6%A8%A1%E5%BC%8F"><span class="toc-text">外部中断模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E6%AF%94%E8%BE%83%E6%A8%A1%E5%BC%8F"><span class="toc-text">输出比较模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BC%E5%90%B8%E7%81%AF"><span class="toc-text">呼吸灯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%88%B5%E6%9C%BA%E6%8E%A7%E5%88%B6"><span class="toc-text">舵机控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A9%B1%E5%8A%A8%E7%94%B5%E6%9C%BA"><span class="toc-text">驱动电机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9EPID%E6%8E%A7%E5%88%B6%E7%94%B5%E6%9C%BA%E4%BD%8D%E7%BD%AE"><span class="toc-text">非PID控制电机位置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%8D%95%E8%8E%B7%E6%A8%A1%E5%BC%8F"><span class="toc-text">输入捕获模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%93%E9%94%99"><span class="toc-text">易错</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-text">编码器模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%99%A8%E6%B5%8B%E9%80%9F"><span class="toc-text">编码器测速</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + STM32%E5%8D%95%E7%89%87%E6%9C%BA%E7%9A%84%E5%AE%9A%E6%97%B6%E5%99%A8 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2024%2F03%2F16%2F98-stm32-dan-pian-ji-de-ding-shi-qi%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
