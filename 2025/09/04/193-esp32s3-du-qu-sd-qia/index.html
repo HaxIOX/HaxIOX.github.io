@@ -13,7 +13,7 @@
   
   <title>
     
-      网站迁移 
+      193-ESP32S3读取SD卡 
       
       
       |
@@ -157,54 +157,22 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">网站迁移</div>
+      <div class="post-title">193-ESP32S3读取SD卡</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-01 09:44:10
+          2025-09-04 15:10:54
         </span>
         
       </div>
       <div class="markdown-body">
-        <h2 id="导出项目包"><a href="#导出项目包" class="headerlink" title="导出项目包"></a>导出项目包</h2><p>为了只输出当前 Python 项目中实际使用到的库的 requirements 文件，<code>pipreqs</code> 会根据项目中的导入语句自动生成 <code>requirements.txt</code> 文件，仅包含项目实际使用到的库。</p>
-<ol>
-<li>安装 pipreqs</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pip install pipreqs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>或者</p>
-<pre class="line-numbers language-none"><code class="language-none">pip freeze &gt; requirements.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="2">
-<li>使用 pipreqs</li>
-</ol>
-<p>导航到你的项目目录，并运行以下命令：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pipreqs &#x2F;path&#x2F;to&#x2F;your&#x2F;project<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>如果你的项目位于当前目录，可以使用：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pipreqs .
-pipreqs . --encoding&#x3D;utf-8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>或者</p>
-<pre class="line-numbers language-none"><code class="language-none">pip install -r requirements.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>需要关闭代理</p>
-<h2 id="批量删除包"><a href="#批量删除包" class="headerlink" title="批量删除包"></a>批量删除包</h2><h3 id="方法-1：使用-pip-freeze-和-xargs"><a href="#方法-1：使用-pip-freeze-和-xargs" class="headerlink" title="方法 1：使用 pip freeze 和 xargs"></a>方法 1：使用 pip freeze 和 xargs</h3><ol>
-<li><p><strong>列出所有已安装的包并保存到文件中：</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">pip freeze &gt; requirements.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p><strong>编辑 requirements.txt 文件（可选）：</strong> 如果你想要保留某些包，可以手动编辑 <code>requirements.txt</code> 文件，删除那些你不想卸载的包。</p>
-</li>
-<li><p><strong>批量删除包：</strong> 使用 <code>xargs</code> 命令从 <code>requirements.txt</code> 文件中读取包名并删除它们</p>
-<pre class="line-numbers language-none"><code class="language-none">cat requirements.txt | xargs pip uninstall -y<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
-</ol>
-
+        
       </div>
       
         <div class="prev-or-next">
           <div class="post-foot-next">
             
-              <a href="/2024/07/28/113-wang-ye-jian-kong/" target="_self">
+              <a href="/2025/08/21/192-tvs-and-esd/" target="_self">
                 <i class="iconfont icon-chevronleft"></i>
                 <span>Prev</span>
               </a>
@@ -213,39 +181,17 @@ pipreqs . --encoding&#x3D;utf-8<span aria-hidden="true" class="line-numbers-rows
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-01 09:44:10
+              2025-09-04 15:10:54
             </span>
             
           </div>
           <div class="post-foot-prev">
-            
-              <a href="/2024/07/28/115-shi-shi-hui-lu-api-wan-shan/" target="_self">
-                <span>Next</span>
-                <i class="iconfont icon-chevronright"></i>
-              </a>
             
           </div>
         </div>
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
-  <div class="post-catalog hidden" id="catalog">
-    <div class="title">Contents</div>
-    <div class="catalog-content">
-      
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E9%A1%B9%E7%9B%AE%E5%8C%85"><span class="toc-text">导出项目包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4%E5%8C%85"><span class="toc-text">批量删除包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-1%EF%BC%9A%E4%BD%BF%E7%94%A8-pip-freeze-%E5%92%8C-xargs"><span class="toc-text">方法 1：使用 pip freeze 和 xargs</span></a></li></ol></li></ol>
-      
-    </div>
-  </div>
-
-  
-<script src="/js/catalog.js"></script>
-
-
-
 
     
       <div class="comments-container">
@@ -524,12 +470,12 @@ pipreqs . --encoding&#x3D;utf-8<span aria-hidden="true" class="line-numbers-rows
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%BD%91%E7%AB%99%E8%BF%81%E7%A7%BB + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2024%2F07%2F28%2F114-wang-zhan-qian-yi%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + 193-ESP32S3%E8%AF%BB%E5%8F%96SD%E5%8D%A1 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F09%2F04%2F193-esp32s3-du-qu-sd-qia%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
         
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2024/07/28/114-wang-zhan-qian-yi/" target="_blank" title="Facebook">
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/09/04/193-esp32s3-du-qu-sd-qia/" target="_blank" title="Facebook">
             <i class="iconfont icon-facebooksquare"></i>
           </a>
         
