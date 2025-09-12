@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-04 17:33:47
+          2025-09-11 17:34:33
         </span>
         
               <span class="post-tags">
@@ -184,13 +184,49 @@
 </blockquote>
 <p>AT+QGPSCFG&#x3D;”autogps”  启用&#x2F;禁用GNSS自启动</p>
 <p>AT+CIMI </p>
-<p>AT+QGPS&#x3D;1   打开GNSS</p>
-<p>AT+QGPSLOC&#x3D;0 获取定位信息</p>
-<p>AT+QGPSEND  关闭GNSS </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">AT+QGPS&#x3D;1   打开GNSS
+
+AT+QGPSLOC&#x3D;0 获取定位信息
+
+AT+QGPSEND  关闭GNSS 
+
+AT+QGPSGNMEA&#x3D;GSV<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <img src="/2025/08/15/188-yi-yuan-eg800kcn/1755223838276.png" class="" width="1755223838276">
 
 <img src="/2025/08/15/188-yi-yuan-eg800kcn/1755223807869.png" class="" width="1755223807869">
 
+
+
+
+
+
+
+<p>AT+QGPSCFG&#x3D;”outport”,”uartdebug”</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$GNGGA,,,,,,0,00,127.00,,,,,,*62
+$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07
+$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02
+$GPGSV,1,1,01,24,,,25,0*65
+$GNRMC,,V,,,,,,,,,E,N,V*72
+$GNVTG,,,,,,,,,N*2E
+$GNGGA,,,,,,0,00,127.00,,,,,,*62
+$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07
+$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02
+$GPGSV,1,1,01,24,,,25,0*65
+$GNRMC,,V,,,,,,,,,E,N,V*72
+$GNVTG,,,,,,,,,N*2E
+$GNGGA,,,,,,0,00,127.00,,,,,,*62
+$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07
+$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02
+$GPGSV,1,1,01,24,,,25,0*65<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+
+
+<p>1.2. 支持的NMEA语句类型<br>模块默认支持的NMEA语句与NMEA-0183协议兼容。另外，可以通过三种前缀区分不同卫星系统的<br>NMEA语句，如下所示：<br>GPS NMEA语句的前缀为“GP”，如下所示：<br>⚫ GPGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GPRMC – 推荐的最小具体GNSS数据<br>⚫ GPGSV – 可见的GPS卫星，例如可见的卫星数、卫星ID号等<br>⚫ GPGSA – 参与定位的GPS卫星ID号、精度因子等<br>⚫ GPVTG – 矢量跟踪与对地速度<br>上海移远通信技术股份有限公司<br>6 &#x2F; 27<br>EC200N-CN&amp;EC800M-CN&amp;EG915N系列GNSS应用指导<br>⚫ GPGLL – 经度与纬度<br>BeiDou NMEA 语句的前缀为“GB”，如下所示：<br>⚫ GBGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GBRMC – 推荐的最小具体GNSS数据<br>⚫ GBGSV – 可见的BeiDou卫星，例如可见的卫星数、卫星ID号等<br>⚫ GBGSA – 参与定位的BeiDou卫星ID号、精度因子等<br>⚫ GBVTG – 矢量跟踪与对地速度<br>⚫ GBGLL – 经度与纬度<br>Galileo NMEA 语句的前缀为“GA”，如下所示：<br>⚫ GAGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GARMC – 推荐的最小具体GNSS数据<br>⚫ GAGSV – 可见的Galileo卫星，例如可见的卫星数、卫星ID号等<br>⚫ GAGSA – 参与定位的Galileo卫星ID号、精度因子等<br>GLONASS NMEA语句的前缀为“GL”，如下所示：<br>⚫ GLGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GLRMC – 推荐的最小具体GNSS数据<br>⚫ GLGSV – 可见的GLONASS卫星，例如可见的卫星数、卫星ID号等<br>⚫ GLGSA – 参与定位的GLONASS卫星ID号、精度因子等<br>GNSS组合系统NMEA语句的前缀为“GN”，如下所示：<br>⚫ GNGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GNRMC – 推荐的最小具体GNSS数据<br>⚫ GNGSA – 参与定位的GNSS卫星ID号、精度因子等<br>⚫ GNVTG – 矢量跟踪与对地速度<br>⚫ GNGLL – 经度与纬度 </p>
 
       </div>
       
@@ -206,7 +242,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-04 17:33:47
+              2025-09-11 17:34:33
             </span>
             
                   <span class="post-tags">

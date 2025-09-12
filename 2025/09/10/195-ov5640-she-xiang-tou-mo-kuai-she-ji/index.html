@@ -10,10 +10,13 @@
   <!-- 用于搜索引擎的文章摘要 -->
   
   
-    <meta name="robots" content="noindex" />
-  
   
   <title>
+    
+      OV5640摄像头模块设计 
+      
+      
+      |
     
      南北的猫
   </title>
@@ -109,175 +112,124 @@
 
 
       <div class="flex-container">
-        <div class="container index">
-  <div class="post-list">
-    <!-- 遍历渲染文章 -->
-    
-      <div class="post-item" title="探索者综合测试实验报错">
-        <div class="time-m-d">2022-05-23</div>
-        <div class="title">
-          <a href="/2022/05/23/12h-f407-tan-suo-zhe-yu-dao-de-wen-ti/">
-            
-              
-                <span>探索者综合测试实验报错</span>
-              
-            
-          </a>
-        </div>
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">OV5640摄像头模块设计</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-09-10 17:15:55
+        </span>
+        
       </div>
-    
-      <div class="post-item" title="stm32f407串口打印编码器测速">
-        <div class="time-m-d">2022-05-17</div>
-        <div class="title">
-          <a href="/2022/05/17/11h-f407-encoder/">
-            
-              
-                <span>stm32f407串口打印编码器测速</span>
-              
-            
-          </a>
-        </div>
+      <div class="markdown-body">
+        <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
+<li>FPC座容易虚焊与连锡，即便肉眼看上去完美至极</li>
+<li>复刻的一个模块，不理解为什么用不了，合理怀疑省略了一部分电路</li>
+<li>I2C忘记了上拉电阻</li>
+<li>使用MOS管或者三极管记得上下拉电阻</li>
+</ul>
+
       </div>
-    
-      <div class="post-item" title="stm32f401搭建工程">
-        <div class="time-m-d">2022-05-12</div>
-        <div class="title">
-          <a href="/2022/05/12/10h-stm32f401-project/">
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
             
-              
-                <span>stm32f401搭建工程</span>
-              
+              <a href="/2025/09/08/194-tian-xian-she-ji/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
             
-          </a>
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-09-10 17:15:55
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
         </div>
-      </div>
+      
+    </div>
     
-      <div class="post-item" title="开发板供电相关问题">
-        <div class="time-m-d">2022-05-09</div>
-        <div class="title">
-          <a href="/2022/05/09/9h-destroy-chips/">
-            
-              
-                <span>开发板供电相关问题</span>
-              
-            
-          </a>
-        </div>
-      </div>
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
     
-      <div class="post-item" title="hexo博客搭建linux服务器部分">
-        <div class="time-m-d">2022-05-08</div>
-        <div class="title">
-          <a href="/2022/05/08/8l-hexo-linux/">
-            
-              
-                <span>hexo博客搭建linux服务器部分</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="keil常见报错">
-        <div class="time-m-d">2022-05-08</div>
-        <div class="title">
-          <a href="/2022/05/08/7h-keil-error/">
-            
-              
-                <span>keil常见报错</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="stm32f407定时器中断">
-        <div class="time-m-d">2022-05-07</div>
-        <div class="title">
-          <a href="/2022/05/07/6h-f407timer/">
-            
-              
-                <span>stm32f407定时器中断</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="npm安装依赖问题">
-        <div class="time-m-d">2022-05-06</div>
-        <div class="title">
-          <a href="/2022/05/06/5l-npm-dependence/">
-            
-              
-                <span>npm安装依赖问题</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="linux搭建MC服务器">
-        <div class="time-m-d">2022-05-04</div>
-        <div class="title">
-          <a href="/2022/05/04/4l-linux-establish-minecraft/">
-            
-              
-                <span>linux搭建MC服务器</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="linux常用命令">
-        <div class="time-m-d">2022-05-04</div>
-        <div class="title">
-          <a href="/2022/05/04/3l-linux-common-command/">
-            
-              
-                <span>linux常用命令</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="hexo搭建过程中遇到的坑">
-        <div class="time-m-d">2022-05-03</div>
-        <div class="title">
-          <a href="/2022/05/03/2l-hexo-pit/">
-            
-              
-                <span>hexo搭建过程中遇到的坑</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="linux搭建hexo博客(本地端)">
-        <div class="time-m-d">2022-05-03</div>
-        <div class="title">
-          <a href="/2022/05/03/1l-hexo-blog/">
-            
-              
-                <span>linux搭建hexo博客(本地端)</span>
-              
-            
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
       </div>
     
   </div>
-  <nav class="post-navigation">
-    
-      <a href="/page/15/"><i class="iconfont icon-angleleft"></i></a>
-    
-    <span class="page-num">16 / 16</span>
-    
-  </nav>
-</div>
+
 
         
 <div class="footer">
@@ -534,6 +486,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + OV5640%E6%91%84%E5%83%8F%E5%A4%B4%E6%A8%A1%E5%9D%97%E8%AE%BE%E8%AE%A1 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F09%2F10%2F195-ov5640-she-xiang-tou-mo-kuai-she-ji%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/09/10/195-ov5640-she-xiang-tou-mo-kuai-she-ji/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>

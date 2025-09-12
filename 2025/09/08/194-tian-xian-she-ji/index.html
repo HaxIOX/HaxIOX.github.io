@@ -13,7 +13,7 @@
   
   <title>
     
-      ESP32S3核心板 
+      天线前置电路设计 
       
       
       |
@@ -157,103 +157,23 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">ESP32S3核心板</div>
+      <div class="post-title">天线前置电路设计</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-01 09:44:10
+          2025-09-10 17:25:22
         </span>
         
       </div>
       <div class="markdown-body">
-        <h1 id="ESP32-S3-硬件调试与外设驱动问题总结"><a href="#ESP32-S3-硬件调试与外设驱动问题总结" class="headerlink" title="ESP32-S3 硬件调试与外设驱动问题总结"></a>ESP32-S3 硬件调试与外设驱动问题总结</h1><hr>
-<h2 id="1-晶振未起振问题"><a href="#1-晶振未起振问题" class="headerlink" title="1. 晶振未起振问题"></a>1. 晶振未起振问题</h2><ul>
-<li><strong>现象</strong><ul>
-<li>上电后 ESP32-S3 无法识别 USB 端口；</li>
-<li>使用示波器测试 XTAL_P&#x2F;XTAL_N 无电压，只有 mV 级噪声；</li>
-<li>整机电流仅 7 mA；</li>
-<li>反复重焊后有时能识别端口，但不稳定。</li>
-</ul>
-</li>
-<li><strong>分析</strong><ul>
-<li>ESP32-S3 内部有起振电路，通过 XTAL_P&#x2F;XTAL_N 接入外部晶振；</li>
-<li>芯片会在启动时给晶振两端加“起振电流”，需要合适的负载电容和 PCB 布局；</li>
-<li>如果测不到电压，说明起振电路未工作，可能是：<ol>
-<li>晶振本身焊接不良 &#x2F; 损坏；</li>
-<li>负载电容不合适（过大或过小都可能不起振）；</li>
-<li>GND 或电源焊接不良；</li>
-<li>芯片内部损坏。</li>
-</ol>
-</li>
-</ul>
-</li>
-<li><strong>结论</strong><ul>
-<li>单凭 0 V 无法完全确认是芯片损坏；</li>
-<li>常用排查手段：换晶振 &#x2F; 电容，检查 GND 焊接完整性；</li>
-<li>使用信号源注入法可辅助判断晶振电路是否能正常放大。</li>
-<li>重焊芯片与晶振</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="2-Flash-烧录与启动问题"><a href="#2-Flash-烧录与启动问题" class="headerlink" title="2. Flash 烧录与启动问题"></a>2. Flash 烧录与启动问题</h2><ul>
-<li><strong>现象</strong><ul>
-<li>烧录失败，提示 <em>Failed to connect to ESP32-S3: No serial data received</em>；</li>
-<li>烧录后出现 <code>invalid header: 0xffffffff</code>；</li>
-<li>日志中提示 <em>No bootable app partitions in the partition table</em>；</li>
-<li>测试发现 VDD_SPI 与 SPIHD 短路。</li>
-</ul>
-</li>
-<li><strong>分析</strong><ul>
-<li><code>0xffffffff</code> 常见于 flash 读不到数据（供电&#x2F;走线问题&#x2F;短路）；</li>
-<li>确认短路点去除后，可以正常烧录；</li>
-<li>若分区表错误，需重新烧录正确的分区表和固件。</li>
-</ul>
-</li>
-<li><strong>注意点</strong><ul>
-<li>Flash 电源 VDD_SPI 要稳定；</li>
-<li>SPI Flash 走线要短且阻抗匹配；</li>
-<li>助焊剂残留可能引起短路。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="3-USB-UART-烧录"><a href="#3-USB-UART-烧录" class="headerlink" title="3. USB &amp; UART 烧录"></a>3. USB &amp; UART 烧录</h2><ul>
-<li><strong>现象</strong><ul>
-<li>原生 USB 无法识别；</li>
-<li>Arduino框架下UART无数据输出；</li>
-<li>后来通过打开Arduino的USB CDC 可识别并烧录成功。</li>
-</ul>
-</li>
-<li><strong>分析</strong><ul>
-<li>原因大多为焊接不良；</li>
-<li>USB 需要 DP&#x2F;DM 正确走线、差分阻抗控制、上拉电阻正常。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="4-WiFi-信号与天线问题"><a href="#4-WiFi-信号与天线问题" class="headerlink" title="4. WiFi 信号与天线问题"></a>4. WiFi 信号与天线问题</h2><ul>
-<li><strong>现象</strong><ul>
-<li>扫描 WiFi 网络时，只能搜到极少数热点。</li>
-</ul>
-</li>
-<li><strong>分析</strong><ul>
-<li>可能原因：<ol>
-<li>天线设计问题：四层板时若在天线下方铺铜，会严重削弱信号；</li>
-<li>天线匹配电路不合理；</li>
-<li>WiFi 模块屏蔽层接地不良。</li>
-</ol>
-</li>
-</ul>
-</li>
-</ul>
+        <h1 id="设计规则"><a href="#设计规则" class="headerlink" title="设计规则"></a>设计规则</h1><h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>使用了陶瓷天线，并进行了阻抗匹配，天线下方禁止铺铜，但是出现wifi扫描的例程只能扫到室内大于80db的信号</p>
 
       </div>
       
         <div class="prev-or-next">
           <div class="post-foot-next">
             
-              <a href="/2025/08/15/189-spi-tong-xin/" target="_self">
+              <a href="/2025/09/04/193-esp32s3-du-qu-sd-qia/" target="_self">
                 <i class="iconfont icon-chevronleft"></i>
                 <span>Prev</span>
               </a>
@@ -262,13 +182,13 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-01 09:44:10
+              2025-09-10 17:25:22
             </span>
             
           </div>
           <div class="post-foot-prev">
             
-              <a href="/2025/08/20/191-pca9555-kuo-zhan-xin-pian/" target="_self">
+              <a href="/2025/09/10/195-ov5640-she-xiang-tou-mo-kuai-she-ji/" target="_self">
                 <span>Next</span>
                 <i class="iconfont icon-chevronright"></i>
               </a>
@@ -285,7 +205,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ESP32-S3-%E7%A1%AC%E4%BB%B6%E8%B0%83%E8%AF%95%E4%B8%8E%E5%A4%96%E8%AE%BE%E9%A9%B1%E5%8A%A8%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93"><span class="toc-text">ESP32-S3 硬件调试与外设驱动问题总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%99%B6%E6%8C%AF%E6%9C%AA%E8%B5%B7%E6%8C%AF%E9%97%AE%E9%A2%98"><span class="toc-text">1. 晶振未起振问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Flash-%E7%83%A7%E5%BD%95%E4%B8%8E%E5%90%AF%E5%8A%A8%E9%97%AE%E9%A2%98"><span class="toc-text">2. Flash 烧录与启动问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-USB-UART-%E7%83%A7%E5%BD%95"><span class="toc-text">3. USB &amp; UART 烧录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-WiFi-%E4%BF%A1%E5%8F%B7%E4%B8%8E%E5%A4%A9%E7%BA%BF%E9%97%AE%E9%A2%98"><span class="toc-text">4. WiFi 信号与天线问题</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E8%A7%84%E5%88%99"><span class="toc-text">设计规则</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li></ol>
       
     </div>
   </div>
@@ -573,12 +493,12 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP32S3%E6%A0%B8%E5%BF%83%E6%9D%BF + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F08%2F20%2F190-esp32s3-he-xin-ban%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%A4%A9%E7%BA%BF%E5%89%8D%E7%BD%AE%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F09%2F08%2F194-tian-xian-she-ji%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
         
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/08/20/190-esp32s3-he-xin-ban/" target="_blank" title="Facebook">
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/09/08/194-tian-xian-she-ji/" target="_blank" title="Facebook">
             <i class="iconfont icon-facebooksquare"></i>
           </a>
         
