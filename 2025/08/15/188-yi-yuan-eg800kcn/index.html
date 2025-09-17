@@ -13,7 +13,7 @@
   
   <title>
     
-      移远EG800KCN 
+      移远EG800K-CN 
       
       
       |
@@ -157,11 +157,11 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">移远EG800KCN</div>
+      <div class="post-title">移远EG800K-CN</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-11 17:34:33
+          2025-09-16 17:35:15
         </span>
         
               <span class="post-tags">
@@ -198,11 +198,7 @@ AT+QGPSGNMEA&#x3D;GSV<span aria-hidden="true" class="line-numbers-rows"><span></
 
 
 
-
-
-
-
-<p>AT+QGPSCFG&#x3D;”outport”,”uartdebug”</p>
+<p>配置USB或者调式uart输出NMEA</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$GNGGA,,,,,,0,00,127.00,,,,,,*62
 $GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07
 $GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02
@@ -220,13 +216,138 @@ $GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07
 $GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02
 $GPGSV,1,1,01,24,,,25,0*65<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<p>1.2. 支持的NMEA语句类型<br>模块默认支持的NMEA语句与NMEA-0183协议兼容。另外，可以通过三种前缀区分不同卫星系统的<br>NMEA语句，如下所示：<br>GPS NMEA语句的前缀为“GP”，如下所示：<br>⚫ GPGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GPRMC – 推荐的最小具体GNSS数据<br>⚫ GPGSV – 可见的GPS卫星，例如可见的卫星数、卫星ID号等<br>⚫ GPGSA – 参与定位的GPS卫星ID号、精度因子等<br>⚫ GPVTG – 矢量跟踪与对地速度                                                 </p>
+<h1 id="4G"><a href="#4G" class="headerlink" title="4G"></a>4G</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h2 id="MQTT通信"><a href="#MQTT通信" class="headerlink" title="MQTT通信"></a>MQTT通信</h2><p>AT+QMTOPEN&#x3D;0,”c979197b.ala.dedicated.aws.emqxcloud.com”,1883</p>
+<pre class="line-numbers language-none"><code class="language-none">AT+CPIN?
+AT+CSQ
+AT+CREG?
+AT+CGDCONT?
+AT+CGDCONT&#x3D;1,&quot;IP&quot;,&quot;ctnet&quot;
+AT+CGACT&#x3D;1,1
+AT+CGPADDR&#x3D;1
+AT+QMTOPEN&#x3D;0,&quot;23.133.52.56&quot;,1883   
+AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒内快速发送<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<h3 id="阶段一：前提检查"><a href="#阶段一：前提检查" class="headerlink" title="阶段一：前提检查"></a>阶段一：前提检查</h3><p>在开始之前，请务必与服务提供商确认以下事项：</p>
+<ul>
+<li><strong>物联网SIM卡</strong>: 确认SIM卡已激活，并且您的服务器地址已被添加到该卡的<strong>访问白名单</strong>中。</li>
+<li><strong>MQTT服务器</strong>: 确认已创建用于设备登录的<strong>用户名和密码</strong>。</li>
+<li><strong>服务器防火墙</strong>: 确认已放行MQTT所需端口 (如TCP <code>1883</code>)。</li>
+</ul>
+<h3 id="阶段二：模块网络注册"><a href="#阶段二：模块网络注册" class="headerlink" title="阶段二：模块网络注册"></a>阶段二：模块网络注册</h3><p><strong>目标</strong>: 让模块连接到移动蜂窝网络并获取IP地址。</p>
+<ol>
+<li><p><strong>检查SIM卡状态</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+CPIN?<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
+<ul>
+<li><strong>预期</strong>: <code>+CPIN: READY</code></li>
+</ul>
+</li>
+<li><p><strong>检查信号质量</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+CSQ<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
+<ul>
+<li><strong>预期</strong>: <code>+CSQ: &lt;rssi&gt;,&lt;ber&gt;</code> (rssi应 &gt; 10, 且不为99)</li>
+</ul>
+</li>
+<li><p><strong>检查网络注册</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+CGREG?<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
+<ul>
+<li><strong>预期</strong>: <code>+CGREG: 0,1</code> 或 <code>+CGREG: 0,5</code></li>
+</ul>
+</li>
+<li><p><strong>配置APN</strong> (以<code>ctnet</code>为例)</p>
+<pre class="line-numbers language-none"><code class="language-none">AT+CGDCONT&#x3D;1,&quot;IP&quot;,&quot;ctnet&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
+<ul>
+<li><strong>预期</strong>: <code>OK</code></li>
+</ul>
+</li>
+<li><p><strong>激活数据通道</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QIACT&#x3D;1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<p>1.2. 支持的NMEA语句类型<br>模块默认支持的NMEA语句与NMEA-0183协议兼容。另外，可以通过三种前缀区分不同卫星系统的<br>NMEA语句，如下所示：<br>GPS NMEA语句的前缀为“GP”，如下所示：<br>⚫ GPGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GPRMC – 推荐的最小具体GNSS数据<br>⚫ GPGSV – 可见的GPS卫星，例如可见的卫星数、卫星ID号等<br>⚫ GPGSA – 参与定位的GPS卫星ID号、精度因子等<br>⚫ GPVTG – 矢量跟踪与对地速度<br>上海移远通信技术股份有限公司<br>6 &#x2F; 27<br>EC200N-CN&amp;EC800M-CN&amp;EG915N系列GNSS应用指导<br>⚫ GPGLL – 经度与纬度<br>BeiDou NMEA 语句的前缀为“GB”，如下所示：<br>⚫ GBGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GBRMC – 推荐的最小具体GNSS数据<br>⚫ GBGSV – 可见的BeiDou卫星，例如可见的卫星数、卫星ID号等<br>⚫ GBGSA – 参与定位的BeiDou卫星ID号、精度因子等<br>⚫ GBVTG – 矢量跟踪与对地速度<br>⚫ GBGLL – 经度与纬度<br>Galileo NMEA 语句的前缀为“GA”，如下所示：<br>⚫ GAGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GARMC – 推荐的最小具体GNSS数据<br>⚫ GAGSV – 可见的Galileo卫星，例如可见的卫星数、卫星ID号等<br>⚫ GAGSA – 参与定位的Galileo卫星ID号、精度因子等<br>GLONASS NMEA语句的前缀为“GL”，如下所示：<br>⚫ GLGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GLRMC – 推荐的最小具体GNSS数据<br>⚫ GLGSV – 可见的GLONASS卫星，例如可见的卫星数、卫星ID号等<br>⚫ GLGSA – 参与定位的GLONASS卫星ID号、精度因子等<br>GNSS组合系统NMEA语句的前缀为“GN”，如下所示：<br>⚫ GNGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GNRMC – 推荐的最小具体GNSS数据<br>⚫ GNGSA – 参与定位的GNSS卫星ID号、精度因子等<br>⚫ GNVTG – 矢量跟踪与对地速度<br>⚫ GNGLL – 经度与纬度 </p>
+<ul>
+<li><strong>预期</strong>: <code>OK</code></li>
+</ul>
+</li>
+<li><p><strong>确认获取IP</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+CGPADDR&#x3D;1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>+CGPADDR: 1,&lt;ip_address&gt;</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="阶段三：连接MQTT服务器"><a href="#阶段三：连接MQTT服务器" class="headerlink" title="阶段三：连接MQTT服务器"></a>阶段三：连接MQTT服务器</h3><p><strong>目标</strong>: 建立TCP连接并完成MQTT登录。</p>
+<ol>
+<li><p><strong>(推荐) 配置MQTT版本</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTCFG&#x3D;&quot;version&quot;,0,4<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>说明</strong>: 设置协议为MQTT v3.1.1，兼容性好。</li>
+<li><strong>预期</strong>: <code>OK</code></li>
+</ul>
+</li>
+<li><p><strong>建立TCP连接</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTOPEN&#x3D;0,&quot;&lt;服务器域名或IP&gt;&quot;,1883<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTOPEN: 0,0</code></li>
+</ul>
+</li>
+<li><p><strong>MQTT登录</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTCONN&#x3D;0,&quot;&lt;客户端ID&gt;&quot;,&quot;&lt;用户名&gt;&quot;,&quot;&lt;密码&gt;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>说明</strong>: 必须在<code>AT+QMTOPEN</code>成功后立即执行。</li>
+<li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTCONN: 0,0,0</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="阶段四：MQTT数据操作"><a href="#阶段四：MQTT数据操作" class="headerlink" title="阶段四：MQTT数据操作"></a>阶段四：MQTT数据操作</h3><p><strong>目标</strong>: 订阅主题、发布消息、接收消息。</p>
+<ol>
+<li><p><strong>订阅主题</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTSUB&#x3D;0,1,&quot;topic&#x2F;sub&quot;,1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>说明</strong>: 订阅主题 “topic&#x2F;sub”，QoS为1。</li>
+<li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTSUB: 0,1,0,1</code></li>
+</ul>
+</li>
+<li><p><strong>发布消息</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTPUBEX&#x3D;0,0,0,0,&quot;topic&#x2F;sub&quot;,5<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>说明</strong>: 向 “topic&#x2F;pub” 主题发布5字节长的消息。</li>
+<li><strong>操作</strong>: 模块返回 <code>&gt;</code>后，输入消息内容 (例如 <code>hello</code>)。</li>
+<li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTPUBEX: 0,0,0</code></li>
+</ul>
+</li>
+<li><p><strong>接收消息 (被动)</strong></p>
+<ul>
+<li><strong>说明</strong>: 当订阅的主题有消息时，模块会自动上报。</li>
+<li><strong>格式</strong>: <code>+QMTRECV: 0, &lt;msgid&gt;, &quot;&lt;主题&gt;&quot;, &lt;长度&gt;, &quot;&lt;消息内容&gt;&quot;</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="阶段五：断开连接"><a href="#阶段五：断开连接" class="headerlink" title="阶段五：断开连接"></a>阶段五：断开连接</h3><p><strong>目标</strong>: 干净、优雅地断开连接。</p>
+<ol>
+<li><p><strong>断开MQTT会话</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTDISC&#x3D;0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTDISC: 0,0</code></li>
+</ul>
+</li>
+<li><p><strong>关闭TCP通道</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTCLOSE&#x3D;0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTCLOSE: 0,0</code></li>
+</ul>
+</li>
+</ol>
 
       </div>
       
@@ -242,7 +363,7 @@ $GPGSV,1,1,01,24,,,25,0*65<span aria-hidden="true" class="line-numbers-rows"><sp
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-11 17:34:33
+              2025-09-16 17:35:15
             </span>
             
                   <span class="post-tags">
@@ -276,7 +397,7 @@ $GPGSV,1,1,01,24,,,25,0*65<span aria-hidden="true" class="line-numbers-rows"><sp
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GNSS"><span class="toc-text">GNSS</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GNSS"><span class="toc-text">GNSS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4G"><span class="toc-text">4G</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MQTT%E9%80%9A%E4%BF%A1"><span class="toc-text">MQTT通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%B8%80%EF%BC%9A%E5%89%8D%E6%8F%90%E6%A3%80%E6%9F%A5"><span class="toc-text">阶段一：前提检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%BA%8C%EF%BC%9A%E6%A8%A1%E5%9D%97%E7%BD%91%E7%BB%9C%E6%B3%A8%E5%86%8C"><span class="toc-text">阶段二：模块网络注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%B8%89%EF%BC%9A%E8%BF%9E%E6%8E%A5MQTT%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">阶段三：连接MQTT服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E5%9B%9B%EF%BC%9AMQTT%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="toc-text">阶段四：MQTT数据操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%BA%94%EF%BC%9A%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5"><span class="toc-text">阶段五：断开连接</span></a></li></ol></li></ol></li></ol>
       
     </div>
   </div>
@@ -564,7 +685,7 @@ $GPGSV,1,1,01,24,,,25,0*65<span aria-hidden="true" class="line-numbers-rows"><sp
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%A7%BB%E8%BF%9CEG800KCN + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F08%2F15%2F188-yi-yuan-eg800kcn%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%A7%BB%E8%BF%9CEG800K-CN + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F08%2F15%2F188-yi-yuan-eg800kcn%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         

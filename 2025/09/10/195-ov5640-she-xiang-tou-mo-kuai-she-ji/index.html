@@ -161,17 +161,162 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-10 17:15:55
+          2025-09-17 17:35:09
         </span>
         
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E6%91%84%E5%83%8F%E5%A4%B4/" title="摄像头">
+                    #摄像头
+                  </a>
+                </span>
+                
+              </span>
+          
       </div>
       <div class="markdown-body">
-        <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
+        <h1 id="引脚定义"><a href="#引脚定义" class="headerlink" title="引脚定义"></a>引脚定义</h1><table>
+<thead>
+<tr>
+<th align="center">NO.</th>
+<th align="center">SYMBOL</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">STROBE</td>
+<td align="center">闪光灯</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">DGND</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">SIO_D</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">AVDD</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">SIO_C</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">RESET</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">VSYNC</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">PWDN</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">HREF</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">DVDD</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">DOVDD</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">Y9</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="center">XCLK1</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="center">Y8</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="center">DGND</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="center">Y7</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">17</td>
+<td align="center">PCLK</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="center">Y6</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">19</td>
+<td align="center">Y2</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">20</td>
+<td align="center">Y5</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">21</td>
+<td align="center">Y3</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">22</td>
+<td align="center">Y4</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">23</td>
+<td align="center">NC</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">24</td>
+<td align="center">AF–VCC</td>
+<td align="center">自动对焦电源</td>
+</tr>
+</tbody></table>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
 <li>FPC座容易虚焊与连锡，即便肉眼看上去完美至极</li>
 <li>复刻的一个模块，不理解为什么用不了，合理怀疑省略了一部分电路</li>
 <li>I2C忘记了上拉电阻</li>
 <li>使用MOS管或者三极管记得上下拉电阻</li>
 </ul>
+<p>摄像头初始化失败的可能原因</p>
+<p>1.虚焊、短路</p>
+<p>2.引脚接错，重点排查，特别注意sda、scl、sclk等引脚</p>
+<p>3.供电不足</p>
+<p>4.iic通信缺少上拉电阻</p>
 
       </div>
       
@@ -187,11 +332,27 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-10 17:15:55
+              2025-09-17 17:35:09
             </span>
             
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E6%91%84%E5%83%8F%E5%A4%B4/" title="摄像头">
+                        #摄像头
+                      </a>
+                    </span>
+                    
+                  </span>
+              
           </div>
           <div class="post-foot-prev">
+            
+              <a href="/2025/09/15/196-da-jian-emqx/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
             
           </div>
         </div>
@@ -205,7 +366,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E8%84%9A%E5%AE%9A%E4%B9%89"><span class="toc-text">引脚定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li></ol>
       
     </div>
   </div>
