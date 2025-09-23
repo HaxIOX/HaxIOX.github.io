@@ -161,12 +161,29 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-04 15:10:54
+          2025-09-23 16:46:32
         </span>
         
       </div>
       <div class="markdown-body">
-        
+        <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
+<li><p>1bit模式</p>
+</li>
+<li><p>#include &lt;errno.h&gt;</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">ESP_LOGE(TAG, &quot;Write test failed, errno&#x3D;%d (%s)&quot;, errno, strerror(errno));<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>⚠️Long filename support否则报错<code>errno=22 (Invalid argument)</code></p>
+<blockquote>
+<p>FATFS 里它几乎总是由 <strong>FR_INVALID_NAME（无效文件名）</strong> 映射过来的。你的路径是 <code>&quot;/sdcard/test_write.txt&quot;</code>，“test_write.txt”的主文件名 <code>test_write</code> 有 <strong>10 个字符</strong>，如果 <strong>长文件名（LFN）功能未开启</strong>，FAT 只允许 <strong>8.3</strong> 文件名（最多 8 个字符的主名 + “.” + 最多 3 个字符的扩展名），于是就被判定为无效文件名 ⇒ <code>EINVAL(22)</code>。同理你后面保存的 <code>photo_0001.jpg</code> 主名 <code>photo_0001</code> 也是 <strong>10 个字符</strong>，同样会触发这个错误。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="坑点"><a href="#坑点" class="headerlink" title="坑点"></a>坑点</h2><ul>
+<li>新项目搜不到sdmmc可能是因为没有<code>Kconfig.projbuild</code>,添加后清理重新编译即可</li>
+<li>&#x2F;sdcard为根目录</li>
+<li></li>
+</ul>
+
       </div>
       
         <div class="prev-or-next">
@@ -181,7 +198,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-04 15:10:54
+              2025-09-23 16:46:32
             </span>
             
           </div>
@@ -197,6 +214,23 @@
       
     </div>
     
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9D%91%E7%82%B9"><span class="toc-text">坑点</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
 
     
       <div class="comments-container">
