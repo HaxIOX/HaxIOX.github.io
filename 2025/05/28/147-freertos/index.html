@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-01 09:44:10
+          2025-09-27 17:21:04
         </span>
         
       </div>
@@ -228,6 +228,14 @@
 <li><strong>驱动和组件是“线程安全”的</strong>：由于系统是多任务的，ESP-IDF 的大部分 API 都被设计为“线程安全”的。这意味着你可以在不同的任务中调用同一个驱动函数（比如 <code>esp_log_write</code>），而不用担心数据会混乱。这背后都是通过 FreeRTOS 的互斥锁（Mutexes）或信号量（Semaphores）等同步机制来实现的。</li>
 <li><strong>事件驱动模型</strong>：ESP-IDF 大量使用事件循环（Event Loop）。当你连接 Wi-Fi 时，你不是写一个 <code>while(isConnected == false)</code> 的循环去等待，而是注册一个回调函数。当 Wi-Fi 连接成功或失败时，Wi-Fi 的后台任务会通过 FreeRTOS 的队列（Queue）发送一个事件，然后事件循环任务接收到这个事件，再调用你注册的回调函数。整个过程都是由 FreeRTOS 的通信机制驱动的。</li>
 </ol>
+<h2 id="临界区、互斥锁、信号量"><a href="#临界区、互斥锁、信号量" class="headerlink" title="临界区、互斥锁、信号量"></a>临界区、互斥锁、信号量</h2><ol>
+<li><ul>
+<li>“临界区”是一个源自<strong>操作系统 (Operating System) 理论</strong>的概念。它指的是一段代码，这段代码会访问一个共享资源（比如一个全局变量、一个串口），在同一时间，绝不能被多个任务同时访问。</li>
+<li>在您的项目中，<strong>FreeRTOS</strong> 就是一个嵌入式操作系统。是 <strong>FreeRTOS</strong> 提供了实现“临界区”这个概念的具体工具，也就是 <code>taskENTER_CRITICAL()</code> 和 <code>taskEXIT_CRITICAL()</code> 这两个函数。</li>
+</ul>
+</li>
+</ol>
+<p><strong>简单来说</strong>：C语言是您用来写代码的<strong>语言</strong>，而 FreeRTOS 是为您提供多任务、队列、互斥锁、临界区等高级功能的<strong>平台或库</strong>。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>所以，最准确的理解是：</p>
 <p><strong>ESP-IDF 将 FreeRTOS 作为其操作系统的内核，并围绕其构建了整个软件框架。你无法绕过 FreeRTOS 来使用 ESP-IDF。</strong></p>
 <ul>
@@ -288,7 +296,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-01 09:44:10
+              2025-09-27 17:21:04
             </span>
             
           </div>
@@ -311,7 +319,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FreeRTOS"><span class="toc-text">FreeRTOS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FreeRTOS-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E5%85%A5%E9%97%A8"><span class="toc-text">FreeRTOS 核心概念入门</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ESP32%E5%BA%94%E7%94%A8"><span class="toc-text">ESP32应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ESP32-%E7%9A%84%E7%A1%AC%E4%BB%B6%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B1%82%E6%AC%A1"><span class="toc-text">1. ESP32 的硬件与软件层次</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E2%80%9CESP32-%E7%9A%84%E5%BA%95%E5%B1%82%E5%85%A8%E6%98%AF-FreeRTOS%E2%80%9D-%E8%BF%99%E5%8F%A5%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E9%81%93%E7%90%86%EF%BC%9F"><span class="toc-text">2. “ESP32 的底层全是 FreeRTOS” - 这句话为什么有道理？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#STM32-%E6%A0%87%E5%87%86%E5%BA%93%E5%BC%80%E5%8F%91-vs-ESP-IDF-%E5%9F%BA%E4%BA%8E-FreeRTOS"><span class="toc-text">STM32 标准库开发 vs ESP-IDF (基于 FreeRTOS)</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FreeRTOS"><span class="toc-text">FreeRTOS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FreeRTOS-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E5%85%A5%E9%97%A8"><span class="toc-text">FreeRTOS 核心概念入门</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ESP32%E5%BA%94%E7%94%A8"><span class="toc-text">ESP32应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ESP32-%E7%9A%84%E7%A1%AC%E4%BB%B6%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B1%82%E6%AC%A1"><span class="toc-text">1. ESP32 的硬件与软件层次</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E2%80%9CESP32-%E7%9A%84%E5%BA%95%E5%B1%82%E5%85%A8%E6%98%AF-FreeRTOS%E2%80%9D-%E8%BF%99%E5%8F%A5%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E9%81%93%E7%90%86%EF%BC%9F"><span class="toc-text">2. “ESP32 的底层全是 FreeRTOS” - 这句话为什么有道理？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%B4%E7%95%8C%E5%8C%BA%E3%80%81%E4%BA%92%E6%96%A5%E9%94%81%E3%80%81%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="toc-text">临界区、互斥锁、信号量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#STM32-%E6%A0%87%E5%87%86%E5%BA%93%E5%BC%80%E5%8F%91-vs-ESP-IDF-%E5%9F%BA%E4%BA%8E-FreeRTOS"><span class="toc-text">STM32 标准库开发 vs ESP-IDF (基于 FreeRTOS)</span></a></li></ol>
       
     </div>
   </div>
