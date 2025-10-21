@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-22 17:38:48
+          2025-10-15 14:25:25
         </span>
         
       </div>
@@ -272,6 +272,25 @@ const int len &#x3D; pkt-&gt;rx_ctrl.sig_len;  &#x2F;&#x2F; len是数据包的�
 <img src="/2025/06/09/159-c-yu-yan-hui-lu/1751273417665.png" class="" width="1751273417665">
 
 <h1 id="math"><a href="#math" class="headerlink" title="math"></a>math</h1><h2 id="powf-ratio-FIT-A"><a href="#powf-ratio-FIT-A" class="headerlink" title="powf(ratio, FIT_A)"></a>powf(ratio, FIT_A)</h2><p>计算 ratio 的 FIT_A 次方</p>
+<h2 id="sqrtf"><a href="#sqrtf" class="headerlink" title="sqrtf()"></a>sqrtf()</h2><ul>
+<li><p><strong>功能</strong>: 计算一个 <code>float</code> 类型的数字的平方根。</p>
+</li>
+<li><p><strong>头文件</strong>: 需要包含 <code>&lt;math.h&gt;</code> 头文件。</p>
+</li>
+<li><p><strong>使用示例</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &lt;math.h&gt;
+#include &lt;stdio.h&gt;
+
+int main() &#123;
+    float x &#x3D; 144.0f;
+    float y &#x3D; 180.0f;
+
+    printf(&quot;sqrtf(%.2f) &#x3D; %.2f\n&quot;, x, sqrtf(x));
+    printf(&quot;sqrtf(%.2f) &#x3D; %.2f\n&quot;, y, sqrtf(y));
+
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
 <h1 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h1><ul>
 <li>const: 数据是只读的</li>
 <li>static: 作用域限制在当前文件</li>
@@ -339,7 +358,7 @@ typedef struct &#123;
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-22 17:38:48
+              2025-10-15 14:25:25
             </span>
             
           </div>
@@ -362,7 +381,7 @@ typedef struct &#123;
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%93"><span class="toc-text">库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#scanf"><span class="toc-text">scanf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sscanf"><span class="toc-text">sscanf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#snprintf"><span class="toc-text">snprintf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strlen"><span class="toc-text">strlen</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strncpy"><span class="toc-text">strncpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#atoi"><span class="toc-text">atoi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#atof"><span class="toc-text">atof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strtol"><span class="toc-text">strtol</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strcmp"><span class="toc-text">strcmp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strncmp"><span class="toc-text">strncmp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#malloc"><span class="toc-text">malloc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile"><span class="toc-text">volatile</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E6%88%90%E5%91%98%E8%AE%BF%E9%97%AE"><span class="toc-text">指针类型转换和结构体成员访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#printf"><span class="toc-text">printf</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#math"><span class="toc-text">math</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#powf-ratio-FIT-A"><span class="toc-text">powf(ratio, FIT_A)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">关键字</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-text">分文件管理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#union%E8%81%94%E5%90%88%E4%BD%93"><span class="toc-text">union联合体</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%93"><span class="toc-text">库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#scanf"><span class="toc-text">scanf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sscanf"><span class="toc-text">sscanf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#snprintf"><span class="toc-text">snprintf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strlen"><span class="toc-text">strlen</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strncpy"><span class="toc-text">strncpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#atoi"><span class="toc-text">atoi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#atof"><span class="toc-text">atof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strtol"><span class="toc-text">strtol</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strcmp"><span class="toc-text">strcmp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strncmp"><span class="toc-text">strncmp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#malloc"><span class="toc-text">malloc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile"><span class="toc-text">volatile</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E6%88%90%E5%91%98%E8%AE%BF%E9%97%AE"><span class="toc-text">指针类型转换和结构体成员访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#printf"><span class="toc-text">printf</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#math"><span class="toc-text">math</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#powf-ratio-FIT-A"><span class="toc-text">powf(ratio, FIT_A)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sqrtf"><span class="toc-text">sqrtf()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">关键字</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-text">分文件管理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#union%E8%81%94%E5%90%88%E4%BD%93"><span class="toc-text">union联合体</span></a></li></ol>
       
     </div>
   </div>

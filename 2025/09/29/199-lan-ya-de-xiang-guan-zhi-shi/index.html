@@ -13,7 +13,7 @@
   
   <title>
     
-      199-蓝牙的相关知识 
+      蓝牙的相关知识 
       
       
       |
@@ -157,16 +157,16 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">199-蓝牙的相关知识</div>
+      <div class="post-title">蓝牙的相关知识</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-29 09:46:44
+          2025-10-11 13:22:45
         </span>
         
       </div>
       <div class="markdown-body">
-        <h2 id="1-蓝牙的两种“连接”"><a href="#1-蓝牙的两种“连接”" class="headerlink" title="1. 蓝牙的两种“连接”"></a>1. 蓝牙的两种“连接”</h2><ul>
+        <h2 id="蓝牙的两种连接"><a href="#蓝牙的两种连接" class="headerlink" title="蓝牙的两种连接"></a>蓝牙的两种连接</h2><ul>
 <li><strong>经典蓝牙（BR&#x2F;EDR）</strong><ul>
 <li>耳机、音箱、手柄这种，大部分都走经典蓝牙。</li>
 <li>手机系统蓝牙 UI 原生支持，扫描后直接给你「配对」「连接」。</li>
@@ -179,12 +179,13 @@
 </ul>
 </li>
 </ul>
-<p>👉 也就是说：</p>
+<p>也就是说：</p>
 <ul>
 <li><strong>经典蓝牙</strong> → 系统 UI 全面支持。</li>
 <li><strong>BLE</strong> → 系统 UI 只支持部分标准 Profile，其他一律不显示。</li>
 </ul>
-<h2 id="2-什么叫“系统-UI-认识的标准-Profile”"><a href="#2-什么叫“系统-UI-认识的标准-Profile”" class="headerlink" title="2. 什么叫“系统 UI 认识的标准 Profile”"></a>2. 什么叫“系统 UI 认识的标准 Profile”</h2><p>蓝牙 SIG（标准组织）定义了一些 <strong>标准 GATT 服务（UUID）</strong>，比如：</p>
+<blockquote>
+<p>蓝牙 SIG（标准组织）定义了一些 <strong>标准 GATT 服务（UUID）</strong>，比如：</p>
 <ul>
 <li>0x180D → Heart Rate（心率）</li>
 <li>0x180F → Battery Service（电池电量）</li>
@@ -192,52 +193,43 @@
 </ul>
 <p>系统 UI 内置了这些 Profile 的处理逻辑：</p>
 <ul>
-<li>如果你的设备广播了 <strong>HID Service</strong>，手机就会当它是「键盘&#x2F;鼠标」，UI 里显示「连接」。</li>
-<li>如果是 <strong>心率计</strong>，某些手机系统会直接显示「已连接心率传感器」。</li>
-<li>但是如果你广播一个 <strong>自定义 Service（比如 0x00FF）</strong>，手机系统不知道这是干嘛的，就不会在 UI 里给你入口。</li>
+<li><p>如果你的设备广播了 <strong>HID Service</strong>，手机就会当它是「键盘&#x2F;鼠标」，UI 里显示「连接」。</p>
+</li>
+<li><p>但是如果你广播一个 <strong>自定义 Service（比如 0x00FF）</strong>，手机系统不知道这是干嘛的，就不会在 UI 里给你入口。</p>
+</li>
+</ul>
+</blockquote>
+<p><strong>总结</strong></p>
+<ul>
+<li><strong>手机设置里的蓝牙 UI 并不是通用 BLE 调试器</strong>，它只对 **标准设备类型（HID、耳机、心率计等）**显示「连接」按钮。</li>
+<li><strong>自定义 BLE 服务</strong> 在系统 UI 里不会有「连接」，只能在开发工具 App（nRF Connect）里操作，或者写专用 App。</li>
 </ul>
 <hr>
-<h2 id="3-为什么-nRF-Connect-可以"><a href="#3-为什么-nRF-Connect-可以" class="headerlink" title="3. 为什么 nRF Connect 可以"></a>3. 为什么 nRF Connect 可以</h2><ul>
+<h2 id="为什么-nRF-Connect-可以"><a href="#为什么-nRF-Connect-可以" class="headerlink" title="为什么 nRF Connect 可以"></a>为什么 nRF Connect 可以</h2><ul>
 <li>nRF Connect、LightBlue 这类工具 App，直接调用了系统的 <strong>BLE API（CoreBluetooth &#x2F; Android BLE API）</strong>。</li>
-<li>这些 API 能列出 <strong>所有正在广播的设备</strong>，无论 UUID 是标准的还是自定义的。</li>
-<li>所以在工具 App 里，你可以自由选择「连接」。</li>
 </ul>
-<p>👉 换句话说，<strong>系统 UI 是挑食的，只吃标准 Profile</strong>；工具 App 则是「开发者模式」，什么都能连。</p>
-<hr>
-<h2 id="4-举个例子：你的情况"><a href="#4-举个例子：你的情况" class="headerlink" title="4. 举个例子：你的情况"></a>4. 举个例子：你的情况</h2><p>你现在的 Demo 里是 <strong>Battery Service (0x180F)</strong>，再加了一个电量特征 (0x2A19)。</p>
-<ul>
-<li><strong>Android 手机</strong>：大多数不会在 UI 里显示「连接」，因为 Android 系统层面电池服务只用来读配件电量，不给用户操作按钮。</li>
-<li><strong>iOS 手机</strong>：更严格，自定义 GATT 一律不在设置里显示「连接」，只能靠 App。</li>
-</ul>
-<p>所以结果就是：</p>
-<ul>
-<li>在系统蓝牙设置里，你可能只能扫到名字，但点不了「连接」。</li>
-<li>在 nRF Connect 里，一切正常，可以连、读写。</li>
-</ul>
-<hr>
-<h2 id="5-解决方法"><a href="#5-解决方法" class="headerlink" title="5. 解决方法"></a>5. 解决方法</h2><p>如果你想在 <strong>手机蓝牙设置 UI</strong> 里有「连接」按钮：</p>
+<p>如果你想在 <strong>手机蓝牙设置 UI</strong> 里有「连接」按钮：</p>
 <ol>
 <li><strong>让 ESP32 提供 HID Service (0x1812)</strong><ul>
 <li>手机会把它识别成「键盘&#x2F;鼠标」，UI 自动出现「连接」按钮。</li>
 <li>这是最常见的做法。</li>
 </ul>
 </li>
-<li><strong>实现其他标准 Profile（比如心率 0x180D）</strong><ul>
-<li>手机 UI 会把它当成心率带，也能显示「连接」。</li>
-<li>但逻辑可能不符合你的应用场景。</li>
-</ul>
-</li>
-<li><strong>写手机 App</strong><ul>
-<li>自己用 API 去扫描&#x2F;连接自定义服务。</li>
-<li>但你说了「不想写 App」，所以这条可以忽略。</li>
-</ul>
-</li>
+<li>支持经典蓝牙</li>
 </ol>
-<hr>
-<h2 id="📌-总结一句话"><a href="#📌-总结一句话" class="headerlink" title="📌 总结一句话"></a>📌 总结一句话</h2><ul>
-<li><strong>手机设置里的蓝牙 UI 并不是通用 BLE 调试器</strong>，它只对 **标准设备类型（HID、耳机、心率计等）**显示「连接」按钮。</li>
-<li><strong>自定义 BLE 服务</strong> 在系统 UI 里不会有「连接」，只能在开发工具 App（nRF Connect）里操作，或者写专用 App。</li>
+<h2 id="关于ESP32S3设备无法扫描到手机"><a href="#关于ESP32S3设备无法扫描到手机" class="headerlink" title="关于ESP32S3设备无法扫描到手机"></a>关于ESP32S3设备无法扫描到手机</h2><ul>
+<li>ESP32S3不支持经典蓝牙，手机之间扫描到使用的是经典蓝牙</li>
+<li>ESP32S3支持BLE(低功耗蓝牙)，但是手机不调用的前提下，不广播BLE</li>
+<li>BLE 自动重连需要手机参与</li>
 </ul>
+<p>但凡涉及到<strong>自动重连</strong>，一定是经典蓝牙在工作</p>
+<h2 id="蓝牙耳机的重连原理"><a href="#蓝牙耳机的重连原理" class="headerlink" title="蓝牙耳机的重连原理"></a>蓝牙耳机的重连原理</h2><p>也就是说双模蓝牙耳机，断开时ble的作用是广播，让手机快速发现自己，然后触发经典蓝牙的自动重连对吗</p>
+<blockquote>
+<p><strong>是的：双模蓝牙耳机在断开经典蓝牙音频连接后，会利用 BLE 广播（advertising）维持“存在感”，让手机快速发现并触发经典蓝牙（BR&#x2F;EDR）的重连。</strong></p>
+</blockquote>
+<h3 id="为什么需要-BLE-辅助重连？"><a href="#为什么需要-BLE-辅助重连？" class="headerlink" title="为什么需要 BLE 辅助重连？"></a>为什么需要 BLE 辅助重连？</h3><p>传统的纯 BR&#x2F;EDR 蓝牙耳机在断开后，<strong>只能周期性地广播自己</strong>，但经典蓝牙的发现机制很慢（扫描间隔长、功耗高）。</p>
+<p><strong>补充：</strong></p>
+<p>✅ <strong>ESP32（原版）可以做蓝牙音箱</strong>，<br>❌ <strong>ESP32-S3（以及 ESP32-C3、ESP32-S2）不能做蓝牙音箱</strong>，<br>因为它们只支持 <strong>BLE（低功耗蓝牙）</strong>，而音频传输必须用 <strong>经典蓝牙（BR&#x2F;EDR）</strong></p>
 
       </div>
       
@@ -253,11 +245,16 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-29 09:46:44
+              2025-10-11 13:22:45
             </span>
             
           </div>
           <div class="post-foot-prev">
+            
+              <a href="/2025/10/09/200-esp-who-ren-lian-jian-ce/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
             
           </div>
         </div>
@@ -271,7 +268,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%93%9D%E7%89%99%E7%9A%84%E4%B8%A4%E7%A7%8D%E2%80%9C%E8%BF%9E%E6%8E%A5%E2%80%9D"><span class="toc-text">1. 蓝牙的两种“连接”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E5%8F%AB%E2%80%9C%E7%B3%BB%E7%BB%9F-UI-%E8%AE%A4%E8%AF%86%E7%9A%84%E6%A0%87%E5%87%86-Profile%E2%80%9D"><span class="toc-text">2. 什么叫“系统 UI 认识的标准 Profile”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%B8%BA%E4%BB%80%E4%B9%88-nRF-Connect-%E5%8F%AF%E4%BB%A5"><span class="toc-text">3. 为什么 nRF Connect 可以</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%B8%BE%E4%B8%AA%E4%BE%8B%E5%AD%90%EF%BC%9A%E4%BD%A0%E7%9A%84%E6%83%85%E5%86%B5"><span class="toc-text">4. 举个例子：你的情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-text">5. 解决方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%8C-%E6%80%BB%E7%BB%93%E4%B8%80%E5%8F%A5%E8%AF%9D"><span class="toc-text">📌 总结一句话</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%93%9D%E7%89%99%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%BF%9E%E6%8E%A5"><span class="toc-text">蓝牙的两种连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-nRF-Connect-%E5%8F%AF%E4%BB%A5"><span class="toc-text">为什么 nRF Connect 可以</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EESP32S3%E8%AE%BE%E5%A4%87%E6%97%A0%E6%B3%95%E6%89%AB%E6%8F%8F%E5%88%B0%E6%89%8B%E6%9C%BA"><span class="toc-text">关于ESP32S3设备无法扫描到手机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%E7%9A%84%E9%87%8D%E8%BF%9E%E5%8E%9F%E7%90%86"><span class="toc-text">蓝牙耳机的重连原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-BLE-%E8%BE%85%E5%8A%A9%E9%87%8D%E8%BF%9E%EF%BC%9F"><span class="toc-text">为什么需要 BLE 辅助重连？</span></a></li></ol></li></ol>
       
     </div>
   </div>
@@ -559,7 +556,7 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + 199-%E8%93%9D%E7%89%99%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F09%2F29%2F199-lan-ya-de-xiang-guan-zhi-shi%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E8%93%9D%E7%89%99%E7%9A%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F09%2F29%2F199-lan-ya-de-xiang-guan-zhi-shi%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         

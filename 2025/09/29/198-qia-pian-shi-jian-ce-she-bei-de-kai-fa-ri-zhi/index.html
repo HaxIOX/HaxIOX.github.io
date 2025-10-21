@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-29 17:25:09
+          2025-10-20 17:29:17
         </span>
         
       </div>
@@ -324,6 +324,28 @@
 <p>8.蓝牙初始化与蓝牙扫描没有分开</p>
 <p>9.E (1957251) wifi:failed to post WiFi event&#x3D;1 ret&#x3D;259</p>
 <p>W (1120146) wifi:m f probe req l&#x3D;0</p>
+<h2 id="10-9"><a href="#10-9" class="headerlink" title="10.9"></a>10.9</h2><p>通过修改嘉立创实战派（5.16版本）的程序，实现了在1.14存屏幕上进行人脸检测</p>
+<h2 id="10-11"><a href="#10-11" class="headerlink" title="10.11"></a>10.11</h2><p>为解决ble扫描不到手机蓝牙的问题进行调研，发现是esp32s3不支持经典蓝牙导致的</p>
+<h2 id="10-15"><a href="#10-15" class="headerlink" title="10.15"></a>10.15</h2><ul>
+<li>增加通过加速度标准差以及加速度幅值均值的检测判断行人运动状态的功能</li>
+</ul>
+<h2 id="10-16"><a href="#10-16" class="headerlink" title="10.16"></a>10.16</h2><ul>
+<li>验证加上重力滤波后导致跑步时别不灵敏，去除</li>
+</ul>
+<h2 id="10-17"><a href="#10-17" class="headerlink" title="10.17"></a>10.17</h2><ul>
+<li>增加RF管理器，避免ble与wifi同一时间使用天线</li>
+<li>删除RF管理器，因为手动管理会出现冲突，ble不放天线，而ESP32有自己的底层rf管理器</li>
+<li>增加驾车状态识别，通过EG800K-CN模块</li>
+</ul>
+<blockquote>
+<p>由于没有及时commit导致改坏回了个大档</p>
+</blockquote>
+<p>10.20</p>
+<ul>
+<li>恢复驾车状态识别</li>
+</ul>
+<p>结合C:\Users\VIBTEK\Desktop\ESP32-S3-Demo\template-app\main的main.c完善本项目的状态识别，并且通过eg800k读取地面速度，并通过地面速度进行主要的驾车判断，在不影响原功能的情况下进行最下修改</p>
+<h2 id="10-20"><a href="#10-20" class="headerlink" title="10.20"></a>10.20</h2><p>GPS模块有30s延迟</p>
 
       </div>
       
@@ -339,7 +361,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-29 17:25:09
+              2025-10-20 17:29:17
             </span>
             
           </div>
@@ -362,7 +384,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6"><span class="toc-text">硬件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E4%BD%93"><span class="toc-text">本体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4"><span class="toc-text">摄像头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F"><span class="toc-text">程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%9A%E6%97%B6%E5%99%A8%E4%B8%8E%E6%97%B6%E9%97%B4%E6%A0%A1%E5%87%86%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-text">1. 定时器与时间校准流程分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E6%B5%81%E7%A8%8B-Timer-Flow"><span class="toc-text">定时器流程 (Timer Flow)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%A0%A1%E5%87%86%E6%B5%81%E7%A8%8B-Time-Calibration-Flow"><span class="toc-text">时间校准流程 (Time Calibration Flow)</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E4%B8%8E%E6%8C%87%E4%BB%A4"><span class="toc-text">主题与指令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98"><span class="toc-text">主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4"><span class="toc-text">指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%92%E7%B2%BE%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8E%A7%E5%88%B6"><span class="toc-text">酒精传感器控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A7%E5%88%B6"><span class="toc-text">摄像头控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMU%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8E%A7%E5%88%B6"><span class="toc-text">IMU传感器控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LED%E6%8E%A7%E5%88%B6"><span class="toc-text">LED控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%B3%BB%E7%BB%9F%E6%8C%87%E4%BB%A4"><span class="toc-text">3. 系统指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%8B%E5%8D%B3%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5"><span class="toc-text">立即时间同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E6%89%AB%E6%8F%8F"><span class="toc-text">手动扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81"><span class="toc-text">获取系统状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F"><span class="toc-text">重启系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%8F%82%E6%95%B0%E5%8C%96%E6%8C%87%E4%BB%A4"><span class="toc-text">4. 参数化指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8C%87%E4%BB%A4"><span class="toc-text">带参数的传感器指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%8C%87%E4%BB%A4"><span class="toc-text">带参数的系统指令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-text">日志</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-26"><span class="toc-text">9.26</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-27"><span class="toc-text">9.27</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-28"><span class="toc-text">9.28</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6"><span class="toc-text">硬件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E4%BD%93"><span class="toc-text">本体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4"><span class="toc-text">摄像头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F"><span class="toc-text">程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%9A%E6%97%B6%E5%99%A8%E4%B8%8E%E6%97%B6%E9%97%B4%E6%A0%A1%E5%87%86%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-text">1. 定时器与时间校准流程分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E6%B5%81%E7%A8%8B-Timer-Flow"><span class="toc-text">定时器流程 (Timer Flow)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%A0%A1%E5%87%86%E6%B5%81%E7%A8%8B-Time-Calibration-Flow"><span class="toc-text">时间校准流程 (Time Calibration Flow)</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E4%B8%8E%E6%8C%87%E4%BB%A4"><span class="toc-text">主题与指令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98"><span class="toc-text">主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4"><span class="toc-text">指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%92%E7%B2%BE%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8E%A7%E5%88%B6"><span class="toc-text">酒精传感器控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A7%E5%88%B6"><span class="toc-text">摄像头控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMU%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8E%A7%E5%88%B6"><span class="toc-text">IMU传感器控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LED%E6%8E%A7%E5%88%B6"><span class="toc-text">LED控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%B3%BB%E7%BB%9F%E6%8C%87%E4%BB%A4"><span class="toc-text">3. 系统指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%8B%E5%8D%B3%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5"><span class="toc-text">立即时间同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E6%89%AB%E6%8F%8F"><span class="toc-text">手动扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81"><span class="toc-text">获取系统状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F"><span class="toc-text">重启系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%8F%82%E6%95%B0%E5%8C%96%E6%8C%87%E4%BB%A4"><span class="toc-text">4. 参数化指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8C%87%E4%BB%A4"><span class="toc-text">带参数的传感器指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%8C%87%E4%BB%A4"><span class="toc-text">带参数的系统指令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-text">日志</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-26"><span class="toc-text">9.26</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-27"><span class="toc-text">9.27</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-28"><span class="toc-text">9.28</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-9"><span class="toc-text">10.9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-11"><span class="toc-text">10.11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-15"><span class="toc-text">10.15</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-16"><span class="toc-text">10.16</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-17"><span class="toc-text">10.17</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-20"><span class="toc-text">10.20</span></a></li></ol></li></ol>
       
     </div>
   </div>
