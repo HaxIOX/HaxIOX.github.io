@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-01 09:44:10
+          2025-10-31 17:41:18
         </span>
         
       </div>
@@ -214,8 +214,12 @@ idf.py -p COM9 monitor<span aria-hidden="true" class="line-numbers-rows"><span><
 <li>最简单的：切 AP 模式 + <code>esp_wifi_set_vendor_ie</code></li>
 <li>或者：手工拼 802.11 Beacon + <code>esp_wifi_80211_tx</code></li>
 </ul>
-<h1 id="烧录固件"><a href="#烧录固件" class="headerlink" title="烧录固件"></a>烧录固件</h1><p>在ESP-IDF编译后德 打印数据获取固件以及固件地址</p>
+<h1 id="Esptools烧录固件"><a href="#Esptools烧录固件" class="headerlink" title="Esptools烧录固件"></a>Esptools烧录固件</h1><p>在ESP-IDF编译后德 打印数据获取固件以及固件地址</p>
+<pre class="line-numbers language-C" data-language="C"><code class="language-C">c:\Users\VIBTEK\.espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:\Users\VIBTEK\esp\v5.4.2\esp-idf\components\esptool_py\esptool\esptool.py -p COM5 -b 460800 --before default_reset --after hard_reset --chip esp32s3 write_flash --flash_mode dio --flash_freq 80m --flash_size 2MB &#96;0x0&#96; bootloader&#x2F;bootloader.bin &#96;0x10000&#96; DroneDetection_V3.0.bin &#96;0x8000&#96; partition_table&#x2F;partition-table.bin <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>填入esptool后点击<code>CombineBin</code>将固件合并为一个，合并后的固件烧录地址为<code>0x0</code></p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_48057513/article/details/143827373?spm=1001.2101.3001.6650.5&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Ctr-5-143827373-blog-138012468.235%5Ev43%5Epc_blog_bottom_relevance_base6&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Ctr-5-143827373-blog-138012468.235%5Ev43%5Epc_blog_bottom_relevance_base6&utm_relevant_index=5">ESP32s3烧录bin，乐鑫下载工具flash_download_tool_乐鑫烧录工具-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42037809/article/details/130889669">【ESP32填坑日记】环境篇② ESP32&#x2F;ESP8266生成All in one固件及离线烧录方法_esp32烧录固件-CSDN博客</a></p>
 
       </div>
       
@@ -231,7 +235,7 @@ idf.py -p COM9 monitor<span aria-hidden="true" class="line-numbers-rows"><span><
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-01 09:44:10
+              2025-10-31 17:41:18
             </span>
             
           </div>
@@ -254,7 +258,7 @@ idf.py -p COM9 monitor<span aria-hidden="true" class="line-numbers-rows"><span><
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E7%A7%8D%E5%B8%B8%E8%A7%81%E7%9A%84%E5%BA%94%E5%AF%B9%E5%8A%9E%E6%B3%95"><span class="toc-text">几种常见的应对办法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%83%A7%E5%BD%95%E5%9B%BA%E4%BB%B6"><span class="toc-text">烧录固件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E7%A7%8D%E5%B8%B8%E8%A7%81%E7%9A%84%E5%BA%94%E5%AF%B9%E5%8A%9E%E6%B3%95"><span class="toc-text">几种常见的应对办法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Esptools%E7%83%A7%E5%BD%95%E5%9B%BA%E4%BB%B6"><span class="toc-text">Esptools烧录固件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol>
       
     </div>
   </div>
