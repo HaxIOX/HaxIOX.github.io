@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-10-30 11:38:36
+          2025-11-03 17:24:14
         </span>
         
       </div>
@@ -355,8 +355,105 @@
 <h2 id="10-27"><a href="#10-27" class="headerlink" title="10.27"></a>10.27</h2><p>1.优化从机程序，整理封装</p>
 <p>2.处理摄像头通过lvgl显示出现的x光、彩色、卡顿等问题</p>
 <h2 id="10-28"><a href="#10-28" class="headerlink" title="10.28"></a>10.28</h2><p>1.处理摄像头通过lvgl显示出现的x光、彩色、卡顿等问题</p>
-<p>10.30</p>
-<p>梳理合并从机项目文件，整合封装的UI</p>
+<h2 id="10-30"><a href="#10-30" class="headerlink" title="10.30"></a>10.30</h2><p>梳理合并从机项目文件，整合封装的UI</p>
+<h2 id="10-31"><a href="#10-31" class="headerlink" title="10.31"></a>10.31</h2><p>一些其他RID项目的支线</p>
+<h2 id="11-3"><a href="#11-3" class="headerlink" title="11.3"></a>11.3</h2><p>Card的固件兼容mqtt控制通知显示</p>
+<p>修复buging</p>
+<p>重新制定Card电源方案</p>
+<p>当前方案</p>
+<ul>
+<li><p>BQ25606RGER-&gt;SY8843QWC-&gt;SY8089A1AAC</p>
+<p>BQ25606RGER的梁旭放电电流与过保护电流均为6A</p>
+</li>
+</ul>
+<p>存在隐患，eg800k峰值电流问题，新加模块mp-3b需要5v的问题</p>
+<ul>
+<li><p>BOOST升压<a target="_blank" rel="noopener" href="https://item.szlcsc.com/88535.html?fromZone=s_s__%22TPS61088%22&spm=sc.gbn.xh1.zy.n___sc.gbn.hd.ss&lcsc_vid=QFIPAgBVElQPV1BREVlfVABRRwAPAQFXRAdfBF1eQgcxVlNQRVBbUFZUTlleUjsOAxUeFF5JWBIBSRccGwIdBEoFGAxBAAgJFQACSQwSGg0="><strong>TPS61088RHLR</strong></a></p>
+</li>
+<li><p>[方案](<a target="_blank" rel="noopener" href="https://gemini.google.com/app/1d8bdec04f23fe15?hl=zh-cn&utm_source=gold_browser_extension">Google Gemini</a>)</p>
+</li>
+</ul>
+<p>好的，根据我们之前讨论的电源架构（BQ25606 + Boost + Buck-Boost），我为您推荐一些在工业界和创客圈都经过验证的、常用的转换器 IC。</p>
+<h3 id="1-推荐的电源树-Recommended-Power-Tree"><a href="#1-推荐的电源树-Recommended-Power-Tree" class="headerlink" title="1. 推荐的电源树 (Recommended Power Tree)"></a>1. 推荐的电源树 (Recommended Power Tree)</h3><p>这是我们确定的最稳定方案，解决了 5V 供电和 3.3V 低电量运行的问题：</p>
+<pre class="line-numbers language-none"><code class="language-none">+-----------+
+| USB-C 5V  |
++-----+-----+
+      |
+      v
++-----+-----+   +---------------+
+| BQ25606   +---&gt;| LiPo Battery  |
+| (充电+路径管理)|   (3.0V - 4.2V) |
++-----+-----+   +---------------+
+      |
+      | (VBAT_SYS: 3.0V - 4.2V)
+      | (GND 必须极粗，建议铺地)
+      |
++-----+---------------------+---------------------+
+|                           |                     |
+| (直连)                    | (Boost 升压)        | (Buck-Boost 升降压)
+|                           |                     |
+v                           v                     v
+[EG800K-CN]                 [5V Boost IC]         [3.3V Buck-Boost IC]
+(VBAT引脚)                  |                     |
+(2A 峰值)                   | (5V)                | (3.3V)
+(需 2mm 走线 )      |                     |
+                            |                     |
+                +-----------+-----------+ +-------+-----------+
+                |                       | |                   |
+                v                       v v                   v
+                [MQ-3]                  [MAX98357A] [ESP32 x2]        [OV5640]
+                (5V 加热器)             (5V 供电)   (Wi-Fi 峰值)        [ST7789]
+                                                                      [ICM42688]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-转换器-IC-选型推荐"><a href="#2-转换器-IC-选型推荐" class="headerlink" title="2. 转换器 IC 选型推荐"></a>2. 转换器 IC 选型推荐</h3><h4 id="1-5V-Boost-升压-转换器"><a href="#1-5V-Boost-升压-转换器" class="headerlink" title="1. 5V Boost (升压) 转换器"></a>1. 5V Boost (升压) 转换器</h4><ul>
+<li><strong>需求：</strong> 输入 3.0V~4.2V，输出 5V，峰值输出电流 &gt; 1.2A (需驱动 MQ-3 和 MAX98357A)。</li>
+<li><strong>注意：</strong> 当电池电压最低 (3.0V) 时，从电池抽取的电流最大 ( <code>(5V*1.2A) / 3.0V / 0.9效率 ≈ 2.2A</code> )。IC 的开关电流限流 (Switch Current Limit) 必须远高于此值。</li>
+</ul>
+<p><strong>推荐型号：</strong></p>
+<ol>
+<li><strong>TI (德州仪器) - TPS61088</strong><ul>
+<li><strong>简介：</strong> 这是一款非常强大且常用的 Boost 芯片。</li>
+<li><strong>开关电流：</strong> 10A (峰值)，裕量非常足，轻松应对音频功放的瞬态冲击。</li>
+<li><strong>输入电压：</strong> 2.7V 至 12V。</li>
+<li><strong>封装：</strong> 4.00mm x 4.00mm QFN。</li>
+</ul>
+</li>
+<li><strong>MPS (芯源系统) - MP3426</strong><ul>
+<li><strong>简介：</strong> 性能同样优秀，在很多便携式大功率设备中很常见。</li>
+<li><strong>开关电流：</strong> 6A，裕量充足。</li>
+<li><strong>输入电压：</strong> 3V 至 22V。</li>
+<li><strong>封装：</strong> 3.00mm x 3.00mm QFN-13。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-3-3V-Buck-Boost-升降压-转换器"><a href="#2-3-3V-Buck-Boost-升降压-转换器" class="headerlink" title="2. 3.3V Buck-Boost (升降压) 转换器"></a>2. 3.3V Buck-Boost (升降压) 转换器</h4><ul>
+<li><strong>需求：</strong> 输入 3.0V~4.2V，输出 3.3V，峰值输出电流 &gt; 1.5A (需驱动两颗 ESP32、摄像头和 LCD)。</li>
+<li><strong>注意：</strong> 必须使用 Buck-Boost，因为当电池电压低于 3.3V 时，纯 Buck (降压) 芯片将停止工作。</li>
+</ul>
+<p><strong>推荐型号：</strong></p>
+<ol>
+<li><strong>TI (德州仪器) - TPS63020</strong><ul>
+<li><strong>简介：</strong> 这是 Buck-Boost 领域的“经典款”，应用极其广泛。</li>
+<li><strong>输出能力：</strong> 典型应用中可提供 2A (降压模式) &#x2F; 1.6A (升压模式，Vin&#x3D;3V)，非常适合您的 ESP32 峰值功耗。</li>
+<li><strong>输入电压：</strong> 1.8V 至 5.5V。</li>
+<li><strong>封装：</strong> 3.00mm x 3.00mm VSON-14。</li>
+</ul>
+</li>
+<li><strong>TI (德州仪器) - TPS63070</strong><ul>
+<li><strong>简介：</strong> 一款更新、输入范围更宽的 Buck-Boost 芯片。</li>
+<li><strong>输出能力：</strong> 2A 连续输出电流。</li>
+<li><strong>输入电压：</strong> 2V 至 16V (输入范围更宽，但功耗略高)。</li>
+<li><strong>封装：</strong> 2.50mm x 2.50mm QFN-11。</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-严谨的设计与布局警告"><a href="#3-严谨的设计与布局警告" class="headerlink" title="3. 严谨的设计与布局警告"></a>3. 严谨的设计与布局警告</h3><p>再次强调，这个设计的成败 <strong>90% 取决于 PCB 布局</strong>。</p>
+<ol>
+<li><strong>BQ25606 的系统电容：</strong> BQ25606 的 <code>SYS</code> 引脚是所有下游电源的<strong>总源头</strong>。您必须在此处放置大容量电容（例如 2x 22µF + 1x 47µF）来应对 <strong>6A+ 的总系统峰值</strong> 。</li>
+<li><strong>EG800K VBAT 走线：</strong> 必须遵守 Quectel 文档要求，<code>VBAT</code> 走线宽度<strong>至少 2mm</strong> ，并且必须放置其所需的滤波电容</li>
+<li><strong>DC-DC 布局：</strong> 所有的 Boost 和 Buck-Boost 芯片，其<strong>输入电容和输出电容都必须紧贴 IC 引脚</strong>，电感也要尽量靠近 <code>SW</code>（开关）引脚。这是减少噪声和振荡的关键。</li>
+<li><strong>GND (地)：</strong> 必须使用 4 层板，并拥有一个<strong>完整的内层地平面 (GND Plane)</strong>。BQ25606  和所有 DC-DC 芯片的散热焊盘 (Thermal Pad) 必须通过大量过孔 (Vias) 连接到这个内层地。</li>
+</ol>
 
       </div>
       
@@ -372,7 +469,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-10-30 11:38:36
+              2025-11-03 17:24:14
             </span>
             
           </div>
@@ -395,7 +492,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6"><span class="toc-text">硬件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E4%BD%93"><span class="toc-text">本体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4"><span class="toc-text">摄像头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F"><span class="toc-text">程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%9A%E6%97%B6%E5%99%A8%E4%B8%8E%E6%97%B6%E9%97%B4%E6%A0%A1%E5%87%86%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-text">1. 定时器与时间校准流程分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E6%B5%81%E7%A8%8B-Timer-Flow"><span class="toc-text">定时器流程 (Timer Flow)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%A0%A1%E5%87%86%E6%B5%81%E7%A8%8B-Time-Calibration-Flow"><span class="toc-text">时间校准流程 (Time Calibration Flow)</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E4%B8%8E%E6%8C%87%E4%BB%A4"><span class="toc-text">主题与指令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98"><span class="toc-text">主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4"><span class="toc-text">指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%92%E7%B2%BE%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8E%A7%E5%88%B6"><span class="toc-text">酒精传感器控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A7%E5%88%B6"><span class="toc-text">摄像头控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMU%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8E%A7%E5%88%B6"><span class="toc-text">IMU传感器控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LED%E6%8E%A7%E5%88%B6"><span class="toc-text">LED控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%B3%BB%E7%BB%9F%E6%8C%87%E4%BB%A4"><span class="toc-text">3. 系统指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%8B%E5%8D%B3%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5"><span class="toc-text">立即时间同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E6%89%AB%E6%8F%8F"><span class="toc-text">手动扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81"><span class="toc-text">获取系统状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F"><span class="toc-text">重启系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%8F%82%E6%95%B0%E5%8C%96%E6%8C%87%E4%BB%A4"><span class="toc-text">4. 参数化指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8C%87%E4%BB%A4"><span class="toc-text">带参数的传感器指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%8C%87%E4%BB%A4"><span class="toc-text">带参数的系统指令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-text">日志</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-26"><span class="toc-text">9.26</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-27"><span class="toc-text">9.27</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-28"><span class="toc-text">9.28</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-9"><span class="toc-text">10.9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-11"><span class="toc-text">10.11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-15"><span class="toc-text">10.15</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-16"><span class="toc-text">10.16</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-17"><span class="toc-text">10.17</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-20"><span class="toc-text">10.20</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-22"><span class="toc-text">10.22</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-23"><span class="toc-text">10.23</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-24"><span class="toc-text">10.24</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-27"><span class="toc-text">10.27</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-28"><span class="toc-text">10.28</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6"><span class="toc-text">硬件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E4%BD%93"><span class="toc-text">本体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4"><span class="toc-text">摄像头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F"><span class="toc-text">程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%9A%E6%97%B6%E5%99%A8%E4%B8%8E%E6%97%B6%E9%97%B4%E6%A0%A1%E5%87%86%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-text">1. 定时器与时间校准流程分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E6%B5%81%E7%A8%8B-Timer-Flow"><span class="toc-text">定时器流程 (Timer Flow)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%A0%A1%E5%87%86%E6%B5%81%E7%A8%8B-Time-Calibration-Flow"><span class="toc-text">时间校准流程 (Time Calibration Flow)</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E4%B8%8E%E6%8C%87%E4%BB%A4"><span class="toc-text">主题与指令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98"><span class="toc-text">主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4"><span class="toc-text">指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%92%E7%B2%BE%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8E%A7%E5%88%B6"><span class="toc-text">酒精传感器控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A7%E5%88%B6"><span class="toc-text">摄像头控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMU%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8E%A7%E5%88%B6"><span class="toc-text">IMU传感器控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LED%E6%8E%A7%E5%88%B6"><span class="toc-text">LED控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%B3%BB%E7%BB%9F%E6%8C%87%E4%BB%A4"><span class="toc-text">3. 系统指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%8B%E5%8D%B3%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5"><span class="toc-text">立即时间同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E6%89%AB%E6%8F%8F"><span class="toc-text">手动扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81"><span class="toc-text">获取系统状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F"><span class="toc-text">重启系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%8F%82%E6%95%B0%E5%8C%96%E6%8C%87%E4%BB%A4"><span class="toc-text">4. 参数化指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8C%87%E4%BB%A4"><span class="toc-text">带参数的传感器指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%8C%87%E4%BB%A4"><span class="toc-text">带参数的系统指令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-text">日志</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-26"><span class="toc-text">9.26</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-27"><span class="toc-text">9.27</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-28"><span class="toc-text">9.28</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-9"><span class="toc-text">10.9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-11"><span class="toc-text">10.11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-15"><span class="toc-text">10.15</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-16"><span class="toc-text">10.16</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-17"><span class="toc-text">10.17</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-20"><span class="toc-text">10.20</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-22"><span class="toc-text">10.22</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-23"><span class="toc-text">10.23</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-24"><span class="toc-text">10.24</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-27"><span class="toc-text">10.27</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-28"><span class="toc-text">10.28</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-30"><span class="toc-text">10.30</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-31"><span class="toc-text">10.31</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-3"><span class="toc-text">11.3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%8E%A8%E8%8D%90%E7%9A%84%E7%94%B5%E6%BA%90%E6%A0%91-Recommended-Power-Tree"><span class="toc-text">1. 推荐的电源树 (Recommended Power Tree)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%BD%AC%E6%8D%A2%E5%99%A8-IC-%E9%80%89%E5%9E%8B%E6%8E%A8%E8%8D%90"><span class="toc-text">2. 转换器 IC 选型推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5V-Boost-%E5%8D%87%E5%8E%8B-%E8%BD%AC%E6%8D%A2%E5%99%A8"><span class="toc-text">1. 5V Boost (升压) 转换器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3V-Buck-Boost-%E5%8D%87%E9%99%8D%E5%8E%8B-%E8%BD%AC%E6%8D%A2%E5%99%A8"><span class="toc-text">2. 3.3V Buck-Boost (升降压) 转换器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%A5%E8%B0%A8%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%B8%83%E5%B1%80%E8%AD%A6%E5%91%8A"><span class="toc-text">3. 严谨的设计与布局警告</span></a></li></ol></li></ol></li></ol>
       
     </div>
   </div>
