@@ -161,12 +161,44 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-10 17:25:22
+          2025-11-13 16:43:03
         </span>
         
       </div>
       <div class="markdown-body">
-        <h1 id="设计规则"><a href="#设计规则" class="headerlink" title="设计规则"></a>设计规则</h1><h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>使用了陶瓷天线，并进行了阻抗匹配，天线下方禁止铺铜，但是出现wifi扫描的例程只能扫到室内大于80db的信号</p>
+        <h1 id="设计规则"><a href="#设计规则" class="headerlink" title="设计规则"></a>设计规则</h1><p>50 Ω特性阻抗</p>
+<p><strong>应使用阻抗模拟计算工具对射频信号线进行精确的50 Ω阻抗控制</strong> </p>
+<ul>
+<li><p>与射频引脚相邻的地引脚不做热焊盘，要与地充分接触。 </p>
+</li>
+<li><p>射频引脚到射频连接器之间的距离应尽量短，同时避免直角走线，建议走线夹角保持为135°。 </p>
+</li>
+<li><p>建立连接器件的封装时，信号脚需与地保持距离。 </p>
+</li>
+<li><p>射频信号线参考的<strong>地平面应完整</strong>；在信号线和参考地周边增加一定量的地孔可以帮助提升射频性<br>  能；</p>
+</li>
+<li><p><strong>地孔和信号线之间的距离应至少为2倍线宽</strong>（2 × W）。 </p>
+</li>
+<li><p>射频信号线必须远离干扰源，避免和相邻层的任何信号线交叉或平行。</p>
+</li>
+<li><p><strong>4g模块下方第一层不能有任何走线</strong></p>
+</li>
+<li><p>对地回路</p>
+<ul>
+<li><img src="/2025/09/08/194-tian-xian-she-ji/1763023131283.png" class="" width="1763023131283"></li>
+<li><img src="/2025/09/08/194-tian-xian-she-ji/1763023133943.png" class="" width="1763023133943"></li>
+</ul>
+</li>
+</ul>
+<h2 id="嘉立创阻抗匹配计算工具"><a href="#嘉立创阻抗匹配计算工具" class="headerlink" title="嘉立创阻抗匹配计算工具"></a><a target="_blank" rel="noopener" href="https://tools.jlc.com/jlcTools/index.html#/impedanceCalculatenew?isPlacement=true&templateAccessId=ec061f4270694a2fb0dbaf1e51681920">嘉立创阻抗匹配计算工具</a></h2><p><strong>免费</strong></p>
+<ul>
+<li><p>JLC04101H-7628(通用&#x2F;成品板厚1.02mm±10%)</p>
+</li>
+<li><p>JLC04101H-3313A(特殊&#x2F;成品板厚0.97±0.10mm)</p>
+</li>
+</ul>
+<p>比如板厚1mm，其他常规，选择7628工艺，天线为13.75mil</p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>使用了陶瓷天线，并进行了阻抗匹配，天线下方禁止区域，但是出现wifi扫描的例程只能扫到室内大于80db的信号</p>
 
       </div>
       
@@ -182,7 +214,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-10 17:25:22
+              2025-11-13 16:43:03
             </span>
             
           </div>
@@ -205,7 +237,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E8%A7%84%E5%88%99"><span class="toc-text">设计规则</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E8%A7%84%E5%88%99"><span class="toc-text">设计规则</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%98%89%E7%AB%8B%E5%88%9B%E9%98%BB%E6%8A%97%E5%8C%B9%E9%85%8D%E8%AE%A1%E7%AE%97%E5%B7%A5%E5%85%B7"><span class="toc-text">嘉立创阻抗匹配计算工具</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li></ol>
       
     </div>
   </div>
