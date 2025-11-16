@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      基于涡流悬浮的磁悬浮小车 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">基于涡流悬浮的磁悬浮小车</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="电磁学基础"><a href="#电磁学基础" class="headerlink" title="电磁学基础"></a>电磁学基础</h2><p>它是利用常导电磁体中励磁电流产生的磁场与非磁性金属导体中感应涡流之间的排斥力来实现被悬浮体的稳定悬浮。非磁性金属导体中感应涡流产生的条件有两种，分别为：常导电磁体中通入的电流发生变化和常导电磁体与非磁性金属导体之间存在着相对运动。这种悬浮方式的实例如涡流型磁悬浮轴承及各种常导电动式磁悬浮装置等。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/455285594">涡流效应：产生的原因及涡流效应的利弊与控制 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/455279019">【高中•物理】有关左右手的定则总结 - 知乎 (zhihu.com)</a></p>
+<h2 id="悬浮基本原理"><a href="#悬浮基本原理" class="headerlink" title="悬浮基本原理"></a>悬浮基本原理</h2><p>导体周围磁场变化会使导体产生感应电流,感应电流会产生感应磁场,感应磁场与原磁场相互作用</p>
+<h3 id="海尔贝克阵列的具体排列方法"><a href="#海尔贝克阵列的具体排列方法" class="headerlink" title="海尔贝克阵列的具体排列方法"></a>海尔贝克阵列的具体排列方法</h3><p>使用10x10x10mm的钕铁硼磁铁来构建海尔贝克阵列，关键在于磁铁的磁化方向。海尔贝克阵列的特点是磁场在阵列的一侧被增强，而在另一侧几乎被取消。这是通过特定的磁化方向排列实现的：</p>
+<ol>
+<li><strong>序列和方向</strong>：海尔贝克阵列通常需要按照一定的序列排列磁铁，每个磁铁的磁化方向与其旁边的磁铁有一定的角度差。通常，这个角度差是连续变化的，比如每相邻两个磁铁之间磁化方向的角度差为45度。</li>
+<li><strong>实例排列</strong>：对于10x10x10mm的钕铁硼磁铁，假设我们排列一个最简单的环形阵列。第一个磁铁指北（N）向上，第二个磁铁顺时针旋转45度，即其N极指向外侧和上方的对角线方向，第三个磁铁N极顺时针旋转90度，指向外侧，依此类推，直到完成一个360度的圆环。</li>
+<li><strong>制作提示</strong>：实际操作中，需要使用精密的工具和仪器来确保每个磁铁的磁化方向准确无误。此外，制作过程中要小心，因为强磁相互作用可能导致损伤或不必要的困扰。</li>
+</ol>
+<p>下图每相邻两个磁铁之间磁化方向角度差为90度</p>
+<img src="/2024/03/10/95-wo-liu-xuan-fu-xiao-che/image-20240314073509221.png" class="" title="image-20240314073509221">
+
+<img src="/2024/03/10/95-wo-liu-xuan-fu-xiao-che/image-20240314073509221-17115463325691.png" class="" title="image-20240314073509221">
+
+<img src="/2024/03/10/95-wo-liu-xuan-fu-xiao-che/image-20240327225454684.png" class="" title="image-20240327225454684">
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><img src="/2024/03/10/95-wo-liu-xuan-fu-xiao-che/image-20240329102557122.png" class="" title="image-20240329102557122">
+
+<h2 id="物料选择"><a href="#物料选择" class="headerlink" title="物料选择"></a>物料选择</h2><ul>
+<li><p>导体板不需要太厚。为了使轨道导体中的感应电流达到最大，优先选择电阻率小的导体板状阵列(厚铝板可以和薄铜板)</p>
+</li>
+<li><p>大扭矩、高转速且重量轻的电机   (142g)</p>
+</li>
+<li><p>环状的 Halbach 磁体阵列</p>
+</li>
+<li><p>小车上存在电磁干扰，干扰源有：永磁体的磁场，电机运转时</p>
+<p>产生的电火花带来的电磁波，涡流产生的感应磁场，为了</p>
+<p>解决无线电遥控偶尔失灵的问题，本设计使用了长度偏长</p>
+<p>的电控板天线，并在电机上并联了消火花电容</p>
+</li>
+<li><img src="/2024/03/10/95-wo-liu-xuan-fu-xiao-che/image-20240312211446910.png" class="" title="image-20240312211446910"></li>
+</ul>
+<h3 id="RCT6外设"><a href="#RCT6外设" class="headerlink" title="RCT6外设"></a>RCT6外设</h3><img src="/2024/03/10/95-wo-liu-xuan-fu-xiao-che/image-20240404162744572.png" class="" title="image-20240404162744572">
+
+<h3 id="引脚分配"><a href="#引脚分配" class="headerlink" title="引脚分配"></a>引脚分配</h3><table>
+<thead>
+<tr>
+<th align="center">外设</th>
+<th align="center">说明</th>
+<th align="center">引脚</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">PWM</td>
+<td align="center">TIM1(高级)_CH1,CH4</td>
+<td align="center">PA8,PA11</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">TIM8_CH1,TIM8_CH2,TIM8_CH3,TIM8_CH4,</td>
+<td align="center">PC6,PC7,PC8,PC9</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">TIM3_CH1,TIM3_CH2,TIM4_CH3,TIM4_CH4</td>
+<td align="center">PA6,PA7 ,PB8,PB9</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">TIM5</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">有刷电机Motor</td>
+<td align="center">电机IO</td>
+<td align="center">PB12,PB13.PB14,PB15</td>
+</tr>
+<tr>
+<td align="center">空心杯电机</td>
+<td align="center">电机IO</td>
+<td align="center">PD2,PD3,PD4,PD5(PC4,PC5)</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">Encoder:</td>
+<td align="center">TIM2_CH1_ETR,TIM2_CH2</td>
+<td align="center">(PA15)PA0,PA1</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">TIM4_CH1,TIM4_CH2</td>
+<td align="center">PB6,PB7</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">定时器</td>
+<td align="center">TIM6,TIM7</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">OLED</td>
+<td align="center"></td>
+<td align="center">A15、B3、B4、B5</td>
+</tr>
+<tr>
+<td align="center">MAX30102</td>
+<td align="center"></td>
+<td align="center">PB10,PB11</td>
+</tr>
+<tr>
+<td align="center">HC-SR04超声波</td>
+<td align="center">TIM3_CH1,TIM3_CH2</td>
+<td align="center">(PA6,PA7)PB0,PB1</td>
+</tr>
+<tr>
+<td align="center">KEY</td>
+<td align="center"></td>
+<td align="center">PC0,PC1,PC2,</td>
+</tr>
+</tbody></table>
+<p>Motor:<br>KEY:PB1,PB11</p>
+<h3 id="硬件pcb"><a href="#硬件pcb" class="headerlink" title="硬件pcb"></a>硬件pcb</h3><img src="/2024/03/10/95-wo-liu-xuan-fu-xiao-che/%E7%A3%81%E6%82%AC%E6%B5%AE%E4%B8%BB%E6%8E%A7%E6%9D%BFPCB_8858.png" class="" title="磁悬浮主控板PCB_8858">
+
+<p>新的心得体会</p>
+<p><strong>不要死抠细节</strong>, 边做边检查,保证效率</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>545、550、350电机均不行,均会被抑制转动</p>
+<p><strong>4250无刷电机</strong></p>
+<p><strong>驱动原理</strong></p>
+<p><strong>stm32驱动</strong></p>
+<p><strong>供电</strong></p>
+<p><strong>集成板</strong></p>
+<p><strong>电源分线板</strong></p>
+<p>一个电池需要给多个电调及主控板供电,所以需要电源分线板</p>
+<p><strong>电池转换头</strong></p>
+<p>XT头转T头</p>
+<p>AWG（American Wire Gauge）是一种美国常用的电线尺寸标准，用于衡量电线的直径大小。AWG值越小，电线的直径就越大；相应地，电线的横截面积就越大，能够承载的电流就越多。这个标准不仅应用于裸电线，也适用于绝缘电线。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>当供电3.5v,磁轮距离5mm铝板10mm时,磁轮旋转被抑制,距离铝底板越近,转速越慢,并且导线发热</p>
+<p>你遇到的现象可以从涡电流和磁阻力的角度来解释，这些现象体现了磁场与导体相互作用的物理原理。让我们详细分析一下：</p>
+<h3 id="1-磁轮旋转被抑制的原因"><a href="#1-磁轮旋转被抑制的原因" class="headerlink" title="1. 磁轮旋转被抑制的原因"></a>1. 磁轮旋转被抑制的原因</h3><p>当磁轮靠近铝板时，磁轮上的磁铁产生变化的磁场。由于铝是一种良好的导体，这个变化的磁场会在铝板中产生涡电流。根据法拉第电磁感应定律，这些电流产生的磁场与原始磁场相反，从而对磁轮产生一个反向的力——这就是所谓的磁阻力。这种力量足以减缓磁轮的旋转速度，尤其是当磁轮与铝板的距离减小时，这种效应会变得更加显著。</p>
+<h3 id="2-距离铝板越近，转速越慢的原因"><a href="#2-距离铝板越近，转速越慢的原因" class="headerlink" title="2. 距离铝板越近，转速越慢的原因"></a>2. 距离铝板越近，转速越慢的原因</h3><p>当磁轮距离铝板更近时，磁场的变化在铝板中产生的涡电流会增加，因为磁场强度的变化更大。这会导致更强的涡电流产生，进一步增加了磁阻力，从而使得磁轮的旋转速度进一步减慢。这是因为涡电流产生的反作用磁场与磁轮的磁场相互作用，产生的力越来越大。</p>
+<h3 id="3-导线发热的原因"><a href="#3-导线发热的原因" class="headerlink" title="3. 导线发热的原因"></a>3. 导线发热的原因</h3><p>电机和导线发热主要是由于电流的流动造成的。当磁轮旋转受到抑制时，电机需要消耗更多的功率来克服增加的阻力并尝试维持旋转。这会导致电流增加，进而导致导线中的电阻损耗（即焦耳热）增加，表现为导线发热。这是电能转化为热能的直接结果。</p>
+<h3 id="如何改进"><a href="#如何改进" class="headerlink" title="如何改进"></a>如何改进</h3><ul>
+<li><strong>降低阻力</strong>：可以通过增加磁轮与铝板之间的距离来减少涡电流的产生，从而减少磁阻力，帮助提高磁轮的旋转速度。</li>
+<li><strong>优化供电</strong>：考虑调整电源的电压或电流，以找到一个平衡点，在保证磁轮有足够的转速的同时，减少导线的发热。可能需要通过实验来找到这个平衡点。</li>
+<li><strong>改善散热</strong>：如果导线发热是不可避免的，考虑使用散热片或其他散热方法来帮助导线散热，以防过热损坏电机或导线。</li>
+<li><strong>使用电机驱动控制器</strong>：使用适当的电机驱动控制器可能有助于更精确地控制电机的功率输出，以及更有效地管理电机的热量产生。</li>
+</ul>
+<p>通过这些方法，你可以尝试优化实验设置，以减少不希望的副作用，如磁轮旋转速度减慢和导线发热，进而更接近于实现磁性悬浮的目标。</p>
+<h3 id="结项图片"><a href="#结项图片" class="headerlink" title="结项图片"></a>结项图片</h3><img src="/2024/03/10/95-wo-liu-xuan-fu-xiao-che/image-20240330203912213.png" class="" title="image-20240330203912213">
+
+<img src="/2024/03/10/95-wo-liu-xuan-fu-xiao-che/image-20240330204004114.png" class="" title="image-20240330204004114">
+
+
+
+<img src="/2024/03/10/95-wo-liu-xuan-fu-xiao-che/image-20240330204031440.png" class="" title="image-20240330204031440">
+
+<img src="/2024/03/10/95-wo-liu-xuan-fu-xiao-che/image-20240330204142067.png" class="" title="image-20240330204142067">
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/03/10/94-word-lun-wen-de-shi-yong-fang-fa/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/03/12/96-stm32-dan-pian-ji-de-gpio-mo-shi/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E7%A3%81%E5%AD%A6%E5%9F%BA%E7%A1%80"><span class="toc-text">电磁学基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%82%AC%E6%B5%AE%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-text">悬浮基本原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%B7%E5%B0%94%E8%B4%9D%E5%85%8B%E9%98%B5%E5%88%97%E7%9A%84%E5%85%B7%E4%BD%93%E6%8E%92%E5%88%97%E6%96%B9%E6%B3%95"><span class="toc-text">海尔贝克阵列的具体排列方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E6%96%99%E9%80%89%E6%8B%A9"><span class="toc-text">物料选择</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RCT6%E5%A4%96%E8%AE%BE"><span class="toc-text">RCT6外设</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E8%84%9A%E5%88%86%E9%85%8D"><span class="toc-text">引脚分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6pcb"><span class="toc-text">硬件pcb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81"><span class="toc-text">验证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%A3%81%E8%BD%AE%E6%97%8B%E8%BD%AC%E8%A2%AB%E6%8A%91%E5%88%B6%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-text">1. 磁轮旋转被抑制的原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%B7%9D%E7%A6%BB%E9%93%9D%E6%9D%BF%E8%B6%8A%E8%BF%91%EF%BC%8C%E8%BD%AC%E9%80%9F%E8%B6%8A%E6%85%A2%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-text">2. 距离铝板越近，转速越慢的原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AF%BC%E7%BA%BF%E5%8F%91%E7%83%AD%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-text">3. 导线发热的原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%94%B9%E8%BF%9B"><span class="toc-text">如何改进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E9%A1%B9%E5%9B%BE%E7%89%87"><span class="toc-text">结项图片</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%9F%BA%E4%BA%8E%E6%B6%A1%E6%B5%81%E6%82%AC%E6%B5%AE%E7%9A%84%E7%A3%81%E6%82%AC%E6%B5%AE%E5%B0%8F%E8%BD%A6 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2024%2F03%2F10%2F95-wo-liu-xuan-fu-xiao-che%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2024/03/10/95-wo-liu-xuan-fu-xiao-che/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

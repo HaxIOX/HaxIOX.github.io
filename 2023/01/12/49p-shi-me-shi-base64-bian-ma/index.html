@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      base64编码 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">base64编码</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/python/" title="python">
+                    #python
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2><blockquote>
+<p>Base64是一种用64个字符来表示任意二进制数据的方法.</p>
+</blockquote>
+<p>Base64可以将ASCII字符串或者是二进制编码成只包含A—Z，a—z，0—9，+，&#x2F;这64个字符(26个大写字母，26个小写字母，10个数字，1个+，一个&#x2F;刚好64个字符)。这64个字符用6个bit位就可以全部表示出来，一个字节有8个bit 位,剩下两个bit位用0来补充。其实，一个Base64字符仍然是8个bit位,但是有效部分只有右边的6个 bit，左边两个永远是0。Base64将3个字节转变为4个字节，因此，编码后的代码量（以字节为单位）约比编码前的代码量多了1&#x2F;3 (24,32,(32-24)&#x2F;24&#x3D;1&#x2F;3)</p>
+<img src="/2023/01/12/49p-shi-me-shi-base64-bian-ma/01.png" class="">
+<p>首先对二进制数进行处理,每三个字节一组,一共是3x8&#x3D;24bit位,二进制数一组是8位,一个字节,将这24位数据重新分成四组,一组6bit.在每组前面加上两个0,变成8bit(<code>为什么要加上两个0,加不加不都是0-63吗,因为:定义的一个字节=8位,逻辑上可以分成六位,但是程序处理的时候按八位一个字节处理,所以不加两个0的话,相当于没转,无事发生</code>)<br>将获得的四个数字作为索引,查base64码表,获得对应的四个字符,就是编码后的字符串</p>
+<p>若需要编码的二进制数据不是三的倍数,最后会剩下一两个字节,base64会用\x00补足后,加上等号,表示补了几位,解码的时候会自动去掉<br><a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/936729407932485852.html">为什么在六位数据前面加两个零</a></p>
+<h2 id="Base64码表"><a href="#Base64码表" class="headerlink" title="Base64码表"></a>Base64码表</h2><img src="/2023/01/12/49p-shi-me-shi-base64-bian-ma/ASCII%E7%A0%81%E8%A1%A8.png" class="">
+
+<h2 id="ASCII码表"><a href="#ASCII码表" class="headerlink" title="ASCII码表"></a>ASCII码表</h2><img src="/2023/01/12/49p-shi-me-shi-base64-bian-ma/Base64%E7%A0%81%E8%A1%A8.png" class="">
+
+<h2 id="转换演示”AbC”"><a href="#转换演示”AbC”" class="headerlink" title="转换演示”AbC”"></a>转换演示”AbC”</h2><p>十进制:”Abc”:65,98,99<br>二进制:0100 0001,0110 0010, 0110 0011<br>Base64:0100 00,0101 10,0010 01,1000 11<br>补0变成八位:<code>00</code>0100 00,<code>00</code>0101 10,<code>00</code>0010 01,<code>00</code>1000 11<br>Base64:16,22,9,67  查Base64编码表获得<code>QWJj</code><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/JGYBZX_G/article/details/125636691">Base64编码步骤</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/doublepg13/article/details/128383734?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-2-128383734-blog-127026213.pc_relevant_multi_platform_whitelistv3&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-2-128383734-blog-127026213.pc_relevant_multi_platform_whitelistv3&utm_relevant_index=5">Base64编码剖析</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/libin-1/p/6165485.html">Base64编码原理分析</a></p>
+<h2 id="Base64的应用"><a href="#Base64的应用" class="headerlink" title="Base64的应用"></a>Base64的应用</h2><p>因为Base64码是将二进制转换为可打印的字符,所以我们要先将ASCII码转变成二进制数据<br>我这里是调用api时传入的url需要用base64转换</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">import base64
+print(base64.b64encode(b&#39;binary\x00string&#39;))
+print(base64.b64decode(&#39;YmluYXJ5AHN0cmluZw&#x3D;&#x3D;&#39;))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p><code>&gt;&gt;&gt;</code>b’YmluYXJ5AHN0cmluZw&#x3D;&#x3D;’<br> <code>&gt;&gt;&gt;</code>b’binary\x00string’<br>这个b应该是用来区分base64编码和字符串吧，所以如果想单纯的使用base64编码需要把多余的字符去掉</p>
+</blockquote>
+<h3 id="decode为utf-8编码"><a href="#decode为utf-8编码" class="headerlink" title="decode为utf-8编码"></a>decode为utf-8编码</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">a&#x3D;&#39;AbC&#39;.encode()
+a &#x3D;a.decode(&#39;utf-8&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="str转化为utf-8编码"><a href="#str转化为utf-8编码" class="headerlink" title="str转化为utf-8编码"></a>str转化为utf-8编码</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">a&#x3D;&#39;AbC&#39;.encode()
+a &#x3D;str(a,&#39;utf-8&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><a target="_blank" rel="noopener" href="http://t.zoukankan.com/annatest-p-14758317.html">参考文章</a></p>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><h3 id="字符型转换为字节型-str转换byte"><a href="#字符型转换为字节型-str转换byte" class="headerlink" title="字符型转换为字节型,str转换byte"></a>字符型转换为字节型,str转换byte</h3><blockquote>
+<p>str.encode(“utf-8”)<br>b”str”</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">a&#x3D;b&quot;uuudiy.com&quot;
+a &#x3D; base64.b64encode(a)
+print(a)
+&gt;&#96;&gt;&gt;&gt;&#96;b&#39;dXV1ZGl5LmNvbQ&#x3D;&#x3D;&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">a&#x3D;base64.b64decode(a)
+a &#x3D; str(a, &#39;utf-8&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<blockquote>
+<p><code>&gt;&gt;&gt;</code>dXV1ZGl5LmNvbQ&#x3D;&#x3D;</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lotus_2015/article/details/104637938?spm=1001.2101.3001.6650.6&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-6-104637938-blog-126154421.pc_relevant_3mothn_strategy_recovery&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-6-104637938-blog-126154421.pc_relevant_3mothn_strategy_recovery&utm_relevant_index=13">Base64和Base64URL加解密</a></p>
+<h2 id="类型转换-1"><a href="#类型转换-1" class="headerlink" title="类型转换"></a>类型转换</h2><p>首先是<code>.encode()</code></p>
+<p>将字符串转为二进制</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">a&#x3D;&quot;uuudiy.com&quot;
+print(a.encode())
+&gt;&gt;&gt;b&#39;uuudiy.com&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><code>.decode()</code>将二进制数据转换为字符(按照指定的字符集（例如UTF-8）解码成字符串)</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">#b&#x3D;b.decode(&#39;utf-8&#39;) 
+#b &#x3D; str(b,&#39;utf-8&#39;)
+print(b)
+&gt;&gt;&gt;uuudiy.com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="base64库"><a href="#base64库" class="headerlink" title="base64库"></a>base64库</h3><p>base64是将<code>二进制数据</code>按照(base64字符集)转换为<code>字符串</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">import base64
+a&#x3D;&quot;uuudiy.com&quot;
+print(base64.b64encode(a.encode()))
+
+&gt;&gt;&gt;b&#39;dXV1ZGl5LmNvbQ&#x3D;&#x3D;&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>返回的结果是二进制数据所以要加<code>.decode()</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">&gt;&gt;&gt;dXV1ZGl5LmNvbQ&#x3D;&#x3D;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2022/12/02/48p-python-qian-dao-jiao-ben/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/python/" title="python">
+                        #python
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2023/01/15/50p-nonebot-questions/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Base64"><span class="toc-text">Base64</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Base64%E7%A0%81%E8%A1%A8"><span class="toc-text">Base64码表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASCII%E7%A0%81%E8%A1%A8"><span class="toc-text">ASCII码表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%BC%94%E7%A4%BA%E2%80%9DAbC%E2%80%9D"><span class="toc-text">转换演示”AbC”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Base64%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">Base64的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#decode%E4%B8%BAutf-8%E7%BC%96%E7%A0%81"><span class="toc-text">decode为utf-8编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#str%E8%BD%AC%E5%8C%96%E4%B8%BAutf-8%E7%BC%96%E7%A0%81"><span class="toc-text">str转化为utf-8编码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-text">类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E8%BD%AC%E6%8D%A2%E4%B8%BA%E5%AD%97%E8%8A%82%E5%9E%8B-str%E8%BD%AC%E6%8D%A2byte"><span class="toc-text">字符型转换为字节型,str转换byte</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-1"><span class="toc-text">类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#base64%E5%BA%93"><span class="toc-text">base64库</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + base64%E7%BC%96%E7%A0%81 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2023%2F01%2F12%2F49p-shi-me-shi-base64-bian-ma%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2023/01/12/49p-shi-me-shi-base64-bian-ma/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

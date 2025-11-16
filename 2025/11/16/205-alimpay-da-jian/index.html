@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      AliMPay搭建 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">AliMPay搭建</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-11-16 21:05:34
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h3 id="AliMPa-项目搭建笔记"><a href="#AliMPa-项目搭建笔记" class="headerlink" title="AliMPa 项目搭建笔记"></a><strong><a target="_blank" rel="noopener" href="https://github.com/ours1505/AliMPay?tab=readme-ov-file#">AliMPa</a> 项目搭建笔记</strong></h3><hr>
+<h3 id="1-克隆-AliMPay-项目"><a href="#1-克隆-AliMPay-项目" class="headerlink" title="1. 克隆 AliMPay 项目"></a><strong>1. 克隆 AliMPay 项目</strong></h3><p>首先，从 GitHub 上克隆 <strong>AliMPay</strong> 项目到本地。</p>
+<pre class="line-numbers language-none"><code class="language-none">git clone https:&#x2F;&#x2F;github.com&#x2F;ours1505&#x2F;AliMPay.git
+cd AliMPay<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="2-配置环境"><a href="#2-配置环境" class="headerlink" title="2. 配置环境"></a><strong>2. 配置环境</strong></h3><h4 id="2-1-安装依赖"><a href="#2-1-安装依赖" class="headerlink" title="2.1 安装依赖"></a><strong>2.1 安装依赖</strong></h4><p>AliMPay 项目依赖于 <strong>PHP</strong> 和 <strong>Composer</strong> 来安装和管理依赖。</p>
+<ol>
+<li><p><strong>安装 PHP</strong>：</p>
+<p>确保你的系统安装了 PHP，执行以下命令检查 PHP 版本：</p>
+<pre class="line-numbers language-none"><code class="language-none">php -v<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果没有安装 PHP，可以通过以下命令安装：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo apt update
+sudo apt install php php-cli php-mbstring php-xml php-zip php-curl php-json<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>安装 Composer</strong>：</p>
+<p>Composer 是 PHP 的依赖管理工具，用来安装项目的 PHP 依赖。你可以通过以下命令检查是否已安装 Composer：</p>
+<pre class="line-numbers language-none"><code class="language-none">composer --version<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果没有安装，可以通过以下命令安装：</p>
+<pre class="line-numbers language-none"><code class="language-none">curl -sS https:&#x2F;&#x2F;getcomposer.org&#x2F;installer | php
+sudo mv composer.phar &#x2F;usr&#x2F;local&#x2F;bin&#x2F;composer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>安装 PHP 依赖</strong>：</p>
+<p>使用 Composer 安装 AliMPay 项目所需的 PHP 依赖：</p>
+<pre class="line-numbers language-none"><code class="language-none">composer install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ol>
+<hr>
+<h3 id="3-配置-AliMPay"><a href="#3-配置-AliMPay" class="headerlink" title="3. 配置 AliMPay"></a><strong>3. 配置 AliMPay</strong></h3><h4 id="3-1-配置商户信息"><a href="#3-1-配置商户信息" class="headerlink" title="3.1 配置商户信息"></a><strong>3.1 配置商户信息</strong></h4><p>在 <code>config</code> 目录下，你会看到一个 <code>codepay.example.json</code> 文件。复制它并重命名为 <code>codepay.json</code>：</p>
+<pre class="line-numbers language-none"><code class="language-none">cp config&#x2F;codepay.example.json config&#x2F;codepay.json<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然后编辑 <code>config/codepay.json</code> 文件，填入你从支付宝获取的 <strong>商户 ID</strong> 和 <strong>密钥</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#123;
+  &quot;pid&quot;: &quot;你的商户ID&quot;,
+  &quot;key&quot;: &quot;你的商户密钥&quot;,
+  &quot;notify_url&quot;: &quot;http:&#x2F;&#x2F;你的通知地址&quot;,
+  &quot;return_url&quot;: &quot;http:&#x2F;&#x2F;你的返回地址&quot;,
+  &quot;type&quot;: &quot;alipay&quot;,
+  &quot;sign_type&quot;: &quot;MD5&quot;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><strong>pid</strong>：你的商户 ID。</li>
+<li><strong>key</strong>：商户密钥（从支付宝提供）。</li>
+<li><strong>notify_url</strong>：支付宝支付成功后的通知 URL。</li>
+<li><strong>return_url</strong>：支付完成后的同步回调 URL。</li>
+<li><strong>type</strong>：支付方式（例如 <code>alipay</code>）。</li>
+<li><strong>sign_type</strong>：签名类型，通常为 <code>MD5</code>。</li>
+</ul>
+<h4 id="3-2-配置数据库（可选）"><a href="#3-2-配置数据库（可选）" class="headerlink" title="3.2 配置数据库（可选）"></a><strong>3.2 配置数据库（可选）</strong></h4><p>如果你需要使用数据库存储支付数据，可以配置数据库连接。打开 <code>config/database.php</code> 并填写你的数据库配置信息：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;?php
+
+return [
+    &#39;host&#39; &#x3D;&gt; &#39;localhost&#39;,
+    &#39;port&#39; &#x3D;&gt; &#39;3306&#39;,
+    &#39;dbname&#39; &#x3D;&gt; &#39;ali_pay&#39;,
+    &#39;user&#39; &#x3D;&gt; &#39;root&#39;,
+    &#39;password&#39; &#x3D;&gt; &#39;your_password&#39;,
+    &#39;charset&#39; &#x3D;&gt; &#39;utf8&#39;
+];<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="3-3-配置支付宝相关信息"><a href="#3-3-配置支付宝相关信息" class="headerlink" title="3.3 配置支付宝相关信息"></a><strong>3.3 配置支付宝相关信息</strong></h4><p>在 <code>config/alipay.php</code> 中，填写支付宝相关信息：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;?php
+
+return [
+    &#39;partner&#39;      &#x3D;&gt; &#39;你的商户ID&#39;,
+    &#39;seller_email&#39; &#x3D;&gt; &#39;你的商户邮箱&#39;,
+    &#39;private_key&#39;  &#x3D;&gt; &#39;你的商户私钥路径&#39;,
+    &#39;public_key&#39;   &#x3D;&gt; &#39;支付宝公钥路径&#39;,
+    &#39;notify_url&#39;   &#x3D;&gt; &#39;http:&#x2F;&#x2F;你的通知地址&#39;,
+    &#39;return_url&#39;   &#x3D;&gt; &#39;http:&#x2F;&#x2F;你的返回地址&#39;,
+    &#39;sign_type&#39;    &#x3D;&gt; &#39;RSA2&#39;, &#x2F;&#x2F; 默认RSA2, 如果你的商户没有配置RSA2则使用RSA
+];<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="4-配置-Apache"><a href="#4-配置-Apache" class="headerlink" title="4. 配置 Apache"></a><strong>4. 配置 Apache</strong></h3><h4 id="4-1-安装-Apache-Web-服务器"><a href="#4-1-安装-Apache-Web-服务器" class="headerlink" title="4.1 安装 Apache Web 服务器"></a><strong>4.1 安装 Apache Web 服务器</strong></h4><p>如果你没有安装 Apache，可以通过以下命令进行安装：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo apt update
+sudo apt install apache2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h4 id="4-2-启动-Apache-服务"><a href="#4-2-启动-Apache-服务" class="headerlink" title="4.2 启动 Apache 服务"></a><strong>4.2 启动 Apache 服务</strong></h4><p>安装完后，启动 Apache 服务：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl start apache2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="4-3-启动-Apache-并设置开机自启"><a href="#4-3-启动-Apache-并设置开机自启" class="headerlink" title="4.3 启动 Apache 并设置开机自启"></a><strong>4.3 启动 Apache 并设置开机自启</strong></h4><p>确保 Apache 服务在系统启动时自动启动：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl enable apache2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="4-4-检查-Apache-服务状态"><a href="#4-4-检查-Apache-服务状态" class="headerlink" title="4.4 检查 Apache 服务状态"></a><strong>4.4 检查 Apache 服务状态</strong></h4><p>确保 Apache 正常运行：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl status apache2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="4-5-配置-Apache-虚拟主机"><a href="#4-5-配置-Apache-虚拟主机" class="headerlink" title="4.5 配置 Apache 虚拟主机"></a><strong>4.5 配置 Apache 虚拟主机</strong></h4><p>为了让 Apache 指向 <code>AliMPay</code> 项目的目录，我们需要配置虚拟主机。假设你希望将项目部署到 <code>/var/www/html/AliMPay</code>，可以创建一个虚拟主机配置文件。</p>
+<ol>
+<li>创建并编辑虚拟主机配置文件：</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">sudo nano &#x2F;etc&#x2F;apache2&#x2F;sites-available&#x2F;alimay.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol>
+<li>添加以下内容：</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">&lt;VirtualHost *:80&gt;
+    ServerAdmin webmaster@yourdomain.com
+    ServerName yourdomain.com
+    DocumentRoot &#x2F;var&#x2F;www&#x2F;html&#x2F;AliMPay
+
+    ErrorLog $&#123;APACHE_LOG_DIR&#125;&#x2F;error.log
+    CustomLog $&#123;APACHE_LOG_DIR&#125;&#x2F;access.log combined
+
+    &lt;Directory &#x2F;var&#x2F;www&#x2F;html&#x2F;AliMPay&gt;
+        AllowOverride All
+        Require all granted
+    &lt;&#x2F;Directory&gt;
+&lt;&#x2F;VirtualHost&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol>
+<li>启用配置并重启 Apache：</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">sudo a2ensite alimay.conf
+sudo systemctl restart apache2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h4 id="4-6-启用-mod-rewrite"><a href="#4-6-启用-mod-rewrite" class="headerlink" title="4.6 启用 mod_rewrite"></a><strong>4.6 启用 <code>mod_rewrite</code></strong></h4><p>如果你需要使用 URL 重写功能（如 <code>.htaccess</code> 配置），确保启用 <code>mod_rewrite</code>：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo a2enmod rewrite
+sudo systemctl restart apache2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="5-测试支付接口"><a href="#5-测试支付接口" class="headerlink" title="5. 测试支付接口"></a><strong>5. 测试支付接口</strong></h3><h4 id="5-1-配置支付请求"><a href="#5-1-配置支付请求" class="headerlink" title="5.1 配置支付请求"></a><strong>5.1 配置支付请求</strong></h4><p>支付请求的代码可以通过 <code>submit.php</code> 或 <code>mapi.php</code> 发起。以下是一个简单的示例：</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;?php
+require_once &#39;vendor&#x2F;autoload.php&#39;;
+
+use AliMPay\Core\CodePay;
+use AliMPay\Utils\Logger;
+
+&#x2F;&#x2F; 获取商户信息
+$codePay &#x3D; new CodePay();
+$merchantInfo &#x3D; $codePay-&gt;getMerchantInfo();
+
+&#x2F;&#x2F; 生成支付请求
+$params &#x3D; [
+    &#39;pid&#39; &#x3D;&gt; $merchantInfo[&#39;pid&#39;],
+    &#39;type&#39; &#x3D;&gt; &#39;alipay&#39;,
+    &#39;out_trade_no&#39; &#x3D;&gt; &#39;订单号&#39;,
+    &#39;notify_url&#39; &#x3D;&gt; $merchantInfo[&#39;notify_url&#39;],
+    &#39;return_url&#39; &#x3D;&gt; $merchantInfo[&#39;return_url&#39;],
+    &#39;name&#39; &#x3D;&gt; &#39;商品名称&#39;,
+    &#39;money&#39; &#x3D;&gt; &#39;支付金额&#39;,
+];
+
+&#x2F;&#x2F; 签名
+$params[&#39;sign&#39;] &#x3D; $codePay-&gt;generateSign($params);
+
+&#x2F;&#x2F; 发起支付请求
+$response &#x3D; $codePay-&gt;submitOrder($params);
+echo $response;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="5-2-支付回调处理"><a href="#5-2-支付回调处理" class="headerlink" title="5.2 支付回调处理"></a><strong>5.2 支付回调处理</strong></h4><p>确保你配置的 <strong><code>notify_url</code></strong> 和 <strong><code>return_url</code></strong> 是正确的，并且能够接收支付平台的回调数据。你可以在回调处理函数中处理订单状态的更新。</p>
+<hr>
+<h3 id="6-部署到生产环境"><a href="#6-部署到生产环境" class="headerlink" title="6. 部署到生产环境"></a><strong>6. 部署到生产环境</strong></h3><h4 id="6-1-部署项目"><a href="#6-1-部署项目" class="headerlink" title="6.1 部署项目"></a><strong>6.1 部署项目</strong></h4><p>将项目文件上传到生产服务器，或者将其直接复制到生产服务器的 <code>/var/www/html/AliMPay</code> 目录下。</p>
+<h4 id="6-2-配置安全性"><a href="#6-2-配置安全性" class="headerlink" title="6.2 配置安全性"></a><strong>6.2 配置安全性</strong></h4><ol>
+<li><strong>SSL 配置</strong>：确保在生产环境中使用 <strong>HTTPS</strong> 协议，保护支付数据的安全性。</li>
+<li><strong>环境配置</strong>：确保正确设置 <code>config/codepay.json</code>、<code>config/alipay.php</code> 等配置文件，确保商户密钥和支付信息不会暴露。</li>
+<li><strong>日志</strong>：启用日志记录功能，监控支付请求和回调，及时发现问题。</li>
+</ol>
+<h4 id="6-3-使用-Apache-或-Nginx-部署"><a href="#6-3-使用-Apache-或-Nginx-部署" class="headerlink" title="6.3 使用 Apache 或 Nginx 部署"></a><strong>6.3 使用 Apache 或 Nginx 部署</strong></h4><p>你可以使用 Apache 或 Nginx 来作为反向代理或 Web 服务器，托管 AliMPay 项目。</p>
+<hr>
+<h3 id="7-常见问题及排查"><a href="#7-常见问题及排查" class="headerlink" title="7. 常见问题及排查"></a><strong>7. 常见问题及排查</strong></h3><h4 id="7-1-支付请求失败"><a href="#7-1-支付请求失败" class="headerlink" title="7.1 支付请求失败"></a><strong>7.1 支付请求失败</strong></h4><ul>
+<li>检查商户 ID 和密钥是否正确。</li>
+<li>确保 <code>notify_url</code> 和 <code>return_url</code> 配置正确，并且可以接收到回调数据。</li>
+<li>检查接口是否在审核中，未审核通过的接口可能会拒绝请求。</li>
+</ul>
+<h4 id="7-2-签名错误"><a href="#7-2-签名错误" class="headerlink" title="7.2 签名错误"></a><strong>7.2 签名错误</strong></h4><ul>
+<li>确保签名的生成方法符合支付平台的要求，检查所有参数是否正确拼接，并且密钥没有错误。</li>
+</ul>
+<h4 id="7-3-数据库配置问题"><a href="#7-3-数据库配置问题" class="headerlink" title="7.3 数据库配置问题"></a><strong>7.3 数据库配置问题</strong></h4><p>如果启用了数据库，确保数据库服务已启动，且连接信息正确。</p>
+<hr>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://j000e.notion.site/aaPanel-a06d752d4c5a40aa992733122a73dd13#ad9d404d1add486aa0e8916c97625bac">独角数卡搭建+支付对接+邮箱配置(基于国际版宝塔aaPanel)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.mazhifu.me/mpay/35.html">码支付支付宝通道账单查询配置教程 - 码支付1.0 - 码支付</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/11/13/204-si-ceng-pcb-hui-zhi-de-zhu-yi-shi-xiang/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-11-16 21:05:34
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/11/16/206-chatgpt-ni-xiang/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#AliMPa-%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA%E7%AC%94%E8%AE%B0"><span class="toc-text">AliMPa 项目搭建笔记</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%85%8B%E9%9A%86-AliMPay-%E9%A1%B9%E7%9B%AE"><span class="toc-text">1. 克隆 AliMPay 项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"><span class="toc-text">2. 配置环境</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="toc-text">2.1 安装依赖</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE-AliMPay"><span class="toc-text">3. 配置 AliMPay</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E9%85%8D%E7%BD%AE%E5%95%86%E6%88%B7%E4%BF%A1%E6%81%AF"><span class="toc-text">3.1 配置商户信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-text">3.2 配置数据库（可选）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-%E9%85%8D%E7%BD%AE%E6%94%AF%E4%BB%98%E5%AE%9D%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF"><span class="toc-text">3.3 配置支付宝相关信息</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%85%8D%E7%BD%AE-Apache"><span class="toc-text">4. 配置 Apache</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-%E5%AE%89%E8%A3%85-Apache-Web-%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">4.1 安装 Apache Web 服务器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-%E5%90%AF%E5%8A%A8-Apache-%E6%9C%8D%E5%8A%A1"><span class="toc-text">4.2 启动 Apache 服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-%E5%90%AF%E5%8A%A8-Apache-%E5%B9%B6%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF"><span class="toc-text">4.3 启动 Apache 并设置开机自启</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-%E6%A3%80%E6%9F%A5-Apache-%E6%9C%8D%E5%8A%A1%E7%8A%B6%E6%80%81"><span class="toc-text">4.4 检查 Apache 服务状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-%E9%85%8D%E7%BD%AE-Apache-%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA"><span class="toc-text">4.5 配置 Apache 虚拟主机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-6-%E5%90%AF%E7%94%A8-mod-rewrite"><span class="toc-text">4.6 启用 mod_rewrite</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B5%8B%E8%AF%95%E6%94%AF%E4%BB%98%E6%8E%A5%E5%8F%A3"><span class="toc-text">5. 测试支付接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-%E9%85%8D%E7%BD%AE%E6%94%AF%E4%BB%98%E8%AF%B7%E6%B1%82"><span class="toc-text">5.1 配置支付请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-%E6%94%AF%E4%BB%98%E5%9B%9E%E8%B0%83%E5%A4%84%E7%90%86"><span class="toc-text">5.2 支付回调处理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E9%83%A8%E7%BD%B2%E5%88%B0%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83"><span class="toc-text">6. 部署到生产环境</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-1-%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE"><span class="toc-text">6.1 部署项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-%E9%85%8D%E7%BD%AE%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-text">6.2 配置安全性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-%E4%BD%BF%E7%94%A8-Apache-%E6%88%96-Nginx-%E9%83%A8%E7%BD%B2"><span class="toc-text">6.3 使用 Apache 或 Nginx 部署</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%8F%8A%E6%8E%92%E6%9F%A5"><span class="toc-text">7. 常见问题及排查</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-%E6%94%AF%E4%BB%98%E8%AF%B7%E6%B1%82%E5%A4%B1%E8%B4%A5"><span class="toc-text">7.1 支付请求失败</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-%E7%AD%BE%E5%90%8D%E9%94%99%E8%AF%AF"><span class="toc-text">7.2 签名错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-3-%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98"><span class="toc-text">7.3 数据库配置问题</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + AliMPay%E6%90%AD%E5%BB%BA + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F11%2F16%2F205-alimpay-da-jian%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/11/16/205-alimpay-da-jian/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

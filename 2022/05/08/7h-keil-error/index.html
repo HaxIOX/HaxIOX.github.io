@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      keil常见报错 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">keil常见报错</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/keil/" title="keil">
+                    #keil
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h2 id="keil出现乱码"><a href="#keil出现乱码" class="headerlink" title="keil出现乱码"></a>keil出现乱码</h2><blockquote>
+<p>edit-&gt;configuration-&gt;在弹出的对话框中选择Editor—&gt;Encoding—–&gt; Chinese GB2312(Simplified)</p>
+</blockquote>
+<h3 id="未显示-h文件-未生成hex文件"><a href="#未显示-h文件-未生成hex文件" class="headerlink" title="未显示.h文件,未生成hex文件,"></a>未显示.h文件,未生成hex文件,</h3><blockquote>
+<p>1.只需编译一下main文件</p>
+</blockquote>
+<blockquote>
+<p>2.可能是因为有错误,需要先编译一下改错</p>
+</blockquote>
+<h2 id="Error"><a href="#Error" class="headerlink" title="Error"></a>Error</h2><h3 id="Error-L6218E"><a href="#Error-L6218E" class="headerlink" title="Error:L6218E"></a>Error:L6218E</h3><h4 id=""><a href="#" class="headerlink" title=""></a></h4><p>…\OBJ\USART.axf: Error: L6218E: Undefined symbol ADC_Cmd (referred from adc.o).</p>
+<blockquote>
+<p>一般出现这个问题是因为没有加入ST的官方库文件<br>在<code>Fwlib</code>文件夹中假如对应的.c文件,比如<code>adc.c</code></p>
+</blockquote>
+<h4 id="-1"><a href="#-1" class="headerlink" title=""></a></h4><p>error: L6218E: Undefined symbol Delay_ms (referred from lcd.o).</p>
+<blockquote>
+<p>Delay_ms  Delay_us  这两个没有定义，检查这两处</p>
+</blockquote>
+<h3 id="invalid-in-C99"><a href="#invalid-in-C99" class="headerlink" title="invalid in C99"></a>invalid in C99</h3><blockquote>
+<p>很有可能是头文件书写错误,比如ifndef写成ifdef</p>
+</blockquote>
+<h3 id="error-268-declaration-may-not-appear-after-executable-statement"><a href="#error-268-declaration-may-not-appear-after-executable-statement" class="headerlink" title="error: #268: declaration may not appear after executable statement"></a>error: #268: declaration may not appear after executable statement</h3><blockquote>
+<p>此错误中文意思：声明不能在可执行语句后出现</p>
+</blockquote>
+<blockquote>
+<p>表示有变量在函数后面声明，应该改为在函数开头声明变量。</p>
+</blockquote>
+<blockquote>
+<p>在Keil环境中编译程序，变量的声明应在主函数起始位置，如果有此报错，一定是变量声明在执行函数后</p>
+</blockquote>
+<h3 id="Error-L6915E-Library-reports-error-use-no-semihosting-was-requested"><a href="#Error-L6915E-Library-reports-error-use-no-semihosting-was-requested" class="headerlink" title="Error: L6915E: Library reports error: __use_no_semihosting was requested"></a>Error: L6915E: Library reports error: __use_no_semihosting was requested</h3><blockquote>
+<p>魔术棒-&gt;usemotolLIB</p>
+</blockquote>
+<h2 id="waring"><a href="#waring" class="headerlink" title="waring"></a>waring</h2><h3 id="warning-1295-D-Deprecated-declaration-LED-Init-give-arg-types"><a href="#warning-1295-D-Deprecated-declaration-LED-Init-give-arg-types" class="headerlink" title="warning: #1295-D: Deprecated declaration LED_Init - give arg types"></a>warning: #1295-D: Deprecated declaration LED_Init - give arg types</h3><blockquote>
+<p>.h文件中函数定义()里加上void即可</p>
+</blockquote>
+<h3 id="WARNING-L1-UNRESOLVED-EXTERNAL-SYMBOL"><a href="#WARNING-L1-UNRESOLVED-EXTERNAL-SYMBOL" class="headerlink" title="WARNING L1: UNRESOLVED EXTERNAL SYMBOL"></a>WARNING L1: UNRESOLVED EXTERNAL SYMBOL</h3><p>SYMBOL: ADC_VAL<br>MODULE: .\main.obj (MAIN)<br>ADC_VAL该参数未定义。</p>
+<h3 id="error-165-too-few-arguments-in-function-call"><a href="#error-165-too-few-arguments-in-function-call" class="headerlink" title="error: #165: too few arguments in function call"></a>error: #165: too few arguments in function call</h3><blockquote>
+<p>添加头文件后源.c文件中函数有参数但是实际调用时没有。</p>
+</blockquote>
+<blockquote>
+<p>方法一：源.c文件中的函数不要有参数</p>
+</blockquote>
+<blockquote>
+<p>方法二：调用函数时把参数写上。</p>
+</blockquote>
+<hr>
+<hr>
+<h3 id="ERROR-167-ARGUMENT-OF-TYPE-“UINT16-T-“-IS-INCOMPATIBLE-WITH-PARAMETER-OF-TYP"><a href="#ERROR-167-ARGUMENT-OF-TYPE-“UINT16-T-“-IS-INCOMPATIBLE-WITH-PARAMETER-OF-TYP" class="headerlink" title="ERROR: #167: ARGUMENT OF TYPE “UINT16_T *“ IS INCOMPATIBLE WITH PARAMETER OF TYP"></a>ERROR: #167: ARGUMENT OF TYPE “UINT16_T *“ IS INCOMPATIBLE WITH PARAMETER OF TYP</h3><p>使用printf串口打印adc数据是报的错<br>变量类型’无符号长整型’与参数类型不匹配”<br>应该是你在第167行调用函数时所传的参数类型是”无符号长整型的”,但这个函数所要求的参数不是这个类型的<br>检查下函数声名,然后按要求给参数试试<br>个人理解,调用printf函数式穿的参数类型与printf函数要求的参数类型不同<br>使用printf是报错,可能是因为使用的是单引号,改成双引号就不报错了</p>
+<h3 id="error-260-D-explicit-type-is-missing-“int”-assumed"><a href="#error-260-D-explicit-type-is-missing-“int”-assumed" class="headerlink" title="error:  #260-D: explicit type is missing (“int” assumed)"></a>error:  #260-D: explicit type is missing (“int” assumed)</h3><p>usart.c文件中</p>
+<blockquote>
+<p>定义  _sys_exit(int x)  以避免使用半主机模式,函数没有返回类型，假定其返回类型为int，可以写为void void  _sys_exit(int x) ，否则编译器会默认为返回int类型，故会出现上述警告。<br>解决办法：应该写成void  _sys_exit(int x) </p>
+</blockquote>
+<p>有的工程会报错,有的工程不会</p>
+<h2 id="开发51单片机时可能出现的报错"><a href="#开发51单片机时可能出现的报错" class="headerlink" title="开发51单片机时可能出现的报错"></a>开发51单片机时可能出现的报错</h2><h3 id="error-C129-missing-‘-’-before-‘0000’"><a href="#error-C129-missing-‘-’-before-‘0000’" class="headerlink" title="error C129: missing ‘;’ before ‘0000’"></a>error C129: missing ‘;’ before ‘0000’</h3><p>用汇编写的程序，却用.c文件来保存的。</p>
+<p>解决方案：只要将后缀改成.asm即可。</p>
+<h3 id="关于8051汇编语言的keil中出现的A45-UNDEFINED-SYMBOL-PASS-2-错误"><a href="#关于8051汇编语言的keil中出现的A45-UNDEFINED-SYMBOL-PASS-2-错误" class="headerlink" title="关于8051汇编语言的keil中出现的A45: UNDEFINED SYMBOL (PASS-2)错误"></a>关于8051汇编语言的keil中出现的A45: UNDEFINED SYMBOL (PASS-2)错误</h3><p>这里的代码段在END之后,被忽略了.所以就会出现A45: UNDEFINED <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=SYMBOL&spm=1001.2101.3001.7020">SYMBOL</a> ,因为在END之后的代码全被忽略了。</p>
+<p>解决方法：将END写在代码的最后面。</p>
+<p> 还有一种情况就是立即数#FFH，要写成#0FFH，因为字母打头。</p>
+<p>(在汇编语言中十六进制的立即数有一个规则，当十六进制数是字母开头时要在前面加0，<br>这也就是为什么时#0C0H 而不是 #C0H的原因了）</p>
+<h2 id="jlink问题"><a href="#jlink问题" class="headerlink" title="jlink问题"></a>jlink问题</h2><p>Error: Flash Download failed - “Cortex-M4”</p>
+<h3 id="缺少flash文件"><a href="#缺少flash文件" class="headerlink" title="缺少flash文件"></a>缺少flash文件</h3><blockquote>
+<p>魔术棒-&gt;debug-&gt;srttings-&gt;flash download-&gt;add</p>
+</blockquote>
+<h3 id="可能是因为开着串口-将串口关闭即可"><a href="#可能是因为开着串口-将串口关闭即可" class="headerlink" title="可能是因为开着串口,将串口关闭即可"></a>可能是因为开着串口,将串口关闭即可</h3><h3 id="cannot-load-flash-device-description"><a href="#cannot-load-flash-device-description" class="headerlink" title="cannot load flash device description"></a>cannot load flash device description</h3><blockquote>
+<p><code>jlink</code>选错了,打开<code>settingsswd</code>有芯片id,<code>flash downloadrese and run</code>选上,最后flash算法必须有,就是下面的空白栏有一条信息<br>如果还报错,<code>Utilities</code>,-&gt;<code>use debug driver</code></p>
+</blockquote>
+<h3 id="jlink无法识别的usb设备"><a href="#jlink无法识别的usb设备" class="headerlink" title="jlink无法识别的usb设备"></a>jlink无法识别的usb设备</h3><blockquote>
+<p>(1)频繁拔插会产生静电,将电脑重启(2)更新驱动,②换一台电脑插一下,再插回去就好了,③如果另一台电脑也不好使,那就说明固件丢失,重新刷入</p>
+</blockquote>
+<h2 id="蓝牙"><a href="#蓝牙" class="headerlink" title="蓝牙"></a>蓝牙</h2><blockquote>
+<p>串口助手连蓝牙不需要发送新行和回车hc-06()</p>
+</blockquote>
+<h2 id="字体问题"><a href="#字体问题" class="headerlink" title="字体问题"></a>字体问题</h2><h3 id="注释的字横过来可能是因为字体前面有-将字体换为没有-的即可"><a href="#注释的字横过来可能是因为字体前面有-将字体换为没有-的即可" class="headerlink" title="注释的字横过来可能是因为字体前面有@,将字体换为没有@的即可"></a>注释的字横过来可能是因为字体前面有@,将字体换为没有@的即可</h3><h3 id="注释中的汉字变成了问号，显示不出来"><a href="#注释中的汉字变成了问号，显示不出来" class="headerlink" title="注释中的汉字变成了问号，显示不出来"></a>注释中的汉字变成了问号，显示不出来</h3><blockquote>
+<p>view-&gt;configuration-&gt;editor-&gt;encoding-&gt;chinese gb2312 simplified</p>
+</blockquote>
+<h3 id="按回车后光标距离很大"><a href="#按回车后光标距离很大" class="headerlink" title="按回车后光标距离很大"></a>按回车后光标距离很大</h3><p>view-&gt;configuration-&gt;editor-&gt;encoding-&gt;tab size</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2022/05/07/6h-f407timer/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/keil/" title="keil">
+                        #keil
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2022/05/08/8l-hexo-linux/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#keil%E5%87%BA%E7%8E%B0%E4%B9%B1%E7%A0%81"><span class="toc-text">keil出现乱码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AA%E6%98%BE%E7%A4%BA-h%E6%96%87%E4%BB%B6-%E6%9C%AA%E7%94%9F%E6%88%90hex%E6%96%87%E4%BB%B6"><span class="toc-text">未显示.h文件,未生成hex文件,</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Error"><span class="toc-text">Error</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Error-L6218E"><span class="toc-text">Error:L6218E</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-text"></span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#-1"><span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#invalid-in-C99"><span class="toc-text">invalid in C99</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#error-268-declaration-may-not-appear-after-executable-statement"><span class="toc-text">error: #268: declaration may not appear after executable statement</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Error-L6915E-Library-reports-error-use-no-semihosting-was-requested"><span class="toc-text">Error: L6915E: Library reports error: __use_no_semihosting was requested</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#waring"><span class="toc-text">waring</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#warning-1295-D-Deprecated-declaration-LED-Init-give-arg-types"><span class="toc-text">warning: #1295-D: Deprecated declaration LED_Init - give arg types</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WARNING-L1-UNRESOLVED-EXTERNAL-SYMBOL"><span class="toc-text">WARNING L1: UNRESOLVED EXTERNAL SYMBOL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#error-165-too-few-arguments-in-function-call"><span class="toc-text">error: #165: too few arguments in function call</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ERROR-167-ARGUMENT-OF-TYPE-%E2%80%9CUINT16-T-%E2%80%9C-IS-INCOMPATIBLE-WITH-PARAMETER-OF-TYP"><span class="toc-text">ERROR: #167: ARGUMENT OF TYPE “UINT16_T *“ IS INCOMPATIBLE WITH PARAMETER OF TYP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#error-260-D-explicit-type-is-missing-%E2%80%9Cint%E2%80%9D-assumed"><span class="toc-text">error:  #260-D: explicit type is missing (“int” assumed)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%9151%E5%8D%95%E7%89%87%E6%9C%BA%E6%97%B6%E5%8F%AF%E8%83%BD%E5%87%BA%E7%8E%B0%E7%9A%84%E6%8A%A5%E9%94%99"><span class="toc-text">开发51单片机时可能出现的报错</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#error-C129-missing-%E2%80%98-%E2%80%99-before-%E2%80%980000%E2%80%99"><span class="toc-text">error C129: missing ‘;’ before ‘0000’</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E8051%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%9A%84keil%E4%B8%AD%E5%87%BA%E7%8E%B0%E7%9A%84A45-UNDEFINED-SYMBOL-PASS-2-%E9%94%99%E8%AF%AF"><span class="toc-text">关于8051汇编语言的keil中出现的A45: UNDEFINED SYMBOL (PASS-2)错误</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jlink%E9%97%AE%E9%A2%98"><span class="toc-text">jlink问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%BA%E5%B0%91flash%E6%96%87%E4%BB%B6"><span class="toc-text">缺少flash文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E6%98%AF%E5%9B%A0%E4%B8%BA%E5%BC%80%E7%9D%80%E4%B8%B2%E5%8F%A3-%E5%B0%86%E4%B8%B2%E5%8F%A3%E5%85%B3%E9%97%AD%E5%8D%B3%E5%8F%AF"><span class="toc-text">可能是因为开着串口,将串口关闭即可</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cannot-load-flash-device-description"><span class="toc-text">cannot load flash device description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jlink%E6%97%A0%E6%B3%95%E8%AF%86%E5%88%AB%E7%9A%84usb%E8%AE%BE%E5%A4%87"><span class="toc-text">jlink无法识别的usb设备</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%93%9D%E7%89%99"><span class="toc-text">蓝牙</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E4%BD%93%E9%97%AE%E9%A2%98"><span class="toc-text">字体问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A%E7%9A%84%E5%AD%97%E6%A8%AA%E8%BF%87%E6%9D%A5%E5%8F%AF%E8%83%BD%E6%98%AF%E5%9B%A0%E4%B8%BA%E5%AD%97%E4%BD%93%E5%89%8D%E9%9D%A2%E6%9C%89-%E5%B0%86%E5%AD%97%E4%BD%93%E6%8D%A2%E4%B8%BA%E6%B2%A1%E6%9C%89-%E7%9A%84%E5%8D%B3%E5%8F%AF"><span class="toc-text">注释的字横过来可能是因为字体前面有@,将字体换为没有@的即可</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A%E4%B8%AD%E7%9A%84%E6%B1%89%E5%AD%97%E5%8F%98%E6%88%90%E4%BA%86%E9%97%AE%E5%8F%B7%EF%BC%8C%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%87%BA%E6%9D%A5"><span class="toc-text">注释中的汉字变成了问号，显示不出来</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E5%9B%9E%E8%BD%A6%E5%90%8E%E5%85%89%E6%A0%87%E8%B7%9D%E7%A6%BB%E5%BE%88%E5%A4%A7"><span class="toc-text">按回车后光标距离很大</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + keil%E5%B8%B8%E8%A7%81%E6%8A%A5%E9%94%99 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2022%2F05%2F08%2F7h-keil-error%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2022/05/08/7h-keil-error/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

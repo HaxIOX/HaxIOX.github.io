@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      移远EG800K-CN 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">移远EG800K-CN</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/4G/" title="4G">
+                    #4G
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="GNSS"><a href="#GNSS" class="headerlink" title="GNSS"></a>GNSS</h1><p>AT+QGPSCFG&#x3D;”gnssconfig” 配置支持的GNSS卫星导航系统</p>
+<blockquote>
+<p>0 GPS<br>1 GPS + BeiDou<br>3 GPS + GLONASS + Galileo</p>
+<p>4 GPS + GLONASS<br>5 GPS + BeiDou + Galileo<br>6 GPS + Galileo<br>7 BeiDou </p>
+</blockquote>
+<p>AT+QGPSCFG&#x3D;”autogps”  启用&#x2F;禁用GNSS自启动</p>
+<p>AT+CIMI </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">AT+QGPS&#x3D;1   打开GNSS
+
+AT+QGPSLOC&#x3D;0 获取定位信息
+
+AT+QGPSEND  关闭GNSS 
+
+AT+QGPSGNMEA&#x3D;GSV<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<img src="/2025/08/15/188-yi-yuan-eg800kcn/1755223838276.png" class="" width="1755223838276">
+
+<img src="/2025/08/15/188-yi-yuan-eg800kcn/1755223807869.png" class="" width="1755223807869">
+
+
+
+<p>配置USB或者调式uart输出NMEA</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$GNGGA,,,,,,0,00,127.00,,,,,,*62
+$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07
+$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02
+$GPGSV,1,1,01,24,,,25,0*65
+$GNRMC,,V,,,,,,,,,E,N,V*72
+$GNVTG,,,,,,,,,N*2E
+$GNGGA,,,,,,0,00,127.00,,,,,,*62
+$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07
+$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02
+$GPGSV,1,1,01,24,,,25,0*65
+$GNRMC,,V,,,,,,,,,E,N,V*72
+$GNVTG,,,,,,,,,N*2E
+$GNGGA,,,,,,0,00,127.00,,,,,,*62
+$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07
+$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02
+$GPGSV,1,1,01,24,,,25,0*65<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>1.2. 支持的NMEA语句类型<br>模块默认支持的NMEA语句与NMEA-0183协议兼容。另外，可以通过三种前缀区分不同卫星系统的<br>NMEA语句，如下所示：<br>GPS NMEA语句的前缀为“GP”，如下所示：<br>⚫ GPGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GPRMC – 推荐的最小具体GNSS数据<br>⚫ GPGSV – 可见的GPS卫星，例如可见的卫星数、卫星ID号等<br>⚫ GPGSA – 参与定位的GPS卫星ID号、精度因子等<br>⚫ GPVTG – 矢量跟踪与对地速度                                                 </p>
+<h1 id="4G"><a href="#4G" class="headerlink" title="4G"></a>4G</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h2 id="MQTT通信"><a href="#MQTT通信" class="headerlink" title="MQTT通信"></a>MQTT通信</h2><p>AT+QMTOPEN&#x3D;0,”c979197b.ala.dedicated.aws.emqxcloud.com”,1883</p>
+<pre class="line-numbers language-none"><code class="language-none">AT+CPIN?
+AT+CSQ
+AT+CREG?
+AT+CGDCONT?
+AT+CGDCONT&#x3D;1,&quot;IP&quot;,&quot;ctnet&quot;
+AT+CGACT&#x3D;1,1
+AT+CGPADDR&#x3D;1
+AT+QMTOPEN&#x3D;0,&quot;23.133.52.56&quot;,1883   
+AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒内快速发送<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="阶段一：前提检查"><a href="#阶段一：前提检查" class="headerlink" title="阶段一：前提检查"></a>阶段一：前提检查</h3><p>在开始之前，请务必与服务提供商确认以下事项：</p>
+<ul>
+<li><strong>物联网SIM卡</strong>: 确认SIM卡已激活，并且您的服务器地址已被添加到该卡的<strong>访问白名单</strong>中。</li>
+<li><strong>MQTT服务器</strong>: 确认已创建用于设备登录的<strong>用户名和密码</strong>。</li>
+<li><strong>服务器防火墙</strong>: 确认已放行MQTT所需端口 (如TCP <code>1883</code>)。</li>
+</ul>
+<h3 id="阶段二：模块网络注册"><a href="#阶段二：模块网络注册" class="headerlink" title="阶段二：模块网络注册"></a>阶段二：模块网络注册</h3><p><strong>目标</strong>: 让模块连接到移动蜂窝网络并获取IP地址。</p>
+<ol>
+<li><p><strong>检查SIM卡状态</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+CPIN?<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>+CPIN: READY</code></li>
+</ul>
+</li>
+<li><p><strong>检查信号质量</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+CSQ<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>+CSQ: &lt;rssi&gt;,&lt;ber&gt;</code> (rssi应 &gt; 10, 且不为99)</li>
+</ul>
+</li>
+<li><p><strong>检查网络注册</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+CGREG?<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>+CGREG: 0,1</code> 或 <code>+CGREG: 0,5</code></li>
+</ul>
+</li>
+<li><p><strong>配置APN</strong> (以<code>ctnet</code>为例)</p>
+<pre class="line-numbers language-none"><code class="language-none">AT+CGDCONT&#x3D;1,&quot;IP&quot;,&quot;ctnet&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>OK</code></li>
+</ul>
+</li>
+<li><p><strong>激活数据通道</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QIACT&#x3D;1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>OK</code></li>
+</ul>
+</li>
+<li><p><strong>确认获取IP</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+CGPADDR&#x3D;1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>+CGPADDR: 1,&lt;ip_address&gt;</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="阶段三：连接MQTT服务器"><a href="#阶段三：连接MQTT服务器" class="headerlink" title="阶段三：连接MQTT服务器"></a>阶段三：连接MQTT服务器</h3><p><strong>目标</strong>: 建立TCP连接并完成MQTT登录。</p>
+<ol>
+<li><p><strong>(推荐) 配置MQTT版本</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTCFG&#x3D;&quot;version&quot;,0,4<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>说明</strong>: 设置协议为MQTT v3.1.1，兼容性好。</li>
+<li><strong>预期</strong>: <code>OK</code></li>
+</ul>
+</li>
+<li><p><strong>建立TCP连接</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTOPEN&#x3D;0,&quot;&lt;服务器域名或IP&gt;&quot;,1883<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTOPEN: 0,0</code></li>
+</ul>
+</li>
+<li><p><strong>MQTT登录</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTCONN&#x3D;0,&quot;&lt;客户端ID&gt;&quot;,&quot;&lt;用户名&gt;&quot;,&quot;&lt;密码&gt;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>说明</strong>: 必须在<code>AT+QMTOPEN</code>成功后立即执行。</li>
+<li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTCONN: 0,0,0</code></li>
+</ul>
+<p>加用户名的话需要mqtt平台增加客户端认证，添加用户名</p>
+</li>
+</ol>
+<h3 id="阶段四：MQTT数据操作"><a href="#阶段四：MQTT数据操作" class="headerlink" title="阶段四：MQTT数据操作"></a>阶段四：MQTT数据操作</h3><p><strong>目标</strong>: 订阅主题、发布消息、接收消息。</p>
+<ol>
+<li><p><strong>订阅主题</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTSUB&#x3D;0,1,&quot;topic&#x2F;sub&quot;,1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>说明</strong>: 订阅主题 “topic&#x2F;sub”，QoS为1。</li>
+<li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTSUB: 0,1,0,1</code></li>
+</ul>
+</li>
+<li><p><strong>发布消息</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTPUBEX&#x3D;0,0,0,0,&quot;topic&#x2F;sub&quot;,5<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>说明</strong>: 向 “topic&#x2F;pub” 主题发布5字节长的消息。</li>
+<li><strong>操作</strong>: 模块返回 <code>&gt;</code>后，输入消息内容 (例如 <code>hello</code>)。</li>
+<li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTPUBEX: 0,0,0</code></li>
+</ul>
+</li>
+<li><p><strong>接收消息 (被动)</strong></p>
+<ul>
+<li><strong>说明</strong>: 当订阅的主题有消息时，模块会自动上报。</li>
+<li><strong>格式</strong>: <code>+QMTRECV: 0, &lt;msgid&gt;, &quot;&lt;主题&gt;&quot;, &lt;长度&gt;, &quot;&lt;消息内容&gt;&quot;</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="阶段五：断开连接"><a href="#阶段五：断开连接" class="headerlink" title="阶段五：断开连接"></a>阶段五：断开连接</h3><p><strong>目标</strong>: 干净、优雅地断开连接。</p>
+<ol>
+<li><p><strong>断开MQTT会话</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTDISC&#x3D;0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTDISC: 0,0</code></li>
+</ul>
+</li>
+<li><p><strong>关闭TCP通道</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">AT+QMTCLOSE&#x3D;0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTCLOSE: 0,0</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="获取时间"><a href="#获取时间" class="headerlink" title="获取时间"></a>获取时间</h2><pre class="line-numbers language-none"><code class="language-none">AT+CCLK?        &#x2F;&#x2F;查询本地时间。 
++CCLK: &quot;08&#x2F;01&#x2F;04,00:19:43+00&quot; <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><blockquote>
+<p>&#x2F;terminals&#x2F;T001&#x2F;config&#x2F;set</p>
+<p>&#x2F;sensor&#x2F;gm502b</p>
+<p>&#x2F;sensor&#x2F;imu</p>
+<p>&#x2F;topic&#x2F;qos0</p>
+</blockquote>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/08/14/187-esp32s3-qu-dong-1-14-cun-tft/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/4G/" title="4G">
+                        #4G
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/08/15/189-spi-tong-xin/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GNSS"><span class="toc-text">GNSS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4G"><span class="toc-text">4G</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MQTT%E9%80%9A%E4%BF%A1"><span class="toc-text">MQTT通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%B8%80%EF%BC%9A%E5%89%8D%E6%8F%90%E6%A3%80%E6%9F%A5"><span class="toc-text">阶段一：前提检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%BA%8C%EF%BC%9A%E6%A8%A1%E5%9D%97%E7%BD%91%E7%BB%9C%E6%B3%A8%E5%86%8C"><span class="toc-text">阶段二：模块网络注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%B8%89%EF%BC%9A%E8%BF%9E%E6%8E%A5MQTT%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">阶段三：连接MQTT服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E5%9B%9B%EF%BC%9AMQTT%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="toc-text">阶段四：MQTT数据操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%BA%94%EF%BC%9A%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5"><span class="toc-text">阶段五：断开连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%97%B6%E9%97%B4"><span class="toc-text">获取时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%A7%BB%E8%BF%9CEG800K-CN + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F08%2F15%2F188-yi-yuan-eg800kcn%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/08/15/188-yi-yuan-eg800kcn/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

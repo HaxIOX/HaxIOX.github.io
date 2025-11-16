@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      卡片式监测设备的开发日志 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">卡片式监测设备的开发日志</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-11-16 19:43:21
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h1 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h1><h2 id="本体"><a href="#本体" class="headerlink" title="本体"></a>本体</h2><h2 id="摄像头"><a href="#摄像头" class="headerlink" title="摄像头"></a>摄像头</h2><h2 id="程序"><a href="#程序" class="headerlink" title="程序"></a>程序</h2><ul>
+<li>多任务写作</li>
+<li>全局变量抢占</li>
+<li>竞态</li>
+<li>队列影响</li>
+</ul>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><h3 id="1-定时器与时间校准流程分析"><a href="#1-定时器与时间校准流程分析" class="headerlink" title="1. 定时器与时间校准流程分析"></a>1. 定时器与时间校准流程分析</h3><h4 id="定时器流程-Timer-Flow"><a href="#定时器流程-Timer-Flow" class="headerlink" title="定时器流程 (Timer Flow)"></a>定时器流程 (Timer Flow)</h4><p>系统的核心业务逻辑由一个位于 <code>alert_manager</code> 中的 30 秒周期性定时器驱动。</p>
+<ol>
+<li><strong>创建与启动</strong>:<ul>
+<li>在 <code>alert_manager_init</code> 函数中，创建了一个名为 <code>alert_timer</code> 的 FreeRTOS 定时器，周期为 30 秒。</li>
+<li>当 <code>alert_manager_start</code> 函数被（在 <code>eg800k.c</code> 收到配置后）调用时，这个定时器通过 <code>xTimerStart</code> 启动。</li>
+</ul>
+</li>
+<li><strong>事件触发</strong>:<ul>
+<li>定时器每 30 秒触发一次回调函数 <code>periodic_timer_callback</code>。</li>
+<li>这个回调函数只做一件事：向全局的 <code>alert_queue</code> 发送一个类型为 <code>ALERT_EVENT_TIMER_CHECK</code> 的事件。</li>
+</ul>
+</li>
+<li><strong>事件处理</strong>:<ul>
+<li><code>alert_manager_task</code> 任务在其主循环中等待并接收 <code>alert_queue</code> 的事件。</li>
+<li>当收到 <code>ALERT_EVENT_TIMER_CHECK</code> 事件时，它会调用 <code>handle_timer_check</code> 函数。</li>
+</ul>
+</li>
+<li><strong>核心业务逻辑</strong>:<ul>
+<li>在 <code>handle_timer_check</code> 函数内部，执行了一系列周期性检查：<ul>
+<li><strong>请求 GPS 数据</strong>：每 30 秒主动调用 <code>eg800k_get_gnss_data</code> 函数，向 4G 模块请求一次位置更新。日志中反复出现的 <code>ALERT_MANAGER: 主动请求GPS数据更新</code> 证实了这一点。</li>
+<li><strong>检查饮酒监控</strong>：根据配置规则，检查是否到达饮酒检测的时间点。日志中的 <code>ALERT_MANAGER: 执行定时饮酒检测</code> 证实了这一点。</li>
+<li><strong>检查卡片脱离、场所停留超时</strong>等其他业务规则。</li>
+<li><strong>检查 R0 标定</strong>：在特定条件下尝试对酒精传感器进行后台自动标定。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="时间校准流程-Time-Calibration-Flow"><a href="#时间校准流程-Time-Calibration-Flow" class="headerlink" title="时间校准流程 (Time Calibration Flow)"></a>时间校准流程 (Time Calibration Flow)</h4><p>系统时间依赖 4G 模块从蜂窝网络获取，校准流程如下：</p>
+<ol>
+<li><strong>触发校准</strong>:<ul>
+<li>时间校准由 <code>eg800k_get_current_time</code> 函数发起。</li>
+<li>在两个地方会触发校准：<ul>
+<li><code>main.c</code> 的主循环中，每小时检查一次时间同步状态。日志显示 <code>I (87296) MAIN: 请求时间同步</code>。</li>
+<li><code>alert_manager.c</code> 的 <code>time_service_get_current_time</code> 函数中，如果发现时间未同步，也会触发请求。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>AT 指令交互</strong>:<ul>
+<li><code>eg800k_get_current_time</code> 函数向 4G 模块发送 <code>AT+CCLK?</code> 指令。</li>
+<li>模块返回网络时间，例如：<code>+CCLK: &quot;25/09/29,01:11:37+32&quot;</code>。</li>
+</ul>
+</li>
+<li><strong>解析与转换</strong>:<ul>
+<li><code>eg800k_parse_task</code> 任务接收到包含 <code>+CCLK:</code> 的响应后，会调用 <code>parse_cclk_response</code> 函数（位于 <code>alert_manager.c</code>）进行解析。</li>
+<li><code>parse_cclk_response</code> 使用 <code>sscanf</code> 从字符串中提取年、月、日、时、分、秒。</li>
+<li>它将获取到的 UTC 时间硬编码 <code>hour += 8;</code> 转换为北京时间 (UTC+8)。</li>
+<li>转换成功后，更新全局状态 <code>g_alert_state.current_time</code>，并将 <code>g_alert_state.time_synced</code> 标志位置为 <code>true</code>。日志 <code>ALERT_MANAGER: ✓ 时间同步成功: 2025-09-29 09:11:37</code> 证实了解析和转换的成功。</li>
+</ul>
+</li>
+<li><strong>本地时间维护</strong>:<ul>
+<li>在两次网络校准之间，系统通过 <code>time_service_get_current_time</code> 函数，计算自上次同步以来经过的毫秒数，并将其加到已保存的时间上，从而提供一个估算的当前时间。</li>
+</ul>
+</li>
+</ol>
+<h1 id="主题与指令"><a href="#主题与指令" class="headerlink" title="主题与指令"></a>主题与指令</h1><h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><blockquote>
+<p>&#x2F;sensor&#x2F;imu（当前已在imu.c中关闭数据上传）</p>
+<p>&#x2F;sensor&#x2F;gm502b</p>
+<p>&#x2F;terminals&#x2F;T001&#x2F;alerts</p>
+<p>&#x2F;terminals&#x2F;T001&#x2F;config&#x2F;set</p>
+<p>&#x2F;topic&#x2F;qos0</p>
+<p>&#x2F;alerts&#x2F;drinking</p>
+<p>&#x2F;reports&#x2F;drinking</p>
+<p>&#x2F;reports&#x2F;bleStatus</p>
+<p>&#x2F;reports&#x2F;gpsLocation</p>
+<p>&#x2F;alerts&#x2F;cardDetach </p>
+<p>&#x2F;alerts&#x2F;venue</p>
+</blockquote>
+<h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;
+  &quot;terminalId&quot;: &quot;T001&quot;,
+  &quot;userName&quot;: &quot;张三&quot;,
+  &quot;userPhone&quot;: &quot;13812345678&quot;,
+  &quot;emergencyContact&quot;: &quot;13911111111&quot;,
+  &quot;departureDateTime&quot;: &quot;2025-09-27 9:30:00&quot;,
+  &quot;returnDateTime&quot;: &quot;2025-09-27 11:40:00&quot;,
+  &quot;remark&quot;: &quot;外出办事&quot;,
+  &quot;destinationManagement&quot;: &#123;
+    &quot;enabled&quot;: true,
+    &quot;city&quot;: &quot;大连市&quot;,
+    &quot;arrivalDateTime&quot;: &quot;2025-09-27 9:35:00&quot;,
+    &quot;departureDateTime&quot;: &quot;2025-09-27 11:50:00&quot;
+  &#125;,
+  &quot;cardDetachAlert&quot;: &#123;
+    &quot;enabled&quot;: true,
+    &quot;disconnectTimeout&quot;: 30,
+    &quot;silentTimeout&quot;: 60,
+    &quot;silentPeriod&quot;: &quot;22:00-06:00&quot;
+  &#125;,
+  &quot;lawEnforcementAlert&quot;: &#123;
+    &quot;enabled&quot;: true,
+    &quot;stayTimeout&quot;: 120
+  &#125;,
+  &quot;suspiciousVenueAlert&quot;: &#123;
+    &quot;enabled&quot;: true,
+    &quot;stayTimeout&quot;: 60
+  &#125;,
+  &quot;drunkDrivingPrevention&quot;: &#123;
+    &quot;enabled&quot;: true,
+    &quot;reminderInterval&quot;: 30
+  &#125;,
+  &quot;drinkingMonitorAlert&quot;: &#123;
+    &quot;enabled&quot;: true,
+    &quot;monitorRules&quot;: [
+      &#123;
+        &quot;timeRange&quot;: &quot;18:00-23:00&quot;,
+        &quot;frequency&quot;: 3
+      &#125;,
+      &#123;
+        &quot;timeRange&quot;: &quot;07:00-18:00&quot;,
+        &quot;frequency&quot;: 5
+      &#125;
+    ]
+  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="酒精传感器控制"><a href="#酒精传感器控制" class="headerlink" title="酒精传感器控制"></a>酒精传感器控制</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;502b&quot;, &quot;cmd&quot;: &quot;on&quot;&#125;     &#x2F;&#x2F; 开启酒精传感器
+&#123;&quot;device&quot;: &quot;502b&quot;, &quot;cmd&quot;: &quot;off&quot;&#125;    &#x2F;&#x2F; 关闭酒精传感器  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="摄像头控制"><a href="#摄像头控制" class="headerlink" title="摄像头控制"></a>摄像头控制</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;cam&quot;, &quot;cmd&quot;: &quot;on&quot;&#125;      &#x2F;&#x2F; 开启摄像头
+&#123;&quot;device&quot;: &quot;cam&quot;, &quot;cmd&quot;: &quot;off&quot;&#125;     &#x2F;&#x2F; 关闭摄像头<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="IMU传感器控制"><a href="#IMU传感器控制" class="headerlink" title="IMU传感器控制"></a>IMU传感器控制</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;imu&quot;, &quot;cmd&quot;: &quot;sta&quot;&#125;     &#x2F;&#x2F; 开始IMU数据上传
+&#123;&quot;device&quot;: &quot;imu&quot;, &quot;cmd&quot;: &quot;sto&quot;&#125;     &#x2F;&#x2F; 停止IMU数据上传<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="LED控制"><a href="#LED控制" class="headerlink" title="LED控制"></a>LED控制</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;led&quot;, &quot;cmd&quot;: &quot;on&quot;&#125;      &#x2F;&#x2F; 开启LED
+&#123;&quot;device&quot;: &quot;led&quot;, &quot;cmd&quot;: &quot;off&quot;&#125;     &#x2F;&#x2F; 关闭LED<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="3-系统指令"><a href="#3-系统指令" class="headerlink" title="3. 系统指令"></a>3. 系统指令</h2><h3 id="立即时间同步"><a href="#立即时间同步" class="headerlink" title="立即时间同步"></a>立即时间同步</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;sync_time&quot;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="手动扫描"><a href="#手动扫描" class="headerlink" title="手动扫描"></a>手动扫描</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;scan_wifi&quot;&#125;   &#x2F;&#x2F; WiFi扫描
+&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;scan_ble&quot;&#125;    &#x2F;&#x2F; BLE扫描<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="获取系统状态"><a href="#获取系统状态" class="headerlink" title="获取系统状态"></a>获取系统状态</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;status&quot;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="重启系统"><a href="#重启系统" class="headerlink" title="重启系统"></a>重启系统</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;restart&quot;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="4-参数化指令"><a href="#4-参数化指令" class="headerlink" title="4. 参数化指令"></a>4. 参数化指令</h2><h3 id="带参数的传感器指令"><a href="#带参数的传感器指令" class="headerlink" title="带参数的传感器指令"></a>带参数的传感器指令</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;502b&quot;, &quot;cmd&quot;: &quot;read&quot;, &quot;param&quot;: 5&#125;    &#x2F;&#x2F; 连续读取5次
+&#123;&quot;device&quot;: &quot;imu&quot;, &quot;cmd&quot;: &quot;rate&quot;, &quot;param&quot;: 100&#125;   &#x2F;&#x2F; 设置采样率100Hz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="带参数的系统指令"><a href="#带参数的系统指令" class="headerlink" title="带参数的系统指令"></a>带参数的系统指令</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;scan_wifi&quot;, &quot;param&quot;: 30&#125;  &#x2F;&#x2F; 扫描30秒
+&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;heartbeat&quot;, &quot;param&quot;: 60&#125;  &#x2F;&#x2F; 设置心跳60秒<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><h2 id="9-26"><a href="#9-26" class="headerlink" title="9.26"></a>9.26</h2><p>1.R0标定有问题（范围少写个0）</p>
+<h2 id="9-27"><a href="#9-27" class="headerlink" title="9.27"></a>9.27</h2><p>1.手机无法显示卡片连接状态，因为手机ui不支持自定义ble服务</p>
+<p>2.gm502b需要老化至少24小时，初始0点才会一直，当前状态是持续下降</p>
+<p>3.R0检测逻辑有问题，有的时候某一处取消限制，其他地方要一起取消</p>
+<h2 id="9-28"><a href="#9-28" class="headerlink" title="9.28"></a>9.28</h2><p>1.配置文件只能下发一次，后续下发会导致定时任务失效✅（是&#96;&#96;return&#96;导致的）<br>2.R0始终为0✅（上下限没有取消导致的）<br>3.标定会被打断<br>4.任务会影响检测频率<br>5.516没有上报异常的原因 （json解析没有下发任务）<br>6.未吹的会自动消失</p>
+<p>7.配置文件不下发，定时器不开启</p>
+<p>8.蓝牙初始化与蓝牙扫描没有分开</p>
+<p>9.E (1957251) wifi:failed to post WiFi event&#x3D;1 ret&#x3D;259</p>
+<p>W (1120146) wifi:m f probe req l&#x3D;0</p>
+<h2 id="10-9"><a href="#10-9" class="headerlink" title="10.9"></a>10.9</h2><p>通过修改嘉立创实战派（5.16版本）的程序，实现了在1.14存屏幕上进行人脸检测</p>
+<h2 id="10-11"><a href="#10-11" class="headerlink" title="10.11"></a>10.11</h2><p>为解决ble扫描不到手机蓝牙的问题进行调研，发现是esp32s3不支持经典蓝牙导致的</p>
+<h2 id="10-15"><a href="#10-15" class="headerlink" title="10.15"></a>10.15</h2><ul>
+<li>增加通过加速度标准差以及加速度幅值均值的检测判断行人运动状态的功能</li>
+</ul>
+<h2 id="10-16"><a href="#10-16" class="headerlink" title="10.16"></a>10.16</h2><ul>
+<li>验证加上重力滤波后导致跑步时别不灵敏，去除</li>
+</ul>
+<h2 id="10-17"><a href="#10-17" class="headerlink" title="10.17"></a>10.17</h2><ul>
+<li>增加RF管理器，避免ble与wifi同一时间使用天线</li>
+<li>删除RF管理器，因为手动管理会出现冲突，ble不放天线，而ESP32有自己的底层rf管理器</li>
+<li>增加驾车状态识别，通过EG800K-CN模块</li>
+</ul>
+<blockquote>
+<p>由于没有及时commit导致改坏回了个大档</p>
+</blockquote>
+<p>10.20</p>
+<ul>
+<li>恢复驾车状态识别</li>
+</ul>
+<p>结合C:\Users\VIBTEK\Desktop\ESP32-S3-Demo\template-app\main的main.c完善本项目的状态识别，并且通过eg800k读取地面速度，并通过地面速度进行主要的驾车判断，在不影响原功能的情况下进行最下修改</p>
+<h2 id="10-20"><a href="#10-20" class="headerlink" title="10.20"></a>10.20</h2><p>GPS模块有30s延迟</p>
+<h2 id="10-22"><a href="#10-22" class="headerlink" title="10.22"></a>10.22</h2><p>测试喇叭</p>
+<h2 id="10-23"><a href="#10-23" class="headerlink" title="10.23"></a>10.23</h2><p>调试ai</p>
+<h2 id="10-24"><a href="#10-24" class="headerlink" title="10.24"></a>10.24</h2><p>1.梳理从机程序</p>
+<p>2.电源管理芯片暴毙，换之</p>
+<p>3.摄像头引脚号又搞错了，检查一下午</p>
+<p>4.整理扬声器方案</p>
+<h2 id="10-27"><a href="#10-27" class="headerlink" title="10.27"></a>10.27</h2><p>1.优化从机程序，整理封装</p>
+<p>2.处理摄像头通过lvgl显示出现的x光、彩色、卡顿等问题</p>
+<h2 id="10-28"><a href="#10-28" class="headerlink" title="10.28"></a>10.28</h2><p>1.处理摄像头通过lvgl显示出现的x光、彩色、卡顿等问题</p>
+<h2 id="10-30"><a href="#10-30" class="headerlink" title="10.30"></a>10.30</h2><p>梳理合并从机项目文件，整合封装的UI</p>
+<h2 id="10-31"><a href="#10-31" class="headerlink" title="10.31"></a>10.31</h2><p>一些其他RID项目的支线</p>
+<h2 id="11-3"><a href="#11-3" class="headerlink" title="11.3"></a>11.3</h2><p>Card的固件兼容mqtt控制通知显示</p>
+<p>修复buging</p>
+<p>重新制定Card电源方案</p>
+<p>当前方案</p>
+<ul>
+<li><p>BQ25606RGER-&gt;SY8843QWC-&gt;SY8089A1AAC</p>
+<p>BQ25606RGER的梁旭放电电流与过保护电流均为6A</p>
+</li>
+</ul>
+<p>存在隐患，eg800k峰值电流问题，新加模块mp-3b需要5v的问题</p>
+<ul>
+<li><p>BOOST升压<a target="_blank" rel="noopener" href="https://item.szlcsc.com/88535.html?fromZone=s_s__%22TPS61088%22&spm=sc.gbn.xh1.zy.n___sc.gbn.hd.ss&lcsc_vid=QFIPAgBVElQPV1BREVlfVABRRwAPAQFXRAdfBF1eQgcxVlNQRVBbUFZUTlleUjsOAxUeFF5JWBIBSRccGwIdBEoFGAxBAAgJFQACSQwSGg0="><strong>TPS61088RHLR</strong></a></p>
+</li>
+<li><p>[方案](<a target="_blank" rel="noopener" href="https://gemini.google.com/app/1d8bdec04f23fe15?hl=zh-cn&utm_source=gold_browser_extension">Google Gemini</a>)</p>
+</li>
+</ul>
+<p>好的，根据我们之前讨论的电源架构（BQ25606 + Boost + Buck-Boost），我为您推荐一些在工业界和创客圈都经过验证的、常用的转换器 IC。</p>
+<h3 id="1-推荐的电源树-Recommended-Power-Tree"><a href="#1-推荐的电源树-Recommended-Power-Tree" class="headerlink" title="1. 推荐的电源树 (Recommended Power Tree)"></a>1. 推荐的电源树 (Recommended Power Tree)</h3><p>这是我们确定的最稳定方案，解决了 5V 供电和 3.3V 低电量运行的问题：</p>
+<pre class="line-numbers language-none"><code class="language-none">+-----------+
+| USB-C 5V  |
++-----+-----+
+      |
+      v
++-----+-----+   +---------------+
+| BQ25606   +---&gt;| LiPo Battery  |
+| (充电+路径管理)|   (3.0V - 4.2V) |
++-----+-----+   +---------------+
+      |
+      | (VBAT_SYS: 3.0V - 4.2V)
+      | (GND 必须极粗，建议铺地)
+      |
++-----+---------------------+---------------------+
+|                           |                     |
+| (直连)                    | (Boost 升压)        | (Buck-Boost 升降压)
+|                           |                     |
+v                           v                     v
+[EG800K-CN]                 [5V Boost IC]         [3.3V Buck-Boost IC]
+(VBAT引脚)                  |                     |
+(2A 峰值)                   | (5V)                | (3.3V)
+(需 2mm 走线 )      |                     |
+                            |                     |
+                +-----------+-----------+ +-------+-----------+
+                |                       | |                   |
+                v                       v v                   v
+                [MQ-3]                  [MAX98357A] [ESP32 x2]        [OV5640]
+                (5V 加热器)             (5V 供电)   (Wi-Fi 峰值)        [ST7789]
+                                                                      [ICM42688]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-转换器-IC-选型推荐"><a href="#2-转换器-IC-选型推荐" class="headerlink" title="2. 转换器 IC 选型推荐"></a>2. 转换器 IC 选型推荐</h3><h4 id="1-5V-Boost-升压-转换器"><a href="#1-5V-Boost-升压-转换器" class="headerlink" title="1. 5V Boost (升压) 转换器"></a>1. 5V Boost (升压) 转换器</h4><ul>
+<li><strong>需求：</strong> 输入 3.0V~4.2V，输出 5V，峰值输出电流 &gt; 1.2A (需驱动 MQ-3 和 MAX98357A)。</li>
+<li><strong>注意：</strong> 当电池电压最低 (3.0V) 时，从电池抽取的电流最大 ( <code>(5V*1.2A) / 3.0V / 0.9效率 ≈ 2.2A</code> )。IC 的开关电流限流 (Switch Current Limit) 必须远高于此值。</li>
+</ul>
+<p><strong>推荐型号：</strong></p>
+<ol>
+<li><strong>TI (德州仪器) - TPS61088</strong><ul>
+<li><strong>简介：</strong> 这是一款非常强大且常用的 Boost 芯片。</li>
+<li><strong>开关电流：</strong> 10A (峰值)，裕量非常足，轻松应对音频功放的瞬态冲击。</li>
+<li><strong>输入电压：</strong> 2.7V 至 12V。</li>
+<li><strong>封装：</strong> 4.00mm x 4.00mm QFN。</li>
+</ul>
+</li>
+<li><strong>MPS (芯源系统) - MP3426</strong><ul>
+<li><strong>简介：</strong> 性能同样优秀，在很多便携式大功率设备中很常见。</li>
+<li><strong>开关电流：</strong> 6A，裕量充足。</li>
+<li><strong>输入电压：</strong> 3V 至 22V。</li>
+<li><strong>封装：</strong> 3.00mm x 3.00mm QFN-13。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-3-3V-Buck-Boost-升降压-转换器"><a href="#2-3-3V-Buck-Boost-升降压-转换器" class="headerlink" title="2. 3.3V Buck-Boost (升降压) 转换器"></a>2. 3.3V Buck-Boost (升降压) 转换器</h4><ul>
+<li><strong>需求：</strong> 输入 3.0V~4.2V，输出 3.3V，峰值输出电流 &gt; 1.5A (需驱动两颗 ESP32、摄像头和 LCD)。</li>
+<li><strong>注意：</strong> 必须使用 Buck-Boost，因为当电池电压低于 3.3V 时，纯 Buck (降压) 芯片将停止工作。</li>
+</ul>
+<p><strong>推荐型号：</strong></p>
+<ol>
+<li><strong>TI (德州仪器) - TPS63020</strong><ul>
+<li><strong>简介：</strong> 这是 Buck-Boost 领域的“经典款”，应用极其广泛。</li>
+<li><strong>输出能力：</strong> 典型应用中可提供 2A (降压模式) &#x2F; 1.6A (升压模式，Vin&#x3D;3V)，非常适合您的 ESP32 峰值功耗。</li>
+<li><strong>输入电压：</strong> 1.8V 至 5.5V。</li>
+<li><strong>封装：</strong> 3.00mm x 3.00mm VSON-14。</li>
+</ul>
+</li>
+<li><strong>TI (德州仪器) - TPS63070</strong><ul>
+<li><strong>简介：</strong> 一款更新、输入范围更宽的 Buck-Boost 芯片。</li>
+<li><strong>输出能力：</strong> 2A 连续输出电流。</li>
+<li><strong>输入电压：</strong> 2V 至 16V (输入范围更宽，但功耗略高)。</li>
+<li><strong>封装：</strong> 2.50mm x 2.50mm QFN-11。</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-严谨的设计与布局警告"><a href="#3-严谨的设计与布局警告" class="headerlink" title="3. 严谨的设计与布局警告"></a>3. 严谨的设计与布局警告</h3><p>再次强调，这个设计的成败 <strong>90% 取决于 PCB 布局</strong>。</p>
+<ol>
+<li><strong>BQ25606 的系统电容：</strong> BQ25606 的 <code>SYS</code> 引脚是所有下游电源的<strong>总源头</strong>。您必须在此处放置大容量电容（例如 2x 22µF + 1x 47µF）来应对 <strong>6A+ 的总系统峰值</strong> 。</li>
+<li><strong>EG800K VBAT 走线：</strong> 必须遵守 Quectel 文档要求，<code>VBAT</code> 走线宽度<strong>至少 2mm</strong> ，并且必须放置其所需的滤波电容</li>
+<li><strong>DC-DC 布局：</strong> 所有的 Boost 和 Buck-Boost 芯片，其<strong>输入电容和输出电容都必须紧贴 IC 引脚</strong>，电感也要尽量靠近 <code>SW</code>（开关）引脚。这是减少噪声和振荡的关键。</li>
+<li><strong>GND (地)：</strong> 必须使用 4 层板，并拥有一个<strong>完整的内层地平面 (GND Plane)</strong>。BQ25606  和所有 DC-DC 芯片的散热焊盘 (Thermal Pad) 必须通过大量过孔 (Vias) 连接到这个内层地。</li>
+</ol>
+<p>换用峰值电流大于6的bq25616，这颗芯片的峰值电流为9A</p>
+<h3 id="推荐的“分时复用”电源架构"><a href="#推荐的“分时复用”电源架构" class="headerlink" title="推荐的“分时复用”电源架构"></a>推荐的“分时复用”电源架构</h3><p>我们重新规划一下您的电源树，分为“永久在线”和“按需开启”两部分：</p>
+<pre class="line-numbers language-none"><code class="language-none">+-----------+
+| BQ25616   |
+| (SYS OUT) |
++-----+-----+
+      | (VBAT_SYS: 3.0V - 4.2V)
+      |
++-----+----------------------------------+
+|                                        |
+| [“永久在线” Always-On]                 [“按需开启” Switched]
+| (为核心服务供电)                       (为主ESP32的GPIO口控制)
+|                                        |
++-----+---------------------+            +-----------------+-----------------+
+|     |                     |            |                 |
+v     v                     v            v                 v
+[3.3V Buck-Boost (A)]       [3.8V Buck-Boost]    [3.3V Buck-Boost (B)] [5V Boost]
+|     (带 EN 引脚)          | (带 EN 引脚)
+|                           |            |                 |
+v                           v            v                 v
+[主 ESP32]                  [EG800K]             [第二颗 ESP32]      [MAX98357A (音频)]
+[ICM42688 (IMU)]            (4G 模块)            [OV5640 (摄像头)]   [MQ-3]
+                                         [ST7789 (LCD)]    [GM702B]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>选定电源方案，明天布局布线</p>
+<p>11.10-11.13</p>
+<ul>
+<li>进阶版画板打样采购</li>
+</ul>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/09/18/197-gm-502b-nong-du-qu-xian-ni-he/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-11-16 19:43:21
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/09/29/199-lan-ya-de-xiang-guan-zhi-shi/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6"><span class="toc-text">硬件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E4%BD%93"><span class="toc-text">本体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4"><span class="toc-text">摄像头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F"><span class="toc-text">程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%9A%E6%97%B6%E5%99%A8%E4%B8%8E%E6%97%B6%E9%97%B4%E6%A0%A1%E5%87%86%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-text">1. 定时器与时间校准流程分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E6%B5%81%E7%A8%8B-Timer-Flow"><span class="toc-text">定时器流程 (Timer Flow)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%A0%A1%E5%87%86%E6%B5%81%E7%A8%8B-Time-Calibration-Flow"><span class="toc-text">时间校准流程 (Time Calibration Flow)</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E4%B8%8E%E6%8C%87%E4%BB%A4"><span class="toc-text">主题与指令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98"><span class="toc-text">主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4"><span class="toc-text">指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%92%E7%B2%BE%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8E%A7%E5%88%B6"><span class="toc-text">酒精传感器控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4%E6%8E%A7%E5%88%B6"><span class="toc-text">摄像头控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMU%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8E%A7%E5%88%B6"><span class="toc-text">IMU传感器控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LED%E6%8E%A7%E5%88%B6"><span class="toc-text">LED控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%B3%BB%E7%BB%9F%E6%8C%87%E4%BB%A4"><span class="toc-text">3. 系统指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%8B%E5%8D%B3%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5"><span class="toc-text">立即时间同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E6%89%AB%E6%8F%8F"><span class="toc-text">手动扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81"><span class="toc-text">获取系统状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F"><span class="toc-text">重启系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%8F%82%E6%95%B0%E5%8C%96%E6%8C%87%E4%BB%A4"><span class="toc-text">4. 参数化指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E4%BC%A0%E6%84%9F%E5%99%A8%E6%8C%87%E4%BB%A4"><span class="toc-text">带参数的传感器指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%8C%87%E4%BB%A4"><span class="toc-text">带参数的系统指令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-text">日志</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-26"><span class="toc-text">9.26</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-27"><span class="toc-text">9.27</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-28"><span class="toc-text">9.28</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-9"><span class="toc-text">10.9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-11"><span class="toc-text">10.11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-15"><span class="toc-text">10.15</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-16"><span class="toc-text">10.16</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-17"><span class="toc-text">10.17</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-20"><span class="toc-text">10.20</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-22"><span class="toc-text">10.22</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-23"><span class="toc-text">10.23</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-24"><span class="toc-text">10.24</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-27"><span class="toc-text">10.27</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-28"><span class="toc-text">10.28</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-30"><span class="toc-text">10.30</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-31"><span class="toc-text">10.31</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-3"><span class="toc-text">11.3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%8E%A8%E8%8D%90%E7%9A%84%E7%94%B5%E6%BA%90%E6%A0%91-Recommended-Power-Tree"><span class="toc-text">1. 推荐的电源树 (Recommended Power Tree)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%BD%AC%E6%8D%A2%E5%99%A8-IC-%E9%80%89%E5%9E%8B%E6%8E%A8%E8%8D%90"><span class="toc-text">2. 转换器 IC 选型推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5V-Boost-%E5%8D%87%E5%8E%8B-%E8%BD%AC%E6%8D%A2%E5%99%A8"><span class="toc-text">1. 5V Boost (升压) 转换器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3V-Buck-Boost-%E5%8D%87%E9%99%8D%E5%8E%8B-%E8%BD%AC%E6%8D%A2%E5%99%A8"><span class="toc-text">2. 3.3V Buck-Boost (升降压) 转换器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%A5%E8%B0%A8%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%B8%83%E5%B1%80%E8%AD%A6%E5%91%8A"><span class="toc-text">3. 严谨的设计与布局警告</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E7%9A%84%E2%80%9C%E5%88%86%E6%97%B6%E5%A4%8D%E7%94%A8%E2%80%9D%E7%94%B5%E6%BA%90%E6%9E%B6%E6%9E%84"><span class="toc-text">推荐的“分时复用”电源架构</span></a></li></ol></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%8D%A1%E7%89%87%E5%BC%8F%E7%9B%91%E6%B5%8B%E8%AE%BE%E5%A4%87%E7%9A%84%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F09%2F29%2F198-qia-pian-shi-jian-ce-she-bei-de-kai-fa-ri-zhi%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/09/29/198-qia-pian-shi-jian-ce-she-bei-de-kai-fa-ri-zhi/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      ESP32-C3板子 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">ESP32-C3板子</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>1.电脑识别不到串口号</p>
+<p>2.无法进入下载模式（）</p>
+<p>   1.arduino ide cbc可正常烧录</p>
+<p>​	2.arduino ide cbc可正常烧录，但是无法打开串口监视器</p>
+<p>​	3.模块出现问题，上电短路导致板子硬件连接出现问题</p>
+<p> 3.一直重启，串口打印0xfffffff</p>
+<p>4.设备管理器串口一直刷新，boot上电后写入超时</p>
+<p>cbc烧录过程中烧录后程序正常运行，无法打开串口监视器，串口也不再刷新</p>
+<p>vs烧录成功正常模式，但是串口不打印</p>
+<p>但是arduino无法烧录了</p>
+<blockquote>
+<p>A serial exception error occurred: Cannot configure port, something went wrong. Original message: OSError(22, ‘�����߳��˳���Ӧ�ó�����������ֹ I&#x2F;O ������’, None, 995)<br>Note: This error originates from pySerial. It is likely not a problem with esptool, but with the hardware connection or drivers.<br>For troubleshooting steps visit: <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esptool/en/latest/troubleshooting.html">https://docs.espressif.com/projects/esptool/en/latest/troubleshooting.html</a></p>
+</blockquote>
+<p><strong>换台电脑可以正常使用</strong></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><h3 id="一、电脑识别不到串口号"><a href="#一、电脑识别不到串口号" class="headerlink" title="一、电脑识别不到串口号"></a>一、电脑识别不到串口号</h3><p>1.考虑短路或者断路-&gt;万用表测试-&gt;一切正常</p>
+<p>2.首先type-c引脚连锡，怀疑模块损坏-&gt;更换-&gt;未解决</p>
+<p>3.考虑其他元器件损坏-&gt;又焊一版本-&gt;无解</p>
+<p>4.考虑原理图错误-&gt;比对-&gt;无解</p>
+<p>5.测试电阻</p>
+<p>6.测试电压-&gt;发现GPIO9的压降不正常-&gt;GPT老师-&gt;找到问题</p>
+<blockquote>
+<p>去除复位电路导致EN引脚悬空，被自动下载电路拉低，芯片一直处于复位状态</p>
+<p>通过“自动下载电路”把 BOOT（IO0）也拉低,芯片持续复位</p>
+</blockquote>
+<img src="/2025/04/29/139-esp32-c3-ban-zi/1745914031148.png" class="" width="1745914031148">
+
+<img src="/2025/04/29/139-esp32-c3-ban-zi/1745914035144.png" class="" width="1745914035144">
+
+<img src="/2025/04/29/139-esp32-c3-ban-zi/1745914038646.png" class="" width="1745914038646">
+
+<p>7.下载模式下蜂鸣器响</p>
+<p>8.platform下载模式无法烧录</p>
+<p>9.arduino可以烧录但是</p>
+<p><code>Writing at 0x001240f7... (100 %) Wrote 1137632 bytes (692273 compressed) at 0x00010000 in 10.9 seconds (effective 838.8 kbit/s)... Hash of data verified.Leaving... Hard resetting with RTC WDT...A serial exception error occurred: Cannot configure port, something went wrong. Original message: OSError(22, &#39;ָ�������ڵ��豸��&#39;, None, 433) Note: This error originates from pySerial. It is likely not a problem with esptool, but with the hardware connection or drivers. For troubleshooting steps visit: https://docs.espressif.com/projects/esptool/en/latest/troubleshooting.html Failed uploading: uploading error: exit status 1</code></p>
+<p><strong>从日志看，固件已经成功写入</strong>，只是最后一步“硬复位”后，串口没及时重枚举／被断开，导致 esptool 在重连时拿不到设备就报了“OSError(22, ‘找不到设备’)”的错误。这不影响实际烧录，只是自动复位和串口重打开的环节出了问题。</p>
+<h3 id="为什么会出现这个错误"><a href="#为什么会出现这个错误" class="headerlink" title="为什么会出现这个错误"></a>为什么会出现这个错误</h3><ol>
+<li><strong>硬复位太快</strong><br> esptool 在下载完毕后会自动拉低 EN（通过 DTR→C→Q1）来让芯片重启，但同时它也马上尝试重新打开同一个 COM 口。如果 ESP 重启过程中过快（或复位脉冲太长），USB-串口芯片一瞬间掉线，PC 端 port 就消失了，esptool 再访问就报“找不到设备”。</li>
+<li><strong>自动下载电路拉高&#x2F;拉低冲突</strong><br> 如果你的 EN 上拉（10 kΩ+100 nF）或 DTR 耦合电容参数不够理想，可能导致复位脉冲持续／反弹，板子不上电也不上载，引起端口反复重枚举，PC 端口同样就不稳定。</li>
+</ol>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><h4 id="方案-A：手动复位并重试"><a href="#方案-A：手动复位并重试" class="headerlink" title="方案 A：手动复位并重试"></a>方案 A：手动复位并重试</h4><ol>
+<li>在 IDE “上传” 开始时，先手动按住 BOOT（IO0），</li>
+<li>松开后短按 EN（RST），</li>
+<li>等看到 “Connecting…” 后再松开 BOOT，<br> 这样可以用更可控的速度让 ESP 进入下载模式并重启，IDE 往往就能顺利完成复位后重连。</li>
+</ol>
+<h4 id="方案-B：微调自动复位脉冲"><a href="#方案-B：微调自动复位脉冲" class="headerlink" title="方案 B：微调自动复位脉冲"></a>方案 B：微调自动复位脉冲</h4><ul>
+<li><strong>缩短耦合电容</strong>：把 DTR→EN 的 0.1 µF 改成 0.047 µF 或在 EN 上拉电阻并联更小的电容（如 47 nF），让复位脉冲更窄，USB-串口的掉线时间更短。</li>
+<li><strong>加延时脚本</strong>：在 PlatformIO 或 Arduino 的烧录脚本里，在复位后等待 50–100 ms 再去打开串口。</li>
+</ul>
+<h4 id="方案-C：加缓冲电路"><a href="#方案-C：加缓冲电路" class="headerlink" title="方案 C：加缓冲电路"></a>方案 C：加缓冲电路</h4><ul>
+<li>在 EN 节点上再并联一个 <strong>1 kΩ + 100 nF</strong> 的 RC 滤波，软化复位沿，让 ESP 復位更平滑、USB-串口不至于“咔嚓”断线太久。</li>
+<li>或者在 DTR→C→Q1 前串个 <strong>22 Ω</strong> 小电阻，限制脉冲幅度，减少对 USB-串口掉线的影响。</li>
+</ul>
+<h2 id="更新版本"><a href="#更新版本" class="headerlink" title="更新版本"></a>更新版本</h2><p>在网页版打开备份就可以导入了</p>
+<h3 id="二、无法进入下载模式（）"><a href="#二、无法进入下载模式（）" class="headerlink" title="二、无法进入下载模式（）"></a>二、无法进入下载模式（）</h3><h3 id="三、一直重启，串口打印0xfffffff"><a href="#三、一直重启，串口打印0xfffffff" class="headerlink" title="三、一直重启，串口打印0xfffffff"></a>三、一直重启，串口打印0xfffffff</h3>
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/04/29/138-usb-bu-shi-bie-duan-kou-hao/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/05/12/140-arduino-an-zhuang-esp32-huan-jing/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-text">思路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%94%B5%E8%84%91%E8%AF%86%E5%88%AB%E4%B8%8D%E5%88%B0%E4%B8%B2%E5%8F%A3%E5%8F%B7"><span class="toc-text">一、电脑识别不到串口号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%87%BA%E7%8E%B0%E8%BF%99%E4%B8%AA%E9%94%99%E8%AF%AF"><span class="toc-text">为什么会出现这个错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%A1%88-A%EF%BC%9A%E6%89%8B%E5%8A%A8%E5%A4%8D%E4%BD%8D%E5%B9%B6%E9%87%8D%E8%AF%95"><span class="toc-text">方案 A：手动复位并重试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%A1%88-B%EF%BC%9A%E5%BE%AE%E8%B0%83%E8%87%AA%E5%8A%A8%E5%A4%8D%E4%BD%8D%E8%84%89%E5%86%B2"><span class="toc-text">方案 B：微调自动复位脉冲</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%A1%88-C%EF%BC%9A%E5%8A%A0%E7%BC%93%E5%86%B2%E7%94%B5%E8%B7%AF"><span class="toc-text">方案 C：加缓冲电路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E7%89%88%E6%9C%AC"><span class="toc-text">更新版本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%97%A0%E6%B3%95%E8%BF%9B%E5%85%A5%E4%B8%8B%E8%BD%BD%E6%A8%A1%E5%BC%8F%EF%BC%88%EF%BC%89"><span class="toc-text">二、无法进入下载模式（）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%B8%80%E7%9B%B4%E9%87%8D%E5%90%AF%EF%BC%8C%E4%B8%B2%E5%8F%A3%E6%89%93%E5%8D%B00xfffffff"><span class="toc-text">三、一直重启，串口打印0xfffffff</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP32-C3%E6%9D%BF%E5%AD%90 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F04%2F29%2F139-esp32-c3-ban-zi%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/04/29/139-esp32-c3-ban-zi/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

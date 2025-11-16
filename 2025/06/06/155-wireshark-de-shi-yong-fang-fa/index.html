@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      windows环境下Wireshark抓取802.11数据包 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">windows环境下Wireshark抓取802.11数据包</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h1 id="wireshark"><a href="#wireshark" class="headerlink" title="wireshark"></a><a target="_blank" rel="noopener" href="https://www.wireshark.org/docs/wsug_html_chunked/ChCapPrerequisitesSection.html">wireshark</a></h1><p>常见的陷阱：</p>
+<ul>
+<li>您可能需要特殊权限才能开始实时捕获。</li>
+<li>您需要选择正确的网络接口来捕获数据包数据。</li>
+<li>您需要在网络中的正确位置进行捕获，以查看您 想看看。</li>
+</ul>
+<p><strong>查看网卡是否支持Monitor mode</strong></p>
+<p>CMD中输入命令</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">netsh wlan show drivers<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-none"><code class="language-none">C:\Users\Administrator&gt;netsh wlan show drivers
+
+接口名称: WLAN
+
+    驱动程序                  : Realtek 8822CE Wireless LAN 802.11ac PCI-E NIC
+    供应商                    : Realtek Semiconductor Corp.
+    提供程序                  : Realtek Semiconductor Corp.
+    日期                      : 2022&#x2F;6&#x2F;24
+    版本                      : 2024.10.138.0
+    INF 文件                  : oem207.inf
+    类型                      : 本机 WLAN 驱动程序
+    支持的无线电类型          : 802.11n 802.11g 802.11b 802.11ac 802.11n 802.11a
+    支持 FIPS 140-2 模式: 是
+    支持 802.11w 管理帧保护 : 是
+    支持的承载网络  : 否
+    基础结构模式中支持的身份验证和密码:
+                                开放式             无
+                                WPA2 - 个人       CCMP
+                                开放式             WEP-40bit
+                                开放式             WEP-104 位
+                                开放式             WEP
+                                WPA - 企业        TKIP
+                                WPA - 个人        TKIP
+                                WPA2 - 企业       TKIP
+                                WPA2 - 个人       TKIP
+                                WPA - 企业        CCMP
+                                WPA - 个人        CCMP
+                                WPA2 - 企业       CCMP
+                                WPA3 - 个人       CCMP
+                                WPA3 - 企业       GCMP-256
+                                OWE             CCMP
+                                供应商定义的          TKIP
+                                供应商定义的          CCMP
+                                供应商定义的          供应商定义的
+                                供应商定义的          供应商定义的
+                                WPA2 - 企业       供应商定义的
+                                WPA2 - 企业       供应商定义的
+                                供应商定义的          供应商定义的
+                                供应商定义的          供应商定义的
+    支持的无线显示器: 是 (图形驱动程序: 是，WLAN 驱动程序: 是)
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>没显示<code>支持的网络监视模式: 是</code></p>
+<p>不支持 monitor mode</p>
+<img src="/2025/06/06/155-wireshark-de-shi-yong-fang-fa/image-20250607094336183.png" class="" title="image-20250607094336183">
+
+<p><strong>打算使用外置网卡</strong></p>
+<p>- </p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="Wireshark-是否必须搭配-Npcap-使用"><a href="#Wireshark-是否必须搭配-Npcap-使用" class="headerlink" title="Wireshark 是否必须搭配 Npcap 使用"></a>Wireshark 是否必须搭配 Npcap 使用</h2><p>是的，在 Windows 下 <strong>必须使用 Npcap</strong>，因为：</p>
+<blockquote>
+<ul>
+<li><strong>Npcap 是 Wireshark 抓包的底层驱动库</strong>（基于 WinPcap，但已优化、现代化）。</li>
+<li>它负责拦截网络接口上的原始数据包。</li>
+<li><strong>WinPcap 已停止维护</strong>，且不支持 Windows 10&#x2F;11 的新特性，如 Loopback 抓包、监控模式（虽然多数网卡不支持 monitor mode）。</li>
+</ul>
+</blockquote>
+<p>使用 <strong>Npcap 最新版本</strong>：<a target="_blank" rel="noopener" href="https://nmap.org/npcap/">https://nmap.org/npcap/</a></p>
+<ul>
+<li>安装时勾选：<ul>
+<li>✅ <em>“Support raw 802.11 traffic”</em></li>
+<li>✅ <em>“Install Npcap in WinPcap API-compatible Mode”</em></li>
+</ul>
+</li>
+</ul>
+<h2 id="可连接WiFi-无法抓包"><a href="#可连接WiFi-无法抓包" class="headerlink" title="可连接WiFi,无法抓包"></a>可连接WiFi,无法抓包</h2><p>首先wifi beacon数据帧是802.11协议的，包括一些wifi热点名称什么的，那么我的电脑既然能看到wifi名称，并且连接使用并进行通信，为什么无法抓到包呢</p>
+<p>802.11 数据帧包括 Wi-Fi Beacon 帧</p>
+<h3 id="什么是-802-11-帧？"><a href="#什么是-802-11-帧？" class="headerlink" title="什么是 802.11 帧？"></a>什么是 802.11 帧？</h3><p>Wi-Fi 协议层是基于 <strong>IEEE 802.11</strong> 标准的，它定义了：</p>
+<ul>
+<li><strong>管理帧</strong>（例如：Beacon、Probe、Authentication、Association）</li>
+<li><strong>控制帧</strong>（例如：ACK、RTS&#x2F;CTS）</li>
+<li><strong>数据帧</strong>（例如：携带 IP&#x2F;TCP 等信息的数据）</li>
+</ul>
+<p>其中：</p>
+<h3 id="Beacon-帧（信标帧）"><a href="#Beacon-帧（信标帧）" class="headerlink" title="Beacon 帧（信标帧）"></a>Beacon 帧（信标帧）</h3><ul>
+<li>每个 Wi-Fi 热点（AP）大约每 100 毫秒发送一次；</li>
+<li>包含：SSID（Wi-Fi 名称）、BSSID（MAC 地址）、信道、加密方式等；</li>
+<li>是 <strong>广播帧</strong>，不需要关联即可接收。</li>
+</ul>
+<h3 id="❓为什么能连上-Wi-Fi，却抓不到这些帧？"><a href="#❓为什么能连上-Wi-Fi，却抓不到这些帧？" class="headerlink" title="❓为什么能连上 Wi-Fi，却抓不到这些帧？"></a>❓为什么能连上 Wi-Fi，却抓不到这些帧？</h3><p>这是<strong>核心问题</strong>，答案在于 <strong>网卡的工作模式不同</strong>：</p>
+<p>✅ 你的笔记本能看到 Wi-Fi 名称（SSID）是因为：</p>
+<blockquote>
+<p>网卡处于 <strong>管理模式（managed mode）</strong>，这是默认联网用的模式。</p>
+</blockquote>
+<p>它只处理：</p>
+<ul>
+<li>跟你连接的 AP 之间的通信；</li>
+<li>忽略绝大多数广播帧和其他 Wi-Fi 流量；</li>
+<li>且操作系统对网卡驱动做了 <strong>封装处理</strong>，你看到的是以太网数据，而不是原始 802.11 帧。</li>
+</ul>
+<h3 id="抓不到-Beacon-帧："><a href="#抓不到-Beacon-帧：" class="headerlink" title="抓不到 Beacon 帧："></a>抓不到 Beacon 帧：</h3><ol>
+<li><strong>你的无线网卡没有进入“监控模式（Monitor Mode）”</strong><ul>
+<li>Monitor Mode 是一种“旁路监听”状态，可以接收<strong>任何信道、任何源头</strong>发出的 Wi-Fi 帧；</li>
+<li>它不会像 Managed Mode 那样只接收与自己有关的帧。</li>
+</ul>
+</li>
+<li><strong>Windows 驱动（如 Realtek）屏蔽了原始 Wi-Fi 帧访问权限</strong><ul>
+<li>Windows 网络栈屏蔽了 PHY 层和 MAC 层的访问；</li>
+<li>所以 Wireshark 默认只抓到封装后的 IP&#x2F;TCP&#x2F;HTTP，而看不到 Beacon、Probe 等原始帧。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<blockquote>
+<p><em>驱动或者操作系统对底层进行了屏蔽和封装</em>*</p>
+</blockquote>
+<h1 id="可用芯片"><a href="#可用芯片" class="headerlink" title="可用芯片"></a>可用芯片</h1><p><a target="_blank" rel="noopener" href="https://github.com/morrownr/USB-WiFi">morrownr&#x2F;USB-WiFi：适用于 Linux 的 USB WiFi 适配器信息</a></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zzwwhhpp/article/details/113077747?ops_request_misc=%7B%22request_id%22:%223f842fadafd77f474a9d333be409a22c%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=3f842fadafd77f474a9d333be409a22c&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-113077747-null-null.142%5Ev102%5Epc_search_result_base2&utm_term=wireshark&spm=1018.2226.3001.4187">网络分析工具——WireShark的使用（超详细）-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/711435039">Windows下使用USB网卡捕获6GHz报文（自编程序&#x2F;mt7921网卡） - 知乎</a></p>
+<p>⚠️:这个讲的很好<a target="_blank" rel="noopener" href="https://www.bilibili.com/opus/939200435887013909">Windows 上的 Wireshark 抓包教程 - 哔哩哔哩</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/DontDash/article/details/140425401">Windows下使用USB网卡抓WiFi报文&#x2F;空口抓包（虚拟机+Wireshark抓包）_winsniffer-CSDN博客</a></p>
+<blockquote>
+<p>空口抓包需要开启网卡监听模式，而这个操作又需要网卡芯片与驱动支持。Windows空口抓包的难点在于Windows下的网卡<code>原生驱动</code>都是不支持开启网卡监听模式的，而Linux下的原生驱动大多支持开启网卡监听模式，如果能将Linux中的驱动“移植”到Windows系统中，那就能很好解决这个问题。<br>根据此构想，笔者实现了一种简易、低成本、适用性广的Windows下空口抓包方案。<strong>通过<a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=245643816&content_type=Article&match_order=1&q=VMware%E8%99%9A%E6%8B%9F%E6%9C%BA&zhida_source=entity">VMware虚拟机</a>启用一个Kali虚拟机，在Kali下开启无线网卡的监听模式，并使用rpcapd暴露虚拟机种的网卡接口，最后在Windows下使用Wireshark的远程抓包功能即可实现空口抓包。</strong></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.aneasystone.com/archives/2016/08/wireless-analysis-one-monitoring.html">实战无线网络分析（篇一）无线监听 - aneasystone’s blog</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/06/06/154-feng-ming-qi/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/06/06/156-xu-liu-er-ji-guan/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#wireshark"><span class="toc-text">wireshark</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Wireshark-%E6%98%AF%E5%90%A6%E5%BF%85%E9%A1%BB%E6%90%AD%E9%85%8D-Npcap-%E4%BD%BF%E7%94%A8"><span class="toc-text">Wireshark 是否必须搭配 Npcap 使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E8%BF%9E%E6%8E%A5WiFi-%E6%97%A0%E6%B3%95%E6%8A%93%E5%8C%85"><span class="toc-text">可连接WiFi,无法抓包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-802-11-%E5%B8%A7%EF%BC%9F"><span class="toc-text">什么是 802.11 帧？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Beacon-%E5%B8%A7%EF%BC%88%E4%BF%A1%E6%A0%87%E5%B8%A7%EF%BC%89"><span class="toc-text">Beacon 帧（信标帧）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9D%93%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E8%BF%9E%E4%B8%8A-Wi-Fi%EF%BC%8C%E5%8D%B4%E6%8A%93%E4%B8%8D%E5%88%B0%E8%BF%99%E4%BA%9B%E5%B8%A7%EF%BC%9F"><span class="toc-text">❓为什么能连上 Wi-Fi，却抓不到这些帧？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%93%E4%B8%8D%E5%88%B0-Beacon-%E5%B8%A7%EF%BC%9A"><span class="toc-text">抓不到 Beacon 帧：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%AF%E7%94%A8%E8%8A%AF%E7%89%87"><span class="toc-text">可用芯片</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + windows%E7%8E%AF%E5%A2%83%E4%B8%8BWireshark%E6%8A%93%E5%8F%96802.11%E6%95%B0%E6%8D%AE%E5%8C%85 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F06%2F06%2F155-wireshark-de-shi-yong-fang-fa%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/06/06/155-wireshark-de-shi-yong-fang-fa/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

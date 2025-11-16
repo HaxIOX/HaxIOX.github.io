@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      FreeRTOS 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">FreeRTOS</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h1 id="FreeRTOS"><a href="#FreeRTOS" class="headerlink" title="FreeRTOS"></a>FreeRTOS</h1><p>FreeRTOS是一个轻量级的实时操作系统，专为微控制器和小型嵌入式系统设计。它具有以下特点：</p>
+<ul>
+<li>开源且免费使用</li>
+<li>占用资源少，适合资源受限的设备</li>
+<li>支持多任务并发执行</li>
+<li>提供任务调度、任务间通信、定时器等功能</li>
+<li>可移植性强，支持多种处理器架构</li>
+</ul>
+<blockquote>
+<p>总结：大佬封装的支持多任务并发的嵌入式操作系统</p>
+</blockquote>
+<h3 id="FreeRTOS-核心概念入门"><a href="#FreeRTOS-核心概念入门" class="headerlink" title="FreeRTOS 核心概念入门"></a>FreeRTOS 核心概念入门</h3><p>在开始写代码之前，我们先理解几个 FreeRTOS 最核心的概念：</p>
+<ol>
+<li><strong>任务 (Task)</strong>：<ul>
+<li>你可以把任务看作是一个独立的、拥有自己执行流程的小程序或函数。</li>
+<li>在 FreeRTOS 中，你的应用程序会被分解成一个或多个任务。</li>
+<li>每个任务都有自己的<strong>堆栈 (Stack)</strong>，用来存储局部变量和函数调用信息。</li>
+<li>每个任务都有一个<strong>优先级 (Priority)</strong>，优先级高的任务会优先获得 CPU 时间。</li>
+<li>任务可以处于不同的<strong>状态</strong> (运行、就绪、阻塞、挂起)。</li>
+</ul>
+</li>
+<li><strong>调度器 (Scheduler)</strong>：<ul>
+<li>调度器是 FreeRTOS 的“大脑”。它的工作是决定在任何时刻，哪个任务应该占用 CPU 运行。</li>
+<li>FreeRTOS 通常使用<strong>抢占式调度 (Preemptive Scheduling)</strong>：如果一个高优先级的任务准备好运行了，调度器会立即中断当前正在运行的低优先级任务，让高优先级任务执行。</li>
+<li>调度器也支持<strong>时间片轮转 (Time Slicing)</strong>：对于相同优先级的任务，调度器会给每个任务分配一小段 CPU 时间（时间片），然后轮流执行它们。</li>
+</ul>
+</li>
+<li><strong>时钟节拍 (Tick)</strong>：<ul>
+<li>FreeRTOS 需要一个周期性的硬件定时器中断，称为“时钟节拍”或“系统节拍”(System Tick)。</li>
+<li>这个节拍是 FreeRTOS 进行时间管理和任务调度的基础。例如，<code>vTaskDelay()</code> 函数就是基于时钟节拍来实现延时的。</li>
+<li>在 ESP-IDF 中，这个时钟节拍已经由底层配置好了，你通常不需要关心它的具体实现。</li>
+</ul>
+</li>
+</ol>
+<h1 id="ESP32应用"><a href="#ESP32应用" class="headerlink" title="ESP32应用"></a>ESP32应用</h1><p><strong>ESP-IDF 是深度基于 FreeRTOS 构建的，对于绝大多数开发者来说，使用 ESP-IDF 进行开发，就是在隐式或显式地使用 FreeRTOS。</strong></p>
+<p>让我们来详细拆解一下这个关系。</p>
+<h3 id="1-ESP32-的硬件与软件层次"><a href="#1-ESP32-的硬件与软件层次" class="headerlink" title="1. ESP32 的硬件与软件层次"></a>1. ESP32 的硬件与软件层次</h3><p>我们可以把 ESP32 的软件系统看作一个“千层蛋糕”：</p>
+<pre class="line-numbers language-none"><code class="language-none">+---------------------------------------------------+
+|                  你的应用程序 (Your Application)   |  &lt;-- 你写的代码，比如 uart_echo_task, sniffer_task
++---------------------------------------------------+
+|      ESP-IDF 高层组件 (Wi-Fi, Bluetooth, HTTP)      |  &lt;-- 比如 esp_wifi_start(), esp_http_client_perform()
++---------------------------------------------------+
+|      ESP-IDF 驱动层 (Driver Layer)                |  &lt;-- 比如 uart_driver_install(), gpio_set_level()
++---------------------------------------------------+
+|           FreeRTOS (实时操作系统内核)             |  &lt;-- 任务调度、队列、信号量、定时器等
++---------------------------------------------------+
+|      底层硬件抽象层 (HAL) &amp; Bootloader           |  &lt;-- 直接与硬件寄存器打交道的部分
++---------------------------------------------------+
+|                   ESP32 硬件 (Hardware)           |  &lt;-- 芯片本身 (CPU, Wi-Fi, GPIO...)
++---------------------------------------------------+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>从这个结构可以看出：</p>
+<ul>
+<li><strong>FreeRTOS 处于非常底层的位置</strong>，它直接管理着 CPU 核心，决定了在任何一个时刻，哪个代码片段（任务）可以运行。</li>
+<li><strong>你写的应用程序</strong> 和 <strong>ESP-IDF 的所有高级功能</strong> 都运行在 FreeRTOS 之上，作为 FreeRTOS 的“任务”存在。</li>
+</ul>
+<h3 id="2-“ESP32-的底层全是-FreeRTOS”-这句话为什么有道理？"><a href="#2-“ESP32-的底层全是-FreeRTOS”-这句话为什么有道理？" class="headerlink" title="2. “ESP32 的底层全是 FreeRTOS” - 这句话为什么有道理？"></a>2. “ESP32 的底层全是 FreeRTOS” - 这句话为什么有道理？</h3><ol>
+<li><strong>任务调度是核心</strong>：ESP-IDF 的整个系统都是围绕 FreeRTOS 的多任务机制设计的。比如，Wi-Fi 协议栈、蓝牙协议栈、TCP&#x2F;IP 协议栈（LwIP）等这些复杂的功能，都在后台作为独立的、高优先级的 FreeRTOS 任务运行。当你调用 <code>esp_wifi_start()</code> 时，你实际上是启动了几个由乐鑫官方写好的后台任务。</li>
+<li><strong>app_main 本身就是一个任务</strong>：你的程序入口 <code>app_main</code> 函数，实际上并不是一个像传统单片机 <code>main()</code> 函数那样从头跑到尾的东西。在系统启动后，ESP-IDF 会初始化好底层服务，然后创建一个名为 “main” 的 FreeRTOS 任务，并让这个任务去执行 <code>app_main</code> 函数。所以，<strong>你写的第一个函数就已经跑在 FreeRTOS 的环境里了</strong>。</li>
+<li><strong>驱动和组件是“线程安全”的</strong>：由于系统是多任务的，ESP-IDF 的大部分 API 都被设计为“线程安全”的。这意味着你可以在不同的任务中调用同一个驱动函数（比如 <code>esp_log_write</code>），而不用担心数据会混乱。这背后都是通过 FreeRTOS 的互斥锁（Mutexes）或信号量（Semaphores）等同步机制来实现的。</li>
+<li><strong>事件驱动模型</strong>：ESP-IDF 大量使用事件循环（Event Loop）。当你连接 Wi-Fi 时，你不是写一个 <code>while(isConnected == false)</code> 的循环去等待，而是注册一个回调函数。当 Wi-Fi 连接成功或失败时，Wi-Fi 的后台任务会通过 FreeRTOS 的队列（Queue）发送一个事件，然后事件循环任务接收到这个事件，再调用你注册的回调函数。整个过程都是由 FreeRTOS 的通信机制驱动的。</li>
+</ol>
+<h2 id="临界区、互斥锁、信号量"><a href="#临界区、互斥锁、信号量" class="headerlink" title="临界区、互斥锁、信号量"></a>临界区、互斥锁、信号量</h2><ol>
+<li><ul>
+<li>“临界区”是一个源自<strong>操作系统 (Operating System) 理论</strong>的概念。它指的是一段代码，这段代码会访问一个共享资源（比如一个全局变量、一个串口），在同一时间，绝不能被多个任务同时访问。</li>
+<li>在您的项目中，<strong>FreeRTOS</strong> 就是一个嵌入式操作系统。是 <strong>FreeRTOS</strong> 提供了实现“临界区”这个概念的具体工具，也就是 <code>taskENTER_CRITICAL()</code> 和 <code>taskEXIT_CRITICAL()</code> 这两个函数。</li>
+</ul>
+</li>
+</ol>
+<p><strong>简单来说</strong>：C语言是您用来写代码的<strong>语言</strong>，而 FreeRTOS 是为您提供多任务、队列、互斥锁、临界区等高级功能的<strong>平台或库</strong>。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>所以，最准确的理解是：</p>
+<p><strong>ESP-IDF 将 FreeRTOS 作为其操作系统的内核，并围绕其构建了整个软件框架。你无法绕过 FreeRTOS 来使用 ESP-IDF。</strong></p>
+<ul>
+<li>对于<strong>简单项目</strong>，你可以把它当作一个“增强版的 Arduino”，只在 <code>app_main</code> 里写代码，只使用 <code>vTaskDelay()</code>，这时你是在<strong>被动地、隐式地</strong>享受 FreeRTOS 带来的好处。</li>
+<li>对于<strong>复杂项目</strong>，你必须把它当作一个真正的多任务嵌入式系统，主动学习并使用 FreeRTOS 提供的 <strong>Task, Queue, Semaphore</strong> 等强大工具来组织你的代码。这才是发挥 ESP32 和 ESP-IDF 全部潜力的正确方式。</li>
+</ul>
+<h1 id="STM32-标准库开发-vs-ESP-IDF-基于-FreeRTOS"><a href="#STM32-标准库开发-vs-ESP-IDF-基于-FreeRTOS" class="headerlink" title="STM32 标准库开发 vs ESP-IDF (基于 FreeRTOS)"></a>STM32 标准库开发 vs ESP-IDF (基于 FreeRTOS)</h1><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>STM32F103 + 标准库 (裸机开发)</th>
+<th>ESP32-S3 + ESP-IDF (基于 RTOS)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>执行模型</strong></td>
+<td><strong>单线程，顺序执行</strong>。程序从 <code>main()</code> 函数开始，通常进入一个 <code>while(1)</code> 无限循环。所有事情都在这个循环里排队完成。</td>
+<td><strong>多任务，并发执行</strong>。<code>app_main</code> 本身就是一个任务。你可以创建多个任务，由 FreeRTOS 在它们之间快速切换，实现“伪并行”。</td>
+</tr>
+<tr>
+<td><strong>CPU 控制权</strong></td>
+<td><strong>你完全掌控 CPU</strong>。CPU 严格按照你的代码顺序执行。一个耗时操作（如 <code>delay()</code>）会<strong>完全霸占</strong> CPU，期间其他任何事情都做不了。</td>
+<td><strong>你与 RTOS 共享 CPU</strong>。当你调用 <code>vTaskDelay()</code> 时，你是在<strong>主动放弃</strong> CPU，让 FreeRTOS 去运行其他任务。CPU 利用率极高。</td>
+</tr>
+<tr>
+<td><strong>实时性</strong></td>
+<td><strong>难以保证</strong>。如果在主循环里有一个耗时很长的函数，那么排在它后面的任务就必须等待，响应时间无法预测。</td>
+<td><strong>可预测</strong>。通过为不同任务设置不同优先级，可以确保重要任务（如电机控制）总能优先获得 CPU 时间，响应更及时。</td>
+</tr>
+<tr>
+<td><strong>代码结构</strong></td>
+<td><strong>状态机（State Machine）</strong>。所有逻辑都挤在 <code>main</code> 函数的 <code>while(1)</code> 循环里，通常用 <code>if-else</code> 或 <code>switch-case</code> 结构来管理不同的状态。代码容易变得复杂和臃肿。</td>
+<td><strong>模块化（Modular）</strong>。每个功能（如按键处理、屏幕显示、网络通信）都可以封装成一个独立的任务，代码结构清晰，易于维护和扩展。</td>
+</tr>
+<tr>
+<td><strong>资源管理</strong></td>
+<td><strong>由你手动管理</strong>。所有全局变量都可以被任何代码访问，容易产生冲突，需要开发者自己小心处理。</td>
+<td><strong>由 RTOS 辅助管理</strong>。可以使用队列、信号量、互斥锁等机制来安全地在任务间共享数据和资源，避免冲突。</td>
+</tr>
+<tr>
+<td><strong>底层关系</strong></td>
+<td><strong>直接操作硬件</strong>。标准库函数本质上是对硬件寄存器的封装。你写的代码非常接近硬件底层。</td>
+<td><strong>通过 RTOS 和驱动层</strong>。你的代码通过 FreeRTOS 和 ESP-IDF 驱动层与硬件交互，多了一层抽象，但也更安全、更方便。</td>
+</tr>
+</tbody></table>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/05/28/146-cursor-shi-yong-di-san-fang-api/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/06/01/149-mo-yi-xia-ipv6/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FreeRTOS"><span class="toc-text">FreeRTOS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FreeRTOS-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E5%85%A5%E9%97%A8"><span class="toc-text">FreeRTOS 核心概念入门</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ESP32%E5%BA%94%E7%94%A8"><span class="toc-text">ESP32应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ESP32-%E7%9A%84%E7%A1%AC%E4%BB%B6%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B1%82%E6%AC%A1"><span class="toc-text">1. ESP32 的硬件与软件层次</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E2%80%9CESP32-%E7%9A%84%E5%BA%95%E5%B1%82%E5%85%A8%E6%98%AF-FreeRTOS%E2%80%9D-%E8%BF%99%E5%8F%A5%E8%AF%9D%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E9%81%93%E7%90%86%EF%BC%9F"><span class="toc-text">2. “ESP32 的底层全是 FreeRTOS” - 这句话为什么有道理？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%B4%E7%95%8C%E5%8C%BA%E3%80%81%E4%BA%92%E6%96%A5%E9%94%81%E3%80%81%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="toc-text">临界区、互斥锁、信号量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#STM32-%E6%A0%87%E5%87%86%E5%BA%93%E5%BC%80%E5%8F%91-vs-ESP-IDF-%E5%9F%BA%E4%BA%8E-FreeRTOS"><span class="toc-text">STM32 标准库开发 vs ESP-IDF (基于 FreeRTOS)</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + FreeRTOS + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F05%2F28%2F147-freertos%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/05/28/147-freertos/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

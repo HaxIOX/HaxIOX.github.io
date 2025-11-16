@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      Arduino安装Ameba开发板 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">Arduino安装Ameba开发板</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
+<li>Arduino IDE 2.3.6</li>
+<li>本地代理127.0.0.1:7890</li>
+<li>proxfier</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>SDK<a target="_blank" rel="noopener" href="https://github.com/Ameba-AIoT/ameba-arduino-d?tab=readme-ov-file">Ameba-AIoT&#x2F;ameba-arduino-d： AmebaD Arduino 第三方包 SDK</a></p>
+<p>添加链接(文件-&gt;首选项-&gt;开发版地址)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">https:&#x2F;&#x2F;github.com&#x2F;Ameba-AIoT&#x2F;ameba-arduino-d&#x2F;raw&#x2F;master&#x2F;Arduino_package&#x2F;package_realtek_amebad_index.json<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>报错</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Some indexes could not be updated. Get &quot;https:&#x2F;&#x2F;github.com&#x2F;Ameba-AIoT&#x2F;ameba-arduino-d&#x2F;raw&#x2F;master&#x2F;Arduino_package&#x2F;package_realtek_amebad_index.json&quot;: dial tcp 20.205.243.166:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.: https:&#x2F;&#x2F;github.com&#x2F;Ameba-AIoT&#x2F;ameba-arduino-d&#x2F;raw&#x2F;master&#x2F;Arduino_package&#x2F;package_realtek_amebad_index.json<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这个开启本地全局代理一般可以解决</p>
+<p>然后打开开发版管理器,搜索<code>**ameba**</code>安装</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">平台安装失败：&#39;Realtek Ameba Boards (32-bits ARM Cortex-M33 @200MHz):3.1.8&#39; 2 UNKNOWN: Get &quot;https:&#x2F;&#x2F;github.com&#x2F;ambiot&#x2F;ambd_arduino&#x2F;raw&#x2F;master&#x2F;Arduino_package&#x2F;release&#x2F;ameba_d_toolchain_windows-1.0.1.tar.bz2&quot;: read tcp 192.168.71.92:63610-&gt;20.205.243.166:443: wsarecv: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>原因分析</strong>：</p>
+<ol>
+<li><strong>Arduino IDE（尤其是 2.x 版）不会自动使用 Windows 系统设置里的“代理”</strong>。即便你在 Windows 设置 → 网络和 Internet → 代理 中把“手动设置代理服务器”打开，写了 <code>127.0.0.1:10808</code>（V2Ray 本地 SOCKS5&#x2F;HTTP 端口），IDE 并不会自动去读取这块设置。</li>
+<li><strong>当你用 Proxifier、Clash 这类“进程级拦截”软件时，如果配置有误，Arduino 进程的网络流量也可能没有被拦截到代理</strong>。常见误区包括：<ul>
+<li>进程名称（Applications）写错了：例如 Proxifier 规则里写成 <code>&quot;arduino ide.exe&quot;</code>，但实际 IDE 进程是 <code>arduino.exe</code>，两者不匹配，拦截不到。</li>
+<li>DNS 请求没有走代理：默认情况下 Proxifier 是让 Windows 本地先做 DNS 解析，从而把 <code>raw.githubusercontent.com</code> 解析到一个 IP。如果该 IP 无法直连（被屏蔽或限速），就会出现 “no data of the requested type” 或 “lookup … failed” 的错误。</li>
+<li>规则优先级排错：如果“默认（Default）”规则比 “Arduino” 规则排在更前面，所有流量都走“Direct”，就根本不会走代理。</li>
+</ul>
+</li>
+</ol>
+<h2 id="Proxifier"><a href="#Proxifier" class="headerlink" title="Proxifier"></a>Proxifier</h2><p>Proxifier 是一款在 Windows 和 macOS 平台上常用的网络代理工具，其主要功能是将系统中所有（或指定）应用程序的网络连接“强制”通过一个或多个代理服务器进行转发。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>Profile-&gt;Proxy Server-&gt;配置本地代理端口(代理软件内可以看到)</p>
+<img src="/2025/06/03/153-arduino-an-zhuang-ameba-kai-fa-ban/1748932943075.png" class="" width="1748932943075">
+
+<p>在rule里面设置过代理的应用</p>
+<img src="/2025/06/03/153-arduino-an-zhuang-ameba-kai-fa-ban/1748933004753.png" class="" width="1748933004753">
+
+<img src="/2025/06/03/153-arduino-an-zhuang-ameba-kai-fa-ban/1748933056282.png" class="" width="1748933056282">
+
+<p><strong>然后继续尝试安装</strong></p>
+<p>DNS报错</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">平台安装失败：&#39;Realtek Ameba Boards (32-bits ARM Cortex-M33 @200MHz):3.1.8&#39; 2 UNKNOWN: Get &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Ameba-AIoT&#x2F;ameba-arduino-d&#x2F;master&#x2F;Arduino_package&#x2F;release&#x2F;ameba_d_toolchain_windows-1.0.1.tar.bz2&quot;: dial tcp: lookup raw.githubusercontent.com: getaddrinfow: The requested name is valid, but no data of the requested type was found.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="DNS-解析依旧本地化，没走到代理服务器"><a href="#DNS-解析依旧本地化，没走到代理服务器" class="headerlink" title="DNS 解析依旧本地化，没走到代理服务器"></a>DNS 解析依旧本地化，没走到代理服务器</h3><ul>
+<li><strong>问题表现</strong>：错误信息里写到 “lookup raw.githubusercontent.com: getaddrinfow: The requested name is valid, but no data of the requested type was found.” 这实际上是一个 DNS 解析层面的问题：<ul>
+<li>Windows 本地 DNS 未能正确解析 <code>raw.githubusercontent.com</code>，可能解析到了一个被屏蔽或根本没有 A 记录／AAAA 记录的结果。</li>
+<li>由于 DNS 解析没有经过代理，IDE 拿到错误的 IP，或者根本没有 IP，就直接连不通。</li>
+</ul>
+</li>
+<li><strong>原因分析</strong>：即便你某个代理软件（Clash&#x2F;Proxifier&#x2F;V2RayN）已经启动，只要没有设置“DNS 走代理”，默认情况下 DNS 查询还是走本地系统，外网 DNS 解析失败就导致 IDE 进一步发 TCP 请求时直接超时。</li>
+</ul>
+<blockquote>
+<p>双击窗口右下角DNS,取消第一个,勾选第二个</p>
+<img src="/2025/06/03/153-arduino-an-zhuang-ameba-kai-fa-ban/1748933152898.png" class="" width="1748933152898"></blockquote>
+<p>安装完成!还顺便把esp32的包更到最新了,over</p>
+<blockquote>
+<p>⚠️：这个软件不用时需要关掉,否则容易出现ssh远程服务器失败,或者无法上网的情况</p>
+<p>记得关掉arduino 首选项里的代理</p>
+</blockquote>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://blog.xiaoz.org/archives/20785">如何使用Proxifier实现应用级代理：一步步教程 - 小z博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/12613">渗透必备：使用Proxifier玩转代理-先知社区</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/06/02/152-nezha-tan-zhen-da-jian/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/06/06/154-feng-ming-qi/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Proxifier"><span class="toc-text">Proxifier</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD"><span class="toc-text">功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS-%E8%A7%A3%E6%9E%90%E4%BE%9D%E6%97%A7%E6%9C%AC%E5%9C%B0%E5%8C%96%EF%BC%8C%E6%B2%A1%E8%B5%B0%E5%88%B0%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">DNS 解析依旧本地化，没走到代理服务器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Arduino%E5%AE%89%E8%A3%85Ameba%E5%BC%80%E5%8F%91%E6%9D%BF + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F06%2F03%2F153-arduino-an-zhuang-ameba-kai-fa-ban%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/06/03/153-arduino-an-zhuang-ameba-kai-fa-ban/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
