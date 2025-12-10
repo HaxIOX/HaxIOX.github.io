@@ -10,10 +10,13 @@
   <!-- 用于搜索引擎的文章摘要 -->
   
   
-    <meta name="robots" content="noindex" />
-  
   
   <title>
+    
+      ESP32_I2S播放音频 
+      
+      
+      |
     
      南北的猫
   </title>
@@ -109,177 +112,145 @@
 
 
       <div class="flex-container">
-        <div class="container index">
-  <div class="post-list">
-    <!-- 遍历渲染文章 -->
-    
-      <div class="post-item" title="todolist网站搭建">
-        <div class="time-m-d">2025-06-08</div>
-        <div class="title">
-          <a href="/2025/06/08/157-todolist-wang-zhan-da-jian/">
-            
-              
-                <span>todolist网站搭建</span>
-              
-            
-          </a>
-        </div>
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">ESP32_I2S播放音频</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-12-10 17:47:46
+        </span>
+        
       </div>
-    
-      <div class="post-item" title="续流二极管">
-        <div class="time-m-d">2025-06-06</div>
-        <div class="title">
-          <a href="/2025/06/06/156-xu-liu-er-ji-guan/">
-            
-              
-                <span>续流二极管</span>
-              
-            
-          </a>
-        </div>
+      <div class="markdown-body">
+        <h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>硬件配置是单声道，还是立体声道，不匹配会导致没有声音</p>
+<ol>
+<li>如果是”爆音&#x2F;破音” → 放大倍数过大，波形削顶<ul>
+<li>原始数据如果幅度较大，8倍放大后会频繁触发饱和限幅</li>
+<li>解决：降低 VOLUME 到 2.0 ~ 4.0</li>
+</ul>
+</li>
+<li>如果是”底噪&#x2F;嘶嘶声” → 与放大倍数无关</li>
+</ol>
+<pre><code>- 可能是电源干扰、接地问题、或音频数据本身有噪声
+</code></pre>
+<ol start="3">
+<li>如果是”咔哒声&#x2F;断续” → DMA 缓冲区问题</li>
+</ol>
+<pre><code>- 数据送得不够快
+</code></pre>
+<p>4.播放声音为风声或者怪兽音可能是采样频率过低</p>
+<p>5.从服务器下载数据时出现日志</p>
+<p>错误：Connection reset by peer（服务器端断开连接）</p>
+<blockquote>
+<p> 可能原因：</p>
+<ol>
+<li>服务器超时 - 下载时间过长，服务器主动断开</li>
+<li>网络不稳定 - WiFi 信号或路由问题</li>
+<li>HTTP 服务器配置 - keep-alive 超时太短</li>
+</ol>
+</blockquote>
+
       </div>
-    
-      <div class="post-item" title="windows环境下Wireshark抓取802.11数据包">
-        <div class="time-m-d">2025-06-06</div>
-        <div class="title">
-          <a href="/2025/06/06/155-wireshark-de-shi-yong-fang-fa/">
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
             
-              
-                <span>windows环境下Wireshark抓取802.11数据包</span>
-              
+              <a href="/2025/11/16/206-chatgpt-ni-xiang/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
             
-          </a>
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-12-10 17:47:46
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
         </div>
-      </div>
+      
+    </div>
     
-      <div class="post-item" title="蜂鸣器">
-        <div class="time-m-d">2025-06-06</div>
-        <div class="title">
-          <a href="/2025/06/06/154-feng-ming-qi/">
-            
-              
-                <span>蜂鸣器</span>
-              
-            
-          </a>
-        </div>
-      </div>
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
     
-      <div class="post-item" title="Arduino安装Ameba开发板">
-        <div class="time-m-d">2025-06-03</div>
-        <div class="title">
-          <a href="/2025/06/03/153-arduino-an-zhuang-ameba-kai-fa-ban/">
-            
-              
-                <span>Arduino安装Ameba开发板</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="Nezha探针搭建(V1.12.4)">
-        <div class="time-m-d">2025-06-02</div>
-        <div class="title">
-          <a href="/2025/06/02/152-nezha-tan-zhen-da-jian/">
-            
-              
-                <span>Nezha探针搭建(V1.12.4)</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="bat脚本">
-        <div class="time-m-d">2025-06-02</div>
-        <div class="title">
-          <a href="/2025/06/02/151-bat-jiao-ben/">
-            
-              
-                <span>bat脚本</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="夸克网盘自动签到">
-        <div class="time-m-d">2025-06-01</div>
-        <div class="title">
-          <a href="/2025/06/01/150-kua-ke-wang-pan-zi-dong-qian-dao/">
-            
-              
-                <span>夸克网盘自动签到</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="摸一下ipv6">
-        <div class="time-m-d">2025-06-01</div>
-        <div class="title">
-          <a href="/2025/06/01/149-mo-yi-xia-ipv6/">
-            
-              
-                <span>摸一下ipv6</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="FreeRTOS">
-        <div class="time-m-d">2025-05-28</div>
-        <div class="title">
-          <a href="/2025/05/28/147-freertos/">
-            
-              
-                <span>FreeRTOS</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="Cursor使用第三方api">
-        <div class="time-m-d">2025-05-28</div>
-        <div class="title">
-          <a href="/2025/05/28/146-cursor-shi-yong-di-san-fang-api/">
-            
-              
-                <span>Cursor使用第三方api</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
-      <div class="post-item" title="共模电路">
-        <div class="time-m-d">2025-05-27</div>
-        <div class="title">
-          <a href="/2025/05/27/144-gong-mo-dian-lu/">
-            
-              
-                <span>共模电路</span>
-              
-            
-          </a>
-        </div>
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
       </div>
     
   </div>
-  <nav class="post-navigation">
-    
-      <a href="/page/4/"><i class="iconfont icon-angleleft"></i></a>
-    
-    <span class="page-num">5 / 17</span>
-    
-      <a href="/page/6/"><i class="iconfont icon-angleright"></i></a>
-    
-  </nav>
-</div>
+
 
         
 <div class="footer">
@@ -536,6 +507,24 @@
 
 
         
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP32_I2S%E6%92%AD%E6%94%BE%E9%9F%B3%E9%A2%91 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F12%2F10%2F207-esp32-i2s-bo-fang-yin-pin%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/12/10/207-esp32-i2s-bo-fang-yin-pin/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
   
   
 <script src="/js/shares.js"></script>
