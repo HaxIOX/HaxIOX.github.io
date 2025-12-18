@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      使用反向代理隔离源站 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">使用反向代理隔离源站</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-12-13 11:27:57
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" title="反向代理">
+                    #反向代理
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>想搞一下中转站，赚点小钱钱，又怕有大佬攻城，想藏一下源ip，但是使用cloudflare代理的效果不太好，于是去求助伟大的gpt，向G老师学习</p>
+<blockquote>
+<p>“用入口反向代理做了源站 IP 隔离，源站只对白名单入口开放，不直接暴露公网。”</p>
+</blockquote>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
+<li><p>一台源站附近的代理服务器(目前用低配置1c1g的美国优化机测试)</p>
+<blockquote>
+<p>代理服务器放在「离源站最近」的地区，而不是离用户最近。</p>
+</blockquote>
+</li>
+<li><p>一台源服务器</p>
+</li>
+</ul>
+<h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><h2 id="iptables"><a href="#iptables" class="headerlink" title="iptables"></a>iptables</h2><p>“iptables 是 Linux 内核里的“网络安检规则表”</p>
+<p>所有进出服务器的数据包都经过iptables的检查</p>
+<h2 id="iptables-在系统里的真实位置"><a href="#iptables-在系统里的真实位置" class="headerlink" title="iptables 在系统里的真实位置"></a>iptables 在系统里的真实位置</h2><p>数据流不是直接到 Nginx &#x2F; Docker 的，而是：</p>
+<pre class="line-numbers language-none"><code class="language-none">网卡
+ ↓
+Linux 内核网络栈
+ ↓
+iptables
+ ↓
+Nginx &#x2F; SSH &#x2F; Docker<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h3><ul>
+<li><p>表-filter表-放行&#x2F;拒绝&#x2F;丢弃</p>
+</li>
+<li><p>链</p>
+<blockquote>
+<p>INPUT ——「进本机」</p>
+<p>OUTPUT ——「本机发出去」</p>
+<p>FORWARD ——「转发」</p>
+<p>典型场景：</p>
+<ul>
+<li>Docker 容器</li>
+<li>NAT 网关</li>
+<li>虚拟机桥接</li>
+</ul>
+</blockquote>
+</li>
+<li><p>规则</p>
+<p>ptables 是 <strong>从上往下</strong> 一条一条看：</p>
+<pre class="line-numbers language-none"><code class="language-none">第一条不匹配 → 看第二条
+匹配了 → 立刻执行动作 → 停止<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>动作包括：</p>
+<ul>
+<li>ACCEPT（放行）</li>
+<li>DROP（直接丢）</li>
+<li>REJECT（丢并告诉对方）</li>
+<li>RETURN（回到上一层链）</li>
+</ul>
+</li>
+</ul>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ul>
+<li>封锁源站防火墙，只对代理ip开放</li>
+<li>代理服务器将</li>
+</ul>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="源站"><a href="#源站" class="headerlink" title="源站"></a>源站</h2><h3 id="源站仅接受代理机的访问"><a href="#源站仅接受代理机的访问" class="headerlink" title="源站仅接受代理机的访问"></a>源站仅接受代理机的访问</h3><p>在源站上（别把自己 SSH 锁死了，先放行 22 的你的管理 IP）：</p>
+<pre class="line-numbers language-none"><code class="language-none"># 先允许 SSH（把 YOUR_IP 换成你自己的公网IP；没有固定IP就先临时放开22）
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+# 允许已建立连接
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# 只允许代理访问静态站 80
+iptables -A INPUT -s PROXY_IP -p tcp --dport 80 -j ACCEPT
+
+# 只允许代理访问 docker 3000
+iptables -A INPUT -s PROXY_IP -p tcp --dport 3000 -j ACCEPT
+
+# 回环
+iptables -A INPUT -i lo -j ACCEPT
+
+# 默认拒绝（放最后执行，避免断连）
+iptables -P INPUT DROP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>源站 443 不需要开放。</p>
+</blockquote>
+<hr>
+<h3 id="确认源站服务监听没问题"><a href="#确认源站服务监听没问题" class="headerlink" title="确认源站服务监听没问题"></a>确认源站服务监听没问题</h3><p>源站上跑：</p>
+<pre class="line-numbers language-none"><code class="language-none">ss -lntp | egrep &#39;:80|:3000&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>你应该看到：</p>
+<ul>
+<li><code>:80</code> 在监听（静态站）</li>
+<li><code>:3000</code> 在监听（docker 应用）</li>
+</ul>
+<h2 id="代理机"><a href="#代理机" class="headerlink" title="代理机"></a>代理机</h2><h3 id="安装-Nginx-证书工具"><a href="#安装-Nginx-证书工具" class="headerlink" title="安装 Nginx + 证书工具"></a>安装 Nginx + 证书工具</h3><p>在代理机：</p>
+<pre class="line-numbers language-none"><code class="language-none">apt update
+apt install -y nginx certbot python3-certbot-nginx
+rm -f &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;default<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="代理机：先上“HTTP配置”（让-certbot-能签证书）"><a href="#代理机：先上“HTTP配置”（让-certbot-能签证书）" class="headerlink" title="代理机：先上“HTTP配置”（让 certbot 能签证书）"></a>代理机：先上“HTTP配置”（让 certbot 能签证书）</h3><p>创建配置：</p>
+<pre class="line-numbers language-none"><code class="language-none">vim &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;web<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>贴入（先用 80，后面 certbot 会自动改成 443）：</p>
+<pre class="line-numbers language-none"><code class="language-none"># 静态站
+server &#123;
+    listen 80;
+    server_name static.example.com;
+
+    location &#x2F; &#123;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_http_version 1.1;
+        proxy_set_header Connection &quot;&quot;;
+
+        proxy_pass http:&#x2F;&#x2F;ORIGIN_IP:80;
+    &#125;
+&#125;
+
+# docker 应用
+server &#123;
+    listen 80;
+    server_name app.example.com;
+
+    location &#x2F; &#123;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_http_version 1.1;
+        proxy_set_header Connection &quot;&quot;;
+
+        proxy_read_timeout 300s;
+        proxy_send_timeout 300s;
+
+        proxy_pass http:&#x2F;&#x2F;ORIGIN_IP:3000;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>检查并重启：</p>
+<pre class="line-numbers language-none"><code class="language-none">nginx -t
+systemctl restart nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="申请-HTTPS-证书并自动改-Nginx-到-443"><a href="#申请-HTTPS-证书并自动改-Nginx-到-443" class="headerlink" title="申请 HTTPS 证书并自动改 Nginx 到 443"></a>申请 HTTPS 证书并自动改 Nginx 到 443</h3><p>在代理机执行（两个域名一起签）：</p>
+<pre class="line-numbers language-none"><code class="language-none">certbot --nginx -d static.example.com -d app.example.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>它会：</p>
+<ul>
+<li>自动加上 <code>listen 443 ssl;</code></li>
+<li>自动把 80 做跳转到 https（你按提示选 Redirect）</li>
+</ul>
+<hr>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p>把两个域名都解析到<strong>代理机 IP</strong>：</p>
+<ul>
+<li><code>static.example.com -&gt; PROXY_IP</code></li>
+<li><code>app.example.com -&gt; PROXY_IP</code></li>
+</ul>
+<hr>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>在代理机跑：</p>
+<pre class="line-numbers language-none"><code class="language-none">curl -I https:&#x2F;&#x2F;static.example.com
+curl -I https:&#x2F;&#x2F;app.example.com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>代理机上看实时日志（排障很快）：</p>
+<pre class="line-numbers language-none"><code class="language-none">tail -f &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h2 id="1c1g-代理机"><a href="#1c1g-代理机" class="headerlink" title="1c1g 代理机"></a>1c1g 代理机</h2><ul>
+<li><strong>只做转发 + TLS 终止</strong>，别上复杂 WAF&#x2F;大日志落盘&#x2F;压缩缓存</li>
+<li>并发多、SSE&#x2F;长连接多时，代理机先升级到 <strong>2c2g</strong> 会明显稳</li>
+</ul>
+<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><h2 id="为什么代理服务器要放在源服务器附近？"><a href="#为什么代理服务器要放在源服务器附近？" class="headerlink" title="为什么代理服务器要放在源服务器附近？"></a>为什么代理服务器要放在源服务器附近？</h2><p>因为你的链路是：<strong>用户 → 代理 → 源站</strong>。代理和源站之间每次请求都要走一次。</p>
+<ul>
+<li>如果代理离源站远：每个请求都会多一次跨洲&#x2F;跨网的 RTT，<strong>P95&#x2F;P99 会炸</strong>，流式（SSE&#x2F;WS）更明显。</li>
+<li>如果代理和源站同区域&#x2F;同机房：代理→源站 RTT 可以做到毫秒级，<strong>代理只是“转发开销”</strong>，整体更稳定、可预测。</li>
+</ul>
+<p>你可以把它理解成：</p>
+<blockquote>
+<p>代理离用户近只能“看起来近”，但源站在美国就必须再跨一次；<br> 代理离源站近则能把“中转的额外成本”压到最小。</p>
+</blockquote>
+<hr>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ul>
+<li><code>https://www.neoai.plus</code> → <strong>301 重定向死循环</strong></li>
+<li><code>https://neoai.plus</code> → <strong>504 Gateway Timeout</strong></li>
+</ul>
+<h3 id="301-死循环（应用层）"><a href="#301-死循环（应用层）" class="headerlink" title="301 死循环（应用层）"></a>301 死循环（应用层）</h3><p><strong>根因：</strong></p>
+<ul>
+<li>你同时在 <strong>代理机</strong> 和 <strong>源站</strong> 做了 <code>http → https</code> 跳转</li>
+<li>代理告诉源站：<code>X-Forwarded-Proto: https</code></li>
+<li>源站看到“是 https”，又 <code>return 301 https://...</code></li>
+</ul>
+<p>于是形成闭环：</p>
+<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;www → 代理 → 源站80 → 301到 https:&#x2F;&#x2F;www → 代理 → …<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>解决原则（非常重要）：</strong></p>
+<blockquote>
+<p><strong>HTTPS 只在一层做。</strong></p>
+<p>既然是代理终止 HTTPS，<strong>源站就不再管 HTTPS</strong>。</p>
+</blockquote>
+<hr>
+<h3 id="504-超时（网络-防火墙层）"><a href="#504-超时（网络-防火墙层）" class="headerlink" title="504 超时（网络&#x2F;防火墙层）"></a>504 超时（网络&#x2F;防火墙层）</h3><p><strong>关键现象：</strong></p>
+<ul>
+<li>源站本机 <code>curl 127.0.0.1:3000</code> → 200 OK</li>
+<li>iptables INPUT 已放行代理 IP → 3000</li>
+<li>但代理访问 <code>23.133.52.53:3000</code> → <strong>超时</strong></li>
+<li>tcpdump 显示：<strong>SYN 到了，但没有 SYN-ACK</strong></li>
+</ul>
+<p><strong>真正的根因：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">iptables -P FORWARD DROP
+DOCKER-USER 链是空的<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>Docker 的流量 <strong>不是走 INPUT，而是走 FORWARD</strong>。</p>
+<p>你放行的是 INPUT：</p>
+<pre class="line-numbers language-none"><code class="language-none">-A INPUT -s 代理IP --dport 3000 ACCEPT<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>但 Docker 返回包走的是：</p>
+<pre class="line-numbers language-none"><code class="language-none">FORWARD &#x2F; DOCKER-USER<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>结果是：</p>
+<ul>
+<li>请求能进来</li>
+<li>回包被防火墙丢掉</li>
+<li>客户端看到的就是 <strong>504 &#x2F; timeout</strong></li>
+</ul>
+<p>这是 <strong>Docker + iptables 的经典大坑</strong>。</p>
+<hr>
+<h3 id="最终修复"><a href="#最终修复" class="headerlink" title="最终修复"></a>最终修复</h3><p>补齐：</p>
+<pre class="line-numbers language-none"><code class="language-none">iptables -I DOCKER-USER -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -I DOCKER-USER -s 代理IP -p tcp --dport 3000 -j ACCEPT
+iptables -I DOCKER-USER -j RETURN
+iptables -P FORWARD ACCEPT<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>于是：</p>
+<ul>
+<li>SYN 能进</li>
+<li>SYN-ACK 能回</li>
+<li>连接建立</li>
+<li>504 消失</li>
+</ul>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/12/10/207-esp32-i2s-bo-fang-yin-pin/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-12-13 11:27:57
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" title="反向代理">
+                        #反向代理
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-text">前置知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#iptables"><span class="toc-text">iptables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iptables-%E5%9C%A8%E7%B3%BB%E7%BB%9F%E9%87%8C%E7%9A%84%E7%9C%9F%E5%AE%9E%E4%BD%8D%E7%BD%AE"><span class="toc-text">iptables 在系统里的真实位置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-text">核心概念</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%AB%99"><span class="toc-text">源站</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%AB%99%E4%BB%85%E6%8E%A5%E5%8F%97%E4%BB%A3%E7%90%86%E6%9C%BA%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="toc-text">源站仅接受代理机的访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AE%E8%AE%A4%E6%BA%90%E7%AB%99%E6%9C%8D%E5%8A%A1%E7%9B%91%E5%90%AC%E6%B2%A1%E9%97%AE%E9%A2%98"><span class="toc-text">确认源站服务监听没问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%90%86%E6%9C%BA"><span class="toc-text">代理机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Nginx-%E8%AF%81%E4%B9%A6%E5%B7%A5%E5%85%B7"><span class="toc-text">安装 Nginx + 证书工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%90%86%E6%9C%BA%EF%BC%9A%E5%85%88%E4%B8%8A%E2%80%9CHTTP%E9%85%8D%E7%BD%AE%E2%80%9D%EF%BC%88%E8%AE%A9-certbot-%E8%83%BD%E7%AD%BE%E8%AF%81%E4%B9%A6%EF%BC%89"><span class="toc-text">代理机：先上“HTTP配置”（让 certbot 能签证书）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B3%E8%AF%B7-HTTPS-%E8%AF%81%E4%B9%A6%E5%B9%B6%E8%87%AA%E5%8A%A8%E6%94%B9-Nginx-%E5%88%B0-443"><span class="toc-text">申请 HTTPS 证书并自动改 Nginx 到 443</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DNS"><span class="toc-text">DNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81"><span class="toc-text">验证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1c1g-%E4%BB%A3%E7%90%86%E6%9C%BA"><span class="toc-text">1c1g 代理机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%A6%81%E6%94%BE%E5%9C%A8%E6%BA%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%99%84%E8%BF%91%EF%BC%9F"><span class="toc-text">为什么代理服务器要放在源服务器附近？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">遇到的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#301-%E6%AD%BB%E5%BE%AA%E7%8E%AF%EF%BC%88%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%89"><span class="toc-text">301 死循环（应用层）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#504-%E8%B6%85%E6%97%B6%EF%BC%88%E7%BD%91%E7%BB%9C-%E9%98%B2%E7%81%AB%E5%A2%99%E5%B1%82%EF%BC%89"><span class="toc-text">504 超时（网络&#x2F;防火墙层）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E4%BF%AE%E5%A4%8D"><span class="toc-text">最终修复</span></a></li></ol></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2025 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E4%BD%BF%E7%94%A8%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%9A%94%E7%A6%BB%E6%BA%90%E7%AB%99 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F12%2F12%2F208-shi-yong-fan-xiang-dai-li-ge-chi-yuan-zhan%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/12/12/208-shi-yong-fan-xiang-dai-li-ge-chi-yuan-zhan/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
