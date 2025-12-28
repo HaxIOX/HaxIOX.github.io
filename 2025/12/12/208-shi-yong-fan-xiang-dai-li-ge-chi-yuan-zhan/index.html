@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-12-13 11:27:57
+          2025-12-28 21:51:43
         </span>
         
               <span class="post-tags">
@@ -177,9 +177,15 @@
           
       </div>
       <div class="markdown-body">
-        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>想搞一下中转站，赚点小钱钱，又怕有大佬攻城，想藏一下源ip，但是使用cloudflare代理的效果不太好，于是去求助伟大的gpt，向G老师学习</p>
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>想搞一下站点，赚点小钱钱，又怕有大佬攻城，想藏一下源ip，但是使用cloudflare代理的效果不太好，于是去求助伟大的gpt，向G老师学习</p>
 <blockquote>
 <p>“用入口反向代理做了源站 IP 隔离，源站只对白名单入口开放，不直接暴露公网。”</p>
+</blockquote>
+<p><strong>很好，反代机被判定为滥用钓鱼给暂停了</strong>，简单的原因分析以及解决方案给我放出来了</p>
+<blockquote>
+<p>您好，<br>可能发生的过程：服务器遭到自动化扫描&#x2F;攻击，并被第三方滥用，触发了钓鱼相关风控。</p>
+<p>我应对的方案：<br>1）反代配置固定上游，未知 Host 直接丢弃，避免被当作开放代理；<br>2）防火墙仅开放 80&#x2F;443，SSH 仅允许我的管理 IP，并更换所有密码&#x2F;密钥；<br>3）我同意你们为该服务进行系统重装以解除暂停。</p>
+<p>请协助在重装完成后解除暂停，谢谢。</p>
 </blockquote>
 <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
 <li><p>一台源站附近的代理服务器(目前用低配置1c1g的美国优化机测试)</p>
@@ -426,7 +432,7 @@ iptables -P FORWARD ACCEPT<span aria-hidden="true" class="line-numbers-rows"><sp
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-12-13 11:27:57
+              2025-12-28 21:51:43
             </span>
             
                   <span class="post-tags">
@@ -442,6 +448,11 @@ iptables -P FORWARD ACCEPT<span aria-hidden="true" class="line-numbers-rows"><sp
               
           </div>
           <div class="post-foot-prev">
+            
+              <a href="/2025/12/19/209-gnss-xiang-guan-zhi-shi/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
             
           </div>
         </div>

@@ -13,7 +13,7 @@
   
   <title>
     
-      手动搭建V2ray节点 
+      Gnss相关芝士🧀 
       
       
       |
@@ -157,147 +157,22 @@
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
   <div class="container post-details" id="post-details">
     <div class="post-content">
-      <div class="post-title">手动搭建V2ray节点</div>
+      <div class="post-title">Gnss相关芝士🧀</div>
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-10-06 22:51:28
+          2025-12-27 20:51:17
         </span>
         
       </div>
       <div class="markdown-body">
-        <h2 id="安装V2ray"><a href="#安装V2ray" class="headerlink" title="安装V2ray"></a>安装V2ray</h2><ul>
-<li><p><a target="_blank" rel="noopener" href="https://guide.v2fly.org/">新 V2Ray 白话文指南</a>(推荐)</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://v2fly.org/">官方文档</a></p>
-</li>
-</ul>
-<p>官方脚本</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">&#x2F;&#x2F; 安裝執行檔和 .dat 資料檔
-bash &lt;(curl -L https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;v2fly&#x2F;fhs-install-v2ray&#x2F;master&#x2F;install-release.sh)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<p>移除</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">bash &lt;(curl -L https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;v2fly&#x2F;fhs-install-v2ray&#x2F;master&#x2F;install-release.sh) --remove<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>也可以拉安装包<a target="_blank" rel="noopener" href="https://github.com/v2fly/v2ray-core/releases">Releases · v2fly&#x2F;v2ray-core</a></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#启动 V2Ray:
-systemctl start v2ray
-
-#设置开机自启动 V2Ray:
-systemctl enable v2ray
-
-#查看运行状态
-systemctl status v2ray<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="v2ray配置格式"><a href="#v2ray配置格式" class="headerlink" title="v2ray配置格式"></a>v2ray配置格式</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo vim &#x2F;usr&#x2F;local&#x2F;etc&#x2F;v2ray&#x2F;config.json<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p><strong>基础配置</strong>: </p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">&#123;
-  &quot;inbounds&quot;: [
-      &#123;   
-         &quot;listen&quot;: &quot;[::]&quot;,# 监听ipv6端口 
-          &quot;port&quot;: 10000,  # 服务器监听端口
-          &quot;protocol&quot;: &quot;vmess&quot;,
-          &quot;settings&quot;: &#123;
-              &quot;clients&quot;: [
-                  &#123;
-                      &quot;id&quot;: &quot;93d177bc-5d90-0251-69d1-9a30237a9bac&quot;,
-                      &quot;alterId&quot;: 0              #可有可无,额外id
-                  &#125;
-              ]
-          &#125;
-      &#125;
-  ],
-  &quot;outbounds&quot;: [
-      &#123;
-          &quot;protocol&quot;: &quot;freedom&quot;
-      &#125;
-  ]
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ul>
-<li><input checked="" disabled="" type="checkbox"> <strong>可以正常使用</strong></li>
-</ul>
-<h2 id="TLS-暂无法使用"><a href="#TLS-暂无法使用" class="headerlink" title="TLS(暂无法使用)"></a>TLS(暂无法使用)</h2><p>TLS 中文译名是传输层安全, TLS 是证书认证机制，所以使用 TLS 需要证书</p>
-<p>条件:</p>
-<ul>
-<li>一个绑定ip的域名</li>
-<li>一个证书(我这里使用的证书是cloudflare客户端证书)</li>
-</ul>
-<p>证书可以<strong>cloudflare</strong>生成,也可以*[acme.sh](<a target="_blank" rel="noopener" href="https://github.com/acmesh-official/acme.sh">acmesh-official&#x2F;acme.sh: A pure Unix shell script implementing ACME client protocol (github.com)</a>)*脚本生成</p>
-<p>配置:</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">&#123;
-  &quot;inbounds&quot;: [
-    &#123;
-      &quot;listen&quot;: &quot;[::]&quot;,# 监听ipv6端口 
-      &quot;port&quot;: 443, # 建议使用 443 端口
-      &quot;protocol&quot;: &quot;vmess&quot;,    
-      &quot;settings&quot;: &#123;
-        &quot;clients&quot;: [
-          &#123;
-            &quot;id&quot;: &quot;23ad6b10-8d1a-40f7-8ad0-e3e35cd38297&quot;,  
-            &quot;alterId&quot;: 64
-          &#125;
-        ]
-      &#125;,
-      &quot;streamSettings&quot;: &#123;
-        &quot;network&quot;: &quot;tcp&quot;,
-        &quot;security&quot;: &quot;tls&quot;, # security 要设置为 tls 才会启用 TLS
-        &quot;tlsSettings&quot;: &#123;
-          &quot;certificates&quot;: [
-            &#123;
-              &quot;certificateFile&quot;: &quot;&#x2F;usr&#x2F;local&#x2F;etc&#x2F;v2ray&#x2F;v2ray.crt&quot;, # 证书文件
-              &quot;keyFile&quot;: &quot;&#x2F;usr&#x2F;local&#x2F;etc&#x2F;v2ray&#x2F;v2ray.key&quot; 		# 密钥文件
-            &#125;
-          ]
-        &#125;
-      &#125;
-    &#125;
-  ],
-  &quot;outbounds&quot;: [
-    &#123;
-      &quot;protocol&quot;: &quot;freedom&quot;,
-      &quot;settings&quot;: &#123;&#125;
-    &#125;
-  ]
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<img src="/2024/02/23/91l-shou-dong-da-jian-v2ray-jie-dian/image-20240224155224748.png" class="" title="image-20240224155224748">
-
-<img src="/2024/02/23/91l-shou-dong-da-jian-v2ray-jie-dian/image-20240224155306171.png" class="" title="image-20240224155306171">
-
-<p><strong>服务端和客户端都不报错, 只有测试真延迟的时候,说503错误</strong>, 但是无法访问网络</p>
-<h3 id="acme-sh安装证书"><a href="#acme-sh安装证书" class="headerlink" title="acme.sh安装证书"></a>acme.sh安装证书</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">root@30f2f8f483:~#  ~&#x2F;.acme.sh&#x2F;acme.sh --issue -d bvnatsg.ideagpt.top --standalone --keylength ec-256 --force<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">
-[Sat Feb 24 16:18:25 CST 2024] Using CA: https:&#x2F;&#x2F;acme.zerossl.com&#x2F;v2&#x2F;DV90
-[Sat Feb 24 16:18:25 CST 2024] Standalone mode.
-[Sat Feb 24 16:18:25 CST 2024] No EAB credentials found for ZeroSSL, let&#39;s get one
-[Sat Feb 24 16:18:25 CST 2024] acme.sh is using ZeroSSL as default CA now.
-[Sat Feb 24 16:18:25 CST 2024] Please update your account with an email address first.
-[Sat Feb 24 16:18:25 CST 2024] acme.sh --register-account -m my@example.com
-[Sat Feb 24 16:18:25 CST 2024] See: https:&#x2F;&#x2F;github.com&#x2F;acmesh-official&#x2F;acme.sh&#x2F;wiki&#x2F;ZeroSSL.com-CA
-[Sat Feb 24 16:18:26 CST 2024] Please add &#39;--debug&#39; or &#39;--log&#39; to check more details.
-[Sat Feb 24 16:18:26 CST 2024] See: https:&#x2F;&#x2F;github.com&#x2F;acmesh-official&#x2F;acme.sh&#x2F;wiki&#x2F;How-to-debug-acme.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>acme.sh –register-account -m <a href="mailto:&#105;&#x73;&#103;&#x65;&#101;&#107;&#48;&#x31;&#64;&#x67;&#109;&#97;&#x69;&#x6c;&#46;&#x63;&#x6f;&#109;">isgeek01@gmail.com</a> –server zerossl</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">root@30f2f8f483:~# acme.sh --register-account -m isgeek01@gmail.com --server zerossl
-[Sat Feb 24 16:22:17 CST 2024] No EAB credentials found for ZeroSSL, let&#39;s get one
-[Sat Feb 24 16:22:19 CST 2024] Registering account: https:&#x2F;&#x2F;acme.zerossl.com&#x2F;v2&#x2F;DV90
-[Sat Feb 24 16:22:21 CST 2024] Registered
-[Sat Feb 24 16:22:21 CST 2024] ACCOUNT_THUMBPRINT&#x3D;&#39;2lPZ8zUYF2z1V_G8uXwS92iHZaenoVa6h83GCcoaHiA&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>试一下</p>
-<h3 id="cloudflare换成orgin-证书-会报错"><a href="#cloudflare换成orgin-证书-会报错" class="headerlink" title="cloudflare换成orgin 证书,会报错"></a>cloudflare换成orgin 证书,会报错</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">2024&#x2F;02&#x2F;24 20:00:37 [Warning] [1464760311] app&#x2F;proxyman&#x2F;outbound: failed to process outbound traffic &gt; proxy&#x2F;vmess&#x2F;outbound: failed to find an available destination &gt; common&#x2F;retry: [dial tcp: lookup bvnatsg.ideagpt.top: operation was canceled] &gt; common&#x2F;retry: all retry attempts failed<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="可能原因"><a href="#可能原因" class="headerlink" title="可能原因"></a>可能原因</h3><p>应该是证书有问题</p>
-
+        
       </div>
       
         <div class="prev-or-next">
           <div class="post-foot-next">
             
-              <a href="/2024/02/19/90l-da-jian-jian-yi-api/" target="_self">
+              <a href="/2025/12/12/208-shi-yong-fan-xiang-dai-li-ge-chi-yuan-zhan/" target="_self">
                 <i class="iconfont icon-chevronleft"></i>
                 <span>Prev</span>
               </a>
@@ -306,39 +181,17 @@ systemctl status v2ray<span aria-hidden="true" class="line-numbers-rows"><span><
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-10-06 22:51:28
+              2025-12-27 20:51:17
             </span>
             
           </div>
           <div class="post-foot-prev">
-            
-              <a href="/2024/03/04/92-ji-yu-51-dan-pian-ji-de-ds1302-shi-zhong/" target="_self">
-                <span>Next</span>
-                <i class="iconfont icon-chevronright"></i>
-              </a>
             
           </div>
         </div>
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
-  <div class="post-catalog hidden" id="catalog">
-    <div class="title">Contents</div>
-    <div class="catalog-content">
-      
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85V2ray"><span class="toc-text">安装V2ray</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v2ray%E9%85%8D%E7%BD%AE%E6%A0%BC%E5%BC%8F"><span class="toc-text">v2ray配置格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TLS-%E6%9A%82%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8"><span class="toc-text">TLS(暂无法使用)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#acme-sh%E5%AE%89%E8%A3%85%E8%AF%81%E4%B9%A6"><span class="toc-text">acme.sh安装证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cloudflare%E6%8D%A2%E6%88%90orgin-%E8%AF%81%E4%B9%A6-%E4%BC%9A%E6%8A%A5%E9%94%99"><span class="toc-text">cloudflare换成orgin 证书,会报错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E5%8E%9F%E5%9B%A0"><span class="toc-text">可能原因</span></a></li></ol></li></ol>
-      
-    </div>
-  </div>
-
-  
-<script src="/js/catalog.js"></script>
-
-
-
 
     
       <div class="comments-container">
@@ -617,12 +470,12 @@ systemctl status v2ray<span aria-hidden="true" class="line-numbers-rows"><span><
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%89%8B%E5%8A%A8%E6%90%AD%E5%BB%BAV2ray%E8%8A%82%E7%82%B9 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2024%2F02%2F23%2F91l-shou-dong-da-jian-v2ray-jie-dian%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Gnss%E7%9B%B8%E5%85%B3%E8%8A%9D%E5%A3%AB%F0%9F%A7%80 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F12%2F19%2F209-gnss-xiang-guan-zhi-shi%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         
         
-          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2024/02/23/91l-shou-dong-da-jian-v2ray-jie-dian/" target="_blank" title="Facebook">
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/12/19/209-gnss-xiang-guan-zhi-shi/" target="_blank" title="Facebook">
             <i class="iconfont icon-facebooksquare"></i>
           </a>
         
