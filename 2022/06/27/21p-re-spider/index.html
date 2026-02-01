@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      通过正则表达式爬虫 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">通过正则表达式爬虫</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">
+                    #爬虫
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="常用的正则表达式"><a href="#常用的正则表达式" class="headerlink" title="常用的正则表达式"></a>常用的正则表达式</h3><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h3 id="报错UnicodeEncodeError-‘gbk’-codec-can’t-encode-character-‘-xe7’-in-position-10"><a href="#报错UnicodeEncodeError-‘gbk’-codec-can’t-encode-character-‘-xe7’-in-position-10" class="headerlink" title="报错UnicodeEncodeError: ‘gbk’ codec can’t encode character ‘\xe7’ in position 10"></a>报错UnicodeEncodeError: ‘gbk’ codec can’t encode character ‘\xe7’ in position 10</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">大多数的做法是f &#x3D; open(&quot;blog.csv&quot;,mode&#x3D;&quot;w&quot;)在这个后面加上一个encoding&#x3D;utf-8,加上之后可以运行,但写入表格的数据出现乱码,有的让将utf-8改成utf-8-sig,还有其他的方法是改成GB啥啥的我忘了,基本都没用
+
+解决:
+resp &#x3D; requests.get(url,headers&#x3D;headers)
+resp.encoding &#x3D; &#39;utf-8&#39;      #暂时不知道为什么加在这里就可以
+page_content&#x3D;resp.text<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="常见的爬虫中文乱码问题"><a href="#常见的爬虫中文乱码问题" class="headerlink" title="常见的爬虫中文乱码问题"></a>常见的爬虫中文乱码问题</h2><h3 id="网址编码为gbk"><a href="#网址编码为gbk" class="headerlink" title="网址编码为gbk"></a>网址编码为gbk</h3><blockquote>
+<p>1.查看网页源代码的head部分的编码：</p>
+</blockquote>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">，发现网页编码为gbk类型
+2.利用requests库的方法查看默认输出的编码类型
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">import requests
+url &#x3D; &#39;https:&#x2F;&#x2F;chengdu.chashebao.com&#x2F;yanglao&#x2F;19077.html&#39;
+
+response &#x3D; requests.get(url)
+print(response.encoding)  
+
+输出结果为编码ISO-8859-1，并不是原网页的编码类型。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>3.利用requests库改变输出结果的编码</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">import requests
+
+url &#x3D; &#39;https:&#x2F;&#x2F;chengdu.chashebao.com&#x2F;yanglao&#x2F;19077.html&#39;
+
+response &#x3D; requests.get(url)
+response.encoding &#x3D; &#39;gbk&#39;
+print(response.encoding)  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果为编码gbk，与原网页保持一致。</p>
+<p>基于以上三个步骤，即可解决爬虫中文乱码问题。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">import requests
+
+def get_html(url):
+    try:
+        response &#x3D; requests.get(url)
+        response.encoding &#x3D; &#39;gbk&#39;  # 改变编码
+        print(response.encoding)
+        html &#x3D; response.text
+        return html
+    except:
+        print(&#39;请求网址出错&#39;)
+
+url &#x3D; &#39;https:&#x2F;&#x2F;chengdu.chashebao.com&#x2F;yanglao&#x2F;19077.html&#39;
+html &#x3D; get_html(url)
+print(html)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="网址编码为utf-8"><a href="#网址编码为utf-8" class="headerlink" title="网址编码为utf-8"></a>网址编码为utf-8</h3><p>对于有些网页编码为utf-8的网址，输出事发现中文为乱码，此时我们需要进行两次重编码。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">response &#x3D; requests.get(url, headers&#x3D;headers)
+response.encoding &#x3D; &#39;GBK&#39;      (#我没加这个也是可以的)
+response.encoding &#x3D; &#39;utf-8&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="网址编码为gb2312"><a href="#网址编码为gb2312" class="headerlink" title="网址编码为gb2312"></a>网址编码为gb2312</h3><p>response.encoding &#x3D; ‘GBK’</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>为什么这么改,和为什么会出现这样的报错我暂时还不懂,学懂了之后会写上<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44321116/article/details/104280012?ops_request_misc=&request_id=&biz_id=102&utm_term=gbk%27%20codec%20can%27t%20encode%20charac&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-5-104280012.142%5Ev24%5Epc_rank_34,157%5Ev15%5Enew_3&spm=1018.2226.3001.4187">参考文章1</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_17249717/article/details/98472363?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165634565316782395370345%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=165634565316782395370345&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-2-98472363-null-null.142%5Ev24%5Epc_rank_34,157%5Ev15%5Enew_3&utm_term=python%E7%88%AC%E8%99%AB%E5%87%BA%E7%8E%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81&spm=1018.2226.3001.4187">参考文章2</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2022/06/24/20h-stm32f103-balance-car/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/%E7%88%AC%E8%99%AB/" title="爬虫">
+                        #爬虫
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2022/07/08/22h-esp8266/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">正则表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text"></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-text">常用的正则表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">遇到的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E9%94%99UnicodeEncodeError-%E2%80%98gbk%E2%80%99-codec-can%E2%80%99t-encode-character-%E2%80%98-xe7%E2%80%99-in-position-10"><span class="toc-text">报错UnicodeEncodeError: ‘gbk’ codec can’t encode character ‘\xe7’ in position 10</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%88%AC%E8%99%AB%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98"><span class="toc-text">常见的爬虫中文乱码问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%9D%80%E7%BC%96%E7%A0%81%E4%B8%BAgbk"><span class="toc-text">网址编码为gbk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%9D%80%E7%BC%96%E7%A0%81%E4%B8%BAutf-8"><span class="toc-text">网址编码为utf-8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%9D%80%E7%BC%96%E7%A0%81%E4%B8%BAgb2312"><span class="toc-text">网址编码为gb2312</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E9%80%9A%E8%BF%87%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%88%AC%E8%99%AB + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2022%2F06%2F27%2F21p-re-spider%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2022/06/27/21p-re-spider/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

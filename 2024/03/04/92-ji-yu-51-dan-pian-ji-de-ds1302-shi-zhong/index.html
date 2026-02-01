@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      基于51单片机的DS1302时钟 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">基于51单片机的DS1302时钟</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="DS1302驱动代码"><a href="#DS1302驱动代码" class="headerlink" title="DS1302驱动代码"></a>DS1302驱动代码</h2><p>关于这句**DS1302_IO&#x3D;Command&amp;(0x01&lt;&lt;i);**位变量,逻辑判断,非0及增,什么意思 </p>
+<p>过迭代 <code>Command</code> 的每个位来设置 <code>DS1302_IO</code> 的值，实现了将 <code>Command</code> 中的位逐个设置到 <code>DS1302_IO</code> 中的功能。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">void DS1302_WriteByte(unsigned char Command,Data)
+&#123;
+	unsigned char i;
+	DS1302_CE&#x3D;1;
+	for(i&#x3D;0;i&lt;8;i++)
+	&#123;
+		DS1302_IO&#x3D;Command&amp;(0x01&lt;&lt;i);
+		DS1302_SCLK&#x3D;1;
+		DS1302_SCLK&#x3D;0;
+	&#125;
+	for(i&#x3D;0;i&lt;8;i++)
+	&#123;
+		DS1302_IO&#x3D;Data&amp;(0x01&lt;&lt;i);
+		DS1302_SCLK&#x3D;1;
+		DS1302_SCLK&#x3D;0;
+	&#125;
+	DS1302_CE&#x3D;0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>为什么读和写不同,为什么R&#x2F;W置1,为什么读的时候要从下降沿开始读</p>
+<p>答: <strong>这个芯片的这个功能就是这么设计的</strong>,就像是方向键左键是向左,总不能问为什么不向右吧</p>
+<img src="/2024/03/04/92-ji-yu-51-dan-pian-ji-de-ds1302-shi-zhong/image-20240303211037710.png" class="" title="image-20240303211037710">
+
+<p>官方文档的<strong>写保护位</strong></p>
+<blockquote>
+<p>控制寄存器的位 7是写保护位，前 7位（位 0至位 6）被强制为 0且读取时总是读 0. 在任何对时钟或 RAM的写操作以前，位 7必须为 0.当为高时，写保护位禁止任何寄存器的写操作. 初始加电状态未定义. 因此，在试图写器件之前应该清除 WP位</p>
+</blockquote>
+<p>由图可知, 例如秒的高四位是10秒,低四位是秒, 推断出DS1302写入和读取时间使用的是BCD码</p>
+<blockquote>
+<p>BCD码就是 0001 0011 的BCD码为13,十进制为19,十六进制为0x13</p>
+</blockquote>
+<p>BCD码本质上就是八位二进制数逢十进一,十六进制是逢十六进一</p>
+<img src="/2024/03/04/92-ji-yu-51-dan-pian-ji-de-ds1302-shi-zhong/image-20240303222950773.png" class="" title="image-20240303222950773">
+
+<pre class="line-numbers language-C" data-language="C"><code class="language-C">unsigned char Second;
+void main()
+&#123;
+  DS1302_Init();
+  LCD_Init();  
+  LCD_ShowString(1,1,&quot;time&quot;);
+  DS1302_WriteByte(0x80,0x03);    &#x2F;&#x2F;注意清除写保护位 
+  Second&#x3D;DS1302_ReadByte(0x81);
+  LCD_ShowNum(2,1,Second,2);
+  while(1)
+  &#123;
+  	Second&#x3D;DS1302_ReadByte(0x81);  &#x2F;&#x2F;当秒到9时,会跳到16,因为BCD码的9变为10 0000 1001 -&gt; 0001 0000 十六进制:16
+  	LCD_ShowNum(2,1,Second,4);
+  &#125;    
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>一个困惑,也就是说DS1302读取和写入数据都是BCD码</p>
+<blockquote>
+<p>比如我写入0x12,会出现18,我现在的问题是为什么lcd显示的时候不现实bcd而是16进制,应该是lcd显示源码的原因,转换成16进制了</p>
+</blockquote>
+<p>我明白了,比如我获取到的数据是bcd的10即0001 0000,但是这个数据格式是16进制的16,因为就是16进制的表示形式</p>
+<img src="/2024/03/04/92-ji-yu-51-dan-pian-ji-de-ds1302-shi-zhong/image-20240303225106072.png" class="" title="image-20240303225106072">
+
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>函数已经有一个主体了,重定义了,看看是不是多复制了一个函数</p>
+ <pre class="line-numbers language-c" data-language="c"><code class="language-c">Hardware\Ds1302.c(99): error C237: &#39;_DS1302_ReadByte&#39;: function already has a body<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>非数组的下标或维度过多,就是一个不是数组的变量被以array[0]这种格式调用了</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">Hardware\Ds1302.c(109): error C216: subscript on non-array or too many dimensions<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="可调时钟"><a href="#可调时钟" class="headerlink" title="可调时钟"></a>可调时钟</h2><p>首先想好程序流程, 可以写一个程序框图理清思路, 流程图如下</p>
+<p>大概思路就是, 按键1控制设置模式和显示模式的切换, 设置模式检测按键2、3、4,进行切换时间位、++、–的操作, </p>
+<p>最后更新显示, 写入DS1302中。</p>
+<img src="/2024/03/04/92-ji-yu-51-dan-pian-ji-de-ds1302-shi-zhong/image-20240309075849348.png" class="" title="image-20240309075849348">
+
+<p>小于x的数对x取余的结果与自身相同，它无法被6整除，所以余数就是x本身。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">TimeSelectSet++%&#x3D;6;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>找bug,按照逻辑,依次测试功能手否可以正常实现</p>
+<h3 id="BUG1"><a href="#BUG1" class="headerlink" title="BUG1"></a>BUG1</h3><p>新BUG,if不显示次外层对应花括号,整个内容复制也不可以,需要单个<strong>if(){}</strong>,然后一点一点复制</p>
+<p>就是外面的大花括号对应不上</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">if(KeyNum&#x3D;&#x3D;4)
+ &#123;
+   DS1302_Time[TimeSetSelect]--;
+   if(DS1302_Time[0]&lt;1)&#123;DS1302_Time[0]&#x3D;30;&#125;
+   if(DS1302_Time[1]&lt;1)&#123;DS1302_Time[1]&#x3D;12;&#125;                                                                                       ;&#125;   &#x2F;&#x2F;keil里没有这个,复制过来就有了
+   if(DS1302_Time[1]&#x3D;&#x3D;1|DS1302_Time[1]&#x3D;&#x3D;3||DS1302_Time[1]&#x3D;&#x3D;5||DS1302_Time[1]&#x3D;&#x3D;7
+     ||DS1302_Time[1]&#x3D;&#x3D;8||DS1302_Time[1]&#x3D;&#x3D;10||DS1302_Time[1]&#x3D;&#x3D;12)
+   &#123;   
+     if(DS1302_Time[2]&lt;1)&#123;DS1302_Time[2]&#x3D;31;&#125;
+   &#125;
+   else if(DS1302_Time[1]&#x3D;&#x3D;4||DS1302_Time[1]&#x3D;&#x3D;6||DS1302_Time[1]&#x3D;&#x3D;9||DS1302_Time[1]&#x3D;&#x3D;11)
+   &#123;
+     if(DS1302_Time[2]&lt;1)&#123;DS1302_Time[2]&#x3D;30;&#125;
+   &#125;
+   else if(DS1302_Time[1]&#x3D;&#x3D;2)
+   &#123;
+     if(DS1302_Time[0]%4&#x3D;&#x3D;0)     &#x2F;&#x2F;平年闰年
+       &#123;
+         if(DS1302_Time[2]&lt;1)&#123;DS1302_Time[2]&#x3D;29;&#125;
+       &#125;
+     else&#123;if(DS1302_Time[2]&lt;1)&#123;DS1302_Time[2]&#x3D;28;&#125;&#125;
+   &#125;    
+   if(DS1302_Time[3]&lt;0)&#123;DS1302_Time[3]&#x3D;23;&#125;
+   if(DS1302_Time[4]&lt;0)&#123;DS1302_Time[4]&#x3D;59;&#125;
+   if(DS1302_Time[5]&lt;0)&#123;DS1302_Time[5]&#x3D;59;&#125;
+   if(DS1302_Time[6]&lt;1)&#123;DS1302_Time[6]&#x3D;7;&#125;     <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>把多出来的那个;}删掉就好了</p>
+<h3 id="BUG2"><a href="#BUG2" class="headerlink" title="BUG2"></a>BUG2</h3><p>时间减的时候,0-1&#x3D;55而不是59</p>
+<p>因为 DS1302_Time[]类型是unsigned char,是从0-255,顾0-1&#x3D;255,显示后两位就是55</p>
+<p>解决:</p>
+<p>将unsigned char改为char(-128~127)即可</p>
+<p>记得使用清屏函数,否则会有残留</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/02/23/91l-shou-dong-da-jian-v2ray-jie-dian/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/03/06/92-ji-yu-51-dan-pian-ji-feng-ming-qi-de-yin-le-bo-fang-qi/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#DS1302%E9%A9%B1%E5%8A%A8%E4%BB%A3%E7%A0%81"><span class="toc-text">DS1302驱动代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E9%94%99"><span class="toc-text">报错</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E8%B0%83%E6%97%B6%E9%92%9F"><span class="toc-text">可调时钟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95"><span class="toc-text">调试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BUG1"><span class="toc-text">BUG1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BUG2"><span class="toc-text">BUG2</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%9F%BA%E4%BA%8E51%E5%8D%95%E7%89%87%E6%9C%BA%E7%9A%84DS1302%E6%97%B6%E9%92%9F + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2024%2F03%2F04%2F92-ji-yu-51-dan-pian-ji-de-ds1302-shi-zhong%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2024/03/04/92-ji-yu-51-dan-pian-ji-de-ds1302-shi-zhong/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      USART串口通信 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">USART串口通信</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/STM32F407/" title="STM32F407">
+                    #STM32F407
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/USART/" title="USART">
+                    #USART
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h2 id="数据通信方式"><a href="#数据通信方式" class="headerlink" title="数据通信方式"></a>数据通信方式</h2><h3 id="串行与并行通信"><a href="#串行与并行通信" class="headerlink" title="串行与并行通信"></a>串行与并行通信</h3><blockquote>
+<p>按数据传送的方式，通讯可分为串行通讯与并行通讯。</p>
+</blockquote>
+<ul>
+<li>串行通讯：是指设备之间通过一根数据信号线，地线以及控制信号线，按数据位形式一位一位地传输数据的通讯方式，同一时刻只能传输一位(bit)数据。<br>并行通讯：是指使用 8、16、32 及 64 根或更多的数据线(有多少信号为就需要多少信号位)进行传输的通讯方式，可以同一时刻传输多个数据位的数据</li>
+</ul>
+<img src="/2022/09/28/41h-f407-usart/01.jpg" class="">
+
+<ul>
+<li><p>全双工、半双工及单工通讯<br>单工通信：信息只能单方向传输的工作方式，一个固定为发送设备，另一个固定为接收设备，发送端只能发送信息不能接收信息，接收端只能接收信息不能发送信息，只需一根信号线</p>
+</li>
+<li><p>半双工通信：可以实现双向的通信，但不能在两个方向上同时进行，必须轮流交替进行，其实也可以理解成一种可以切换方向的单工通信，同一时刻必须只能一个方向传输，只需一根数据线</p>
+</li>
+<li><p>全双工通信：在同一时刻，两个设备之间可以同时收发数据，全双工方式无需进行方向的切换，这种方式要求通讯双方均有发送器和接收器，同时，需要2根数据线。</p>
+</li>
+</ul>
+<img src="/2022/09/28/41h-f407-usart/02.jpg" class="">
+<h3 id="同步通讯与异步通讯"><a href="#同步通讯与异步通讯" class="headerlink" title="同步通讯与异步通讯"></a>同步通讯与异步通讯</h3><ul>
+<li>同步通讯：收发设备双方会使用一根信号线表示时钟信号，在时钟信号的驱动下双方进行协调，同步数据，通讯中通常双方会统一规定在时钟信号的上升沿或下降沿对数据线进行采样，对应时钟极性与时钟相位。<br>I2C 的同步通信：</li>
+</ul>
+<img src="/2022/09/28/41h-f407-usart/03.jpg" class="">
+<p>异步通讯：不需要时钟信号进行数据同步，它们直接在数据信号中穿插一些同步用的信号位，或者把主体数据进行打包，以数据帧（串口：起始位 数据 校验位(可以没有) 停止位）的格式传输数据，某些通讯中还需要双方约定数据的传输速率（波特率），以便更好地同步。</p>
+<img src="/2022/09/28/41h-f407-usart/04.jpg" class="">
+<h2 id="串口通讯协议"><a href="#串口通讯协议" class="headerlink" title="串口通讯协议"></a>串口通讯协议</h2><h3 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h3><h4 id="1-RS232标准"><a href="#1-RS232标准" class="headerlink" title="(1)RS232标准"></a>(1)RS232标准</h4><p>很多单片机内部例如我们所用的STM32，以及一些传感器一般都是TTL电平。<br>RS232是一种串行数据传输形式，称其为串行连接，最经典的标志就是 9 针孔的 DB9 电缆RS232电压表示逻辑 1 ，0的范围大极大的增强了容错率，主要用于工业设备直接通信。</p>
+<img src="/2022/09/28/41h-f407-usart/05.jpg" class="">
+<p>由上图可知，TLL与RS-232标准逻辑相反，而且电平也大不相同，若单片机与单片机或其他设备TLL设备通信采用RS-232通信（DB9）,肯定先要进行电平的转化TLL-&gt;RS232 RS232-&gt;TTL</p>
+<img src="/2022/09/28/41h-f407-usart/06.jpg" class="">
+<p>两个通讯设备的“DB9 接口”之间通过串口信号线建立起连接，串口信号线中使用“RS-232 标准”传输数据信号。由于 RS-232 电平标准的信号不能直接被控制器直接识别，所以这些信号会经过一个“电平转换芯片”转换成控制器能识别的“TTL 标准”的电平信号，才能实现通讯。<br>电平转换芯片一般有max3232,sp3232</p>
+<h4 id="USB转串口"><a href="#USB转串口" class="headerlink" title="USB转串口"></a>USB转串口</h4><p>主要用于单片机与电脑通信</p>
+<img src="/2022/09/28/41h-f407-usart/07.jpg" class="">
+<p>电平转换芯片一般有CH340、PL2303、CP2102、FT232</p>
+<img src="/2022/09/28/41h-f407-usart/08.jpg" class="">
+<h4 id="原生的串口到串口"><a href="#原生的串口到串口" class="headerlink" title="原生的串口到串口"></a>原生的串口到串口</h4><img src="/2022/09/28/41h-f407-usart/09.jpg" class="">
+<p>原生的串口通信主要是控制器跟串口的设备或者传感器通信他们但是TLL电平，不需要经过电平转换芯片来转换电平，直接就用TTL电平通信，GPS模块、GSM模块、串口转WIFI模块、HC04蓝牙模块</p>
+<h3 id="协议层"><a href="#协议层" class="headerlink" title="协议层"></a>协议层</h3><img src="/2022/09/28/41h-f407-usart/04.jpg" class="">
+<h3 id="1）通讯的起始和停止信号"><a href="#1）通讯的起始和停止信号" class="headerlink" title="1）通讯的起始和停止信号"></a>1）通讯的起始和停止信号</h3><p>串口通讯的一个数据包从起始信号开始，直到停止信号结束。数据包的起始信号由一个逻辑 0 的数据位表示，而数据包的停止信号可由 0.5、1、1.5 或 2 个逻辑 1 的数据位表示</p>
+<p>1个停止位：停止位位数的默认值。<br>2个停止位：可用于常规USART模式、单线模式以及调制解调器模式。<br>0.5个停止位：在智能卡模式下接收数据时使用。<br>1.5个停止位：在智能卡模式下发送和接收数据时使用。</p>
+<h3 id="2-有效数据"><a href="#2-有效数据" class="headerlink" title="2)有效数据"></a>2)有效数据</h3><p>在数据包的起始位之后紧接着的就是要传输的主体数据内容，也称为有效数据，有效数据的长度常被约定为 5、6、7 或 8 位长</p>
+<h3 id="3-数据校验"><a href="#3-数据校验" class="headerlink" title="3)数据校验"></a>3)数据校验</h3><p>偶校验：校验位使得一帧中的7或8个LSB数据以及校验位中’1’的个数为偶数。<br>例如：数据&#x3D;00110101，有4个’1’，如果选择偶校验(在USART_CR1中的PS＝0)，校验位将是’0’，最后数据检验如果数据有偶数个1则数据传输没有出错(但不是绝对的，如果同时两个数据为发送错误(0变成1)则还是偶数个1)</p>
+<img src="/2022/09/28/41h-f407-usart/10.jpg" class="">
+<p>奇校验：此校验位使得一帧中的7或8个LSB数据以及校验位中’1’的个数为奇数。<br>例如：数据&#x3D;00110101，有4个’1’，如果选择奇校验(在USART_CR1中的PS＝1)，校验位将是’1’，最后数据检验如果数据有奇数个1则数据传输没有出错，但同样不是绝对的(同时两个1变成0)</p>
+<img src="/2022/09/28/41h-f407-usart/11.jpg" class="">
+<h3 id="控制寄存器-USART-CR1"><a href="#控制寄存器-USART-CR1" class="headerlink" title="控制寄存器(USART_CR1)"></a>控制寄存器(USART_CR1)</h3><img src="/2022/09/28/41h-f407-usart/12.jpg" class="">
+<p>传输模式：如果USART_CR1的PCE位被置位，如果奇偶校验失败USART_SR寄存器中的PE标志被置’1’，并且如果USART_CR1寄存器的PEIE在被预先设置的话，中断产生(我们可以在相应的中断服务函数中，写处理校验失败的代码)</p>
+<h3 id="状态寄存器-USART-CR1"><a href="#状态寄存器-USART-CR1" class="headerlink" title="状态寄存器(USART_CR1)"></a>状态寄存器(USART_CR1)</h3><img src="/2022/09/28/41h-f407-usart/13.jpg" class="">
+<img src="/2022/09/28/41h-f407-usart/14.jpg" class="">
+<h2 id="🔥USART功能框图"><a href="#🔥USART功能框图" class="headerlink" title="🔥USART功能框图"></a>🔥USART功能框图</h2><img src="/2022/09/28/41h-f407-usart/15.jpg" class="">
+<h3 id="功能引脚"><a href="#功能引脚" class="headerlink" title="功能引脚"></a>功能引脚</h3><img src="/2022/09/28/41h-f407-usart/16.jpg" class="">
+<h3 id="数据寄存器（重点）"><a href="#数据寄存器（重点）" class="headerlink" title="数据寄存器（重点）"></a>数据寄存器（重点）</h3><img src="/2022/09/28/41h-f407-usart/17.jpg" class="">
+<img src="/2022/09/28/41h-f407-usart/18.jpg" class="">
+<img src="/2022/09/28/41h-f407-usart/19.jpg" class="">
+<img src="/2022/09/28/41h-f407-usart/20.jpg" class="">
+<h3 id="控制单元"><a href="#控制单元" class="headerlink" title="控制单元"></a>控制单元</h3><ul>
+<li>发送器</li>
+</ul>
+<p>发送器根据M位的状态发送8位或9位的数据字。当发送使能位(TE)被设置时，发送移位寄存器中的数据在TX脚上输出，相应的时钟脉冲在CK脚上输出。</p>
+<p>一个字符帧发送需要三个部分：起始位+数据帧（可能有校验位）+停止位。<code>每个字符(一个数据帧)之前都有一个低电平的起始位，之后跟着的停止位</code>，其数目可配置,数据帧就是我们要发送的 8 位或 9 位数据，<code>数据是从最低位开始传输的</code>,停止位是一定时间周期的高电平。</p>
+<p>配置步骤：</p>
+<img src="/2022/09/28/41h-f407-usart/21.jpg" class="">
+<img src="/2022/09/28/41h-f407-usart/22.jpg" class="">
+<img src="/2022/09/28/41h-f407-usart/23.jpg" class="">
+<img src="/2022/09/28/41h-f407-usart/24.jpg" class="">
+<img src="/2022/09/28/41h-f407-usart/25.jpg" class="">
+<p><code>实际上就是把十进制的小数转化成十六进制</code></p>
+<img src="/2022/09/28/41h-f407-usart/32.jpg" class="">
+<blockquote>
+<p>波特率计算方法<br>首先时钟来源，fPCLK1或fPCLK2<br>然后除以USARTDIV<br>再除以8*（2-OVER8）<br>OVER8是可以改变的，可以为1或0（在CR1寄存器15位设置）<br>故波特率 &#x3D; F&#x2F;（（8*（2-OVER8））*USARTDIV）<br>如果你要快，就设置OVER8为1，8倍过样率，但是容错差<br>如果你要精准，就OVER8设置为0，16倍过样率，但是慢<br>我们如何控制波特率，当我们确认好我们的波特率，时钟信号也确定了，就需要控制USARTDIV大小<br>USARTDIV的值如何决定<br>由USART_BRR决定<br>当OVER8为0时，小数比方编码为4位，并通过USART_BRR寄存器中的DIV_fraction[3:0]位编程<br>当OVER8为1时，小数比方编码为3位，并通过USART_BRR寄存器中的DIV_fraction[2:0]位编程，这DIV_fraction[3]必须保持清0<br>USART_BRR寄存器如上图<br>32位使用了低16位，分为2部分，有高12位和低4位<br>高12位：整数<br>低4位：小数</p>
+</blockquote>
+<blockquote>
+<p>OVER8&#x3D;0时候波特率计算</p>
+</blockquote>
+<img src="/2022/09/28/41h-f407-usart/33.png" class="">
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_54674051/article/details/126858320?ops_request_misc=&request_id=&biz_id=102&utm_term=stm32%E4%B8%B2%E5%8F%A3%E6%B3%A2%E7%89%B9%E7%8E%87%E5%A6%82%E4%BD%95%E8%80%8C%E8%AE%A1%E7%AE%97&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-8-126858320.142%5Ev51%5Econtrol,201%5Ev3%5Econtrol_1&spm=1018.2226.3001.4187">STM32串口工作原理</a></p>
+<blockquote>
+<p>小知识:<br>波特率就是每秒传输的bit的位数<br>计算机最小的单位是bit,位,也叫比特位<br>byte是字节,也就是B<br>一字节(B)&#x3D;8位(bit)<br>位只有两种形式,0和1,只能表示两种状态,而字节有八个位,有256个状态<br>1GB&#x3D;1024MB<br>1MB&#x3D;1024KB<br>1KB&#x3D;1024B<br>1B&#x3D;8bit</p>
+</blockquote>
+<p>设置USART_CR1中的TE位，发送一个空闲帧帧(<code>一个数据帧长度的高电平</code>)作为第一次数据发送。</p>
+<img src="/2022/09/28/41h-f407-usart/26.jpg" class="">
+<h3 id="深入理解TXE位与TC位："><a href="#深入理解TXE位与TC位：" class="headerlink" title="深入理解TXE位与TC位："></a>深入理解TXE位与TC位：</h3><p>清零TXE位总是通过对数据寄存器的写操作(CPU 或 DMA)来完成的，当TXE位已经被硬件置1它表明：</p>
+<p>● 数据已经从TDR移送到移位寄存器，数据发送已经开始(发送移位寄存器正在一位一位向外传输数据)</p>
+<p>● TDR寄存器被清空</p>
+<p>● 下一个数据可以被写进USART_DR寄存器而不会覆盖先前的数据如果TXEIE位被设置，此标志将产生一个中断。</p>
+<p>如果此时USART正在发送数据(发送移位寄存器正在一位一位向外传输数据)，对USART_DR寄存器的写操作把数据存进TDR寄存器，并在当前传输结束时把该数据复制进移位寄存器，也就是说移位寄存器里面的数据并不会被覆盖，所以我觉得只要你发送一帧数据等待TXE置1，就算是发送多帧数据时最后也不用等待TC&#x3D;1。</p>
+<p>如果此时USART没有在发送数据，处于空闲状态，对USART_DR寄存器的写操作直接把数据放进移位寄存器，数据传输开始，TXE位立即被置起。</p>
+<p>当一帧发送完成时(停止位发送后)并且设置了TXE位，TC位被置起，如果USART_CR1寄存器中的TCIE位被置起时，则会产生中断</p>
+<p>使用下列软件过程清除TC位：<br>1．读一次USART_SR寄存器；<br>2．写一次USART_DR寄存器。<br>TC位也可以通过软件对它写’0’来清除。此清零方式只推荐在多缓冲器通信模式下使用</p>
+<p>接收器<br>如果将 USART_CR1 寄存器的 RE 位置 1，使能 USART 接收，使得接收器在 RX 线开始搜索起始位。在确定到起始位后就根据 RX 线电平状态把数据存放在接收移位寄存器内。接收完成后就把接收移位寄存器数据移到 RDR 内，并把 USART_SR 寄存器的 RXNE 位置1，同时如果 USART_CR2 寄存器的 RXNEIE 置 1 的话可以产生中断。</p>
+<p>当一字符被接收到时，<br>● RXNE位被置1。它表明移位寄存器的内容被转移到RDR。换句话说，数据已经被接收并且可以被读出。</p>
+<p>● 如果RXNEIE位被设置，产生中断。</p>
+<p>● 在多缓冲器通信时，RXNE在每个字节接收后被置起，并由DMA对数据寄存器的读操作而清零。</p>
+<p>● 在单缓冲器模式里，由软件读USART_DR寄存器完成对RXNE位清除,RXNE标志也可以通过对它写0来清除。RXNE位必须在下一字符接收结束前(接收移位寄存器接收满)被清零(要将数据读出)，以避免溢出错误(移位寄存器的数据会被覆盖)。</p>
+<p>溢出错误<br>如果RXNE还没有被复位（还没有读出DR寄存器的数据），又接收到一个字符，则发生溢出错误,数据只有当RXNE位被清零后才能从移位寄存器转移到RDR寄存器。RXNE标记是接收到每个字节后被置位的。如果下一个数据已被收到或先前DMA请求还没被服务时，RXNE标志仍是1，溢出错误产生。</p>
+<p>当溢出错误产生时：<br>● ORE位被置位。<br>● RDR内容将不会丢失。读USART_DR寄存器仍能得到先前的数据。<br>● 移位寄存器中以前的内容将被覆盖。随后接收到的数据都将丢失。</p>
+<p>● 如果RXNEIE位被设置或EIE和DMAR位都被设置，中断产生。</p>
+<p>● 顺序执行对USART_SR和USART_DR寄存器的读操作，可复位ORE位</p>
+<img src="/2022/09/28/41h-f407-usart/27.jpg" class="">
+<img src="/2022/09/28/41h-f407-usart/28.jpg" class="">
+<h3 id="USART和UART的区别"><a href="#USART和UART的区别" class="headerlink" title="USART和UART的区别"></a>USART和UART的区别</h3><p>UART：universal asynchronous receiver and transmitter通用异步收&#x2F;发器(裁剪掉了同步通信功能（时钟同步）)<br>USART:universal synchronous asynchronous receiver and transmitter通用同步&#x2F;异步收&#x2F;发器<br>大家能看出来USART和UART相比较，可以实现同步，就是说USART相对UART的区别之一就是能提供主动时钟。</p>
+<blockquote>
+<p>串行通信一般是以帧格式传输数据，即是一帧一帧的传输，每帧包含有起始信号、数据信息、校验信息(由我们自己设置)、停止信号。</p>
+</blockquote>
+<h3 id="串口相关寄存器"><a href="#串口相关寄存器" class="headerlink" title="串口相关寄存器"></a>串口相关寄存器</h3><blockquote>
+<p>USART_SR　状态寄存器<br>USART_DR　数据寄存器<br>USART_BRR　波特率寄存器<br>USART_CR1　控制寄存器</p>
+</blockquote>
+<h3 id="封装函数"><a href="#封装函数" class="headerlink" title="封装函数"></a>封装函数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; 获取状态标志位
+FlagStatus USART_GetFlagStatus(USART_TypeDef* USARTx, uint16_t USART_FLAG);
+&#x2F;&#x2F; 清除状态标志位
+void USART_ClearFlag(USART_TypeDef* USARTx, uint16_t USART_FLAG);
+&#x2F;&#x2F; 获取中断状态标志位
+ITStatus USART_GetITStatus(USART_TypeDef* USARTx, uint16_t USART_IT);
+&#x2F;&#x2F; 清除中断状态标志位
+void USART_ClearITPendingBit(USART_TypeDef* USARTx, uint16_t USART_IT);
+
+&#x2F;&#x2F; 发送数据到串口(通过写USART_DR寄存器发送数据)
+void USART_SendData(USART_TypeDef* USARTx, uint16_t Data);
+&#x2F;&#x2F; 接收数据（从USART_DR寄存器读取接收到的数据）
+uint16_t USART_ReceiveData(USART_TypeDef* USARTx);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="USART初始化结构体"><a href="#USART初始化结构体" class="headerlink" title="USART初始化结构体"></a>USART初始化结构体</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">typedef struct
+&#123;
+  uint32_t USART_BaudRate;          
+  uint16_t USART_WordLength;        
+  uint16_t USART_StopBits;          
+  uint16_t USART_Parity;             
+  uint16_t USART_Mode;             
+  uint16_t USART_HardwareFlowControl;
+                                         
+&#125; USART_InitTypeDef;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<img src="/2022/09/28/41h-f407-usart/28.jpg" class="">
+<ol>
+<li><p>USART_BaudRate：波特率设置。一般设置为9600、115200。标准库函数会自己计算计算得到 USARTDIV 值，从而写入USART_BRR 寄存器。</p>
+</li>
+<li><p>USART_WordLength：数据帧字长，可选 8 位或 9 位。它设置了USART_CR1 寄存器的 M 位的值。如果没有使能奇偶校验位，一般使用 8 数据位；如果使能了奇偶校验则一般设置为 9 数据位，最后一位是奇偶校验位。</p>
+</li>
+<li><p>USART_StopBits：停止位设置，可选 0.5 个、1 个、1.5 个和 2 个停止位，它设定USART_CR2 STOP位，一般我们选择 1 个停止位。</p>
+</li>
+<li><p>USART_Parity ： 奇 偶 校 验 控 制 选 择 ，USART_CR1 寄存器的 PCE 位和 PS 位的值。</p>
+</li>
+<li><p>USART_Mode：USART 模式选择，有 USART_Mode_Rx 和 USART_Mode_Tx，允许使用逻辑或运算选择两个,USART_CR1 寄存器的 RE 位和 TE 位。</p>
+</li>
+<li><p>USART_HardwareFlowControl：硬件流控制选择，只有在硬件流控制模式才有效，可选有⑴使能 RTS、⑵使能 CTS、⑶同时使能 RTS 和 CTS、⑷不使能硬件流。</p>
+</li>
+</ol>
+<h3 id="编程思路"><a href="#编程思路" class="headerlink" title="编程思路"></a>编程思路</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">1) 使能 RX 和 TX 引脚 GPIO 时钟和 USART 时钟；
+2) 初始化 GPIO，并将 GPIO 复用到 USART 上；
+3) 配置 USART 参数初始化结构体；
+4) 配置中断控制器并使能 USART 接收中断；
+5) 使能 USART；
+6) 在 USART 接收中断服务函数实现数据接收和发送<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="串口收发代码"><a href="#串口收发代码" class="headerlink" title="串口收发代码"></a>串口收发代码</h3><p><code>usart.h</code></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">#ifndef _USART_H
+#define _USART_H
+
+#include &quot;stm32f10x.h&quot;
+#include &lt;stdio.h&gt;
+#define   DEBUG_USART1    1
+#define   DEBUG_USART2    0
+
+#if  DEBUG_USART1 
+&#x2F;&#x2F; 串口1-USART1
+#define  DEBUG_USARTx                   USART1
+#define  DEBUG_USART_CLK                RCC_APB2Periph_USART1
+#define  DEBUG_USART_APBxClkCmd         RCC_APB2PeriphClockCmd
+#define  DEBUG_USART_BAUDRATE           115200
+
+&#x2F;&#x2F; USART GPIO 引脚宏定义
+#define  DEBUG_USART_GPIO_CLK           (RCC_APB2Periph_GPIOA)
+#define  DEBUG_USART_GPIO_APBxClkCmd    RCC_APB2PeriphClockCmd
+    
+#define  DEBUG_USART_TX_GPIO_PORT       GPIOA   
+#define  DEBUG_USART_TX_GPIO_PIN        GPIO_Pin_9
+#define  DEBUG_USART_RX_GPIO_PORT       GPIOA
+#define  DEBUG_USART_RX_GPIO_PIN        GPIO_Pin_10
+
+#define  DEBUG_USART_IRQ                USART1_IRQn
+#define  DEBUG_USART_IRQHandler         USART1_IRQHandler
+
+#elif   DEBUG_USART2 
+&#x2F;&#x2F; 串口2-USART2
+#define  DEBUG_USARTx                   USART2
+#define  DEBUG_USART_CLK                RCC_APB1Periph_USART2
+#define  DEBUG_USART_APBxClkCmd         RCC_APB1PeriphClockCmd
+#define  DEBUG_USART_BAUDRATE           115200
+
+&#x2F;&#x2F; USART GPIO 引脚宏定义
+#define  DEBUG_USART_GPIO_CLK           (RCC_APB2Periph_GPIOA)
+#define  DEBUG_USART_GPIO_APBxClkCmd    RCC_APB2PeriphClockCmd
+    
+#define  DEBUG_USART_TX_GPIO_PORT       GPIOA   
+#define  DEBUG_USART_TX_GPIO_PIN        GPIO_Pin_2
+#define  DEBUG_USART_RX_GPIO_PORT       GPIOA
+#define  DEBUG_USART_RX_GPIO_PIN        GPIO_Pin_3
+
+#define  DEBUG_USART_IRQ                USART2_IRQn
+#define  DEBUG_USART_IRQHandler         USART2_IRQHandler
+
+#endif
+void USART_Config(void);
+void Usart_SendByte( USART_TypeDef * pUSARTx, uint8_t date);
+void Usart_SendString( USART_TypeDef * pUSARTx, char *str);
+void Usart_SendHalfWord( USART_TypeDef * pUSARTx, uint16_t date);
+void Usart_SendArray(USART_TypeDef * pUSARTx,uint8_t *arr,uint16_t num);
+#endif &#x2F;* _USART_H *&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>usart.c</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &quot;usart.h&quot;
+#include &quot;led.h&quot;
+
+
+static void NVIC_Configuration(void)
+&#123;
+	NVIC_InitTypeDef  NVIC_InitStructure;
+	
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+	NVIC_InitStructure.NVIC_IRQChannel &#x3D;DEBUG_USART_IRQ;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority &#x3D;0x01;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority &#x3D;0x01;
+	NVIC_InitStructure.NVIC_IRQChannelCmd &#x3D;ENABLE;
+	NVIC_Init(&amp;NVIC_InitStructure);
+&#125;
+
+void USART_Config(void)
+&#123;
+ 
+	GPIO_InitTypeDef GPIO_InitStructure;
+	USART_InitTypeDef USART_InitStructure;
+
+	&#x2F;&#x2F; 打开串口GPIO的时钟
+	DEBUG_USART_GPIO_APBxClkCmd(DEBUG_USART_GPIO_CLK, ENABLE);
+	
+	&#x2F;&#x2F; 打开串口外设的时钟
+	DEBUG_USART_APBxClkCmd(DEBUG_USART_CLK, ENABLE);
+
+	&#x2F;&#x2F; 将USART Tx的GPIO配置为推挽复用模式
+	GPIO_InitStructure.GPIO_Pin &#x3D; DEBUG_USART_TX_GPIO_PIN;
+	GPIO_InitStructure.GPIO_Mode &#x3D; GPIO_Mode_AF_PP;
+	GPIO_InitStructure.GPIO_Speed &#x3D; GPIO_Speed_50MHz;
+	GPIO_Init(DEBUG_USART_TX_GPIO_PORT, &amp;GPIO_InitStructure);
+
+  &#x2F;&#x2F; 将USART Rx的GPIO配置为浮空输入模式
+	GPIO_InitStructure.GPIO_Pin &#x3D; DEBUG_USART_RX_GPIO_PIN;
+	GPIO_InitStructure.GPIO_Mode &#x3D; GPIO_Mode_IN_FLOATING;
+	GPIO_Init(DEBUG_USART_RX_GPIO_PORT, &amp;GPIO_InitStructure);
+	
+	&#x2F;&#x2F; 配置串口的工作参数
+	&#x2F;&#x2F; 配置波特率
+	USART_InitStructure.USART_BaudRate &#x3D; DEBUG_USART_BAUDRATE;
+	&#x2F;&#x2F; 配置 针数据字长
+	USART_InitStructure.USART_WordLength &#x3D; USART_WordLength_8b;
+	&#x2F;&#x2F; 配置停止位
+	USART_InitStructure.USART_StopBits &#x3D; USART_StopBits_1;
+	&#x2F;&#x2F; 配置校验位
+	USART_InitStructure.USART_Parity &#x3D; USART_Parity_No ;
+	&#x2F;&#x2F; 配置硬件流控制
+	USART_InitStructure.USART_HardwareFlowControl &#x3D; 
+	USART_HardwareFlowControl_None;
+	&#x2F;&#x2F; 配置工作模式，收发一起
+	USART_InitStructure.USART_Mode &#x3D; USART_Mode_Rx | USART_Mode_Tx;
+	&#x2F;&#x2F; 完成串口的初始化配置
+	USART_Init(DEBUG_USARTx, &amp;USART_InitStructure);
+	&#x2F;&#x2F;中断配置
+	NVIC_Configuration();
+	&#x2F;&#x2F;开启串口接收中断
+	USART_ITConfig(DEBUG_USARTx,USART_IT_RXNE, ENABLE);
+	&#x2F;&#x2F;使能串口
+	USART_Cmd(DEBUG_USARTx, ENABLE);
+
+&#125;
+&#x2F;&#x2F;发送一个字节
+void Usart_SendByte(USART_TypeDef * pUSARTx,uint8_t date)
+&#123;
+	 USART_SendData(pUSARTx,date);
+	 while( USART_GetFlagStatus(pUSARTx,USART_FLAG_TXE)&#x3D;&#x3D; RESET);
+&#125;
+
+&#x2F;&#x2F;发送一个16位的数据
+void Usart_SendHalfWord(USART_TypeDef * pUSARTx,uint16_t date)
+&#123;
+	uint16_t tmp_h;
+	uint16_t tmp_l;
+	tmp_h &#x3D;date&gt;&gt;0x08;
+	tmp_l &#x3D;date &amp; 0xff;
+	Usart_SendByte(pUSARTx,tmp_h);
+	Usart_SendByte(pUSARTx,tmp_l);
+&#125;
+
+&#x2F;&#x2F;发送一个8位的数组
+void Usart_SendArray(USART_TypeDef * pUSARTx,uint8_t *arr,uint16_t num)
+&#123; 
+   while(num--)
+	 &#123;
+		 Usart_SendByte( pUSARTx ,*arr++);
+	 &#125;
+ while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TC)&#x3D;&#x3D; RESET);
+&#125;
+
+&#x2F;&#x2F;发送字符串
+void Usart_SendString( USART_TypeDef * pUSARTx, char *str)
+&#123;
+ while( *str!&#x3D;&#39;\0&#39; )
+ &#123;
+	 Usart_SendByte( pUSARTx, *str++); 
+ &#125;
+
+ while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TC)&#x3D;&#x3D; RESET);
+&#125;
+
+
+&#x2F;&#x2F;&#x2F;重定向c库函数printf到串口，重定向后可使用printf函数
+int fputc(int ch, FILE *f)
+&#123;
+		&#x2F;* 发送一个字节数据到串口 *&#x2F;
+		USART_SendData(DEBUG_USARTx, (uint8_t) ch);
+		
+		&#x2F;* 等待发送完毕 *&#x2F;
+		while (USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_TXE) &#x3D;&#x3D; RESET);		
+	
+		return (ch);
+&#125;
+
+&#x2F;&#x2F;&#x2F;重定向c库函数scanf到串口，重写向后可使用scanf、getchar等函数
+int fgetc(FILE *f)
+&#123;
+		&#x2F;* 等待串口输入数据 *&#x2F;
+		while (USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_RXNE) &#x3D;&#x3D; RESET);
+
+		return (int)USART_ReceiveData(DEBUG_USARTx);
+&#125;
+
+&#x2F;&#x2F;中断服务函数
+void DEBUG_USART_IRQHandler(void)
+&#123;
+     uint16_t tmp;
+
+if(USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_RXNE) !&#x3D; RESET)
+	&#123;
+	  tmp&#x3D;USART_ReceiveData(DEBUG_USARTx);
+	 USART_SendData(DEBUG_USARTx,tmp);
+while( USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_TXE)&#x3D;&#x3D; RESET);
+		
+	&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &quot;stm32f10x.h&quot;
+#include &quot;led.h&quot;
+#include  &quot;usart.h&quot;
+#include  &lt;string.h&gt;
+#define SOFT_DELAY Delay(0x0FFFFF);
+
+void Delay(__IO u32 nCount); 
+
+
+int main(void)
+&#123;	
+	 uint16_t ch;
+	
+	 uint8_t arr[10]&#x3D;&#123;1,2,3,4,5,6,7,8,9,10&#125;;
+	&#x2F;* LED 端口初始化 *&#x2F;
+	LED_GPIO_Config();	
+
+  &#x2F;*初始化USART 配置模式为 115200 8-N-1，中断接收*&#x2F;
+  USART_Config();
+   &#x2F;&#x2F;发送一个字符
+	 printf(&quot;发送一个字节：\r\n&quot;);
+   Usart_SendByte(DEBUG_USARTx ,97);
+	 printf(&quot;\r\n&quot;);
+	 
+   &#x2F;&#x2F;发送一个16位数据
+	 Usart_SendHalfWord(DEBUG_USARTx,0xffee);
+
+	 &#x2F;&#x2F;发送一个数组
+	 Usart_SendArray(DEBUG_USARTx, arr,10);
+
+	 &#x2F;&#x2F;发送一个字符串
+	 printf(&quot;发送一个字符串：\r\n&quot;);
+	 Usart_SendString( DEBUG_USARTx, &quot;hello world\r\n&quot;);
+ 
+	 while(1);	
+&#125;	 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="printf函数"><a href="#printf函数" class="headerlink" title="printf函数"></a>printf函数</h2><img src="/2022/09/28/41h-f407-usart/30.jpg" class="">
+<img src="/2022/09/28/41h-f407-usart/31.jpg" class="">
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/k666499436/article/details/124354165?spm=1001.2014.3001.5502">一位大佬写的STM32串口通信详解</a><br><a target="_blank" rel="noopener" href="https://www.dandelioncloud.cn/article/details/1531874206224773122">stm32 USART_IT_IDLE中断 一帧数据</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2022/09/27/40h-sbd-diode/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/STM32F407/" title="STM32F407">
+                        #STM32F407
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/USART/" title="USART">
+                        #USART
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2022/09/29/42h-f407-gpio/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-text">数据通信方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E8%A1%8C%E4%B8%8E%E5%B9%B6%E8%A1%8C%E9%80%9A%E4%BF%A1"><span class="toc-text">串行与并行通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E9%80%9A%E8%AE%AF%E4%B8%8E%E5%BC%82%E6%AD%A5%E9%80%9A%E8%AE%AF"><span class="toc-text">同步通讯与异步通讯</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3%E9%80%9A%E8%AE%AF%E5%8D%8F%E8%AE%AE"><span class="toc-text">串口通讯协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-text">物理层</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-RS232%E6%A0%87%E5%87%86"><span class="toc-text">(1)RS232标准</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#USB%E8%BD%AC%E4%B8%B2%E5%8F%A3"><span class="toc-text">USB转串口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%94%9F%E7%9A%84%E4%B8%B2%E5%8F%A3%E5%88%B0%E4%B8%B2%E5%8F%A3"><span class="toc-text">原生的串口到串口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E5%B1%82"><span class="toc-text">协议层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%89%E9%80%9A%E8%AE%AF%E7%9A%84%E8%B5%B7%E5%A7%8B%E5%92%8C%E5%81%9C%E6%AD%A2%E4%BF%A1%E5%8F%B7"><span class="toc-text">1）通讯的起始和停止信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%9C%89%E6%95%88%E6%95%B0%E6%8D%AE"><span class="toc-text">2)有效数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8C"><span class="toc-text">3)数据校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%AF%84%E5%AD%98%E5%99%A8-USART-CR1"><span class="toc-text">控制寄存器(USART_CR1)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E5%AF%84%E5%AD%98%E5%99%A8-USART-CR1"><span class="toc-text">状态寄存器(USART_CR1)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%94%A5USART%E5%8A%9F%E8%83%BD%E6%A1%86%E5%9B%BE"><span class="toc-text">🔥USART功能框图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E5%BC%95%E8%84%9A"><span class="toc-text">功能引脚</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AF%84%E5%AD%98%E5%99%A8%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-text">数据寄存器（重点）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%8D%95%E5%85%83"><span class="toc-text">控制单元</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3TXE%E4%BD%8D%E4%B8%8ETC%E4%BD%8D%EF%BC%9A"><span class="toc-text">深入理解TXE位与TC位：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USART%E5%92%8CUART%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">USART和UART的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3%E7%9B%B8%E5%85%B3%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">串口相关寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%81%E8%A3%85%E5%87%BD%E6%95%B0"><span class="toc-text">封装函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USART%E5%88%9D%E5%A7%8B%E5%8C%96%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-text">USART初始化结构体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A8%8B%E6%80%9D%E8%B7%AF"><span class="toc-text">编程思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3%E6%94%B6%E5%8F%91%E4%BB%A3%E7%A0%81"><span class="toc-text">串口收发代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#printf%E5%87%BD%E6%95%B0"><span class="toc-text">printf函数</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + USART%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2022%2F09%2F28%2F41h-f407-usart%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2022/09/28/41h-f407-usart/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

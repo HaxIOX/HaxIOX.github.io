@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      舵机 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">舵机</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="舵机"><a href="#舵机" class="headerlink" title="舵机"></a>舵机</h2><p>学名叫做伺服电机</p>
+<p><strong>按照舵机的控制电路可以分为：</strong><br>1、模拟舵机<br>2、数字舵机</p>
+<p><strong>按照外部接口和舵机的控制方式，又可分为：</strong><br>PWM 舵机和串行总线舵机。</p>
+<blockquote>
+<p>其工作原理：PWM信号由接收通道进入信号解调电路进行解调，</p>
+<p>获得一个直流偏置电压直流偏置电压与电位器的电压比较，获得电压差并输出。</p>
+<p>该输出送入电机驱动集成电路以驱动电机正反转。</p>
+<p>当电机转动时，通过级联减速齿轮带动电位器旋转，直到电压差为O，电机停止转动。<br>舵机的控制信号是PWM信号，利用占空比的变化，改变舵机的位置</p>
+</blockquote>
+<p>舵机的控制一般需要一个20ms的时基脉冲(也就是周期是20ms)，该脉冲的高电平部分一般为0.5ms~2.5ms范围内的角度控制脉冲部分。以180度角度舵机为例，那么对应的控制关系是这样的</p>
+<blockquote>
+<p>0.5ms-0度:<br>1.0ms-45度;<br>1.5ms-90度;<br>2.0ms-135度;<br>2.5ms-180度;</p>
+<p><img src="https://img-blog.csdnimg.cn/2fb9abab29f44aeba9942881dd77a486.png" alt="在这里插入图片描述"></p>
+</blockquote>
+<h2 id="如何精确控制舵机转向角度"><a href="#如何精确控制舵机转向角度" class="headerlink" title="如何精确控制舵机转向角度"></a>如何精确控制舵机转向角度</h2><h2 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h2><h3 id="pwm"><a href="#pwm" class="headerlink" title="pwm"></a>pwm</h3><p>定时器中断一次的时间为Tout（溢出时间）&#x3D;（ARR+1)(PSC+1)&#x2F;Tclk，tclk为时钟频率，一般为72000000，arr：自动重装值 psc：时钟预分频数</p>
+<h3 id="舵机-1"><a href="#舵机-1" class="headerlink" title="舵机"></a>舵机</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44234294/article/details/114173000?ops_request_misc=%7B%22request_id%22:%22168886617416800188540469%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=168886617416800188540469&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-114173000-null-null.142%5Ev88%5Einsert_down38v5,239%5Ev2%5Einsert_chatgpt&utm_term=pwm%E6%8E%A7%E5%88%B6%E8%88%B5%E6%9C%BA&spm=1018.2226.3001.4187">STM32 PWM控制舵机_追兮兮的博客-CSDN博客</a></p>
+<h3 id="TIM-SetCompare"><a href="#TIM-SetCompare" class="headerlink" title="TIM_SetCompare"></a>TIM_SetCompare</h3><p><img src="https://img-blog.csdnimg.cn/20200130103122170.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1Bhc2Vk,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li><p>第一个参数传入相应定时器，（定时器6,7除外）。使用的GPIO口位于哪个定时器那一列就传入哪个定时器。</p>
+</li>
+<li><p>第二个参数是输出PWM的高电平的时间。这个值如果大于周期的值，将会与周期保持一致。用第二个参数除以周期就得占空比。比如我想要使用PA1输出PWM，则应该这样写TIM_SetCompare2(TIM5,<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Compare&spm=1001.2101.3001.7020">Compare</a>)。Compare是输出高电平的时间。你想要在哪里使用PWM就在哪里调用这个函数</p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://m.elecfans.com/article/675807.html">mg995舵机中文资料（参数_尺寸_控制程序）-电子发烧友网 (elecfans.com)</a></p>
+<h2 id="精准控制舵机"><a href="#精准控制舵机" class="headerlink" title="精准控制舵机"></a>精准控制舵机</h2><h3 id="我的公式"><a href="#我的公式" class="headerlink" title="我的公式"></a>我的公式</h3><p>Pulse&#x3D;50+Angel&#x2F;180*(250-50)</p>
+<p>Pulse&#x3D;150+Angel&#x2F;90*(250-50)</p>
+<p>原理,占空比2.5-12.5%*2000&#x3D;50-&gt;250对应0-180度 </p>
+<p>公式计算并没有问题就是不知道为什么,不能正常输出脉冲</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F;void Sevor_move(int8_t Angel)
+&#x2F;&#x2F;&#123;
+&#x2F;&#x2F;    &#x2F;&#x2F; 计算PWM信号的占空比
+&#x2F;&#x2F;    float pulse_float &#x3D; 50.0+Angel&#x2F;180.0*(250.0-50.0);
+&#x2F;&#x2F;    uint16_t pulse &#x3D;(uint16_t)(pulse_float+0.5) ;
+&#x2F;&#x2F;    &#x2F;&#x2F; 设置PWM信号的占空比
+&#x2F;&#x2F;    TIM_SetCompare1(TIM1, pulse);
+&#x2F;&#x2F;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>GPT写的正确的代码</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">void Sevor_move(int8_t Angel)
+&#123;
+  uint16_t pulse;
+    &#x2F;&#x2F; 将角度限制在-90到90度之间
+    if (Angel &lt; -90) &#123;
+        Angel &#x3D; -90;
+    &#125; else if (Angel &gt; 90) &#123;
+        Angel &#x3D; 90;
+    &#125;
+
+    &#x2F;&#x2F; 计算PWM信号的脉冲宽度对应的计数值
+    pulse &#x3D; 50 + (uint16_t)((Angel + 90) &#x2F; 180.0 * 200); &#x2F;&#x2F; 50对应0.5ms, 250对应2.5ms
+
+    &#x2F;&#x2F; 设置PWM信号的脉冲宽度
+    TIM_SetCompare1(TIM1, pulse);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol>
+<li><p>在 0 到 180 度的范围内，将角度映射到 0.5ms 到 2.5ms 的脉冲宽度范围。为了实现这个映射，我们可以使用线性关系。</p>
+<ul>
+<li>角度 0 度对应脉冲宽度 1.5ms（90度对应的中间位置）；</li>
+<li>角度 90 度对应脉冲宽度 2.5ms（舵机的最大角度）；</li>
+<li>角度 -90 度对应脉冲宽度 0.5ms（舵机的最小角度）。</li>
+</ul>
+<p>我们使用线性关系进行映射，即脉冲宽度 &#x3D; (角度 + 90) &#x2F; 180.0 * (2.5 - 0.5) + 0.5。</p>
+</li>
+<li><p>最后，为了得到计数值范围在 50 到 250 的值（2.5ms 到 12.5ms 对应的范围），我们再将脉冲宽度乘以200（因为 250 - 50 &#x3D; 200）并四舍五入到最接近的整数。</p>
+</li>
+</ol>
+<h3 id="更改后"><a href="#更改后" class="headerlink" title="更改后"></a>更改后</h3><p>我的代码更改后正常</p>
+<p>我认为:是因为uint8_t是8位无符号的整型变量也就是一个字节,最大是256,Angel输入为0-180,,也没超啊</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">void Sevor_move(int Angel)
+&#123;
+    &#x2F;&#x2F; 计算PWM信号的占空比
+    float pulse_float &#x3D; 50.0+Angel&#x2F;180.0*(250.0-50.0);
+    uint16_t pulse &#x3D;(uint16_t)(pulse_float+0.5) ;
+    &#x2F;&#x2F; 设置PWM信号的占空比
+    TIM_SetCompare1(TIM1, pulse);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>换成int之后又换回uint8_t了,好使了,好像是<code>玄学</code>啊</p>
+<h3 id="更正"><a href="#更正" class="headerlink" title="更正"></a>更正</h3><p>是int8_t不可以</p>
+<blockquote>
+<p><code>int8_t</code>：</p>
+<ul>
+<li><code>int8_t</code> 是一个有符号的整数类型，表示范围为从 -128 到 127。</li>
+<li>它占用 8 位（一个字节）内存空间。</li>
+<li><code>int8_t</code> 在存储的时候使用 2 的补码表示，最高位表示符号位。</li>
+</ul>
+<p><code>uint8_t</code>：</p>
+<ul>
+<li><code>uint8_t</code> 是一个无符号的整数类型，表示范围为从 0 到 255。</li>
+<li>它同样占用 8 位（一个字节）内存空间。</li>
+<li><code>uint8_t</code> 表示的是正整数，没有符号位。</li>
+</ul>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_73931287/article/details/130445572">舵机驱动代码及舵机控制原理（详解）_舵机驱动程序_小小_扫地僧的博客-CSDN博客</a></p>
+<h2 id="类型转换的问题"><a href="#类型转换的问题" class="headerlink" title="类型转换的问题"></a>类型转换的问题</h2><p>int变量赋值给float变量,值会不对150变成10584545684什么的</p>
+<h2 id="错误诊断"><a href="#错误诊断" class="headerlink" title="错误诊断"></a>错误诊断</h2><p>1.printf串口</p>
+<p>2.c语言实现看结果</p>
+<p>3.oled</p>
+<h2 id="控制舵机的缓动算法"><a href="#控制舵机的缓动算法" class="headerlink" title="控制舵机的缓动算法"></a>控制舵机的缓动算法</h2><p>当控制舵机进行旋转时，普通的方式往往会直接指定舵机的目标角度，然后直接让舵机转动到目标角度。这种方式会导致舵机在转动时突然停下，可能会产生颤动或者不够平滑的效果。</p>
+<p>为了实现丝滑旋转效果，我们可以采用缓动（Easing）方法。缓动是一种用于平滑过渡动画效果的数学算法，它可以让舵机在旋转过程中逐渐增加或减小角速度，从而使得旋转过程更加平滑和自然。</p>
+<p>缓动算法的基本思想是通过线性插值来计算舵机的当前角度。假设舵机起始角度为 <code>start</code>，目标角度为 <code>target</code>，当前时间为 <code>t</code>，持续时间为 <code>duration</code>，那么可以使用如下的线性插值公式来计算舵机的当前角度：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">current_angle &#x3D; start + (target - start) * t &#x2F; duration<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这个公式会根据当前时间 <code>t</code> 的变化，逐步将舵机的角度从起始角度 <code>start</code> 过渡到目标角度 <code>target</code>，从而实现平滑的旋转效果。</p>
+<p>在示例代码中，我们定义了起始角度 <code>servo_start_angle</code> 为 0 度，目标角度 <code>servo_target_angle</code> 为 360 度（一圈），持续时间 <code>duration</code> 为 5000 毫秒（即 5 秒）。然后，我们使用一个循环来模拟整个缓动过程。在每次循环中，我们根据当前时间 <code>t</code> 使用缓动函数 <code>easing</code> 来计算舵机的当前角度 <code>servo_current_angle</code>，然后将舵机设置到当前角度，并等待一段时间（时间步长 <code>time_step</code>）再进行下一次循环。</p>
+<p>缓动函数 <code>easing</code> 的计算公式非常简单，它就是我们之前提到的线性插值公式，用于计算舵机的当前角度。根据需要，你可以使用不同的缓动函数来实现不同的旋转效果，比如使用缓入缓出（Ease In, Ease Out）等缓动函数。不同的缓动函数会产生不同的角速度变化，从而使得旋转效果更加丰富和自然。</p>
+<p>总结一下，通过使用缓动方法，我们可以让舵机在旋转过程中平滑过渡到目标角度，从而实现丝滑的旋转效果。你可以根据具体需求和舵机的特性来调整缓动函数和持续时间，以获得最佳的旋转效果。</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/07/20/68h-chong-xue-stm32/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2023/07/27/70h-keil-fang-zhen-luo-ji-fen-xi-yi-qi/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%88%B5%E6%9C%BA"><span class="toc-text">舵机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%B2%BE%E7%A1%AE%E6%8E%A7%E5%88%B6%E8%88%B5%E6%9C%BA%E8%BD%AC%E5%90%91%E8%A7%92%E5%BA%A6"><span class="toc-text">如何精确控制舵机转向角度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="toc-text">定时器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pwm"><span class="toc-text">pwm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%88%B5%E6%9C%BA-1"><span class="toc-text">舵机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TIM-SetCompare"><span class="toc-text">TIM_SetCompare</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B2%BE%E5%87%86%E6%8E%A7%E5%88%B6%E8%88%B5%E6%9C%BA"><span class="toc-text">精准控制舵机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%91%E7%9A%84%E5%85%AC%E5%BC%8F"><span class="toc-text">我的公式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9%E5%90%8E"><span class="toc-text">更改后</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3"><span class="toc-text">解决</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%AD%A3"><span class="toc-text">更正</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">类型转换的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E8%AF%8A%E6%96%AD"><span class="toc-text">错误诊断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E8%88%B5%E6%9C%BA%E7%9A%84%E7%BC%93%E5%8A%A8%E7%AE%97%E6%B3%95"><span class="toc-text">控制舵机的缓动算法</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E8%88%B5%E6%9C%BA + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2023%2F07%2F25%2F69h-duo-ji%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2023/07/25/69h-duo-ji/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

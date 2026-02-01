@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      泰山派学习笔记(1) 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">泰山派学习笔记(1)</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:29
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="学前问题"><a href="#学前问题" class="headerlink" title="学前问题"></a>学前问题</h2><h3 id="SDK是什么"><a href="#SDK是什么" class="headerlink" title="SDK是什么"></a>SDK是什么</h3><p><em><strong>SDK</strong>全称Software Development Kit(软件开发工具包), SDK通常可以从开发板或芯片制造商的官方网站下载,同时官方一般也会有编译好的镜像, 但是通过</em><em>下载编译sdk<strong>可以</strong>定制自己想要的系统镜像*</em></p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
+<li><p>搭建linux编译环境</p>
+<ul>
+<li><p>安装Ubuntu操作系统(一般官方都是ubuntu系统配置的,所以保持一样可以减少错误)</p>
+</li>
+<li><p>安装虚拟机(VmWare或者VirtualBox)</p>
+</li>
+</ul>
+</li>
+<li><p>下载SDK</p>
+</li>
+<li><p>编译</p>
+</li>
+</ul>
+<h2 id="搭建linux开发环境"><a href="#搭建linux开发环境" class="headerlink" title="搭建linux开发环境"></a>搭建linux开发环境</h2><h3 id="安装虚拟机"><a href="#安装虚拟机" class="headerlink" title="安装虚拟机"></a>安装虚拟机</h3><p><a target="_blank" rel="noopener" href="https://www.virtualbox.org/wiki/Downloads">VirtualBox官方下载</a></p>
+<p>[VmWare官方下载](<a target="_blank" rel="noopener" href="https://www.vmware.com/products/workstation-pro/workstation-pro-evaluation.html">Download VMware Workstation Pro</a>)</p>
+<h3 id="安装Ubuntu"><a href="#安装Ubuntu" class="headerlink" title="安装Ubuntu"></a>安装Ubuntu</h3><p>拉取镜像</p>
+<ul>
+<li><p>中科大源：<a target="_blank" rel="noopener" href="https://mirrors.ustc.edu.cn/ubuntu-releases/">Index of &#x2F;ubuntu-releases&#x2F; (ustc.edu.cn)</a></p>
+</li>
+<li><p>阿里云源：<a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/ubuntu-releases/">ubuntu-releases安装包下载_开源镜像站-阿里云 (aliyun.com)</a></p>
+</li>
+<li><p>官方（很慢不推荐）<a target="_blank" rel="noopener" href="https://ubuntu.com/download">Get Ubuntu | Download | Ubuntu</a></p>
+</li>
+</ul>
+<p>❗注意:</p>
+<p>安装精简版后, 将CD&#x2F;DVD光盘换成自动检测,然后重启,否则会打不开</p>
+<p>Ubuntu安装VMware-Tools需要在root下, 然后拖动文件到terminal中,终端会自动出现路径</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">passwd root  #设置root密码<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然后</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">tar zxvf VMware-Toolsxxxxxxxx.tar
+cd vmware-tools-distrib
+.&#x2F;vmware-install.pl<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>安装后发现还是无法共享粘贴板</p>
+<ol>
+<li>需要安装虚拟机增强工具包open-vm-tools和open-vm-tools-desktop。</li>
+</ol>
+<h3 id="安装open-vm-tools"><a href="#安装open-vm-tools" class="headerlink" title="安装open-vm-tools"></a>安装open-vm-tools</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt-get install open-vm-tools<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="安装open-vm-tools-desktop"><a href="#安装open-vm-tools-desktop" class="headerlink" title="安装open-vm-tools-desktop"></a>安装open-vm-tools-desktop</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt-get install open-vm-tools-desktop<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然后确定<code>虚拟机设置-&gt;选项-&gt;客户机隔离</code>全部勾选对号, 重启即可完成安装</p>
+<h2 id="解压SDK"><a href="#解压SDK" class="headerlink" title="解压SDK"></a>解压SDK</h2><p>将tspi_linux_sdk_xxxxxxxx.tar.gz 上传到ubuntu虚拟机中，目录路径不能包含中文，且需保证至少有100G的容量，最终编译完成后整个SDK大小会到80G左右，上传的方式有很多种比如<code>samba</code>、<code>共享文件夹</code>、<code>sftp</code>等</p>
+<p>我这里直接使用Vmtools复制粘贴到桌面, 然后使用命令复制到根目录</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cp xxxx &#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">md5sum tspi_linux_sdk_repo_20240131.tar.gz
+cat tspi_linux_sdk_repo_20240131_md5sum.txt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+<p>看一下这个值是否和内容一致</p>
+<p>解压</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">tar -xzf tspi_linux_sdk_repo_20240131.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>解压完成后只有.repo目录我们还需要把代码同步出来</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">.repo&#x2F;repo&#x2F;repo sync -l -j88<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>报错</strong></p>
+<ul>
+<li><p>没有这个文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd repo&#x2F;repo<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>继续cd repo时出现<code>root@maobin-virtual-machine:/taishanpi/.repo/repo# cd repo -bash: cd: repo: Not a directory</code></p>
+</li>
+<li><p>执行</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">.&#x2F;repo sync -l -j88<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">root@maobin-virtual-machine:&#x2F;taishanpi&#x2F;.repo&#x2F;repo# .&#x2F;repo sync -l -j88
+&#x2F;usr&#x2F;bin&#x2F;env: ‘python’: No such file or directory
+root@maobin-virtual-machine:&#x2F;taishanpi&#x2F;.repo&#x2F;repo# .&#x2F;repo 
+&#x2F;usr&#x2F;bin&#x2F;env: ‘python’: No such file or directory<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">apt-get python3
+vim .&#x2F;repo<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>j将**#!&#x2F;usr&#x2F;bin&#x2F;env python<strong>变为</strong>#!&#x2F;usr&#x2F;bin&#x2F;env python3**</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">.&#x2F;repo sync -l -j88<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">root@maobin-virtual-machine:&#x2F;taishanpi&#x2F;.repo&#x2F;repo# .&#x2F;repo sync -l -j88
+
+repo: error: &quot;git&quot; is not available
+repo: error: [Errno 2] No such file or directory: &#39;git&#39;: &#39;git&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>安装后继续运行</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt install git<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<img src="/2024/03/17/99-tai-shan-pai-xue-xi-bi-ji-1/image-20240317221641540.png" class="" title="image-20240317221641540">
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">- app： 存放上层应⽤ app，主要是 qcamera&#x2F;qfm&#x2F;qplayer&#x2F;settings 等⼀些应⽤程序。
+- buildroot： 基于 buildroot (2018.02-rc3) 开发的根⽂件系统。
+- debian： 基于debian 10 开发的根⽂件系统，⽀持部分芯⽚。
+- device&#x2F;rockchip： 存放各芯⽚板级配置和Parameter⽂件，以及⼀些编译与打包固件的脚本和预备⽂件。
+- IMAGE： 存放每次⽣成编译时间、XML、补丁和固件⽬录。
+- external： 存放第三⽅相关仓库,包括⾳频、视频、⽹络、recovery 等。
+- kernel： 存放 kernel 4.4 或 4.19 开发的代码。
+- prebuilts： 存放交叉编译⼯具链。
+- rkbin： 存放 Rockchip 相关的 Binary 和⼯具。
+- rockdev： 存放编译输出固件。
+- tools： 存放 Linux 和 Windows 操作系统环境下常⽤⼯具。
+- u-boot：存放基于 v2017.09 版本进⾏开发的 uboot 代码。
+- yocto：基于 yocto gatesgarth 3.2 开发的根⽂件系统，⽀持部分芯⽚。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h3 id="编译环境配置"><a href="#编译环境配置" class="headerlink" title="编译环境配置"></a>编译环境配置</h3><p>编译Linux SDK需要安装下列库：（注意不是全部复制粘贴）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt-get install git ssh make gcc libssl-dev liblz4-tool expect \
+g++ patchelf chrpath gawk texinfo chrpath diffstat binfmt-support \
+qemu-user-static live-build bison flex fakeroot cmake gcc-multilib \
+g++-multilib unzip device-tree-compiler ncurses-dev<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>据说编译要很久, 对电脑内存, 硬盘都有要求</p>
+<p>开始对SDK进行配置</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:29
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/03/21/100-ji-jie-bi-matlab-fang-zhen/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E5%89%8D%E9%97%AE%E9%A2%98"><span class="toc-text">学前问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SDK%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">SDK是什么</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BAlinux%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="toc-text">搭建linux开发环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">安装虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Ubuntu"><span class="toc-text">安装Ubuntu</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85open-vm-tools"><span class="toc-text">安装open-vm-tools</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85open-vm-tools-desktop"><span class="toc-text">安装open-vm-tools-desktop</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%8E%8BSDK"><span class="toc-text">解压SDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91"><span class="toc-text">编译</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-text">编译环境配置</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%B3%B0%E5%B1%B1%E6%B4%BE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(1) + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2024%2F03%2F17%2F99-tai-shan-pai-xue-xi-bi-ji-1%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2024/03/17/99-tai-shan-pai-xue-xi-bi-ji-1/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

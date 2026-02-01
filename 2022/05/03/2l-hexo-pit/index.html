@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      hexo搭建过程中遇到的坑 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">hexo搭建过程中遇到的坑</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/markdown/" title="markdown">
+                    #markdown
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/hexo/" title="hexo">
+                    #hexo
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h2 id="hexo常用命令："><a href="#hexo常用命令：" class="headerlink" title="hexo常用命令："></a>hexo常用命令：</h2><blockquote>
+<p>hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</p>
+<p>hexo s &#x3D;&#x3D; hexo server</p>
+<p>hexo g &#x3D;&#x3D; hexo generate</p>
+<p>hexo d &#x3D;&#x3D; hexo deploy</p>
+<p>hexo n &#x3D;&#x3D; hexo new</p>
+<p>hexo clean</p>
+<p>hexo g -d</p>
+<p>hexo new ‘my-first-blog’  </p>
+<p>npm install hexo-cli -g</p>
+</blockquote>
+<p>2024&#x2F;7&#x2F;13出现背景图片无法更改的问题</p>
+<img src="/2022/05/03/2l-hexo-pit/image-20240713192611561.png" class="" title="image-20240713192611561">
+
+<p>删掉后变为空白</p>
+<h2 id="Typora与hexo无法同时预览图片的问题"><a href="#Typora与hexo无法同时预览图片的问题" class="headerlink" title="Typora与hexo无法同时预览图片的问题"></a>Typora与hexo无法同时预览图片的问题</h2><p>通过安装某个插件解决，但是该插件可能导致违章封面失效，因为无法识别.png后缀的图片</p>
+<h2 id="预览与上传不可兼"><a href="#预览与上传不可兼" class="headerlink" title="预览与上传不可兼"></a>预览与上传不可兼</h2><p>关于typora预览图片hexo不能显示,hexo显示图片typora上不能预览的问题</p>
+<p>未解决…..</p>
+<img src="/2022/05/03/2l-hexo-pit/image-20230905210325207.png" class="" title="image-20230905210325207">
+
+<p>typora的图片路径.&#x2F;${filename}&#x2F;</p>
+<p>当设置为相对路径时,仍不能正常显示</p>
+<p>观察html代码路径发现</p>
+<blockquote>
+<p><img src="/01.jpg" alt="01">这个可以hexo网站显示,也就是说这个是插件可以识别拼接的格式,所以我只需要把图片放到同一个文件夹下,但是就太乱了</p>
+</blockquote>
+<p>因为hexo-assert-image插件的源码</p>
+<p>适配了这个路径将它替换为,但是不能预览</p>
+<img src="/2022/05/03/2l-hexo-pit/image-20230908214200264.png" class="" title="image-20230908214200264">
+
+<p>官方使用方法</p>
+<p><img src="/2022/05/03/2l-hexo-pit/image-20230908230632842.png" alt="image-20230908230632842"></p>
+<p>所以只要增加对两种格式代码的替换即可</p>
+<img src="/2022/05/03/2l-hexo-pit/image-20230905210813363.png" class="" title="image-20230905210813363">
+
+<p>这个是.&#x2F;${filename}&#x2F;下,相对路径时,网站的显示,差了一个日期和解码的问题</p>
+<img src="/2022/05/03/2l-hexo-pit/image-20230905210938026.png" class="" title="image-20230905210938026">
+
+<p>但是,<code>如01.jpg在同一个目录里面,那么就可以实现即可以预览又可以在网站中正确显示</code></p>
+<p>剩下的就要研究js了</p>
+<hr>
+<p>我感觉js加一个匹配就可以了,但是我不会,开发的重要性</p>
+<p>markdown用法和表情</p>
+<p>兼的的办法是md与图片放在一起</p>
+<p>或者说,关于链接的问题</p>
+<p>或者,匹配到相对路径,去掉前面部分</p>
+<p>2024&#x2F;01&#x2F;29</p>
+<blockquote>
+<p>发现了另一个hexo-assert-img插件,可以实现相对路径拼接图片链接</p>
+</blockquote>
+<p>下一阶段目标,自己写一个这样的插件</p>
+<p><a target="_blank" rel="noopener" href="https://www.freesion.com/article/78201400603/">hexo 图片显示问题及使用typora设置图片路径 - 灰信网（软件开发博客聚合） (freesion.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/645679541">解决Hexo+Github+Typora图片无法正确显示的问题 - 知乎 (zhihu.com)</a></p>
+<h2 id="err-Error-Spawn-failed"><a href="#err-Error-Spawn-failed" class="headerlink" title="err: Error: Spawn failed."></a>err: Error: Spawn failed.</h2><p>he correct access rights and the repository exists</p>
+<p> (1)首先重新设置一下git的用户名和邮箱</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">git config --global user.name &quot;xxx&quot;
+    
+git config --global user.email &quot;xxx&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>(2) 删除.ssh文件夹</p>
+<p>(3)git输入</p>
+<blockquote>
+<p>‘ssh-keygen -t rsa ‘    放到github上时要加上邮箱</p>
+</blockquote>
+<p>(4)服务端</p>
+<blockquote>
+<p>su fuchen</p>
+</blockquote>
+<blockquote>
+<p>mkdir ~&#x2F;.ssh</p>
+</blockquote>
+<blockquote>
+<p>vim ~&#x2F;.ssh&#x2F;authorized_keys</p>
+</blockquote>
+<p>(5)如果重复出现此错误,检查一下是否用root建立了.ssh文件</p>
+<p>(还有一种可能是git环境的配置问题)</p>
+<h2 id="ERROR-Deployer-not-found-git"><a href="#ERROR-Deployer-not-found-git" class="headerlink" title="ERROR Deployer not found: git"></a>ERROR Deployer not found: git</h2><p>运行hexo clean &amp;&amp; hexo g &amp;&amp; hexo d命令,出现</p>
+<blockquote>
+<p>原因：少了hexo针对git的deploy组件</p>
+</blockquote>
+<blockquote>
+<p>解决方法：npm install –save hexo-deployer-git</p>
+</blockquote>
+<blockquote>
+<p>搞定，运行成功之后提示：INFO  Deploy done: git</p>
+</blockquote>
+<h3 id="git报错—The-authenticity-of-host-can’t-be-established"><a href="#git报错—The-authenticity-of-host-can’t-be-established" class="headerlink" title="git报错—The authenticity of host can’t be established."></a>git报错—The authenticity of host can’t be established.</h3><p>打开本地的.ssh文件夹(C:\Users\Administrator.ssh)会发现有两个文件分别是公钥和私钥</p>
+<p><strong>产生原因：</strong><br>文件夹内少了一个known_hosts文件，本来<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%AF%86%E9%92%A5&spm=1001.2101.3001.7020">密钥</a>文件应该是三个，现在只有两个，便报了这样的错误</p>
+<blockquote>
+<p>解决:输入yes回车，生成known_hosts文件</p>
+<p>注:不要直接按回车,要输入yes后回车</p>
+</blockquote>
+<h3 id="SSL-certificate-problem-unable-to-get-local-issuer-certificate"><a href="#SSL-certificate-problem-unable-to-get-local-issuer-certificate" class="headerlink" title="SSL certificate problem: unable to get local issuer certificate"></a>SSL certificate problem: unable to get local issuer certificate</h3><blockquote>
+<p>这是由于当你通过HTTPS访问Git远程仓库的时候，如果服务器上的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=SSL&spm=1001.2101.3001.7020">SSL</a>证书未经过第三方机构认证，git就会报错。原因是因为未知的没有签署过的证书意味着可能存在很大的风险。解决办法就是通过下面的命令将git中的sslverify关掉：</p>
+</blockquote>
+<pre class="line-numbers language-none"><code class="language-none">git config --global http.sslverify false<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　上面这行命令的影响范围是系统当前用户，如果要设置为全局所有用户，可以改成这样：</p>
+<pre class="line-numbers language-none"><code class="language-none">git config --system http.sslverify false<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　如果只是想针对当前仓库进行设置，可以在需要修改的仓库目录下执行：</p>
+<pre class="line-numbers language-none"><code class="language-none">git config http.sslverify false<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>　　如果你的仓库中存在嵌套的git子模块（就是子模块中又引用了子模块），在进行初始化时，仍然有可能遇到self signed certificate in certificate chain的错误，此时可以通过执行下面的命令来解决：</p>
+<pre class="line-numbers language-none"><code class="language-none">npm config set strict-ssl false<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="执行remote-add时：fatal-Not-a-git-repository"><a href="#执行remote-add时：fatal-Not-a-git-repository" class="headerlink" title="执行remote add时：fatal: Not a git repository"></a>执行remote add时：fatal: Not a git repository</h2><blockquote>
+<p>执行git remote add命令时报这个错误：</p>
+</blockquote>
+<h4 id="fatal-Not-a-git-repository-or-any-of-the-parent-directories-git"><a href="#fatal-Not-a-git-repository-or-any-of-the-parent-directories-git" class="headerlink" title="fatal: Not a git repository (or any of the parent directories): .git"></a>fatal: Not a git repository (or any of the parent directories): .git</h4><blockquote>
+<p>原因：<br>当前所在的目录不是一个git目录，要么切换目录到你想添加的git目录下，或者在当前目录下初始化一个git目录：git init</p>
+</blockquote>
+<h2 id="没有可用软件包nginx"><a href="#没有可用软件包nginx" class="headerlink" title="没有可用软件包nginx"></a>没有可用软件包nginx</h2><blockquote>
+<p>yum install epel-release  epel扩展</p>
+</blockquote>
+<blockquote>
+<p>yum  update</p>
+</blockquote>
+<h2 id="更改-config-yuml后出现YAMLException"><a href="#更改-config-yuml后出现YAMLException" class="headerlink" title="更改_config.yuml后出现YAMLException:"></a>更改_config.yuml后出现YAMLException:</h2><p> YAMLException: duplicated mapping key (25:1)的解决方法</p>
+<blockquote>
+<p>YAMLException:重复的映射键（25:1),观察25行是否重复,是否冲突,</p>
+</blockquote>
+<blockquote>
+<p>比如前面true 后面false<br>需要看看前后有没有多余的粘贴!!</p>
+</blockquote>
+<h2 id="hexo更换主题后：WARN-No-layout-index-html"><a href="#hexo更换主题后：WARN-No-layout-index-html" class="headerlink" title="hexo更换主题后：WARN No layout: index.html"></a>hexo更换主题后：WARN No layout: index.html</h2><p> (1).检查下载的主题是不是放在了themes文件夹下面，比如next主题的放置，</p>
+<blockquote>
+<p>点开themes就看到next的文件夹，next下面就是主题的文件，不能打开next文件夹还有themes<br> 解决方法<br>把theme下的文件夹名称改为next。</p>
+</blockquote>
+<p>(2).检查站点配置_config.yml是不是下面的形式<br>theme: 你的主题名字</p>
+<blockquote>
+<p>注意:（1）这里是theme，不是themes.</p>
+<blockquote>
+<blockquote>
+<p>（2）theme后面与主题名直接有一个空格。</p>
+<blockquote>
+<p>（3）主题名字是否与themes文件夹下 主题的名字一致。</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>比如next：theme: next,冒号后面有空格。</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<h3 id="假如全部一致还运行有错，建议每次修改后"><a href="#假如全部一致还运行有错，建议每次修改后" class="headerlink" title="假如全部一致还运行有错，建议每次修改后"></a>假如全部一致还运行有错，建议每次修改后</h3><p>先输入命令’hexo clean’清理一下原来的配置，然后运行</p>
+<h4 id="第二个错误"><a href="#第二个错误" class="headerlink" title="第二个错误"></a>第二个错误</h4><p>本地主题样式修改完之后，本地运行访问都对，</p>
+<p>然后hexo d部署到github上面后访问没有样式。</p>
+<blockquote>
+<p>打开站点配置_config.yml,更改其中的url和root配置</p>
+</blockquote>
+<blockquote>
+<p>url: 这里是GitHub给你分配的地址,root: &#x2F;项目名</p>
+</blockquote>
+<blockquote>
+<p>然后重新 hexo g,hexo d 解决问题。</p>
+</blockquote>
+<h2 id="bash-hexo-command-not-found"><a href="#bash-hexo-command-not-found" class="headerlink" title="bash: hexo: command not found"></a>bash: hexo: command not found</h2><p>(1)git关了重新开一下</p>
+<p>(2)查<code>nodejs</code>和<code>npm</code>是否正常，依次输入命令<code>node -v 和</code>npm -v&#96;看看是否有相关版本信息</p>
+<blockquote>
+<p>(3)此电脑-&gt;属性-&gt;高级系统设置-&gt;环境变量-&gt;选择系统变量 Path</p>
+</blockquote>
+<blockquote>
+<p>将 node_modules 下的 .bin 文件路径添加到 Path 里面</p>
+</blockquote>
+<p>环境变量添加好了之后重新打开 git 即可运行 hexo 命令</p>
+<p>如果此时仍然无法执行 hexo 命令，那就只能重装试试了，</p>
+<blockquote>
+<p>运行命令 npm install hexo-cli -g 重新安装 hexo 即可</p>
+</blockquote>
+<h2 id="YAMLException-end-of-the-stream-or-a-document-separator-is-expected"><a href="#YAMLException-end-of-the-stream-or-a-document-separator-is-expected" class="headerlink" title="YAMLException: end of the stream or a document separator is expected"></a>YAMLException: end of the stream or a document separator is expected</h2><blockquote>
+<p>检查文件头缺空格</p>
+</blockquote>
+<blockquote>
+<p>为了避免配置后出现大量错误,无从下手,建议分部配置,不报错了再继续配置</p>
+</blockquote>
+<h3 id="c-Users-DELL-AppData-Roaming-npm-hexo-line-12-node-command-not-found"><a href="#c-Users-DELL-AppData-Roaming-npm-hexo-line-12-node-command-not-found" class="headerlink" title="&#x2F;c&#x2F;Users&#x2F;DELL&#x2F;AppData&#x2F;Roaming&#x2F;npm&#x2F;hexo: line 12: node: command not found"></a>&#x2F;c&#x2F;Users&#x2F;DELL&#x2F;AppData&#x2F;Roaming&#x2F;npm&#x2F;hexo: line 12: node: command not found</h3><p>重新安装git后,运行hexo出现这样的报错,重新安装一下<a target="_blank" rel="noopener" href="https://www.wangfuchao.com/?golink=aHR0cHM6Ly9ub2RlanMub3JnL2VuLw==">node.js</a>就可以了</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40486955/article/details/105967026">4.1参考文章</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_55125921/article/details/125220576">4.2参考文章</a>)</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2022/05/03/1l-hexo-blog/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/markdown/" title="markdown">
+                        #markdown
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/hexo/" title="hexo">
+                        #hexo
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2022/05/04/3l-linux-common-command/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-text">hexo常用命令：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Typora%E4%B8%8Ehexo%E6%97%A0%E6%B3%95%E5%90%8C%E6%97%B6%E9%A2%84%E8%A7%88%E5%9B%BE%E7%89%87%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">Typora与hexo无法同时预览图片的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E8%A7%88%E4%B8%8E%E4%B8%8A%E4%BC%A0%E4%B8%8D%E5%8F%AF%E5%85%BC"><span class="toc-text">预览与上传不可兼</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#err-Error-Spawn-failed"><span class="toc-text">err: Error: Spawn failed.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ERROR-Deployer-not-found-git"><span class="toc-text">ERROR Deployer not found: git</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#git%E6%8A%A5%E9%94%99%E2%80%94The-authenticity-of-host-can%E2%80%99t-be-established"><span class="toc-text">git报错—The authenticity of host can’t be established.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSL-certificate-problem-unable-to-get-local-issuer-certificate"><span class="toc-text">SSL certificate problem: unable to get local issuer certificate</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8Cremote-add%E6%97%B6%EF%BC%9Afatal-Not-a-git-repository"><span class="toc-text">执行remote add时：fatal: Not a git repository</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#fatal-Not-a-git-repository-or-any-of-the-parent-directories-git"><span class="toc-text">fatal: Not a git repository (or any of the parent directories): .git</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B2%A1%E6%9C%89%E5%8F%AF%E7%94%A8%E8%BD%AF%E4%BB%B6%E5%8C%85nginx"><span class="toc-text">没有可用软件包nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9-config-yuml%E5%90%8E%E5%87%BA%E7%8E%B0YAMLException"><span class="toc-text">更改_config.yuml后出现YAMLException:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98%E5%90%8E%EF%BC%9AWARN-No-layout-index-html"><span class="toc-text">hexo更换主题后：WARN No layout: index.html</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%87%E5%A6%82%E5%85%A8%E9%83%A8%E4%B8%80%E8%87%B4%E8%BF%98%E8%BF%90%E8%A1%8C%E6%9C%89%E9%94%99%EF%BC%8C%E5%BB%BA%E8%AE%AE%E6%AF%8F%E6%AC%A1%E4%BF%AE%E6%94%B9%E5%90%8E"><span class="toc-text">假如全部一致还运行有错，建议每次修改后</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E4%B8%AA%E9%94%99%E8%AF%AF"><span class="toc-text">第二个错误</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bash-hexo-command-not-found"><span class="toc-text">bash: hexo: command not found</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#YAMLException-end-of-the-stream-or-a-document-separator-is-expected"><span class="toc-text">YAMLException: end of the stream or a document separator is expected</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#c-Users-DELL-AppData-Roaming-npm-hexo-line-12-node-command-not-found"><span class="toc-text">&#x2F;c&#x2F;Users&#x2F;DELL&#x2F;AppData&#x2F;Roaming&#x2F;npm&#x2F;hexo: line 12: node: command not found</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + hexo%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2022%2F05%2F03%2F2l-hexo-pit%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2022/05/03/2l-hexo-pit/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

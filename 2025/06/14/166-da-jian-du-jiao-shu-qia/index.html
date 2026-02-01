@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      搭建独角数卡 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">搭建独角数卡</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
+<li>(PHP + PHPCLI) version &#x3D; 7.4<ul>
+<li>*<strong>安装<code>fileinfo</code>扩展</strong></li>
+<li>*<strong>安装<code>redis</code>扩展</strong></li>
+<li>*<strong>终端需支持<code>php-cli</code>，测试<code>php -v</code>(版本必须一致)</strong></li>
+<li>*<strong>需要开启的函数：<code>putenv</code>，<code>proc_open</code>，<code>pcntl_signal</code>，<code>pcntl_alarm</code></strong></li>
+<li>安装<code>opcache</code>扩展</li>
+</ul>
+</li>
+<li>Nginx version &gt;&#x3D; 1.16</li>
+<li>MYSQL version &gt;&#x3D; 5.6</li>
+<li>Redis (高性能缓存服务)</li>
+<li>Supervisor (一个python编写的进程管理服务)</li>
+<li>Composer (PHP包管理器)</li>
+<li>Linux (Win下未测试，建议直接Linux)</li>
+</ul>
+<p><strong>下一步搭建支付接口</strong></p>
+<p><a target="_blank" rel="noopener" href="https://guozh.net/automatic-card-issuance-website-setup-tutorial/">自动发卡网站搭建教程（独角数卡），支付 + 图文 + 视频 | 老郭种树</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.laoda.de/archives/docker-compose-install-dujiaoka">利用Docker轻松搭建独角发卡！人人都可以开一个线上小店｜好玩儿的Docker项目-我不是咕咕鸽</a></p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><blockquote>
+<p>官网也太干净了</p>
+</blockquote>
+<h2 id="1-系统更新与基础软件"><a href="#1-系统更新与基础软件" class="headerlink" title="1. 系统更新与基础软件"></a>1. 系统更新与基础软件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt update &amp;&amp; sudo apt upgrade -y
+sudo apt install -y git curl unzip<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="2-安装和切换到-PHP-7-4"><a href="#2-安装和切换到-PHP-7-4" class="headerlink" title="2. 安装和切换到 PHP 7.4"></a>2. 安装和切换到 PHP 7.4</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 安装 PHP7.4 及常用扩展
+sudo apt install -y \
+  php7.4-cli php7.4-fpm php7.4-mbstring php7.4-xml \
+  php7.4-gd php7.4-mysql php7.4-zip php7.4-curl \
+  php7.4-bcmath php7.4-fileinfo php-redis
+
+# 将系统默认 php 命令指向 PHP7.4
+sudo update-alternatives --set php &#x2F;usr&#x2F;bin&#x2F;php7.4
+sudo update-alternatives --set phar &#x2F;usr&#x2F;bin&#x2F;phar7.4
+sudo update-alternatives --set phar.phar &#x2F;usr&#x2F;bin&#x2F;phar.phar7.4
+
+# 验证
+php -v
+sudo systemctl restart php7.4-fpm<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="3-安装-Nginx、MySQL、Redis、Supervisor"><a href="#3-安装-Nginx、MySQL、Redis、Supervisor" class="headerlink" title="3. 安装 Nginx、MySQL、Redis、Supervisor"></a>3. 安装 Nginx、MySQL、Redis、Supervisor</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt install -y nginx mysql-server redis-server supervisor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h2 id="4-配置-MySQL-数据库"><a href="#4-配置-MySQL-数据库" class="headerlink" title="4. 配置 MySQL 数据库"></a>4. 配置 MySQL 数据库</h2><ol>
+<li><p>初始化安全设置：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">&#x2F;udo mysql_secure_installation<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>登录 MySQL 并建库建用户（替换 <code>your_password</code>）：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo mysql -u root -p
+CREATE DATABASE dujiaoka CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER &#39;dujiaoka&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;your_password&#39;;
+GRANT ALL PRIVILEGES ON dujiaoka.* TO &#39;dujiaoka&#39;@&#39;localhost&#39;;
+FLUSH PRIVILEGES;
+EXIT;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<hr>
+<h2 id="5-安装-Composer"><a href="#5-安装-Composer" class="headerlink" title="5. 安装 Composer"></a>5. 安装 Composer</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">curl -sS https:&#x2F;&#x2F;getcomposer.org&#x2F;installer | php
+sudo mv composer.phar &#x2F;usr&#x2F;local&#x2F;bin&#x2F;composer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="6-获取代码并配置环境"><a href="#6-获取代码并配置环境" class="headerlink" title="6. 获取代码并配置环境"></a>6. 获取代码并配置环境</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd &#x2F;var&#x2F;www
+git clone https:&#x2F;&#x2F;github.com&#x2F;assimon&#x2F;dujiaoka.git
+cd dujiaoka
+cp .env.example .env<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>编辑 <code>.env</code>，设置与你的环境一致的值：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">DB_CONNECTION&#x3D;mysql
+DB_HOST&#x3D;127.0.0.1
+DB_PORT&#x3D;3306
+DB_DATABASE&#x3D;dujiaoka
+DB_USERNAME&#x3D;dujiaoka
+DB_PASSWORD&#x3D;your_password
+
+REDIS_HOST&#x3D;127.0.0.1
+REDIS_PASSWORD&#x3D;null
+REDIS_PORT&#x3D;6379
+
+APP_DEBUG&#x3D;false<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="7-安装-PHP-依赖、生成-key-和迁移"><a href="#7-安装-PHP-依赖、生成-key-和迁移" class="headerlink" title="7. 安装 PHP 依赖、生成 key 和迁移"></a>7. 安装 PHP 依赖、生成 key 和迁移</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">composer install --no-dev -o
+php artisan key:generate
+php artisan migrate --seed<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>设置目录权限：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo chown -R www-data:www-data storage bootstrap&#x2F;cache
+sudo chmod -R 775 storage bootstrap&#x2F;cache<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>清理并缓存配置：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">php artisan config:clear
+php artisan config:cache<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="8-配置-Nginx"><a href="#8-配置-Nginx" class="headerlink" title="8. 配置 Nginx"></a>8. 配置 Nginx</h2><p>在 <code>/etc/nginx/sites-available/dujiaoka</code> 写入：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
+    listen 80;
+    server_name your.domain.com;
+    root &#x2F;var&#x2F;www&#x2F;dujiaoka&#x2F;public;
+    index index.php;
+
+    location &#x2F; &#123;
+        try_files $uri $uri&#x2F; &#x2F;index.php$is_args$query_string;
+    &#125;
+
+    location ~ \.php$ &#123;
+        include snippets&#x2F;fastcgi-php.conf;
+        fastcgi_pass unix:&#x2F;run&#x2F;php&#x2F;php7.4-fpm.sock;
+    &#125;
+
+    location ~ &#x2F;\.ht &#123; deny all; &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>启用并重载：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo ln -s &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;dujiaoka &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;
+sudo nginx -t
+sudo systemctl reload nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="9-配置-Supervisor-守护队列"><a href="#9-配置-Supervisor-守护队列" class="headerlink" title="9. 配置 Supervisor 守护队列"></a>9. 配置 Supervisor 守护队列</h2><p>创建 <code>/etc/supervisor/conf.d/dujiaoka-worker.conf</code>：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">[program:dujiaoka-worker]
+command&#x3D;php &#x2F;var&#x2F;www&#x2F;dujiaoka&#x2F;artisan queue:work --sleep&#x3D;3 --tries&#x3D;3 --daemon
+autostart&#x3D;true
+autorestart&#x3D;true
+user&#x3D;www-data
+numprocs&#x3D;1
+redirect_stderr&#x3D;true
+stdout_logfile&#x3D;&#x2F;var&#x2F;www&#x2F;dujiaoka&#x2F;storage&#x2F;logs&#x2F;worker.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start dujiaoka-worker:*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<p>或者：</p>
+<h3 id="1-为-artisan-添加可执行权限"><a href="#1-为-artisan-添加可执行权限" class="headerlink" title="1. 为 artisan 添加可执行权限"></a>1. 为 artisan 添加可执行权限</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo chmod +x &#x2F;var&#x2F;www&#x2F;dujiaoka&#x2F;artisan<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这样才能让 Supervisor 或 www-data 用户去调用它。</p>
+<hr>
+<h3 id="2-把-Supervisor-配置写入文件"><a href="#2-把-Supervisor-配置写入文件" class="headerlink" title="2. 把 Supervisor 配置写入文件"></a>2. 把 Supervisor 配置写入文件</h3><p>用你的编辑器（或 <code>tee</code> + heredoc）在 <code>/etc/supervisor/conf.d/dujiaoka-worker.conf</code> 创建以下内容：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo tee &#x2F;etc&#x2F;supervisor&#x2F;conf.d&#x2F;dujiaoka-worker.conf &lt;&lt; &#39;EOF&#39;
+[program:dujiaoka-worker]
+command&#x3D;php &#x2F;var&#x2F;www&#x2F;dujiaoka&#x2F;artisan queue:work --sleep&#x3D;3 --tries&#x3D;3 --daemon
+autostart&#x3D;true
+autorestart&#x3D;true
+user&#x3D;www-data
+numprocs&#x3D;1
+redirect_stderr&#x3D;true
+stdout_logfile&#x3D;&#x2F;var&#x2F;www&#x2F;dujiaoka&#x2F;storage&#x2F;logs&#x2F;worker.log
+EOF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>（如果你更习惯用 <code>nano</code>&#x2F;<code>vi</code>，也可以 <code>sudo nano /etc/supervisor/conf.d/dujiaoka-worker.conf</code> 然后粘上去、保存。）</p>
+<hr>
+<h3 id="3-重新加载并启动"><a href="#3-重新加载并启动" class="headerlink" title="3. 重新加载并启动"></a>3. 重新加载并启动</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start dujiaoka-worker:*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>此时 <code>supervisorctl status</code> 应该能看到 <code>dujiaoka-worker</code> 正在运行。</p>
+<hr>
+<p>这样就能避免“命令未找到”和“artisan 权限被拒绝”的问题了。</p>
+<h2 id="10-访问后台"><a href="#10-访问后台" class="headerlink" title="10. 访问后台"></a>10. 访问后台</h2><p>在浏览器中打开：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http:&#x2F;&#x2F;your.domain.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>会自动跳转<code>http://your.domain.com/install</code>,填入设置的数据库名称密码</p>
+<blockquote>
+<p><strong>MySQL 数据库地址</strong>：填写 <code>127.0.0.1</code></p>
+<p><strong>MySQL 端口</strong>：默认 <code>3306</code></p>
+<p><strong>MySQL 数据库名</strong>：你之前建的 <code>名称</code></p>
+<p><strong>MySQL 用户名</strong>：<code>用户名</code></p>
+<p><strong>MySQL 密码</strong>：你为该用户设置的密码</p>
+<p><strong>Redis 连接地址</strong>：<code>127.0.0.1</code></p>
+<p><strong>Redis 密码</strong>：如果未设置则留空或输入 <code>null</code></p>
+<p><strong>Redis 端口</strong>：默认 <code>6379</code></p>
+<p><strong>网站名称</strong>：随意填写，比如发卡平台&#96;</p>
+<p><strong>网站 URL</strong>：<code>https://your.domain.com</code></p>
+<p><strong>后台登录路径</strong>：你在 <code>.env</code> 中配置的 <code>ADMIN_PATH</code>，例如 <code>admin</code></p>
+</blockquote>
+<p>安装后,进入<code>http://your.domain.com/admin</code></p>
+<blockquote>
+<p>用户名：admin<br>密码：admin</p>
+</blockquote>
+<p>将.env配置里面的APP_DEBUG设置为false</p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="php7-4无法安装"><a href="#php7-4无法安装" class="headerlink" title="php7.4无法安装"></a>php7.4无法安装</h2><p>Ubuntu 22.04 及以后版本官方仓库只提供 PHP 8.1+，要装 PHP 7.4 需要加第三方源。</p>
+<h2 id="方案-A：添加-Ondrej-Sury-的-PPA，安装-PHP-7-4"><a href="#方案-A：添加-Ondrej-Sury-的-PPA，安装-PHP-7-4" class="headerlink" title="方案 A：添加 Ondřej Surý 的 PPA，安装 PHP 7.4"></a>方案 A：添加 Ondřej Surý 的 PPA，安装 PHP 7.4</h2><ol>
+<li><p><strong>安装添加 PPA 的工具</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt update
+sudo apt install -y software-properties-common<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>添加 Ondřej Surý 的 PHP 源</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo add-apt-repository ppa:ondrej&#x2F;php
+sudo apt update<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>安装 PHP 7.4 及扩展</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt install -y \
+  php7.4-cli php7.4-fpm php7.4-mbstring php7.4-xml \
+  php7.4-gd php7.4-mysql php7.4-zip php7.4-curl \
+  php7.4-bcmath php7.4-fileinfo php-redis<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>切换系统默认 php（可选，但强烈推荐）</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo update-alternatives --set php &#x2F;usr&#x2F;bin&#x2F;php7.4
+sudo update-alternatives --set phar &#x2F;usr&#x2F;bin&#x2F;phar7.4
+sudo update-alternatives --set phar.phar &#x2F;usr&#x2F;bin&#x2F;phar.phar7.4
+php -v    # 确认输出为 7.4.x
+sudo systemctl restart php7.4-fpm<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>回到项目目录，重装依赖并缓存配置</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd &#x2F;var&#x2F;www&#x2F;dujiaoka
+composer install --no-dev -o
+php artisan config:clear
+php artisan config:cache<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<p>这样就能正常生成 <code>vendor/autoload.php</code> 并运行 <code>php artisan</code> 系列命令。</p>
+<h2 id="mysql的密码强度"><a href="#mysql的密码强度" class="headerlink" title="mysql的密码强度"></a>mysql的密码强度</h2><p>设置为强，则弱密码无法成功创建用户。</p>
+<ol>
+<li><p><strong>查看当前策略设置</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">SHOW VARIABLES LIKE &#39;validate_password%&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p><strong>把策略调到最低</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">SET GLOBAL validate_password.policy &#x3D; LOW;
+SET GLOBAL validate_password.length &#x3D; 4;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>再创建用户</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">CREATE USER &#39;dujiaoka&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;dujiaoka&#39;;
+GRANT ALL PRIVILEGES ON dujiaoka.* TO &#39;dujiaoka&#39;@&#39;localhost&#39;;
+FLUSH PRIVILEGES;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<p>如果你想彻底卸载这个插件，也可以：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">UNINSTALL PLUGIN validate_password;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><code>记得每条 SQL 语句都要以分号 </code>;<code> 结尾</code></p>
+<h2 id="（禁用默认站点"><a href="#（禁用默认站点" class="headerlink" title="（禁用默认站点"></a>（禁用默认站点</h2><p>如果你希望所有访问都落到 dujiaoka 上，也可以直接关掉默认配置：</p>
+<pre class="line-numbers language-none"><code class="language-none">bash复制编辑sudo rm &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;default
+sudo nginx -t
+sudo systemctl reload nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>这样不管访问 IP 还是任何其它 “Host”，都会匹配到你 <code>/etc/nginx/sites-available/dujiaoka</code> 这个块。</p>
+<h2 id="HTTP-请求已经被-Laravel-强制重定向到-HTTPS"><a href="#HTTP-请求已经被-Laravel-强制重定向到-HTTPS" class="headerlink" title="HTTP 请求已经被 Laravel 强制重定向到 HTTPS"></a>HTTP 请求已经被 Laravel 强制重定向到 HTTPS</h2><h2 id="方案一：给站点启用-HTTPS（推荐）"><a href="#方案一：给站点启用-HTTPS（推荐）" class="headerlink" title="方案一：给站点启用 HTTPS（推荐）"></a>方案一：给站点启用 HTTPS（推荐）</h2><ol>
+<li><p><strong>安装 Certbot</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">sudo apt update
+sudo apt install -y certbot python3-certbot-nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>为你的域名申请并自动配置 SSL</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">sudo certbot --nginx -d onecards.tech -d www.onecards.tech<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li>按提示输入邮箱，勾选同意协议。</li>
+<li>选 “重定向所有 HTTP 到 HTTPS”</li>
+</ul>
+</li>
+<li><p><strong>验证</strong><br> 申请完成后，Certbot 会自动在 <code>/etc/nginx/sites-enabled/dujiaoka</code> 加入 443 监听配置并重载 Nginx。<br> 再访问：</p>
+<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;onecards.tech&#x2F;admin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>应该能正确看到 <code>/admin/auth/login</code> 登录页。</p>
+</li>
+<li><p><strong>自动续期</strong><br> Certbot 会添加定时任务自动续期，你可以执行一次模拟续期验证：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo certbot renew --dry-run<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ol>
+<hr>
+<h2 id="方案二：取消-HTTPS-强制，先用-HTTP-访问"><a href="#方案二：取消-HTTPS-强制，先用-HTTP-访问" class="headerlink" title="方案二：取消 HTTPS 强制，先用 HTTP 访问"></a>方案二：取消 HTTPS 强制，先用 HTTP 访问</h2><p>如果短期内不想折腾 SSL，可以临时让 Laravel 不跳转到 HTTPS，回到纯 HTTP：</p>
+<ol>
+<li><p>编辑 <code>.env</code>：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">APP_URL&#x3D;http:&#x2F;&#x2F;onecards.tech<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>如果有设置“强制 HTTPS”中间件，注释掉或删除 <code>App\Http\Middleware\TrustProxies</code> 中对 <code>\Illuminate\Http\Middleware\EnsureHttps</code> 的调用；或者在 <code>AppServiceProvider</code> 里取消 <code>URL::forceScheme(&#39;https&#39;)</code>。</p>
+</li>
+<li><p>清理缓存并重建：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+php artisan config:cache<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>重新加载 Nginx（只要 80 端口在跑，就可以直接访问）：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo systemctl reload nginx<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>然后访问：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http:&#x2F;&#x2F;onecards.tech&#x2F;admin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>就不会再 302 跳到 HTTPS 了。</p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://github.com/assimon/dujiaoka">官网</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/06/13/165-duan-lu-bao-hu-dian-lu/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/06/16/167-wan-zheng-xie-zai-nezha-agent/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%B3%BB%E7%BB%9F%E6%9B%B4%E6%96%B0%E4%B8%8E%E5%9F%BA%E7%A1%80%E8%BD%AF%E4%BB%B6"><span class="toc-text">1. 系统更新与基础软件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%87%E6%8D%A2%E5%88%B0-PHP-7-4"><span class="toc-text">2. 安装和切换到 PHP 7.4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85-Nginx%E3%80%81MySQL%E3%80%81Redis%E3%80%81Supervisor"><span class="toc-text">3. 安装 Nginx、MySQL、Redis、Supervisor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%85%8D%E7%BD%AE-MySQL-%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">4. 配置 MySQL 数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%89%E8%A3%85-Composer"><span class="toc-text">5. 安装 Composer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E8%8E%B7%E5%8F%96%E4%BB%A3%E7%A0%81%E5%B9%B6%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"><span class="toc-text">6. 获取代码并配置环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%AE%89%E8%A3%85-PHP-%E4%BE%9D%E8%B5%96%E3%80%81%E7%94%9F%E6%88%90-key-%E5%92%8C%E8%BF%81%E7%A7%BB"><span class="toc-text">7. 安装 PHP 依赖、生成 key 和迁移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E9%85%8D%E7%BD%AE-Nginx"><span class="toc-text">8. 配置 Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E9%85%8D%E7%BD%AE-Supervisor-%E5%AE%88%E6%8A%A4%E9%98%9F%E5%88%97"><span class="toc-text">9. 配置 Supervisor 守护队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%BA-artisan-%E6%B7%BB%E5%8A%A0%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%9D%83%E9%99%90"><span class="toc-text">1. 为 artisan 添加可执行权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8A%8A-Supervisor-%E9%85%8D%E7%BD%AE%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6"><span class="toc-text">2. 把 Supervisor 配置写入文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BD%E5%B9%B6%E5%90%AF%E5%8A%A8"><span class="toc-text">3. 重新加载并启动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E8%AE%BF%E9%97%AE%E5%90%8E%E5%8F%B0"><span class="toc-text">10. 访问后台</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#php7-4%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85"><span class="toc-text">php7.4无法安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88-A%EF%BC%9A%E6%B7%BB%E5%8A%A0-Ondrej-Sury-%E7%9A%84-PPA%EF%BC%8C%E5%AE%89%E8%A3%85-PHP-7-4"><span class="toc-text">方案 A：添加 Ondřej Surý 的 PPA，安装 PHP 7.4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql%E7%9A%84%E5%AF%86%E7%A0%81%E5%BC%BA%E5%BA%A6"><span class="toc-text">mysql的密码强度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%88%E7%A6%81%E7%94%A8%E9%BB%98%E8%AE%A4%E7%AB%99%E7%82%B9"><span class="toc-text">（禁用默认站点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-%E8%AF%B7%E6%B1%82%E5%B7%B2%E7%BB%8F%E8%A2%AB-Laravel-%E5%BC%BA%E5%88%B6%E9%87%8D%E5%AE%9A%E5%90%91%E5%88%B0-HTTPS"><span class="toc-text">HTTP 请求已经被 Laravel 强制重定向到 HTTPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E4%B8%80%EF%BC%9A%E7%BB%99%E7%AB%99%E7%82%B9%E5%90%AF%E7%94%A8-HTTPS%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="toc-text">方案一：给站点启用 HTTPS（推荐）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E4%BA%8C%EF%BC%9A%E5%8F%96%E6%B6%88-HTTPS-%E5%BC%BA%E5%88%B6%EF%BC%8C%E5%85%88%E7%94%A8-HTTP-%E8%AE%BF%E9%97%AE"><span class="toc-text">方案二：取消 HTTPS 强制，先用 HTTP 访问</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%90%AD%E5%BB%BA%E7%8B%AC%E8%A7%92%E6%95%B0%E5%8D%A1 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F06%2F14%2F166-da-jian-du-jiao-shu-qia%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/06/14/166-da-jian-du-jiao-shu-qia/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

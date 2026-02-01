@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      微信消息推送 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">微信消息推送</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
+<li>一个企业微信</li>
+<li>企业微信里面建立一个<code>应用</code></li>
+<li>记录应用的<code>agentid</code>与<code>secret</code></li>
+</ul>
+<h2 id="获取access-token"><a href="#获取access-token" class="headerlink" title="获取access_token"></a><a target="_blank" rel="noopener" href="https://developer.work.weixin.qq.com/document/path/91039">获取access_token</a></h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">url &#x3D; f&quot;https:&#x2F;&#x2F;qyapi.weixin.qq.com&#x2F;cgi-bin&#x2F;gettoken?corpid&#x3D;&#123;corp_id&#125;&amp;corpsecret&#x3D;&#123;corp_secret&#125;&quot;
+response &#x3D; requests.get(url)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>7200秒更新一次，所以获取后可以缓存一下</p>
+<h2 id="请求参数"><a href="#请求参数" class="headerlink" title="请求参数"></a>请求参数</h2><ol>
+<li>每个成员都有唯一的<code>userid</code>，即所谓“账号”。在管理后台-&gt;“通讯录”-&gt;点进某个成员的详情页</li>
+</ol>
+<img src="/2024/07/20/112-wei-xin-xiao-xi-tui-song/image-20240728123528837.png" class="" title="image-20240728123528837">
+
+<ol start="2">
+<li><p>在管理后台-&gt;“应用管理”-&gt;“应用”，点进某个应用，即可看到<code>agentid</code>。</p>
+</li>
+<li><p>在管理后台-&gt;“应用管理”-&gt;“应用”-&gt;“自建”，点进某个应用，即可看到<code>secret</code></p>
+</li>
+</ol>
+<img src="/2024/07/20/112-wei-xin-xiao-xi-tui-song/image-20240728123643793.png" class="" title="image-20240728123643793">
+
+<ol start="4">
+<li><p>“我的企业”－“企业信息”下查看“<code>企业ID</code>”</p>
+</li>
+<li><p>每个部门都有唯一的部门id，在管理后台-&gt;“通讯录”-&gt;“组织架构”-&gt;点击某个部门右边的小圆点可以看到，从1开始。</p>
+</li>
+</ol>
+<img src="/2024/07/20/112-wei-xin-xiao-xi-tui-song/image-20240728123757440.png" class="" title="image-20240728123757440">
+
+<ol start="6">
+<li>每个标签都有唯一的<code>标签id</code>，在管理后台-&gt;“通讯录”-&gt;“标签”，选中某个标签，在右上角会有“标签详情”按钮，</li>
+</ol>
+<img src="/2024/07/20/112-wei-xin-xiao-xi-tui-song/image-20240728124149544.png" class="" title="image-20240728124149544">
+
+<img src="/2024/07/20/112-wei-xin-xiao-xi-tui-song/image-20240728124117234.png" class="" title="image-20240728124117234">
+
+
+
+<h2 id="设置ip白名单"><a href="#设置ip白名单" class="headerlink" title="设置ip白名单"></a>设置ip白名单</h2><ul>
+<li>进入具体应用下，搭建网站，放入校验文件</li>
+<li>验证可信域名</li>
+<li>设置ip白名单</li>
+</ul>
+<img src="/2024/07/20/112-wei-xin-xiao-xi-tui-song/image-20240728124515817.png" class="" title="image-20240728124515817">
+
+<h3 id="搭建校验网站"><a href="#搭建校验网站" class="headerlink" title="搭建校验网站"></a>搭建校验网站</h3><p>用flask开启端口，然后nginx映射域名到这个端口。</p>
+<h3 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
+    listen 80;
+    server_name wx.destroy.cool;
+    root &#x2F;var&#x2F;www&#x2F;weixin;
+    
+    # 提供静态文件(校验文件)
+    location &#x2F;WW_verify_b2PoGgNZ2RLswi2p.txt &#123;
+        alias &#x2F;var&#x2F;www&#x2F;weixin&#x2F;WW_verify_b2PoGgNZ2RLswi2p.txt;
+    &#125;
+    
+    location &#x2F; &#123;
+        proxy_pass http:&#x2F;&#x2F;127.0.0.1:5001;  # 指向现有的Flask应用
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>设置软连接(所有的nginx配置都需要，这是nginx的配置方式)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ln -s &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;weixin.conf &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>问题</strong></p>
+<p>nginx配置没问题，另一个api依然好用，ip访问没问题，域名出了问题。</p>
+<p>破案了，域名打错了。</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://wx.destory.cool/wechat">wx.destory.cool&#x2F;wechat</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://wx.destroy.cool/wechat">wx.destroy.cool</a>是正确的</p>
+</li>
+</ul>
+<h2 id="搭建微信通知Api"><a href="#搭建微信通知Api" class="headerlink" title="搭建微信通知Api"></a>搭建微信通知Api</h2><ol>
+<li><p>使用应用id与密钥获取access_access_token(缓存两小时)</p>
+</li>
+<li><p>使用token构建url，构建userid等请求参数</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">payload &#x3D; &#123;
+    &quot;touser&quot;: to_user,  # 接收消息的成员ID列表，多个用 &#39;|&#39; 分隔
+    &quot;msgtype&quot;: &quot;text&quot;,
+    &quot;agentid&quot;: agent_id,
+    &quot;text&quot;: &#123;
+        &quot;content&quot;: f&quot;&#123;title&#125;\n&#123;content&#125;&quot;
+    &#125;,
+    &quot;safe&quot;: 0
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>缓存库与限流器的使用</p>
+</li>
+</ol>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">from flask import Flask, request, jsonify
+import requests
+import json
+import requests_cache
+from flask_limiter import Limiter, RateLimitExceeded
+from flask_limiter.util import get_remote_address
+
+app &#x3D; Flask(__name__)
+
+# 配置缓存，设置缓存有效期为1小时
+requests_cache.install_cache(&#39;wechat_cache&#39;, expire_after&#x3D;3600)
+# 配置速率限制
+limiter &#x3D; Limiter(
+    get_remote_address,
+    app&#x3D;app,
+    default_limits&#x3D;[&quot;200 per day&quot;, &quot;20 per minute&quot;]
+)
+
+def get_access_token(corp_id, corp_secret):
+    &quot;&quot;&quot;获取token&quot;&quot;&quot;
+    url &#x3D; f&quot;https:&#x2F;&#x2F;qyapi.weixin.qq.com&#x2F;cgi-bin&#x2F;gettoken?corpid&#x3D;&#123;corp_id&#125;&amp;corpsecret&#x3D;&#123;corp_secret&#125;&quot;
+    response &#x3D; requests.get(url)
+    data &#x3D; response.json()
+    if data[&#39;errcode&#39;] &#x3D;&#x3D; 0:
+        return data[&#39;access_token&#39;]
+    else:
+        raise Exception(f&quot;获取access_token失败: &#123;data[&#39;errmsg&#39;]&#125;&quot;)
+
+@app.route(&#39;&#x2F;&#39;, methods&#x3D;[&#39;GET&#39;])
+@limiter.limit(&quot;3 per 5 seconds&quot;, error_message&#x3D;&quot;您的请求频率过高，请稍后再试。&quot;)  # 添加速率限制
+def send():
+    corp_id &#x3D; &quot;xxxxxxxxx&quot;  # 替换为你的企业ID
+    corp_secret &#x3D; &quot;xxxxxxxxx&quot;  # 替换为你的应用Secret
+    agent_id &#x3D; &quot;xxxxxxxxx&quot;  # 替换为你的应用AgentId
+    to_user &#x3D; &quot;xxxxxxxxx|xxxxxxxxx&quot;  # 替换为接收者的UserID，多个用 &#39;|&#39; 分隔
+    title &#x3D; request.args.get(&#39;title&#39;)
+    content &#x3D; request.args.get(&#39;content&#39;)
+
+    if not title or not content:
+        return jsonify(&#123;&quot;error&quot;: &quot;title 和 content 参数是必须的&quot;&#125;), 400
+    try:
+        # 从缓存中获取access_token
+        access_token &#x3D; get_access_token(corp_id, corp_secret)
+    except Exception as e:
+        return jsonify(&#123;&quot;error&quot;: f&quot;获取access_token时发生错误: &#123;str(e)&#125;&quot;&#125;), 500
+
+    try:
+        response &#x3D; send_message(access_token, agent_id, to_user, title, content)
+    except Exception as e:
+        return jsonify(&#123;&quot;error&quot;: f&quot;发送消息时发生错误: &#123;str(e)&#125;&quot;&#125;), 500
+    # return jsonify(response)
+    return &quot;ok&quot;
+
+def send_message(access_token, agent_id, to_user, title, content):
+    &quot;&quot;&quot;消息发送&quot;&quot;&quot;
+    url &#x3D; f&quot;https:&#x2F;&#x2F;qyapi.weixin.qq.com&#x2F;cgi-bin&#x2F;message&#x2F;send?access_token&#x3D;&#123;access_token&#125;&quot;
+    payload &#x3D; &#123;
+        &quot;touser&quot;: to_user,  # 接收消息的成员ID列表，多个用 &#39;|&#39; 分隔
+        &quot;msgtype&quot;: &quot;text&quot;,
+        &quot;agentid&quot;: agent_id,
+        &quot;text&quot;: &#123;
+            &quot;content&quot;: f&quot;&#123;title&#125;\n&#123;content&#125;&quot;
+        &#125;,
+        &quot;safe&quot;: 0
+    &#125;
+    headers &#x3D; &#123;
+        &#39;Content-Type&#39;: &#39;application&#x2F;json&#39;
+    &#125;
+    response &#x3D; requests.post(url, headers&#x3D;headers, data&#x3D;json.dumps(payload))
+    response_data &#x3D; response.json()
+    if response_data[&#39;errcode&#39;] !&#x3D; 0:
+        raise Exception(f&quot;发送消息失败: &#123;response_data[&#39;errmsg&#39;]&#125;&quot;)
+    return response_data
+
+
+if __name__ &#x3D;&#x3D; &quot;__main__&quot;:
+    app.run(host&#x3D;&#39;0.0.0.0&#39;, port&#x3D;5001, debug&#x3D;False)
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Api测试</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http:&#x2F;&#x2F;localhost:5000&#x2F;?title&#x3D;呜呼&amp;content&#x3D;啊哈<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="微信同步"><a href="#微信同步" class="headerlink" title="微信同步"></a>微信同步</h2><p>企业微信的通知消息不会同步到微信怎么办</p>
+<p>在<strong>web管理后台-我的企业-微信插件</strong>中，可获取“邀请关注微信插件”的二维码。</p>
+<h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><p><a target="_blank" rel="noopener" href="https://developer.work.weixin.qq.com/document/path/90665#14953">企业微信开发者文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://work.weixin.qq.com/wework_admin/frame#apps/modApiApp/5629501444574894">企业微信 (qq.com)</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/07/14/111-tg-xiao-xi-zhuan-fa-ji-qi-ren/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/07/28/114-wang-zhan-qian-yi/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96access-token"><span class="toc-text">获取access_token</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0"><span class="toc-text">请求参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEip%E7%99%BD%E5%90%8D%E5%8D%95"><span class="toc-text">设置ip白名单</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E6%A0%A1%E9%AA%8C%E7%BD%91%E7%AB%99"><span class="toc-text">搭建校验网站</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx%E9%85%8D%E7%BD%AE"><span class="toc-text">nginx配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E5%BE%AE%E4%BF%A1%E9%80%9A%E7%9F%A5Api"><span class="toc-text">搭建微信通知Api</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E4%BF%A1%E5%90%8C%E6%AD%A5"><span class="toc-text">微信同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%A1%A3"><span class="toc-text">文档</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%BE%AE%E4%BF%A1%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2024%2F07%2F20%2F112-wei-xin-xiao-xi-tui-song%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2024/07/20/112-wei-xin-xiao-xi-tui-song/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

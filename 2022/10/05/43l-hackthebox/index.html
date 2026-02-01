@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      HACKTHEBOX入门 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">HACKTHEBOX入门</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/HACKTHEBOX/" title="HACKTHEBOX">
+                    #HACKTHEBOX
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h2 id="开始练习"><a href="#开始练习" class="headerlink" title="开始练习"></a>开始练习</h2><blockquote>
+<p>右上角-&gt;STARING POINT-&gt;OPENVON-&gt;DOWNLOAD<br>然后将文件上传到kali<br>使用root用户执行<br>openvpn 文件名<br>左边选择一个machine,生成机器,ping一下看看隧道是否建立成功</p>
+</blockquote>
+<h3 id="OpenVPN-简介"><a href="#OpenVPN-简介" class="headerlink" title="OpenVPN 简介"></a>OpenVPN 简介</h3><blockquote>
+<p>VPN 直译就是虚拟专用通道，是提供给企业之间或者个人与公司之间安全数据传输的隧道，OpenVPN 无疑是 Linux 下开源 VPN 的先锋，提供了良好的性能和友好的用户 GUI。<br>虚拟私有网络（VPN）隧道是通过 Internet 隧道技术将两个不同地理位置的网络安全的连接起来的技术。<code>当两个网络是使用私有 IP 地址的私有局域网络</code>时，它们之间是不能相互访问的，这时使用<code>隧道技术</code>就可以使得<code>两个子网内的主机进行通讯</code>。例如，VPN 隧道技术经常被用于<code>大型机构</code>中<code>不同办公区域子网的连接</code>。有时，使用 VPN 隧道仅仅是因为它很安全。服务提供商与公司会使用这样一种方式架设网络，他们将重要的服务器（如，数据库，VoIP，银行服务器）放置到一个子网内，仅仅让有权限的用户通过 VPN 隧道进行访问。如果需要搭建一个安全的 VPN 隧道，通常会选用 IPSec，因为 IPSec VPN 隧道被多重安全层所保护。<br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903736012193800">OpenVPN 简介</a></p>
+</blockquote>
+<h2 id="Meow"><a href="#Meow" class="headerlink" title="Meow"></a>Meow</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">1.What does the acronym VM stand for?（VM是什么的缩写）
+
+virtual machine
+
+2.What tool do we use to interact with the operating system in order to start our vpn connection?(我们用什么工具与操作系统进行交互进而开启我们的vpn连接？)
+
+terminal
+
+3.What service do we use to form our vpn connection?（我们用什么服务形成我们vpn连接？）
+
+openvpn
+
+4.What is the abreviated name for a tunnel interface in the output of your vpn boot-up sequence output?（vpn启动后隧道接口的缩写名称是什么）
+
+tun
+
+5.What tool do we use to test our connection to the target?（我们用什么工具来测试与目标靶机的连接？）
+
+ping
+
+6.What is the name of the tool we use to scan the target&#39;s ports?（我们用什么工具来扫描目标靶机的端口？）
+
+nmap
+
+7.What service do we identify on port 23&#x2F;tcp during our scans?（在我们的扫描结果中tcp23端口被我们认定为是什么服务）
+
+telnet
+
+8.What username ultimately works with the remote management login prompt for the target?（哪个用户名最终可以成功远程登录到目标靶机？）
+
+root<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="操作及命令"><a href="#操作及命令" class="headerlink" title="操作及命令"></a>操作及命令</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">nmap 10.129.151.144
+
+telnet 10.129.151.144 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="Fawn"><a href="#Fawn" class="headerlink" title="Fawn"></a>Fawn</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">1.What does the 3-letter acronym FTP stand for?（FTP是什么的简称？）
+
+File Transfer Protocol
+
+2.What communication model does FTP use, architecturally speaking?（从架构上来说，FTP用的是什么通信模型？）
+
+client-server model
+
+3.What is the name of one popular GUI FTP program?（最受欢迎的FTP图形化软件的名字是什么？）
+
+FileZilla
+
+4.Which port is the FTP service active on usually?（通常情况下，FTP活跃在哪个端口？）
+
+21 tcp
+
+5.What acronym is used for the secure version of FTP?（安全版本的FTP的简称是什么？）
+
+sftp
+
+视频中提出的问题答案：
+
+FTP：明文传输，通过Wireshark可以抓包看到命令及文件传输的内容
+
+SFTP：加密传输，ssh内嵌的协议，默认情况下只要启动了sshd服务，sftp服务就会在22端口工作。
+
+FTPS：加密传输，类似于HTTPS。
+
+（更多详细的信息可以通过度娘来查询）
+
+6.What is the command we can use to test our connection to the target?（我们可以用什么工具测试我们与目标主机的连通性？）
+
+ping
+
+7.From your scans, what version is FTP running on the target?（从你扫描的结果来看，目标靶机上运行的是哪个版本的FTP？）
+
+&gt;nmap -sV ip 查看
+
+8.From your scans, what OS type is running on the target?（从你的扫描结果来看，目标主机的操作系统类型是什么？）
+
+&gt;nmap -sV ip 查看<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="操作及命令-1"><a href="#操作及命令-1" class="headerlink" title="操作及命令"></a>操作及命令</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">nmap -sV 10.129.165.160
+
+ftp 10.129.165.160
+
+anonymous
+
+ftp&gt;  ls
+
+ftp&gt; get flag.txt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Dancing"><a href="#Dancing" class="headerlink" title="Dancing"></a>Dancing</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">1.What does the 3-letter acronym SMB stand for?（SMB是什么的简称？）
+
+Server Message Block
+
+2.What port does SMB use to operate at?（用什么端口去操作SMB?）
+
+445
+
+3.What network communication model does SMB use, architecturally speaking?（从架构上讲，SMB属于哪种通信模型？）
+
+client-server model
+
+4.What is the service name for port 445 that came up in our nmap scan?（从扫描结果来看，445端口的服务名称是什么？）
+
+microsoft-ds
+
+5.What is the tool we use to connect to SMB shares from our Linux distribution?（在Linux发行版中，我们用什么工具去连接SMB服务的分享？）
+
+smbclient
+
+6.What is the &#96;flag&#96; or &#96;switch&#96; we can use with the SMB tool to &#96;list&#96; the contents of the share?（我们可以用SMB工具哪个“标识”或者“开关”来列举出分享的文件？）
+
+-L
+
+7.What is the name of the share we are able to access in the end?（最终我们可以访问的分享名称是什么？）
+
+WorkShares
+
+8.What is the command we can use within the SMB shell to download the files we find?（在SMB Shell下，我们用什么命令来下载我们找到的文件？）
+
+get<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="操作及命令-2"><a href="#操作及命令-2" class="headerlink" title="操作及命令"></a>操作及命令</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">nmap -sV -v 10.129.219.244
+
+smbclient -L 10.129.219.244
+
+smbclient &#x2F;&#x2F;10.129.219.244&#x2F;WorkShares
+
+smb&gt; ls
+
+smb&gt; get flag.txt <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h2><p>Nmap是一款开源免费的网络发现（Network Discovery）和安全审计（Security Auditing）工具。软件名字Nmap是Network Mapper的简称。Nmap最初是由Fyodor在1997年开始创建的。随后在开源社区众多的志愿者参与下，该工具逐渐成为最为流行安全必备工具之一。</p>
+<p>一般情况下，Nmap用于列举网络主机清单、管理服务升级调度、监控主机或服务运行状况。Nmap可以检测目标机是否在线、端口开放情况、侦测运行的服务类型及版本信息、侦测操作系统与设备类型等信息。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">经典单个主机IP&#x2F;域名普通扫描：
+nmap     IP   可以得到service的port状态,以及端口号
+nmap -sV IP    能够得到服务版本信息 
+nmap -sC IP    sC参数，能够得到更加详细的服务信息
+nmap -sS -sV -T4 ip 
+-sS:使用TCP SYN扫描
+-sV:进行版本探测
+T0-T5 表示扫描速度，数字越大速度越快
+使用TCP协议：
+1.半扫描，迅速且隐蔽
+
+nmap -sS 目标IP
+
+2.全扫描，完成3次握手
+
+nmap -sT 目标IP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Gjqhs/article/details/121957155">Namp在kali中的常见命令</a></p>
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><blockquote>
+<p>redis 是一个开源的、使用 C 语言编写的 NoSQL 数据库<br>redis 基于内存运行并支持持久化（支持存储在磁盘），采用 key-value（键值对）的存储形式，是目前分布式架构中不可或缺的一环<br>redis 服务器程序是单进程模型</p>
+</blockquote>
+<h3 id="redis-cli命令行工具"><a href="#redis-cli命令行工具" class="headerlink" title="redis-cli命令行工具"></a>redis-cli命令行工具</h3><p>redis-cli 常用于登陆至redis 数据库<br>redis-cli -h host -p port -a password<br>-h 指定远程主机<br>-p 指定 redis 服务的端口号<br>-a 指定密码，未设置数据库密码可以省略 -a 选项<br>若不添加任何选项表示，则使用 127.0.0.1:6379 连接本机上的 redis 数据库</p>
+<p>注:<br>执行该条命令是可能会出现<code>Command &#39;redis-cli&#39; not found</code></p>
+<blockquote>
+<p>apt-get update </p>
+</blockquote>
+<p>执行后可能会出现</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">E: 无法下载 https:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;kali&#x2F;pool&#x2F;main&#x2F;r&#x2F;redis&#x2F;redis-tools_6.0.16-2_amd64.deb  404  Not Found [IP: 119.188.121.248 443]
+E: 有几个软件包无法下载，要不运行 apt-get update 或者加上 --fix-missing 的选项再试试？<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>执行以下命令</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">wget -q -O - https:&#x2F;&#x2F;archive.kali.org&#x2F;archive-key.asc | apt-key add
+
+apt-key adv --keyserver hkp:&#x2F;&#x2F;keys.gnupg.net --recv-keys 7D8D0BF6
+用了这两条命令更新了签名问题就解决了<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>没解决看原文章,我是apt-get update就可以了<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/MENGYOU____/article/details/115091631">关于kali源的问题</a></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">redis-server: 用于启动Redis 的工具
+redis-benchmark: 用于检测Redis在本机的运行效率
+redis-check-aof: 修复AOF持久化文件
+redis-check-rdb: 修复RDB持久化文件
+redis-cli: Redis 命令行工具.
+rdb 和aof 是redis服务中持久化功能的两种形式RDB AOF <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">1、远程连接redis：redis-cli -h ip -p port   （无账号密码登录）
+2、查看redis相关信息：info
+	（该命令可以查看redis的版本信息、多少个key等）
+3、查看key所存储的数据类型：type key
+4、获取key所存储的内容：get key
+5、obtain all the keys in a database: keys *<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><a target="_blank" rel="noopener" href="https://copyfuture.com/blogs-details/202207130551151366#1%E3%80%81Redis%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7">redis命令工具</a></p>
+<h2 id="Redeemer"><a href="#Redeemer" class="headerlink" title="Redeemer"></a>Redeemer</h2><pre class=" language-language-c"><code class="language-language-c">1.Q : Which TCP port is open on the machine? 
+
+A : nmap IP -> 6379
+
+2.Q : Which service is running on the port that is open on the machine? 
+
+A : nmap IP -> redis
+
+2.Q : What type of database is Redis? Choose from the following options: (i) In-memory Database, (ii) Traditional Database 
+
+A : (i) In-memory Database
+
+4.Q : Which command-line utility is used to interact with the Redis server? Enter the program name you would enter into the terminal without any arguments. 
+
+A : redis-cli
+
+5.Q : Which flag is used with the Redis command-line utility to specify the hostname? 
+
+A : -h
+
+6.Q : Once connected to a Redis server, which command is used to obtain the information and statistics about the Redis server? 
+
+A : info
+
+7.Q : What is the version of the Redis server being used on the target machine? 
+
+A : nmap -sV IP -> 5.0.7
+
+8.Q : Which command is used to select the desired database in Redis? 
+
+A : select
+
+9.Q : How many keys are present inside the database with index 0? 
+
+A : info -> 4
+
+10.Q : Which command is used to obtain all the keys in a database? 
+
+A : keys *
+
+11.Q : Submit root flag 
+
+A : redis-cli -h IP -p 6379
+
+    keys *
+
+    get flag 
+</code></pre>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2022/09/29/42h-f407-gpio/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/HACKTHEBOX/" title="HACKTHEBOX">
+                        #HACKTHEBOX
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2022/10/14/44l-kali/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E7%BB%83%E4%B9%A0"><span class="toc-text">开始练习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenVPN-%E7%AE%80%E4%BB%8B"><span class="toc-text">OpenVPN 简介</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Meow"><span class="toc-text">Meow</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E5%8F%8A%E5%91%BD%E4%BB%A4"><span class="toc-text">操作及命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fawn"><span class="toc-text">Fawn</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E5%8F%8A%E5%91%BD%E4%BB%A4-1"><span class="toc-text">操作及命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dancing"><span class="toc-text">Dancing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E5%8F%8A%E5%91%BD%E4%BB%A4-2"><span class="toc-text">操作及命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nmap"><span class="toc-text">Nmap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis"><span class="toc-text">Redis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#redis-cli%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7"><span class="toc-text">redis-cli命令行工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redeemer"><span class="toc-text">Redeemer</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + HACKTHEBOX%E5%85%A5%E9%97%A8 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2022%2F10%2F05%2F43l-hackthebox%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2022/10/05/43l-hackthebox/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      linux常用命令 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">linux常用命令</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/linux/" title="linux">
+                    #linux
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <p>ps:刚写完死活发不出来,后来发现题目少个空格</p>
+<h2 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h2><blockquote>
+<p>systemctl stop firewalld</p>
+</blockquote>
+<blockquote>
+<p>systemctl start firewalld</p>
+</blockquote>
+<blockquote>
+<p>systemctl stop firewalld</p>
+</blockquote>
+<blockquote>
+<p>systemctl status firewalld</p>
+</blockquote>
+<blockquote>
+<p>firewall-cmd –reload</p>
+</blockquote>
+<blockquote>
+<p>yum install firewall -y, apt-get install firewalld</p>
+</blockquote>
+<p>开放&#x2F;关闭特定端口<br><code>Ubuntu</code></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">&gt;firewall-cmd --zone&#x3D;public --add-port&#x3D;25565&#x2F;tcp --permanent
+
+firewall-cmd --zone&#x3D;public --add-port&#x3D;25565&#x2F;tcp --permanent<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p> ‘有安全组的需要在安全组开放端口,我有的时候调不好直接把防火墙关了’</p>
+<h2 id="Screen的安装与使用"><a href="#Screen的安装与使用" class="headerlink" title="Screen的安装与使用"></a>Screen的安装与使用</h2><blockquote>
+<p>yum install -y screen</p>
+</blockquote>
+<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">(1)创建进程名称
+&gt;screen -S xxx   
+
+(2)查看创建的进程
+&gt;screen -ls
+
+(3)常用命令
+&gt;screen -S session_name              # 新建
+
+&gt;screen -ls（或者screen -list）      # 列出所有session
+
+&gt;screen -r session_name               # 回到session_name这个session
+
+&gt;screen -d session_name               # 远程detach某个session
+
+&gt;screen -d -r session_name            # 结束当前session并回到session_name这个session
+
+&gt;screen -XS session_name  quit     #杀死名为seesion_name的screen
+或者kill 进程号
+
+在 screen 中，如果想翻看之前的屏幕输出，使用向上键和pageUp 都是不行的，这时候使用
+
+&gt;ctrl + a + [&#123; 
+
+&gt;从后台进程里出来，按键：ctrl+A+D，回到主终端。
+
+&gt;但如果在主进程里ctrl+A+D，就会断开ssh连接
+
+结束当前screen窗口
+&gt;exit 或者 ctrl+d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="测速脚本"><a href="#测速脚本" class="headerlink" title="测速脚本"></a>测速脚本</h2><blockquote>
+<p>wget -qO- bench.sh | bash</p>
+</blockquote>
+<ul>
+<li><p>lemonbench</p>
+<blockquote>
+<p>curl -fsL <a target="_blank" rel="noopener" href="https://ilemonra.in/LemonBenchIntl">https://ilemonra.in/LemonBenchIntl</a> | bash -s fast<br>个人常用快速fast的<br>curl -fsL <a target="_blank" rel="noopener" href="https://ilemonra.in/LemonBenchIntl">https://ilemonra.in/LemonBenchIntl</a> | bash -s full</p>
+</blockquote>
+</li>
+<li><p>完整测试</p>
+<blockquote>
+<p>curl -sL yabs.sh | bash<br>yabs.sh</p>
+</blockquote>
+</li>
+<li><p>备用地址</p>
+<blockquote>
+<p>curl -sL <a target="_blank" rel="noopener" href="https://jsdelivr.zeruns.tech/gh/masonr/yet-another-bench-script@master/yabs.sh">https://jsdelivr.zeruns.tech/gh/masonr/yet-another-bench-script@master/yabs.sh</a> | bash</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>wget -N –no-check-certificate <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/FunctionClub/ZBench/master/ZBench-CN.sh">https://raw.githubusercontent.com/FunctionClub/ZBench/master/ZBench-CN.sh</a> &amp;&amp; bash ZBench-CN.sh  汉化</p>
+</blockquote>
+<h3 id="全流媒体解锁测试"><a href="#全流媒体解锁测试" class="headerlink" title="全流媒体解锁测试"></a>全流媒体解锁测试</h3><blockquote>
+<p>bash &lt;(curl -L -s <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/lmc999/RegionRestrictionCheck/main/check.sh">https://raw.githubusercontent.com/lmc999/RegionRestrictionCheck/main/check.sh</a>)</p>
+</blockquote>
+<h3 id="综合工具箱"><a href="#综合工具箱" class="headerlink" title="综合工具箱"></a>综合工具箱</h3><blockquote>
+<p>wget -O box.sh <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/BlueSkyXN/SKY-BOX/main/box.sh">https://raw.githubusercontent.com/BlueSkyXN/SKY-BOX/main/box.sh</a> &amp;&amp; chmod +x box.sh &amp;&amp; clear &amp;&amp; .&#x2F;box.sh<br>Superspeed.sh</p>
+</blockquote>
+<h3 id="一键测试服务器到国内的速度脚本Superspeed-sh"><a href="#一键测试服务器到国内的速度脚本Superspeed-sh" class="headerlink" title="一键测试服务器到国内的速度脚本Superspeed.sh"></a>一键测试服务器到国内的速度脚本Superspeed.sh</h3><blockquote>
+<p>wget <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/oooldking/script/master/superspeed.sh">https://raw.githubusercontent.com/oooldking/script/master/superspeed.sh</a><br>chmod +x superspeed.sh<br>sudo .&#x2F;superspeed.sh<br>SuperBench.sh</p>
+</blockquote>
+<p>一键检测VPS的CPU、内存、负载、IO读写、机房带宽和服务器类型等脚本SuperBench.sh：</p>
+<blockquote>
+<p>wget -N –no-check-certificate <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/oooldking/script/master/superbench.sh">https://raw.githubusercontent.com/oooldking/script/master/superbench.sh</a><br>sudo bash superbench.sh</p>
+</blockquote>
+<p>或者</p>
+<blockquote>
+<p>curl -Lso- <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/oooldking/script/master/superbench.sh">https://raw.githubusercontent.com/oooldking/script/master/superbench.sh</a> | bash</p>
+</blockquote>
+<h3 id="Zench"><a href="#Zench" class="headerlink" title="Zench"></a>Zench</h3><p>Zench可以看作是Bench.sh 和 SuperBench的结合版本，加入 Ping 以及 路由测试 功能，会生成测评报告，可以很方便地分享给其他朋友看自己的测评数据 ：</p>
+<blockquote>
+<p>wget -N –no-check-certificate <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/FunctionClub/ZBench/master/ZBench-CN.sh">https://raw.githubusercontent.com/FunctionClub/ZBench/master/ZBench-CN.sh</a></p>
+</blockquote>
+<p>sudo bash ZBench-CN.sh<br><a target="_blank" rel="noopener" href="https://github.com/FunctionClub/ZBench">项目地址</a></p>
+<h3 id="Serverreview-benchmark综合评测工具"><a href="#Serverreview-benchmark综合评测工具" class="headerlink" title="Serverreview-benchmark综合评测工具"></a>Serverreview-benchmark综合评测工具</h3><p>这是一个老外写的VPS主机综合评测工具，主要评测的项目有VPS主机磁盘IO、内存读写、CPU性能以及Benchmark性能，还有美国、欧洲、亚洲等不同节点的下载速度。主页：<a target="_blank" rel="noopener" href="https://github.com/sayem314/serverreview-benchmark">https://github.com/sayem314/serverreview-benchmark</a></p>
+<blockquote>
+<p>curl -LsO <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/sayem314/serverreview-benchmark/master/bench.sh">https://raw.githubusercontent.com/sayem314/serverreview-benchmark/master/bench.sh</a>; chmod +x bench.sh &amp;&amp; .&#x2F;bench.sh -a share</p>
+</blockquote>
+<p>mPing</p>
+<h3 id="一键测试回程Ping值工具：mPing"><a href="#一键测试回程Ping值工具：mPing" class="headerlink" title="一键测试回程Ping值工具：mPing"></a>一键测试回程Ping值工具：mPing</h3><blockquote>
+<p>wget <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/helloxz/mping/master/mping.sh">https://raw.githubusercontent.com/helloxz/mping/master/mping.sh</a></p>
+</blockquote>
+<p>bash mping.sh</p>
+<h2 id="查看端口占用"><a href="#查看端口占用" class="headerlink" title="查看端口占用"></a>查看端口占用</h2><blockquote>
+<p>netstat   -nultp</p>
+</blockquote>
+<blockquote>
+<p>netstat -lnp|grep 44380</p>
+</blockquote>
+<blockquote>
+<p>netstat -lnp|grep nginx</p>
+</blockquote>
+<p>关进程</p>
+<blockquote>
+<p>kill -9 进程号</p>
+</blockquote>
+<h2 id="报错问题"><a href="#报错问题" class="headerlink" title="报错问题"></a>报错问题</h2><h3 id="curl-command-not-found-，"><a href="#curl-command-not-found-，" class="headerlink" title="curl: command not found ，"></a>curl: command not found ，</h3><p>原因:没装 Curl<br>(1)ubuntu&#x2F;debian 系统安装 Curl 方法</p>
+<blockquote>
+<p>apt-get install curl &amp;&amp; apt-get install curl -y</p>
+</blockquote>
+<p>(2)centos 系统安装 Curl 方法</p>
+<blockquote>
+<p>yum install curl -y</p>
+</blockquote>
+<h2 id="cmd连接服务器"><a href="#cmd连接服务器" class="headerlink" title="cmd连接服务器"></a>cmd连接服务器</h2><blockquote>
+<p>ssh -p 端口 用户名@ip</p>
+</blockquote>
+<p>默认端口用这个</p>
+<blockquote>
+<p>ssh 用户名@ip</p>
+</blockquote>
+<h2 id="解压-移动文件夹"><a href="#解压-移动文件夹" class="headerlink" title="解压,移动文件夹"></a>解压,移动文件夹</h2><blockquote>
+<p>tar -zxvf xxx<br>unzip xxxx</p>
+</blockquote>
+<p>1.将一个文件夹下的所有内容复制到另一个文件夹下</p>
+<blockquote>
+<p>cp -r &#x2F;home&#x2F;packageA&#x2F;* &#x2F;home&#x2F;cp&#x2F;packageB&#x2F;<br>或cp -r &#x2F;home&#x2F;packageA&#x2F;. &#x2F;home&#x2F;cp&#x2F;packageB&#x2F;<br>这两种方法效果是一样的<br>2.将一个文件夹复制到另一个文件夹下<br>cp -r &#x2F;home&#x2F;packageA &#x2F;home&#x2F;packageB</p>
+</blockquote>
+<p>运行命令之后packageB文件夹下就有packageA文件夹了。<br>3.删除一个文件夹及其下面的所有文件</p>
+<blockquote>
+<p>rm -rf &#x2F;home&#x2F;packageA</p>
+</blockquote>
+<p>-r表示向下递归，不管有多少级目录，一并删除<br>-f表示直接强行删除，不作任何提示的意思<br>4.移动一个文件夹到另一个文件夹下面</p>
+<blockquote>
+<p>mv &#x2F;home&#x2F;packageA &#x2F;home&#x2F;packageB&#x2F;<br>或<br>mv &#x2F;home&#x2F;packageA &#x2F;home&#x2F;packageB<br>这两种方法效果是一样的<br>5.移动一个文件夹下的所有内容到另一个文件夹下面<br>mv &#x2F;home&#x2F;packageA&#x2F;* &#x2F;home&#x2F;packageB&#x2F;</p>
+</blockquote>
+<h2 id="安装类命令"><a href="#安装类命令" class="headerlink" title="安装类命令"></a>安装类命令</h2><h3 id="安装python3"><a href="#安装python3" class="headerlink" title="安装python3"></a>安装python3</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">#获取安装包
+wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;3.8.10&#x2F;Python-3.8.10.tgz
+
+#下载完成之后，将安装包解压到当前目录：
+tar xvf Python-3.8.10.tgz
+
+#安装需要的依赖
+apt -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel
+
+#先进入Python3目录下的Python-3.8.10目录：
+cd Python-3.8.10
+
+#指定python3安装路径：
+.&#x2F;configure prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;python3.8.10
+
+#编译+安装
+make &amp;&amp; make install
+
+#添加python3软链接：
+ln -s &#x2F;usr&#x2F;local&#x2F;python3.8.10&#x2F;bin&#x2F;python3.8.10 &#x2F;usr&#x2F;bin&#x2F;python3
+#添加pip3软链接：
+ ln -s &#x2F;usr&#x2F;local&#x2F;python3.8.10&#x2F;bin&#x2F;pip3.8.10 &#x2F;usr&#x2F;bin&#x2F;pip3
+
+#配置python环境变量
+配置环境变量主要是能快速使用pip3安装命令。
+
+vi ~&#x2F;.bash_profile添加如下配置
+
+export PYTHON_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;python3.8.10
+export PATH&#x3D;$PYTHON_HOME&#x2F;bin:$PATH
+
+#使配置生效
+source ~&#x2F;.bash_profile
+
+#检查版本
+python3 --version
+python3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="安装nodejs"><a href="#安装nodejs" class="headerlink" title="安装nodejs"></a>安装nodejs</h3><p><a target="_blank" rel="noopener" href="http://nodejs.cn/download/">nodejs官网</a></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">wget https:&#x2F;&#x2F;nodejs.org&#x2F;dist&#x2F;v12.18.1&#x2F;node-v12.18.1-linux-x64.tar.xz         &#x2F;&#x2F; 下载
+tar xf node-v12.18.1-linux-x64.tar.xz                                        &#x2F;&#x2F; 解压
+cd node-v12.18.1-linux-x64                                                   &#x2F;&#x2F; 进入解压目录
+
+&#x2F;&#x2F;解压文件的 bin 目录底下包含了 node、npm 等命令，我们可以修改linux系统的环境变量（profile）来设置直接运行命令：
+&#x2F;&#x2F;建议先备份，养成修改重要文件之前先备份的好习惯。
+cp &#x2F;etc&#x2F;profile &#x2F;etc&#x2F;profile.bak
+
+vim &#x2F;etc&#x2F;profile
+&#x2F;&#x2F;在最下面添加 export PATH&#x3D;$PATH: 后面跟上 node 下 bin 目录的路径
+export PATH&#x3D;$PATH:&#x2F;root&#x2F;node-v12.18.1-linux-x64&#x2F;bin
+
+&#x2F;&#x2F;立即生效
+source &#x2F;etc&#x2F;profile
+&#x2F;&#x2F;查看版本
+node -v
+v12.18.1
+&#x2F;&#x2F;安装成功<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2022/05/03/2l-hexo-pit/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/linux/" title="linux">
+                        #linux
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2022/05/04/4l-linux-establish-minecraft/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-text">关闭防火墙</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Screen%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="toc-text">Screen的安装与使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E9%80%9F%E8%84%9A%E6%9C%AC"><span class="toc-text">测速脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%B5%81%E5%AA%92%E4%BD%93%E8%A7%A3%E9%94%81%E6%B5%8B%E8%AF%95"><span class="toc-text">全流媒体解锁测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%BC%E5%90%88%E5%B7%A5%E5%85%B7%E7%AE%B1"><span class="toc-text">综合工具箱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E9%94%AE%E6%B5%8B%E8%AF%95%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%88%B0%E5%9B%BD%E5%86%85%E7%9A%84%E9%80%9F%E5%BA%A6%E8%84%9A%E6%9C%ACSuperspeed-sh"><span class="toc-text">一键测试服务器到国内的速度脚本Superspeed.sh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Zench"><span class="toc-text">Zench</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Serverreview-benchmark%E7%BB%BC%E5%90%88%E8%AF%84%E6%B5%8B%E5%B7%A5%E5%85%B7"><span class="toc-text">Serverreview-benchmark综合评测工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E9%94%AE%E6%B5%8B%E8%AF%95%E5%9B%9E%E7%A8%8BPing%E5%80%BC%E5%B7%A5%E5%85%B7%EF%BC%9AmPing"><span class="toc-text">一键测试回程Ping值工具：mPing</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8"><span class="toc-text">查看端口占用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98"><span class="toc-text">报错问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#curl-command-not-found-%EF%BC%8C"><span class="toc-text">curl: command not found ，</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cmd%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">cmd连接服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%8E%8B-%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-text">解压,移动文件夹</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E7%B1%BB%E5%91%BD%E4%BB%A4"><span class="toc-text">安装类命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85python3"><span class="toc-text">安装python3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85nodejs"><span class="toc-text">安装nodejs</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2022%2F05%2F04%2F3l-linux-common-command%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2022/05/04/3l-linux-common-command/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

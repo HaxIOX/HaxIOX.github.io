@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      基于Python的上位机平台 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">基于Python的上位机平台</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/PyQt6/" title="PyQt6">
+                    #PyQt6
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h1 id="上位机"><a href="#上位机" class="headerlink" title="上位机"></a>上位机</h1><h2 id="PYQT5"><a href="#PYQT5" class="headerlink" title="PYQT5"></a>PYQT5</h2><p><a target="_blank" rel="noopener" href="https://pythonspot.com/pyqt5/">PyQT5 - Python 教程 (pythonspot.com)</a></p>
+<h2 id="tkinter"><a href="#tkinter" class="headerlink" title="tkinter"></a>tkinter</h2><p>我的建议是先用tkinter实现功能, 美观就再说吧, 节省时间要紧, 凡事有个轻重缓急</p>
+<p>Error running ‘QtDisigner’: Cannot start process, the working directory ‘E:\400_Pycharm\000_Project\program’ does not exis</p>
+<blockquote>
+<p>mkdir “E:\400_Pycharm\000_Project\program”</p>
+</blockquote>
+<img src="/2024/04/11/108-ji-yu-python-de-shang-wei-ji-ping-tai/image-20240413072346514.png" class="" title="image-20240413072346514">
+
+<img src="/2024/04/11/108-ji-yu-python-de-shang-wei-ji-ping-tai/image-20240413072418715.png" class="" title="image-20240413072418715">
+
+<h2 id="窗口自适应"><a href="#窗口自适应" class="headerlink" title="窗口自适应"></a>窗口自适应</h2><p>选了grid格式就无法改变按钮的形状大小了</p>
+<p>从小到大, 最后设置主窗口的布局格式, 这样就能实现窗口自适应了</p>
+<h3 id="1-设置按钮大小和样式"><a href="#1-设置按钮大小和样式" class="headerlink" title="1. 设置按钮大小和样式"></a>1. 设置按钮大小和样式</h3><p>如果你想在Qt Designer中设置按钮的最小或最大尺寸，或者应用CSS样式，可以按照以下步骤操作：</p>
+<ul>
+<li><strong>打开Qt Designer</strong> 并加载你的<code>.ui</code>文件。</li>
+<li><strong>选择按钮</strong>：在设计视图中，点击你想要修改的按钮。</li>
+<li>设置属性<ul>
+<li>在右侧的<strong>属性编辑器</strong>中，找到<code>minimumSize</code>和<code>maximumSize</code>属性，输入你希望的尺寸值。</li>
+<li>要设置样式（CSS），找到<code>styleSheet</code>属性，点击其右侧的小按钮（…），这将打开一个编辑器窗口，在其中你可以输入CSS样式。</li>
+</ul>
+</li>
+</ul>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+<li><p>窗口闪退</p>
+<p>某些地方报错,使用try except优化</p>
+</li>
+<li><p>接收多条</p>
+<p>定时器间隔太长, 读取模式为行读取</p>
+<p>间隔太长容易接收两份数据显示</p>
+</li>
+<li><p>不能接受中文</p>
+<blockquote>
+<p>可能是因为解码使用utf_8的格式, 换成GBK格式</p>
+<p>**data &#x3D; self.serial.read_all().decode(‘gbk’).strip() **</p>
+<h3 id="常见的编码格式"><a href="#常见的编码格式" class="headerlink" title="常见的编码格式"></a><strong>常见的编码格式</strong></h3><ul>
+<li><strong>UTF-8</strong>：是一种广泛使用的可变长度字符编码系统，它能表示任何现存的字符，是网络上的标准。</li>
+<li><strong>GBK</strong>：是用于简化字中文的扩展编码，比GB2312覆盖更多的中文字符。</li>
+<li><strong>GB2312</strong>：是较早的简体中文字符集标准，包含6763个汉字。</li>
+<li><strong>GB18030</strong>：是中国的现行国家标准，它兼容GBK和GB2312，支持从单字节的ASCII到四字节的复杂字符。</li>
+</ul>
+</blockquote>
+</li>
+<li><p>异常处理很重要</p>
+<blockquote>
+<p>当出现程序自动停止但是没有报错时,可以通过是指异常处理找到报错</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="一"><a href="#一" class="headerlink" title="一"></a>一</h2><p>这种调库的写法, 像是在看说明书</p>
+<h2 id="按钮"><a href="#按钮" class="headerlink" title="按钮"></a>按钮</h2><p>图标</p>
+<img src="/2024/04/11/108-ji-yu-python-de-shang-wei-ji-ping-tai/image-20240604222739540.png" class="" title="image-20240604222739540">
+
+<p>按钮风格</p>
+<img src="/2024/04/11/108-ji-yu-python-de-shang-wei-ji-ping-tai/image-20240604222757132.png" class="" title="image-20240604222757132">
+
+<p>样式表用CSS改变形状</p>
+<p><strong>限制最小值</strong></p>
+<h2 id="widget"><a href="#widget" class="headerlink" title="widget"></a>widget</h2><p>容器布局</p>
+<h2 id="按钮按下和弹"><a href="#按钮按下和弹" class="headerlink" title="按钮按下和弹"></a>按钮按下和弹</h2><p>在 PyQt 的样式表中，伪状态选择器用于定义控件在特定状态下的外观。以下是一些常用的伪状态选择器：</p>
+<ul>
+<li><code>QPushButton:hover</code>：定义鼠标悬停在按钮上时的外观。</li>
+<li><code>QPushButton:pressed</code>：定义按钮被按下时的外观。</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"># 在这里可以添加信号槽连接和其他初始化代码
+       self.apply_styles()
+       self.pushButton_start.clicked.connect(self.handle_start_button)
+       self.pushButton_a.clicked.connect(self.handle_button_a)
+       self.pushButton_b.clicked.connect(self.handle_button_b)
+       self.pushButton_forward.clicked.connect(self.handle_forward_button)
+       self.pushButton_backward.clicked.connect(self.handle_backward_button)
+       self.pushButton_left.clicked.connect(self.handle_left_button)
+       self.pushButton_right.clicked.connect(self.handle_right_button)
+       self.pushButton_stop.clicked.connect(self.handle_stop_button)
+
+   def apply_styles(self):
+       # 设置按钮样式表，添加按压效果
+       button_style &#x3D; &quot;&quot;&quot;
+       QPushButton &#123;
+           border: 1px solid black;
+           border-radius: 10px;
+           background-color: #82A6FF;
+           min-width: 80px;
+           min-height: 40px;
+           font: bold 14px;
+           color: white;
+       &#125;
+       # 按压在后面才能生效
+         QPushButton:hover &#123;
+           background-color: #9BBFFF;
+       &#125;
+       QPushButton:pressed &#123;
+           background-color:#000000;
+       &#125;
+
+       &quot;&quot;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>布局约束了按钮的大小，如何解决</p>
+<p><strong>暂时未验证</strong></p>
+<ol>
+<li><strong>取消网格布局</strong>：<ul>
+<li>使用垂直和水平布局来排列按钮，确保按钮和图标大小一致，并使布局整洁。</li>
+</ul>
+</li>
+<li><strong>调整按钮和图标的大小</strong>：<ul>
+<li>在 <code>setup_button</code> 方法中，设置按钮的大小策略为 <code>QtWidgets.QSizePolicy.Expanding</code>，并设置按钮和图标的最小和最大尺寸，使它们完全重合。</li>
+</ul>
+</li>
+<li><strong>使用垂直和水平布局排列按钮</strong>：<ul>
+<li>将上方向按钮和下方向按钮放在垂直布局中，并将左右方向按钮和停止按钮放在水平布局中，确保布局整齐。</li>
+</ul>
+</li>
+</ol>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">self.pushButton_start.clicked.connect(self.open_serial_port) 这行代码的功能是将 self.pushButton_start 按钮的点击事件与 self.open_serial_port 方法连接起来。也就是说，当用户点击 self.pushButton_start 按钮时，会自动调用 self.open_serial_port 方法。
+
+详细讲解：
+self.pushButton_start:
+
+self.pushButton_start 是一个 QPushButton 对象，表示用户界面中的一个按钮。
+clicked 信号:
+
+在 PyQt 中，每个按钮（QPushButton）都有许多信号，其中一个最常用的信号是 clicked。当用户点击按钮时，这个信号会被触发。
+connect 方法:
+
+connect 方法用于将信号与槽（slot）连接起来。槽是一个可以被调用的函数或方法，当信号触发时，槽会被调用。
+在这种情况下，connect 方法将 clicked 信号与 self.open_serial_port 方法连接。
+self.open_serial_port 方法:
+
+self.open_serial_port 是在类中定义的一个方法。这个方法的作用是打开选定的串口。
+工作流程：
+当用户点击 self.pushButton_start 按钮时，self.pushButton_start 对象会发出 clicked 信号。
+由于 clicked 信号已经通过 connect 方法与 self.open_serial_port 方法连接，因此 self.open_serial_port 方法会被自动调用。
+self.open_serial_port 方法会执行相关代码，尝试打开用户在 comboBox 中选择的串口，并进行初始化设置。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="由小到大"><a href="#由小到大" class="headerlink" title="由小到大"></a>由小到大</h2><p>思维导图及时写，定期复习所学</p>
+<p>温故而知新</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">UI界面设计程序如下：
+
+from PyQt5 import QtWidgets             #导入模块
+     from THREE import Ui_MainWindow  
+
+Class MainApp(QtWidgets.QMainWindow, Ui_MainWindow):
+
+​    def __init__(self):  
+
+​    #  这是类的初始化方法，当创建 MainApp 类的实例时会自动调用该方法。
+
+​    # self 是对类实例自身的引用，用于访问实例的属性和方法。
+
+  super(MainApp, self).__init__()
+
+​    # 调用了父类（QtWidgets.QMainWindow 和 Ui_MainWindow）的初始化方法。
+
+​    # super() 函数用于调用父类的方法，确保父类中的初始化代码在子类中也能正确执行。
+
+通过调用父类的初始化方法，MainApp 类继承了 QtWidgets.QMainWindow 和 Ui_MainWindow 类的所有属性和方法。
+
+
+
+​    self.setupUi(self)
+
+·  调用了 Ui_MainWindow 类中的 setupUi 方法，并传递了当前类的实例 self 作为参数。
+
+· setupUi 方法用于设置和初始化用户界面，配置窗口的布局、组件以及信号槽连接。
+
+· 通过调用 setupUi 方法，MainApp 类实例会根据 Ui_MainWindow 中定义的布局和组件初始化界面。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="try-except"><a href="#try-except" class="headerlink" title="try except"></a>try except</h2><p>可以防止程序自动退出，不显示报错</p>
+<h2 id="label切换图片模仿led"><a href="#label切换图片模仿led" class="headerlink" title="label切换图片模仿led"></a>label切换图片模仿led</h2><h2 id="思考功能"><a href="#思考功能" class="headerlink" title="思考功能"></a>思考功能</h2><img src="/2024/04/11/108-ji-yu-python-de-shang-wei-ji-ping-tai/image-20240608212622365.png" class="" title="image-20240608212622365">
+
+<h2 id="超声波"><a href="#超声波" class="headerlink" title="超声波"></a>超声波</h2><ul>
+<li>Pyinstaller -F py_word.py 打包exe</li>
+<li></li>
+<li>Pyinstaller -F -w py_word.py 不带控制台的打包</li>
+<li></li>
+<li>Pyinstaller -F -w -i chengzi.ico py_word.py 打包指定exe图标打包</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.byhy.net/py/qt/qt_03/">界面设计和布局 - 白月黑羽 (byhy.net)</a></p>
+<h1 id="ONECOM"><a href="#ONECOM" class="headerlink" title="ONECOM"></a>ONECOM</h1><h2 id="PYQT6环境搭建"><a href="#PYQT6环境搭建" class="headerlink" title="PYQT6环境搭建"></a>PYQT6环境搭建</h2><ul>
+<li><p>安装<a target="_blank" rel="noopener" href="https://www.python.org/downloads/windows/">python3.11</a></p>
+</li>
+<li><p>pip install PyQt6 pyqt6-tools</p>
+</li>
+<li><p>注意：PyQt6到2025&#x2F;9&#x2F;14只支持到<code>python3.11</code>，使用高版本会遇到各种问题</p>
+<p>（<a target="_blank" rel="noopener" href="https://www.bilibili.com/opus/884262852306665529">参考Python3.12环境下PyQt6的安装</a>）</p>
+</li>
+<li><p>创建external tools</p>
+</li>
+</ul>
+<p>布局在缩放时会出现“遮挡”</p>
+<hr>
+<h3 id="第一部分：解决布局“遮挡”而不是“缩放”的问题"><a href="#第一部分：解决布局“遮挡”而不是“缩放”的问题" class="headerlink" title="## 第一部分：解决布局“遮挡”而不是“缩放”的问题"></a>## 第一部分：解决布局“遮挡”而不是“缩放”的问题</h3><p>你描述的“推拉时出现遮挡而不是等比放大缩小”的现象，是 PyQt&#x2F;Qt 布局中一个非常核心且常见的问题。</p>
+<h4 id="问题根源：最小尺寸（minimumSize）与尺寸策略（sizePolicy）的冲突"><a href="#问题根源：最小尺寸（minimumSize）与尺寸策略（sizePolicy）的冲突" class="headerlink" title="问题根源：最小尺寸（minimumSize）与尺寸策略（sizePolicy）的冲突"></a><strong>问题根源：最小尺寸（minimumSize）与尺寸策略（sizePolicy）的冲突</strong></h4><p>当你在缩小窗口时，布局管理器会尝试按比例缩小它内部的每一个控件。但每个控件都有一个“尊严”——它有一个<strong>最小尺寸（<code>minimumSize</code>）</strong>，它告诉布局管理器：“你不能把我变得比这个尺寸更小了！”</p>
+<p>当窗口被缩得太小，布局管理器分配给某个控件的空间，已经小于该控件所允许的最小尺寸时，冲突就发生了。布局管理器别无选择，只能开始<strong>裁剪</strong>或<strong>重叠</strong>控件，这就是你看到的“遮挡”现象。</p>
+<p>####控制尺寸的关键属性</p>
+<p>为了彻底理解并解决这个问题，你需要了解 Qt Designer 中控制尺寸的几个关键属性。当你选中任何一个控件时，都可以在右侧的属性编辑器中找到它们：</p>
+<ol>
+<li><p><strong><code>sizePolicy</code> (尺寸策略)</strong> - <strong>最重要的属性</strong> 这是控件的“行为宣言”，它告诉布局管理器，当有额外空间或空间不足时，它该如何表现。它分为水平（Horizontal）和垂直（Vertical）策略。</p>
+<ul>
+<li><p><strong><code>Fixed</code></strong>：尺寸固定，等于 <code>sizeHint</code>（建议尺寸），既不能拉伸也不能压缩。</p>
+</li>
+<li><p><strong><code>Minimum</code></strong>：可以被拉伸，但不能被压缩得比 <code>sizeHint</code> 更小。</p>
+</li>
+<li><p><strong><code>Maximum</code></strong>：可以被压缩，但不能被拉伸得比 <code>sizeHint</code> 更大。</p>
+</li>
+<li><p><strong><code>Preferred</code></strong>：（默认值）可以被拉伸也可以被压缩，但它“希望”保持在 <code>sizeHint</code> 大小。</p>
+</li>
+<li><p><strong><code>Expanding</code></strong>：和 <code>Preferred</code> 类似，但它有强烈的“欲望”去占据所有多余的空间。像文本编辑器、列表视图这类控件默认就是这个策略。</p>
+</li>
+<li><p><code>horizontalStretch</code> &#x2F; <code>verticalStretch</code> (拉伸因子)：我们之前讨论过，用于分配多余空间的<strong>比例</strong>。</p>
+</li>
+</ul>
+</li>
+<li><p><strong><code>minimumSize</code> (最小尺寸)</strong> - <strong>问题的直接原因</strong> 这是一个<strong>硬性限制</strong>。你在这里设置的宽度和高度，是这个控件能被压缩到的绝对下限。<strong>很多“遮挡”问题都是因为这里被无意中设置了一个较大的值。</strong></p>
+</li>
+<li><p><strong><code>maximumSize</code> (最大尺寸)</strong> 与 <code>minimumSize</code> 相反，这是控件能被拉伸到的绝对上限。</p>
+</li>
+<li><p><strong><code>sizeHint</code> (建议尺寸)</strong> 这是控件根据自身内容（比如按钮上的文字长度）计算出的“最理想”的尺寸。<code>sizePolicy</code> 中的很多策略都依赖于这个值。</p>
+</li>
+</ol>
+<h4 id="如何设置以避免遮挡？"><a href="#如何设置以避免遮挡？" class="headerlink" title="如何设置以避免遮挡？"></a><strong>如何设置以避免遮挡？</strong></h4><ol>
+<li><p><strong>检查并重置 <code>minimumSize</code></strong>：</p>
+<ul>
+<li><p>在 Qt Designer 中，选中那个被遮挡的控件（或者它的父容器）。</p>
+</li>
+<li><p>在属性编辑器中找到 <code>minimumSize</code> 属性。</p>
+</li>
+<li><p>检查它的 <code>width</code> 和 <code>height</code> 是否被设置了一个非零的值。<strong>尝试将它们都改回 <code>0</code></strong>。<code>0</code>意味着“没有最小尺寸限制”。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>为整个主窗口设置一个最小尺寸</strong>：</p>
+<ul>
+<li><p>这是一个非常实用且推荐的做法。一个复杂的界面不可能被无限缩小。</p>
+</li>
+<li><p>在 Qt Designer 中，点击主窗口的空白处，然后在属性编辑器中找到 <code>minimumSize</code>。</p>
+</li>
+<li><p>设置一个你认为合理的最小宽度和高度，比如 <code>800</code> x <code>600</code>。这样，用户就无法将窗口缩小到会破坏布局的程度，从根本上避免了“遮挡”问题。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>合理使用 <code>sizePolicy</code></strong>：</p>
+<ul>
+<li><p>确保那些需要灵活缩放的控件（如文本框）的 <code>sizePolicy</code> 设置为 <code>Expanding</code>。</p>
+</li>
+<li><p>确保那些尺寸应该保持紧凑的控件（如按钮）的 <code>sizePolicy</code> 设置为 <code>Preferred</code> 或 <code>Fixed</code>。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>使用 <code>QScrollArea</code> (滚动区域)</strong>：</p>
+<ul>
+<li><p>如果你的右侧功能区内容确实很多，无法在小尺寸下完全显示，最好的解决方案是：</p>
+</li>
+<li><p>在 Qt Designer 中，先拖入一个 <code>QScrollArea</code> 控件。</p>
+</li>
+<li><p>然后把你整个右侧功能区的所有控件都<strong>放进</strong>这个 <code>QScrollArea</code> 中。</p>
+</li>
+<li><p>这样，当窗口缩小时，如果内容显示不下，<code>QScrollArea</code> 会自动出现滚动条，从而保证内部的控件永远不会被“遮挡”。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="设置窗口比例"><a href="#设置窗口比例" class="headerlink" title="设置窗口比例"></a>设置窗口比例</h3><p>调整 <code>verstretch</code> 因子，让发送区占用更少空间</p>
+<p><strong>注意</strong></p>
+<p>布局不要太多</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/04/09/107-max30102-mo-kuai/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/PyQt6/" title="PyQt6">
+                        #PyQt6
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/04/18/109-lan-ya-mo-kuai/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8A%E4%BD%8D%E6%9C%BA"><span class="toc-text">上位机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PYQT5"><span class="toc-text">PYQT5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tkinter"><span class="toc-text">tkinter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E8%87%AA%E9%80%82%E5%BA%94"><span class="toc-text">窗口自适应</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%AE%BE%E7%BD%AE%E6%8C%89%E9%92%AE%E5%A4%A7%E5%B0%8F%E5%92%8C%E6%A0%B7%E5%BC%8F"><span class="toc-text">1. 设置按钮大小和样式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BC%96%E7%A0%81%E6%A0%BC%E5%BC%8F"><span class="toc-text">常见的编码格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80"><span class="toc-text">一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E9%92%AE"><span class="toc-text">按钮</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#widget"><span class="toc-text">widget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E9%92%AE%E6%8C%89%E4%B8%8B%E5%92%8C%E5%BC%B9"><span class="toc-text">按钮按下和弹</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B1%E5%B0%8F%E5%88%B0%E5%A4%A7"><span class="toc-text">由小到大</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#try-except"><span class="toc-text">try except</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#label%E5%88%87%E6%8D%A2%E5%9B%BE%E7%89%87%E6%A8%A1%E4%BB%BFled"><span class="toc-text">label切换图片模仿led</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%80%83%E5%8A%9F%E8%83%BD"><span class="toc-text">思考功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B6%85%E5%A3%B0%E6%B3%A2"><span class="toc-text">超声波</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ONECOM"><span class="toc-text">ONECOM</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PYQT6%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">PYQT6环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9A%E8%A7%A3%E5%86%B3%E5%B8%83%E5%B1%80%E2%80%9C%E9%81%AE%E6%8C%A1%E2%80%9D%E8%80%8C%E4%B8%8D%E6%98%AF%E2%80%9C%E7%BC%A9%E6%94%BE%E2%80%9D%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">## 第一部分：解决布局“遮挡”而不是“缩放”的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%A0%B9%E6%BA%90%EF%BC%9A%E6%9C%80%E5%B0%8F%E5%B0%BA%E5%AF%B8%EF%BC%88minimumSize%EF%BC%89%E4%B8%8E%E5%B0%BA%E5%AF%B8%E7%AD%96%E7%95%A5%EF%BC%88sizePolicy%EF%BC%89%E7%9A%84%E5%86%B2%E7%AA%81"><span class="toc-text">问题根源：最小尺寸（minimumSize）与尺寸策略（sizePolicy）的冲突</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E4%BB%A5%E9%81%BF%E5%85%8D%E9%81%AE%E6%8C%A1%EF%BC%9F"><span class="toc-text">如何设置以避免遮挡？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%AA%97%E5%8F%A3%E6%AF%94%E4%BE%8B"><span class="toc-text">设置窗口比例</span></a></li></ol></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%9F%BA%E4%BA%8EPython%E7%9A%84%E4%B8%8A%E4%BD%8D%E6%9C%BA%E5%B9%B3%E5%8F%B0 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2024%2F04%2F11%2F108-ji-yu-python-de-shang-wei-ji-ping-tai%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2024/04/11/108-ji-yu-python-de-shang-wei-ji-ping-tai/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

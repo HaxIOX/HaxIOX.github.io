@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      爬取m3u8视频 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">爬取m3u8视频</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="异步爬虫"><a href="#异步爬虫" class="headerlink" title="异步爬虫"></a>异步爬虫</h2><h3 id="报错Event-loop-is-closed"><a href="#报错Event-loop-is-closed" class="headerlink" title="报错Event loop is closed"></a>报错Event loop is closed</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">tasks &#x3D; []
+for url in ts_urls:
+    ts_res &#x3D; await aiohttp_(url,&quot;content&quot;)
+    decrypted_data &#x3D; await decrypt(ts_res, key)
+    await download(decrypted_data, name)
+task &#x3D; asyncio.create_task(download(decrypted_data,name))
+tasks.append(task)
+   await asyncio.wait(tasks)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:
+    start &#x3D; time.time()
+    #这句代码容易出现错误Event loop is closed
+    asyncio.run(main())<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>大佬的解释:</p>
+<blockquote>
+<p>aiohttp 内部使用了 _ProactorBasePipeTransport ，程序退出释放内存时自动调用其 <strong>del</strong> 方法导致二次关闭事件循环。一般的协程程序是不会使用_ProactorBasePipeTransport 的，所以asyncio.run() 还是可以正常运行。而且这种情况仅在Windows上发生。</p>
+</blockquote>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"># loop &#x3D; asyncio.get_event_loop()
+# loop.run_until_complete(main())<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>但是我发现改成上面的代码后会报别的错误,并且当我把错误全都改正后,继续使用<code>asyncio.run()</code>也可以正常运行,所以我的理解是,其他代码出现错误后,会导致循环关闭</p>
+<h3 id="AttributeError-‘NoneType’-object-has-no-attribute-‘group’"><a href="#AttributeError-‘NoneType’-object-has-no-attribute-‘group’" class="headerlink" title="AttributeError: ‘NoneType’ object has no attribute ‘group’"></a>AttributeError: ‘NoneType’ object has no attribute ‘group’</h3><p>使用 <code>group()</code> 方法提取捕获组的值。但是，如果没有找到匹配项，<code>search()</code> 方法将返回 <code>None</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">if match is not None:
+    print(match.group(1))
+else:
+    print(&#39;No match found&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="none返回值为空"><a href="#none返回值为空" class="headerlink" title="none返回值为空"></a>none返回值为空</h3><p>如果在爬虫是出现返回值为空的情况,要检查一下源代码,看看爬取的数据是否是动态生成或者修改的</p>
+<h3 id="AttributeError-aenter"><a href="#AttributeError-aenter" class="headerlink" title="AttributeError:__aenter __"></a>AttributeError:__aenter __</h3><p>直接使用async,会报错是因为在使用 “async with” 语句时，不能直接使用 Python 内置的 “open” 函数进行异步文件操作。因为 “open” 函数没有定义 “<strong>aenter</strong>“ 方法，所以会出现 “AttributeError: aenter” 错误。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">async with open(f&quot;ts文件&#x2F;&#123;name&#125;&quot;, &quot;ab&quot;) as f:
+    await f.write(decrypted_data)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">async with aiofiles.open(f&quot;ts文件&#x2F;&#123;name&#125;&quot;, &quot;ab&quot;) as f:
+    await f.write(decrypted_data)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>但是这样写就可以,使用 “aiofiles” 库来进行异步文件操作</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">async with aiohttp.ClientSession() as session:
+	async with session.get(path, ssl&#x3D;False) as resp:
+	# 将得到的请求保存到文件中
+		with open(&quot;ts文件&#x2F;&quot; + ts, &quot;wb&quot;) as f:
+		f.write(await resp.content.read())
+		print(f&quot;&#123;ts&#125;下载完成！&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这段代码可以正常运行是因为在 <code>&quot;async with&quot; </code>语句中使用的是 <code>&quot;aiohttp.ClientSession()&quot;</code> 对象，而不是 Python 内置的 “open” 函数。 <code>&quot;aiohttp.ClientSession()&quot; </code>对象已经定义了 <code>&quot;**aenter**&quot;</code> 和 <code>&quot;**aexit**&quot; </code>方法，可以用于异步上下文管理器，因此可以使用 “async with” 语句来进行异步操作。</p>
+<p>在这段代码中，首先使用 “aiohttp.ClientSession()” 对象创建一个异步的 HTTP 客户端会话，然后使用 “session.get()” 方法发起一个 GET 请求，返回一个响应对象 “resp”。接着，使用 “await resp.content.read()” 方法异步读取响应内容，并将结果写入到文件中。最后，输出下载完成的提示信息。</p>
+<h2 id="url的拼接"><a href="#url的拼接" class="headerlink" title="url的拼接"></a>url的拼接</h2><h3 id="使用urljoin库拼接"><a href="#使用urljoin库拼接" class="headerlink" title="使用urljoin库拼接"></a>使用urljoin库拼接</h3><p><code>urljoin</code> 是 Python 内置的一个函数，用于合并两个 URL<code>urljoin</code> 函数不仅仅是简单地将两个 URL 连接起来。它还会处理 URL 中的相对路径和绝对路径，确保返回的 URL 是正确的</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">from urllib.parse import urljoin
+key_url &#x3D; urljoin(second_m3u8_link, key_line)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="使用””-join-拼接"><a href="#使用””-join-拼接" class="headerlink" title="使用””.join()拼接"></a>使用””.join()拼接</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">import os
+second_m3u8_link &#x3D; os.path.join(os.path.dirname(first_m3u8_link),&quot;&#x2F;&quot;.join(res.text.split(&quot;&#x2F;&quot;)[-3:])))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>其中这个返回的是以<code>&quot;/&quot;</code>为分隔符,从后往前取三个,使用”&#x2F;“.join把他们串成字符串就是1200kb&#x2F;hls&#x2F;LV5eaTwd.ts</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">#url&#x3D;&quot;https:&#x2F;&#x2F;s1.fsvod1.com&#x2F;20220225&#x2F;fmrpwm7M&#x2F;1200kb&#x2F;hls&#x2F;LV5eaTwd.ts&quot;
+&quot;&#x2F;&quot;.join(res.text.split(&quot;&#x2F;&quot;)[-3:])
+
+输出 1200kb&#x2F;hls&#x2F;LV5eaTwd.ts<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>也可以这样写</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">second_m3u8_link &#x3D; os.path.join(os.path.dirname(first_m3u8_link), &quot;&#x2F;&quot;.join(res.text.split(&quot;\n&quot;)[-3:]))<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>windows系统不行,windows的输出会变成这样,可能是因为windows生成路径用的就是\</p>
+<blockquote>
+<p>“<a target="_blank" rel="noopener" href="https://s1.fsvod1.com/20220225/fmrpwm7M/1200kb/hls/LV5eaTwd.ts">https://s1.fsvod1.com/20220225/fmrpwm7M\1200kb/hls/LV5eaTwd.ts</a>“</p>
+</blockquote>
+<p><code>os.path.join()</code> 方法用于将多个路径组合成一个路径字符串。在这里，它将 变量组合成一个路径字符串，并将其分隔符设置为操作系统的默认分隔符，在 Windows 上为反斜杠（\），在 Unix 上为正斜杠（&#x2F;）。</p>
+<p>并且那个反斜杠无法用replace替换,无效,这个我暂时不知道为什么</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">second_m3u8_link.replace(&#39;\\&#39;,&#39;&#x2F;&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="使用字符串直接-上"><a href="#使用字符串直接-上" class="headerlink" title="使用字符串直接+上"></a>使用字符串直接+上</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">second_m3u8_link&#x3D;(os.path.dirname(first_m3u8_link)+&quot;&#x2F;&quot;+&quot;&#x2F;&quot;.join(res.text.split(&quot;&#x2F;&quot;)[-3:])).split()[0]
+#这里的split()是去url后面的\n的(不晓得从哪多出来个\n),返回的是列表所以用[0]给他取出来<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="使用正则匹配到需要的那部分"><a href="#使用正则匹配到需要的那部分" class="headerlink" title="使用正则匹配到需要的那部分"></a>使用正则匹配到需要的那部分</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">last_m3u8_url &#x3D; re.findall(r&quot;&#x2F;.*?&#x2F;.*?(&#x2F;.*?m3u8?)&quot;, res.text)
+second_m3u8_link &#x3D; first_m3u8_link.rsplit(&quot;&#x2F;&quot;, 1)[0] + &quot;&quot;.join(last_m3u8_url[0])
+#后面的[0]的意思是匹配到的全拿出来,用research<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="res-text、res-content与res-read的区别"><a href="#res-text、res-content与res-read的区别" class="headerlink" title="res.text、res.content与res.read的区别"></a>res.text、res.content与res.read的区别</h3><p>res.content 和 res.read() 方法都用于读取 HTTP 响应的内容，个人感觉没有区别,这次爬取m3u8视频用的是read估计是因为需要解密</p>
+<p>res.content 返回的是响应内容的二进制数据，类型为 bytes，可以处理任何类型的响应数据，包括图片、视频、音频等二进制数据。</p>
+<p>res.read() 方法则返回的是响应内容的原始字节数据，类型为 bytes，也可以处理各种类型的响应数据，但需要手动进行解码和处理。</p>
+<p>当您使用 <code>requests</code> 库发送 HTTP 请求时，服务器将以二进制形式返回响应内容。如果您使用 <code>res.content</code> 获取响应内容，您将获得响应内容的二进制表示形式，这对于处理二进制数据（例如图像、音频、视频等）非常有用。如果您使用 <code>res.text</code> 获取响应内容，<code>requests</code> 库将尝试自动将响应内容解码为文本格式，并返回解码后的字符串.<code>即res.content和res.text</code>只是<code>返回的格式不同</code></p>
+<p>因此，如果响应内容是文本类型，建议使用 res.text 属性获取响应内容；如果响应内容是二进制类型，则建议使用 res.content 或 res.read() 方法获取响应内容。</p>
+<h2 id="加密视频"><a href="#加密视频" class="headerlink" title="加密视频"></a>加密视频</h2><blockquote>
+<p>这个我现在还没弄清楚是怎么回事,暂且当固定用法使用</p>
+</blockquote>
+<p>在加密通信中，IV（Initialization Vector，初始化向量）是用于加密算法中的随机初始值。在使用 AES 算法进行 CBC 模式加密时，需要指定一个 IV 值，用于增加加密强度和安全性。在解密时，也需要使用相同的 IV 值才能正确解密。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">iv &#x3D; ts_res.content[:16]
+encrypted_data &#x3D; ts_res.content[16:]
+cipher &#x3D; AES.new(key, AES.MODE_CBC, iv)
+decrypted_data &#x3D; cipher.decrypt(encrypted_data)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这部分代码是用于解密AES加密的数据的一个示例，是一种常见的用法。其中，iv是初始向量，是加密时使用的参数之一，需要和加密数据一起传输；encrypted_data是加密后的数据，它包含了加密后的视频内容；key是AES加密的密钥，用于解密数据。</p>
+<p>这段代码使用了PyCryptodome库中的AES模块，使用了AES CBC模式进行解密。其中，初始向量iv的长度为16字节，与加密时的长度相同；密钥key的长度可以是16字节、24字节或32字节，具体取决于加密时使用的密钥长度。在解密时，我们将初始向量iv和密文encrypted_data传递给AES加密器对象cipher，并使用decrypt方法解密数据。解密后的数据存储在变量decrypted_data中，它就是原始的视频内容。</p>
+<p>在解密过程中可能需要使用不同的初始向量、密钥和加密算法，具体取决于加密时使用的加密方式和密钥。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">当涉及到加密和解密时，Python中有很多库可以使用。以下是一个使用PyCryptodome库进行AES对称加密和解密的例子，让我来为你讲解一下这段代码：
+
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import base64
+
+key &#x3D; b&#39;1234567890123456&#39;  # 密钥必须是16、24或32字节长度
+iv &#x3D; b&#39;1234567890123456&#39;   # 初始向量必须是16字节长度
+plaintext &#x3D; b&#39;This is a secret message&#39; # 待加密的明文
+
+# 创建AES加密器，并使用CBC模式和PKCS7填充
+cipher &#x3D; AES.new(key, AES.MODE_CBC, iv)
+ciphertext &#x3D; cipher.encrypt(pad(plaintext, AES.block_size))
+
+# 将密文转换为Base64字符串
+ciphertext_base64 &#x3D; base64.b64encode(ciphertext).decode(&#39;utf-8&#39;)
+print(&#39;加密后的密文:&#39;, ciphertext_base64)
+
+# 将Base64字符串转换为二进制形式
+ciphertext &#x3D; base64.b64decode(ciphertext_base64.encode(&#39;utf-8&#39;))
+
+# 创建AES解密器，并使用CBC模式和PKCS7填充
+cipher&#x3D; AES.new(key, AES.MODE_CBC, iv)
+decrypted &#x3D; unpad(cipher.decrypt(ciphertext), AES.block_size)
+
+print(&#39;解密后的明文:&#39;, decrypted.decode(&#39;utf-8&#39;))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="视频合并"><a href="#视频合并" class="headerlink" title="视频合并"></a>视频合并</h2><p>这个是使用ffmpeg 对index.m3u8文件使用命令进行合并,通过<code>os.system()</code>,index.m3u8文件是把ts的res.content追加写入得到的,然后使用命令合并,其实不合并,直接改文件后缀,我觉得也是可以的,但是ffmpeg应该是有其他情况下的用法</p>
+<h2 id="爬取js生成的动态数据"><a href="#爬取js生成的动态数据" class="headerlink" title="爬取js生成的动态数据"></a>爬取js生成的动态数据</h2><p>待更新…..</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2023/03/30/55p-xpath/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2023/04/11/57h-stm32-esp8266-zhi-neng-an-quan-jian-ce-xi-tong/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E7%88%AC%E8%99%AB"><span class="toc-text">异步爬虫</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E9%94%99Event-loop-is-closed"><span class="toc-text">报错Event loop is closed</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AttributeError-%E2%80%98NoneType%E2%80%99-object-has-no-attribute-%E2%80%98group%E2%80%99"><span class="toc-text">AttributeError: ‘NoneType’ object has no attribute ‘group’</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#none%E8%BF%94%E5%9B%9E%E5%80%BC%E4%B8%BA%E7%A9%BA"><span class="toc-text">none返回值为空</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AttributeError-aenter"><span class="toc-text">AttributeError:__aenter __</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#url%E7%9A%84%E6%8B%BC%E6%8E%A5"><span class="toc-text">url的拼接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8urljoin%E5%BA%93%E6%8B%BC%E6%8E%A5"><span class="toc-text">使用urljoin库拼接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E2%80%9D%E2%80%9D-join-%E6%8B%BC%E6%8E%A5"><span class="toc-text">使用””.join()拼接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B4%E6%8E%A5-%E4%B8%8A"><span class="toc-text">使用字符串直接+上</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E5%88%B0%E9%9C%80%E8%A6%81%E7%9A%84%E9%82%A3%E9%83%A8%E5%88%86"><span class="toc-text">使用正则匹配到需要的那部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#res-text%E3%80%81res-content%E4%B8%8Eres-read%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">res.text、res.content与res.read的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E8%A7%86%E9%A2%91"><span class="toc-text">加密视频</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E9%A2%91%E5%90%88%E5%B9%B6"><span class="toc-text">视频合并</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%AC%E5%8F%96js%E7%94%9F%E6%88%90%E7%9A%84%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE"><span class="toc-text">爬取js生成的动态数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-text"></span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%88%AC%E5%8F%96m3u8%E8%A7%86%E9%A2%91 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2023%2F04%2F08%2F56p-pa-qu-m3u8-shi-pin%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2023/04/08/56p-pa-qu-m3u8-shi-pin/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

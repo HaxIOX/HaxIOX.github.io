@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      续流二极管 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">续流二极管</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h1 id="续流二极管"><a href="#续流二极管" class="headerlink" title="续流二极管"></a>续流二极管</h1><p>像<code>风扇、电机、蜂鸣器</code>等感性负载（线圈类）在断电时容易产生高压反向电动势，这个时候需要续流二极管缓慢释放电压。</p>
+<h1 id="续流二极管的特点"><a href="#续流二极管的特点" class="headerlink" title="续流二极管的特点"></a>续流二极管的特点</h1><p>1）续流二极管具有<code>反向击穿电压（VRM）较高</code>的特点。当电感器中的反向电压超过续流二极管的VRM时，续流二极管就会进入导通状态，形成一个低阻抗通道，使电流继续流动。</p>
+<p>2）续流二极管具有低正向电压降（VF）和低开启时间（ton），这使得它能够<code>迅速响应电感器的能量释放</code>，并提供可靠的续流路径。</p>
+<p>3）续流二极管还具有低反向恢复时间（trr），这意味着它可以快速关闭并准备下一个周期的操作。</p>
+<h2 id="1N4007与B5819W"><a href="#1N4007与B5819W" class="headerlink" title="1N4007与B5819W"></a>1N4007与B5819W</h2><p><strong>1N4007</strong> 是经典的通用整流硅二极管，属于1N400x系列（1N4001～1N4007）中耐压最高的一款，主要用于50&#x2F;60 Hz电源整流与一般低频逆变器中<a target="_blank" rel="noopener" href="https://www.mouser.com/datasheet/2/149/1N4007-888322.pdf?srsltid=AfmBOoq8j_y0LO_I3F_SVPh3cULQA53CVHa-jxRnH4Ojw3A5PDxrgo_F&utm_source=chatgpt.com">mouser.com</a><a target="_blank" rel="noopener" href="https://www.alldatasheet.com/view.jsp?Searchword=1n4007&utm_source=chatgpt.com">alldatasheet.com</a>。<br> <strong>B5819W</strong> 则是一款表面贴装肖特基势垒二极管，型号为B5817W～B5819W系列中的40 V版本（B5819W），其标称平均正向整流电流1 A、最大反向电压40 V，常用于低压高频逆变、电源免费轮（free‐wheeling）以及极性保护等场景[smc-diodes.com](<a target="_blank" rel="noopener" href="https://www.smc-diodes.com/propdf/B5817W-B5819W">https://www.smc-diodes.com/propdf/B5817W-B5819W</a> N1752 REV.-.pdf?utm_source&#x3D;chatgpt.com)<a target="_blank" rel="noopener" href="https://www.mccsemi.com/products/diodes/small-signal-schottky-diodes/B5819W?utm_source=chatgpt.com">mccsemi.com</a>。</p>
+<h2 id="主要电气参数对比"><a href="#主要电气参数对比" class="headerlink" title="主要电气参数对比"></a>主要电气参数对比</h2><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>1N4007</th>
+<th>B5819W (肖特基)</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>最大重复反向电压 VRRM</td>
+<td>1000 V</td>
+<td>40 V</td>
+<td>1N4007适合高压整流，B5819W适合低压高频应用</td>
+</tr>
+<tr>
+<td>平均整流正向电流 IF(AV)</td>
+<td>1 A</td>
+<td>1 A</td>
+<td>两者额定电流相同，但使用场景不同</td>
+</tr>
+<tr>
+<td>峰值正向浪涌电流 IFSM</td>
+<td>30 A (8.3 ms 单半波)</td>
+<td>25 A (8.3 ms 单波)</td>
+<td>都支持几十安的浪涌，但1N4007稍高<a target="_blank" rel="noopener" href="https://www.mouser.com/datasheet/2/149/1N4007-888322.pdf?srsltid=AfmBOoq8j_y0LO_I3F_SVPh3cULQA53CVHa-jxRnH4Ojw3A5PDxrgo_F&utm_source=chatgpt.com">mouser.com</a><a target="_blank" rel="noopener" href="https://semiware.com/news/wp-content/uploads/2024/11/B5819W-schottky-diode-datasheet-1.pdf?utm_source=chatgpt.com">semiware.com</a></td>
+</tr>
+<tr>
+<td>正向压降 VF</td>
+<td>~1.1 V (@ IF&#x3D;1 A)</td>
+<td>0.60 V (max) (@ IF&#x3D;1 A)</td>
+<td>B5819W正向压降显著低于1N4007，损耗更小<a target="_blank" rel="noopener" href="https://www.mouser.com/datasheet/2/149/1N4007-888322.pdf?srsltid=AfmBOoq8j_y0LO_I3F_SVPh3cULQA53CVHa-jxRnH4Ojw3A5PDxrgo_F&utm_source=chatgpt.com">mouser.com</a>[smc-diodes.com](<a target="_blank" rel="noopener" href="https://www.smc-diodes.com/propdf/B5817W-B5819W">https://www.smc-diodes.com/propdf/B5817W-B5819W</a> N1752 REV.-.pdf?utm_source&#x3D;chatgpt.com)</td>
+</tr>
+<tr>
+<td>反向漏电流 IR</td>
+<td>典型5 μA (@ VR&#x3D;1000 V, Ta&#x3D;25 °C)</td>
+<td>最大1 mA (@ VR&#x3D;40 V, Ta&#x3D;25 °C)</td>
+<td>肖特基漏电比普通硅整流高几个数量级<a target="_blank" rel="noopener" href="https://www.mouser.com/datasheet/2/149/1N4007-888322.pdf?srsltid=AfmBOoq8j_y0LO_I3F_SVPh3cULQA53CVHa-jxRnH4Ojw3A5PDxrgo_F&utm_source=chatgpt.com">mouser.com</a>[smc-diodes.com](<a target="_blank" rel="noopener" href="https://www.smc-diodes.com/propdf/B5817W-B5819W">https://www.smc-diodes.com/propdf/B5817W-B5819W</a> N1752 REV.-.pdf?utm_source&#x3D;chatgpt.com)</td>
+</tr>
+<tr>
+<td>典型结电容 CT</td>
+<td>15 pF (@ VR&#x3D;4 V, f&#x3D;1 MHz, Ta&#x3D;25 °C)</td>
+<td>120 pF (@ VR&#x3D;4 V, f&#x3D;1 MHz, Ta&#x3D;25 °C)</td>
+<td>肖特基结电容较大，不利于超高频应用，但对一般开关足够<a target="_blank" rel="noopener" href="https://www.mouser.com/datasheet/2/149/1N4007-888322.pdf?srsltid=AfmBOoq8j_y0LO_I3F_SVPh3cULQA53CVHa-jxRnH4Ojw3A5PDxrgo_F&utm_source=chatgpt.com">mouser.com</a>[smc-diodes.com](<a target="_blank" rel="noopener" href="https://www.smc-diodes.com/propdf/B5817W-B5819W">https://www.smc-diodes.com/propdf/B5817W-B5819W</a> N1752 REV.-.pdf?utm_source&#x3D;chatgpt.com)</td>
+</tr>
+<tr>
+<td>典型反向恢复时间 Trr</td>
+<td>~30 μs （慢恢复类型）</td>
+<td>极短，几乎无反向恢复时间</td>
+<td>1N4007为慢恢复二极管，B5819W为肖特基，反向恢复极快</td>
+</tr>
+<tr>
+<td>结温范围 Tj</td>
+<td>–55 ℃ ～ +175 ℃</td>
+<td>–50 ℃ ～ +125 ℃</td>
+<td>1N4007允许更高结温，但B5819W为表贴，实际散热受限</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>反向恢复时间</strong>：</p>
+<ul>
+<li>从1N4007典型性能曲线可看出，其反向恢复时间大约为几十微秒（见图示）<a target="_blank" rel="noopener" href="https://www.mouser.com/datasheet/2/149/1N4007-888322.pdf?srsltid=AfmBOoq8j_y0LO_I3F_SVPh3cULQA53CVHa-jxRnH4Ojw3A5PDxrgo_F&utm_source=chatgpt.com">mouser.com</a>；</li>
+<li>肖特基二极管B5819W的反向恢复时间非常快，属于“零恢复时间”特性，适合开关电源等高频场合<a target="_blank" rel="noopener" href="https://semiware.com/news/wp-content/uploads/2024/11/B5819W-schottky-diode-datasheet-1.pdf?utm_source=chatgpt.com">semiware.com</a>。</li>
+</ul>
+</blockquote>
+<h2 id="典型应用场景对比"><a href="#典型应用场景对比" class="headerlink" title="典型应用场景对比"></a>典型应用场景对比</h2><ol>
+<li><strong>1N4007 适用场景</strong><ul>
+<li>高压电源整流：利用其1000 V耐压，适合50&#x2F;60 Hz桥式整流、逆变器保护等<a target="_blank" rel="noopener" href="https://www.mouser.com/datasheet/2/149/1N4007-888322.pdf?srsltid=AfmBOoq8j_y0LO_I3F_SVPh3cULQA53CVHa-jxRnH4Ojw3A5PDxrgo_F&utm_source=chatgpt.com">mouser.com</a>；</li>
+<li>高频率要求不高的场合：由于反向恢复慢，不建议用于&gt;几十kHz开关电源高频整流。</li>
+<li><strong>示例</strong>：家电电源适配器整流桥、逆变器免费轮二极管、极性保护等。</li>
+</ul>
+</li>
+<li><strong>B5819W 适用场景</strong><ul>
+<li>低压开关电源：40 V耐压足以承担常见12 V、24 V输出的二极管自由切换；</li>
+<li>高频逆变与极性保护：其低正向压降减少功耗、高速恢复减少开关损耗；</li>
+<li>SMT电子模块：板载空间有限但要求高效整流或续流。</li>
+<li><strong>示例</strong>：笔记本适配器二次侧整流、LED恒流驱动电源续流、降压转换器输出整流。</li>
+</ul>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>若项目需要<strong>高电压（可达1000 V）</strong>、<strong>低成本插件式整流</strong>、或工作在<strong>低频环境</strong>，且对正向损耗没有苛刻要求，1N4007为首选；</li>
+<li>若需求是<strong>40 V以内的低压整流</strong>、<strong>高频快速切换</strong>、注重<strong>低正向压降和高速恢复</strong>，则B5819W更合适。</li>
+</ul>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://www.bom2buy.com/blog/4507.html">续流二极管有何作用?为什么会有这些作用?-bom2buy</a></p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2025/06/06/155-wireshark-de-shi-yong-fang-fa/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2025/06/08/157-todolist-wang-zhan-da-jian/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%AD%E6%B5%81%E4%BA%8C%E6%9E%81%E7%AE%A1"><span class="toc-text">续流二极管</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%AD%E6%B5%81%E4%BA%8C%E6%9E%81%E7%AE%A1%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-text">续流二极管的特点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1N4007%E4%B8%8EB5819W"><span class="toc-text">1N4007与B5819W</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E7%94%B5%E6%B0%94%E5%8F%82%E6%95%B0%E5%AF%B9%E6%AF%94"><span class="toc-text">主要电气参数对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%AF%B9%E6%AF%94"><span class="toc-text">典型应用场景对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%BB%AD%E6%B5%81%E4%BA%8C%E6%9E%81%E7%AE%A1 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F06%2F06%2F156-xu-liu-er-ji-guan%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2025/06/06/156-xu-liu-er-ji-guan/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

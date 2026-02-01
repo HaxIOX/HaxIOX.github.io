@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      IIC协议 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">IIC协议</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="IIC通信协议"><a href="#IIC通信协议" class="headerlink" title="IIC通信协议"></a>IIC通信协议</h2><p>IIC是由Philips公司开发的一种通用数据总线,分为硬件IIC和软件IIC。</p>
+<ul>
+<li>两个通信线: SCL(Serial Clock)、SDA(Serial Data)</li>
+<li>同同步、半双工</li>
+<li>支持数据应答、支持总线挂载多设备</li>
+</ul>
+<img src="/2024/03/28/102-iic-xie-yi/image-20240329113138335.png" class="" title="image-20240329113138335">
+
+<p><strong>指定地址写</strong><img src="/2024/03/28/102-iic-xie-yi/image-20240407100559867.png" class="" title="image-20240407100559867"></p>
+<p><strong>当前地址读</strong><img src="/2024/03/28/102-iic-xie-yi/image-20240407100622763.png" class="" title="image-20240407100622763"></p>
+<p><strong>指定地址读</strong><img src="/2024/03/28/102-iic-xie-yi/image-20240407100703062.png" class="" title="image-20240407100703062"></p>
+<p>默认高电平</p>
+<h2 id="模拟IIC"><a href="#模拟IIC" class="headerlink" title="模拟IIC"></a>模拟IIC</h2><h3 id="有效状态"><a href="#有效状态" class="headerlink" title="有效状态"></a>有效状态</h3><p>SDA线上的数据必须在时钟的<strong>高电平周期保持稳定</strong>。数据线的高或低状态只有在SCL线的时钟信号是<strong>低电平时才能改变</strong>。</p>
+<p>也就是只有SCL处于低电平状态时,才能够传输数据</p>
+<img src="/2024/03/28/102-iic-xie-yi/image-20240329130838773.png" class="" title="image-20240329130838773">
+
+<h3 id="起始和停止状态"><a href="#起始和停止状态" class="headerlink" title="起始和停止状态"></a>起始和停止状态</h3><img src="/2024/03/28/102-iic-xie-yi/image-20240329130756843.png" class="" title="image-20240329130756843">
+
+<p>所有的数据传输都以START (S)开始,以 STOP (P)停止</p>
+<ul>
+<li>SCL高电平,SDA由高到低切换,则为START</li>
+<li>SCL高电平,SDA由低到高切换,则为STOP</li>
+</ul>
+<h3 id="Byte-format"><a href="#Byte-format" class="headerlink" title="Byte format"></a>Byte format</h3><ul>
+<li>SDA线上的每个字节都必须为8位长。</li>
+<li>每个字节后面必须跟一个Acknowledgebit(应答位)。</li>
+<li>数据传输<strong>高位先行</strong>。可以将SCL拉高</li>
+<li>当<strong>从机不能响应</strong>从机地址时（如，正在执行一些实时函数不能接受和发送），<strong>从机必须使数据线保持高电平</strong>，<strong>主机</strong>然后<strong>产生一个停止条件</strong>终止传输或者产生重复起始条件开始新的传输。</li>
+</ul>
+<img src="/2024/03/28/102-iic-xie-yi/image-20240329131225835.png" class="" title="image-20240329131225835">
+
+<blockquote>
+<p>数据传输遵循图9所示的格式。在START条件（S）之后发送目标地址。地址有七位长，第八位为<br>数据方向位（R&#x2F;W）——“零”表示传输（WRITE）。数据传输总是由控制器生成的STOP条件（P）终止。但是，如果控制器仍然希望在总线上通信，它可以生成<strong>重复的START条件（Sr）和地址</strong>另一个目标，而不首先生成STOP条件。</p>
+</blockquote>
+<img src="/2024/03/28/102-iic-xie-yi/image-20240401091944785.png" class="" title="image-20240401091944785">
+
+<h3 id="发送与接收字节"><a href="#发送与接收字节" class="headerlink" title="发送与接收字节"></a>发送与接收字节</h3><img src="/2024/03/28/102-iic-xie-yi/image-20240329152846927.png" class="" title="image-20240329152846927">
+
+<img src="/2024/03/28/102-iic-xie-yi/image-20240329152906915.png" class="" title="image-20240329152906915">
+
+<img src="/2024/03/28/102-iic-xie-yi/image-20240329152938792.png" class="" title="image-20240329152938792">
+
+<h3 id="应答-ACK-与未应答-NACK"><a href="#应答-ACK-与未应答-NACK" class="headerlink" title="应答(ACK) 与未应答 (NACK)"></a>应答(ACK) 与未应答 (NACK)</h3><img src="/2024/03/28/102-iic-xie-yi/image-20240331153821788.png" class="" title="image-20240331153821788">
+
+<p>确认从机是否收到数据</p>
+<p>主机释放SDA,若保持高电平,则为NACK未应答</p>
+<h3 id="关于模拟IIC延时"><a href="#关于模拟IIC延时" class="headerlink" title="关于模拟IIC延时"></a>关于模拟IIC延时</h3><img src="/2024/03/28/102-iic-xie-yi/image-20240329221718764.png" class="" title="image-20240329221718764">
+
+<p>是否需要延时, 延时多久</p>
+<p>官方手册给的大多是0-160ns, 的其他大佬案例有2us,或者10us的</p>
+<p><strong>验证硬件</strong></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">int main(void)
+&#123;	
+  uint8_t ack ;
+  delay_init();
+  OLED_Init();	
+  IIC_Init();  
+    
+  IIC_Start();        &#x2F;&#x2F;开始&#x2F;再开始
+  IIC_SendByte(0xD0); &#x2F;&#x2F; 1110 000 0R&#x2F;W 前七位是地址
+  ack &#x3D; IIC_ReadAck();&#x2F;&#x2F;读取响应
+  IIC_Stop();         &#x2F;&#x2F;停止
+    
+  OLED_ShowString(1,1,&quot;ACK:&quot;);
+  OLED_ShowNum(1,5,ack,3);
+  while(1)
+	&#123;
+	&#125;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="MPU6050"><a href="#MPU6050" class="headerlink" title="MPU6050"></a>MPU6050</h2><ol>
+<li><p>初始化, 解除睡眠模式</p>
+</li>
+<li><p>开始-&gt;发送地址写-&gt;接收应答-&gt;发送MPU6050寄存器地址-&gt;接收应答-&gt;发送数据-&gt;接受应答-&gt;停止</p>
+</li>
+<li><p>读取数据(指定地址读):</p>
+</li>
+</ol>
+<blockquote>
+<p>开始-&gt;发送地址写-&gt;接收应答-&gt;发送MPU6050寄存器地址-&gt;接收应答-&gt;<em><strong>重复开始</strong></em>-&gt;发送寄存器地址 | 0x01-&gt;接受应答-&gt;读取字节-&gt;不发送应答(因为只读取一个字节)-&gt;停止</p>
+<p><strong>主设备发送从设备的地址和写命令</strong>，以表明它想要进行写操作。这里的写操作实际上是告诉从设备“我接下来想要读取哪个寄存器”。</p>
+<p><strong>主设备发送重复起始信号</strong>，转换为读模式。</p>
+</blockquote>
+<p>转为读的时序, 必须重新指定读写位, 需要重复起始</p>
+<p><strong>这部分内容在手册哪里我还没有研究明白</strong></p>
+<ol start="4">
+<li>获取寄存器三轴角速度与加速度值</li>
+</ol>
+<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">#define MPU6050_SMPLRT_DIV		0x19
+#define	MPU6050_CONFIG			0x1A
+#define	MPU6050_GYRO_CONFIG		0x1B
+#define	MPU6050_ACCEL_CONFIG	0x1C
+
+#define	MPU6050_ACCEL_XOUT_H	0x3B
+#define	MPU6050_ACCEL_XOUT_L	0x3C
+#define	MPU6050_ACCEL_YOUT_H	0x3D
+#define	MPU6050_ACCEL_YOUT_L	0x3E
+#define	MPU6050_ACCEL_ZOUT_H	0x3F
+#define	MPU6050_ACCEL_ZOUT_L	0x40
+#define	MPU6050_TEMP_OUT_H		0x41
+#define	MPU6050_TEMP_OUT_L		0x42
+#define	MPU6050_GYRO_XOUT_H		0x43
+#define	MPU6050_GYRO_XOUT_L		0x44
+#define	MPU6050_GYRO_YOUT_H		0x45
+#define	MPU6050_GYRO_YOUT_L		0x46
+#define	MPU6050_GYRO_ZOUT_H		0x47
+#define	MPU6050_GYRO_ZOUT_L		0x48
+
+#define	MPU6050_PWR_MGMT_1		0x6B
+#define	MPU6050_PWR_MGMT_2		0x6C
+#define	MPU6050_WHO_AM_I		0x75<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol>
+<li><strong>MPU6050_SMPLRT_DIV</strong></li>
+</ol>
+<p>采样分频寄存器, 当DLPF被启用时（参见寄存器26）。加速度计的输出率为<strong>1kHz</strong>。这意味着，对于采样率超过1kHz的情况，相同的加速度计样本可能会被多次输出到FIFO（先进先出队列）、DMP（数字运动处理器）和传感器寄存器中。</p>
+<p>Parameters:</p>
+<blockquote>
+<p>SMPLRT_DIV 8-bit unsigned value. The Sample Rate is determined by dividing the gyroscope output rate by this value.</p>
+</blockquote>
+<ol start="2">
+<li><p><strong>CONFIG</strong></p>
+<p>外部同步0,数字低通滤波器6最平滑</p>
+</li>
+<li><p>**GYRO_CONFIG **</p>
+</li>
+</ol>
+<p>​      此寄存器用于触发陀螺仪自检并配置陀螺仪的满量程。</p>
+<ol start="4">
+<li><strong>ACCEL_CONFIG</strong></li>
+</ol>
+<p>​      此寄存器用于触发加速计自检并配置加速计满量程范围, 该寄存器还配置数字高通滤波器（DHPF）</p>
+<ol start="5">
+<li><strong>MPU6050_PWR_MGMT_1</strong></li>
+</ol>
+<p>​      设置成0x00,sleep位给0,解除睡眠模式,其他位配置参照手册</p>
+<ol start="6">
+<li><strong>MPU6050_PWR_MGMT_2</strong></li>
+</ol>
+<p>​      不需要低功耗模式</p>
+<p>设置陀螺仪和加速度计的外部帧同步（FSYNC）引脚采样以及数字低通滤波器（DLPF）</p>
+<p>配置陀螺仪外部时钟</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>已经第二次了,因为忘记<em><strong>初始化delay</strong></em>,导致程序卡死</p>
+<p>是因为delay_us函数有一个do while,没初始化<em><strong>fac_us的值就无法初始化</strong></em>,所以就一直在while里面等待,</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">void delay_us(u32 nus)
+&#123;		
+	u32 temp;	    	 
+	SysTick-&gt;LOAD&#x3D;nus*fac_us; 					&#x2F;&#x2F;时间加载	  		 
+	SysTick-&gt;VAL&#x3D;0x00;        					&#x2F;&#x2F;清空计数器
+	SysTick-&gt;CTRL|&#x3D;SysTick_CTRL_ENABLE_Msk ;	&#x2F;&#x2F;开始倒数	  
+	do
+	&#123;
+		temp&#x3D;SysTick-&gt;CTRL;
+	&#125;while((temp&amp;0x01)&amp;&amp;!(temp&amp;(1&lt;&lt;16)));		&#x2F;&#x2F;等待时间到达   
+	SysTick-&gt;CTRL&amp;&#x3D;~SysTick_CTRL_ENABLE_Msk;	&#x2F;&#x2F;关闭计数器
+	SysTick-&gt;VAL &#x3D;0X00;      					 &#x2F;&#x2F;清空计数器	 
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="硬件IIC"><a href="#硬件IIC" class="headerlink" title="硬件IIC"></a>硬件IIC</h2><p><strong>软件IIC与硬件IIC的区别</strong></p>
+<p>软件手动模拟IIC协议</p>
+<p>硬件调用函数即可(硬件IIC协议应该会自动发送接收应答~猜的)</p>
+<h3 id="软硬件波形图对比"><a href="#软硬件波形图对比" class="headerlink" title="软硬件波形图对比"></a>软硬件波形图对比</h3><img src="/2024/03/28/102-iic-xie-yi/image-20240407101421162.png" class="" title="image-20240407101421162">
+
+<p>可以看出硬件IIC更规整,但是IIC是同步时序,所以并不影响</p>
+<p>开启IIC时钟, 设置为复用开漏模式, 引脚要交给外设</p>
+
+
+<img src="/2024/03/28/102-iic-xie-yi/image-20240407221756088.png" class="" title="image-20240407221756088">
+
+<img src="/2024/03/28/102-iic-xie-yi/image-20240407221827545.png" class="" title="image-20240407221827545">
+
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>1.关于什么时候用复用模式</p>
+<blockquote>
+<p>对寄存器AFIO_MAPR，AFIO_EXTICRX和AFIO_EVCR进行读写操作前，应当首先打开AFIO时钟。</p>
+<p>- FIO_MAPR：配置复用功能重映射</p>
+<p>- AFIO_EXTICRX：配置外部中断线映射</p>
+<p>- AFIO_EVCR：配置EVENTOUT事件输出</p>
+</blockquote>
+<p>2.为什么只有读取应答位,而不用写入应答位</p>
+<blockquote>
+<p>check事件就相当于检测应答位了</p>
+</blockquote>
+<blockquote>
+<img src="/2024/03/28/102-iic-xie-yi/image-20240407230637790.png" class="" title="image-20240407230637790"></blockquote>
+<p>3.关于读数据要先当前地址写的逻辑没搞清楚</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2024/03/24/101-stm32-tong-xin-jie-kou/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2024/04/02/103-mpu6050iic-tong-xin/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#IIC%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE"><span class="toc-text">IIC通信协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9FIIC"><span class="toc-text">模拟IIC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E6%95%88%E7%8A%B6%E6%80%81"><span class="toc-text">有效状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%B7%E5%A7%8B%E5%92%8C%E5%81%9C%E6%AD%A2%E7%8A%B6%E6%80%81"><span class="toc-text">起始和停止状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Byte-format"><span class="toc-text">Byte format</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E4%B8%8E%E6%8E%A5%E6%94%B6%E5%AD%97%E8%8A%82"><span class="toc-text">发送与接收字节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%AD%94-ACK-%E4%B8%8E%E6%9C%AA%E5%BA%94%E7%AD%94-NACK"><span class="toc-text">应答(ACK) 与未应答 (NACK)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E6%A8%A1%E6%8B%9FIIC%E5%BB%B6%E6%97%B6"><span class="toc-text">关于模拟IIC延时</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MPU6050"><span class="toc-text">MPU6050</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6IIC"><span class="toc-text">硬件IIC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E7%A1%AC%E4%BB%B6%E6%B3%A2%E5%BD%A2%E5%9B%BE%E5%AF%B9%E6%AF%94"><span class="toc-text">软硬件波形图对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + IIC%E5%8D%8F%E8%AE%AE + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2024%2F03%2F28%2F102-iic-xie-yi%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2024/03/28/102-iic-xie-yi/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

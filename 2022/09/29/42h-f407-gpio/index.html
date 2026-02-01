@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      GPIO功能 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">GPIO功能</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2025-10-06 22:51:28
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/STM32F407/" title="STM32F407">
+                    #STM32F407
+                  </a>
+                </span>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/GPIO/" title="GPIO">
+                    #GPIO
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h2 id="GPIO的功能"><a href="#GPIO的功能" class="headerlink" title="GPIO的功能"></a>GPIO的功能</h2>
+<blockquote>
+<p>复用功能<br>STM32Fxx内部集成了很多的外设控制器，比如USART、SPI、bxCAN等等，这些外设控制器，也需要通过引脚与外设连接。复用功能是相对于单片机的引脚而言的。所谓“复用功能”，是指单片机的引脚既可以做普通GPIO使用，也可以作为内部外设控制器的引脚来使用。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45378136/article/details/123038151">stm32单片机的引脚复用功能</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/k666499436/article/details/123845466">STM32入门-GPIO端口的八种工作模式(超级详细)</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Savage888777/article/details/125469496">四种输入和四种输出模式</a></p>
+<h2 id="推挽输出"><a href="#推挽输出" class="headerlink" title="推挽输出"></a>推挽输出</h2><p>● 施密特触发输入被激活<br>● 弱上拉和下拉电阻被禁止<br>● <code>出现在I/O脚上的数据在每个APB2时钟被采样到输入数据寄存器</code><br>● 在开漏模式时，对输入数据寄存器的读访问可得到I&#x2F;O状态<br>● 在推挽式模式时，对输出数据寄存器的读访问得到最后一次写的值</p>
+
+
+
+
+
+<p>在输出模式中，推挽模式时双 MOS 管以轮流方式工作，输出数据寄存器 GPIOx_ODR可控制 I&#x2F;O 输出高低电平。开漏模式时，只有 N-MOS 管工作，输出数据寄存器可控制 I&#x2F;O输出高阻态或低电平。<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/baidu_19356259/article/details/80921524?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-80921524-blog-120311499.pc_relevant_multi_platform_whitelistv3&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-80921524-blog-120311499.pc_relevant_multi_platform_whitelistv3&utm_relevant_index=2">mos管的基本认识</a></p>
+<h3 id="MOS管的开关条件"><a href="#MOS管的开关条件" class="headerlink" title="MOS管的开关条件"></a>MOS管的开关条件</h3><p>N-MOS 管：高电平 导通<br>P-MOS 管： 低电平 导通<br>N沟道—导通时 Ug&gt; Us,Ugs&gt; Ugs(th)时导通<br>P沟道—导通时 Ug&lt; Us,Ugs&lt; Ugs(th)时导通<br>总之，导通条件：|Ugs|&gt;|Ugs(th)|</p>
+<h2 id="开漏输出"><a href="#开漏输出" class="headerlink" title="开漏输出"></a>开漏输出</h2>
+
+<h2 id="复用功能推挽开漏输出"><a href="#复用功能推挽开漏输出" class="headerlink" title="复用功能推挽开漏输出"></a>复用功能推挽开漏输出</h2><p>复用功能模式中，输出使能，输出速度可配置，可工作在开漏及推挽模式， 但是输出信号源于其它外设<br>输出数据寄存器 GPIOx_ODR 无效；输入可用，通过输入数据寄存器可获取 I&#x2F;O 实际状态，但一般直接用外设的寄存器来获取该数据信号<br>这里以串口的发送TX和接收RX引脚为例</p>
+
+
+<p><code>复用功能的推挽与开漏输出与普通的推挽与开漏输出只是输出的寄存器换成外设的寄存器</code><br>复用推挽输出和（普通）推挽输出在输出的时候均使用两个MOS管（P-MOS和-MOS），其输出电路是相同的。<br>区别在于控制输出的信号来源：<br>（普通）推挽输出控制MOS管的信号来自 输出数据寄存器。<br>复用推挽输出的控制信号来自单片机的 内置外设控制器（比如SPI1）。</p>
+<h2 id="为什么F407的usart-rx和usart-tx都是推挽复用输出"><a href="#为什么F407的usart-rx和usart-tx都是推挽复用输出" class="headerlink" title="为什么F407的usart_rx和usart_tx都是推挽复用输出"></a>为什么F407的usart_rx和usart_tx都是推挽复用输出</h2><p>网上大佬的理解:</p>
+<blockquote>
+<p>在STM32F103的串口配置例程中一般把RX设置成了浮空输入模式，而在STM32F407的串口配置模式中却把RX配置成了推挽输出的模式，RX是接收端，为什么不是输入模式，但是这样设置却可以正常使用,浮空输入时，呈高阻态，施密特触发器起作用，读取输入结果时，只有0或1两种，RX设置为浮空输入可以加强抵御外部阻抗变化的对内部的干扰，RX在推挽模式下，虽然是在输出状态，但是这种状态通过对输出数据寄存器的读访问可以得到最后一次写的值，也就是说可以得到RX引脚上的电压</p>
+</blockquote>
+<p>😃我的理解:</p>
+
+<p>✔如图,推挽输出和开漏输出的特点是<code>出现在I/O脚上的数据在每个APB2时钟被采样到输入数据寄存器</code>所以即便是输出模式,也可以监测到usart_rx引脚的电平变化,是0还是1.</p>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2022/09/28/41h-f407-usart/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2025-10-06 22:51:28
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/STM32F407/" title="STM32F407">
+                        #STM32F407
+                      </a>
+                    </span>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/GPIO/" title="GPIO">
+                        #GPIO
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2022/10/05/43l-hackthebox/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GPIO%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-text">GPIO的功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E6%8C%BD%E8%BE%93%E5%87%BA"><span class="toc-text">推挽输出</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MOS%E7%AE%A1%E7%9A%84%E5%BC%80%E5%85%B3%E6%9D%A1%E4%BB%B6"><span class="toc-text">MOS管的开关条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%BC%8F%E8%BE%93%E5%87%BA"><span class="toc-text">开漏输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E7%94%A8%E5%8A%9F%E8%83%BD%E6%8E%A8%E6%8C%BD%E5%BC%80%E6%BC%8F%E8%BE%93%E5%87%BA"><span class="toc-text">复用功能推挽开漏输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88F407%E7%9A%84usart-rx%E5%92%8Cusart-tx%E9%83%BD%E6%98%AF%E6%8E%A8%E6%8C%BD%E5%A4%8D%E7%94%A8%E8%BE%93%E5%87%BA"><span class="toc-text">为什么F407的usart_rx和usart_tx都是推挽复用输出</span></a></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + GPIO%E5%8A%9F%E8%83%BD + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2022%2F09%2F29%2F42h-f407-gpio%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2022/09/29/42h-f407-gpio/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
