@@ -161,12 +161,109 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2026-03-02 00:07:56
+          2026-04-18 22:16:06
         </span>
         
       </div>
       <div class="markdown-body">
-        
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>与clawbot一样，到处都是，所以摸一下</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><ol>
+<li>ESP32将麦克风数据通过i2s接收并进行回声处理后，使用opus编码将二进文件（俗称音频流）实时上传到服务器，并将LLM结果返回后通过opus解码后I2S播放，如果要调用外设，比如开关灯，需要通过mcp</li>
+<li>MCP，给模型用的接口，ESP32与服务器建立websocket连接口，ESP32会发个hello，确认连接完成，然后模型可以发送tools&#x2F;list，来获取当前支持的MCP，MCP格式有工具名，描述，参数等，可以用来实现开关灯</li>
+</ol>
+<h3 id="📌claude对我理解的补充说明"><a href="#📌claude对我理解的补充说明" class="headerlink" title="📌claude对我理解的补充说明"></a>📌claude对我理解的补充说明</h3><p><strong>关于第1点的细节补充</strong>：</p>
+<ul>
+<li>“二进文件”更准确说是<strong>二进制数据包</strong>（不是文件，是实时流）</li>
+<li>完整流程应该是：<code>I2S接收 → AudioProcessor(回声处理) → Opus编码 → WebSocket上传</code></li>
+<li>下行是：<code>WebSocket接收 → Opus解码 → I2S播放</code></li>
+<li>I2S是数字音频接口，连接ESP32和音频芯片（如ES8311）</li>
+</ul>
+<p><strong>关于第2点的细节补充</strong>：</p>
+<ul>
+<li>MCP完整流程：<code>hello → initialize → tools/list → tools/call</code></li>
+<li>注意：不是”模型发送tools&#x2F;list”，而是<strong>服务器代表模型</strong>发送</li>
+<li>MCP基于JSON-RPC 2.0协议，每个消息都有<code>jsonrpc</code>、<code>method</code>、<code>params</code>、<code>id</code>字段</li>
+</ul>
+<h1 id="我吸收的"><a href="#我吸收的" class="headerlink" title="我吸收的"></a>我吸收的</h1><ol>
+<li><p>音频流is what</p>
+<blockquote>
+<p>opus编码后的二进制文件</p>
+</blockquote>
+</li>
+<li><p>为什么需要AEC回声消除</p>
+<blockquote>
+<p>为了消除麦克风采集到的扬声器数据,消除回音</p>
+</blockquote>
+</li>
+<li><p>队列的作用</p>
+<blockquote>
+<p>用于不同任务之间的缓冲</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="📌-claude对我理解的扩展（保留你的原文，下面是补充）"><a href="#📌-claude对我理解的扩展（保留你的原文，下面是补充）" class="headerlink" title="📌 claude对我理解的扩展（保留你的原文，下面是补充）"></a>📌 claude对我理解的扩展（保留你的原文，下面是补充）</h3><p><strong>关于”音频流”</strong>：</p>
+<ul>
+<li>✅ 你说的对，就是opus编码后的二进制数据</li>
+<li>补充：更准确说是<strong>数据包流</strong>，每个包60ms（960个采样点@16kHz），不是一个完整文件</li>
+</ul>
+<p><strong>关于”AEC回声消除”</strong>：</p>
+<ul>
+<li>✅ 核心理解正确</li>
+<li>补充：AEC通过对比扬声器参考信号和麦克风输入，计算出回声部分并减去</li>
+</ul>
+<p><strong>关于”队列”</strong>：</p>
+<ul>
+<li>✅ 完全正确</li>
+<li>补充：项目中有4个队列，<code>audio_encode_queue_</code>连接AudioProcessor→OpusEncoder</li>
+</ul>
+<h2 id="三任务架构"><a href="#三任务架构" class="headerlink" title="三任务架构"></a>三任务架构</h2><pre class="line-numbers language-none"><code class="language-none">AudioInputTask (优先级8)  - 从麦克风读取数据，优先级最高防止丢帧
+OpusCodecTask  (优先级5)  - 编解码处理
+AudioOutputTask(优先级4)  - 播放音频，优先级最低<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="关键数据流"><a href="#关键数据流" class="headerlink" title="关键数据流"></a>关键数据流</h2><p><strong>四个队列</strong>：</p>
+<ul>
+<li><code>audio_encode_queue_</code>：等待编码的PCM数据</li>
+<li><code>audio_send_queue_</code>：编码后等待发送的Opus数据</li>
+<li><code>audio_decode_queue_</code>：接收到等待解码的Opus数据</li>
+<li><code>audio_playback_queue_</code>：解码后等待播放的PCM数据</li>
+</ul>
+<h2 id="采样率转换"><a href="#采样率转换" class="headerlink" title="采样率转换"></a>采样率转换</h2><p><strong>为什么需要重采样</strong>：</p>
+<ul>
+<li>音频芯片可能是48kHz</li>
+<li>AudioProcessor和Opus都需要16kHz</li>
+<li><code>input_resampler_</code>负责转换：48kHz → 16kHz</li>
+</ul>
+<p><strong>计算公式</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">采样点数 &#x3D; 采样率 × 时间
+16kHz × 0.06s &#x3D; 960个采样点（Opus一帧）
+48kHz × 0.01s &#x3D; 480个采样点（AudioInputTask每次读取）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="实际应用场景"><a href="#实际应用场景" class="headerlink" title="实际应用场景"></a>实际应用场景</h2><p><strong>用户说：”帮我开灯”</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">1. 麦克风采集 → I2S → AudioProcessor → Opus编码 → WebSocket上传
+2. 服务器ASR识别：&quot;帮我开灯&quot;
+3. LLM理解意图，查找MCP工具列表，找到gpio.write
+4. 服务器发送：tools&#x2F;call &#123;name: &quot;gpio.write&quot;, arguments: &#123;pin: 5, value: 1&#125;&#125;
+5. ESP32执行GPIO控制，点亮LED
+6. 服务器TTS生成：&quot;好的，已为您开灯&quot;
+7. 音频流下发 → Opus解码 → I2S播放<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="易错点总结"><a href="#易错点总结" class="headerlink" title="易错点总结"></a>易错点总结</h2><ol>
+<li>❌ <strong>音频流是MP3</strong> → ✅ 是Opus，延迟更低</li>
+<li>❌ <strong>MCP方法是tools&#x2F;execute</strong> → ✅ 是tools&#x2F;call</li>
+<li>❌ <strong>Opus配置参数包括码率</strong> → ✅ 是采样率、声道数、帧时长</li>
+</ol>
+<h2 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h2><p><strong>查看音频数据流</strong>：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">&#x2F;&#x2F; 在AudioInputTask添加日志
+ESP_LOGI(TAG, &quot;Queue depth: %d&quot;, uxQueueMessagesWaiting(audio_encode_queue_));<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>检查MCP工具调用</strong>：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">&#x2F;&#x2F; 在mcp_server.cc的ExecuteTool添加日志
+ESP_LOGI(TAG, &quot;Calling tool: %s with args: %s&quot;, tool_name, args_json);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>监控任务状态</strong>：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 串口监视器查看关键日志
+idf.py monitor | grep -E &quot;AudioService|McpServ<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
       </div>
       
         <div class="prev-or-next">
@@ -181,7 +278,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2026-03-02 00:07:56
+              2026-04-18 22:16:06
             </span>
             
           </div>
@@ -197,6 +294,23 @@
       
     </div>
     
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%93%8Cclaude%E5%AF%B9%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84%E8%A1%A5%E5%85%85%E8%AF%B4%E6%98%8E"><span class="toc-text">📌claude对我理解的补充说明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%88%91%E5%90%B8%E6%94%B6%E7%9A%84"><span class="toc-text">我吸收的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%93%8C-claude%E5%AF%B9%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84%E6%89%A9%E5%B1%95%EF%BC%88%E4%BF%9D%E7%95%99%E4%BD%A0%E7%9A%84%E5%8E%9F%E6%96%87%EF%BC%8C%E4%B8%8B%E9%9D%A2%E6%98%AF%E8%A1%A5%E5%85%85%EF%BC%89"><span class="toc-text">📌 claude对我理解的扩展（保留你的原文，下面是补充）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E4%BB%BB%E5%8A%A1%E6%9E%B6%E6%9E%84"><span class="toc-text">三任务架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="toc-text">关键数据流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%87%E6%A0%B7%E7%8E%87%E8%BD%AC%E6%8D%A2"><span class="toc-text">采样率转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">实际应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%93%E9%94%99%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-text">易错点总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7"><span class="toc-text">调试技巧</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
 
     
       <div class="comments-container">
