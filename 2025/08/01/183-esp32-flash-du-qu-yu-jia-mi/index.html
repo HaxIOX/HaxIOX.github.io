@@ -161,9 +161,20 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2025-09-01 09:44:10
+          2026-04-30 17:38:01
         </span>
         
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/ESP32/" title="ESP32">
+                    #ESP32
+                  </a>
+                </span>
+                
+              </span>
+          
       </div>
       <div class="markdown-body">
         <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>偶然发现ESP官方的<a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esptool/en/latest/esp32/installation.html">esptools</a>竟然可以直接读取固件</p>
@@ -205,18 +216,27 @@
 </li>
 </ul>
 <p>只要知道目标分区的 <strong>起始地址</strong> 和 <strong>长度</strong>，<code>read_flash</code> 就能按需读取对应分区的数据，而不是整片 Flash。</p>
-<h2 id="flash-加密"><a href="#flash-加密" class="headerlink" title="flash 加密"></a><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.2/esp32s3/security/flash-encryption.html">flash 加密</a></h2><ul>
-<li><p>打开menuconfig，勾选使能flash加密</p>
+<h2 id="flash-加密"><a href="#flash-加密" class="headerlink" title="flash 加密"></a><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.2/esp32s3/security/flash-encryption.html">flash 加密</a></h2><h3 id="加密模式对比"><a href="#加密模式对比" class="headerlink" title="加密模式对比"></a>加密模式对比</h3><ol>
+<li><p>开发模式</p>
+<blockquote>
+<p>可以烧录明文固件，可读出明文固件</p>
+</blockquote>
 </li>
-<li><p>选择加密模式，默认是开发模式</p>
+<li><p>生产模式</p>
+<blockquote>
+<p>仅可烧录一次明文固件，无密钥无法读出明文固件</p>
+</blockquote>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.2/esp32s3/api-reference/kconfig.html#config-secure-uart-rom-dl-mode">选择 UART ROM 下载模式</a> （默认是 <strong>启用</strong>）。</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.2/esp32s3/api-reference/kconfig.html#config-bootloader-log-level">选择适当详细程度的引导加载程序日志</a>。</p>
-</li>
-<li><p>保存配置并退出。</p>
-</li>
+</ol>
+<p><strong>加密烧录流程</strong></p>
+<ul>
+<li>打开menuconfig，搜索encryption勾选使能flash加密</li>
+<li>选择加密模式，默认是开发模式</li>
+<li><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.2/esp32s3/api-reference/kconfig.html#config-secure-uart-rom-dl-mode">选择 UART ROM 下载模式</a> （默认是 <strong>启用</strong>）。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.2/esp32s3/api-reference/kconfig.html#config-bootloader-log-level">选择适当详细程度的引导加载程序日志</a>。</li>
+<li>保存配置并退出。</li>
 </ul>
+<p>启用 flash 加密将增大引导加载程序，因而可能需更新分区表偏移量，本次是0x8000改为0x10000</p>
 <p>运行以下命令来构建和烧录完整的镜像。</p>
 <blockquote>
 <pre class="line-numbers language-none"><code class="language-none">idf.py flash monitor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></blockquote>
@@ -247,47 +267,16 @@ Burn keys to blocks:
 <blockquote>
 <p>加密不可逆,芯片设定为加密后无法取消,除了换芯片</p>
 <p>另外加密后的固件也可以读出来</p>
+<p>在ESP-IDF中勾选UART ROM download mode对应的是烧 eFuse，禁用下载模式入口，后续只能ota更新</p>
 </blockquote>
-<p><strong>读取源二进制文件</strong></p>
-<p>在 PowerShell 里用 <code>Format-Hex</code></p>
-<ol>
-<li><p>关闭当前的 cmd 窗口。</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><ol>
+<li><p><strong>出现 <code>Detected flash encryption enabled and download manual encrypt disabled</code></strong><br>已加密 Release 板不能烧明文。确认写入的是预加密文件后，在 <code>write_flash</code> 后加入 <code>--force</code>。</p>
 </li>
-<li><p>用 Win+X 或开始菜单打开 <strong>Windows PowerShell</strong>（或 PowerShell 7）。</p>
+<li><p><strong>出现 <code>invalid header: 0xf16faa00</code></strong><br>通常是明密文状态和 <code>FLASH_CRYPT_CNT</code> 不匹配，或烧录地址错误。先检查 eFuse，再按本文地址重新生成密文。</p>
 </li>
-<li><p>切到你的目录：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">PS C:\&gt; cd D:\Tools\Esptools<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p>运行：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">PS D:\Tools\Esptools&gt; Format-Hex .\flash_contents.bin | more<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ul>
-<li><code>more</code> 会分页显示，每次按空格翻页。</li>
-</ul>
+<li><p><strong>出现 overlap at address</strong><br>多半是分区表地址写错。本工程分区表是 <code>0x10000</code>，不是 <code>0x8000</code>。</p>
 </li>
 </ol>
-<p>未加密数据</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">PS D:\Tools\Esptools&gt; Format-Hex .\flash_contents.bin | more
-
-
-           路径: D:\Tools\Esptools\flash_contents.bin
-
-           00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-
-00000000   E9 04 02 1F 28 89 3C 40 EE 00 00 00 09 00 00 00  é...(?&lt;@?.......
-00000010   00 63 00 00 00 00 00 01 10 28 CE 3F 64 15 00 00  .c.......(??d...
-00000020   50 00 00 00 01 00 00 00 48 45 41 44 2D 48 41 53  P.......HEAD-HAS
-00000030   48 2D 4E 4F 54 46 4F 55 4E 44 00 00 00 00 00 00  H-NOTFOUND......
-00000040   00 00 00 00 00 00 00 00 4A 75 6C 20 32 39 20 32  ........Jul 29 2
-00000050   30 32 35 20 31 35 3A 30 37 3A 31 30 00 00 00 00  025 15:07:10....
-00000060   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-00000070   FF FF FF FF 1B 00 00 00 1B 00 00 00 1C 00 00 00  ................
-00000080   1C 00 00 00 B4 06 00 40 28 50 04 00 F8 27 03 00  ....′..@(P..?&#39;..
-00000090   01 00 00 00 00 F0 01 60 00 00 00 00 04 00 00 00  .....e.........
-000000A0   05 00 00 00 06 00 00 00 07 00 00 00 41 73 73 65  ............Asse
-000000B0   72 74 20 66 61 69 6C 65 64 20 69 6E 20 25 73 2C  rt failed in %s,
-000000C0   20 25 73 3A 25 64 20 28 25 73 29 0D 0A 00 61 62   %s:%d (%s)...ab<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 
       </div>
       
@@ -303,9 +292,20 @@ Burn keys to blocks:
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2025-09-01 09:44:10
+              2026-04-30 17:38:01
             </span>
             
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/ESP32/" title="ESP32">
+                        #ESP32
+                      </a>
+                    </span>
+                    
+                  </span>
+              
           </div>
           <div class="post-foot-prev">
             
@@ -326,7 +326,7 @@ Burn keys to blocks:
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85esptool"><span class="toc-text">安装esptool</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#read-flash"><span class="toc-text">read flash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#write-flash"><span class="toc-text">write-flash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flash-%E5%8A%A0%E5%AF%86"><span class="toc-text">flash 加密</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%AF%86%E9%92%A5"><span class="toc-text">生成密钥</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85esptool"><span class="toc-text">安装esptool</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#read-flash"><span class="toc-text">read flash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#write-flash"><span class="toc-text">write-flash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flash-%E5%8A%A0%E5%AF%86"><span class="toc-text">flash 加密</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E6%A8%A1%E5%BC%8F%E5%AF%B9%E6%AF%94"><span class="toc-text">加密模式对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%AF%86%E9%92%A5"><span class="toc-text">生成密钥</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-text">常见问题</span></a></li></ol></li></ol>
       
     </div>
   </div>

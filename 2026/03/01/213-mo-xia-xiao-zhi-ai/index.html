@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      摸下小智AI 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">摸下小智AI</div>
+      <div class="post-attach">
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2026-04-20 12:02:24
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>与clawbot一样，到处都是，所以摸一下</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><ol>
+<li>ESP32将麦克风数据通过i2s接收并进行回声处理后，使用opus编码将二进文件（俗称音频流）实时上传到服务器，并将LLM结果返回后通过opus解码后I2S播放，如果要调用外设，比如开关灯，需要通过mcp</li>
+<li>MCP，给模型用的接口，ESP32与服务器建立websocket连接口，ESP32会发个hello，确认连接完成，然后模型可以发送tools&#x2F;list，来获取当前支持的MCP，MCP格式有工具名，描述，参数等，可以用来实现开关灯</li>
+</ol>
+<h3 id="📌claude对我理解的补充说明"><a href="#📌claude对我理解的补充说明" class="headerlink" title="📌claude对我理解的补充说明"></a>📌claude对我理解的补充说明</h3><p><strong>关于第1点的细节补充</strong>：</p>
+<ul>
+<li>“二进文件”更准确说是<strong>二进制数据包</strong>（不是文件，是实时流）</li>
+<li>完整流程应该是：<code>I2S接收 → AudioProcessor(回声处理) → Opus编码 → WebSocket上传</code></li>
+<li>下行是：<code>WebSocket接收 → Opus解码 → I2S播放</code></li>
+<li>I2S是数字音频接口，连接ESP32和音频芯片（如ES8311）</li>
+</ul>
+<p><strong>关于第2点的细节补充</strong>：</p>
+<ul>
+<li>MCP完整流程：<code>hello → initialize → tools/list → tools/call</code></li>
+<li>注意：不是”模型发送tools&#x2F;list”，而是<strong>服务器代表模型</strong>发送</li>
+<li>MCP基于JSON-RPC 2.0协议，每个消息都有<code>jsonrpc</code>、<code>method</code>、<code>params</code>、<code>id</code>字段</li>
+</ul>
+<h1 id="我吸收的"><a href="#我吸收的" class="headerlink" title="我吸收的"></a>我吸收的</h1><ol>
+<li><p>音频流is what</p>
+<blockquote>
+<p>opus编码后的二进制文件</p>
+</blockquote>
+</li>
+<li><p>为什么需要AEC回声消除</p>
+<blockquote>
+<p>为了消除麦克风采集到的扬声器数据,消除回音</p>
+</blockquote>
+</li>
+<li><p>队列的作用</p>
+<blockquote>
+<p>用于不同任务之间的缓冲</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="📌-claude对我理解的扩展（保留你的原文，下面是补充）"><a href="#📌-claude对我理解的扩展（保留你的原文，下面是补充）" class="headerlink" title="📌 claude对我理解的扩展（保留你的原文，下面是补充）"></a>📌 claude对我理解的扩展（保留你的原文，下面是补充）</h3><p><strong>关于”音频流”</strong>：</p>
+<ul>
+<li>✅ 你说的对，就是opus编码后的二进制数据</li>
+<li>补充：更准确说是<strong>数据包流</strong>，每个包60ms（960个采样点@16kHz），不是一个完整文件</li>
+</ul>
+<p><strong>关于”AEC回声消除”</strong>：</p>
+<ul>
+<li>✅ 核心理解正确</li>
+<li>补充：AEC通过对比扬声器参考信号和麦克风输入，计算出回声部分并减去</li>
+</ul>
+<p><strong>关于”队列”</strong>：</p>
+<ul>
+<li>✅ 完全正确</li>
+<li>补充：项目中有4个队列，<code>audio_encode_queue_</code>连接AudioProcessor→OpusEncoder</li>
+</ul>
+<h2 id="三任务架构"><a href="#三任务架构" class="headerlink" title="三任务架构"></a>三任务架构</h2><pre class="line-numbers language-none"><code class="language-none">AudioInputTask (优先级8)  - 从麦克风读取数据，优先级最高防止丢帧
+OpusCodecTask  (优先级5)  - 编解码处理
+AudioOutputTask(优先级4)  - 播放音频，优先级最低<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="关键数据流"><a href="#关键数据流" class="headerlink" title="关键数据流"></a>关键数据流</h2><p><strong>四个队列</strong>：</p>
+<ul>
+<li><code>audio_encode_queue_</code>：等待编码的PCM数据</li>
+<li><code>audio_send_queue_</code>：编码后等待发送的Opus数据</li>
+<li><code>audio_decode_queue_</code>：接收到等待解码的Opus数据</li>
+<li><code>audio_playback_queue_</code>：解码后等待播放的PCM数据</li>
+</ul>
+<h2 id="采样率转换"><a href="#采样率转换" class="headerlink" title="采样率转换"></a>采样率转换</h2><p><strong>为什么需要重采样</strong>：</p>
+<ul>
+<li>音频芯片可能是48kHz</li>
+<li>AudioProcessor和Opus都需要16kHz</li>
+<li><code>input_resampler_</code>负责转换：48kHz → 16kHz</li>
+</ul>
+<p><strong>计算公式</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">采样点数 &#x3D; 采样率 × 时间
+16kHz × 0.06s &#x3D; 960个采样点（Opus一帧）
+48kHz × 0.01s &#x3D; 480个采样点（AudioInputTask每次读取）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="实际应用场景"><a href="#实际应用场景" class="headerlink" title="实际应用场景"></a>实际应用场景</h2><p><strong>用户说：”帮我开灯”</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">1. 麦克风采集 → I2S → AudioProcessor → Opus编码 → WebSocket上传
+2. 服务器ASR识别：&quot;帮我开灯&quot;
+3. LLM理解意图，查找MCP工具列表，找到gpio.write
+4. 服务器发送：tools&#x2F;call &#123;name: &quot;gpio.write&quot;, arguments: &#123;pin: 5, value: 1&#125;&#125;
+5. ESP32执行GPIO控制，点亮LED
+6. 服务器TTS生成：&quot;好的，已为您开灯&quot;
+7. 音频流下发 → Opus解码 → I2S播放<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="易错点总结"><a href="#易错点总结" class="headerlink" title="易错点总结"></a>易错点总结</h2><ol>
+<li>❌ <strong>音频流是MP3</strong> → ✅ 是Opus，延迟更低</li>
+<li>❌ <strong>MCP方法是tools&#x2F;execute</strong> → ✅ 是tools&#x2F;call</li>
+<li>❌ <strong>Opus配置参数包括码率</strong> → ✅ 是采样率、声道数、帧时长</li>
+</ol>
+<h2 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h2><p><strong>查看音频数据流</strong>：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">&#x2F;&#x2F; 在AudioInputTask添加日志
+ESP_LOGI(TAG, &quot;Queue depth: %d&quot;, uxQueueMessagesWaiting(audio_encode_queue_));<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>检查MCP工具调用</strong>：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">&#x2F;&#x2F; 在mcp_server.cc的ExecuteTool添加日志
+ESP_LOGI(TAG, &quot;Calling tool: %s with args: %s&quot;, tool_name, args_json);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>监控任务状态</strong>：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 串口监视器查看关键日志
+idf.py monitor | grep -E &quot;AudioService|McpServ<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2026/02/14/212-openclaw-wan-yi-ha/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2026-04-20 12:02:24
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2026/03/27/214-tai-shan-pi-ai/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <div id="btn-catalog" class="btn-catalog">
+    <i class="iconfont icon-catalog"></i>
+  </div>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%93%8Cclaude%E5%AF%B9%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84%E8%A1%A5%E5%85%85%E8%AF%B4%E6%98%8E"><span class="toc-text">📌claude对我理解的补充说明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%88%91%E5%90%B8%E6%94%B6%E7%9A%84"><span class="toc-text">我吸收的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%93%8C-claude%E5%AF%B9%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84%E6%89%A9%E5%B1%95%EF%BC%88%E4%BF%9D%E7%95%99%E4%BD%A0%E7%9A%84%E5%8E%9F%E6%96%87%EF%BC%8C%E4%B8%8B%E9%9D%A2%E6%98%AF%E8%A1%A5%E5%85%85%EF%BC%89"><span class="toc-text">📌 claude对我理解的扩展（保留你的原文，下面是补充）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E4%BB%BB%E5%8A%A1%E6%9E%B6%E6%9E%84"><span class="toc-text">三任务架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="toc-text">关键数据流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%87%E6%A0%B7%E7%8E%87%E8%BD%AC%E6%8D%A2"><span class="toc-text">采样率转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">实际应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%93%E9%94%99%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-text">易错点总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7"><span class="toc-text">调试技巧</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%91%B8%E4%B8%8B%E5%B0%8F%E6%99%BAAI + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2026%2F03%2F01%2F213-mo-xia-xiao-zhi-ai%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2026/03/01/213-mo-xia-xiao-zhi-ai/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
