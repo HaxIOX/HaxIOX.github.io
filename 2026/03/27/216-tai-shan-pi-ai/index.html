@@ -161,15 +161,15 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2026-07-22 23:08:55
+          2026-08-11 22:34:28
         </span>
         
               <span class="post-tags">
                 <i class="iconfont icon-tags mr-10" title="Tags"></i>
                 
                 <span class="span--tag mr-8">
-                  <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" title="单片机">
-                    #单片机
+                  <a href="/tags/linux/" title="linux">
+                    #linux
                   </a>
                 </span>
                 
@@ -178,16 +178,758 @@
       </div>
       <div class="markdown-body">
         <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近耳朵听模型部署都起茧子了，寻思把泰山派掏出来清清灰</p>
-<h1 id="搞点事情"><a href="#搞点事情" class="headerlink" title="搞点事情"></a>搞点事情</h1><h2 id="编译buildroot"><a href="#编译buildroot" class="headerlink" title="编译buildroot"></a>编译buildroot</h2><p>个人理解是开发半场上自带的基本芯片映射驱动，点灯只需要一条指令</p>
-<h2 id="编译debian"><a href="#编译debian" class="headerlink" title="编译debian"></a>编译debian</h2><p>我靠老费劲了</p>
+<h1 id="编译buildroot"><a href="#编译buildroot" class="headerlink" title="编译buildroot"></a>编译buildroot</h1><p>个人理解是开发半场上自带的基本芯片映射驱动，点灯只需要一条指令</p>
+<p>这部分参考<a target="_blank" rel="noopener" href="https://wiki.lckfb.com/zh-hans/tspi-rk3566/project-case/fat-little-cell-phone/sdk-compile.html#%E7%BC%96%E8%AF%91buildroot%E7%B3%BB%E7%BB%9F"> SDK编译 </a></p>
+<h2 id="配网"><a href="#配网" class="headerlink" title="配网"></a>配网</h2><p>这块泰山派当前这套系统里：</p>
+<ul>
+<li><strong>Wi-Fi 模组是 AP6212A &#x2F; BCM43438A1</strong></li>
+<li><strong>只支持 2.4G</strong></li>
+<li><strong>不能连 5G</strong></li>
+<li>真正要改的配置文件是：</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;userdata&#x2F;cfg&#x2F;wpa_supplicant.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>不是只改 <code>/etc/wpa_supplicant.conf</code>。</p>
+<p>而且这套系统里 <code>ifupdown</code> 对 <code>wpa-conf</code> 支持不靠谱，<strong>最稳的方法是自己写启动脚本：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">上电驱动
+→ wpa_supplicant 负责连 Wi-Fi
+→ udhcpc 负责拿 IP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="驱动"><a href="#驱动" class="headerlink" title="驱动"></a>驱动</h2><p>作用：</p>
+<pre class="line-numbers language-none"><code class="language-none">让系统识别 Wi-Fi 芯片，生成 wlan0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>你看到的这类日志：</p>
+<pre class="line-numbers language-none"><code class="language-none">bcmdhd.ko
+fw_bcm43438a1.bin
+nvram_ap6212a.txt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>就是驱动、固件、NVRAM 被加载。</p>
+<p>检查命令：</p>
+<pre class="line-numbers language-none"><code class="language-none">iw list
+ip link show wlan0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>你这次 <code>iw list</code> 只有：</p>
+<pre class="line-numbers language-none"><code class="language-none">Band 1: 2412~2472 MHz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>所以确定：</p>
+<pre class="line-numbers language-none"><code class="language-none">只支持 2.4G<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h2 id="扫描-Wi-Fi"><a href="#扫描-Wi-Fi" class="headerlink" title="扫描 Wi-Fi"></a>扫描 Wi-Fi</h2><p>作用：</p>
+<pre class="line-numbers language-none"><code class="language-none">看看周围有哪些 AP<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>命令：</p>
+<pre class="line-numbers language-none"><code class="language-none">iw dev wlan0 scan | grep -E &quot;SSID:|freq:|signal:&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>你后来已经扫到了：</p>
+<pre class="line-numbers language-none"><code class="language-none">SSID: Tomorrow is another day 2.4G
+signal: -50 dBm<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>说明：</p>
+<ul>
+<li>路由器 2.4G 正常</li>
+<li>板子能看到它</li>
+<li>不是信号问题</li>
+</ul>
+<hr>
+<h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>作用：</p>
+<pre class="line-numbers language-none"><code class="language-none">拿着 SSID 和密码，真正连上 AP<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>核心程序：</p>
+<pre class="line-numbers language-none"><code class="language-none">wpa_supplicant<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>它读的配置文件是：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;userdata&#x2F;cfg&#x2F;wpa_supplicant.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>典型内容：</p>
+<pre class="line-numbers language-none"><code class="language-none">ctrl_interface&#x3D;&#x2F;var&#x2F;run&#x2F;wpa_supplicant
+ap_scan&#x3D;1
+update_config&#x3D;1
+
+network&#x3D;&#123;
+    ssid&#x3D;&quot;Tomorrow is another day 2.4G&quot;
+    psk&#x3D;&quot;7678321.Com&quot;
+    key_mgmt&#x3D;WPA-PSK
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>成功标志：</p>
+<pre class="line-numbers language-none"><code class="language-none">iw dev wlan0 link<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>输出类似：</p>
+<pre class="line-numbers language-none"><code class="language-none">Connected to xx:xx:xx:xx:xx:xx
+SSID: Tomorrow is another day 2.4G<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>失败时常见现象：</p>
+<ul>
+<li><code>Not connected.</code></li>
+<li><code>WPA failed</code></li>
+<li>一直扫描</li>
+</ul>
+<hr>
+<h2 id="拿-IP"><a href="#拿-IP" class="headerlink" title="拿 IP"></a>拿 IP</h2><p>作用：</p>
+<pre class="line-numbers language-none"><code class="language-none">连上 Wi-Fi 后，向路由器申请 IP 地址<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>核心程序：</p>
+<pre class="line-numbers language-none"><code class="language-none">udhcpc<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>命令：</p>
+<pre class="line-numbers language-none"><code class="language-none">udhcpc -i wlan0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>成功后查看：</p>
+<pre class="line-numbers language-none"><code class="language-none">ip -4 addr show wlan0
+ip route<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>正常应该得到：</p>
+<pre class="line-numbers language-none"><code class="language-none">192.168.31.x&#x2F;24
+default via 192.168.31.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>如果你看到：</p>
+<pre class="line-numbers language-none"><code class="language-none">169.254.x.x<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>说明：</p>
+<pre class="line-numbers language-none"><code class="language-none">Wi-Fi 没连上，或者 DHCP 没成功<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这是“自救地址”，不是正常联网地址。</p>
+<hr>
+<h2 id="三个核心"><a href="#三个核心" class="headerlink" title="三个核心"></a>三个核心</h2><h3 id="1-wlan0"><a href="#1-wlan0" class="headerlink" title="1. wlan0"></a>1. <code>wlan0</code></h3><p>它是：</p>
+<pre class="line-numbers language-none"><code class="language-none">无线网卡接口<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="2-wpa-supplicant"><a href="#2-wpa-supplicant" class="headerlink" title="2. wpa_supplicant"></a>2. <code>wpa_supplicant</code></h3><p>它负责：</p>
+<pre class="line-numbers language-none"><code class="language-none">连接 Wi-Fi<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>不是拿 IP。</p>
+<h3 id="3-udhcpc"><a href="#3-udhcpc" class="headerlink" title="3. udhcpc"></a>3. <code>udhcpc</code></h3><p>它负责：</p>
+<pre class="line-numbers language-none"><code class="language-none">拿 IP 地址<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>不是连接 Wi-Fi。</p>
+<p>所以整条链路是：</p>
+<pre class="line-numbers language-none"><code class="language-none">wlan0 出现
+→ wpa_supplicant 连 Wi-Fi
+→ udhcpc 拿 IP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="改错配置文件"><a href="#改错配置文件" class="headerlink" title="改错配置文件"></a>改错配置文件</h3><p>你最初改的是：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;etc&#x2F;wpa_supplicant.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>但系统实际用的是：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;userdata&#x2F;cfg&#x2F;wpa_supplicant.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h3 id="把-DHCP-问题当成-Wi-Fi-问题"><a href="#把-DHCP-问题当成-Wi-Fi-问题" class="headerlink" title="把 DHCP 问题当成 Wi-Fi 问题"></a>把 DHCP 问题当成 Wi-Fi 问题</h3><p>其实顺序不能反。</p>
+<p>必须先确认：</p>
+<pre class="line-numbers language-none"><code class="language-none">iw dev wlan0 link<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果这里还是：</p>
+<pre class="line-numbers language-none"><code class="language-none">Not connected.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>那就别看 DHCP。</p>
+<p>因为：</p>
+<pre class="line-numbers language-none"><code class="language-none">没连上 Wi-Fi
+→ udhcpc 一定拿不到 IP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="配网步骤"><a href="#配网步骤" class="headerlink" title="配网步骤"></a>配网步骤</h2><h3 id="1-写好配置文件"><a href="#1-写好配置文件" class="headerlink" title="1. 写好配置文件"></a>1. 写好配置文件</h3><pre class="line-numbers language-none"><code class="language-none">vi &#x2F;userdata&#x2F;cfg&#x2F;wpa_supplicant.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>内容：</p>
+<pre class="line-numbers language-none"><code class="language-none">ctrl_interface&#x3D;&#x2F;var&#x2F;run&#x2F;wpa_supplicant
+ap_scan&#x3D;1
+update_config&#x3D;1
+
+network&#x3D;&#123;
+    ssid&#x3D;&quot;Tomorrow is another day 2.4G&quot;
+    psk&#x3D;&quot;7678321.Com&quot;
+    key_mgmt&#x3D;WPA-PSK
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="2-清理旧进程"><a href="#2-清理旧进程" class="headerlink" title="2. 清理旧进程"></a>2. 清理旧进程</h3><pre class="line-numbers language-none"><code class="language-none">killall udhcpc 2&gt;&#x2F;dev&#x2F;null
+killall dhcpcd 2&gt;&#x2F;dev&#x2F;null
+killall wpa_supplicant 2&gt;&#x2F;dev&#x2F;null<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="3-启用接口"><a href="#3-启用接口" class="headerlink" title="3. 启用接口"></a>3. 启用接口</h3><pre class="line-numbers language-none"><code class="language-none">ip link set wlan0 up
+mkdir -p &#x2F;var&#x2F;run&#x2F;wpa_supplicant<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="4-连接-Wi-Fi"><a href="#4-连接-Wi-Fi" class="headerlink" title="4. 连接 Wi-Fi"></a>4. 连接 Wi-Fi</h3><pre class="line-numbers language-none"><code class="language-none">wpa_supplicant -B \
+  -i wlan0 \
+  -c &#x2F;userdata&#x2F;cfg&#x2F;wpa_supplicant.conf \
+  -C &#x2F;var&#x2F;run&#x2F;wpa_supplicant \
+  -f &#x2F;tmp&#x2F;wpa.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="5-看有没有连上"><a href="#5-看有没有连上" class="headerlink" title="5. 看有没有连上"></a>5. 看有没有连上</h3><pre class="line-numbers language-none"><code class="language-none">iw dev wlan0 link<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果输出：</p>
+<pre class="line-numbers language-none"><code class="language-none">Connected to ...
+SSID: Tomorrow is another day 2.4G<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>说明认证成功。</p>
+<hr>
+<h3 id="6-拿-IP"><a href="#6-拿-IP" class="headerlink" title="6. 拿 IP"></a>6. 拿 IP</h3><pre class="line-numbers language-none"><code class="language-none">udhcpc -i wlan0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h3 id="7-查看结果"><a href="#7-查看结果" class="headerlink" title="7. 查看结果"></a>7. 查看结果</h3><pre class="line-numbers language-none"><code class="language-none">ip -4 addr show wlan0
+ip route<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="开机自动联网方案"><a href="#开机自动联网方案" class="headerlink" title="开机自动联网方案"></a>开机自动联网方案</h2><p>因为系统自带的 <code>S40network + S41dhcpcd</code> 不稳定，建议自己写一个脚本。</p>
+<p>例如：</p>
+<pre class="line-numbers language-none"><code class="language-none">vi &#x2F;etc&#x2F;init.d&#x2F;S42wifi<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>内容：</p>
+<pre class="line-numbers language-none"><code class="language-none">#!&#x2F;bin&#x2F;sh
+
+case &quot;$1&quot; in
+    start)
+        killall udhcpc 2&gt;&#x2F;dev&#x2F;null
+        killall dhcpcd 2&gt;&#x2F;dev&#x2F;null
+        killall wpa_supplicant 2&gt;&#x2F;dev&#x2F;null
+
+        ip link set wlan0 up
+        mkdir -p &#x2F;var&#x2F;run&#x2F;wpa_supplicant
+
+        wpa_supplicant -B \
+          -i wlan0 \
+          -c &#x2F;userdata&#x2F;cfg&#x2F;wpa_supplicant.conf \
+          -C &#x2F;var&#x2F;run&#x2F;wpa_supplicant \
+          -f &#x2F;tmp&#x2F;wpa.log
+
+        sleep 8
+        udhcpc -i wlan0
+        ;;
+    stop)
+        killall udhcpc 2&gt;&#x2F;dev&#x2F;null
+        killall dhcpcd 2&gt;&#x2F;dev&#x2F;null
+        killall wpa_supplicant 2&gt;&#x2F;dev&#x2F;null
+        ip link set wlan0 down
+        ;;
+    restart)
+        &quot;$0&quot; stop
+        sleep 1
+        &quot;$0&quot; start
+        ;;
+esac
+
+exit 0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>加权限：</p>
+<pre class="line-numbers language-none"><code class="language-none">chmod +x &#x2F;etc&#x2F;init.d&#x2F;S42wifi<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>测试：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;etc&#x2F;init.d&#x2F;S42wifi restart<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h2 id="七、检查流程"><a href="#七、检查流程" class="headerlink" title="七、检查流程"></a>七、检查流程</h2><p>以后遇到 Wi-Fi 不通，就按这个顺序判断：</p>
+<h3 id="1-检查驱动"><a href="#1-检查驱动" class="headerlink" title="1. 检查驱动"></a>1. 检查驱动</h3><pre class="line-numbers language-none"><code class="language-none">iw list
+ip link show wlan0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>没有 <code>wlan0</code>，先看驱动。</p>
+<hr>
+<h3 id="2-是否能扫到-AP"><a href="#2-是否能扫到-AP" class="headerlink" title="2. 是否能扫到 AP"></a>2. 是否能扫到 AP</h3><pre class="line-numbers language-none"><code class="language-none">iw dev wlan0 scan | grep -E &quot;SSID:|freq:|signal:&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>扫不到 AP，先看路由器、距离、频段。</p>
+<hr>
+<h3 id="3-检查连接状态"><a href="#3-检查连接状态" class="headerlink" title="3. 检查连接状态"></a>3. 检查连接状态</h3><pre class="line-numbers language-none"><code class="language-none">iw dev wlan0 link<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果是：</p>
+<pre class="line-numbers language-none"><code class="language-none">Not connected.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>先看 <code>wpa_supplicant</code> 和密码。</p>
+<hr>
+<h3 id="4-是否申请到IP"><a href="#4-是否申请到IP" class="headerlink" title="4. 是否申请到IP"></a>4. 是否申请到IP</h3><pre class="line-numbers language-none"><code class="language-none">ip -4 addr show wlan0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果是：</p>
+<pre class="line-numbers language-none"><code class="language-none">169.254.x.x<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>说明 DHCP 没成，或者前面根本没连上。</p>
+<hr>
+<h2 id="八、流程图"><a href="#八、流程图" class="headerlink" title="八、流程图"></a>八、流程图</h2><pre class="line-numbers language-none"><code class="language-none">路由器(2.4G)
+    ↓
+Wi-Fi 芯片&#x2F;AP6212A
+    ↓
+驱动 bcmdhd.ko
+    ↓
+wlan0
+    ↓
+wpa_supplicant 负责认证
+    ↓
+udhcpc 负责拿 IP
+    ↓
+ip &#x2F; route &#x2F; ping &#x2F; ssh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="九、总结"><a href="#九、总结" class="headerlink" title="九、总结"></a>九、总结</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><pre class="line-numbers language-none"><code class="language-none">先有网卡
+再连 Wi-Fi
+最后拿 IP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="程序分工"><a href="#程序分工" class="headerlink" title="程序分工"></a>程序分工</h3><pre class="line-numbers language-none"><code class="language-none">wpa_supplicant &#x3D; 连 Wi-Fi
+udhcpc         &#x3D; 拿 IP
+iw             &#x3D; 看无线状态
+ip             &#x3D; 看 IP 和路由<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="核心文件"><a href="#核心文件" class="headerlink" title="核心文件"></a>核心文件</h3><pre class="line-numbers language-none"><code class="language-none">&#x2F;userdata&#x2F;cfg&#x2F;wpa_supplicant.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="核心命令"><a href="#核心命令" class="headerlink" title="核心命令"></a>核心命令</h3><pre class="line-numbers language-none"><code class="language-none">ip link set wlan0 up
+wpa_supplicant -B -i wlan0 -c &#x2F;userdata&#x2F;cfg&#x2F;wpa_supplicant.conf -C &#x2F;var&#x2F;run&#x2F;wpa_supplicant
+iw dev wlan0 link
+udhcpc -i wlan0
+ip -4 addr show wlan0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="编译debian"><a href="#编译debian" class="headerlink" title="编译debian"></a>编译debian</h1><p>我靠老费劲了</p>
 <ul>
 <li>编译使用的ubuntu版本不要太新，文档写什么就用什么，否则容易有各种库与工具的冲突</li>
 <li>然后debian的镜像版本太老，官网上没有了，于是又换源</li>
 <li>然后又出现一个报错，全网搜索不得解，先不搞了，换ubuntu</li>
 </ul>
-<h2 id="编译Ubuntu"><a href="#编译Ubuntu" class="headerlink" title="编译Ubuntu"></a>编译Ubuntu</h2><p>还没开始</p>
+<h1 id="编译Ubuntu"><a href="#编译Ubuntu" class="headerlink" title="编译Ubuntu"></a>编译Ubuntu</h1><p>还没开始</p>
 <p>群佬推的教程<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42711665/article/details/158393261?sharetype=blog&shareId=158393261&sharerefer=APP&sharesource=2301_81128730&sharefrom=qq&qq_aio_chat_type=3">泰山派编译Ubuntu22.04</a></p>
 <p>全捣鼓好之后卖掉换最好看的或者搞自己的板子</p>
+<p>开始干</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p><strong>镜像的组成</strong></p>
+<p>都需要编译什么</p>
+<ul>
+<li>kernel linux内核</li>
+<li>uboot设备树</li>
+<li>rootf</li>
+</ul>
+<p>打包时要有vim、 iputils-ping</p>
+<p>编译成update.img,是用瑞芯微官方烧录工具RKDevTool_Release_v2.92，点击固件升级固件，固件选择更新后的update.img，然后按住板子的rec后按一下res，发现设备后，点击升级即可</p>
+<h2 id="开机"><a href="#开机" class="headerlink" title="开机"></a>开机</h2><p>有一个强制改密码的过程，先登录你设置的默认的用户名密码，然后更改密码就可以了</p>
+<p>遇到了两个问题</p>
+<ol>
+<li>开机后打印乱七八糟的东西说是麦克风的i2c数据传输问题，检查后发现是I2S1 RX 时钟配置错误</li>
+</ol>
+<blockquote>
+<p>原 DTS 使用旧属性：</p>
+<p><code>rockchip,clk-trcm = &lt;1&gt;;</code></p>
+<p>Linux 6.1 驱动不会解析该旧属性，已经替换为：</p>
+<p><code>rockchip,trcm-sync-tx-only;</code></p>
+</blockquote>
+<ol start="2">
+<li>wanl0拉不起来，bcmdhd 的自动固件选型</li>
+</ol>
+<p>AP6212 模组内部使用 BCM43430，不同硬件批次存在 silicon revision：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">BCM43430 chiprev 0 -> fw_bcm43438a0.bin + nvram_ap6212.txt
+BCM43430 chiprev 1 -> fw_bcm43438a1.bin + nvram_ap6212a.txt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>DTS 中的：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">wifi_chip_type = "ap6212"<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>只表示模组系列。驱动启动后还会通过 SDIO 读取真实 chiprev，再选择 A0 或 A1。</p>
+<p>当前板子日志明确选择：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">fw_bcm43438a1.bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>所以它是 revision 1，应配套：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">fw_bcm43438a1.bin
+nvram_ap6212a.txt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="Wi-Fi"><a href="#Wi-Fi" class="headerlink" title="Wi-Fi"></a>Wi-Fi</h3><ol>
+<li><p>A0&#x2F;A1 是 BCM43430 的不同 silicon revision：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">chiprev 0 -> fw_bcm43438a0.bin + nvram_ap6212.txt
+chiprev 1 -> fw_bcm43438a1.bin + nvram_ap6212a.txt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>当前板子是 revision 1。直接复制改名可以临时修复：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo cp &#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;fw_bcmdhd.bin \
+  &#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;fw_bcm43438a1.bin
+sudo cp &#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;nvram.txt \
+  &#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;nvram_ap6212a.txt
+sudo reboot<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>常用正式方案是同时安装 A0&#x2F;A1 文件，让 bcmdhd 自动选型。新镜像已包含：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">fw_bcm43438a0.bin
+fw_bcm43438a1.bin
+fw_bcmdhd.bin
+nvram_ap6212.txt
+nvram_ap6212a.txt
+nvram.txt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<h2 id="配网-1"><a href="#配网-1" class="headerlink" title="配网"></a>配网</h2><p>ubuntu系统与buildroot系统不同不用写脚本执行命令自动配网，而是是用networkmanager</p>
+<p>本来要以为需要写个脚本，发现没vim，而且可以一键连接wifi，socool</p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>查看：</p>
+<pre class="line-numbers language-none"><code class="language-none">systemctl is-active NetworkManager
+ip route
+nmcli device status
+nmcli connection show<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>扫描 Wi-Fi：</p>
+<pre class="line-numbers language-none"><code class="language-none">nmcli device wifi list<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>连接：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo nmcli device wifi connect &quot;SSID&quot; password &quot;密码&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>设置静态 IP：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo nmcli con mod &quot;连接名&quot; \
+ipv4.method manual \
+ipv4.addresses 192.168.31.100&#x2F;24 \
+ipv4.gateway 192.168.31.1 \
+ipv4.dns &quot;223.5.5.5 8.8.8.8&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>开机自启：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo nmcli con mod &quot;连接名&quot; connection.autoconnect yes<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>查看具体配置：</p>
+<pre class="line-numbers language-none"><code class="language-none">nmcli con show &quot;连接名&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>立即让配置生效：</p>
+<p>执行：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo nmcli connection down &quot;ssid&quot;
+sudo nmcli connection up &quot;ssid&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>注意：</p>
+<blockquote>
+<p>如果你现在是通过 SSH 操作板子，执行 <code>down</code> 后 SSH 会立刻断开。</p>
+</blockquote>
+<p>串口操作就没关系。</p>
+<p>也可以直接：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo nmcli connection up &quot;Tomorrow is another day 2.4G&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>检查：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ip -4 addr show wlan0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>应该看到：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">inet 192.168.31.100&#x2F;24<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然后：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ip routebash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>应该有：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">default via 192.168.31.1 dev wlan0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>测试：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ping -c 3 192.168.31.1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>再：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ping -c 3 8.8.8.8<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>最后验证 DNS：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ping -c 3 www.baidu.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这样分别验证：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">路由器通信
+→ 外网通信
+→ DNS解析<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><pre class="line-numbers language-none"><code class="language-none">精简 Buildroot
+自己控制：
+wpa_supplicant → udhcpc → 启动脚本
+
+Ubuntu
+NetworkManager 替你控制：
+Wi-Fi认证 → IP配置 → DNS → 开机自启<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>所以在泰山派 Ubuntu 上，<strong>“配置静态 IP + 开机自动联网”本身就是配置 NetworkManager，不需要额外脚本。</strong> </p>
+<pre class="line-numbers language-none"><code class="language-none">硬件：
+RK3566 + Wi-Fi芯片
+       ↓
+内核&#x2F;驱动：
+bcmdhd
+       ↓
+用户空间：
+┌───────────────┬────────────────────┐
+│ Buildroot     │ Ubuntu             │
+├───────────────┼────────────────────┤
+│ 厂商脚本      │ NetworkManager等   │
+│ BusyBox       │ systemd            │
+│ udhcpc        │ DHCP管理器         │
+│ &#x2F;userdata     │ &#x2F;etc               │
+└───────────────┴────────────────────┘<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="泰山派-RK3566-编译-Ubuntu-22-04-Desktop-指南"><a href="#泰山派-RK3566-编译-Ubuntu-22-04-Desktop-指南" class="headerlink" title="泰山派 RK3566 编译 Ubuntu 22.04 Desktop 指南"></a>泰山派 RK3566 编译 Ubuntu 22.04 Desktop 指南</h1><p>本文记录泰山派 V10（RK3566）从 SDK、Linux 内核到 Ubuntu 22.04 Desktop 镜像的完整流程，并包含 AP6212 Wi-Fi 驱动配置、镜像打包和烧录方法。</p>
+<h2 id="1-最终目标"><a href="#1-最终目标" class="headerlink" title="1. 最终目标"></a>1. 最终目标</h2><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>本次使用的配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>开发板</td>
+<td>泰山派 V10</td>
+</tr>
+<tr>
+<td>SoC</td>
+<td>Rockchip RK3566</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>Ubuntu 22.04.5 LTS Desktop，arm64</td>
+</tr>
+<tr>
+<td>内核</td>
+<td>Linux 6.1.75</td>
+</tr>
+<tr>
+<td>Wi-Fi</td>
+<td>AP6212A1，SDIO，bcmdhd</td>
+</tr>
+<tr>
+<td>构建目录</td>
+<td><code>/home/haxio/tspi</code></td>
+</tr>
+<tr>
+<td>最终镜像</td>
+<td><code>rockdev/update.img</code></td>
+</tr>
+</tbody></table>
+<h2 id="2-需要准备的内容"><a href="#2-需要准备的内容" class="headerlink" title="2. 需要准备的内容"></a>2. 需要准备的内容</h2><h3 id="宿主机"><a href="#宿主机" class="headerlink" title="宿主机"></a>宿主机</h3><p>建议使用 Ubuntu 18.04&#x2F;20.04 虚拟机，并准备至少 80 GB 可用空间（Desktop rootfs 和镜像会占用较多空间）。安装常用工具：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt update
+sudo apt install -y git make gcc g++ bc bison flex libssl-dev \
+  libncurses5-dev device-tree-compiler lz4 liblz4-tool \
+  qemu-user-static binfmt-support e2fsprogs rsync unzip wget xz-utils \
+  cpio fakeroot<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>SDK 自带 ARM64 交叉编译器，不要用宿主机的 x86_64 <code>gcc</code> 编译内核。</p>
+<h3 id="SDK-和-Ubuntu-rootfs"><a href="#SDK-和-Ubuntu-rootfs" class="headerlink" title="SDK 和 Ubuntu rootfs"></a>SDK 和 Ubuntu rootfs</h3><p>将完整 SDK 解压到：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">/home/haxio/tspi<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>准备官方 Ubuntu Base：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">ubuntu-base-22.04.5-base-arm64.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>它只提供最小 ARM64 用户空间，桌面、网络和 SSH 需要后续安装。</p>
+<h2 id="3-选择泰山派板级配置"><a href="#3-选择泰山派板级配置" class="headerlink" title="3. 选择泰山派板级配置"></a>3. 选择泰山派板级配置</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd ~&#x2F;tspi
+.&#x2F;build.sh BoardConfig-rk3566-tspi-v10.mk<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>确认配置文件中的关键项：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">RK_UBOOT_DEFCONFIG=rk3566
+RK_KERNEL_DTS=tspi-rk3566-user-v10-linux
+RK_CFG_BUILDROOT=rockchip_rk3566<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><code>parameter-buildroot-fit.txt</code> 中显示 <code>MACHINE_MODEL: RK3568</code> 是 SDK 对 RK356x 系列共用的元数据，不代表本板是 RK3568；泰山派实际使用 RK3566 U-Boot 和 RK3566 DTS。</p>
+<h2 id="4-编译-U-Boot、内核和模块"><a href="#4-编译-U-Boot、内核和模块" class="headerlink" title="4. 编译 U-Boot、内核和模块"></a>4. 编译 U-Boot、内核和模块</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd ~&#x2F;tspi
+.&#x2F;build.sh uboot
+
+export CROSS_COMPILE&#x3D;&quot;$PWD&#x2F;prebuilts&#x2F;gcc&#x2F;linux-x86&#x2F;aarch64&#x2F;gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu&#x2F;bin&#x2F;aarch64-linux-gnu-&quot;
+export ARCH&#x3D;arm64
+
+.&#x2F;build.sh kernel
+.&#x2F;build.sh modules<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>正常产物包括：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">kernel/arch/arm64/boot/Image
+kernel/arch/arm64/boot/dts/rockchip/tspi-rk3566-user-v10-linux.dtb
+kernel/boot.img
+rockdev/boot.img
+rockdev/uboot.img<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果出现 <code>gcc: unrecognized command line option &#39;-mlittle-endian&#39;</code>，说明 <code>CROSS_COMPILE</code> 没有生效。重新执行上面的 <code>export</code>，并检查：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">&quot;$&#123;CROSS_COMPILE&#125;gcc&quot; -dumpmachine<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>结果应为 <code>aarch64-linux-gnu</code>，不能是 <code>x86_64-linux-gnu</code>。</p>
+<p>如果旧版 <code>lz4c</code> 报 <code>--favor-decSpeed</code> 或 <code>-12</code> 参数错误，在 <code>kernel/scripts/Makefile.lib</code> 中将：</p>
+<pre class="line-numbers language-make" data-language="make"><code class="language-make">$(LZ4) -12 --favor-decSpeed stdin stdout<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>改为：</p>
+<pre class="line-numbers language-make" data-language="make"><code class="language-make">$(LZ4) -9 stdin stdout<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="5-创建-Ubuntu-22-04-Desktop-rootfs"><a href="#5-创建-Ubuntu-22-04-Desktop-rootfs" class="headerlink" title="5. 创建 Ubuntu 22.04 Desktop rootfs"></a>5. 创建 Ubuntu 22.04 Desktop rootfs</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd ~&#x2F;tspi
+mkdir -p ubuntu-rootfs
+sudo tar -xpf ubuntu-base-22.04.5-base-arm64.tar.gz -C ubuntu-rootfs
+sudo cp &#x2F;usr&#x2F;bin&#x2F;qemu-aarch64-static ubuntu-rootfs&#x2F;usr&#x2F;bin&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>配置 ARM64 APT 源（Ubuntu Base 默认使用 ports 源）：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo tee ubuntu-rootfs&#x2F;etc&#x2F;apt&#x2F;sources.list &gt;&#x2F;dev&#x2F;null &lt;&lt;&#39;EOF&#39;
+deb http:&#x2F;&#x2F;ports.ubuntu.com&#x2F;ubuntu-ports jammy main restricted universe multiverse
+deb http:&#x2F;&#x2F;ports.ubuntu.com&#x2F;ubuntu-ports jammy-updates main restricted universe multiverse
+deb http:&#x2F;&#x2F;ports.ubuntu.com&#x2F;ubuntu-ports jammy-security main restricted universe multiverse
+EOF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>挂载 chroot 所需的虚拟文件系统：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo mount --bind &#x2F;dev ubuntu-rootfs&#x2F;dev
+sudo mount -t proc &#x2F;proc ubuntu-rootfs&#x2F;proc
+sudo mount -t sysfs &#x2F;sys ubuntu-rootfs&#x2F;sys
+sudo mount -t devpts &#x2F;dev&#x2F;pts ubuntu-rootfs&#x2F;dev&#x2F;pts<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>进入 rootfs 安装桌面和网络组件：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo chroot ubuntu-rootfs &#x2F;bin&#x2F;bash
+export HOME&#x3D;&#x2F;root
+export LC_ALL&#x3D;C
+apt update
+apt upgrade -y
+apt install -y ubuntu-desktop-minimal network-manager openssh-server sudo \
+  locales language-pack-zh-hans wpasupplicant rfkill wireless-regdb iw<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在 chroot 中设置账户、时区和默认图形目标：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">useradd -m -s &#x2F;bin&#x2F;bash tspi
+echo &#39;tspi:orangepi2026&#39; | chpasswd
+usermod -aG sudo tspi
+ln -sf &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai &#x2F;etc&#x2F;localtime
+echo Asia&#x2F;Shanghai &gt; &#x2F;etc&#x2F;timezone
+locale-gen en_US.UTF-8 zh_CN.UTF-8
+systemctl enable NetworkManager
+systemctl enable ssh
+systemctl enable gdm3
+systemctl set-default graphical.target
+exit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>卸载虚拟文件系统：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo umount ubuntu-rootfs&#x2F;dev&#x2F;pts
+sudo umount ubuntu-rootfs&#x2F;dev
+sudo umount ubuntu-rootfs&#x2F;proc
+sudo umount ubuntu-rootfs&#x2F;sys<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>配置主机名和 Netplan：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">echo tspi | sudo tee ubuntu-rootfs&#x2F;etc&#x2F;hostname &gt;&#x2F;dev&#x2F;null
+sudo mkdir -p ubuntu-rootfs&#x2F;etc&#x2F;netplan
+sudo tee ubuntu-rootfs&#x2F;etc&#x2F;netplan&#x2F;01-network-manager-all.yaml &gt;&#x2F;dev&#x2F;null &lt;&lt;&#39;EOF&#39;
+network:
+  version: 2
+  renderer: NetworkManager
+EOF
+sudo chmod 600 ubuntu-rootfs&#x2F;etc&#x2F;netplan&#x2F;01-network-manager-all.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="6-将内核模块安装到-rootfs"><a href="#6-将内核模块安装到-rootfs" class="headerlink" title="6. 将内核模块安装到 rootfs"></a>6. 将内核模块安装到 rootfs</h2><p>回到 SDK 根目录，并确认交叉编译器仍然有效：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd ~&#x2F;tspi
+export ARCH&#x3D;arm64
+export CROSS_COMPILE&#x3D;&quot;$PWD&#x2F;prebuilts&#x2F;gcc&#x2F;linux-x86&#x2F;aarch64&#x2F;gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu&#x2F;bin&#x2F;aarch64-linux-gnu-&quot;
+
+sudo make -C kernel ARCH&#x3D;&quot;$ARCH&quot; CROSS_COMPILE&#x3D;&quot;$CROSS_COMPILE&quot; \
+  INSTALL_MOD_PATH&#x3D;&quot;$PWD&#x2F;ubuntu-rootfs&quot; modules_install
+sudo depmod -b ubuntu-rootfs 6.1.75<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>确认模块已安装：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">find ubuntu-rootfs&#x2F;lib&#x2F;modules&#x2F;6.1.75 -name &#39;bcmdhd.ko*&#39;
+test -f ubuntu-rootfs&#x2F;lib&#x2F;modules&#x2F;6.1.75&#x2F;modules.dep &amp;&amp; echo &#39;modules OK&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>如果后续重新编译了不同版本的内核，应使用下面的命令获取实际版本，并将 <code>depmod</code> 后面的 <code>6.1.75</code> 替换为该结果：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">make -s -C kernel ARCH&#x3D;arm64 kernelrelease<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="7-配置-AP6212-Wi-Fi"><a href="#7-配置-AP6212-Wi-Fi" class="headerlink" title="7. 配置 AP6212 Wi-Fi"></a>7. 配置 AP6212 Wi-Fi</h2><p>DTS 已启用无线节点，并指定：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">wifi_chip_type = "ap6212"<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>Wi-Fi 固件来自：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">external/rkwifibt/firmware/broadcom/AP6212A1/wifi/<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><code>bcmdhd</code> 启用了 <code>FW_PATH_AUTO_SELECT</code>。DTS 中的 <code>ap6212</code> 是模组系列名，驱动还会根据 BCM43430 的 silicon revision 自动选择具体文件：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">chiprev 0 -> fw_bcm43438a0.bin + nvram_ap6212.txt
+chiprev 1 -> fw_bcm43438a1.bin + nvram_ap6212a.txt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>因此不能只放一个改名后的通用文件。正式镜像同时保留通用名和 A0&#x2F;A1 原始名：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo mkdir -p ubuntu-rootfs&#x2F;vendor&#x2F;etc&#x2F;firmware
+sudo cp external&#x2F;rkwifibt&#x2F;firmware&#x2F;broadcom&#x2F;AP6212A1&#x2F;wifi&#x2F;fw_bcm43438a1.bin \
+  ubuntu-rootfs&#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;fw_bcmdhd.bin
+sudo cp external&#x2F;rkwifibt&#x2F;firmware&#x2F;broadcom&#x2F;AP6212A1&#x2F;wifi&#x2F;nvram_ap6212a.txt \
+  ubuntu-rootfs&#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;nvram.txt
+sudo cp external&#x2F;rkwifibt&#x2F;firmware&#x2F;broadcom&#x2F;AP6212A1&#x2F;wifi&#x2F;fw_bcm43438a0.bin \
+  ubuntu-rootfs&#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;fw_bcm43438a0.bin
+sudo cp external&#x2F;rkwifibt&#x2F;firmware&#x2F;broadcom&#x2F;AP6212A1&#x2F;wifi&#x2F;fw_bcm43438a1.bin \
+  ubuntu-rootfs&#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;fw_bcm43438a1.bin
+sudo cp external&#x2F;rkwifibt&#x2F;firmware&#x2F;broadcom&#x2F;AP6212A1&#x2F;wifi&#x2F;nvram_ap6212.txt \
+  ubuntu-rootfs&#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;nvram_ap6212.txt
+sudo cp external&#x2F;rkwifibt&#x2F;firmware&#x2F;broadcom&#x2F;AP6212A1&#x2F;wifi&#x2F;nvram_ap6212a.txt \
+  ubuntu-rootfs&#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;nvram_ap6212a.txt
+sudo cp external&#x2F;rkwifibt&#x2F;firmware&#x2F;broadcom&#x2F;AP6212A1&#x2F;bt&#x2F;BCM43430A1.hcd \
+  ubuntu-rootfs&#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;BCM43430A1.hcd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>配置模块参数和开机自动加载：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo mkdir -p ubuntu-rootfs&#x2F;etc&#x2F;modprobe.d ubuntu-rootfs&#x2F;etc&#x2F;modules-load.d
+sudo tee ubuntu-rootfs&#x2F;etc&#x2F;modprobe.d&#x2F;bcmdhd.conf &gt;&#x2F;dev&#x2F;null &lt;&lt;&#39;EOF&#39;
+options bcmdhd firmware_path&#x3D;&#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;fw_bcmdhd.bin nvram_path&#x3D;&#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;nvram.txt config_path&#x3D;&#x2F;vendor&#x2F;etc&#x2F;firmware&#x2F;config.txt
+EOF
+echo bcmdhd | sudo tee ubuntu-rootfs&#x2F;etc&#x2F;modules-load.d&#x2F;bcmdhd.conf &gt;&#x2F;dev&#x2F;null<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>驱动参数可离线验证：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">modprobe -d ubuntu-rootfs -S 6.1.75 --show-depends bcmdhd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>启动后使用 <code>nmcli</code> 或 Ubuntu 桌面网络菜单连接 Wi-Fi。</p>
+<p>如果日志出现：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">failed /vendor/etc/firmware/fw_bcm43438a1.bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>说明驱动已经完成自动选型，但镜像缺少 A1 原始文件名。不要只修改 DTS；补齐上面的 A0&#x2F;A1 文件后重新制作 rootfs 和 <code>update.img</code>。</p>
+<h2 id="8-音频-I2S-RK809-配置"><a href="#8-音频-I2S-RK809-配置" class="headerlink" title="8. 音频 I2S&#x2F;RK809 配置"></a>8. 音频 I2S&#x2F;RK809 配置</h2><p>播放测试正常但录音出现：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">rockchip-i2s-tdm ... rate(0)
+ASoC: error at snd_soc_dai_hw_params ... -22<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>原因是旧 DTS 属性 <code>rockchip,clk-trcm = &lt;1&gt;;</code> 不再被 Linux 6.1 的 I2S-TDM 驱动解析。将 <code>&amp;i2s1_8ch</code> 节点改为：</p>
+<pre class="line-numbers language-dts" data-language="dts"><code class="language-dts">&amp;i2s1_8ch &#123;
+    status &#x3D; &quot;okay&quot;;
+    rockchip,trcm-sync-tx-only;
+    pinctrl-names &#x3D; &quot;default&quot;;
+    pinctrl-0 &#x3D; &lt;&amp;i2s1m0_sclktx
+                 &amp;i2s1m0_lrcktx
+                 &amp;i2s1m0_sdi0
+                 &amp;i2s1m0_sdo0&gt;;
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>重新执行 <code>./build.sh kernel</code> 后再打包。验证播放和录音：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">speaker-test -D hw:1,0 -c 2 -r 48000 -F S16_LE
+arecord -D hw:1,0 -c 2 -r 48000 -f S16_LE -d 5 &#x2F;tmp&#x2F;test.wav<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="9-制作-rootfs-ext4"><a href="#9-制作-rootfs-ext4" class="headerlink" title="9. 制作 rootfs.ext4"></a>9. 制作 rootfs.ext4</h2><p>制作前删除 chroot 临时文件，避免把宿主环境带入镜像：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo rm -f ubuntu-rootfs&#x2F;usr&#x2F;bin&#x2F;qemu-aarch64-static
+sudo rm -f ubuntu-rootfs&#x2F;usr&#x2F;sbin&#x2F;policy-rc.d
+sudo rm -f ubuntu-rootfs&#x2F;var&#x2F;lib&#x2F;dbus&#x2F;machine-id
+sudo sh -c &#39;: &gt; ubuntu-rootfs&#x2F;etc&#x2F;machine-id&#39;
+sudo rm -rf ubuntu-rootfs&#x2F;var&#x2F;cache&#x2F;apt&#x2F;archives&#x2F;*.deb<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>当前参数表为 6 GiB rootfs 分区，本次使用 3800 MiB 文件系统：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo mkfs.ext4 -F -L rootfs -d ubuntu-rootfs rockdev&#x2F;rootfs.ext4 3800M
+sudo chown &quot;$USER:$USER&quot; rockdev&#x2F;rootfs.ext4
+e2fsck -fn rockdev&#x2F;rootfs.ext4
+ln -sfn rootfs.ext4 rockdev&#x2F;rootfs.img<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="10-生成完整升级镜像"><a href="#10-生成完整升级镜像" class="headerlink" title="10. 生成完整升级镜像"></a>10. 生成完整升级镜像</h2><p>Ubuntu 不使用 Buildroot recovery 时，编辑：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">tools/linux/Linux_Pack_Firmware/rockdev/package-file<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>将下面一行注释掉：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">#recovery Image/recovery.img<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然后执行：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd ~&#x2F;tspi
+.&#x2F;build.sh firmware
+.&#x2F;build.sh updateimg<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>成功标志：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">Make firmware OK!
+New image generated successfully!
+Running build_updateimg succeeded.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>检查镜像：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ls -lh rockdev&#x2F;update.img
+sha256sum rockdev&#x2F;update.img<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>当前已验证的最终镜像 SHA256：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">f81dd518d6442f7ebe19cd987b5dc28284a7221166263ebc7872d1636c592a24<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="11-使用-RKDevTool-烧录"><a href="#11-使用-RKDevTool-烧录" class="headerlink" title="11. 使用 RKDevTool 烧录"></a>11. 使用 RKDevTool 烧录</h2><p><code>update.img</code> 是完整 Rockchip 升级包，不需要手动填写各分区地址。</p>
+<ol>
+<li>将 <code>rockdev/update.img</code> 复制到 Windows。</li>
+<li>泰山派进入 Loader 或 Maskrom 模式并连接 USB OTG。</li>
+<li>RKDevTool 底部显示“发现一个 LOADER 设备”。</li>
+<li>进入“升级固件”页，点击“固件”，选择 <code>update.img</code>。</li>
+<li>等待固件信息解析完成，点击“升级”。</li>
+<li>等待成功提示，不要断电或拔 USB。</li>
+</ol>
+<p>不要把 <code>update.img</code> 填到“下载镜像”页的某个地址；手工地址烧录适用于拆分的 <code>MiniLoaderAll.bin</code>、<code>uboot.img</code>、<code>boot.img</code>、<code>rootfs.img</code> 等文件。</p>
+<h2 id="12-首次启动检查"><a href="#12-首次启动检查" class="headerlink" title="12. 首次启动检查"></a>12. 首次启动检查</h2><p>当前最终镜像账户：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">用户名：tspi
+密码：orangepi2026<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>该账户已加入 sudo，且没有设置首次强制改密。<code>tspi2026</code> 不建议作为密码，因为它包含用户名 <code>tspi</code>，会被 Ubuntu 密码质量策略拒绝；<code>orangepi2026</code> 不包含用户名。</p>
+<p>系统启动后执行：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo resize2fs &#x2F;dev&#x2F;disk&#x2F;by-partlabel&#x2F;rootfs
+df -h &#x2F;
+uname -a
+lsmod | grep bcmdhd
+iw dev
+nmcli device
+dmesg | grep -iE &#39;bcmdhd|firmware|wlan|sdio&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>连接 Wi-Fi：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmcli device wifi list
+sudo nmcli device wifi connect &quot;WiFi名称&quot; password &quot;WiFi密码&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="13-常见问题速查"><a href="#13-常见问题速查" class="headerlink" title="13. 常见问题速查"></a>13. 常见问题速查</h2><ul>
+<li><code>gcc ... -mlittle-endian</code>：交叉编译器未生效，重新 <code>export CROSS_COMPILE</code>。</li>
+<li><code>recovery.img open file failed</code>：打包清单包含不存在的 Buildroot recovery，注释 recovery 条目。</li>
+<li><code>rootfs.img open file failed</code>：没有生成 <code>rockdev/rootfs.ext4</code>，先制作 ext4 镜像。</li>
+<li>RKDevTool 显示 RK3568：RK356x SDK 共用元数据，确认 U-Boot 为 <code>rk3566</code>、DTS 为 <code>tspi-rk3566-user-v10-linux</code> 即可。</li>
+<li>无 Wi-Fi：先看 <code>dmesg</code> 是否有 SDIO、固件路径和 GPIO 电源域错误，再确认 <code>bcmdhd.ko</code>、<code>fw_bcmdhd.bin</code> 和 <code>nvram.txt</code> 均存在。</li>
+<li><code>failed ... fw_bcm43438a1.bin</code>：驱动自动选中了 A1，但镜像只放了通用文件名；补齐 <code>fw_bcm43438a1.bin</code> 和 <code>nvram_ap6212a.txt</code>。</li>
+<li><code>Authentication token manipulation error</code>：旧镜像的 <code>haxio</code> 账户被设置为首次强制改密，且输入了错误的旧密码或根分区不可写；当前最终镜像已改为 <code>tspi/orangepi2026</code> 并取消强制改密。</li>
+<li>音频播放正常、录音失败并出现 <code>rate(0)</code>：检查 I2S1 是否使用 <code>rockchip,trcm-sync-tx-only;</code>，不要继续使用旧的 <code>rockchip,clk-trcm = &lt;1&gt;;</code>。</li>
+<li>Ubuntu rootfs 空间不足：执行 <code>resize2fs /dev/disk/by-partlabel/rootfs</code> 扩展到参数表的 6 GiB 分区。</li>
+</ul>
 
       </div>
       
@@ -203,15 +945,15 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2026-07-22 23:08:55
+              2026-08-11 22:34:28
             </span>
             
                   <span class="post-tags">
                     <i class="iconfont icon-tags mr-10" title="Tags"></i>
                     
                     <span class="span--tag mr-8">
-                      <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" title="单片机">
-                        #单片机
+                      <a href="/tags/linux/" title="linux">
+                        #linux
                       </a>
                     </span>
                     
@@ -237,7 +979,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%90%9E%E7%82%B9%E4%BA%8B%E6%83%85"><span class="toc-text">搞点事情</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91buildroot"><span class="toc-text">编译buildroot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91debian"><span class="toc-text">编译debian</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91Ubuntu"><span class="toc-text">编译Ubuntu</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91buildroot"><span class="toc-text">编译buildroot</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%91"><span class="toc-text">配网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A9%B1%E5%8A%A8"><span class="toc-text">驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F-Wi-Fi"><span class="toc-text">扫描 Wi-Fi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5"><span class="toc-text">连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%BF-IP"><span class="toc-text">拿 IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E4%B8%AA%E6%A0%B8%E5%BF%83"><span class="toc-text">三个核心</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-wlan0"><span class="toc-text">1. wlan0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-wpa-supplicant"><span class="toc-text">2. wpa_supplicant</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-udhcpc"><span class="toc-text">3. udhcpc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E9%94%99%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">改错配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%8A-DHCP-%E9%97%AE%E9%A2%98%E5%BD%93%E6%88%90-Wi-Fi-%E9%97%AE%E9%A2%98"><span class="toc-text">把 DHCP 问题当成 Wi-Fi 问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%91%E6%AD%A5%E9%AA%A4"><span class="toc-text">配网步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%86%99%E5%A5%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">1. 写好配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%B8%85%E7%90%86%E6%97%A7%E8%BF%9B%E7%A8%8B"><span class="toc-text">2. 清理旧进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%90%AF%E7%94%A8%E6%8E%A5%E5%8F%A3"><span class="toc-text">3. 启用接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%BF%9E%E6%8E%A5-Wi-Fi"><span class="toc-text">4. 连接 Wi-Fi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%9C%8B%E6%9C%89%E6%B2%A1%E6%9C%89%E8%BF%9E%E4%B8%8A"><span class="toc-text">5. 看有没有连上</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%8B%BF-IP"><span class="toc-text">6. 拿 IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%9F%A5%E7%9C%8B%E7%BB%93%E6%9E%9C"><span class="toc-text">7. 查看结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E8%81%94%E7%BD%91%E6%96%B9%E6%A1%88"><span class="toc-text">开机自动联网方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%A3%80%E6%9F%A5%E6%B5%81%E7%A8%8B"><span class="toc-text">七、检查流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%A3%80%E6%9F%A5%E9%A9%B1%E5%8A%A8"><span class="toc-text">1. 检查驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%98%AF%E5%90%A6%E8%83%BD%E6%89%AB%E5%88%B0-AP"><span class="toc-text">2. 是否能扫到 AP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%A3%80%E6%9F%A5%E8%BF%9E%E6%8E%A5%E7%8A%B6%E6%80%81"><span class="toc-text">3. 检查连接状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%98%AF%E5%90%A6%E7%94%B3%E8%AF%B7%E5%88%B0IP"><span class="toc-text">4. 是否申请到IP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text">八、流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-text">九、总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%88%86%E5%B7%A5"><span class="toc-text">程序分工</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%96%87%E4%BB%B6"><span class="toc-text">核心文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%91%BD%E4%BB%A4"><span class="toc-text">核心命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91debian"><span class="toc-text">编译debian</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91Ubuntu"><span class="toc-text">编译Ubuntu</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA"><span class="toc-text">开机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Wi-Fi"><span class="toc-text">Wi-Fi</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%91-1"><span class="toc-text">配网</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">常用命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B3%B0%E5%B1%B1%E6%B4%BE-RK3566-%E7%BC%96%E8%AF%91-Ubuntu-22-04-Desktop-%E6%8C%87%E5%8D%97"><span class="toc-text">泰山派 RK3566 编译 Ubuntu 22.04 Desktop 指南</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9C%80%E7%BB%88%E7%9B%AE%E6%A0%87"><span class="toc-text">1. 最终目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%9C%80%E8%A6%81%E5%87%86%E5%A4%87%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">2. 需要准备的内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%BF%E4%B8%BB%E6%9C%BA"><span class="toc-text">宿主机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SDK-%E5%92%8C-Ubuntu-rootfs"><span class="toc-text">SDK 和 Ubuntu rootfs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%80%89%E6%8B%A9%E6%B3%B0%E5%B1%B1%E6%B4%BE%E6%9D%BF%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="toc-text">3. 选择泰山派板级配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%BC%96%E8%AF%91-U-Boot%E3%80%81%E5%86%85%E6%A0%B8%E5%92%8C%E6%A8%A1%E5%9D%97"><span class="toc-text">4. 编译 U-Boot、内核和模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%88%9B%E5%BB%BA-Ubuntu-22-04-Desktop-rootfs"><span class="toc-text">5. 创建 Ubuntu 22.04 Desktop rootfs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%B0%86%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%AE%89%E8%A3%85%E5%88%B0-rootfs"><span class="toc-text">6. 将内核模块安装到 rootfs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E9%85%8D%E7%BD%AE-AP6212-Wi-Fi"><span class="toc-text">7. 配置 AP6212 Wi-Fi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E9%9F%B3%E9%A2%91-I2S-RK809-%E9%85%8D%E7%BD%AE"><span class="toc-text">8. 音频 I2S&#x2F;RK809 配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%88%B6%E4%BD%9C-rootfs-ext4"><span class="toc-text">9. 制作 rootfs.ext4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E7%94%9F%E6%88%90%E5%AE%8C%E6%95%B4%E5%8D%87%E7%BA%A7%E9%95%9C%E5%83%8F"><span class="toc-text">10. 生成完整升级镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E4%BD%BF%E7%94%A8-RKDevTool-%E7%83%A7%E5%BD%95"><span class="toc-text">11. 使用 RKDevTool 烧录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E9%A6%96%E6%AC%A1%E5%90%AF%E5%8A%A8%E6%A3%80%E6%9F%A5"><span class="toc-text">12. 首次启动检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E9%80%9F%E6%9F%A5"><span class="toc-text">13. 常见问题速查</span></a></li></ol></li></ol>
       
     </div>
   </div>
