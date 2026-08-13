@@ -161,7 +161,7 @@
       <div class="post-attach">
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2026-08-11 22:34:28
+          2026-08-13 23:20:00
         </span>
         
               <span class="post-tags">
@@ -610,6 +610,146 @@ sudo nmcli connection up &quot;ssid&quot;<span aria-hidden="true" class="line-nu
 → 外网通信
 → DNS解析<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
+<h3 id="多个环境配网"><a href="#多个环境配网" class="headerlink" title="多个环境配网"></a>多个环境配网</h3><p>写脚本生成NetworkManager配置，开机后自动联网</p>
+<p>之前的buildroot是配网脚本</p>
+<p>因为脚本本身负责：</p>
+<pre class="line-numbers language-none"><code class="language-none">wpa_supplicant
+→ DHCP
+→ 联网<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>而现在 Ubuntu 写的这个脚本是：</p>
+<pre class="line-numbers language-none"><code class="language-none">“生成 NetworkManager 配置”<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>生成之后：</p>
+<pre class="line-numbers language-none"><code class="language-none">脚本退出
+    ↓
+NetworkManager 长期管理
+    ↓
+开机自动连接
+    ↓
+掉线自动处理
+    ↓
+环境变化自动选择连接<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="开机流程led"><a href="#开机流程led" class="headerlink" title="开机流程led"></a>开机流程led</h3><p>Linux 开机流程可以简化成：</p>
+<pre class="line-numbers language-none"><code class="language-none">上电
+→ BootROM
+→ U-Boot
+→ 加载 Linux 内核 + 设备树
+→ Linux 内核初始化
+→ systemd 启动用户空间
+→ 启动各类服务
+→ NetworkManager 联网
+→ 系统进入可用状态<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>灯控对应：</p>
+<pre class="line-numbers language-none"><code class="language-none">U-Boot &#x2F; 内核早期 → 冰蓝
+systemd 初始化     → 红闪
+NetworkManager     → 蓝闪
+联网成功           → 蓝亮
+初始化完成         → 熄灭<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="核心脚本"><a href="#核心脚本" class="headerlink" title="核心脚本"></a>核心脚本</h4><p>文件：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;usr&#x2F;local&#x2F;sbin&#x2F;boot-led.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>建议最终逻辑：</p>
+<pre class="line-numbers language-none"><code class="language-none">#!&#x2F;bin&#x2F;bash
+
+R&#x3D;&#x2F;sys&#x2F;class&#x2F;leds&#x2F;rgb-led-r&#x2F;brightness
+G&#x3D;&#x2F;sys&#x2F;class&#x2F;leds&#x2F;rgb-led-g&#x2F;brightness
+B&#x3D;&#x2F;sys&#x2F;class&#x2F;leds&#x2F;rgb-led-b&#x2F;brightness
+
+set_rgb()
+&#123;
+    echo &quot;$1&quot; &gt; &quot;$R&quot;
+    echo &quot;$2&quot; &gt; &quot;$G&quot;
+    echo &quot;$3&quot; &gt; &quot;$B&quot;
+&#125;
+
+# 等待 LED 驱动准备好
+while [ ! -e &quot;$R&quot; ]; do
+    sleep 0.1
+done
+
+# 1. Ubuntu 初始化阶段：红灯闪
+while ! systemctl is-active --quiet NetworkManager; do
+    set_rgb 1 0 0
+    sleep 0.4
+    set_rgb 0 0 0
+    sleep 0.4
+done
+
+# 2. NetworkManager 已启动，等待 Wi-Fi：蓝灯闪
+while true; do
+    STATE&#x3D;$(nmcli -t -f GENERAL.STATE device show wlan0 2&gt;&#x2F;dev&#x2F;null)
+
+    echo &quot;$STATE&quot; | grep -q &quot;100&quot; &amp;&amp; break
+
+    set_rgb 0 0 1
+    sleep 0.4
+    set_rgb 0 0 0
+    sleep 0.4
+done
+
+# 3. Wi-Fi 已连接，再确认真正能访问公网
+while ! ping -c 1 -W 2 223.5.5.5 &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1; do
+    set_rgb 0 0 1
+    sleep 0.4
+    set_rgb 0 0 0
+    sleep 0.4
+done
+
+# 4. 网络完全正常：蓝灯常亮
+set_rgb 0 0 1
+sleep 5
+
+# 5. 初始化完成：RGB 全灭
+set_rgb 0 0 0
+
+exit 0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里的关键就是：</p>
+<pre class="line-numbers language-none"><code class="language-none">ping -c 1 -W 2 223.5.5.5<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>它验证的不是：</p>
+<blockquote>
+<p>“Wi-Fi 连没连上”</p>
+</blockquote>
+<p>而是：</p>
+<blockquote>
+<p><strong>“现在是不是真的已经可以访问公网。”</strong></p>
+</blockquote>
+<hr>
+<h4 id="什么时候执行"><a href="#什么时候执行" class="headerlink" title="什么时候执行"></a>什么时候执行</h4><p>文件：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;boot-led.service<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>例如：</p>
+<pre class="line-numbers language-none"><code class="language-none">[Unit]
+Description&#x3D;Taishan Pi Boot RGB LED
+After&#x3D;local-fs.target
+Before&#x3D;network-online.target
+
+[Service]
+Type&#x3D;simple
+ExecStart&#x3D;&#x2F;usr&#x2F;local&#x2F;sbin&#x2F;boot-led.sh
+
+[Install]
+WantedBy&#x3D;multi-user.target<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>启用：</p>
+<pre class="line-numbers language-none"><code class="language-none">sudo systemctl daemon-reload
+sudo systemctl enable boot-led.service<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>查看：</p>
+<pre class="line-numbers language-none"><code class="language-none">systemctl status boot-led.service<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>你的启动日志已经证明它会在：</p>
+<pre class="line-numbers language-none"><code class="language-none">Started Taishan Pi Boot RGB LED
+Starting Network Manager...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这个时间附近启动，所以非常适合：</p>
+<pre class="line-numbers language-none"><code class="language-none">红闪 → NetworkManager启动 → 蓝闪<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><pre class="line-numbers language-none"><code class="language-none">精简 Buildroot
 自己控制：
 wpa_supplicant → udhcpc → 启动脚本
@@ -945,7 +1085,7 @@ sudo nmcli device wifi connect &quot;WiFi名称&quot; password &quot;WiFi密码&
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2026-08-11 22:34:28
+              2026-08-13 23:20:00
             </span>
             
                   <span class="post-tags">
@@ -979,7 +1119,7 @@ sudo nmcli device wifi connect &quot;WiFi名称&quot; password &quot;WiFi密码&
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91buildroot"><span class="toc-text">编译buildroot</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%91"><span class="toc-text">配网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A9%B1%E5%8A%A8"><span class="toc-text">驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F-Wi-Fi"><span class="toc-text">扫描 Wi-Fi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5"><span class="toc-text">连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%BF-IP"><span class="toc-text">拿 IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E4%B8%AA%E6%A0%B8%E5%BF%83"><span class="toc-text">三个核心</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-wlan0"><span class="toc-text">1. wlan0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-wpa-supplicant"><span class="toc-text">2. wpa_supplicant</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-udhcpc"><span class="toc-text">3. udhcpc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E9%94%99%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">改错配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%8A-DHCP-%E9%97%AE%E9%A2%98%E5%BD%93%E6%88%90-Wi-Fi-%E9%97%AE%E9%A2%98"><span class="toc-text">把 DHCP 问题当成 Wi-Fi 问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%91%E6%AD%A5%E9%AA%A4"><span class="toc-text">配网步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%86%99%E5%A5%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">1. 写好配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%B8%85%E7%90%86%E6%97%A7%E8%BF%9B%E7%A8%8B"><span class="toc-text">2. 清理旧进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%90%AF%E7%94%A8%E6%8E%A5%E5%8F%A3"><span class="toc-text">3. 启用接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%BF%9E%E6%8E%A5-Wi-Fi"><span class="toc-text">4. 连接 Wi-Fi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%9C%8B%E6%9C%89%E6%B2%A1%E6%9C%89%E8%BF%9E%E4%B8%8A"><span class="toc-text">5. 看有没有连上</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%8B%BF-IP"><span class="toc-text">6. 拿 IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%9F%A5%E7%9C%8B%E7%BB%93%E6%9E%9C"><span class="toc-text">7. 查看结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E8%81%94%E7%BD%91%E6%96%B9%E6%A1%88"><span class="toc-text">开机自动联网方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%A3%80%E6%9F%A5%E6%B5%81%E7%A8%8B"><span class="toc-text">七、检查流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%A3%80%E6%9F%A5%E9%A9%B1%E5%8A%A8"><span class="toc-text">1. 检查驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%98%AF%E5%90%A6%E8%83%BD%E6%89%AB%E5%88%B0-AP"><span class="toc-text">2. 是否能扫到 AP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%A3%80%E6%9F%A5%E8%BF%9E%E6%8E%A5%E7%8A%B6%E6%80%81"><span class="toc-text">3. 检查连接状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%98%AF%E5%90%A6%E7%94%B3%E8%AF%B7%E5%88%B0IP"><span class="toc-text">4. 是否申请到IP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text">八、流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-text">九、总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%88%86%E5%B7%A5"><span class="toc-text">程序分工</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%96%87%E4%BB%B6"><span class="toc-text">核心文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%91%BD%E4%BB%A4"><span class="toc-text">核心命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91debian"><span class="toc-text">编译debian</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91Ubuntu"><span class="toc-text">编译Ubuntu</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA"><span class="toc-text">开机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Wi-Fi"><span class="toc-text">Wi-Fi</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%91-1"><span class="toc-text">配网</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">常用命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B3%B0%E5%B1%B1%E6%B4%BE-RK3566-%E7%BC%96%E8%AF%91-Ubuntu-22-04-Desktop-%E6%8C%87%E5%8D%97"><span class="toc-text">泰山派 RK3566 编译 Ubuntu 22.04 Desktop 指南</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9C%80%E7%BB%88%E7%9B%AE%E6%A0%87"><span class="toc-text">1. 最终目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%9C%80%E8%A6%81%E5%87%86%E5%A4%87%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">2. 需要准备的内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%BF%E4%B8%BB%E6%9C%BA"><span class="toc-text">宿主机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SDK-%E5%92%8C-Ubuntu-rootfs"><span class="toc-text">SDK 和 Ubuntu rootfs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%80%89%E6%8B%A9%E6%B3%B0%E5%B1%B1%E6%B4%BE%E6%9D%BF%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="toc-text">3. 选择泰山派板级配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%BC%96%E8%AF%91-U-Boot%E3%80%81%E5%86%85%E6%A0%B8%E5%92%8C%E6%A8%A1%E5%9D%97"><span class="toc-text">4. 编译 U-Boot、内核和模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%88%9B%E5%BB%BA-Ubuntu-22-04-Desktop-rootfs"><span class="toc-text">5. 创建 Ubuntu 22.04 Desktop rootfs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%B0%86%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%AE%89%E8%A3%85%E5%88%B0-rootfs"><span class="toc-text">6. 将内核模块安装到 rootfs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E9%85%8D%E7%BD%AE-AP6212-Wi-Fi"><span class="toc-text">7. 配置 AP6212 Wi-Fi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E9%9F%B3%E9%A2%91-I2S-RK809-%E9%85%8D%E7%BD%AE"><span class="toc-text">8. 音频 I2S&#x2F;RK809 配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%88%B6%E4%BD%9C-rootfs-ext4"><span class="toc-text">9. 制作 rootfs.ext4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E7%94%9F%E6%88%90%E5%AE%8C%E6%95%B4%E5%8D%87%E7%BA%A7%E9%95%9C%E5%83%8F"><span class="toc-text">10. 生成完整升级镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E4%BD%BF%E7%94%A8-RKDevTool-%E7%83%A7%E5%BD%95"><span class="toc-text">11. 使用 RKDevTool 烧录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E9%A6%96%E6%AC%A1%E5%90%AF%E5%8A%A8%E6%A3%80%E6%9F%A5"><span class="toc-text">12. 首次启动检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E9%80%9F%E6%9F%A5"><span class="toc-text">13. 常见问题速查</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91buildroot"><span class="toc-text">编译buildroot</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%91"><span class="toc-text">配网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A9%B1%E5%8A%A8"><span class="toc-text">驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F-Wi-Fi"><span class="toc-text">扫描 Wi-Fi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5"><span class="toc-text">连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%BF-IP"><span class="toc-text">拿 IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E4%B8%AA%E6%A0%B8%E5%BF%83"><span class="toc-text">三个核心</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-wlan0"><span class="toc-text">1. wlan0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-wpa-supplicant"><span class="toc-text">2. wpa_supplicant</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-udhcpc"><span class="toc-text">3. udhcpc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E9%94%99%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">改错配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%8A-DHCP-%E9%97%AE%E9%A2%98%E5%BD%93%E6%88%90-Wi-Fi-%E9%97%AE%E9%A2%98"><span class="toc-text">把 DHCP 问题当成 Wi-Fi 问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%91%E6%AD%A5%E9%AA%A4"><span class="toc-text">配网步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%86%99%E5%A5%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">1. 写好配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%B8%85%E7%90%86%E6%97%A7%E8%BF%9B%E7%A8%8B"><span class="toc-text">2. 清理旧进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%90%AF%E7%94%A8%E6%8E%A5%E5%8F%A3"><span class="toc-text">3. 启用接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%BF%9E%E6%8E%A5-Wi-Fi"><span class="toc-text">4. 连接 Wi-Fi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%9C%8B%E6%9C%89%E6%B2%A1%E6%9C%89%E8%BF%9E%E4%B8%8A"><span class="toc-text">5. 看有没有连上</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%8B%BF-IP"><span class="toc-text">6. 拿 IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%9F%A5%E7%9C%8B%E7%BB%93%E6%9E%9C"><span class="toc-text">7. 查看结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E8%81%94%E7%BD%91%E6%96%B9%E6%A1%88"><span class="toc-text">开机自动联网方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%A3%80%E6%9F%A5%E6%B5%81%E7%A8%8B"><span class="toc-text">七、检查流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%A3%80%E6%9F%A5%E9%A9%B1%E5%8A%A8"><span class="toc-text">1. 检查驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%98%AF%E5%90%A6%E8%83%BD%E6%89%AB%E5%88%B0-AP"><span class="toc-text">2. 是否能扫到 AP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%A3%80%E6%9F%A5%E8%BF%9E%E6%8E%A5%E7%8A%B6%E6%80%81"><span class="toc-text">3. 检查连接状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%98%AF%E5%90%A6%E7%94%B3%E8%AF%B7%E5%88%B0IP"><span class="toc-text">4. 是否申请到IP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text">八、流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-text">九、总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%88%86%E5%B7%A5"><span class="toc-text">程序分工</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%96%87%E4%BB%B6"><span class="toc-text">核心文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%91%BD%E4%BB%A4"><span class="toc-text">核心命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91debian"><span class="toc-text">编译debian</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91Ubuntu"><span class="toc-text">编译Ubuntu</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA"><span class="toc-text">开机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Wi-Fi"><span class="toc-text">Wi-Fi</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%91-1"><span class="toc-text">配网</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E4%B8%AA%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%91"><span class="toc-text">多个环境配网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA%E6%B5%81%E7%A8%8Bled"><span class="toc-text">开机流程led</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%84%9A%E6%9C%AC"><span class="toc-text">核心脚本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E6%89%A7%E8%A1%8C"><span class="toc-text">什么时候执行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B3%B0%E5%B1%B1%E6%B4%BE-RK3566-%E7%BC%96%E8%AF%91-Ubuntu-22-04-Desktop-%E6%8C%87%E5%8D%97"><span class="toc-text">泰山派 RK3566 编译 Ubuntu 22.04 Desktop 指南</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9C%80%E7%BB%88%E7%9B%AE%E6%A0%87"><span class="toc-text">1. 最终目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%9C%80%E8%A6%81%E5%87%86%E5%A4%87%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">2. 需要准备的内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%BF%E4%B8%BB%E6%9C%BA"><span class="toc-text">宿主机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SDK-%E5%92%8C-Ubuntu-rootfs"><span class="toc-text">SDK 和 Ubuntu rootfs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%80%89%E6%8B%A9%E6%B3%B0%E5%B1%B1%E6%B4%BE%E6%9D%BF%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="toc-text">3. 选择泰山派板级配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%BC%96%E8%AF%91-U-Boot%E3%80%81%E5%86%85%E6%A0%B8%E5%92%8C%E6%A8%A1%E5%9D%97"><span class="toc-text">4. 编译 U-Boot、内核和模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%88%9B%E5%BB%BA-Ubuntu-22-04-Desktop-rootfs"><span class="toc-text">5. 创建 Ubuntu 22.04 Desktop rootfs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%B0%86%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%AE%89%E8%A3%85%E5%88%B0-rootfs"><span class="toc-text">6. 将内核模块安装到 rootfs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E9%85%8D%E7%BD%AE-AP6212-Wi-Fi"><span class="toc-text">7. 配置 AP6212 Wi-Fi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E9%9F%B3%E9%A2%91-I2S-RK809-%E9%85%8D%E7%BD%AE"><span class="toc-text">8. 音频 I2S&#x2F;RK809 配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%88%B6%E4%BD%9C-rootfs-ext4"><span class="toc-text">9. 制作 rootfs.ext4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E7%94%9F%E6%88%90%E5%AE%8C%E6%95%B4%E5%8D%87%E7%BA%A7%E9%95%9C%E5%83%8F"><span class="toc-text">10. 生成完整升级镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E4%BD%BF%E7%94%A8-RKDevTool-%E7%83%A7%E5%BD%95"><span class="toc-text">11. 使用 RKDevTool 烧录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E9%A6%96%E6%AC%A1%E5%90%AF%E5%8A%A8%E6%A3%80%E6%9F%A5"><span class="toc-text">12. 首次启动检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E9%80%9F%E6%9F%A5"><span class="toc-text">13. 常见问题速查</span></a></li></ol></li></ol>
       
     </div>
   </div>
