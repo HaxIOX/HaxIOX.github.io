@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">C语言</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          2112
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -183,16 +196,7 @@
 <h2 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h2><h3 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h3><blockquote>
 <p><strong>函数指针</strong>：首先它是一个指针，一个<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%8C%87%E5%90%91%E5%87%BD%E6%95%B0%E7%9A%84%E6%8C%87%E9%92%88&spm=1001.2101.3001.7020">指向函数的指针</a>，在内存空间中存放的是函数的地址；</p>
 </blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">int main()&#123;
-int a &#x3D; 10;
-int*pa &#x3D; &amp;a;
-char ch &#x3D; &#39;c&#39;;
-char* pc &#x3D; &amp;ch;
-int arr[10] &#x3D; &#123;0&#125;;
-int (*parr)[10] &#x3D; &amp;arr;&#x2F;&#x2F;取出数组的地址
-return 0;
-｝
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line"><span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="type">int</span>*pa = &amp;a;</span><br><span class="line"><span class="type">char</span> ch = <span class="string">&#x27;c&#x27;</span>;</span><br><span class="line"><span class="type">char</span>* pc = &amp;ch;</span><br><span class="line"><span class="type">int</span> arr[<span class="number">10</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="type">int</span> (*parr)[<span class="number">10</span>] = &amp;arr;<span class="comment">//取出数组的地址</span></span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">｝</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>解析：parr是一个<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%8C%87%E5%90%91%E6%95%B0%E7%BB%84%E7%9A%84%E6%8C%87%E9%92%88&spm=1001.2101.3001.7020">指向数组的指针</a>，存放的是数组的地址；</p>
 <blockquote>
@@ -209,37 +213,13 @@ return 0;
 <li><strong>&amp;函数名 —得到的就是一个函数的地址；</strong></li>
 </ul>
 </blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">int Add(int x，int y)
-&#123;
-	return x+y;
- &#125;
-int main()
-&#123;
-	printf(&quot;%p\n&quot;,&amp;Add);&#x2F;&#x2F;打印一下函数Add()的地址
-	printf(&quot;%p\n&quot;,Add);&#x2F;&#x2F;数组名等于数组首元素地址，那函数名是等于函数地址吗？yes
-	return 0;
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">Add</span><span class="params">(<span class="type">int</span> x，<span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> x+y;</span><br><span class="line"> &#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%p\n&quot;</span>,&amp;Add);<span class="comment">//打印一下函数Add()的地址</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%p\n&quot;</span>,Add);<span class="comment">//数组名等于数组首元素地址，那函数名是等于函数地址吗？yes</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>函数名是等于函数地址</strong></p>
 <h3 id="函数指针的使用方法"><a href="#函数指针的使用方法" class="headerlink" title="函数指针的使用方法"></a>函数指针的使用方法</h3><p><strong>函数指针的定义</strong>： 函数的返回值类型（*指针名）（函数的参数列表类型）</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">int Add(int x, int y)
-&#123;
-	return x+y;
-&#125;
-int main()
-&#123;
- 	int (*pf)(int, int) &#x3D; &amp;Add;&#x2F;&#x2F;函数指针定义，返回值类型和参数类型与函数Add（）相同
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">Add</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> x+y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line"> 	<span class="type">int</span> (*pf)(<span class="type">int</span>, <span class="type">int</span>) = &amp;Add;<span class="comment">//函数指针定义，返回值类型和参数类型与函数Add（）相同</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">void Add(int x, int y)&#123;
-return x+y;&#125;
-int main()&#123;
-int (*pf)(int,int)&#x3D;&amp;Add;
-int ret&#x3D;(*pf)(3,5);
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Add</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span>&#123;</span><br><span class="line"><span class="keyword">return</span> x+y;&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line"><span class="type">int</span> (*pf)(<span class="type">int</span>,<span class="type">int</span>)=&amp;Add;</span><br><span class="line"><span class="type">int</span> ret=(*pf)(<span class="number">3</span>,<span class="number">5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>解析：<br><code>int ret=(*pf)(3,5)</code>，此时就相当于通过函数名调用：<code> int ret=Add(3,5);&#125;</code>，我们又知道：<strong>函数名是等于&amp;函数名</strong>的，所以<code>int (*pf)(int,int)=&amp;Add</code>，可改成：<code>int (*pf)(int,int)=Add</code>;此时Add等价于pf，所以：<code>int ret=(*pf)(3,5)</code>;语句可改成：<code>int ret=pf(3,5)</code>;等价于<code>int ret=Add(3,5)</code>，故我们知道了对于：<code>int ret=(*pf)(3,5)</code>;语句来说，*是没有意义的，有一个或多个或者没有都不影响；</p>
@@ -252,63 +232,28 @@ int ret&#x3D;(*pf)(3,5);
 <p>在 {1, 2, 5, (show1())} 这个结构体中，(show1()) 表示调用 show1 函数并将其返回值作为这个元素的值，而不是将 show1 函数本身的地址作为函数指针。因此，这种写法是不正确的，编译器会报错。</p>
 <p>在 C 语言中，<code>函数名</code>本身就是一个<code>指向函数代码块</code>的指针，因此可以<code>直接</code>将<code>函数名赋值</code>给一个<code>函数指针变量</code>，或者通过指针变量来调用函数。而<code>在结构体或数组中定义函数指针</code>时，需要使用 (*show1) 这种方式来解引用指针，这是因为，在结构体或数组中定义的函数指针变量本身就是一个指针，需要使用解引用符号 * 来获取指向的函数代码块的地址。</p>
 <p>因此，正确的写法应该是<code> &#123;1, 2, 5, (*show1)&#125;</code>，其中 (*show1) 表示指向 show1 函数的指针变量，通过解引用指针的方式来获取函数代码块的地址，并将其作为这个元素的值。</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">struct Menu &#123;
-    int menu_id;
-    int parent_id;
-    int operation_code;
-    void (*operation_func)();
-&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Menu</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> menu_id;</span><br><span class="line">    <span class="type">int</span> parent_id;</span><br><span class="line">    <span class="type">int</span> operation_code;</span><br><span class="line">    <span class="type">void</span> (*operation_func)();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>void (*current_operation)(void)并不是一个函数，而是一个函数指针变量的定义。在 C 语言中，函数名本身就是一个指向函数代码块的指针，因此可以用一个指针变量来存储函数的地址，然后通过这个指针变量来调用函数,这段代码定义了一个名为 current_operation 的函数指针变量，它可以指向一个没有参数和返回值的函数</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">void show1() &#123;
-    printf(&quot;This is show1 function.\n&quot;);
-&#125;
-int main() &#123;
-    void (*current_operation)(void);  &#x2F;&#x2F; 定义一个函数指针变量
-    current_operation &#x3D; show1;  &#x2F;&#x2F; 将 show1 函数的地址赋值给函数指针变量
-    current_operation();  &#x2F;&#x2F; 通过指针变量调用 show1 函数
-    return 0;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">show1</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;This is show1 function.\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">void</span> (*current_operation)(<span class="type">void</span>);  <span class="comment">// 定义一个函数指针变量</span></span><br><span class="line">    current_operation = show1;  <span class="comment">// 将 show1 函数的地址赋值给函数指针变量</span></span><br><span class="line">    current_operation();  <span class="comment">// 通过指针变量调用 show1 函数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">Menu_table table[26] &#x3D; &#123;
-    &#123;0, 0, 1, (*show0)&#125;,  &#x2F;&#x2F; 使用 (*show0) 来获取函数 show0 的地址
-    &#x2F;&#x2F; ...
-&#125;;
-&#x2F;&#x2F; 调用函数 show0
-table[0].current_operation();  &#x2F;&#x2F; 使用成员解引用运算符来调用成员函数<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Menu_table table[<span class="number">26</span>] = &#123;</span><br><span class="line">    &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, (*show0)&#125;,  <span class="comment">// 使用 (*show0) 来获取函数 show0 的地址</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 调用函数 show0</span></span><br><span class="line">table[<span class="number">0</span>].current_operation();  <span class="comment">// 使用成员解引用运算符来调用成员函数</span></span><br></pre></td></tr></table></figure>
 
 <p>首先使用 <code>(*show0)</code> 来获取函数 <code>show0</code> 的地址，并将其赋值给 <code>current_operation</code>。然后，通过成员解引用运算符 <code>()</code> 来调用 <code>current_operation</code> 所指向的函数 <code>show0</code>。</p>
 <h3 id="函数名不就是函数地址吗-为啥还用加-获取函数地址"><a href="#函数名不就是函数地址吗-为啥还用加-获取函数地址" class="headerlink" title="函数名不就是函数地址吗,为啥还用加*获取函数地址"></a>函数名不就是函数地址吗,为啥还用加*获取函数地址</h3><p>使用解引用运算符 <code>*</code> 来获取函数指针的地址。这是因为在 C 语言中，函数名被视为一个<code>指向函数的指针</code>，但是在结构体中定义函数指针类型的成员变量时，需要显式地<code>声明一个指向函数的指针变量</code>，然后把函数的地址赋值给这个指针变量。因此，需要使用解引用运算符 <code>*</code> 来获取函数的地址。</p>
 <p><strong>不理解,弄了半天,不加*也是可以正常运行的,还是不能过于信任chatgpt,要跑一下看能不能跑,不能跑的话是报什么错</strong></p>
 <h3 id="结构体指针"><a href="#结构体指针" class="headerlink" title="结构体指针"></a>结构体指针</h3><p>声明结构体类型：<br>Struct 结构体名{<br>成员列表;<br>}变量名列表；<br>例如：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">Struct U_TYPE &#123;
-Int BaudRate
-Int WordLength; 
-&#125;usart1,usart2;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Struct U_TYPE &#123;</span><br><span class="line">Int BaudRate</span><br><span class="line">Int WordLength; </span><br><span class="line">&#125;usart1,usart2;</span><br></pre></td></tr></table></figure>
 
 <p>在结构体申明的时候可以定义变量，也可以申明之后定义</p>
 <p>方法是:</p>
 <p>Struct 结构体名字 结构体变量列表 ;<br>例如：<code>struct U_TYPE usart1,usart2</code>;<br>结构体成员变量的引用方法是：<br>结构体变量名字.成员名<br>比如要引用 usart1 的成员 BaudRate,方法是：usart1.BaudRate;<br>结构体指针变量定义也是一样的，跟其他变量没有啥区别。<br>例如：struct U_TYPE *usart3；&#x2F;&#x2F;定义结构体指针变量 usart3;</p>
 <p>结构体指针成员变量引用方法是通过“<code>-&gt;</code>”符号实现，比如要<code>访问 usart3 结构体指针</code>指向的<code>结 构体的成员变量</code> BaudRate</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">(*Usart3).BaudRate
-Usart3-&gt;BaudRate;   <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(*Usart3).BaudRate</span><br><span class="line">Usart3-&gt;BaudRate;   </span><br></pre></td></tr></table></figure>
 
 <p>第一种写法中，<code>.</code>的优先级高于<code>*</code>，<code>(*pointer)</code>两边的括号不能少。如果去掉括号写作<code>*pointer.memberName</code>，那么就等效于<code>*(pointer.memberName)</code>，这样意义就完全不对了。</p>
 <p>第二种写法中，<code>-&gt;</code>是一个新的运算符，习惯称它为“箭头”，有了它，可以通过结构体指针直接取得结构体成员；这也是<code>-&gt;</code>在C语言中的唯一用途。</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &lt;stdio.h&gt;
-int main()&#123;
-    struct&#123;
-        char *name;  &#x2F;&#x2F;姓名
-        int num;  &#x2F;&#x2F;学号
-        int age;  &#x2F;&#x2F;年龄
-        char group;  &#x2F;&#x2F;所在小组
-        float score;  &#x2F;&#x2F;成绩
-    &#125; stu1 &#x3D; &#123; &quot;Tom&quot;, 12, 18, &#39;A&#39;, 136.5 &#125;, *pstu &#x3D; &amp;stu1;
-    &#x2F;&#x2F;读取结构体成员的值
-    printf(&quot;%s的学号是%d，年龄是%d，在%c组，今年的成绩是%.1f！\n&quot;, (*pstu).name, (*pstu).num, (*pstu).age, (*pstu).group, (*pstu).score);
-    printf(&quot;%s的学号是%d，年龄是%d，在%c组，今年的成绩是%.1f！\n&quot;, pstu-&gt;name, pstu-&gt;num, pstu-&gt;age, pstu-&gt;group, pstu-&gt;score);
-    return 0;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span>&#123;</span></span><br><span class="line">        <span class="type">char</span> *name;  <span class="comment">//姓名</span></span><br><span class="line">        <span class="type">int</span> num;  <span class="comment">//学号</span></span><br><span class="line">        <span class="type">int</span> age;  <span class="comment">//年龄</span></span><br><span class="line">        <span class="type">char</span> group;  <span class="comment">//所在小组</span></span><br><span class="line">        <span class="type">float</span> score;  <span class="comment">//成绩</span></span><br><span class="line">    &#125; stu1 = &#123; <span class="string">&quot;Tom&quot;</span>, <span class="number">12</span>, <span class="number">18</span>, <span class="string">&#x27;A&#x27;</span>, <span class="number">136.5</span> &#125;, *pstu = &amp;stu1;</span><br><span class="line">    <span class="comment">//读取结构体成员的值</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s的学号是%d，年龄是%d，在%c组，今年的成绩是%.1f！\n&quot;</span>, (*pstu).name, (*pstu).num, (*pstu).age, (*pstu).group, (*pstu).score);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s的学号是%d，年龄是%d，在%c组，今年的成绩是%.1f！\n&quot;</span>, pstu-&gt;name, pstu-&gt;num, pstu-&gt;age, pstu-&gt;group, pstu-&gt;score);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -318,7 +263,7 @@ int main()&#123;
 <p>1%4&#x3D;0……1</p>
 </blockquote>
 <h1 id="strstr"><a href="#strstr" class="headerlink" title="strstr"></a>strstr</h1><p><code>strstr</code> 是标准 C 库 <code>&lt;string.h&gt;</code>（C99 起）里提供的函数，用来在一个 <strong>以 \0 结尾</strong> 的字符串里查找另一个子串。它的原型是：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">char *strstr(const char *haystack, const char *needle);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *<span class="title function_">strstr</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *haystack, <span class="type">const</span> <span class="type">char</span> *needle)</span>;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>参数</strong><ul>
@@ -332,15 +277,7 @@ int main()&#123;
 </ul>
 </li>
 </ul>
-<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; 3. 自定义数据结构
-
-&#x2F;&#x2F; typedef struct &#123; ... &#125; drone_type_map_t;
-&#x2F;&#x2F; 定义一个名为 drone_type_map_t 的结构体类型。
-&#x2F;&#x2F; &#39;typedef&#39; 关键字用于为已有的数据类型创建一个新的别名。
-typedef struct &#123;
-    uint8_t type_code;         &#x2F;&#x2F; 结构体成员: type_code，一个8位无符号整数，存储无人机类型代码 (十六进制)。
-    const char* description;   &#x2F;&#x2F; 结构体成员: description，一个指向常量字符串的指针，存储类型描述文字。
-&#125; drone_type_map_t;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3. 自定义数据结构</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// typedef struct &#123; ... &#125; drone_type_map_t;</span></span><br><span class="line"><span class="comment">// 定义一个名为 drone_type_map_t 的结构体类型。</span></span><br><span class="line"><span class="comment">// &#x27;typedef&#x27; 关键字用于为已有的数据类型创建一个新的别名。</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="type">uint8_t</span> type_code;         <span class="comment">// 结构体成员: type_code，一个8位无符号整数，存储无人机类型代码 (十六进制)。</span></span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* description;   <span class="comment">// 结构体成员: description，一个指向常量字符串的指针，存储类型描述文字。</span></span><br><span class="line">&#125; <span class="type">drone_type_map_t</span>;</span><br></pre></td></tr></table></figure>
 
 
       </div>
@@ -384,9 +321,9 @@ typedef struct &#123;
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -395,6 +332,7 @@ typedef struct &#123;
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -424,7 +362,7 @@ typedef struct &#123;
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -436,14 +374,14 @@ typedef struct &#123;
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

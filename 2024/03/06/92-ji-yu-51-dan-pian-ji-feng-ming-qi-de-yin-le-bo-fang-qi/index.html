@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">基于51单片机蜂鸣器的音乐播放器</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1215
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -203,23 +216,10 @@
 <img src="/2024/03/06/92-ji-yu-51-dan-pian-ji-feng-ming-qi-de-yin-le-bo-fang-qi/image-20240306105046915.png" class="" title="image-20240306105046915">
 
 <h2 id="buzzer发声驱动"><a href="#buzzer发声驱动" class="headerlink" title="buzzer发声驱动"></a>buzzer发声驱动</h2><p>错误写法: 这个是有源蜂鸣器的写法, 相当于发了一个脉冲。</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">void Buzzer_Beep(void)
-&#123;
-  Buzzer&#x3D;0;
-  Delay_ms(500);
-  Buzzer&#x3D;1;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Buzzer_Beep</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  Buzzer=<span class="number">0</span>;</span><br><span class="line">  Delay_ms(<span class="number">500</span>);</span><br><span class="line">  Buzzer=<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>正确写法: 应该持续发送脉冲</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">void Buzzer_Beep(void)
-&#123;
-  unsigned i &#x3D;0;
-  for(i&#x3D;0;i&lt;50;i++) &#x2F;&#x2F;频率&#x3D;1&#x2F;周期ms
-  &#123;
-    Buzzer&#x3D;!Buzzer;
-    Delay_ms(2.5); 
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Buzzer_Beep</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> i =<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">50</span>;i++) <span class="comment">//频率=1/周期ms</span></span><br><span class="line">  &#123;</span><br><span class="line">    Buzzer=!Buzzer;</span><br><span class="line">    Delay_ms(<span class="number">2.5</span>); </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="buzzer演奏音乐"><a href="#buzzer演奏音乐" class="headerlink" title="buzzer演奏音乐"></a>buzzer演奏音乐</h2><h3 id="乐理"><a href="#乐理" class="headerlink" title="乐理"></a>乐理</h3><img src="/2024/03/06/92-ji-yu-51-dan-pian-ji-feng-ming-qi-de-yin-le-bo-fang-qi/image-20240306083044454.png" class="" title="image-20240306083044454">
 
@@ -340,9 +340,9 @@
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -351,6 +351,7 @@
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -380,7 +381,7 @@
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -392,14 +393,14 @@
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">F407串口DMA收发数据</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          3405
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -198,297 +211,40 @@
 <img src="/2022/09/23/39h-usart-dma/05.jpg" class="">
 <img src="/2022/09/23/39h-usart-dma/06.jpg" class="">
 
-<h3 id="常用的-DMA-库函数"><a href="#常用的-DMA-库函数" class="headerlink" title="常用的 DMA 库函数"></a>常用的 DMA 库函数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">void DMA_Init(DMA_Stream_TypeDef* DMAy_Streamx, DMA_InitTypeDef* DMA_InitStruct);
-void DMA_Cmd(DMA_Stream_TypeDef* DMAy_Streamx, FunctionalState NewState);
-
-void DMA_SetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx, uint16_t Counter);
-uint16_t DMA_GetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx);
-
-void DMA_DoubleBufferModeConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t Memory1BaseAddr,uint32_t DMA_CurrentMemory);
-void DMA_DoubleBufferModeCmd();
-void DMA_MemoryTargetConfig(DMA_Stream_TypeDef* DMAy_Streamx,uint32_t MemoryBaseAddr, uint32_t DMA_MemoryTarget);
-uint32_t DMA_GetCurrentMemoryTarget(DMA_Stream_TypeDef* DMAy_Streamx);
-
-FunctionalState DMA_GetCmdStatus(DMA_Stream_TypeDef* DMAy_Streamx);
-uint32_t DMA_GetFIFOStatus(DMA_Stream_TypeDef* DMAy_Streamx);
-FlagStatus DMA_GetFlagStatus(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FLAG);
-void DMA_ClearFlag(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FLAG);
-void DMA_ITConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT, FunctionalState NewState);
-
-ITStatus DMA_GetITStatus(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT);
-void DMA_ClearITPendingBit(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="常用的-DMA-库函数"><a href="#常用的-DMA-库函数" class="headerlink" title="常用的 DMA 库函数"></a>常用的 DMA 库函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">DMA_Init</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx, DMA_InitTypeDef* DMA_InitStruct)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">DMA_Cmd</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx, FunctionalState NewState)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">DMA_SetCurrDataCounter</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx, <span class="type">uint16_t</span> Counter)</span>;</span><br><span class="line"><span class="type">uint16_t</span> <span class="title function_">DMA_GetCurrDataCounter</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">DMA_DoubleBufferModeConfig</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx, <span class="type">uint32_t</span> Memory1BaseAddr,<span class="type">uint32_t</span> DMA_CurrentMemory)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">DMA_DoubleBufferModeCmd</span><span class="params">()</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">DMA_MemoryTargetConfig</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx,<span class="type">uint32_t</span> MemoryBaseAddr, <span class="type">uint32_t</span> DMA_MemoryTarget)</span>;</span><br><span class="line"><span class="type">uint32_t</span> <span class="title function_">DMA_GetCurrentMemoryTarget</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx)</span>;</span><br><span class="line"></span><br><span class="line">FunctionalState <span class="title function_">DMA_GetCmdStatus</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx)</span>;</span><br><span class="line"><span class="type">uint32_t</span> <span class="title function_">DMA_GetFIFOStatus</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx)</span>;</span><br><span class="line">FlagStatus <span class="title function_">DMA_GetFlagStatus</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx, <span class="type">uint32_t</span> DMA_FLAG)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">DMA_ClearFlag</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx, <span class="type">uint32_t</span> DMA_FLAG)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">DMA_ITConfig</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx, <span class="type">uint32_t</span> DMA_IT, FunctionalState NewState)</span>;</span><br><span class="line"></span><br><span class="line">ITStatus <span class="title function_">DMA_GetITStatus</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx, <span class="type">uint32_t</span> DMA_IT)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">DMA_ClearITPendingBit</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx, <span class="type">uint32_t</span> DMA_IT)</span>;</span><br></pre></td></tr></table></figure>
 
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_42513925/article/details/81481467">DMA 库函数功能</a></p>
-<h3 id="外设-DMA-使能库函数"><a href="#外设-DMA-使能库函数" class="headerlink" title="外设 DMA 使能库函数"></a>外设 DMA 使能库函数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">void USART_DMACmd(USART_TypeDef* USARTx, uint16_t USART_DMAReq,FunctionalState NewState);
-void ADC_DMACmd(ADC_TypeDef* ADCx, FunctionalState NewState);
-void DAC_DMACmd(uint32_t DAC_Channel, FunctionalState NewState);
-void I2C_DMACmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
-void SDIO_DMACmd(FunctionalState NewState);
-void SPI_I2S_DMACmd(SPI_TypeDef* SPIx, uint16_t SPI_I2S_DMAReq,FunctionalState NewState);
-void TIM_DMAConfig(TIM_TypeDef* TIMx, uint16_t TIM_DMABase,uint16_t TIM_DMABurstLength)
-void TIM_DMACmd(TIM_TypeDef* TIMx, uint16_t TIM_DMASource,FunctionalState NewState);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="外设-DMA-使能库函数"><a href="#外设-DMA-使能库函数" class="headerlink" title="外设 DMA 使能库函数"></a>外设 DMA 使能库函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">USART_DMACmd</span><span class="params">(USART_TypeDef* USARTx, <span class="type">uint16_t</span> USART_DMAReq,FunctionalState NewState)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">ADC_DMACmd</span><span class="params">(ADC_TypeDef* ADCx, FunctionalState NewState)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">DAC_DMACmd</span><span class="params">(<span class="type">uint32_t</span> DAC_Channel, FunctionalState NewState)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">I2C_DMACmd</span><span class="params">(I2C_TypeDef* I2Cx, FunctionalState NewState)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">SDIO_DMACmd</span><span class="params">(FunctionalState NewState)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">SPI_I2S_DMACmd</span><span class="params">(SPI_TypeDef* SPIx, <span class="type">uint16_t</span> SPI_I2S_DMAReq,FunctionalState NewState)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">TIM_DMAConfig</span><span class="params">(TIM_TypeDef* TIMx, <span class="type">uint16_t</span> TIM_DMABase,<span class="type">uint16_t</span> TIM_DMABurstLength)</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">TIM_DMACmd</span><span class="params">(TIM_TypeDef* TIMx, <span class="type">uint16_t</span> TIM_DMASource,FunctionalState NewState)</span>;</span><br></pre></td></tr></table></figure>
 
-<h3 id="DMA-Init"><a href="#DMA-Init" class="headerlink" title="DMA_Init();"></a>DMA_Init();</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">void DMA_Init(DMA_Stream_TypeDef* DMAy_Streamx, DMA_InitTypeDef* DMA_InitStruct);
-typedef struct
-&#123;
-  uint32_t DMA_Channel;                &#x2F;&#x2F;DMA_Channel_0~ DMA_Channel_7
-  uint32_t DMA_PeripheralBaseAddr;     &#x2F;&#x2F;设置 DMA 传输的外设基地址，比如要进行串口DMA 传输，那么外设基地址为
-                                       &#x2F;&#x2F;串口接受发送数据存储器 USART1-&gt;DR 的地址，表示方法为&amp;USART1-&gt;DR
+<h3 id="DMA-Init"><a href="#DMA-Init" class="headerlink" title="DMA_Init();"></a>DMA_Init();</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">DMA_Init</span><span class="params">(DMA_Stream_TypeDef* DMAy_Streamx, DMA_InitTypeDef* DMA_InitStruct)</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="type">uint32_t</span> DMA_Channel;                <span class="comment">//DMA_Channel_0~ DMA_Channel_7</span></span><br><span class="line">  <span class="type">uint32_t</span> DMA_PeripheralBaseAddr;     <span class="comment">//设置 DMA 传输的外设基地址，比如要进行串口DMA 传输，那么外设基地址为</span></span><br><span class="line">                                       <span class="comment">//串口接受发送数据存储器 USART1-&gt;DR 的地址，表示方法为&amp;USART1-&gt;DR</span></span><br><span class="line"></span><br><span class="line">  <span class="type">uint32_t</span> DMA_Memory0BaseAddr;        <span class="comment">//内存基地址，也就是我们存放 DMA 传输数据的内存地址。</span></span><br><span class="line">  <span class="type">uint32_t</span> DMA_DIR;                    <span class="comment">//设置数据传输方向，从外设读取数据到内存,选择目的地</span></span><br><span class="line">  <span class="type">uint32_t</span> DMA_BufferSize;             <span class="comment">//设置一次传输数据量的大小</span></span><br><span class="line">  <span class="type">uint32_t</span> DMA_PeripheralInc;          <span class="comment">//设置传输数据的时候外设地址是不变还是递增。如果设置为递增，那么下一次</span></span><br><span class="line">                                       <span class="comment">//传输的时候地址加 1，这里因为我们是一直往固定外设地址&amp;USART1-&gt;DR</span></span><br><span class="line">                                       <span class="comment">//发送数据，所以地址不递增，值为 DMA_PeripheralInc_Disable；</span></span><br><span class="line"></span><br><span class="line">  <span class="type">uint32_t</span> DMA_MemoryInc;              <span class="comment">//设置传输数据时候内存地址是否递增</span></span><br><span class="line">                                       <span class="comment">//这里我们的场景是将内存中连续存储单元的数据发送到串口，毫无疑问内存地</span></span><br><span class="line">                                       <span class="comment">//址是需要递增的，所以值为 DMA_MemoryInc_Enable</span></span><br><span class="line"></span><br><span class="line">  <span class="type">uint32_t</span> DMA_PeripheralDataSize;     <span class="comment">//设置外设的数据长度是为字节传输（8bits）</span></span><br><span class="line">                                       <span class="comment">//半字传输(16bits),还是字传输(32bits)</span></span><br><span class="line">  <span class="type">uint32_t</span> DMA_MemoryDataSize;         <span class="comment">//内存的数据长度,跟上一个意思相近</span></span><br><span class="line">  <span class="type">uint32_t</span> DMA_Mode;                   <span class="comment">//设置 DMA模式,分为循环模式和铺铜模式</span></span><br><span class="line">  <span class="type">uint32_t</span> DMA_Priority;               <span class="comment">//设置 DMA通道的优先级,有低,中,高,超高三种模式</span></span><br><span class="line">                                       <span class="comment">//DMA仲裁器将根据这些优先级的设置来决定先执行那个数据流的DMA</span></span><br><span class="line">                                       <span class="comment">//优先级相同的时候,根据硬件上的编号来决定哪个先执行（编号越小越优先）</span></span><br><span class="line"></span><br><span class="line">  <span class="type">uint32_t</span> DMA_FIFOMode;               <span class="comment">//来设置是否开启 FIFO 模式</span></span><br><span class="line">  <span class="type">uint32_t</span> DMA_FIFOThreshold;          <span class="comment">//设置FIFO阈值.根据前面讲解可以为FIFO容量的1/4,1/2,3/4以及1倍</span></span><br><span class="line"></span><br><span class="line">  <span class="type">uint32_t</span> DMA_MemoryBurst;            <span class="comment">//用来配置存储器突发传输配置,可以选择为 4 个节拍的增量突发传输</span></span><br><span class="line">                                       <span class="comment">//DMA_MemoryBurst_INC4.8个节拍,16个节拍,单次传输</span></span><br><span class="line">  <span class="type">uint32_t</span> DMA_PeripheralBurst;        <span class="comment">//配置外设突发传输配置。</span></span><br><span class="line">&#125;DMA_InitTypeDef;</span><br></pre></td></tr></table></figure>
 
-  uint32_t DMA_Memory0BaseAddr;        &#x2F;&#x2F;内存基地址，也就是我们存放 DMA 传输数据的内存地址。
-  uint32_t DMA_DIR;                    &#x2F;&#x2F;设置数据传输方向，从外设读取数据到内存,选择目的地
-  uint32_t DMA_BufferSize;             &#x2F;&#x2F;设置一次传输数据量的大小
-  uint32_t DMA_PeripheralInc;          &#x2F;&#x2F;设置传输数据的时候外设地址是不变还是递增。如果设置为递增，那么下一次
-                                       &#x2F;&#x2F;传输的时候地址加 1，这里因为我们是一直往固定外设地址&amp;USART1-&gt;DR
-                                       &#x2F;&#x2F;发送数据，所以地址不递增，值为 DMA_PeripheralInc_Disable；
-
-  uint32_t DMA_MemoryInc;              &#x2F;&#x2F;设置传输数据时候内存地址是否递增
-                                       &#x2F;&#x2F;这里我们的场景是将内存中连续存储单元的数据发送到串口，毫无疑问内存地
-                                       &#x2F;&#x2F;址是需要递增的，所以值为 DMA_MemoryInc_Enable
-
-  uint32_t DMA_PeripheralDataSize;     &#x2F;&#x2F;设置外设的数据长度是为字节传输（8bits）
-                                       &#x2F;&#x2F;半字传输(16bits),还是字传输(32bits)
-  uint32_t DMA_MemoryDataSize;         &#x2F;&#x2F;内存的数据长度,跟上一个意思相近
-  uint32_t DMA_Mode;                   &#x2F;&#x2F;设置 DMA模式,分为循环模式和铺铜模式
-  uint32_t DMA_Priority;               &#x2F;&#x2F;设置 DMA通道的优先级,有低,中,高,超高三种模式
-                                       &#x2F;&#x2F;DMA仲裁器将根据这些优先级的设置来决定先执行那个数据流的DMA
-                                       &#x2F;&#x2F;优先级相同的时候,根据硬件上的编号来决定哪个先执行（编号越小越优先）
-
-  uint32_t DMA_FIFOMode;               &#x2F;&#x2F;来设置是否开启 FIFO 模式
-  uint32_t DMA_FIFOThreshold;          &#x2F;&#x2F;设置FIFO阈值.根据前面讲解可以为FIFO容量的1&#x2F;4,1&#x2F;2,3&#x2F;4以及1倍
-
-  uint32_t DMA_MemoryBurst;            &#x2F;&#x2F;用来配置存储器突发传输配置,可以选择为 4 个节拍的增量突发传输
-                                       &#x2F;&#x2F;DMA_MemoryBurst_INC4.8个节拍,16个节拍,单次传输
-  uint32_t DMA_PeripheralBurst;        &#x2F;&#x2F;配置外设突发传输配置。
-&#125;DMA_InitTypeDef;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="DMA-配置程序过程"><a href="#DMA-配置程序过程" class="headerlink" title="DMA 配置程序过程"></a>DMA 配置程序过程</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">  DMA_InitTypeDef DMA_InitStructure ();  &#x2F;&#x2F;定义DMA结构体
-
-① RCC_AHB1PeriphClockCmd();  使能DMA时钟
-
-②  DMA_DeInit();
-
-③ USART_DMACmd();  使能串口DMA发送,串口DMA使能函数：
-
-④ DMA_GetCmdStatus();  查询DMA的EN位，确保数据流就绪，可以配置
-
-⑤ DMA_SetCurrDataCounter();  设置通道当前剩余数据量
-
-⑥ DMA_Cmd();  使能DMA1通道，启动传输。
-
-⑤ DMA_GetFlagStatus();  查询DMA传输状态
-
-⑥ DMA_GetCurrDataCounter();  获取&#x2F;设置通道当前剩余数据量：<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="DMA-配置程序过程"><a href="#DMA-配置程序过程" class="headerlink" title="DMA 配置程序过程"></a>DMA 配置程序过程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">  DMA_InitTypeDef <span class="title function_">DMA_InitStructure</span> <span class="params">()</span>;  <span class="comment">//定义DMA结构体</span></span><br><span class="line"></span><br><span class="line">① RCC_AHB1PeriphClockCmd();  使能DMA时钟</span><br><span class="line"></span><br><span class="line">②  DMA_DeInit();</span><br><span class="line"></span><br><span class="line">③ USART_DMACmd();  使能串口DMA发送,串口DMA使能函数：</span><br><span class="line"></span><br><span class="line">④ DMA_GetCmdStatus();  查询DMA的EN位，确保数据流就绪，可以配置</span><br><span class="line"></span><br><span class="line">⑤ DMA_SetCurrDataCounter();  设置通道当前剩余数据量</span><br><span class="line"></span><br><span class="line">⑥ DMA_Cmd();  使能DMA1通道，启动传输。</span><br><span class="line"></span><br><span class="line">⑤ DMA_GetFlagStatus();  查询DMA传输状态</span><br><span class="line"></span><br><span class="line">⑥ DMA_GetCurrDataCounter();  获取/设置通道当前剩余数据量：</span><br></pre></td></tr></table></figure>
 
 <h2 id="代码理解-😶"><a href="#代码理解-😶" class="headerlink" title="代码理解 😶"></a>代码理解 😶</h2><p>1.配置 usart 部分</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">注意:1.引脚复用映射
-     2.复用推挽输出
-     (STM32的IO都是通用接口
-     因此在作为特殊用途如串口输出时，需要对该IO口的设置成端口复用,区别于普通推挽输出)
-     3.&#x2F;&#x2F;使能串口
-       USART_Cmd(Usartx, ENABLE);
-       &#x2F;&#x2F;开启串口空闲中断
-       USART_ITConfig(Usartx, USART_IT_IDLE, ENABLE);
-       他的工作原理为：
-       当STM32的串口接收完一包数据后，会产生一个空闲中断。
-       这个中断在串口其他任何状态都不产生，只会在接收完一包数据后才会产生，一包数据可以是1个字节或者多个字节.
-       因此，我们可以在这个空闲中断函数中，设置一个接收完成标志位。
-       只需要在主程序中检测这个标志位就知道数据是否接收完成.
-       if(USART_GetITStatus(USART1,USART_IT_IDLE) !&#x3D; RESET) &#x2F;&#x2F;接收中断(接收到的数据必须是0x0d 0x0a结尾)  RESET是0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">注意:<span class="number">1.</span>引脚复用映射</span><br><span class="line">     <span class="number">2.</span>复用推挽输出</span><br><span class="line">     (STM32的IO都是通用接口</span><br><span class="line">     因此在作为特殊用途如串口输出时，需要对该IO口的设置成端口复用,区别于普通推挽输出)</span><br><span class="line">     <span class="number">3.</span><span class="comment">//使能串口</span></span><br><span class="line">       USART_Cmd(Usartx, ENABLE);</span><br><span class="line">       <span class="comment">//开启串口空闲中断</span></span><br><span class="line">       USART_ITConfig(Usartx, USART_IT_IDLE, ENABLE);</span><br><span class="line">       他的工作原理为：</span><br><span class="line">       当STM32的串口接收完一包数据后，会产生一个空闲中断。</span><br><span class="line">       这个中断在串口其他任何状态都不产生，只会在接收完一包数据后才会产生，一包数据可以是<span class="number">1</span>个字节或者多个字节.</span><br><span class="line">       因此，我们可以在这个空闲中断函数中，设置一个接收完成标志位。</span><br><span class="line">       只需要在主程序中检测这个标志位就知道数据是否接收完成.</span><br><span class="line">       <span class="keyword">if</span>(USART_GetITStatus(USART1,USART_IT_IDLE) != RESET) <span class="comment">//接收中断(接收到的数据必须是0x0d 0x0a结尾)  RESET是0</span></span><br></pre></td></tr></table></figure>
 
 <p><a target="_blank" rel="noopener" href="http://blog.uuudiy.com/2022/09/29/42h-f407-gpio/">为什么是复用推挽输出</a><br><a target="_blank" rel="noopener" href="https://www.guyuehome.com/35488">串口空闲检测中断</a> 2.配置 DMA 部分 😶‍🌫️</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">注意:1.使能DMA时钟
-   使能 DMA2 时钟，并等待数据流可配置。
-   DMA 的时钟使能是通过 AHB1ENR 寄存器来控制的，这里我们要先使能时钟，才可以配置 DMA
-   相关寄存器。所以先要使能DMA2的时钟。另外，要对配置寄存器（DMA_SxCR）进行设置，必须
-   先等待其最低位为&#96;0&#96;也就是 DMA 传输禁止了才可以进行配置。
-   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2,ENABLE);    &#x2F;&#x2F;DMA2 时钟使能
-   等待 DMA 可配置，也就是等待 DMA_SxCR 寄存器最低位为 0 的方法为：
-   while (DMA_GetCmdStatus(DMA_Streamx) !&#x3D; DISABLE)&#123;&#125;    &#x2F;&#x2F;等待 DMA 可配置
-
-    2.初始化DMA通道参数
-    3.使能串口DMA发送
-    4.查询DMA的EN位，确保数据流就绪，可以配置
-    5.设置通道当前剩余数据量
-    6.使能DMA1通道，启动传输。
-    7.查询DMA传输状态
-    8.获取&#x2F;设置通道当前剩余数据量<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">注意:<span class="number">1.</span>使能DMA时钟</span><br><span class="line">   使能 DMA2 时钟，并等待数据流可配置。</span><br><span class="line">   DMA 的时钟使能是通过 AHB1ENR 寄存器来控制的，这里我们要先使能时钟，才可以配置 DMA</span><br><span class="line">   相关寄存器。所以先要使能DMA2的时钟。另外，要对配置寄存器（DMA_SxCR）进行设置，必须</span><br><span class="line">   先等待其最低位为`<span class="number">0</span>`也就是 DMA 传输禁止了才可以进行配置。</span><br><span class="line">   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2,ENABLE);    <span class="comment">//DMA2 时钟使能</span></span><br><span class="line">   等待 DMA 可配置，也就是等待 DMA_SxCR 寄存器最低位为 <span class="number">0</span> 的方法为：</span><br><span class="line">   <span class="keyword">while</span> (DMA_GetCmdStatus(DMA_Streamx) != DISABLE)&#123;&#125;    <span class="comment">//等待 DMA 可配置</span></span><br><span class="line"></span><br><span class="line">    <span class="number">2.</span>初始化DMA通道参数</span><br><span class="line">    <span class="number">3.</span>使能串口DMA发送</span><br><span class="line">    <span class="number">4.</span>查询DMA的EN位，确保数据流就绪，可以配置</span><br><span class="line">    <span class="number">5.</span>设置通道当前剩余数据量</span><br><span class="line">    <span class="number">6.</span>使能DMA1通道，启动传输。</span><br><span class="line">    <span class="number">7.</span>查询DMA传输状态</span><br><span class="line">    <span class="number">8.</span>获取/设置通道当前剩余数据量</span><br></pre></td></tr></table></figure>
 
 <p>&#x2F;&#x2F;DMA 的发送初始化函数</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">    @Usartx             指定的串口，如 USART1
-    @Par                DMA外设地址，如 (u32)&amp;USART1-&gt;DR
-    @DMA_Streamx_tx     代表DMA1的发送数据流，DMA1_Stream0~DMA1_Stream7
-    @DMA_Chx            代表DMA的通道选择，DMA_Channel_0~DMA_Channel_7
-    @Tx_Buf             代表DMA的发送缓冲区
-    @Tx_Size            代表发送数据个数
-    @DMA_Streamx_Irqn   DMA数据流的中断，如 DMA2_Stream7_IRQn
-
-void Init_Dma_Tx_Config(USART_TypeDef *Usartx,u32 Par, DMA_Stream_TypeDef *DMA_Streamx_Tx,
-                        u32 DMA_Chx,u32 Tx_Buf, u16 Tx_Size, u32 DMA_Streamx_Irqn)
-&#123;
-    DMA_InitStructure.DMA_Channel &#x3D; DMA_Chx;                                   &#x2F;&#x2F;通道选择
-    DMA_InitStructure.DMA_PeripheralBaseAddr &#x3D; Par;                            &#x2F;&#x2F;DMA外设地址
-    DMA_InitStructure.DMA_Memory0BaseAddr &#x3D; Tx_Buf;                            &#x2F;&#x2F;DMA 存储器0地址
-    DMA_InitStructure.DMA_DIR &#x3D; DMA_DIR_MemoryToPeripheral;                    &#x2F;&#x2F;存储器到外设模式
-    DMA_InitStructure.DMA_BufferSize &#x3D; Tx_Size;                                &#x2F;&#x2F;数据传输量
-    DMA_InitStructure.DMA_PeripheralInc &#x3D; DMA_PeripheralInc_Disable;           &#x2F;&#x2F;外设非增量模式
-    DMA_InitStructure.DMA_MemoryInc &#x3D; DMA_MemoryInc_Enable;                    &#x2F;&#x2F;存储器增量模式
-    DMA_InitStructure.DMA_PeripheralDataSize &#x3D; DMA_PeripheralDataSize_Byte;    &#x2F;&#x2F;外设数据长度:8位
-    DMA_InitStructure.DMA_MemoryDataSize &#x3D; DMA_MemoryDataSize_Byte;            &#x2F;&#x2F;存储器数据长度:8位
-    DMA_InitStructure.DMA_Mode &#x3D; DMA_Mode_Normal;                              &#x2F;&#x2F; 使用普通模式
-    DMA_InitStructure.DMA_Priority &#x3D; DMA_Priority_Medium;                      &#x2F;&#x2F;中等优先级
-    DMA_InitStructure.DMA_FIFOMode &#x3D; DMA_FIFOMode_Disable;                     &#x2F;&#x2F;初始化DMA_FIFOMode
-    DMA_InitStructure.DMA_FIFOThreshold &#x3D; DMA_FIFOThreshold_Full;              &#x2F;&#x2F;FIFO 阈值选择。
-    DMA_InitStructure.DMA_MemoryBurst &#x3D; DMA_MemoryBurst_Single;                &#x2F;&#x2F;存储器突发单次传输
-    DMA_InitStructure.DMA_PeripheralBurst &#x3D; DMA_PeripheralBurst_Single;        &#x2F;&#x2F;外设突发单次传输
-    DMA_Init(DMA_Streamx_Tx, &amp;DMA_InitStructure);                               &#x2F;&#x2F;初始化
-    DMAStream
-    &#x2F;&#x2F;DMA 中断设置
-    NVIC_InitStructure.NVIC_IRQChannel &#x3D; DMA_Streamx_Irqn;                     &#x2F;&#x2F;DMA发送数据流中断通道
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority &#x3D; 0;                  &#x2F;&#x2F;抢占优先级0
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority &#x3D; 0;                         &#x2F;&#x2F;子优先级0
-    NVIC_InitStructure.NVIC_IRQChannelCmd &#x3D; ENABLE;                            &#x2F;&#x2F;IRQ通道使能
-    NVIC_Init(&amp;NVIC_InitStructure);                                            &#x2F;&#x2F;根据指定的参数初始化NVIC寄存器
-
-    USART_DMACmd(Usartx,USART_DMAReq_Tx,ENABLE);                               &#x2F;&#x2F;使能串口1的DMA发送
-    DMA_Cmd(DMA_Streamx_Tx, DISABLE);                                          &#x2F;&#x2F;关闭DMA传输
-    DMA_ITConfig(DMA_Streamx_Tx,DMA_IT_TC,ENABLE);                             &#x2F;&#x2F;使能DMA的发送数据流中断
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">    @Usartx             指定的串口，如 USART1</span><br><span class="line">    @Par                DMA外设地址，如 (u32)&amp;USART1-&gt;DR</span><br><span class="line">    @DMA_Streamx_tx     代表DMA1的发送数据流，DMA1_Stream0~DMA1_Stream7</span><br><span class="line">    @DMA_Chx            代表DMA的通道选择，DMA_Channel_0~DMA_Channel_7</span><br><span class="line">    @Tx_Buf             代表DMA的发送缓冲区</span><br><span class="line">    @Tx_Size            代表发送数据个数</span><br><span class="line">    @DMA_Streamx_Irqn   DMA数据流的中断，如 DMA2_Stream7_IRQn</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Init_Dma_Tx_Config</span><span class="params">(USART_TypeDef *Usartx,u32 Par, DMA_Stream_TypeDef *DMA_Streamx_Tx,</span></span><br><span class="line"><span class="params">                        u32 DMA_Chx,u32 Tx_Buf, u16 Tx_Size, u32 DMA_Streamx_Irqn)</span></span><br><span class="line">&#123;</span><br><span class="line">    DMA_InitStructure.DMA_Channel = DMA_Chx;                                   <span class="comment">//通道选择</span></span><br><span class="line">    DMA_InitStructure.DMA_PeripheralBaseAddr = Par;                            <span class="comment">//DMA外设地址</span></span><br><span class="line">    DMA_InitStructure.DMA_Memory0BaseAddr = Tx_Buf;                            <span class="comment">//DMA 存储器0地址</span></span><br><span class="line">    DMA_InitStructure.DMA_DIR = DMA_DIR_MemoryToPeripheral;                    <span class="comment">//存储器到外设模式</span></span><br><span class="line">    DMA_InitStructure.DMA_BufferSize = Tx_Size;                                <span class="comment">//数据传输量</span></span><br><span class="line">    DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;           <span class="comment">//外设非增量模式</span></span><br><span class="line">    DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;                    <span class="comment">//存储器增量模式</span></span><br><span class="line">    DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;    <span class="comment">//外设数据长度:8位</span></span><br><span class="line">    DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;            <span class="comment">//存储器数据长度:8位</span></span><br><span class="line">    DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;                              <span class="comment">// 使用普通模式</span></span><br><span class="line">    DMA_InitStructure.DMA_Priority = DMA_Priority_Medium;                      <span class="comment">//中等优先级</span></span><br><span class="line">    DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;                     <span class="comment">//初始化DMA_FIFOMode</span></span><br><span class="line">    DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;              <span class="comment">//FIFO 阈值选择。</span></span><br><span class="line">    DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;                <span class="comment">//存储器突发单次传输</span></span><br><span class="line">    DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;        <span class="comment">//外设突发单次传输</span></span><br><span class="line">    DMA_Init(DMA_Streamx_Tx, &amp;DMA_InitStructure);                               <span class="comment">//初始化</span></span><br><span class="line">    DMAStream</span><br><span class="line">    <span class="comment">//DMA 中断设置</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannel = DMA_Streamx_Irqn;                     <span class="comment">//DMA发送数据流中断通道</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = <span class="number">0</span>;                  <span class="comment">//抢占优先级0</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">0</span>;                         <span class="comment">//子优先级0</span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                            <span class="comment">//IRQ通道使能</span></span><br><span class="line">    NVIC_Init(&amp;NVIC_InitStructure);                                            <span class="comment">//根据指定的参数初始化NVIC寄存器</span></span><br><span class="line"></span><br><span class="line">    USART_DMACmd(Usartx,USART_DMAReq_Tx,ENABLE);                               <span class="comment">//使能串口1的DMA发送</span></span><br><span class="line">    DMA_Cmd(DMA_Streamx_Tx, DISABLE);                                          <span class="comment">//关闭DMA传输</span></span><br><span class="line">    DMA_ITConfig(DMA_Streamx_Tx,DMA_IT_TC,ENABLE);                             <span class="comment">//使能DMA的发送数据流中断</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&#x2F;&#x2F;DMA 的接收初始化函数</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">    @Usartx             指定的串口，如 USART1
-    @Par                DMA外设地址，如 (u32)&amp;USART1-&gt;DR
-    @DMA_Streamx_rx     代表DMA1的接收数据流，DMA1_Stream0~DMA1_Stream7
-    @DMA_Chx            代表DMA的通道选择，DMA_Channel_0~DMA_Channel_7
-    @Rx_Buf             代表DMA的接收缓冲区
-    @Rx_Size            代表接收数据个数
-
-void Init_Dma_Rx_Config(USART_TypeDef *Usartx, u32 Par, DMA_Stream_TypeDef *DMA_Streamx_Rx,
-                        u32 DMA_Chx,u32 Rx_Buf, u16 Rx_Size)
-&#123;
-    DMA_InitStructure.DMA_Channel &#x3D; DMA_Chx;                                 &#x2F;&#x2F;通道选择
-    DMA_InitStructure.DMA_PeripheralBaseAddr &#x3D; Par;                          &#x2F;&#x2F;DMA外设地址
-    DMA_InitStructure.DMA_Memory0BaseAddr &#x3D; Rx_Buf;                          &#x2F;&#x2F;DMA 存储器0地址
-    DMA_InitStructure.DMA_DIR &#x3D; DMA_DIR_PeripheralToMemory ;                 &#x2F;&#x2F;外设到存储器模式
-    DMA_InitStructure.DMA_BufferSize &#x3D; Rx_Size;                              &#x2F;&#x2F;数据传输量
-    DMA_InitStructure.DMA_PeripheralInc &#x3D; DMA_PeripheralInc_Disable;         &#x2F;&#x2F;外设非增量模式
-    DMA_InitStructure.DMA_MemoryInc &#x3D; DMA_MemoryInc_Enable;                  &#x2F;&#x2F;存储器增量模式
-    DMA_InitStructure.DMA_PeripheralDataSize &#x3D; DMA_PeripheralDataSize_Byte;  &#x2F;&#x2F;外设数据长度:8位
-    DMA_InitStructure.DMA_MemoryDataSize &#x3D; DMA_MemoryDataSize_Byte;          &#x2F;&#x2F;存储器数据长度:8位
-    DMA_InitStructure.DMA_Mode &#x3D; DMA_Mode_Normal;                            &#x2F;&#x2F; 使用普通模式
-    DMA_InitStructure.DMA_Priority &#x3D; DMA_Priority_Medium;                    &#x2F;&#x2F;中等优先级
-    DMA_InitStructure.DMA_FIFOMode &#x3D; DMA_FIFOMode_Disable;                   &#x2F;&#x2F;初始化DMA_FIFOMode
-    DMA_InitStructure.DMA_FIFOThreshold &#x3D; DMA_FIFOThreshold_Full;            &#x2F;&#x2F;FIFO 阈值选择。
-    DMA_InitStructure.DMA_MemoryBurst &#x3D; DMA_MemoryBurst_Single;              &#x2F;&#x2F;存储器突发单次传输
-    DMA_InitStructure.DMA_PeripheralBurst &#x3D; DMA_PeripheralBurst_Single;      &#x2F;&#x2F;外设突发单次传输
-    DMA_Init(DMA_Streamx_Rx, &amp;DMA_InitStructure);                            &#x2F;&#x2F;初始化DMA Stream
-
-    USART_DMACmd(Usartx,USART_DMAReq_Rx,ENABLE);                             &#x2F;&#x2F;使能串口的DMA接收
-    DMA_Cmd(DMA_Streamx_Rx, ENABLE);                                         &#x2F;&#x2F;开启DMA传输
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">    @Usartx             指定的串口，如 USART1</span><br><span class="line">    @Par                DMA外设地址，如 (u32)&amp;USART1-&gt;DR</span><br><span class="line">    @DMA_Streamx_rx     代表DMA1的接收数据流，DMA1_Stream0~DMA1_Stream7</span><br><span class="line">    @DMA_Chx            代表DMA的通道选择，DMA_Channel_0~DMA_Channel_7</span><br><span class="line">    @Rx_Buf             代表DMA的接收缓冲区</span><br><span class="line">    @Rx_Size            代表接收数据个数</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Init_Dma_Rx_Config</span><span class="params">(USART_TypeDef *Usartx, u32 Par, DMA_Stream_TypeDef *DMA_Streamx_Rx,</span></span><br><span class="line"><span class="params">                        u32 DMA_Chx,u32 Rx_Buf, u16 Rx_Size)</span></span><br><span class="line">&#123;</span><br><span class="line">    DMA_InitStructure.DMA_Channel = DMA_Chx;                                 <span class="comment">//通道选择</span></span><br><span class="line">    DMA_InitStructure.DMA_PeripheralBaseAddr = Par;                          <span class="comment">//DMA外设地址</span></span><br><span class="line">    DMA_InitStructure.DMA_Memory0BaseAddr = Rx_Buf;                          <span class="comment">//DMA 存储器0地址</span></span><br><span class="line">    DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory ;                 <span class="comment">//外设到存储器模式</span></span><br><span class="line">    DMA_InitStructure.DMA_BufferSize = Rx_Size;                              <span class="comment">//数据传输量</span></span><br><span class="line">    DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;         <span class="comment">//外设非增量模式</span></span><br><span class="line">    DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;                  <span class="comment">//存储器增量模式</span></span><br><span class="line">    DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;  <span class="comment">//外设数据长度:8位</span></span><br><span class="line">    DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;          <span class="comment">//存储器数据长度:8位</span></span><br><span class="line">    DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;                            <span class="comment">// 使用普通模式</span></span><br><span class="line">    DMA_InitStructure.DMA_Priority = DMA_Priority_Medium;                    <span class="comment">//中等优先级</span></span><br><span class="line">    DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;                   <span class="comment">//初始化DMA_FIFOMode</span></span><br><span class="line">    DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;            <span class="comment">//FIFO 阈值选择。</span></span><br><span class="line">    DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;              <span class="comment">//存储器突发单次传输</span></span><br><span class="line">    DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;      <span class="comment">//外设突发单次传输</span></span><br><span class="line">    DMA_Init(DMA_Streamx_Rx, &amp;DMA_InitStructure);                            <span class="comment">//初始化DMA Stream</span></span><br><span class="line"></span><br><span class="line">    USART_DMACmd(Usartx,USART_DMAReq_Rx,ENABLE);                             <span class="comment">//使能串口的DMA接收</span></span><br><span class="line">    DMA_Cmd(DMA_Streamx_Rx, ENABLE);                                         <span class="comment">//开启DMA传输</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="DMA-的发送使能"><a href="#DMA-的发送使能" class="headerlink" title="DMA 的发送使能"></a>DMA 的发送使能</h3><p>DMA 配置 mormal 模式只能进行一次数据的发送<br>circular 模式可以持续发送相同的数据。但是要多次发送不同的数据<br>normal 模式下需要进行一下操作</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">DMA1_Channel4-&gt;CCR&amp;&#x3D;~(1&lt;&lt;0);   &#x2F;&#x2F;关闭DMA1的通道四
-DMA1_Channel4-&gt;CNDTR&#x3D;9;        &#x2F;&#x2F;设置DMA数据计数器的值
-DMA1_Channel4-&gt;CCR|&#x3D;1&lt;&lt;0;      &#x2F;&#x2F;使能DMA1的通道四
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DMA1_Channel4-&gt;CCR&amp;=~(<span class="number">1</span>&lt;&lt;<span class="number">0</span>);   <span class="comment">//关闭DMA1的通道四</span></span><br><span class="line">DMA1_Channel4-&gt;CNDTR=<span class="number">9</span>;        <span class="comment">//设置DMA数据计数器的值</span></span><br><span class="line">DMA1_Channel4-&gt;CCR|=<span class="number">1</span>&lt;&lt;<span class="number">0</span>;      <span class="comment">//使能DMA1的通道四</span></span><br><span class="line"></span><br><span class="line">上面是使用了直接操作寄存器的方式实现了需求</span><br><span class="line">DMA_Cmd(DMA1_Channel4,DISABLE);</span><br><span class="line">DMA_SetCurrDataCounter(DMA1_Channel4,<span class="number">9</span>);</span><br><span class="line">DMA_Cmd(DMA1_Channel4,ENABLE);</span><br><span class="line">这样每次调用DMA发送函数时,相当于重新计数,达到多次发送不同数据的效果</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    @DMA_Streamx_tx             <span class="comment">//代表DMA的发送数据流</span></span><br><span class="line">    @DMA1_Stream0~DMA1_Stream7  <span class="comment">//DMA2_Stream0~DMA2_Stream7</span></span><br><span class="line">    @ndtr                       <span class="comment">//代表DMA的发送数据个数</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Dma_Send_Enable</span><span class="params">(DMA_Stream_TypeDef *DMA_Streamx_tx,u16 ndtr)</span></span><br><span class="line">&#123;</span><br><span class="line">    DMA_Cmd(DMA_Streamx_tx, DISABLE);                         <span class="comment">//关闭DMA传输</span></span><br><span class="line">    <span class="keyword">while</span> (DMA_GetCmdStatus(DMA_Streamx_tx) != DISABLE);      <span class="comment">//确保DMA可以被设置</span></span><br><span class="line">    DMA_SetCurrDataCounter(DMA_Streamx_tx,ndtr);              <span class="comment">//数据传输量</span></span><br><span class="line">    DMA_Cmd(DMA_Streamx_tx, ENABLE);                          <span class="comment">//开启DMA传输</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-上面是使用了直接操作寄存器的方式实现了需求
-DMA_Cmd(DMA1_Channel4,DISABLE);
-DMA_SetCurrDataCounter(DMA1_Channel4,9);
-DMA_Cmd(DMA1_Channel4,ENABLE);
-这样每次调用DMA发送函数时,相当于重新计数,达到多次发送不同数据的效果<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">    @DMA_Streamx_tx             &#x2F;&#x2F;代表DMA的发送数据流
-    @DMA1_Stream0~DMA1_Stream7  &#x2F;&#x2F;DMA2_Stream0~DMA2_Stream7
-    @ndtr                       &#x2F;&#x2F;代表DMA的发送数据个数
-void Dma_Send_Enable(DMA_Stream_TypeDef *DMA_Streamx_tx,u16 ndtr)
-&#123;
-    DMA_Cmd(DMA_Streamx_tx, DISABLE);                         &#x2F;&#x2F;关闭DMA传输
-    while (DMA_GetCmdStatus(DMA_Streamx_tx) !&#x3D; DISABLE);      &#x2F;&#x2F;确保DMA可以被设置
-    DMA_SetCurrDataCounter(DMA_Streamx_tx,ndtr);              &#x2F;&#x2F;数据传输量
-    DMA_Cmd(DMA_Streamx_tx, ENABLE);                          &#x2F;&#x2F;开启DMA传输
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="DMA-的发送完成中断函数"><a href="#DMA-的发送完成中断函数" class="headerlink" title="DMA 的发送完成中断函数"></a>DMA 的发送完成中断函数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">void DMA2_Stream7_IRQHandler(void)
-&#123;
-    if(DMA_GetFlagStatus(DMA2_Stream7,DMA_FLAG_TCIF7)!&#x3D;RESET) &#x2F;&#x2F;等待DMA2_Steam7传输完成
-    &#123;
-        DMA_ClearFlag(DMA2_Stream7,DMA_FLAG_TCIF7);           &#x2F;&#x2F;清除DMA2_Steam7传输完成标志
-        DMA_Cmd(DMA2_Stream7,DISABLE);                        &#x2F;&#x2F;关闭DMA
-        DMA_ClearITPendingBit(DMA2_Stream7, DMA_IT_TCIF7);    &#x2F;&#x2F;清除中断屏蔽位
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="DMA-的发送完成中断函数"><a href="#DMA-的发送完成中断函数" class="headerlink" title="DMA 的发送完成中断函数"></a>DMA 的发送完成中断函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">DMA2_Stream7_IRQHandler</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(DMA_GetFlagStatus(DMA2_Stream7,DMA_FLAG_TCIF7)!=RESET) <span class="comment">//等待DMA2_Steam7传输完成</span></span><br><span class="line">    &#123;</span><br><span class="line">        DMA_ClearFlag(DMA2_Stream7,DMA_FLAG_TCIF7);           <span class="comment">//清除DMA2_Steam7传输完成标志</span></span><br><span class="line">        DMA_Cmd(DMA2_Stream7,DISABLE);                        <span class="comment">//关闭DMA</span></span><br><span class="line">        DMA_ClearITPendingBit(DMA2_Stream7, DMA_IT_TCIF7);    <span class="comment">//清除中断屏蔽位</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <img src="/2022/09/23/39h-usart-dma/08.png" class="">
 
-<h3 id="串口-1-的空闲中断函数"><a href="#串口-1-的空闲中断函数" class="headerlink" title="串口 1 的空闲中断函数"></a>串口 1 的空闲中断函数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">void USART1_IRQHandler(void)
-&#123;
-    u16 i;                                                       &#x2F;&#x2F;串口空闲中断,idle置1说明接收到了一包数据
-    if(USART_GetITStatus(USART1,USART_IT_IDLE) !&#x3D; RESET)         &#x2F;&#x2F;接收中断,RESET&#x3D;0
-        DMA_Cmd(DMA2_Stream5, DISABLE);                          &#x2F;&#x2F;关闭DMA,防止处理其间有数据
-
-        &#x2F;&#x2F;先读SR，再读DR，是为了清除IDLE中断
-        i &#x3D; USART1-&gt;SR;                                          &#x2F;&#x2F;读SR寄存器(状态寄存器)
-        i &#x3D; USART1-&gt;DR;                                          &#x2F;&#x2F;读DR寄存器(数据寄存器)
-
-        rx_len &#x3D; BufferLen - DMA_GetCurrDataCounter(DMA2_Stream5);  &#x2F;&#x2F;获得这一帧数据的长度,获得这一帧数据的长度
-                                                                    &#x2F;&#x2F;DMA缓存的大小 - 剩余 DMA缓存大小
-        if(rx_len !&#x3D;0)                                              &#x2F;&#x2F;这一帧数据长度不为0
-        &#123;
-            rx_flag &#x3D; 1;                                            &#x2F;&#x2F;数据帧接收标志置1
-            for(i&#x3D;0;i&lt;rx_len;i++)
-            &#123;
-                SendBuffer[i]&#x3D; ReceiveBuffer[i];                    &#x2F;&#x2F;将接收的数据保存
-            &#125;
-            for(i&#x3D;0;i&lt;rx_len;i++)                                   &#x2F;&#x2F;将接收缓冲区清零
-            &#123;
-                ReceiveBuffer[i]&#x3D;0;                                 &#x2F;&#x2F;这段我理解的是利用串口空闲中断标志位,rx_flag作为dma_send函数是否发
-                                                                    &#x2F;&#x2F;送的标志位
-            &#125;
-        &#125;
-        &#x2F;&#x2F;清除DMA2_Steam5传输完成标志
-        DMA_ClearFlag(DMA2_Stream5,DMA_FLAG_TCIF5 | DMA_FLAG_FEIF5 | DMA_FLAG_DMEIF5 | DMA_FLAG_TEIF5 | DMA_FLAG_HTIF5);
-        DMA_SetCurrDataCounter(DMA2_Stream5, BufferLen);            &#x2F;&#x2F;设置DMA接收单元的长度
-        DMA_Cmd(DMA2_Stream5, ENABLE);                              &#x2F;&#x2F;打开DMA
-
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="串口-1-的空闲中断函数"><a href="#串口-1-的空闲中断函数" class="headerlink" title="串口 1 的空闲中断函数"></a>串口 1 的空闲中断函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">USART1_IRQHandler</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    u16 i;                                                       <span class="comment">//串口空闲中断,idle置1说明接收到了一包数据</span></span><br><span class="line">    <span class="keyword">if</span>(USART_GetITStatus(USART1,USART_IT_IDLE) != RESET)         <span class="comment">//接收中断,RESET=0</span></span><br><span class="line">        DMA_Cmd(DMA2_Stream5, DISABLE);                          <span class="comment">//关闭DMA,防止处理其间有数据</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//先读SR，再读DR，是为了清除IDLE中断</span></span><br><span class="line">        i = USART1-&gt;SR;                                          <span class="comment">//读SR寄存器(状态寄存器)</span></span><br><span class="line">        i = USART1-&gt;DR;                                          <span class="comment">//读DR寄存器(数据寄存器)</span></span><br><span class="line"></span><br><span class="line">        rx_len = BufferLen - DMA_GetCurrDataCounter(DMA2_Stream5);  <span class="comment">//获得这一帧数据的长度,获得这一帧数据的长度</span></span><br><span class="line">                                                                    <span class="comment">//DMA缓存的大小 - 剩余 DMA缓存大小</span></span><br><span class="line">        <span class="keyword">if</span>(rx_len !=<span class="number">0</span>)                                              <span class="comment">//这一帧数据长度不为0</span></span><br><span class="line">        &#123;</span><br><span class="line">            rx_flag = <span class="number">1</span>;                                            <span class="comment">//数据帧接收标志置1</span></span><br><span class="line">            <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;rx_len;i++)</span><br><span class="line">            &#123;</span><br><span class="line">                SendBuffer[i]= ReceiveBuffer[i];                    <span class="comment">//将接收的数据保存</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;rx_len;i++)                                   <span class="comment">//将接收缓冲区清零</span></span><br><span class="line">            &#123;</span><br><span class="line">                ReceiveBuffer[i]=<span class="number">0</span>;                                 <span class="comment">//这段我理解的是利用串口空闲中断标志位,rx_flag作为dma_send函数是否发</span></span><br><span class="line">                                                                    <span class="comment">//送的标志位</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//清除DMA2_Steam5传输完成标志</span></span><br><span class="line">        DMA_ClearFlag(DMA2_Stream5,DMA_FLAG_TCIF5 | DMA_FLAG_FEIF5 | DMA_FLAG_DMEIF5 | DMA_FLAG_TEIF5 | DMA_FLAG_HTIF5);</span><br><span class="line">        DMA_SetCurrDataCounter(DMA2_Stream5, BufferLen);            <span class="comment">//设置DMA接收单元的长度</span></span><br><span class="line">        DMA_Cmd(DMA2_Stream5, ENABLE);                              <span class="comment">//打开DMA</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <img src="/2022/09/23/39h-usart-dma/07.png" class="">
 
-<h3 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">int main(void)
-&#123;
-
-    LED_Init();
-    delay_init(168);          &#x2F;&#x2F;初始化延时函数
-    Init_Clock_Config();                     &#x2F;&#x2F;时钟初始化
-    Init_Gpio_Config();                      &#x2F;&#x2F;GPIO引脚初始化
-    Init_Usart_Config(USART1,19200);          &#x2F;&#x2F;串口初始化
-    Init_Usart_Nvic_Config(USART1_IRQn);     &#x2F;&#x2F;串口中断初始化
-
-    &#x2F;&#x2F;DMA 发送数据流初始化
-    Init_Dma_Tx_Config(USART1, (u32)(&amp;USART1-&gt;DR), DMA2_Stream7, DMA_Channel_4, (u32)SendBuffer, BufferLen, DMA2_Stream7_IRQn);
-    &#x2F;&#x2F;DMA 接收数据流初始化
-    Init_Dma_Rx_Config(USART1, (u32)(&amp;USART1-&gt;DR), DMA2_Stream5, DMA_Channel_4, (u32)ReceiveBuffer, BufferLen);
-
-    while(1)
-    &#123;
-        &#x2F;&#x2F;接收到一帧数据
-        if(rx_flag)
-        &#123;
-            &#x2F;&#x2F;将接收到的数据发送到设备
-            Dma_Send_Enable(DMA2_Stream7, rx_len);        &#x2F;&#x2F;这里我不理解为什么是rx_len,而不是sendbuffer ,rx_len不只是个长度吗
-                                                          &#x2F;&#x2F;数据长度即数据本身,原理应该跟已知计数最大值,
-                                                          &#x2F;&#x2F;求计数初值&#x3D;计数最大值-要计的个数相似
-                                                          &#x2F;&#x2F;传输的数据实际上就是0 1
-            &#x2F;&#x2F;数据帧接收标志清零
-            rx_flag &#x3D; 0;
-        &#125;
-
-        LED1 &#x3D; !LED1;     &#x2F;&#x2F;LED灯闪烁，表示程序正常运行
-        delay_ms(100);                    &#x2F;&#x2F;延时300ms
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    LED_Init();</span><br><span class="line">    delay_init(<span class="number">168</span>);          <span class="comment">//初始化延时函数</span></span><br><span class="line">    Init_Clock_Config();                     <span class="comment">//时钟初始化</span></span><br><span class="line">    Init_Gpio_Config();                      <span class="comment">//GPIO引脚初始化</span></span><br><span class="line">    Init_Usart_Config(USART1,<span class="number">19200</span>);          <span class="comment">//串口初始化</span></span><br><span class="line">    Init_Usart_Nvic_Config(USART1_IRQn);     <span class="comment">//串口中断初始化</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//DMA 发送数据流初始化</span></span><br><span class="line">    Init_Dma_Tx_Config(USART1, (u32)(&amp;USART1-&gt;DR), DMA2_Stream7, DMA_Channel_4, (u32)SendBuffer, BufferLen, DMA2_Stream7_IRQn);</span><br><span class="line">    <span class="comment">//DMA 接收数据流初始化</span></span><br><span class="line">    Init_Dma_Rx_Config(USART1, (u32)(&amp;USART1-&gt;DR), DMA2_Stream5, DMA_Channel_4, (u32)ReceiveBuffer, BufferLen);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//接收到一帧数据</span></span><br><span class="line">        <span class="keyword">if</span>(rx_flag)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//将接收到的数据发送到设备</span></span><br><span class="line">            Dma_Send_Enable(DMA2_Stream7, rx_len);        <span class="comment">//这里我不理解为什么是rx_len,而不是sendbuffer ,rx_len不只是个长度吗</span></span><br><span class="line">                                                          <span class="comment">//数据长度即数据本身,原理应该跟已知计数最大值,</span></span><br><span class="line">                                                          <span class="comment">//求计数初值=计数最大值-要计的个数相似</span></span><br><span class="line">                                                          <span class="comment">//传输的数据实际上就是0 1</span></span><br><span class="line">            <span class="comment">//数据帧接收标志清零</span></span><br><span class="line">            rx_flag = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        LED1 = !LED1;     <span class="comment">//LED灯闪烁，表示程序正常运行</span></span><br><span class="line">        delay_ms(<span class="number">100</span>);                    <span class="comment">//延时300ms</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>📖 我可能需要恶补一下 c 语言 😭<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_62722416/article/details/126540746?spm=1001.2101.3001.6650.17&utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-17-126540746-blog-121202129.t0_edu_mlt&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-17-126540746-blog-121202129.t0_edu_mlt&utm_relevant_index=22">DMA 配置</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28959531/article/details/81219150?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-5-81219150-blog-122668801.pc_relevant_aa_2&spm=1001.2101.3001.4242.4&utm_relevant_index=8">STM32F407ZGT6 串口 DMA</a></p>
 
@@ -539,9 +295,9 @@ void Dma_Send_Enable(DMA_Stream_TypeDef *DMA_Streamx_tx,u16 ndtr)
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -550,6 +306,7 @@ void Dma_Send_Enable(DMA_Stream_TypeDef *DMA_Streamx_tx,u16 ndtr)
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -579,7 +336,7 @@ void Dma_Send_Enable(DMA_Stream_TypeDef *DMA_Streamx_tx,u16 ndtr)
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -591,14 +348,14 @@ void Dma_Send_Enable(DMA_Stream_TypeDef *DMA_Streamx_tx,u16 ndtr)
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

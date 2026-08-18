@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">蓝牙模块</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1407
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -185,36 +198,13 @@
 </ul>
 <p>发送<code>AT</code>,响应OK,然后<code>AT+UART:115200,0,0</code>设置波特率为115200,0停止位，0校验位</p>
 <h3 id="AT指令"><a href="#AT指令" class="headerlink" title="AT指令"></a>AT指令</h3><p>比如我要查看模块的版本：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">串口发送：AT+VERSION?\r\n
-模块回应：+VERSION:2.0-20100601<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">串口发送：AT+VERSION?\r\n</span><br><span class="line">模块回应：+VERSION:<span class="number">2.0</span><span class="number">-20100601</span></span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">AT+NAME &#x3D; xlg 设置蓝牙名称为xlg
-AT+ROLE&#x3D;0     蓝牙模式为从模式 AT+ROLE&#x3D;1 蓝牙模式为主模式
-AT+CMODE&#x3D;0    蓝牙连接模式为任意地址连接模式
-AT+PSWD&#x3D;1234  蓝牙配对密码为1234
-AT+UART&#x3D;9600，0，0 蓝牙通信串口波特率为9600，停止位1位，无校验位
-AT+RMAAD           清空配对列表<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">AT+NAME = xlg 设置蓝牙名称为xlg</span><br><span class="line">AT+ROLE=<span class="number">0</span>     蓝牙模式为从模式 AT+ROLE=<span class="number">1</span> 蓝牙模式为主模式</span><br><span class="line">AT+CMODE=<span class="number">0</span>    蓝牙连接模式为任意地址连接模式</span><br><span class="line">AT+PSWD=<span class="number">1234</span>  蓝牙配对密码为<span class="number">1234</span></span><br><span class="line">AT+UART=<span class="number">9600</span>，<span class="number">0</span>，<span class="number">0</span> 蓝牙通信串口波特率为<span class="number">9600</span>，停止位<span class="number">1</span>位，无校验位</span><br><span class="line">AT+RMAAD           清空配对列表</span><br></pre></td></tr></table></figure>
 
 <p>AT+NAME?：获得设备名称，这个AT指令有很大可能性是没有返回的，因为我也看到了很多的例子……，但是其他的指令都是没有问题的，直接设置设备名称就行了；</p>
 <p>不常用指令</p>
-<pre class="line-numbers language-none"><code class="language-none">2.AT+RESET:HC-05复位
-3. AT+VERSION?：获取HC-05的软件版本号，只能获取，不能修改。
-4. AT+ORGL:恢复出厂默认设置，当把模块设置乱了，使用此命令进行恢复默认值。
-5. AT+ADDR?：获取HC-05的蓝牙地址码，只能获取，不能修改。
-6. AT+NAME？:获取HC-05的名字,AT+NAME&#x3D;xlg，修改模块的名字为xlg，具体名字自行修改。
-7. AT+CLASS?：设置查询设备的类型，尽量不要去修改此参数。默认是1F00。
-8. AT+IAC?：查询设置查询访问码，默认是9E8B33，尽量不要去修改此参数。
-9. AT+PSWD？:查询设置配对密码,AT+PSWD&#x3D;”0000”,密码要有双引号,密码是四位数字.
-10. AT+UART：AT+UART？是查询当前模块的波特率，AT+UART&#x3D;波特率,0,0。
-11. AT+CMODE：AT+CMODE？是查询当前连接模式。AT+CMODE&#x3D;0，1，2(0——指定蓝牙地址连接模式（指定蓝牙地址由绑定指令设置）1——任意蓝牙地址连接模式（不受绑定指令设置地址的约束）2——回环角色（Slave-Loop）默认连接模式：0)。
-12. AT+BIND:AT+BIND?查询当前绑定地址,AT+BIND&#x3D;NAP，UAP，LAP(用逗号隔开)。
-13. AT+RMADD:从蓝牙配对列表中删除所有认证设备.
-14. AT+STATE？:获取蓝牙模块工作状态.
-15. AT+LINK&#x3D;NAP,UAP,LAP：与远程设备建立连接。
-17. AT+RNAME？NAP，UAP，LAP:获取远程蓝牙设备名称.
-18. AT+ADCN?：获取蓝牙配对列表中认证设备数。
-19. AT+MRAD？获取最近使用过的蓝牙认证设备地址。
-20. AT+INQM:设置查询模式,AT+INQM&#x3D;1，9，48(1-带RSSI信号强度指示,9-超过9个蓝牙设备响应则终止查询,48-设定超时为48*1.28&#x3D;61.44秒)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">2.AT+RESET:HC-05复位</span><br><span class="line">3. AT+VERSION?：获取HC-05的软件版本号，只能获取，不能修改。</span><br><span class="line">4. AT+ORGL:恢复出厂默认设置，当把模块设置乱了，使用此命令进行恢复默认值。</span><br><span class="line">5. AT+ADDR?：获取HC-05的蓝牙地址码，只能获取，不能修改。</span><br><span class="line">6. AT+NAME？:获取HC-05的名字,AT+NAME=xlg，修改模块的名字为xlg，具体名字自行修改。</span><br><span class="line">7. AT+CLASS?：设置查询设备的类型，尽量不要去修改此参数。默认是1F00。</span><br><span class="line">8. AT+IAC?：查询设置查询访问码，默认是9E8B33，尽量不要去修改此参数。</span><br><span class="line">9. AT+PSWD？:查询设置配对密码,AT+PSWD=”0000”,密码要有双引号,密码是四位数字.</span><br><span class="line">10. AT+UART：AT+UART？是查询当前模块的波特率，AT+UART=波特率,0,0。</span><br><span class="line">11. AT+CMODE：AT+CMODE？是查询当前连接模式。AT+CMODE=0，1，2(0——指定蓝牙地址连接模式（指定蓝牙地址由绑定指令设置）1——任意蓝牙地址连接模式（不受绑定指令设置地址的约束）2——回环角色（Slave-Loop）默认连接模式：0)。</span><br><span class="line">12. AT+BIND:AT+BIND?查询当前绑定地址,AT+BIND=NAP，UAP，LAP(用逗号隔开)。</span><br><span class="line">13. AT+RMADD:从蓝牙配对列表中删除所有认证设备.</span><br><span class="line">14. AT+STATE？:获取蓝牙模块工作状态.</span><br><span class="line">15. AT+LINK=NAP,UAP,LAP：与远程设备建立连接。</span><br><span class="line">17. AT+RNAME？NAP，UAP，LAP:获取远程蓝牙设备名称.</span><br><span class="line">18. AT+ADCN?：获取蓝牙配对列表中认证设备数。</span><br><span class="line">19. AT+MRAD？获取最近使用过的蓝牙认证设备地址。</span><br><span class="line">20. AT+INQM:设置查询模式,AT+INQM=1，9，48(1-带RSSI信号强度指示,9-超过9个蓝牙设备响应则终止查询,48-设定超时为48*1.28=61.44秒)</span><br></pre></td></tr></table></figure>
 
 <h2 id="HC-06"><a href="#HC-06" class="headerlink" title="HC-06"></a>HC-06</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>蓝牙模块上有一个LED，LED 指示蓝牙连接状态， 闪烁表示没有蓝牙连接，常亮表示蓝牙已连接并打开了端口</p>
 <h3 id="AT指令-1"><a href="#AT指令-1" class="headerlink" title="AT指令"></a>AT指令</h3><blockquote>
@@ -222,33 +212,7 @@ AT+RMAAD           清空配对列表<span aria-hidden="true" class="line-number
 </blockquote>
 <p>默认的时候波特率为 ：9600<br>配对密码： 1234</p>
 <p>(1)测试通讯<br>发送： AT（返回 OK，一秒左右发一次）<br>返回： OK</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">(1)改蓝牙串口通讯波特率
-发送： AT+BAUD1
-返回： +BAUD&#x3D;1
-此时波特率为 1200
-发送： AT+BAUD2
-返回： +BAUD&#x3D;2
-此时波特率为 2400
-(2)改蓝牙名称
-发送： AT+NAMEname
-返回： OK
-参数 name：所要设置的当前名称，即蓝牙被搜索到的名称。 20 个
-字符以内。
-发送 AT+NAME123
-返回+NAME&#x3D;123
-这时蓝牙名称改为 123
-(3)改蓝牙配对密码
-发送： AT+PINxxxx
-返回： +PIN&#x3D;xxxx参数 xxxx：所要设置的配对密码， 4 个字节，
-此命令可用于从机或主机。从机则是适配器或手机弹出要求输入配对密码窗口时，则手工输入此参数就可以连接从机。主机则是在用主蓝牙模块连数码相机
-时，数码相机是从机，找到相机的配对密码，再设入主蓝牙模块，则主蓝牙模块就可以自动连接相机。
-例：发送 AT+PIN8888
-返回+PIN&#x3D;8888
-(4)更改模块的主从模式（V1.7 版本以后支持）
-发送： AT+ROLE&#x3D;1（设置模块为主模式 Master）
-返回： +ROLE&#x3D;1
-发送： AT+ROLE&#x3D;0（设置模块为从模式 Slave）
-返回： +ROLE&#x3D;0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span>)改蓝牙串口通讯波特率</span><br><span class="line">发送： AT+BAUD1</span><br><span class="line">返回： +BAUD=<span class="number">1</span></span><br><span class="line">此时波特率为 <span class="number">1200</span></span><br><span class="line">发送： AT+BAUD2</span><br><span class="line">返回： +BAUD=<span class="number">2</span></span><br><span class="line">此时波特率为 <span class="number">2400</span></span><br><span class="line">(<span class="number">2</span>)改蓝牙名称</span><br><span class="line">发送： AT+NAMEname</span><br><span class="line">返回： OK</span><br><span class="line">参数 name：所要设置的当前名称，即蓝牙被搜索到的名称。 <span class="number">20</span> 个</span><br><span class="line">字符以内。</span><br><span class="line">发送 AT+NAME123</span><br><span class="line">返回+NAME=<span class="number">123</span></span><br><span class="line">这时蓝牙名称改为 <span class="number">123</span></span><br><span class="line">(<span class="number">3</span>)改蓝牙配对密码</span><br><span class="line">发送： AT+PINxxxx</span><br><span class="line">返回： +PIN=xxxx参数 xxxx：所要设置的配对密码， <span class="number">4</span> 个字节，</span><br><span class="line">此命令可用于从机或主机。从机则是适配器或手机弹出要求输入配对密码窗口时，则手工输入此参数就可以连接从机。主机则是在用主蓝牙模块连数码相机</span><br><span class="line">时，数码相机是从机，找到相机的配对密码，再设入主蓝牙模块，则主蓝牙模块就可以自动连接相机。</span><br><span class="line">例：发送 AT+PIN8888</span><br><span class="line">返回+PIN=<span class="number">8888</span></span><br><span class="line">(<span class="number">4</span>)更改模块的主从模式（V1.<span class="number">7</span> 版本以后支持）</span><br><span class="line">发送： AT+ROLE=<span class="number">1</span>（设置模块为主模式 Master）</span><br><span class="line">返回： +ROLE=<span class="number">1</span></span><br><span class="line">发送： AT+ROLE=<span class="number">0</span>（设置模块为从模式 Slave）</span><br><span class="line">返回： +ROLE=<span class="number">0</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="电脑连接蓝牙模块"><a href="#电脑连接蓝牙模块" class="headerlink" title="电脑连接蓝牙模块"></a>电脑连接蓝牙模块</h2><p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E8%93%9D%E7%89%99%E6%A8%A1%E5%9D%97&spm=1001.2101.3001.7020">蓝牙模块</a>HC05支持SPP协议，使用PC机自带蓝牙（或者蓝牙适配器）与HC05连接后，可在电脑端虚拟出串口，这样上位机软件就可以像操作串口一样与HC05通信。</p>
 <img src="/2024/04/18/109-lan-ya-mo-kuai/image-20240418150252453.png" class="" title="image-20240418150252453">
@@ -300,9 +264,9 @@ AT+RMAAD           清空配对列表<span aria-hidden="true" class="line-number
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -311,6 +275,7 @@ AT+RMAAD           清空配对列表<span aria-hidden="true" class="line-number
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -340,7 +305,7 @@ AT+RMAAD           清空配对列表<span aria-hidden="true" class="line-number
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -352,14 +317,14 @@ AT+RMAAD           清空配对列表<span aria-hidden="true" class="line-number
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

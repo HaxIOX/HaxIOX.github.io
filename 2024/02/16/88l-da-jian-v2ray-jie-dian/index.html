@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">搭建v2ray节点</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1434
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -178,20 +191,18 @@
       </div>
       <div class="markdown-body">
         <h2 id="ws-tls一键脚本"><a href="#ws-tls一键脚本" class="headerlink" title="ws+tls一键脚本"></a>ws+tls一键脚本</h2><p>只需要准备一个伪装域名即可(无CDN)</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">bash &lt;(curl -s -L https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;xyz690&#x2F;v2ray&#x2F;master&#x2F;install.sh)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash &lt;(curl -s -L https://raw.githubusercontent.com/xyz690/v2ray/master/install.sh)</span><br></pre></td></tr></table></figure>
 
 <h2 id="V2rayN报错"><a href="#V2rayN报错" class="headerlink" title="V2rayN报错"></a>V2rayN报错</h2><p>大佬总结: <strong>端口被封</strong>, <strong>节点挂了</strong>,配置错了</p>
 <blockquote>
 <p>本次原因:资源不够, 导致v2ray没有运行起来,表现为443端口没有被监听, 重装或者重启解决</p>
 </blockquote>
 <h3 id="报错-1"><a href="#报错-1" class="headerlink" title="报错(1)"></a>报错(1)</h3><p> failed to find an available destination</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">2024&#x2F;02&#x2F;17 07:44:56 [Warning] [2442645581] app&#x2F;proxyman&#x2F;outbound: failed to process outbound traffic &gt; proxy&#x2F;vmess&#x2F;outbound: failed to find an available destination &gt; common&#x2F;retry: [transport&#x2F;internet&#x2F;websocket: failed to dial WebSocket &gt; transport&#x2F;internet&#x2F;websocket: failed to dial to (wss:&#x2F;&#x2F;wap_sg2.ideagpt.top&#x2F;):  &gt; dial tcp 185.151.146.79:443: operation was canceled transport&#x2F;internet&#x2F;websocket: failed to dial WebSocket &gt; transport&#x2F;internet&#x2F;websocket: failed to dial to (wss:&#x2F;&#x2F;wap_sg2.ideagpt.top&#x2F;):  &gt; dial tcp: lookup wap_sg2.ideagpt.top: operation was canceled] &gt; common&#x2F;retry: all retry attempts failed<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2024/02/17 07:44:56 [Warning] [2442645581] app/proxyman/outbound: failed to process outbound traffic &gt; proxy/vmess/outbound: failed to find an available destination &gt; common/retry: [transport/internet/websocket: failed to dial WebSocket &gt; transport/internet/websocket: failed to dial to (wss://wap_sg2.ideagpt.top/):  &gt; dial tcp 185.151.146.79:443: operation was canceled transport/internet/websocket: failed to dial WebSocket &gt; transport/internet/websocket: failed to dial to (wss://wap_sg2.ideagpt.top/):  &gt; dial tcp: lookup wap_sg2.ideagpt.top: operation was canceled] &gt; common/retry: all retry attempts failed</span><br></pre></td></tr></table></figure>
 
-<h3 id="报错-2"><a href="#报错-2" class="headerlink" title="报错(2)"></a>报错(2)</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">2024&#x2F;03&#x2F;18 06:49:13 [Warning] [2497832095] github.com&#x2F;v2fly&#x2F;v2ray-core&#x2F;v4&#x2F;app&#x2F;proxyman&#x2F;outbound: failed to process outbound traffic &gt; github.com&#x2F;v2fly&#x2F;v2ray-core&#x2F;v4&#x2F;proxy&#x2F;vmess&#x2F;outbound: failed to find an available destination &gt; github.com&#x2F;v2fly&#x2F;v2ray-core&#x2F;v4&#x2F;common&#x2F;retry: [github.com&#x2F;v2fly&#x2F;v2ray-core&#x2F;v4&#x2F;transport&#x2F;internet&#x2F;websocket: failed to dial WebSocket &gt; github.com&#x2F;v2fly&#x2F;v2ray-core&#x2F;v4&#x2F;transport&#x2F;internet&#x2F;websocket: failed to dial to (wss:&#x2F;&#x2F;xxx.xx.xx.xx:443&#x2F;search):  &gt; dial tcp xxx.xx.xx.xx:443: connectex: No connection could be made because the target machine actively refused it.] &gt; github.com&#x2F;v2fly&#x2F;v2ray-core&#x2F;v4&#x2F;common&#x2F;retry: all retry attempts failed<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="报错-2"><a href="#报错-2" class="headerlink" title="报错(2)"></a>报错(2)</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2024/03/18 06:49:13 [Warning] [2497832095] github.com/v2fly/v2ray-core/v4/app/proxyman/outbound: failed to process outbound traffic &gt; github.com/v2fly/v2ray-core/v4/proxy/vmess/outbound: failed to find an available destination &gt; github.com/v2fly/v2ray-core/v4/common/retry: [github.com/v2fly/v2ray-core/v4/transport/internet/websocket: failed to dial WebSocket &gt; github.com/v2fly/v2ray-core/v4/transport/internet/websocket: failed to dial to (wss://xxx.xx.xx.xx:443/search):  &gt; dial tcp xxx.xx.xx.xx:443: connectex: No connection could be made because the target machine actively refused it.] &gt; github.com/v2fly/v2ray-core/v4/common/retry: all retry attempts failed</span><br></pre></td></tr></table></figure>
 
-<h3 id="报错-3"><a href="#报错-3" class="headerlink" title="报错(3)"></a>报错(3)</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">2024&#x2F;03&#x2F;18 07:05:03 127.0.0.1:50982 accepted http:&#x2F;&#x2F;www.gstatic.com&#x2F;generate_204 [http10911 -&gt; proxy10911]
-2024&#x2F;03&#x2F;18 07:05:07 [Warning] [3072752593] app&#x2F;proxyman&#x2F;outbound: failed to process outbound traffic &gt; proxy&#x2F;vmess&#x2F;outbound: failed to find an available destination &gt; common&#x2F;retry: [transport&#x2F;internet&#x2F;websocket: failed to dial WebSocket &gt; transport&#x2F;internet&#x2F;websocket: failed to dial to (wss:&#x2F;&#x2F;zgo.apigpt.eu.org&#x2F;):  &gt; tls: first record does not look like a TLS handshake] &gt; common&#x2F;retry: all retry attempts failed
-2024&#x2F;03&#x2F;18 07:05:07 [Warning] [3072752593] proxy&#x2F;http: failed to read response from www.gstatic.com &gt; io: read&#x2F;write on closed pipe<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="报错-3"><a href="#报错-3" class="headerlink" title="报错(3)"></a>报错(3)</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2024/03/18 07:05:03 127.0.0.1:50982 accepted http://www.gstatic.com/generate_204 [http10911 -&gt; proxy10911]</span><br><span class="line">2024/03/18 07:05:07 [Warning] [3072752593] app/proxyman/outbound: failed to process outbound traffic &gt; proxy/vmess/outbound: failed to find an available destination &gt; common/retry: [transport/internet/websocket: failed to dial WebSocket &gt; transport/internet/websocket: failed to dial to (wss://zgo.apigpt.eu.org/):  &gt; tls: first record does not look like a TLS handshake] &gt; common/retry: all retry attempts failed</span><br><span class="line">2024/03/18 07:05:07 [Warning] [3072752593] proxy/http: failed to read response from www.gstatic.com &gt; io: read/write on closed pipe</span><br></pre></td></tr></table></figure>
 
 
 
@@ -199,15 +210,7 @@
 
 <p>v2ray监听的端口是ipv6的</p>
 <p>[ v2ray failed to dial WebSocket 解决方法](<a target="_blank" rel="noopener" href="https://codefuturesql.top/post/v2ray_failed_to_dail/">转载 v2ray failed to dial WebSocket 解决方法_ find an available destination | Academic (codefuturesql.top)</a>)</p>
-<h2 id="暂未解决"><a href="#暂未解决" class="headerlink" title="暂未解决"></a>暂未解决</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">临时禁用 IPv6，只需要输入三条命令：
-
-sudo sysctl -w net.ipv6.conf.all.disable_ipv6&#x3D;1
-sudo sysctl -w net.ipv6.conf.default.disable_ipv6&#x3D;1
-sudo sysctl -w net.ipv6.conf.lo.disable_ipv6&#x3D;1
-
-检查命令是否生效：
-ip a
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="暂未解决"><a href="#暂未解决" class="headerlink" title="暂未解决"></a>暂未解决</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">临时禁用 IPv6，只需要输入三条命令：</span><br><span class="line"></span><br><span class="line">sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1</span><br><span class="line">sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1</span><br><span class="line">sudo sysctl -w net.ipv6.conf.lo.disable_ipv6=1</span><br><span class="line"></span><br><span class="line">检查命令是否生效：</span><br><span class="line">ip a</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>说是因为80或者443端口被占用了需要手动转发tls,因为服务器上搭建了其他的网站,</p>
 <p>但是443端口并未被占用,为什么自动监听ipv6的端口呢</p>
@@ -221,7 +224,7 @@ ip a
 </blockquote>
 </li>
 <li><p><strong>查看正在监听的端口</strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">netstat -tuln<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -tuln</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>发现443端口没有被监听</p>
@@ -229,35 +232,20 @@ ip a
 <p>运行 <strong>sudo lsof -i :443</strong>或者<strong>netstat -anp | grep 【端口号】</strong> 没有显示任何输出，说明目前没有进程在使用443端口。</p>
 </li>
 <li><p><strong>检查服务状态</strong>：运行以下命令来查看您的服务是否正在运行：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo systemctl status &lt;your-service-name&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status &lt;your-service-name&gt;</span><br></pre></td></tr></table></figure>
 
 <p>如果服务正在运行，检查服务的状态和日志以查看是否有任何错误消息。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">root@HKserver1:~# sudo systemctl status v2ray
-● v2ray.service - V2Ray Service
-     Loaded: loaded (&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;v2ray.service; enabled; vendor preset: enabled)
-     Active: activating (auto-restart) (Result: signal) since Sat 2024-02-17 11:55:05 CST; 79ms ago
-       Docs: https:&#x2F;&#x2F;www.v2ray.com&#x2F;
-             https:&#x2F;&#x2F;www.v2fly.org&#x2F;
-    Process: 12023 ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;env v2ray.vmess.aead.forced&#x3D;false &#x2F;usr&#x2F;bin&#x2F;v2ray&#x2F;v2ray run -config &#x2F;etc&#x2F;v2ray&#x2F;c&gt;   Main PID: 12023 (code&#x3D;killed, signal&#x3D;KILL)
-
-Feb 17 11:55:05 HKserver1 systemd[1]: v2ray.service: Main process exited, code&#x3D;killed, status&#x3D;9&#x2F;KILL
-Feb 17 11:55:05 HKserver1 systemd[1]: v2ray.service: Failed with result &#39;signal&#39;.
-Feb 17 11:55:05 HKserver1 systemd[1]: v2ray.service: Scheduled restart job, restart counter is at 21.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">root@HKserver1:~# <span class="built_in">sudo</span> systemctl status v2ray</span><br><span class="line">● v2ray.service - V2Ray Service</span><br><span class="line">     Loaded: loaded (/lib/systemd/system/v2ray.service; enabled; vendor preset: enabled)</span><br><span class="line">     Active: activating (auto-restart) (Result: signal) since Sat 2024-02-17 11:55:05 CST; 79ms ago</span><br><span class="line">       Docs: https://www.v2ray.com/</span><br><span class="line">             https://www.v2fly.org/</span><br><span class="line">    Process: 12023 ExecStart=/usr/bin/env v2ray.vmess.aead.forced=<span class="literal">false</span> /usr/bin/v2ray/v2ray run -config /etc/v2ray/c&gt;   Main PID: 12023 (code=killed, signal=KILL)</span><br><span class="line"></span><br><span class="line">Feb 17 11:55:05 HKserver1 systemd[1]: v2ray.service: Main process exited, code=killed, status=9/KILL</span><br><span class="line">Feb 17 11:55:05 HKserver1 systemd[1]: v2ray.service: Failed with result <span class="string">&#x27;signal&#x27;</span>.</span><br><span class="line">Feb 17 11:55:05 HKserver1 systemd[1]: v2ray.service: Scheduled restart job, restart counter is at 21.</span><br></pre></td></tr></table></figure>
 
 <p>输出显示, <code>Main process exited, code=killed, status=9/KILL</code>, V2Ray 服务正在以信号KILL退出，然后尝试自动重启。这种情况通常表明有一个问题导致了 V2Ray 服务的异常退出。</p>
 </li>
 <li><p><strong>检查服务日志</strong>：查看服务的日志文件以获取有关启动过程的详细信息。通常，服务的日志文件位于 <code>/var/log</code> 目录下</p>
 <ol>
 <li><p><strong>查看 V2Ray 日志</strong>：查看 V2Ray 的日志文件以获取更多详细信息，帮助确定为什么服务异常退出。您可以使用以下命令查看日志：&#96;&#96;&#96;</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">journalctl -u v2ray.service<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">journalctl -u v2ray.service</span><br></pre></td></tr></table></figure>
 
 <p><strong>日志输出</strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Feb 16 20:53:41 HKserver1 env[102815]: V2Ray 5.12.1 (V2Fly, a community-driven edition of V2Ray.) Custom (go1.21.4 li&gt;Feb 16 20:53:41 HKserver1 env[102815]: A unified platform for anti-censorship.
-Feb 16 20:53:46 HKserver1 systemd[1]: v2ray.service: Main process exited, code&#x3D;killed, status&#x3D;9&#x2F;KILL
-Feb 16 20:53:46 HKserver1 systemd[1]: v2ray.service: Failed with result &#39;signal&#39;.
-Feb 16 20:53:46 HKserver1 systemd[1]: v2ray.service: Scheduled restart job, restart counter is at 5.
-Feb 16 20:53:46 HKserver1 systemd[1]: Stopped V2Ray Service.
-Feb 16 20:53:46 HKserver1 systemd[1]: Started V2Ray Service.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Feb 16 20:53:41 HKserver1 <span class="built_in">env</span>[102815]: V2Ray 5.12.1 (V2Fly, a community-driven edition of V2Ray.) Custom (go1.21.4 li&gt;Feb 16 20:53:41 HKserver1 <span class="built_in">env</span>[102815]: A unified platform <span class="keyword">for</span> anti-censorship.</span><br><span class="line">Feb 16 20:53:46 HKserver1 systemd[1]: v2ray.service: Main process exited, code=killed, status=9/KILL</span><br><span class="line">Feb 16 20:53:46 HKserver1 systemd[1]: v2ray.service: Failed with result <span class="string">&#x27;signal&#x27;</span>.</span><br><span class="line">Feb 16 20:53:46 HKserver1 systemd[1]: v2ray.service: Scheduled restart job, restart counter is at 5.</span><br><span class="line">Feb 16 20:53:46 HKserver1 systemd[1]: Stopped V2Ray Service.</span><br><span class="line">Feb 16 20:53:46 HKserver1 systemd[1]: Started V2Ray Service.</span><br></pre></td></tr></table></figure>
 
 <p>V2Ray 服务似乎在启动后立即被信号KILL终止。这表明有某种问题导致服务无法正常运行，系统因此将其终止。</p>
 <p>通常情况下，<strong>V2Ray 进程被信号KILL终止</strong>的原因可能包括：</p>
@@ -270,7 +258,7 @@ Feb 16 20:53:46 HKserver1 systemd[1]: Started V2Ray Service.<span aria-hidden="t
 </ol>
 </li>
 <li><p><strong>手动启动服务</strong>：尝试手动启动服务并检查是否有任何错误消息：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo systemctl start &lt;your-service-name&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start &lt;your-service-name&gt;</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p><strong>常见问题</strong></p>
 <ul>
@@ -332,9 +320,9 @@ Feb 16 20:53:46 HKserver1 systemd[1]: Started V2Ray Service.<span aria-hidden="t
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -343,6 +331,7 @@ Feb 16 20:53:46 HKserver1 systemd[1]: Started V2Ray Service.<span aria-hidden="t
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -372,7 +361,7 @@ Feb 16 20:53:46 HKserver1 systemd[1]: Started V2Ray Service.<span aria-hidden="t
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -384,14 +373,14 @@ Feb 16 20:53:46 HKserver1 systemd[1]: Started V2Ray Service.<span aria-hidden="t
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

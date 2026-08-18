@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">ICM42688运动状态判断</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          4891
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -189,11 +202,10 @@
 <li><strong>加速度计</strong>：测量三轴加速度 (aX, aY, aZ)，单位：g</li>
 <li><strong>陀螺仪</strong>：测量三轴角速度 (gX, gY, gZ)，单位：度&#x2F;秒</li>
 </ul>
-<pre class="line-numbers language-none"><code class="language-none">采样率：20Hz (每 100ms 采集一次)
-窗口大小：1 秒 (10 个样本)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">采样率：20Hz (每 100ms 采集一次)</span><br><span class="line">窗口大小：1 秒 (10 个样本)</span><br></pre></td></tr></table></figure>
 
 <h3 id="2-特征提取"><a href="#2-特征提取" class="headerlink" title="2. 特征提取"></a>2. 特征提取</h3><p>从 1 秒窗口的数据中提取以下特征：</p>
-<h4 id="特征-1-加速度标准差-Accel-Std"><a href="#特征-1-加速度标准差-Accel-Std" class="headerlink" title="特征 1: 加速度标准差 (Accel Std)"></a>特征 1: 加速度标准差 (Accel Std)</h4><pre class="line-numbers language-none"><code class="language-none">计算公式：std &#x3D; √(Σ(ai - mean)² &#x2F; N)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="特征-1-加速度标准差-Accel-Std"><a href="#特征-1-加速度标准差-Accel-Std" class="headerlink" title="特征 1: 加速度标准差 (Accel Std)"></a>特征 1: 加速度标准差 (Accel Std)</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">计算公式：std = √(Σ(ai - mean)² / N)</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>含义</strong>：反映运动强度</li>
@@ -201,7 +213,7 @@
 <li><strong>走路</strong>: 中等标准差 (~0.1-0.3g)</li>
 <li><strong>跑步</strong>: 高标准差 (&gt;0.4g)</li>
 </ul>
-<h4 id="特征-2-陀螺仪均值-Gyro-Mean"><a href="#特征-2-陀螺仪均值-Gyro-Mean" class="headerlink" title="特征 2: 陀螺仪均值 (Gyro Mean)"></a>特征 2: 陀螺仪均值 (Gyro Mean)</h4><pre class="line-numbers language-none"><code class="language-none">计算公式：gyro_mag &#x3D; √(gX² + gY² + gZ²)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="特征-2-陀螺仪均值-Gyro-Mean"><a href="#特征-2-陀螺仪均值-Gyro-Mean" class="headerlink" title="特征 2: 陀螺仪均值 (Gyro Mean)"></a>特征 2: 陀螺仪均值 (Gyro Mean)</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">计算公式：gyro_mag = √(gX² + gY² + gZ²)</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>含义</strong>：反映旋转运动</li>
@@ -209,7 +221,7 @@
 <li><strong>走路</strong>: 中等旋转 (5-15 dps)</li>
 <li><strong>驾车</strong>: 持续旋转 (&gt;3 dps)</li>
 </ul>
-<h4 id="特征-3-步频-Step-Frequency"><a href="#特征-3-步频-Step-Frequency" class="headerlink" title="特征 3: 步频 (Step Frequency)"></a>特征 3: 步频 (Step Frequency)</h4><pre class="line-numbers language-none"><code class="language-none">检测方法：峰值检测算法<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="特征-3-步频-Step-Frequency"><a href="#特征-3-步频-Step-Frequency" class="headerlink" title="特征 3: 步频 (Step Frequency)"></a>特征 3: 步频 (Step Frequency)</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">检测方法：峰值检测算法</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>含义</strong>：每秒的步数</li>
@@ -217,7 +229,7 @@
 <li><strong>走路</strong>: 0.8-2.5 Hz (约 1.5-2.0 步&#x2F;秒)</li>
 <li><strong>跑步</strong>: &gt;2.2 Hz (&gt;2.2 步&#x2F;秒)</li>
 </ul>
-<h4 id="特征-4-过零率-Zero-Crossings"><a href="#特征-4-过零率-Zero-Crossings" class="headerlink" title="特征 4: 过零率 (Zero Crossings)"></a>特征 4: 过零率 (Zero Crossings)</h4><pre class="line-numbers language-none"><code class="language-none">统计信号穿越均值的次数<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="特征-4-过零率-Zero-Crossings"><a href="#特征-4-过零率-Zero-Crossings" class="headerlink" title="特征 4: 过零率 (Zero Crossings)"></a>特征 4: 过零率 (Zero Crossings)</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">统计信号穿越均值的次数</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>含义</strong>：反映运动规律性</li>
@@ -225,48 +237,10 @@
 <li><strong>驾车</strong>: 不规则振动，过零多</li>
 </ul>
 <h3 id="3-分类规则"><a href="#3-分类规则" class="headerlink" title="3. 分类规则"></a>3. 分类规则</h3><p>基于多特征决策树：</p>
-<pre class="line-numbers language-none"><code class="language-none">┌─────────────────────────────────────┐
-│  加速度标准差 &lt; 0.08g               │
-│  且 陀螺仪均值 &lt; 5 dps              │
-└────────┬────────────────────────────┘
-         │ Yes
-         ↓
-    【静止状态】
-
-         │ No
-         ↓
-┌─────────────────────────────────────┐
-│  步频 0.8-2.5 Hz                    │
-│  且 加速度标准差 0.08-0.5g          │
-└────────┬────────────────────────────┘
-         │ Yes
-         ↓
-    【走路状态】
-
-         │ No
-         ↓
-┌─────────────────────────────────────┐
-│  步频 &gt; 2.2 Hz                      │
-│  且 加速度标准差 &gt; 0.4g             │
-└────────┬────────────────────────────┘
-         │ Yes
-         ↓
-    【跑步状态】
-
-         │ No
-         ↓
-┌─────────────────────────────────────┐
-│  陀螺仪均值 &gt; 3 dps                 │
-│  且 步频 &lt; 1.5 Hz                   │
-└────────┬────────────────────────────┘
-         │ Yes
-         ↓
-    【驾车状态】<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│  加速度标准差 &lt; 0.08g               │</span><br><span class="line">│  且 陀螺仪均值 &lt; 5 dps              │</span><br><span class="line">└────────┬────────────────────────────┘</span><br><span class="line">         │ Yes</span><br><span class="line">         ↓</span><br><span class="line">    【静止状态】</span><br><span class="line"></span><br><span class="line">         │ No</span><br><span class="line">         ↓</span><br><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│  步频 0.8-2.5 Hz                    │</span><br><span class="line">│  且 加速度标准差 0.08-0.5g          │</span><br><span class="line">└────────┬────────────────────────────┘</span><br><span class="line">         │ Yes</span><br><span class="line">         ↓</span><br><span class="line">    【走路状态】</span><br><span class="line"></span><br><span class="line">         │ No</span><br><span class="line">         ↓</span><br><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│  步频 &gt; 2.2 Hz                      │</span><br><span class="line">│  且 加速度标准差 &gt; 0.4g             │</span><br><span class="line">└────────┬────────────────────────────┘</span><br><span class="line">         │ Yes</span><br><span class="line">         ↓</span><br><span class="line">    【跑步状态】</span><br><span class="line"></span><br><span class="line">         │ No</span><br><span class="line">         ↓</span><br><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│  陀螺仪均值 &gt; 3 dps                 │</span><br><span class="line">│  且 步频 &lt; 1.5 Hz                   │</span><br><span class="line">└────────┬────────────────────────────┘</span><br><span class="line">         │ Yes</span><br><span class="line">         ↓</span><br><span class="line">    【驾车状态】</span><br></pre></td></tr></table></figure>
 
 <h3 id="4-状态平滑"><a href="#4-状态平滑" class="headerlink" title="4. 状态平滑"></a>4. 状态平滑</h3><p>使用滑动窗口投票机制：</p>
-<pre class="line-numbers language-none"><code class="language-none">保存最近 3 秒的识别结果 [状态1, 状态2, 状态3]
-统计每种状态的票数
-选择票数最多的状态作为最终输出<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">保存最近 3 秒的识别结果 [状态1, 状态2, 状态3]</span><br><span class="line">统计每种状态的票数</span><br><span class="line">选择票数最多的状态作为最终输出</span><br></pre></td></tr></table></figure>
 
 <p><strong>优点</strong>：避免状态频繁跳变，提高稳定性</p>
 <hr>
@@ -280,29 +254,7 @@
 <li><strong>陀螺仪</strong>: ±2000dps 量程, 1kHz ODR</li>
 <li><strong>工作模式</strong>: 低噪声模式 (Low Noise Mode)</li>
 </ul>
-<h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><pre class="line-numbers language-none"><code class="language-none">┌──────────────┐
-│  读取传感器  │ ← 10Hz 采样
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│ 存入缓冲区   │ ← 1秒窗口 (10个样本)
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│  提取特征    │ ← 计算标准差、峰值、步频等
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│  规则分类    │ ← 基于阈值的决策树
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│  状态平滑    │ ← 3秒滑动窗口投票
-└──────┬───────┘
-       ↓
-┌──────────────┐
-│  输出结果    │
-└──────────────┘<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">┌──────────────┐</span><br><span class="line">│  读取传感器  │ ← 10Hz 采样</span><br><span class="line">└──────┬───────┘</span><br><span class="line">       ↓</span><br><span class="line">┌──────────────┐</span><br><span class="line">│ 存入缓冲区   │ ← 1秒窗口 (10个样本)</span><br><span class="line">└──────┬───────┘</span><br><span class="line">       ↓</span><br><span class="line">┌──────────────┐</span><br><span class="line">│  提取特征    │ ← 计算标准差、峰值、步频等</span><br><span class="line">└──────┬───────┘</span><br><span class="line">       ↓</span><br><span class="line">┌──────────────┐</span><br><span class="line">│  规则分类    │ ← 基于阈值的决策树</span><br><span class="line">└──────┬───────┘</span><br><span class="line">       ↓</span><br><span class="line">┌──────────────┐</span><br><span class="line">│  状态平滑    │ ← 3秒滑动窗口投票</span><br><span class="line">└──────┬───────┘</span><br><span class="line">       ↓</span><br><span class="line">┌──────────────┐</span><br><span class="line">│  输出结果    │</span><br><span class="line">└──────────────┘</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="📊-特征对比表"><a href="#📊-特征对比表" class="headerlink" title="📊 特征对比表"></a>📊 特征对比表</h2><table>
@@ -357,16 +309,9 @@
 <li><strong>ESP-IDF 文档</strong>: <a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/">ESP-IDF Programming Guide</a></li>
 <li><strong>人体运动识别综述</strong>: <em>Sensor-based Human Activity Recognition: A Review</em> (2019)</li>
 </ul>
-<h1 id="峰值检测与步频计算原理详解"><a href="#峰值检测与步频计算原理详解" class="headerlink" title="峰值检测与步频计算原理详解"></a>峰值检测与步频计算原理详解</h1><h2 id="1️⃣-采样频率理解"><a href="#1️⃣-采样频率理解" class="headerlink" title="1️⃣ 采样频率理解"></a>1️⃣ 采样频率理解</h2><h3 id="你的理解完全正确！✅"><a href="#你的理解完全正确！✅" class="headerlink" title="你的理解完全正确！✅"></a>你的理解完全正确！✅</h3><pre class="line-numbers language-none"><code class="language-none">采样频率 10Hz &#x3D; 1秒读取10次数据
-                &#x3D; 每 100ms 读取一次
-                &#x3D; 每 0.1秒 读取一次<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h1 id="峰值检测与步频计算原理详解"><a href="#峰值检测与步频计算原理详解" class="headerlink" title="峰值检测与步频计算原理详解"></a>峰值检测与步频计算原理详解</h1><h2 id="1️⃣-采样频率理解"><a href="#1️⃣-采样频率理解" class="headerlink" title="1️⃣ 采样频率理解"></a>1️⃣ 采样频率理解</h2><h3 id="你的理解完全正确！✅"><a href="#你的理解完全正确！✅" class="headerlink" title="你的理解完全正确！✅"></a>你的理解完全正确！✅</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">采样频率 10Hz = 1秒读取10次数据</span><br><span class="line">                = 每 100ms 读取一次</span><br><span class="line">                = 每 0.1秒 读取一次</span><br></pre></td></tr></table></figure>
 
-<h3 id="时间轴示意图"><a href="#时间轴示意图" class="headerlink" title="时间轴示意图"></a>时间轴示意图</h3><pre class="line-numbers language-none"><code class="language-none">时间(秒):  0.0   0.1   0.2   0.3   0.4   0.5   0.6   0.7   0.8   0.9   1.0
-           │     │     │     │     │     │     │     │     │     │     │
-采样点:    ●─────●─────●─────●─────●─────●─────●─────●─────●─────●─────●
-           1     2     3     4     5     6     7     8     9    10    11
-
-窗口大小 &#x3D; 10个采样点 &#x3D; 1秒的数据<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="时间轴示意图"><a href="#时间轴示意图" class="headerlink" title="时间轴示意图"></a>时间轴示意图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">时间(秒):  0.0   0.1   0.2   0.3   0.4   0.5   0.6   0.7   0.8   0.9   1.0</span><br><span class="line">           │     │     │     │     │     │     │     │     │     │     │</span><br><span class="line">采样点:    ●─────●─────●─────●─────●─────●─────●─────●─────●─────●─────●</span><br><span class="line">           1     2     3     4     5     6     7     8     9    10    11</span><br><span class="line"></span><br><span class="line">窗口大小 = 10个采样点 = 1秒的数据</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="2️⃣-峰值检测的对象"><a href="#2️⃣-峰值检测的对象" class="headerlink" title="2️⃣ 峰值检测的对象"></a>2️⃣ 峰值检测的对象</h2><h3 id="检测的是：加速度幅值（Acceleration-Magnitude）"><a href="#检测的是：加速度幅值（Acceleration-Magnitude）" class="headerlink" title="检测的是：加速度幅值（Acceleration Magnitude）"></a>检测的是：<strong>加速度幅值（Acceleration Magnitude）</strong></h3><h3 id="什么是加速度幅值？"><a href="#什么是加速度幅值？" class="headerlink" title="什么是加速度幅值？"></a>什么是加速度幅值？</h3><p>加速度计给我们三个轴的数据：</p>
@@ -376,15 +321,13 @@
 <li><strong>aZ</strong>: Z轴加速度</li>
 </ul>
 <p><strong>加速度幅值</strong>是三轴的合成：</p>
-<pre class="line-numbers language-none"><code class="language-none">加速度幅值 &#x3D; √(aX² + aY² + aZ²)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">加速度幅值 = √(aX² + aY² + aZ²)</span><br></pre></td></tr></table></figure>
 
 <p>这个值代表<strong>总的加速度大小</strong>，不考虑方向。</p>
 <h3 id="为什么要计算幅值？"><a href="#为什么要计算幅值？" class="headerlink" title="为什么要计算幅值？"></a>为什么要计算幅值？</h3><p>因为传感器的方向可能不固定（手机在口袋里可能是竖着、横着、斜着），但<strong>总的运动强度</strong>是不变的。</p>
 <hr>
 <h2 id="3️⃣-走路时的加速度变化"><a href="#3️⃣-走路时的加速度变化" class="headerlink" title="3️⃣ 走路时的加速度变化"></a>3️⃣ 走路时的加速度变化</h2><h3 id="人走路时发生了什么？"><a href="#人走路时发生了什么？" class="headerlink" title="人走路时发生了什么？"></a>人走路时发生了什么？</h3><p>想象一下走路的过程：</p>
-<pre class="line-numbers language-none"><code class="language-none"> 抬脚 → 向前 → 落地 → 抬脚 → 向前 → 落地
-  ↑             ↑      ↑             ↑
-峰值1         峰值2   峰值3         峰值4<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> 抬脚 → 向前 → 落地 → 抬脚 → 向前 → 落地</span><br><span class="line">  ↑             ↑      ↑             ↑</span><br><span class="line">峰值1         峰值2   峰值3         峰值4</span><br></pre></td></tr></table></figure>
 
 <p>每走一步，身体都会经历：</p>
 <ol>
@@ -392,96 +335,25 @@
 <li><strong>向前迈步</strong>：加速度达到峰值 🔺</li>
 <li><strong>脚落地</strong>：加速度减小 ↘️</li>
 </ol>
-<h3 id="加速度幅值波形图"><a href="#加速度幅值波形图" class="headerlink" title="加速度幅值波形图"></a>加速度幅值波形图</h3><pre class="line-numbers language-none"><code class="language-none">加速度幅值 (g)
-  │
-11│           峰值          峰值          峰值
-  │            ╱\            ╱\            ╱\
-10│           ╱  \          ╱  \          ╱  \
-  │     门槛─ ╱    \  门槛─ ╱    \  门槛─ ╱    \
-9.8│─────────╱──────\──────╱──────\──────╱──────\─────
-  │        ╱        \    ╱        \    ╱        \
-9.6│       ╱          \  ╱          \  ╱          \
-  │      ╱            ╱\             ╱\            
-9.4│_____╱____________╱__\___________╱__\___________╱___
-  │                                                     
-  └─────────────────────────────────────────────────────→
-     0.0  0.2  0.4  0.6  0.8  1.0  1.2  1.4  1.6  时间(秒)
-     
-     第1步        第2步        第3步<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="加速度幅值波形图"><a href="#加速度幅值波形图" class="headerlink" title="加速度幅值波形图"></a>加速度幅值波形图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">加速度幅值 (g)</span><br><span class="line">  │</span><br><span class="line">11│           峰值          峰值          峰值</span><br><span class="line">  │            ╱\            ╱\            ╱\</span><br><span class="line">10│           ╱  \          ╱  \          ╱  \</span><br><span class="line">  │     门槛─ ╱    \  门槛─ ╱    \  门槛─ ╱    \</span><br><span class="line">9.8│─────────╱──────\──────╱──────\──────╱──────\─────</span><br><span class="line">  │        ╱        \    ╱        \    ╱        \</span><br><span class="line">9.6│       ╱          \  ╱          \  ╱          \</span><br><span class="line">  │      ╱            ╱\             ╱\            </span><br><span class="line">9.4│_____╱____________╱__\___________╱__\___________╱___</span><br><span class="line">  │                                                     </span><br><span class="line">  └─────────────────────────────────────────────────────→</span><br><span class="line">     0.0  0.2  0.4  0.6  0.8  1.0  1.2  1.4  1.6  时间(秒)</span><br><span class="line">     </span><br><span class="line">     第1步        第2步        第3步</span><br></pre></td></tr></table></figure>
 
 <p><strong>静止时</strong>：加速度幅值约等于重力加速度 g ≈ 9.8 m&#x2F;s²<br> <strong>走路时</strong>：每迈一步产生一个波峰，幅值会超过 10 g 或低于 9.6 g</p>
 <h3 id="峰值判定条件"><a href="#峰值判定条件" class="headerlink" title="峰值判定条件"></a>峰值判定条件</h3><p>一个点要被认定为峰值，需要满足：</p>
-<pre class="line-numbers language-none"><code class="language-none">条件1: 值 &gt; 阈值           (超过基线，说明有显著运动)
-条件2: 值 &gt; 前一个点       (上升趋势)
-条件3: 值 ≥ 后一个点       (开始下降或平稳)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">条件1: 值 &gt; 阈值           (超过基线，说明有显著运动)</span><br><span class="line">条件2: 值 &gt; 前一个点       (上升趋势)</span><br><span class="line">条件3: 值 ≥ 后一个点       (开始下降或平稳)</span><br></pre></td></tr></table></figure>
 
-<h3 id="示意图"><a href="#示意图" class="headerlink" title="示意图"></a>示意图</h3><pre class="line-numbers language-none"><code class="language-none">数据点:    1    2    3    4    5    6    7    8    9   10
-幅值:     9.7  9.9  10.2 10.0 9.8  10.1 10.3 10.1 9.9  9.7
-          │    │    ╱│\  │    │    │   ╱│\  │    │    │
-是否峰值: ×    ×    ●    ×    ×    ×   ●    ×    ×    ×
-                   峰值1              峰值2
-
-阈值线: ──────────── 9.95 ─────────────────────
-
-解释:
-点3: 10.2 &gt; 阈值 ✓, 10.2 &gt; 9.9 ✓, 10.2 &gt; 10.0 ✓  → 是峰值
-点7: 10.3 &gt; 阈值 ✓, 10.3 &gt; 10.1 ✓, 10.3 &gt; 10.1 ✓ → 是峰值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="示意图"><a href="#示意图" class="headerlink" title="示意图"></a>示意图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">数据点:    1    2    3    4    5    6    7    8    9   10</span><br><span class="line">幅值:     9.7  9.9  10.2 10.0 9.8  10.1 10.3 10.1 9.9  9.7</span><br><span class="line">          │    │    ╱│\  │    │    │   ╱│\  │    │    │</span><br><span class="line">是否峰值: ×    ×    ●    ×    ×    ×   ●    ×    ×    ×</span><br><span class="line">                   峰值1              峰值2</span><br><span class="line"></span><br><span class="line">阈值线: ──────────── 9.95 ─────────────────────</span><br><span class="line"></span><br><span class="line">解释:</span><br><span class="line">点3: 10.2 &gt; 阈值 ✓, 10.2 &gt; 9.9 ✓, 10.2 &gt; 10.0 ✓  → 是峰值</span><br><span class="line">点7: 10.3 &gt; 阈值 ✓, 10.3 &gt; 10.1 ✓, 10.3 &gt; 10.1 ✓ → 是峰值</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="5️⃣-步频计算"><a href="#5️⃣-步频计算" class="headerlink" title="5️⃣ 步频计算"></a>5️⃣ 步频计算</h2><h3 id="步频公式"><a href="#步频公式" class="headerlink" title="步频公式"></a>步频公式</h3><pre class="line-numbers language-none"><code class="language-none">步频 (Hz) &#x3D; 峰值数量 &#x2F; 时间窗口 (秒)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="5️⃣-步频计算"><a href="#5️⃣-步频计算" class="headerlink" title="5️⃣ 步频计算"></a>5️⃣ 步频计算</h2><h3 id="步频公式"><a href="#步频公式" class="headerlink" title="步频公式"></a>步频公式</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">步频 (Hz) = 峰值数量 / 时间窗口 (秒)</span><br></pre></td></tr></table></figure>
 
-<h3 id="实际例子"><a href="#实际例子" class="headerlink" title="实际例子"></a>实际例子</h3><h4 id="例子-1：走路"><a href="#例子-1：走路" class="headerlink" title="例子 1：走路"></a>例子 1：走路</h4><pre class="line-numbers language-none"><code class="language-none">时间窗口: 1 秒
-采样点数: 10 个
-检测到的峰值: 2 个
+<h3 id="实际例子"><a href="#实际例子" class="headerlink" title="实际例子"></a>实际例子</h3><h4 id="例子-1：走路"><a href="#例子-1：走路" class="headerlink" title="例子 1：走路"></a>例子 1：走路</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">时间窗口: 1 秒</span><br><span class="line">采样点数: 10 个</span><br><span class="line">检测到的峰值: 2 个</span><br><span class="line"></span><br><span class="line">步频 = 2 / 1.0 = 2.0 Hz</span><br><span class="line">     = 2.0 步/秒</span><br><span class="line">     = 120 步/分钟</span><br><span class="line">     </span><br><span class="line">结论: 正常步行 ✓</span><br></pre></td></tr></table></figure>
 
-步频 &#x3D; 2 &#x2F; 1.0 &#x3D; 2.0 Hz
-     &#x3D; 2.0 步&#x2F;秒
-     &#x3D; 120 步&#x2F;分钟
-     
-结论: 正常步行 ✓<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="例子-2：跑步"><a href="#例子-2：跑步" class="headerlink" title="例子 2：跑步"></a>例子 2：跑步</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">时间窗口: 1 秒</span><br><span class="line">采样点数: 10 个</span><br><span class="line">检测到的峰值: 3 个</span><br><span class="line"></span><br><span class="line">步频 = 3 / 1.0 = 3.0 Hz</span><br><span class="line">     = 3.0 步/秒</span><br><span class="line">     = 180 步/分钟</span><br><span class="line">     </span><br><span class="line">结论: 快速跑步 ✓</span><br></pre></td></tr></table></figure>
 
-<h4 id="例子-2：跑步"><a href="#例子-2：跑步" class="headerlink" title="例子 2：跑步"></a>例子 2：跑步</h4><pre class="line-numbers language-none"><code class="language-none">时间窗口: 1 秒
-采样点数: 10 个
-检测到的峰值: 3 个
-
-步频 &#x3D; 3 &#x2F; 1.0 &#x3D; 3.0 Hz
-     &#x3D; 3.0 步&#x2F;秒
-     &#x3D; 180 步&#x2F;分钟
-     
-结论: 快速跑步 ✓<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="例子-3：静止"><a href="#例子-3：静止" class="headerlink" title="例子 3：静止"></a>例子 3：静止</h4><pre class="line-numbers language-none"><code class="language-none">时间窗口: 1 秒
-采样点数: 10 个
-检测到的峰值: 0 个
-
-步频 &#x3D; 0 &#x2F; 1.0 &#x3D; 0 Hz
-     
-结论: 静止不动 ✓<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="例子-3：静止"><a href="#例子-3：静止" class="headerlink" title="例子 3：静止"></a>例子 3：静止</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">时间窗口: 1 秒</span><br><span class="line">采样点数: 10 个</span><br><span class="line">检测到的峰值: 0 个</span><br><span class="line"></span><br><span class="line">步频 = 0 / 1.0 = 0 Hz</span><br><span class="line">     </span><br><span class="line">结论: 静止不动 ✓</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="6️⃣-完整流程示例"><a href="#6️⃣-完整流程示例" class="headerlink" title="6️⃣ 完整流程示例"></a>6️⃣ 完整流程示例</h2><h3 id="假设我们在走路，1秒内采集到的数据："><a href="#假设我们在走路，1秒内采集到的数据：" class="headerlink" title="假设我们在走路，1秒内采集到的数据："></a>假设我们在走路，1秒内采集到的数据：</h3><pre class="line-numbers language-none"><code class="language-none">时间(s)   aX      aY      aZ      幅值      是否峰值
-------------------------------------------------------
-0.0      0.01   -0.02    0.98    0.982       ×
-0.1      0.03   -0.05    1.02    1.023       ×
-0.2      0.08    0.02    1.15    1.153       ● 峰值1
-0.3      0.05    0.01    1.08    1.082       ×
-0.4      0.02   -0.01    0.99    0.990       ×
-0.5      0.01   -0.03    0.95    0.951       ×
-0.6      0.04    0.00    1.10    1.101       ● 峰值2
-0.7      0.02   -0.02    1.05    1.051       ×
-0.8      0.01   -0.01    0.98    0.980       ×
-0.9      0.00    0.00    0.96    0.960       ×
-
-均值 &#x3D; (0.982 + 1.023 + 1.153 + ... + 0.960) &#x2F; 10 &#x3D; 1.017
-阈值 &#x3D; 1.017 + 0.15 &#x3D; 1.167
-
-峰值检测结果:
-- 点2 (幅值1.153): 接近阈值，满足峰值条件 → 峰值1
-- 点6 (幅值1.101): 虽然低于阈值，但如果调整阈值可能被检测 → 峰值2
-
-检测到 2 个峰值
-步频 &#x3D; 2 &#x2F; 1.0 &#x3D; 2.0 Hz
-结论: 正常步行<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="6️⃣-完整流程示例"><a href="#6️⃣-完整流程示例" class="headerlink" title="6️⃣ 完整流程示例"></a>6️⃣ 完整流程示例</h2><h3 id="假设我们在走路，1秒内采集到的数据："><a href="#假设我们在走路，1秒内采集到的数据：" class="headerlink" title="假设我们在走路，1秒内采集到的数据："></a>假设我们在走路，1秒内采集到的数据：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">时间(s)   aX      aY      aZ      幅值      是否峰值</span><br><span class="line">------------------------------------------------------</span><br><span class="line">0.0      0.01   -0.02    0.98    0.982       ×</span><br><span class="line">0.1      0.03   -0.05    1.02    1.023       ×</span><br><span class="line">0.2      0.08    0.02    1.15    1.153       ● 峰值1</span><br><span class="line">0.3      0.05    0.01    1.08    1.082       ×</span><br><span class="line">0.4      0.02   -0.01    0.99    0.990       ×</span><br><span class="line">0.5      0.01   -0.03    0.95    0.951       ×</span><br><span class="line">0.6      0.04    0.00    1.10    1.101       ● 峰值2</span><br><span class="line">0.7      0.02   -0.02    1.05    1.051       ×</span><br><span class="line">0.8      0.01   -0.01    0.98    0.980       ×</span><br><span class="line">0.9      0.00    0.00    0.96    0.960       ×</span><br><span class="line"></span><br><span class="line">均值 = (0.982 + 1.023 + 1.153 + ... + 0.960) / 10 = 1.017</span><br><span class="line">阈值 = 1.017 + 0.15 = 1.167</span><br><span class="line"></span><br><span class="line">峰值检测结果:</span><br><span class="line">- 点2 (幅值1.153): 接近阈值，满足峰值条件 → 峰值1</span><br><span class="line">- 点6 (幅值1.101): 虽然低于阈值，但如果调整阈值可能被检测 → 峰值2</span><br><span class="line"></span><br><span class="line">检测到 2 个峰值</span><br><span class="line">步频 = 2 / 1.0 = 2.0 Hz</span><br><span class="line">结论: 正常步行</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="7️⃣-为什么这个方法有效？"><a href="#7️⃣-为什么这个方法有效？" class="headerlink" title="7️⃣ 为什么这个方法有效？"></a>7️⃣ 为什么这个方法有效？</h2><h3 id="物理原理"><a href="#物理原理" class="headerlink" title="物理原理"></a>物理原理</h3><ol>
@@ -515,12 +387,7 @@
 <li>慢跑</li>
 <li>跑步</li>
 </ul>
-<h2 id="💡-总结"><a href="#💡-总结" class="headerlink" title="💡 总结"></a>💡 总结</h2><pre class="line-numbers language-none"><code class="language-none">问题答案
-采样频率10Hz是什么意思？每秒读取10次数据，每100ms读一次
-峰值检测检测的是什么？加速度幅值的峰值（√(ax²+ay²+az²)）
-峰值代表什么？每走一步产生的加速度波峰
-如何计算步数？峰值数量 &#x3D; 步数，步频 &#x3D; 峰值数&#x2F;时间
-为什么有效？走路有周期性，每步都有明显的加速度峰值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="💡-总结"><a href="#💡-总结" class="headerlink" title="💡 总结"></a>💡 总结</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">问题答案</span><br><span class="line">采样频率10Hz是什么意思？每秒读取10次数据，每100ms读一次</span><br><span class="line">峰值检测检测的是什么？加速度幅值的峰值（√(ax²+ay²+az²)）</span><br><span class="line">峰值代表什么？每走一步产生的加速度波峰</span><br><span class="line">如何计算步数？峰值数量 = 步数，步频 = 峰值数/时间</span><br><span class="line">为什么有效？走路有周期性，每步都有明显的加速度峰值</span><br></pre></td></tr></table></figure>
 
 <p><strong>核心思想</strong>：走路的每一步都会在加速度数据上留下”脚印”（峰值），我们通过数这些”脚印”来估算步数和步频。🚶‍♂️</p>
 <ul>
@@ -547,75 +414,7 @@
 
 
 
-<h1 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h1><pre class="line-numbers language-none"><code class="language-none">
-2025‑10‑16 10:17:07.585 Disconnected
-2025‑10‑16 10:17:08.362 Connecting to GM502B_Sensor ...
-2025‑10‑16 10:17:13.770 Connected
-2025‑10‑16 10:17:13.893 特征: a_std&#x3D;0.155g  g_avg&#x3D;34.0dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:13.930 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:14.946 特征: a_std&#x3D;0.145g  g_avg&#x3D;52.1dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:14.946 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:15.982 特征: a_std&#x3D;0.103g  g_avg&#x3D;33.4dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:15.986 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:16.966 特征: a_std&#x3D;0.143g  g_avg&#x3D;25.2dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:16.971 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:17.982 特征: a_std&#x3D;0.175g  g_avg&#x3D;25.1dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:17.988 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:18.989 特征: a_std&#x3D;0.174g  g_avg&#x3D;26.9dps  峰值&#x3D;2  步频&#x3D;1.67Hz
-2025‑10‑16 10:17:18.990 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:20.049 特征: a_std&#x3D;0.178g  g_avg&#x3D;22.2dps  峰值&#x3D;2  步频&#x3D;1.82Hz
-2025‑10‑16 10:17:20.054 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:20.949 特征: a_std&#x3D;0.179g  g_avg&#x3D;28.0dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:21.016 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:22.148 特征: a_std&#x3D;0.164g  g_avg&#x3D;25.5dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:22.159 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:23.115 特征: a_std&#x3D;0.024g  g_avg&#x3D;3.6dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:23.115 当前状态: 走路 (原始: 静止)
-2025‑10‑16 10:17:24.036 特征: a_std&#x3D;0.005g  g_avg&#x3D;1.9dps  峰值&#x3D;2  步频&#x3D;3.33Hz
-2025‑10‑16 10:17:24.037 当前状态: 静止 (原始: 静止)
-2025‑10‑16 10:17:25.097 特征: a_std&#x3D;0.004g  g_avg&#x3D;1.1dps  峰值&#x3D;2  步频&#x3D;2.50Hz
-2025‑10‑16 10:17:25.100 当前状态: 静止 (原始: 静止)
-2025‑10‑16 10:17:26.015 特征: a_std&#x3D;0.023g  g_avg&#x3D;9.4dps  峰值&#x3D;0  步频&#x3D;0.00Hz
-2025‑10‑16 10:17:26.017 当前状态: 静止 (原始: 驾车)
-2025‑10‑16 10:17:27.025 特征: a_std&#x3D;0.071g  g_avg&#x3D;149.7dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:27.026 当前状态: 静止 (原始: 静止)
-2025‑10‑16 10:17:28.078 特征: a_std&#x3D;0.128g  g_avg&#x3D;29.1dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:28.125 当前状态: 静止 (原始: 走路)
-2025‑10‑16 10:17:29.068 特征: a_std&#x3D;0.174g  g_avg&#x3D;23.4dps  峰值&#x3D;2  步频&#x3D;1.82Hz
-2025‑10‑16 10:17:29.072 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:30.080 特征: a_std&#x3D;0.049g  g_avg&#x3D;7.4dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:30.084 当前状态: 走路 (原始: 静止)
-2025‑10‑16 10:17:31.115 特征: a_std&#x3D;0.087g  g_avg&#x3D;10.3dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:31.117 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:32.108 特征: a_std&#x3D;0.128g  g_avg&#x3D;37.5dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:32.111 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:33.077 特征: a_std&#x3D;0.158g  g_avg&#x3D;37.8dps  峰值&#x3D;2  步频&#x3D;1.82Hz
-2025‑10‑16 10:17:33.081 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:34.111 特征: a_std&#x3D;0.185g  g_avg&#x3D;42.6dps  峰值&#x3D;2  步频&#x3D;1.82Hz
-2025‑10‑16 10:17:34.115 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:35.143 特征: a_std&#x3D;0.211g  g_avg&#x3D;56.1dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:35.144 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:36.162 特征: a_std&#x3D;0.254g  g_avg&#x3D;68.0dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:36.163 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:37.215 特征: a_std&#x3D;0.282g  g_avg&#x3D;70.6dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:37.218 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:38.160 特征: a_std&#x3D;0.322g  g_avg&#x3D;80.9dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:38.161 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:39.138 特征: a_std&#x3D;0.375g  g_avg&#x3D;119.2dps  峰值&#x3D;2  步频&#x3D;3.33Hz
-2025‑10‑16 10:17:39.157 当前状态: 走路 (原始: 跑步)
-2025‑10‑16 10:17:40.142 特征: a_std&#x3D;0.261g  g_avg&#x3D;110.4dps  峰值&#x3D;2  步频&#x3D;2.86Hz
-2025‑10‑16 10:17:40.165 当前状态: 跑步 (原始: 跑步)
-2025‑10‑16 10:17:41.227 特征: a_std&#x3D;0.346g  g_avg&#x3D;122.2dps  峰值&#x3D;2  步频&#x3D;2.50Hz
-2025‑10‑16 10:17:41.227 当前状态: 跑步 (原始: 跑步)
-2025‑10‑16 10:17:42.207 特征: a_std&#x3D;0.351g  g_avg&#x3D;128.7dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:42.209 当前状态: 跑步 (原始: 走路)
-2025‑10‑16 10:17:43.274 特征: a_std&#x3D;0.310g  g_avg&#x3D;119.3dps  峰值&#x3D;2  步频&#x3D;2.86Hz
-2025‑10‑16 10:17:43.282 当前状态: 跑步 (原始: 跑步)
-2025‑10‑16 10:17:44.234 特征: a_std&#x3D;0.438g  g_avg&#x3D;102.6dps  峰值&#x3D;1  步频&#x3D;1.00Hz
-2025‑10‑16 10:17:44.235 当前状态: 走路 (原始: 走路)
-2025‑10‑16 10:17:45.276 特征: a_std&#x3D;0.139g  g_avg&#x3D;63.9dps  峰值&#x3D;2  步频&#x3D;2.86Hz
-2025‑10‑16 10:17:45.282 当前状态: 静止 (原始: 静止)
-2025‑10‑16 10:17:48.011 Disconnected<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2025‑10‑16 10:17:07.585 Disconnected</span><br><span class="line">2025‑10‑16 10:17:08.362 Connecting to GM502B_Sensor ...</span><br><span class="line">2025‑10‑16 10:17:13.770 Connected</span><br><span class="line">2025‑10‑16 10:17:13.893 特征: a_std=0.155g  g_avg=34.0dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:13.930 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:14.946 特征: a_std=0.145g  g_avg=52.1dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:14.946 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:15.982 特征: a_std=0.103g  g_avg=33.4dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:15.986 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:16.966 特征: a_std=0.143g  g_avg=25.2dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:16.971 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:17.982 特征: a_std=0.175g  g_avg=25.1dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:17.988 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:18.989 特征: a_std=0.174g  g_avg=26.9dps  峰值=2  步频=1.67Hz</span><br><span class="line">2025‑10‑16 10:17:18.990 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:20.049 特征: a_std=0.178g  g_avg=22.2dps  峰值=2  步频=1.82Hz</span><br><span class="line">2025‑10‑16 10:17:20.054 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:20.949 特征: a_std=0.179g  g_avg=28.0dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:21.016 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:22.148 特征: a_std=0.164g  g_avg=25.5dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:22.159 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:23.115 特征: a_std=0.024g  g_avg=3.6dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:23.115 当前状态: 走路 (原始: 静止)</span><br><span class="line">2025‑10‑16 10:17:24.036 特征: a_std=0.005g  g_avg=1.9dps  峰值=2  步频=3.33Hz</span><br><span class="line">2025‑10‑16 10:17:24.037 当前状态: 静止 (原始: 静止)</span><br><span class="line">2025‑10‑16 10:17:25.097 特征: a_std=0.004g  g_avg=1.1dps  峰值=2  步频=2.50Hz</span><br><span class="line">2025‑10‑16 10:17:25.100 当前状态: 静止 (原始: 静止)</span><br><span class="line">2025‑10‑16 10:17:26.015 特征: a_std=0.023g  g_avg=9.4dps  峰值=0  步频=0.00Hz</span><br><span class="line">2025‑10‑16 10:17:26.017 当前状态: 静止 (原始: 驾车)</span><br><span class="line">2025‑10‑16 10:17:27.025 特征: a_std=0.071g  g_avg=149.7dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:27.026 当前状态: 静止 (原始: 静止)</span><br><span class="line">2025‑10‑16 10:17:28.078 特征: a_std=0.128g  g_avg=29.1dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:28.125 当前状态: 静止 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:29.068 特征: a_std=0.174g  g_avg=23.4dps  峰值=2  步频=1.82Hz</span><br><span class="line">2025‑10‑16 10:17:29.072 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:30.080 特征: a_std=0.049g  g_avg=7.4dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:30.084 当前状态: 走路 (原始: 静止)</span><br><span class="line">2025‑10‑16 10:17:31.115 特征: a_std=0.087g  g_avg=10.3dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:31.117 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:32.108 特征: a_std=0.128g  g_avg=37.5dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:32.111 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:33.077 特征: a_std=0.158g  g_avg=37.8dps  峰值=2  步频=1.82Hz</span><br><span class="line">2025‑10‑16 10:17:33.081 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:34.111 特征: a_std=0.185g  g_avg=42.6dps  峰值=2  步频=1.82Hz</span><br><span class="line">2025‑10‑16 10:17:34.115 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:35.143 特征: a_std=0.211g  g_avg=56.1dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:35.144 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:36.162 特征: a_std=0.254g  g_avg=68.0dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:36.163 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:37.215 特征: a_std=0.282g  g_avg=70.6dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:37.218 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:38.160 特征: a_std=0.322g  g_avg=80.9dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:38.161 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:39.138 特征: a_std=0.375g  g_avg=119.2dps  峰值=2  步频=3.33Hz</span><br><span class="line">2025‑10‑16 10:17:39.157 当前状态: 走路 (原始: 跑步)</span><br><span class="line">2025‑10‑16 10:17:40.142 特征: a_std=0.261g  g_avg=110.4dps  峰值=2  步频=2.86Hz</span><br><span class="line">2025‑10‑16 10:17:40.165 当前状态: 跑步 (原始: 跑步)</span><br><span class="line">2025‑10‑16 10:17:41.227 特征: a_std=0.346g  g_avg=122.2dps  峰值=2  步频=2.50Hz</span><br><span class="line">2025‑10‑16 10:17:41.227 当前状态: 跑步 (原始: 跑步)</span><br><span class="line">2025‑10‑16 10:17:42.207 特征: a_std=0.351g  g_avg=128.7dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:42.209 当前状态: 跑步 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:43.274 特征: a_std=0.310g  g_avg=119.3dps  峰值=2  步频=2.86Hz</span><br><span class="line">2025‑10‑16 10:17:43.282 当前状态: 跑步 (原始: 跑步)</span><br><span class="line">2025‑10‑16 10:17:44.234 特征: a_std=0.438g  g_avg=102.6dps  峰值=1  步频=1.00Hz</span><br><span class="line">2025‑10‑16 10:17:44.235 当前状态: 走路 (原始: 走路)</span><br><span class="line">2025‑10‑16 10:17:45.276 特征: a_std=0.139g  g_avg=63.9dps  峰值=2  步频=2.86Hz</span><br><span class="line">2025‑10‑16 10:17:45.282 当前状态: 静止 (原始: 静止)</span><br><span class="line">2025‑10‑16 10:17:48.011 Disconnected</span><br></pre></td></tr></table></figure>
 
 <h2 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h2><p>我梳理一下我理解的，是通过加速度的均值与标准差判断当前运动的剧烈程度，然后通过均值的峰值计算出步频，通过加速度的幅值和均值计算出当前运动幅度，然后根据标准差与运动幅度判断运动状态的对吗</p>
 <p>可以把它理解为：</p>
@@ -669,13 +468,7 @@
 <h2 id="重力低通滤波"><a href="#重力低通滤波" class="headerlink" title="重力低通滤波"></a>重力低通滤波</h2><p>加入后，跑步识别灵敏度变低，遂去掉</p>
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ul>
 <li><p><strong>问题1：一阶滤波器的”拖尾效应”</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">一阶低通滤波器的频率响应不是理想的方波，而是缓慢衰减：
-
-频率 (Hz) | 0    | 0.2  | 0.5  | 1.0  | 1.5  | 2.0
-衰减 (dB) | 0    | -3   | -7   | -13  | -17  | -20
-保留率(%) | 100  | 71   | 45   | 22   | 14   | 10
-
-                                      ↓ 慢跑频率<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">一阶低通滤波器的频率响应不是理想的方波，而是缓慢衰减：</span><br><span class="line"></span><br><span class="line">频率 (Hz) | 0    | 0.2  | 0.5  | 1.0  | 1.5  | 2.0</span><br><span class="line">衰减 (dB) | 0    | -3   | -7   | -13  | -17  | -20</span><br><span class="line">保留率(%) | 100  | 71   | 45   | 22   | 14   | 10</span><br><span class="line"></span><br><span class="line">                                      ↓ 慢跑频率</span><br></pre></td></tr></table></figure>
 
 <p><strong>当你做 <code>dx = ax - g_hat_x</code> 时：</strong></p>
 <ul>
@@ -686,43 +479,15 @@
 <p><strong>问题2：相位延迟导致”反向抵消”</strong></p>
 <p>低通滤波器有<strong>群延迟</strong>，在你的参数下约为 <strong>3-5个样本周期</strong>。</p>
 <p><strong>时间轴示意：</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">时刻    原始加速度ax    低通g_hat_x    去重力dx &#x3D; ax - g_hat_x
-t0      1.0            0.9            +0.1  ✅ 正确
-t1      1.2            0.95           +0.25 ✅ 正确
-t2      0.8            1.05           -0.25 ❌ 反转！
-t3      0.6            0.95           -0.35 ❌ 放大负值
-t4      1.0            0.75           +0.25 ❌ 相位错乱<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">时刻    原始加速度ax    低通g_hat_x    去重力dx = ax - g_hat_x</span><br><span class="line">t0      1.0            0.9            +0.1  ✅ 正确</span><br><span class="line">t1      1.2            0.95           +0.25 ✅ 正确</span><br><span class="line">t2      0.8            1.05           -0.25 ❌ 反转！</span><br><span class="line">t3      0.6            0.95           -0.35 ❌ 放大负值</span><br><span class="line">t4      1.0            0.75           +0.25 ❌ 相位错乱</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>问题3一阶低通滤波器达到稳态需要的时间：</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">τ &#x3D; -1 &#x2F; ln(ALPHA) &#x3D; -1 &#x2F; ln(0.965) ≈ 28 个样本
-
-你的窗口只有 10-20 个样本
-→ 滤波器一直在&quot;启动阶段&quot;
-→ g_hat 估计不准确
-→ 去重力效果很差<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">τ = -1 / ln(ALPHA) = -1 / ln(0.965) ≈ 28 个样本</span><br><span class="line"></span><br><span class="line">你的窗口只有 10-20 个样本</span><br><span class="line">→ 滤波器一直在&quot;启动阶段&quot;</span><br><span class="line">→ g_hat 估计不准确</span><br><span class="line">→ 去重力效果很差</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="📊-实验对比"><a href="#📊-实验对比" class="headerlink" title="📊 实验对比"></a>📊 实验对比</h2><h3 id="场景：慢跑加速度波形"><a href="#场景：慢跑加速度波形" class="headerlink" title="场景：慢跑加速度波形"></a><strong>场景：慢跑加速度波形</strong></h3><pre class="line-numbers language-none"><code class="language-none">真实加速度 (带重力):
-  |     峰1        峰2        峰3
-  |    &#x2F;\        &#x2F;\        &#x2F;\
-1.2g  &#x2F;  \      &#x2F;  \      &#x2F;  \
-1.0g |____\____&#x2F;____\____&#x2F;____\____  ← 重力基线
-0.8g      \  &#x2F;      \  &#x2F;      \  &#x2F;
-          \&#x2F;        \&#x2F;        \&#x2F;
+<h2 id="📊-实验对比"><a href="#📊-实验对比" class="headerlink" title="📊 实验对比"></a>📊 实验对比</h2><h3 id="场景：慢跑加速度波形"><a href="#场景：慢跑加速度波形" class="headerlink" title="场景：慢跑加速度波形"></a><strong>场景：慢跑加速度波形</strong></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">真实加速度 (带重力):</span><br><span class="line">  |     峰1        峰2        峰3</span><br><span class="line">  |    /\        /\        /\</span><br><span class="line">1.2g  /  \      /  \      /  \</span><br><span class="line">1.0g |____\____/____\____/____\____  ← 重力基线</span><br><span class="line">0.8g      \  /      \  /      \  /</span><br><span class="line">          \/        \/        \/</span><br><span class="line"></span><br><span class="line">步频 = 1.5 Hz，振幅 = ±0.2g</span><br></pre></td></tr></table></figure>
 
-步频 &#x3D; 1.5 Hz，振幅 &#x3D; ±0.2g<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="使用重力滤波后："><a href="#使用重力滤波后：" class="headerlink" title="使用重力滤波后："></a><strong>使用重力滤波后：</strong></h4><pre class="line-numbers language-none"><code class="language-none">g_hat (低通估计):
-1.0g  ____~~~~~____~~~~~____~~~~~  ← 延迟且衰减后的曲线
-
-去重力 dx &#x3D; ax - g_hat:
-  |    &#x2F;\                &#x2F;\
-0.1g  &#x2F;  \    &#x2F;-\      &#x2F;  \    &#x2F;-\
-0.0g |____\__&#x2F;___\____&#x2F;____\__&#x2F;___
--0.1g      \&#x2F;     \  &#x2F;      \&#x2F;
-
-振幅只剩 ±0.1g（原来的50%）❌
-且波形失真严重 ❌<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<h4 id="使用重力滤波后："><a href="#使用重力滤波后：" class="headerlink" title="使用重力滤波后："></a><strong>使用重力滤波后：</strong></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">g_hat (低通估计):</span><br><span class="line">1.0g  ____~~~~~____~~~~~____~~~~~  ← 延迟且衰减后的曲线</span><br><span class="line"></span><br><span class="line">去重力 dx = ax - g_hat:</span><br><span class="line">  |    /\                /\</span><br><span class="line">0.1g  /  \    /-\      /  \    /-\</span><br><span class="line">0.0g |____\__/___\____/____\__/___</span><br><span class="line">-0.1g      \/     \  /      \/</span><br><span class="line"></span><br><span class="line">振幅只剩 ±0.1g（原来的50%）❌</span><br><span class="line">且波形失真严重 ❌</span><br></pre></td></tr></table></figure></li>
 </ul>
 
       </div>
@@ -766,9 +531,9 @@ t4      1.0            0.75           +0.25 ❌ 相位错乱<span aria-hidden="t
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -777,6 +542,7 @@ t4      1.0            0.75           +0.25 ❌ 相位错乱<span aria-hidden="t
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -806,7 +572,7 @@ t4      1.0            0.75           +0.25 ❌ 相位错乱<span aria-hidden="t
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -818,14 +584,14 @@ t4      1.0            0.75           +0.25 ❌ 相位错乱<span aria-hidden="t
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

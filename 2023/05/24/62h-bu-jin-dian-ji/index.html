@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">步进电机</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          3784
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -281,87 +294,29 @@
 <p> 将 <code>Rebuf</code> 缓冲区中的字符串转换为整型数据，并将其赋值给 <code>steps</code> 变量</p>
 <p>我有很多的事情想不明白</p>
 <h2 id="关于串口通信出现的问题"><a href="#关于串口通信出现的问题" class="headerlink" title="关于串口通信出现的问题"></a>关于串口通信出现的问题</h2><h3 id="电机只能转一次"><a href="#电机只能转一次" class="headerlink" title="电机只能转一次"></a>电机只能转一次</h3><p>我遇到的问题有发送+5,电机不转,加了判断之后,电机只能转一次,后面再发送就没反应了,但是我写了</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">memset(Rebuf, 0, sizeof(Rebuf));
-steps&#x3D;0;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memset</span>(Rebuf, <span class="number">0</span>, <span class="keyword">sizeof</span>(Rebuf));</span><br><span class="line">steps=<span class="number">0</span>;</span><br></pre></td></tr></table></figure>
 
 <p>清空步数和缓存区</p>
 <p>下面这个代码可以完成10以内的圈数,但是他清的是buf_len,但我认为不是清空的事,而是转换成整数的事<code>steps = steps * 10 + (Rebuf[i] - &#39;0&#39;);</code></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">int16_t BUFFER_SIZE &#x3D;200;
-void USART3_IRQHandler(void)
-&#123;
-char res;&#x2F;&#x2F;无符号,所以会导致没有+-
-static int i&#x3D;0;
-char Rebuf[BUFFER_SIZE];
-uint8_t buf_len &#x3D; 0;  &#x2F;&#x2F; 接收缓冲区当前长度
-uint8_t digit_count &#x3D; 0;
-int32_t steps&#x3D;0 ; &#x2F;&#x2F; 存储步数变量
-if(USART_GetITStatus(USART3,USART_IT_RXNE)!&#x3D; RESET)
-	&#123;
-   	 	Rebuf[buf_len++]&#x3D;USART_ReceiveData(USART3); &#x2F;&#x2F;既然是一个字符一个中断,那为什么我看到的是&quot;哈哈哈&quot;是连着的,是因为串口助手规范的吗
-    &#x2F;*在你的代码中，如果接收到的数据是负数，则转换后会出现错误。
-    这是因为负数的ASCII码值大于127，而你使用的uint8_t类型的变量无法表示大于127的数值。*&#x2F;
-    &#x2F;&#x2F; 遍历接收缓冲区中的每个字符
-    	for( i &#x3D; 0; i &lt; buf_len; i++)
-    		&#123;
-      		  	if (Rebuf[i] &gt;&#x3D; &#39;0&#39; &amp;&amp; Rebuf[i] &lt;&#x3D; &#39;9&#39;)
-       		 		&#123;
-            &#x2F;&#x2F; 如果当前字符是数字，则将其转换为整数并累加到步数中
-            			steps &#x3D; steps * 10 + (Rebuf[i] - &#39;0&#39;);
-            			digit_count++;
-        				&#125;
-    		&#125;
-         	 MOTOR_Move(1600 * steps, step_accel, step_decel, set_speed);  &#x2F;&#x2F; 需要时调
-          		buf_len &#x3D; 0;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int16_t</span> BUFFER_SIZE =<span class="number">200</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">USART3_IRQHandler</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="type">char</span> res;<span class="comment">//无符号,所以会导致没有+-</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> i=<span class="number">0</span>;</span><br><span class="line"><span class="type">char</span> Rebuf[BUFFER_SIZE];</span><br><span class="line"><span class="type">uint8_t</span> buf_len = <span class="number">0</span>;  <span class="comment">// 接收缓冲区当前长度</span></span><br><span class="line"><span class="type">uint8_t</span> digit_count = <span class="number">0</span>;</span><br><span class="line"><span class="type">int32_t</span> steps=<span class="number">0</span> ; <span class="comment">// 存储步数变量</span></span><br><span class="line"><span class="keyword">if</span>(USART_GetITStatus(USART3,USART_IT_RXNE)!= RESET)</span><br><span class="line">	&#123;</span><br><span class="line">   	 	Rebuf[buf_len++]=USART_ReceiveData(USART3); <span class="comment">//既然是一个字符一个中断,那为什么我看到的是&quot;哈哈哈&quot;是连着的,是因为串口助手规范的吗</span></span><br><span class="line">    <span class="comment">/*在你的代码中，如果接收到的数据是负数，则转换后会出现错误。</span></span><br><span class="line"><span class="comment">    这是因为负数的ASCII码值大于127，而你使用的uint8_t类型的变量无法表示大于127的数值。*/</span></span><br><span class="line">    <span class="comment">// 遍历接收缓冲区中的每个字符</span></span><br><span class="line">    	<span class="keyword">for</span>( i = <span class="number">0</span>; i &lt; buf_len; i++)</span><br><span class="line">    		&#123;</span><br><span class="line">      		  	<span class="keyword">if</span> (Rebuf[i] &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; Rebuf[i] &lt;= <span class="string">&#x27;9&#x27;</span>)</span><br><span class="line">       		 		&#123;</span><br><span class="line">            <span class="comment">// 如果当前字符是数字，则将其转换为整数并累加到步数中</span></span><br><span class="line">            			steps = steps * <span class="number">10</span> + (Rebuf[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            			digit_count++;</span><br><span class="line">        				&#125;</span><br><span class="line">    		&#125;</span><br><span class="line">         	 MOTOR_Move(<span class="number">1600</span> * steps, step_accel, step_decel, set_speed);  <span class="comment">// 需要时调</span></span><br><span class="line">          		buf_len = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>因为这样的代码同样可以用,但是只能是个位数,甚至还有正负,所以应该是<code>steps = atoi((const char *)Rebuf);</code>这个转换的问题</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">int16_t BUFFER_SIZE &#x3D;200;
-void USART3_IRQHandler(void)
-&#123;
-	char res;&#x2F;&#x2F;无符号,所以会导致没有+-
- 	&#x2F;&#x2F;char res;  &#x2F;&#x2F; 将数据类型修改为有符号的int8_t
- 	static int i&#x3D;0;
-	char Rebuf[BUFFER_SIZE];
-  	 uint8_t buf_len &#x3D; 0;  &#x2F;&#x2F; 接收缓冲区当前长度
-     uint8_t digit_count &#x3D; 0;
- 	int32_t steps&#x3D;0 ; &#x2F;&#x2F; 存储步数变量
-	if(USART_GetITStatus(USART3,USART_IT_RXNE)!&#x3D; RESET)
-	&#123;
-    	Rebuf[buf_len++]&#x3D;USART_ReceiveData(USART3); 
-      	&#x2F;&#x2F;int steps &#x3D; res - &#39;000&#39;; &#x2F;&#x2F; 将字符转换为数字,   这样会以最大速度一直转  
-     	 int steps &#x3D; Rebuf[0] - &#39;0&#39;;&#x2F;&#x2F;这个有符号,但是只能识别一位
-      		MOTOR_Move((1600 * steps), step_accel, step_decel, set_speed);  &#x2F;&#x2F; 需要时调
-       &#125;
-  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int16_t</span> BUFFER_SIZE =<span class="number">200</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">USART3_IRQHandler</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">char</span> res;<span class="comment">//无符号,所以会导致没有+-</span></span><br><span class="line"> 	<span class="comment">//char res;  // 将数据类型修改为有符号的int8_t</span></span><br><span class="line"> 	<span class="type">static</span> <span class="type">int</span> i=<span class="number">0</span>;</span><br><span class="line">	<span class="type">char</span> Rebuf[BUFFER_SIZE];</span><br><span class="line">  	 <span class="type">uint8_t</span> buf_len = <span class="number">0</span>;  <span class="comment">// 接收缓冲区当前长度</span></span><br><span class="line">     <span class="type">uint8_t</span> digit_count = <span class="number">0</span>;</span><br><span class="line"> 	<span class="type">int32_t</span> steps=<span class="number">0</span> ; <span class="comment">// 存储步数变量</span></span><br><span class="line">	<span class="keyword">if</span>(USART_GetITStatus(USART3,USART_IT_RXNE)!= RESET)</span><br><span class="line">	&#123;</span><br><span class="line">    	Rebuf[buf_len++]=USART_ReceiveData(USART3); </span><br><span class="line">      	<span class="comment">//int steps = res - &#x27;000&#x27;; // 将字符转换为数字,   这样会以最大速度一直转  </span></span><br><span class="line">     	 <span class="type">int</span> steps = Rebuf[<span class="number">0</span>] - <span class="string">&#x27;0&#x27;</span>;<span class="comment">//这个有符号,但是只能识别一位</span></span><br><span class="line">      		MOTOR_Move((<span class="number">1600</span> * steps), step_accel, step_decel, set_speed);  <span class="comment">// 需要时调</span></span><br><span class="line">       &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
 
 
 <blockquote>
 <p>他们说串口发送数据是一个字节一个字节发送的,又说是一个字符一个字符发送的,所以我最开始写的代码是这样的,当输入+5的时候,这个判断可以进来,</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">if(rebuf[0]&#x3D;&#x3D;&#39;+&#39;)
-&#123;
-&#x2F;&#x2F;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(rebuf[<span class="number">0</span>]==<span class="string">&#x27;+&#x27;</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>但是这个输入+5也可以正常执行,<del>c所以有没有可能一个字节是八位,而一个字符只是一位</del></p>
 <p>串口发送数据的方式可以是一个字节一个字节发送，也可以是一次发送多个字节,因为一个字符的 ASCII 码值可以用一个字节表示，所以一个字符只占用一个字节的空间。而一个整数通常需要多个字节来表示，所以将字符转换为整数时只能转换为一位数字</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">int steps &#x3D; Rebuf[0] - &#39;0&#39;;&#x2F;&#x2F;这个有符号,但是只能识别一位<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> steps = Rebuf[<span class="number">0</span>] - <span class="string">&#x27;0&#x27;</span>;<span class="comment">//这个有符号,但是只能识别一位</span></span><br></pre></td></tr></table></figure>
 
 </blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">Rebuf[buf_len++]&#x3D;USART_ReceiveData(USART3); &#x2F;&#x2F;既然是一个字符一个中断,那为什么我看到的是&quot;哈哈哈&quot;是连着的,是因为串口助手规范的吗
-    &#x2F;*在你的代码中，如果接收到的数据是负数，则转换后会出现错误。
-    这是因为负数的ASCII码值大于127，而你使用的uint8_t类型的变量无法表示大于127的数值。*&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Rebuf[buf_len++]=USART_ReceiveData(USART3); <span class="comment">//既然是一个字符一个中断,那为什么我看到的是&quot;哈哈哈&quot;是连着的,是因为串口助手规范的吗</span></span><br><span class="line">    <span class="comment">/*在你的代码中，如果接收到的数据是负数，则转换后会出现错误。</span></span><br><span class="line"><span class="comment">    这是因为负数的ASCII码值大于127，而你使用的uint8_t类型的变量无法表示大于127的数值。*/</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="switch判断方法-不能自由控制"><a href="#switch判断方法-不能自由控制" class="headerlink" title="switch判断方法,不能自由控制"></a>switch判断方法,不能自由控制</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">switch(res)
-&#123;
-  case &#39;1&#39;:
-       MOTOR_Move(1600 * 1, step_accel, step_decel, set_speed);  &#x2F;&#x2F; 需要时调
-       break;    
-  case &#39;2&#39;:
-       MOTOR_Move(-1600 * 5, step_accel, step_decel, set_speed);  &#x2F;&#x2F; 需要时调
-       break;
- &#125;       <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="switch判断方法-不能自由控制"><a href="#switch判断方法-不能自由控制" class="headerlink" title="switch判断方法,不能自由控制"></a>switch判断方法,不能自由控制</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span>(res)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">       MOTOR_Move(<span class="number">1600</span> * <span class="number">1</span>, step_accel, step_decel, set_speed);  <span class="comment">// 需要时调</span></span><br><span class="line">       <span class="keyword">break</span>;    </span><br><span class="line">  <span class="keyword">case</span> <span class="string">&#x27;2&#x27;</span>:</span><br><span class="line">       MOTOR_Move(<span class="number">-1600</span> * <span class="number">5</span>, step_accel, step_decel, set_speed);  <span class="comment">// 需要时调</span></span><br><span class="line">       <span class="keyword">break</span>;</span><br><span class="line"> &#125;       </span><br></pre></td></tr></table></figure>
 
 
 
@@ -373,58 +328,13 @@ void USART3_IRQHandler(void)
 <h2 id="我不明白这个代码为什么我发送r12-不应该是rrbuf-0-rebuf-1-1-rebuf-2-2而不是rebuf-0-r12"><a href="#我不明白这个代码为什么我发送r12-不应该是rrbuf-0-rebuf-1-1-rebuf-2-2而不是rebuf-0-r12" class="headerlink" title="我不明白这个代码为什么我发送r12,不应该是rrbuf[0]&#x3D;,rebuf[1]&#x3D;1,rebuf[2]&#x3D;2而不是rebuf[0]&#x3D;r12"></a>我不明白这个代码为什么我发送r12,不应该是rrbuf[0]&#x3D;,rebuf[1]&#x3D;1,rebuf[2]&#x3D;2而不是rebuf[0]&#x3D;r12</h2><p>​           <code> if (res == &#39;\n&#39;)</code></p>
 <p>如果接收到回车符,这个判断很重要,有这个可以正常按数组接收数据,没有的话,可能就与变量接收没有区别</p>
 <p>原因:</p>
-<h3 id="关于steps无法算两位数以上"><a href="#关于steps无法算两位数以上" class="headerlink" title="关于steps无法算两位数以上"></a>关于steps无法算两位数以上</h3><h3 id="并且代码的公式没问题-for循环的括号-要把for循环结束后step才是我想要的值"><a href="#并且代码的公式没问题-for循环的括号-要把for循环结束后step才是我想要的值" class="headerlink" title="并且代码的公式没问题,for循环的括号,要把for循环结束后step才是我想要的值"></a>并且代码的公式没问题,for循环的括号,要把for循环结束后step才是我想要的值</h3><h3 id="steps无法计算小数"><a href="#steps无法计算小数" class="headerlink" title="steps无法计算小数"></a>steps无法计算小数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c"> for ( i &#x3D; 0; i &lt; buf_len; i++)
-                  &#123;   
-                   
-                    if (Rebuf[i] &gt;&#x3D; &#39;0&#39; &amp;&amp; Rebuf[i] &lt;&#x3D; &#39;9&#39;)&#x2F;&#x2F;1.5
-                       &#123; 
-   &#x2F;&#x2F; 如果当前字符是数字，则将其转换为整数并累加到步数中
-                          steps &#x3D; steps * 10 + (Rebuf[i] - &#39;0&#39;);
-
-                      &#125;
-                       else if(Rebuf[i]&#x3D;&#x3D;&#39;.&#39;)&#x2F;&#x2F;12.5,1.25
-                      &#123; 
-&#x2F;&#x2F;                      float steps &#x3D; atof(Rebuf + 1); &#x2F;&#x2F; 将字符串转换为浮点数
-                        steps &#x3D; steps * 10 + (Rebuf[i+1] - &#39;0&#39;);                     
-                        float ff &#x3D; steps*0.1;
-                         steps&#x3D;ff;
-                        break;
-                       &#125;
-                     &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="关于steps无法算两位数以上"><a href="#关于steps无法算两位数以上" class="headerlink" title="关于steps无法算两位数以上"></a>关于steps无法算两位数以上</h3><h3 id="并且代码的公式没问题-for循环的括号-要把for循环结束后step才是我想要的值"><a href="#并且代码的公式没问题-for循环的括号-要把for循环结束后step才是我想要的值" class="headerlink" title="并且代码的公式没问题,for循环的括号,要把for循环结束后step才是我想要的值"></a>并且代码的公式没问题,for循环的括号,要把for循环结束后step才是我想要的值</h3><h3 id="steps无法计算小数"><a href="#steps无法计算小数" class="headerlink" title="steps无法计算小数"></a>steps无法计算小数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; buf_len; i++)</span><br><span class="line">                  &#123;   </span><br><span class="line">                   </span><br><span class="line">                    <span class="keyword">if</span> (Rebuf[i] &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; Rebuf[i] &lt;= <span class="string">&#x27;9&#x27;</span>)<span class="comment">//1.5</span></span><br><span class="line">                       &#123; </span><br><span class="line">   <span class="comment">// 如果当前字符是数字，则将其转换为整数并累加到步数中</span></span><br><span class="line">                          steps = steps * <span class="number">10</span> + (Rebuf[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line"></span><br><span class="line">                      &#125;</span><br><span class="line">                       <span class="keyword">else</span> <span class="keyword">if</span>(Rebuf[i]==<span class="string">&#x27;.&#x27;</span>)<span class="comment">//12.5,1.25</span></span><br><span class="line">                      &#123; </span><br><span class="line"><span class="comment">//                      float steps = atof(Rebuf + 1); // 将字符串转换为浮点数</span></span><br><span class="line">                        steps = steps * <span class="number">10</span> + (Rebuf[i+<span class="number">1</span>] - <span class="string">&#x27;0&#x27;</span>);                     </span><br><span class="line">                        <span class="type">float</span> ff = steps*<span class="number">0.1</span>;</span><br><span class="line">                         steps=ff;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                       &#125;</span><br><span class="line">                     &#125;</span><br></pre></td></tr></table></figure>
 
 <p>问题:小数点无效,比如r0.5会正转5圈</p>
 <p>原因:</p>
 <p><code>作用域问题</code></p>
 <p>因为在 <code>else if(Rebuf[i]==&#39;.&#39;)</code> 分支中重新定义了 <code>steps</code> 变量，而且这个新定义的 <code>steps</code> 变量的作用域仅限于该分支中，不会影响到外部的 <code>steps</code> 变量。</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">#define BUFFER_SIZE 200
-char Rebuf[BUFFER_SIZE];
-uint8_t buf_len &#x3D; 0;  &#x2F;&#x2F; 接收缓冲区当前长度
-uint8_t digit_count &#x3D; 0;
-int32_t steps &#x3D; 0; &#x2F;&#x2F; 存储步数变量
-int sign;
-
-void USART3_IRQHandler(void)
-&#123;
-    if (USART_GetITStatus(USART3, USART_IT_RXNE) !&#x3D; RESET)
-    &#123;
-        char res &#x3D; USART_ReceiveData(USART3);
-        if (buf_len &lt; BUFFER_SIZE - 1) &#x2F;&#x2F; 如果接收缓冲区未满
-        &#123;
-            Rebuf[buf_len++] &#x3D; res; &#x2F;&#x2F; 存储接收到的字符
-            if (res &#x3D;&#x3D; &#39;\n&#39;) &#x2F;&#x2F; 如果接收到回车符,这个判断很重要,有这个可以正常按数组接收数据,没有的话,可能就与变量接收没有区别
-            &#123;
-                &#x2F;&#x2F;Rebuf[buf_len] &#x3D; &#39;\0&#39;; &#x2F;&#x2F; 在最后一个字符后添加字符串结束符
-                if (Rebuf[0] &#x3D;&#x3D; &#39;r&#39;)
-                &#123;
-                    steps &#x3D; atoi((char const *)(Rebuf + 1));
-                    MOTOR_Move(1600 * steps, step_accel, step_decel, set_speed); &#x2F;&#x2F; 需要时调
-                &#125;
-                buf_len &#x3D; 0; &#x2F;&#x2F; 清空接收缓冲区
-                steps &#x3D; 0; &#x2F;&#x2F; 清空步数变量
-            &#125;
-        &#125;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> BUFFER_SIZE 200</span></span><br><span class="line"><span class="type">char</span> Rebuf[BUFFER_SIZE];</span><br><span class="line"><span class="type">uint8_t</span> buf_len = <span class="number">0</span>;  <span class="comment">// 接收缓冲区当前长度</span></span><br><span class="line"><span class="type">uint8_t</span> digit_count = <span class="number">0</span>;</span><br><span class="line"><span class="type">int32_t</span> steps = <span class="number">0</span>; <span class="comment">// 存储步数变量</span></span><br><span class="line"><span class="type">int</span> sign;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">USART3_IRQHandler</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">char</span> res = USART_ReceiveData(USART3);</span><br><span class="line">        <span class="keyword">if</span> (buf_len &lt; BUFFER_SIZE - <span class="number">1</span>) <span class="comment">// 如果接收缓冲区未满</span></span><br><span class="line">        &#123;</span><br><span class="line">            Rebuf[buf_len++] = res; <span class="comment">// 存储接收到的字符</span></span><br><span class="line">            <span class="keyword">if</span> (res == <span class="string">&#x27;\n&#x27;</span>) <span class="comment">// 如果接收到回车符,这个判断很重要,有这个可以正常按数组接收数据,没有的话,可能就与变量接收没有区别</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//Rebuf[buf_len] = &#x27;\0&#x27;; // 在最后一个字符后添加字符串结束符</span></span><br><span class="line">                <span class="keyword">if</span> (Rebuf[<span class="number">0</span>] == <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    steps = atoi((<span class="type">char</span> <span class="type">const</span> *)(Rebuf + <span class="number">1</span>));</span><br><span class="line">                    MOTOR_Move(<span class="number">1600</span> * steps, step_accel, step_decel, set_speed); <span class="comment">// 需要时调</span></span><br><span class="line">                &#125;</span><br><span class="line">                buf_len = <span class="number">0</span>; <span class="comment">// 清空接收缓冲区</span></span><br><span class="line">                steps = <span class="number">0</span>; <span class="comment">// 清空步数变量</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -482,9 +392,9 @@ void USART3_IRQHandler(void)
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -493,6 +403,7 @@ void USART3_IRQHandler(void)
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -522,7 +433,7 @@ void USART3_IRQHandler(void)
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -534,14 +445,14 @@ void USART3_IRQHandler(void)
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

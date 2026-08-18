@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">USART串口通信</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          4719
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -287,30 +300,9 @@
 <h3 id="串口相关寄存器"><a href="#串口相关寄存器" class="headerlink" title="串口相关寄存器"></a>串口相关寄存器</h3><blockquote>
 <p>USART_SR　状态寄存器<br>USART_DR　数据寄存器<br>USART_BRR　波特率寄存器<br>USART_CR1　控制寄存器</p>
 </blockquote>
-<h3 id="封装函数"><a href="#封装函数" class="headerlink" title="封装函数"></a>封装函数</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; 获取状态标志位
-FlagStatus USART_GetFlagStatus(USART_TypeDef* USARTx, uint16_t USART_FLAG);
-&#x2F;&#x2F; 清除状态标志位
-void USART_ClearFlag(USART_TypeDef* USARTx, uint16_t USART_FLAG);
-&#x2F;&#x2F; 获取中断状态标志位
-ITStatus USART_GetITStatus(USART_TypeDef* USARTx, uint16_t USART_IT);
-&#x2F;&#x2F; 清除中断状态标志位
-void USART_ClearITPendingBit(USART_TypeDef* USARTx, uint16_t USART_IT);
+<h3 id="封装函数"><a href="#封装函数" class="headerlink" title="封装函数"></a>封装函数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取状态标志位</span></span><br><span class="line">FlagStatus <span class="title function_">USART_GetFlagStatus</span><span class="params">(USART_TypeDef* USARTx, <span class="type">uint16_t</span> USART_FLAG)</span>;</span><br><span class="line"><span class="comment">// 清除状态标志位</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">USART_ClearFlag</span><span class="params">(USART_TypeDef* USARTx, <span class="type">uint16_t</span> USART_FLAG)</span>;</span><br><span class="line"><span class="comment">// 获取中断状态标志位</span></span><br><span class="line">ITStatus <span class="title function_">USART_GetITStatus</span><span class="params">(USART_TypeDef* USARTx, <span class="type">uint16_t</span> USART_IT)</span>;</span><br><span class="line"><span class="comment">// 清除中断状态标志位</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">USART_ClearITPendingBit</span><span class="params">(USART_TypeDef* USARTx, <span class="type">uint16_t</span> USART_IT)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送数据到串口(通过写USART_DR寄存器发送数据)</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">USART_SendData</span><span class="params">(USART_TypeDef* USARTx, <span class="type">uint16_t</span> Data)</span>;</span><br><span class="line"><span class="comment">// 接收数据（从USART_DR寄存器读取接收到的数据）</span></span><br><span class="line"><span class="type">uint16_t</span> <span class="title function_">USART_ReceiveData</span><span class="params">(USART_TypeDef* USARTx)</span>;</span><br></pre></td></tr></table></figure>
 
-&#x2F;&#x2F; 发送数据到串口(通过写USART_DR寄存器发送数据)
-void USART_SendData(USART_TypeDef* USARTx, uint16_t Data);
-&#x2F;&#x2F; 接收数据（从USART_DR寄存器读取接收到的数据）
-uint16_t USART_ReceiveData(USART_TypeDef* USARTx);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="USART初始化结构体"><a href="#USART初始化结构体" class="headerlink" title="USART初始化结构体"></a>USART初始化结构体</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">typedef struct
-&#123;
-  uint32_t USART_BaudRate;          
-  uint16_t USART_WordLength;        
-  uint16_t USART_StopBits;          
-  uint16_t USART_Parity;             
-  uint16_t USART_Mode;             
-  uint16_t USART_HardwareFlowControl;
-                                         
-&#125; USART_InitTypeDef;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="USART初始化结构体"><a href="#USART初始化结构体" class="headerlink" title="USART初始化结构体"></a>USART初始化结构体</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="type">uint32_t</span> USART_BaudRate;          </span><br><span class="line">  <span class="type">uint16_t</span> USART_WordLength;        </span><br><span class="line">  <span class="type">uint16_t</span> USART_StopBits;          </span><br><span class="line">  <span class="type">uint16_t</span> USART_Parity;             </span><br><span class="line">  <span class="type">uint16_t</span> USART_Mode;             </span><br><span class="line">  <span class="type">uint16_t</span> USART_HardwareFlowControl;</span><br><span class="line">                                         </span><br><span class="line">&#125; USART_InitTypeDef;</span><br></pre></td></tr></table></figure>
 <img src="/2022/09/28/41h-f407-usart/28.jpg" class="">
 <ol>
 <li><p>USART_BaudRate：波特率设置。一般设置为9600、115200。标准库函数会自己计算计算得到 USARTDIV 值，从而写入USART_BRR 寄存器。</p>
@@ -326,243 +318,14 @@ uint16_t USART_ReceiveData(USART_TypeDef* USARTx);<span aria-hidden="true" class
 <li><p>USART_HardwareFlowControl：硬件流控制选择，只有在硬件流控制模式才有效，可选有⑴使能 RTS、⑵使能 CTS、⑶同时使能 RTS 和 CTS、⑷不使能硬件流。</p>
 </li>
 </ol>
-<h3 id="编程思路"><a href="#编程思路" class="headerlink" title="编程思路"></a>编程思路</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">1) 使能 RX 和 TX 引脚 GPIO 时钟和 USART 时钟；
-2) 初始化 GPIO，并将 GPIO 复用到 USART 上；
-3) 配置 USART 参数初始化结构体；
-4) 配置中断控制器并使能 USART 接收中断；
-5) 使能 USART；
-6) 在 USART 接收中断服务函数实现数据接收和发送<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="编程思路"><a href="#编程思路" class="headerlink" title="编程思路"></a>编程思路</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>) 使能 RX 和 TX 引脚 GPIO 时钟和 USART 时钟；</span><br><span class="line"><span class="number">2</span>) 初始化 GPIO，并将 GPIO 复用到 USART 上；</span><br><span class="line"><span class="number">3</span>) 配置 USART 参数初始化结构体；</span><br><span class="line"><span class="number">4</span>) 配置中断控制器并使能 USART 接收中断；</span><br><span class="line"><span class="number">5</span>) 使能 USART；</span><br><span class="line"><span class="number">6</span>) 在 USART 接收中断服务函数实现数据接收和发送</span><br></pre></td></tr></table></figure>
 
 <h3 id="串口收发代码"><a href="#串口收发代码" class="headerlink" title="串口收发代码"></a>串口收发代码</h3><p><code>usart.h</code></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">#ifndef _USART_H
-#define _USART_H
-
-#include &quot;stm32f10x.h&quot;
-#include &lt;stdio.h&gt;
-#define   DEBUG_USART1    1
-#define   DEBUG_USART2    0
-
-#if  DEBUG_USART1 
-&#x2F;&#x2F; 串口1-USART1
-#define  DEBUG_USARTx                   USART1
-#define  DEBUG_USART_CLK                RCC_APB2Periph_USART1
-#define  DEBUG_USART_APBxClkCmd         RCC_APB2PeriphClockCmd
-#define  DEBUG_USART_BAUDRATE           115200
-
-&#x2F;&#x2F; USART GPIO 引脚宏定义
-#define  DEBUG_USART_GPIO_CLK           (RCC_APB2Periph_GPIOA)
-#define  DEBUG_USART_GPIO_APBxClkCmd    RCC_APB2PeriphClockCmd
-    
-#define  DEBUG_USART_TX_GPIO_PORT       GPIOA   
-#define  DEBUG_USART_TX_GPIO_PIN        GPIO_Pin_9
-#define  DEBUG_USART_RX_GPIO_PORT       GPIOA
-#define  DEBUG_USART_RX_GPIO_PIN        GPIO_Pin_10
-
-#define  DEBUG_USART_IRQ                USART1_IRQn
-#define  DEBUG_USART_IRQHandler         USART1_IRQHandler
-
-#elif   DEBUG_USART2 
-&#x2F;&#x2F; 串口2-USART2
-#define  DEBUG_USARTx                   USART2
-#define  DEBUG_USART_CLK                RCC_APB1Periph_USART2
-#define  DEBUG_USART_APBxClkCmd         RCC_APB1PeriphClockCmd
-#define  DEBUG_USART_BAUDRATE           115200
-
-&#x2F;&#x2F; USART GPIO 引脚宏定义
-#define  DEBUG_USART_GPIO_CLK           (RCC_APB2Periph_GPIOA)
-#define  DEBUG_USART_GPIO_APBxClkCmd    RCC_APB2PeriphClockCmd
-    
-#define  DEBUG_USART_TX_GPIO_PORT       GPIOA   
-#define  DEBUG_USART_TX_GPIO_PIN        GPIO_Pin_2
-#define  DEBUG_USART_RX_GPIO_PORT       GPIOA
-#define  DEBUG_USART_RX_GPIO_PIN        GPIO_Pin_3
-
-#define  DEBUG_USART_IRQ                USART2_IRQn
-#define  DEBUG_USART_IRQHandler         USART2_IRQHandler
-
-#endif
-void USART_Config(void);
-void Usart_SendByte( USART_TypeDef * pUSARTx, uint8_t date);
-void Usart_SendString( USART_TypeDef * pUSARTx, char *str);
-void Usart_SendHalfWord( USART_TypeDef * pUSARTx, uint16_t date);
-void Usart_SendArray(USART_TypeDef * pUSARTx,uint8_t *arr,uint16_t num);
-#endif &#x2F;* _USART_H *&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _USART_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _USART_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stm32f10x.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>   DEBUG_USART1    1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>   DEBUG_USART2    0</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span>  DEBUG_USART1 </span></span><br><span class="line"><span class="comment">// 串口1-USART1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USARTx                   USART1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_CLK                RCC_APB2Periph_USART1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_APBxClkCmd         RCC_APB2PeriphClockCmd</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_BAUDRATE           115200</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// USART GPIO 引脚宏定义</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_GPIO_CLK           (RCC_APB2Periph_GPIOA)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_GPIO_APBxClkCmd    RCC_APB2PeriphClockCmd</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_TX_GPIO_PORT       GPIOA   </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_TX_GPIO_PIN        GPIO_Pin_9</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_RX_GPIO_PORT       GPIOA</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_RX_GPIO_PIN        GPIO_Pin_10</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_IRQ                USART1_IRQn</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_IRQHandler         USART1_IRQHandler</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">elif</span>   DEBUG_USART2 </span></span><br><span class="line"><span class="comment">// 串口2-USART2</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USARTx                   USART2</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_CLK                RCC_APB1Periph_USART2</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_APBxClkCmd         RCC_APB1PeriphClockCmd</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_BAUDRATE           115200</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// USART GPIO 引脚宏定义</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_GPIO_CLK           (RCC_APB2Periph_GPIOA)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_GPIO_APBxClkCmd    RCC_APB2PeriphClockCmd</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_TX_GPIO_PORT       GPIOA   </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_TX_GPIO_PIN        GPIO_Pin_2</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_RX_GPIO_PORT       GPIOA</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_RX_GPIO_PIN        GPIO_Pin_3</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_IRQ                USART2_IRQn</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>  DEBUG_USART_IRQHandler         USART2_IRQHandler</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">USART_Config</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Usart_SendByte</span><span class="params">( USART_TypeDef * pUSARTx, <span class="type">uint8_t</span> date)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Usart_SendString</span><span class="params">( USART_TypeDef * pUSARTx, <span class="type">char</span> *str)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Usart_SendHalfWord</span><span class="params">( USART_TypeDef * pUSARTx, <span class="type">uint16_t</span> date)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Usart_SendArray</span><span class="params">(USART_TypeDef * pUSARTx,<span class="type">uint8_t</span> *arr,<span class="type">uint16_t</span> num)</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* _USART_H */</span></span></span><br></pre></td></tr></table></figure>
 
 <p>usart.c</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &quot;usart.h&quot;
-#include &quot;led.h&quot;
-
-
-static void NVIC_Configuration(void)
-&#123;
-	NVIC_InitTypeDef  NVIC_InitStructure;
-	
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-	NVIC_InitStructure.NVIC_IRQChannel &#x3D;DEBUG_USART_IRQ;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority &#x3D;0x01;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority &#x3D;0x01;
-	NVIC_InitStructure.NVIC_IRQChannelCmd &#x3D;ENABLE;
-	NVIC_Init(&amp;NVIC_InitStructure);
-&#125;
-
-void USART_Config(void)
-&#123;
- 
-	GPIO_InitTypeDef GPIO_InitStructure;
-	USART_InitTypeDef USART_InitStructure;
-
-	&#x2F;&#x2F; 打开串口GPIO的时钟
-	DEBUG_USART_GPIO_APBxClkCmd(DEBUG_USART_GPIO_CLK, ENABLE);
-	
-	&#x2F;&#x2F; 打开串口外设的时钟
-	DEBUG_USART_APBxClkCmd(DEBUG_USART_CLK, ENABLE);
-
-	&#x2F;&#x2F; 将USART Tx的GPIO配置为推挽复用模式
-	GPIO_InitStructure.GPIO_Pin &#x3D; DEBUG_USART_TX_GPIO_PIN;
-	GPIO_InitStructure.GPIO_Mode &#x3D; GPIO_Mode_AF_PP;
-	GPIO_InitStructure.GPIO_Speed &#x3D; GPIO_Speed_50MHz;
-	GPIO_Init(DEBUG_USART_TX_GPIO_PORT, &amp;GPIO_InitStructure);
-
-  &#x2F;&#x2F; 将USART Rx的GPIO配置为浮空输入模式
-	GPIO_InitStructure.GPIO_Pin &#x3D; DEBUG_USART_RX_GPIO_PIN;
-	GPIO_InitStructure.GPIO_Mode &#x3D; GPIO_Mode_IN_FLOATING;
-	GPIO_Init(DEBUG_USART_RX_GPIO_PORT, &amp;GPIO_InitStructure);
-	
-	&#x2F;&#x2F; 配置串口的工作参数
-	&#x2F;&#x2F; 配置波特率
-	USART_InitStructure.USART_BaudRate &#x3D; DEBUG_USART_BAUDRATE;
-	&#x2F;&#x2F; 配置 针数据字长
-	USART_InitStructure.USART_WordLength &#x3D; USART_WordLength_8b;
-	&#x2F;&#x2F; 配置停止位
-	USART_InitStructure.USART_StopBits &#x3D; USART_StopBits_1;
-	&#x2F;&#x2F; 配置校验位
-	USART_InitStructure.USART_Parity &#x3D; USART_Parity_No ;
-	&#x2F;&#x2F; 配置硬件流控制
-	USART_InitStructure.USART_HardwareFlowControl &#x3D; 
-	USART_HardwareFlowControl_None;
-	&#x2F;&#x2F; 配置工作模式，收发一起
-	USART_InitStructure.USART_Mode &#x3D; USART_Mode_Rx | USART_Mode_Tx;
-	&#x2F;&#x2F; 完成串口的初始化配置
-	USART_Init(DEBUG_USARTx, &amp;USART_InitStructure);
-	&#x2F;&#x2F;中断配置
-	NVIC_Configuration();
-	&#x2F;&#x2F;开启串口接收中断
-	USART_ITConfig(DEBUG_USARTx,USART_IT_RXNE, ENABLE);
-	&#x2F;&#x2F;使能串口
-	USART_Cmd(DEBUG_USARTx, ENABLE);
-
-&#125;
-&#x2F;&#x2F;发送一个字节
-void Usart_SendByte(USART_TypeDef * pUSARTx,uint8_t date)
-&#123;
-	 USART_SendData(pUSARTx,date);
-	 while( USART_GetFlagStatus(pUSARTx,USART_FLAG_TXE)&#x3D;&#x3D; RESET);
-&#125;
-
-&#x2F;&#x2F;发送一个16位的数据
-void Usart_SendHalfWord(USART_TypeDef * pUSARTx,uint16_t date)
-&#123;
-	uint16_t tmp_h;
-	uint16_t tmp_l;
-	tmp_h &#x3D;date&gt;&gt;0x08;
-	tmp_l &#x3D;date &amp; 0xff;
-	Usart_SendByte(pUSARTx,tmp_h);
-	Usart_SendByte(pUSARTx,tmp_l);
-&#125;
-
-&#x2F;&#x2F;发送一个8位的数组
-void Usart_SendArray(USART_TypeDef * pUSARTx,uint8_t *arr,uint16_t num)
-&#123; 
-   while(num--)
-	 &#123;
-		 Usart_SendByte( pUSARTx ,*arr++);
-	 &#125;
- while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TC)&#x3D;&#x3D; RESET);
-&#125;
-
-&#x2F;&#x2F;发送字符串
-void Usart_SendString( USART_TypeDef * pUSARTx, char *str)
-&#123;
- while( *str!&#x3D;&#39;\0&#39; )
- &#123;
-	 Usart_SendByte( pUSARTx, *str++); 
- &#125;
-
- while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TC)&#x3D;&#x3D; RESET);
-&#125;
-
-
-&#x2F;&#x2F;&#x2F;重定向c库函数printf到串口，重定向后可使用printf函数
-int fputc(int ch, FILE *f)
-&#123;
-		&#x2F;* 发送一个字节数据到串口 *&#x2F;
-		USART_SendData(DEBUG_USARTx, (uint8_t) ch);
-		
-		&#x2F;* 等待发送完毕 *&#x2F;
-		while (USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_TXE) &#x3D;&#x3D; RESET);		
-	
-		return (ch);
-&#125;
-
-&#x2F;&#x2F;&#x2F;重定向c库函数scanf到串口，重写向后可使用scanf、getchar等函数
-int fgetc(FILE *f)
-&#123;
-		&#x2F;* 等待串口输入数据 *&#x2F;
-		while (USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_RXNE) &#x3D;&#x3D; RESET);
-
-		return (int)USART_ReceiveData(DEBUG_USARTx);
-&#125;
-
-&#x2F;&#x2F;中断服务函数
-void DEBUG_USART_IRQHandler(void)
-&#123;
-     uint16_t tmp;
-
-if(USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_RXNE) !&#x3D; RESET)
-	&#123;
-	  tmp&#x3D;USART_ReceiveData(DEBUG_USARTx);
-	 USART_SendData(DEBUG_USARTx,tmp);
-while( USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_TXE)&#x3D;&#x3D; RESET);
-		
-	&#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &quot;stm32f10x.h&quot;
-#include &quot;led.h&quot;
-#include  &quot;usart.h&quot;
-#include  &lt;string.h&gt;
-#define SOFT_DELAY Delay(0x0FFFFF);
-
-void Delay(__IO u32 nCount); 
-
-
-int main(void)
-&#123;	
-	 uint16_t ch;
-	
-	 uint8_t arr[10]&#x3D;&#123;1,2,3,4,5,6,7,8,9,10&#125;;
-	&#x2F;* LED 端口初始化 *&#x2F;
-	LED_GPIO_Config();	
-
-  &#x2F;*初始化USART 配置模式为 115200 8-N-1，中断接收*&#x2F;
-  USART_Config();
-   &#x2F;&#x2F;发送一个字符
-	 printf(&quot;发送一个字节：\r\n&quot;);
-   Usart_SendByte(DEBUG_USARTx ,97);
-	 printf(&quot;\r\n&quot;);
-	 
-   &#x2F;&#x2F;发送一个16位数据
-	 Usart_SendHalfWord(DEBUG_USARTx,0xffee);
-
-	 &#x2F;&#x2F;发送一个数组
-	 Usart_SendArray(DEBUG_USARTx, arr,10);
-
-	 &#x2F;&#x2F;发送一个字符串
-	 printf(&quot;发送一个字符串：\r\n&quot;);
-	 Usart_SendString( DEBUG_USARTx, &quot;hello world\r\n&quot;);
- 
-	 while(1);	
-&#125;	 
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;usart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;led.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">NVIC_Configuration</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	NVIC_InitTypeDef  NVIC_InitStructure;</span><br><span class="line">	</span><br><span class="line">	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);</span><br><span class="line">	NVIC_InitStructure.NVIC_IRQChannel =DEBUG_USART_IRQ;</span><br><span class="line">	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority =<span class="number">0x01</span>;</span><br><span class="line">	NVIC_InitStructure.NVIC_IRQChannelSubPriority =<span class="number">0x01</span>;</span><br><span class="line">	NVIC_InitStructure.NVIC_IRQChannelCmd =ENABLE;</span><br><span class="line">	NVIC_Init(&amp;NVIC_InitStructure);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">USART_Config</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line"> </span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">	USART_InitTypeDef USART_InitStructure;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 打开串口GPIO的时钟</span></span><br><span class="line">	DEBUG_USART_GPIO_APBxClkCmd(DEBUG_USART_GPIO_CLK, ENABLE);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 打开串口外设的时钟</span></span><br><span class="line">	DEBUG_USART_APBxClkCmd(DEBUG_USART_CLK, ENABLE);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 将USART Tx的GPIO配置为推挽复用模式</span></span><br><span class="line">	GPIO_InitStructure.GPIO_Pin = DEBUG_USART_TX_GPIO_PIN;</span><br><span class="line">	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;</span><br><span class="line">	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">	GPIO_Init(DEBUG_USART_TX_GPIO_PORT, &amp;GPIO_InitStructure);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 将USART Rx的GPIO配置为浮空输入模式</span></span><br><span class="line">	GPIO_InitStructure.GPIO_Pin = DEBUG_USART_RX_GPIO_PIN;</span><br><span class="line">	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;</span><br><span class="line">	GPIO_Init(DEBUG_USART_RX_GPIO_PORT, &amp;GPIO_InitStructure);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 配置串口的工作参数</span></span><br><span class="line">	<span class="comment">// 配置波特率</span></span><br><span class="line">	USART_InitStructure.USART_BaudRate = DEBUG_USART_BAUDRATE;</span><br><span class="line">	<span class="comment">// 配置 针数据字长</span></span><br><span class="line">	USART_InitStructure.USART_WordLength = USART_WordLength_8b;</span><br><span class="line">	<span class="comment">// 配置停止位</span></span><br><span class="line">	USART_InitStructure.USART_StopBits = USART_StopBits_1;</span><br><span class="line">	<span class="comment">// 配置校验位</span></span><br><span class="line">	USART_InitStructure.USART_Parity = USART_Parity_No ;</span><br><span class="line">	<span class="comment">// 配置硬件流控制</span></span><br><span class="line">	USART_InitStructure.USART_HardwareFlowControl = </span><br><span class="line">	USART_HardwareFlowControl_None;</span><br><span class="line">	<span class="comment">// 配置工作模式，收发一起</span></span><br><span class="line">	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;</span><br><span class="line">	<span class="comment">// 完成串口的初始化配置</span></span><br><span class="line">	USART_Init(DEBUG_USARTx, &amp;USART_InitStructure);</span><br><span class="line">	<span class="comment">//中断配置</span></span><br><span class="line">	NVIC_Configuration();</span><br><span class="line">	<span class="comment">//开启串口接收中断</span></span><br><span class="line">	USART_ITConfig(DEBUG_USARTx,USART_IT_RXNE, ENABLE);</span><br><span class="line">	<span class="comment">//使能串口</span></span><br><span class="line">	USART_Cmd(DEBUG_USARTx, ENABLE);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//发送一个字节</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Usart_SendByte</span><span class="params">(USART_TypeDef * pUSARTx,<span class="type">uint8_t</span> date)</span></span><br><span class="line">&#123;</span><br><span class="line">	 USART_SendData(pUSARTx,date);</span><br><span class="line">	 <span class="keyword">while</span>( USART_GetFlagStatus(pUSARTx,USART_FLAG_TXE)== RESET);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//发送一个16位的数据</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Usart_SendHalfWord</span><span class="params">(USART_TypeDef * pUSARTx,<span class="type">uint16_t</span> date)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">uint16_t</span> tmp_h;</span><br><span class="line">	<span class="type">uint16_t</span> tmp_l;</span><br><span class="line">	tmp_h =date&gt;&gt;<span class="number">0x08</span>;</span><br><span class="line">	tmp_l =date &amp; <span class="number">0xff</span>;</span><br><span class="line">	Usart_SendByte(pUSARTx,tmp_h);</span><br><span class="line">	Usart_SendByte(pUSARTx,tmp_l);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//发送一个8位的数组</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Usart_SendArray</span><span class="params">(USART_TypeDef * pUSARTx,<span class="type">uint8_t</span> *arr,<span class="type">uint16_t</span> num)</span></span><br><span class="line">&#123; </span><br><span class="line">   <span class="keyword">while</span>(num--)</span><br><span class="line">	 &#123;</span><br><span class="line">		 Usart_SendByte( pUSARTx ,*arr++);</span><br><span class="line">	 &#125;</span><br><span class="line"> <span class="keyword">while</span> (USART_GetFlagStatus(pUSARTx, USART_FLAG_TC)== RESET);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//发送字符串</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Usart_SendString</span><span class="params">( USART_TypeDef * pUSARTx, <span class="type">char</span> *str)</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="keyword">while</span>( *str!=<span class="string">&#x27;\0&#x27;</span> )</span><br><span class="line"> &#123;</span><br><span class="line">	 Usart_SendByte( pUSARTx, *str++); </span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">while</span> (USART_GetFlagStatus(pUSARTx, USART_FLAG_TC)== RESET);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">///重定向c库函数printf到串口，重定向后可使用printf函数</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">fputc</span><span class="params">(<span class="type">int</span> ch, FILE *f)</span></span><br><span class="line">&#123;</span><br><span class="line">		<span class="comment">/* 发送一个字节数据到串口 */</span></span><br><span class="line">		USART_SendData(DEBUG_USARTx, (<span class="type">uint8_t</span>) ch);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">/* 等待发送完毕 */</span></span><br><span class="line">		<span class="keyword">while</span> (USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_TXE) == RESET);		</span><br><span class="line">	</span><br><span class="line">		<span class="keyword">return</span> (ch);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">///重定向c库函数scanf到串口，重写向后可使用scanf、getchar等函数</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">fgetc</span><span class="params">(FILE *f)</span></span><br><span class="line">&#123;</span><br><span class="line">		<span class="comment">/* 等待串口输入数据 */</span></span><br><span class="line">		<span class="keyword">while</span> (USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_RXNE) == RESET);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> (<span class="type">int</span>)USART_ReceiveData(DEBUG_USARTx);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//中断服务函数</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">DEBUG_USART_IRQHandler</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">     <span class="type">uint16_t</span> tmp;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_RXNE) != RESET)</span><br><span class="line">	&#123;</span><br><span class="line">	  tmp=USART_ReceiveData(DEBUG_USARTx);</span><br><span class="line">	 USART_SendData(DEBUG_USARTx,tmp);</span><br><span class="line"><span class="keyword">while</span>( USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_TXE)== RESET);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stm32f10x.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;led.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span>  <span class="string">&quot;usart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span>  <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SOFT_DELAY Delay(0x0FFFFF);</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Delay</span><span class="params">(__IO u32 nCount)</span>; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;	</span><br><span class="line">	 <span class="type">uint16_t</span> ch;</span><br><span class="line">	</span><br><span class="line">	 <span class="type">uint8_t</span> arr[<span class="number">10</span>]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>&#125;;</span><br><span class="line">	<span class="comment">/* LED 端口初始化 */</span></span><br><span class="line">	LED_GPIO_Config();	</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*初始化USART 配置模式为 115200 8-N-1，中断接收*/</span></span><br><span class="line">  USART_Config();</span><br><span class="line">   <span class="comment">//发送一个字符</span></span><br><span class="line">	 <span class="built_in">printf</span>(<span class="string">&quot;发送一个字节：\r\n&quot;</span>);</span><br><span class="line">   Usart_SendByte(DEBUG_USARTx ,<span class="number">97</span>);</span><br><span class="line">	 <span class="built_in">printf</span>(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">	 </span><br><span class="line">   <span class="comment">//发送一个16位数据</span></span><br><span class="line">	 Usart_SendHalfWord(DEBUG_USARTx,<span class="number">0xffee</span>);</span><br><span class="line"></span><br><span class="line">	 <span class="comment">//发送一个数组</span></span><br><span class="line">	 Usart_SendArray(DEBUG_USARTx, arr,<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">	 <span class="comment">//发送一个字符串</span></span><br><span class="line">	 <span class="built_in">printf</span>(<span class="string">&quot;发送一个字符串：\r\n&quot;</span>);</span><br><span class="line">	 Usart_SendString( DEBUG_USARTx, <span class="string">&quot;hello world\r\n&quot;</span>);</span><br><span class="line"> </span><br><span class="line">	 <span class="keyword">while</span>(<span class="number">1</span>);	</span><br><span class="line">&#125;	 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h2 id="printf函数"><a href="#printf函数" class="headerlink" title="printf函数"></a>printf函数</h2><img src="/2022/09/28/41h-f407-usart/30.jpg" class="">
 <img src="/2022/09/28/41h-f407-usart/31.jpg" class="">
 
@@ -615,9 +378,9 @@ int main(void)
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -626,6 +389,7 @@ int main(void)
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -655,7 +419,7 @@ int main(void)
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -667,14 +431,14 @@ int main(void)
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

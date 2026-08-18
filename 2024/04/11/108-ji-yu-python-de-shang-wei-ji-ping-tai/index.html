@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">基于Python的上位机平台</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          2791
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -240,38 +253,7 @@
 <li><code>QPushButton:hover</code>：定义鼠标悬停在按钮上时的外观。</li>
 <li><code>QPushButton:pressed</code>：定义按钮被按下时的外观。</li>
 </ul>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"># 在这里可以添加信号槽连接和其他初始化代码
-       self.apply_styles()
-       self.pushButton_start.clicked.connect(self.handle_start_button)
-       self.pushButton_a.clicked.connect(self.handle_button_a)
-       self.pushButton_b.clicked.connect(self.handle_button_b)
-       self.pushButton_forward.clicked.connect(self.handle_forward_button)
-       self.pushButton_backward.clicked.connect(self.handle_backward_button)
-       self.pushButton_left.clicked.connect(self.handle_left_button)
-       self.pushButton_right.clicked.connect(self.handle_right_button)
-       self.pushButton_stop.clicked.connect(self.handle_stop_button)
-
-   def apply_styles(self):
-       # 设置按钮样式表，添加按压效果
-       button_style &#x3D; &quot;&quot;&quot;
-       QPushButton &#123;
-           border: 1px solid black;
-           border-radius: 10px;
-           background-color: #82A6FF;
-           min-width: 80px;
-           min-height: 40px;
-           font: bold 14px;
-           color: white;
-       &#125;
-       # 按压在后面才能生效
-         QPushButton:hover &#123;
-           background-color: #9BBFFF;
-       &#125;
-       QPushButton:pressed &#123;
-           background-color:#000000;
-       &#125;
-
-       &quot;&quot;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在这里可以添加信号槽连接和其他初始化代码</span></span><br><span class="line">       <span class="variable language_">self</span>.apply_styles()</span><br><span class="line">       <span class="variable language_">self</span>.pushButton_start.clicked.connect(<span class="variable language_">self</span>.handle_start_button)</span><br><span class="line">       <span class="variable language_">self</span>.pushButton_a.clicked.connect(<span class="variable language_">self</span>.handle_button_a)</span><br><span class="line">       <span class="variable language_">self</span>.pushButton_b.clicked.connect(<span class="variable language_">self</span>.handle_button_b)</span><br><span class="line">       <span class="variable language_">self</span>.pushButton_forward.clicked.connect(<span class="variable language_">self</span>.handle_forward_button)</span><br><span class="line">       <span class="variable language_">self</span>.pushButton_backward.clicked.connect(<span class="variable language_">self</span>.handle_backward_button)</span><br><span class="line">       <span class="variable language_">self</span>.pushButton_left.clicked.connect(<span class="variable language_">self</span>.handle_left_button)</span><br><span class="line">       <span class="variable language_">self</span>.pushButton_right.clicked.connect(<span class="variable language_">self</span>.handle_right_button)</span><br><span class="line">       <span class="variable language_">self</span>.pushButton_stop.clicked.connect(<span class="variable language_">self</span>.handle_stop_button)</span><br><span class="line"></span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">apply_styles</span>(<span class="params">self</span>):</span><br><span class="line">       <span class="comment"># 设置按钮样式表，添加按压效果</span></span><br><span class="line">       button_style = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">       QPushButton &#123;</span></span><br><span class="line"><span class="string">           border: 1px solid black;</span></span><br><span class="line"><span class="string">           border-radius: 10px;</span></span><br><span class="line"><span class="string">           background-color: #82A6FF;</span></span><br><span class="line"><span class="string">           min-width: 80px;</span></span><br><span class="line"><span class="string">           min-height: 40px;</span></span><br><span class="line"><span class="string">           font: bold 14px;</span></span><br><span class="line"><span class="string">           color: white;</span></span><br><span class="line"><span class="string">       &#125;</span></span><br><span class="line"><span class="string">       # 按压在后面才能生效</span></span><br><span class="line"><span class="string">         QPushButton:hover &#123;</span></span><br><span class="line"><span class="string">           background-color: #9BBFFF;</span></span><br><span class="line"><span class="string">       &#125;</span></span><br><span class="line"><span class="string">       QPushButton:pressed &#123;</span></span><br><span class="line"><span class="string">           background-color:#000000;</span></span><br><span class="line"><span class="string">       &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">       &quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>布局约束了按钮的大小，如何解决</p>
 <p><strong>暂时未验证</strong></p>
@@ -289,59 +271,11 @@
 </ul>
 </li>
 </ol>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">self.pushButton_start.clicked.connect(self.open_serial_port) 这行代码的功能是将 self.pushButton_start 按钮的点击事件与 self.open_serial_port 方法连接起来。也就是说，当用户点击 self.pushButton_start 按钮时，会自动调用 self.open_serial_port 方法。
-
-详细讲解：
-self.pushButton_start:
-
-self.pushButton_start 是一个 QPushButton 对象，表示用户界面中的一个按钮。
-clicked 信号:
-
-在 PyQt 中，每个按钮（QPushButton）都有许多信号，其中一个最常用的信号是 clicked。当用户点击按钮时，这个信号会被触发。
-connect 方法:
-
-connect 方法用于将信号与槽（slot）连接起来。槽是一个可以被调用的函数或方法，当信号触发时，槽会被调用。
-在这种情况下，connect 方法将 clicked 信号与 self.open_serial_port 方法连接。
-self.open_serial_port 方法:
-
-self.open_serial_port 是在类中定义的一个方法。这个方法的作用是打开选定的串口。
-工作流程：
-当用户点击 self.pushButton_start 按钮时，self.pushButton_start 对象会发出 clicked 信号。
-由于 clicked 信号已经通过 connect 方法与 self.open_serial_port 方法连接，因此 self.open_serial_port 方法会被自动调用。
-self.open_serial_port 方法会执行相关代码，尝试打开用户在 comboBox 中选择的串口，并进行初始化设置。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">self</span>.pushButton_start.clicked.connect(<span class="variable language_">self</span>.open_serial_port) 这行代码的功能是将 <span class="variable language_">self</span>.pushButton_start 按钮的点击事件与 <span class="variable language_">self</span>.open_serial_port 方法连接起来。也就是说，当用户点击 <span class="variable language_">self</span>.pushButton_start 按钮时，会自动调用 <span class="variable language_">self</span>.open_serial_port 方法。</span><br><span class="line"></span><br><span class="line">详细讲解：</span><br><span class="line"><span class="variable language_">self</span>.pushButton_start:</span><br><span class="line"></span><br><span class="line"><span class="variable language_">self</span>.pushButton_start 是一个 QPushButton 对象，表示用户界面中的一个按钮。</span><br><span class="line">clicked 信号:</span><br><span class="line"></span><br><span class="line">在 PyQt 中，每个按钮（QPushButton）都有许多信号，其中一个最常用的信号是 clicked。当用户点击按钮时，这个信号会被触发。</span><br><span class="line">connect 方法:</span><br><span class="line"></span><br><span class="line">connect 方法用于将信号与槽（slot）连接起来。槽是一个可以被调用的函数或方法，当信号触发时，槽会被调用。</span><br><span class="line">在这种情况下，connect 方法将 clicked 信号与 <span class="variable language_">self</span>.open_serial_port 方法连接。</span><br><span class="line"><span class="variable language_">self</span>.open_serial_port 方法:</span><br><span class="line"></span><br><span class="line"><span class="variable language_">self</span>.open_serial_port 是在类中定义的一个方法。这个方法的作用是打开选定的串口。</span><br><span class="line">工作流程：</span><br><span class="line">当用户点击 <span class="variable language_">self</span>.pushButton_start 按钮时，<span class="variable language_">self</span>.pushButton_start 对象会发出 clicked 信号。</span><br><span class="line">由于 clicked 信号已经通过 connect 方法与 <span class="variable language_">self</span>.open_serial_port 方法连接，因此 <span class="variable language_">self</span>.open_serial_port 方法会被自动调用。</span><br><span class="line"><span class="variable language_">self</span>.open_serial_port 方法会执行相关代码，尝试打开用户在 comboBox 中选择的串口，并进行初始化设置。</span><br></pre></td></tr></table></figure>
 
 <h2 id="由小到大"><a href="#由小到大" class="headerlink" title="由小到大"></a>由小到大</h2><p>思维导图及时写，定期复习所学</p>
 <p>温故而知新</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">UI界面设计程序如下：
-
-from PyQt5 import QtWidgets             #导入模块
-     from THREE import Ui_MainWindow  
-
-Class MainApp(QtWidgets.QMainWindow, Ui_MainWindow):
-
-​    def __init__(self):  
-
-​    #  这是类的初始化方法，当创建 MainApp 类的实例时会自动调用该方法。
-
-​    # self 是对类实例自身的引用，用于访问实例的属性和方法。
-
-  super(MainApp, self).__init__()
-
-​    # 调用了父类（QtWidgets.QMainWindow 和 Ui_MainWindow）的初始化方法。
-
-​    # super() 函数用于调用父类的方法，确保父类中的初始化代码在子类中也能正确执行。
-
-通过调用父类的初始化方法，MainApp 类继承了 QtWidgets.QMainWindow 和 Ui_MainWindow 类的所有属性和方法。
-
-
-
-​    self.setupUi(self)
-
-·  调用了 Ui_MainWindow 类中的 setupUi 方法，并传递了当前类的实例 self 作为参数。
-
-· setupUi 方法用于设置和初始化用户界面，配置窗口的布局、组件以及信号槽连接。
-
-· 通过调用 setupUi 方法，MainApp 类实例会根据 Ui_MainWindow 中定义的布局和组件初始化界面。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">UI界面设计程序如下：</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PyQt5 <span class="keyword">import</span> QtWidgets             <span class="comment">#导入模块</span></span><br><span class="line">     <span class="keyword">from</span> THREE <span class="keyword">import</span> Ui_MainWindow  </span><br><span class="line"></span><br><span class="line">Class MainApp(QtWidgets.QMainWindow, Ui_MainWindow):</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):  </span><br><span class="line"></span><br><span class="line">​    <span class="comment">#  这是类的初始化方法，当创建 MainApp 类的实例时会自动调用该方法。</span></span><br><span class="line"></span><br><span class="line">​    <span class="comment"># self 是对类实例自身的引用，用于访问实例的属性和方法。</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">super</span>(MainApp, <span class="variable language_">self</span>).__init__()</span><br><span class="line"></span><br><span class="line">​    <span class="comment"># 调用了父类（QtWidgets.QMainWindow 和 Ui_MainWindow）的初始化方法。</span></span><br><span class="line"></span><br><span class="line">​    <span class="comment"># super() 函数用于调用父类的方法，确保父类中的初始化代码在子类中也能正确执行。</span></span><br><span class="line"></span><br><span class="line">通过调用父类的初始化方法，MainApp 类继承了 QtWidgets.QMainWindow 和 Ui_MainWindow 类的所有属性和方法。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="variable language_">self</span>.setupUi(<span class="variable language_">self</span>)</span><br><span class="line"></span><br><span class="line">·  调用了 Ui_MainWindow 类中的 setupUi 方法，并传递了当前类的实例 <span class="variable language_">self</span> 作为参数。</span><br><span class="line"></span><br><span class="line">· setupUi 方法用于设置和初始化用户界面，配置窗口的布局、组件以及信号槽连接。</span><br><span class="line"></span><br><span class="line">· 通过调用 setupUi 方法，MainApp 类实例会根据 Ui_MainWindow 中定义的布局和组件初始化界面。</span><br></pre></td></tr></table></figure>
 
 <h2 id="try-except"><a href="#try-except" class="headerlink" title="try except"></a>try except</h2><p>可以防止程序自动退出，不显示报错</p>
 <h2 id="label切换图片模仿led"><a href="#label切换图片模仿led" class="headerlink" title="label切换图片模仿led"></a>label切换图片模仿led</h2><h2 id="思考功能"><a href="#思考功能" class="headerlink" title="思考功能"></a>思考功能</h2><img src="/2024/04/11/108-ji-yu-python-de-shang-wei-ji-ping-tai/image-20240608212622365.png" class="" title="image-20240608212622365">
@@ -483,9 +417,9 @@ Class MainApp(QtWidgets.QMainWindow, Ui_MainWindow):
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -494,6 +428,7 @@ Class MainApp(QtWidgets.QMainWindow, Ui_MainWindow):
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -523,7 +458,7 @@ Class MainApp(QtWidgets.QMainWindow, Ui_MainWindow):
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -535,14 +470,14 @@ Class MainApp(QtWidgets.QMainWindow, Ui_MainWindow):
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

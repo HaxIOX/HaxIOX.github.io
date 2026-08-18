@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">Arduino安装Ameba开发板</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1000
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -184,14 +197,14 @@
 </ul>
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>SDK<a target="_blank" rel="noopener" href="https://github.com/Ameba-AIoT/ameba-arduino-d?tab=readme-ov-file">Ameba-AIoT&#x2F;ameba-arduino-d： AmebaD Arduino 第三方包 SDK</a></p>
 <p>添加链接(文件-&gt;首选项-&gt;开发版地址)</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">https:&#x2F;&#x2F;github.com&#x2F;Ameba-AIoT&#x2F;ameba-arduino-d&#x2F;raw&#x2F;master&#x2F;Arduino_package&#x2F;package_realtek_amebad_index.json<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/Ameba-AIoT/ameba-arduino-d/raw/master/Arduino_package/package_realtek_amebad_index.json</span><br></pre></td></tr></table></figure>
 
 <p>报错</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Some indexes could not be updated. Get &quot;https:&#x2F;&#x2F;github.com&#x2F;Ameba-AIoT&#x2F;ameba-arduino-d&#x2F;raw&#x2F;master&#x2F;Arduino_package&#x2F;package_realtek_amebad_index.json&quot;: dial tcp 20.205.243.166:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.: https:&#x2F;&#x2F;github.com&#x2F;Ameba-AIoT&#x2F;ameba-arduino-d&#x2F;raw&#x2F;master&#x2F;Arduino_package&#x2F;package_realtek_amebad_index.json<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Some indexes could not be updated. Get <span class="string">&quot;https://github.com/Ameba-AIoT/ameba-arduino-d/raw/master/Arduino_package/package_realtek_amebad_index.json&quot;</span>: dial tcp 20.205.243.166:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of <span class="keyword">time</span>, or established connection failed because connected host has failed to respond.: https://github.com/Ameba-AIoT/ameba-arduino-d/raw/master/Arduino_package/package_realtek_amebad_index.json</span><br></pre></td></tr></table></figure>
 
 <p>这个开启本地全局代理一般可以解决</p>
 <p>然后打开开发版管理器,搜索<code>**ameba**</code>安装</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">平台安装失败：&#39;Realtek Ameba Boards (32-bits ARM Cortex-M33 @200MHz):3.1.8&#39; 2 UNKNOWN: Get &quot;https:&#x2F;&#x2F;github.com&#x2F;ambiot&#x2F;ambd_arduino&#x2F;raw&#x2F;master&#x2F;Arduino_package&#x2F;release&#x2F;ameba_d_toolchain_windows-1.0.1.tar.bz2&quot;: read tcp 192.168.71.92:63610-&gt;20.205.243.166:443: wsarecv: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">平台安装失败：<span class="string">&#x27;Realtek Ameba Boards (32-bits ARM Cortex-M33 @200MHz):3.1.8&#x27;</span> 2 UNKNOWN: Get <span class="string">&quot;https://github.com/ambiot/ambd_arduino/raw/master/Arduino_package/release/ameba_d_toolchain_windows-1.0.1.tar.bz2&quot;</span>: <span class="built_in">read</span> tcp 192.168.71.92:63610-&gt;20.205.243.166:443: wsarecv: A connection attempt failed because the connected party did not properly respond after a period of <span class="keyword">time</span>, or established connection failed because connected host has failed to respond.</span><br></pre></td></tr></table></figure>
 
 <p><strong>原因分析</strong>：</p>
 <ol>
@@ -214,7 +227,7 @@
 
 <p><strong>然后继续尝试安装</strong></p>
 <p>DNS报错</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">平台安装失败：&#39;Realtek Ameba Boards (32-bits ARM Cortex-M33 @200MHz):3.1.8&#39; 2 UNKNOWN: Get &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Ameba-AIoT&#x2F;ameba-arduino-d&#x2F;master&#x2F;Arduino_package&#x2F;release&#x2F;ameba_d_toolchain_windows-1.0.1.tar.bz2&quot;: dial tcp: lookup raw.githubusercontent.com: getaddrinfow: The requested name is valid, but no data of the requested type was found.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">平台安装失败：<span class="string">&#x27;Realtek Ameba Boards (32-bits ARM Cortex-M33 @200MHz):3.1.8&#x27;</span> 2 UNKNOWN: Get <span class="string">&quot;https://raw.githubusercontent.com/Ameba-AIoT/ameba-arduino-d/master/Arduino_package/release/ameba_d_toolchain_windows-1.0.1.tar.bz2&quot;</span>: dial tcp: lookup raw.githubusercontent.com: getaddrinfow: The requested name is valid, but no data of the requested <span class="built_in">type</span> was found.</span><br></pre></td></tr></table></figure>
 
 <h3 id="DNS-解析依旧本地化，没走到代理服务器"><a href="#DNS-解析依旧本地化，没走到代理服务器" class="headerlink" title="DNS 解析依旧本地化，没走到代理服务器"></a>DNS 解析依旧本地化，没走到代理服务器</h3><ul>
 <li><strong>问题表现</strong>：错误信息里写到 “lookup raw.githubusercontent.com: getaddrinfow: The requested name is valid, but no data of the requested type was found.” 这实际上是一个 DNS 解析层面的问题：<ul>
@@ -276,9 +289,9 @@
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -287,6 +300,7 @@
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -316,7 +330,7 @@
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -328,14 +342,14 @@
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

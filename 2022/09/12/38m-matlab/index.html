@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">matlab的几个绘图函数</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          834
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -179,28 +192,7 @@
       <div class="markdown-body">
         <h2 id="linspace-生成线性间距向量"><a href="#linspace-生成线性间距向量" class="headerlink" title="linspace 生成线性间距向量"></a>linspace 生成线性间距向量</h2><p>y &#x3D; linspace(x1,x2) 返回包含 x1 和 x2 之间的 100 个等间距点的行向量。<br>y &#x3D; linspace(x1,x2,n) 生成 n 个点。这些点的间距为 (x2-x1)&#x2F;(n-1)。</p>
 <p>linspace 类似于冒号运算符“:”，但可以直接控制点数并始终包括端点。“linspace”名称中的“lin”指示生成线性间距值而不是同级函数 logspace，后者会生成对数间距值。</p>
-<h2 id="plot-二维线图"><a href="#plot-二维线图" class="headerlink" title="plot 二维线图"></a>plot 二维线图</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">语法
-plot(X,Y)创建 Y 中数据对 X 中对应值的二维线图。
-         要绘制由线段连接的一组坐标，请将 X 和 Y 指定为相同长度的向量。
-         要在同一组坐标轴上绘制多组坐标，请将 X 或 Y 中的至少一个指定为矩阵。
-
-plot(X,Y,LineSpec)    使用指定的线型、标记和颜色创建绘图。
-plot(X1,Y1,...,Xn,Yn) 在同一组坐标轴上绘制多对 x 和 y 坐标。此语法可替代将坐标指定为矩阵的形式。
-
-plot(X1,Y1,LineSpec1,...,Xn,Yn,LineSpecn) 可为每个 x-y 对组指定特定的线型、标记和颜色。&#39;x&#39; 默认 &#39;--&#39;虚线  &#39;:&#39;点线
-                                          可以对某些 x-y 对组指定 LineSpec，而对其他对组省略它。
-plot(x,y1,&#39;g&#39;,x,y2,&#39;b--o&#39;,x,y3,&#39;c*&#39;)      指定线型、颜色和标记
-plot(x,y,&#39;-o&#39;,&#39;MarkerIndices&#39;,1:5:length(y)) 在特定的数据点显示标记
-plot(X1,Y1,&#39;o&#39;,X2,Y2) 对第一个 x-y 对组指定标记，但没有对第二个对组指定标记。
-plot(Y)              绘制 Y 对一组隐式 x 坐标的图。
-                     如果 Y 是向量，则 x 坐标范围从 1 到 length(Y)。
-                     如果 Y 是矩阵，则对于 Y 中的每个列，图中包含一个对应的行。x 坐标的范围是从 1 到 Y 的行数。
-                     如果 Y 包含复数，MATLAB® 绘制 Y 的虚部对 Y 的实部的图。 如果同时指定了 X 和 Y，虚部将被忽略。
-plot(___,Name,Value) 使用一个或多个名称-值参数指定 Line 属性。
-                     这些属性应用于绘制的所有线条。需要在上述任一语法中的所有参数之后指定名称-值参数。有关属性列表，请参阅 Line 属性。
-plot(ax,___)         在目标坐标区上显示绘图。将坐标区指定为上述任一语法中的第一个参数。
-p &#x3D; plot(___)        返回一个 Line 对象或 Line 对象数组。创建绘图后，使用 p 修改该绘图的属性。有关属性列表，请参阅
-                     Line 属性。 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="plot-二维线图"><a href="#plot-二维线图" class="headerlink" title="plot 二维线图"></a>plot 二维线图</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">语法</span><br><span class="line">plot(X,Y)创建 Y 中数据对 X 中对应值的二维线图。</span><br><span class="line">         要绘制由线段连接的一组坐标，请将 X 和 Y 指定为相同长度的向量。</span><br><span class="line">         要在同一组坐标轴上绘制多组坐标，请将 X 或 Y 中的至少一个指定为矩阵。</span><br><span class="line"></span><br><span class="line">plot(X,Y,LineSpec)    使用指定的线型、标记和颜色创建绘图。</span><br><span class="line">plot(X1,Y1,...,Xn,Yn) 在同一组坐标轴上绘制多对 x 和 y 坐标。此语法可替代将坐标指定为矩阵的形式。</span><br><span class="line"></span><br><span class="line">plot(X1,Y1,LineSpec1,...,Xn,Yn,LineSpecn) 可为每个 x-y 对组指定特定的线型、标记和颜色。<span class="string">&#x27;x&#x27;</span> 默认 <span class="string">&#x27;--&#x27;</span>虚线  <span class="string">&#x27;:&#x27;</span>点线</span><br><span class="line">                                          可以对某些 x-y 对组指定 LineSpec，而对其他对组省略它。</span><br><span class="line">plot(x,y1,<span class="string">&#x27;g&#x27;</span>,x,y2,<span class="string">&#x27;b--o&#x27;</span>,x,y3,<span class="string">&#x27;c*&#x27;</span>)      指定线型、颜色和标记</span><br><span class="line">plot(x,y,<span class="string">&#x27;-o&#x27;</span>,<span class="string">&#x27;MarkerIndices&#x27;</span>,<span class="number">1</span>:<span class="number">5</span>:length(y)) 在特定的数据点显示标记</span><br><span class="line">plot(X1,Y1,<span class="string">&#x27;o&#x27;</span>,X2,Y2) 对第一个 x-y 对组指定标记，但没有对第二个对组指定标记。</span><br><span class="line">plot(Y)              绘制 Y 对一组隐式 x 坐标的图。</span><br><span class="line">                     如果 Y 是向量，则 x 坐标范围从 <span class="number">1</span> 到 length(Y)。</span><br><span class="line">                     如果 Y 是矩阵，则对于 Y 中的每个列，图中包含一个对应的行。x 坐标的范围是从 <span class="number">1</span> 到 Y 的行数。</span><br><span class="line">                     如果 Y 包含复数，MATLAB® 绘制 Y 的虚部对 Y 的实部的图。 如果同时指定了 X 和 Y，虚部将被忽略。</span><br><span class="line">plot(___,Name,Value) 使用一个或多个名称-值参数指定 Line 属性。</span><br><span class="line">                     这些属性应用于绘制的所有线条。需要在上述任一语法中的所有参数之后指定名称-值参数。有关属性列表，请参阅 Line 属性。</span><br><span class="line">plot(ax,___)         在目标坐标区上显示绘图。将坐标区指定为上述任一语法中的第一个参数。</span><br><span class="line">p = plot(___)        返回一个 Line 对象或 Line 对象数组。创建绘图后，使用 p 修改该绘图的属性。有关属性列表，请参阅</span><br><span class="line">                     Line 属性。 </span><br></pre></td></tr></table></figure>
 
 
 
@@ -210,19 +202,9 @@ p &#x3D; plot(___)        返回一个 Line 对象或 Line 对象数组。创建
 <h2 id="meshgrid函数"><a href="#meshgrid函数" class="headerlink" title="meshgrid函数"></a>meshgrid函数</h2><p>将函数转换生成矩阵</p>
 <img src="/2022/09/12/38m-matlab/02.jpg" class="">
 
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">x&#x3D;-4:0.25:4;
-y&#x3D;x;
-[X,Y]&#x3D;meshgrid(x,y);   #缺少这步骤会报错:Z必须为矩阵，不能是标量或向量。
-Z&#x3D;-X.^4+Y.^5;
-mesh(Z)
-title(&#39;网格面&#39;)
-xlabel(&#39;x&#39;),ylabel(&#39;y&#39;),zlabel(&#39;z&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">x=<span class="number">-4</span>:<span class="number">0.25</span>:<span class="number">4</span>;</span><br><span class="line">y=x;</span><br><span class="line">[X,Y]=meshgrid(x,y);   #缺少这步骤会报错:Z必须为矩阵，不能是标量或向量。</span><br><span class="line">Z=-X.^<span class="number">4</span>+Y.^<span class="number">5</span>;</span><br><span class="line">mesh(Z)</span><br><span class="line">title(<span class="string">&#x27;网格面&#x27;</span>)</span><br><span class="line">xlabel(<span class="string">&#x27;x&#x27;</span>),ylabel(<span class="string">&#x27;y&#x27;</span>),zlabel(<span class="string">&#x27;z&#x27;</span>)</span><br></pre></td></tr></table></figure>
 <img src="/2022/09/12/38m-matlab/03.jpg" class="">
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">t&#x3D;-4:0.1:4;
-[X,Y]&#x3D;meshgrid(t);
-Z&#x3D;peaks(X,Y);
-mesh(X,Y,Z)
-title(&#39;显示网格&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">t=<span class="number">-4</span>:<span class="number">0.1</span>:<span class="number">4</span>;</span><br><span class="line">[X,Y]=meshgrid(t);</span><br><span class="line">Z=peaks(X,Y);</span><br><span class="line">mesh(X,Y,Z)</span><br><span class="line">title(<span class="string">&#x27;显示网格&#x27;</span>)</span><br></pre></td></tr></table></figure>
 <img src="/2022/09/12/38m-matlab/04.jpg" class="">
 
 <h2 id="for-用来重复指定次数的-for-循环"><a href="#for-用来重复指定次数的-for-循环" class="headerlink" title="for 用来重复指定次数的 for 循环"></a>for 用来重复指定次数的 for 循环</h2><p><a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/matlab/ref/mesh.html?searchHighlight=mesh&s_tid=srchtitle_mesh_1">官方文档</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44044161/article/details/115802993?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522166286682316782412591023%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=166286682316782412591023&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-3-115802993-null-null.142%5Ev47%5Epc_rank_34_default_2,201%5Ev3%5Econtrol_1&utm_term=matlab%20mesh&spm=1018.2226.3001.4187">三维网格绘图（mesh)</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Ricardo2/article/details/117514592?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522166337608116782412577988%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=166337608116782412577988&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-117514592-null-null.142%5Ev47%5Epc_rank_34_default_2,201%5Ev3%5Econtrol_1&utm_term=matlab%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86&spm=1018.2226.3001.4187">数值积分</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/fifiyang/article/details/116357355">matlab绘制奈奎斯特图和伯德图</a></p>
@@ -268,9 +250,9 @@ title(&#39;显示网格&#39;)<span aria-hidden="true" class="line-numbers-rows">
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -279,6 +261,7 @@ title(&#39;显示网格&#39;)<span aria-hidden="true" class="line-numbers-rows">
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -308,7 +291,7 @@ title(&#39;显示网格&#39;)<span aria-hidden="true" class="line-numbers-rows">
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -320,14 +303,14 @@ title(&#39;显示网格&#39;)<span aria-hidden="true" class="line-numbers-rows">
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">摸下小智AI</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          942
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -216,9 +229,7 @@
 <li>✅ 完全正确</li>
 <li>补充：项目中有4个队列，<code>audio_encode_queue_</code>连接AudioProcessor→OpusEncoder</li>
 </ul>
-<h2 id="三任务架构"><a href="#三任务架构" class="headerlink" title="三任务架构"></a>三任务架构</h2><pre class="line-numbers language-none"><code class="language-none">AudioInputTask (优先级8)  - 从麦克风读取数据，优先级最高防止丢帧
-OpusCodecTask  (优先级5)  - 编解码处理
-AudioOutputTask(优先级4)  - 播放音频，优先级最低<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="三任务架构"><a href="#三任务架构" class="headerlink" title="三任务架构"></a>三任务架构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AudioInputTask (优先级8)  - 从麦克风读取数据，优先级最高防止丢帧</span><br><span class="line">OpusCodecTask  (优先级5)  - 编解码处理</span><br><span class="line">AudioOutputTask(优先级4)  - 播放音频，优先级最低</span><br></pre></td></tr></table></figure>
 
 <h2 id="关键数据流"><a href="#关键数据流" class="headerlink" title="关键数据流"></a>关键数据流</h2><p><strong>四个队列</strong>：</p>
 <ul>
@@ -234,18 +245,10 @@ AudioOutputTask(优先级4)  - 播放音频，优先级最低<span aria-hidden="
 <li><code>input_resampler_</code>负责转换：48kHz → 16kHz</li>
 </ul>
 <p><strong>计算公式</strong>：</p>
-<pre class="line-numbers language-none"><code class="language-none">采样点数 &#x3D; 采样率 × 时间
-16kHz × 0.06s &#x3D; 960个采样点（Opus一帧）
-48kHz × 0.01s &#x3D; 480个采样点（AudioInputTask每次读取）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">采样点数 = 采样率 × 时间</span><br><span class="line">16kHz × 0.06s = 960个采样点（Opus一帧）</span><br><span class="line">48kHz × 0.01s = 480个采样点（AudioInputTask每次读取）</span><br></pre></td></tr></table></figure>
 
 <h2 id="实际应用场景"><a href="#实际应用场景" class="headerlink" title="实际应用场景"></a>实际应用场景</h2><p><strong>用户说：”帮我开灯”</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">1. 麦克风采集 → I2S → AudioProcessor → Opus编码 → WebSocket上传
-2. 服务器ASR识别：&quot;帮我开灯&quot;
-3. LLM理解意图，查找MCP工具列表，找到gpio.write
-4. 服务器发送：tools&#x2F;call &#123;name: &quot;gpio.write&quot;, arguments: &#123;pin: 5, value: 1&#125;&#125;
-5. ESP32执行GPIO控制，点亮LED
-6. 服务器TTS生成：&quot;好的，已为您开灯&quot;
-7. 音频流下发 → Opus解码 → I2S播放<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. 麦克风采集 → I2S → AudioProcessor → Opus编码 → WebSocket上传</span><br><span class="line">2. 服务器ASR识别：&quot;帮我开灯&quot;</span><br><span class="line">3. LLM理解意图，查找MCP工具列表，找到gpio.write</span><br><span class="line">4. 服务器发送：tools/call &#123;name: &quot;gpio.write&quot;, arguments: &#123;pin: 5, value: 1&#125;&#125;</span><br><span class="line">5. ESP32执行GPIO控制，点亮LED</span><br><span class="line">6. 服务器TTS生成：&quot;好的，已为您开灯&quot;</span><br><span class="line">7. 音频流下发 → Opus解码 → I2S播放</span><br></pre></td></tr></table></figure>
 
 <h2 id="易错点总结"><a href="#易错点总结" class="headerlink" title="易错点总结"></a>易错点总结</h2><ol>
 <li>❌ <strong>音频流是MP3</strong> → ✅ 是Opus，延迟更低</li>
@@ -253,16 +256,13 @@ AudioOutputTask(优先级4)  - 播放音频，优先级最低<span aria-hidden="
 <li>❌ <strong>Opus配置参数包括码率</strong> → ✅ 是采样率、声道数、帧时长</li>
 </ol>
 <h2 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h2><p><strong>查看音频数据流</strong>：</p>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">&#x2F;&#x2F; 在AudioInputTask添加日志
-ESP_LOGI(TAG, &quot;Queue depth: %d&quot;, uxQueueMessagesWaiting(audio_encode_queue_));<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在AudioInputTask添加日志</span></span><br><span class="line"><span class="built_in">ESP_LOGI</span>(TAG, <span class="string">&quot;Queue depth: %d&quot;</span>, <span class="built_in">uxQueueMessagesWaiting</span>(audio_encode_queue_));</span><br></pre></td></tr></table></figure>
 
 <p><strong>检查MCP工具调用</strong>：</p>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">&#x2F;&#x2F; 在mcp_server.cc的ExecuteTool添加日志
-ESP_LOGI(TAG, &quot;Calling tool: %s with args: %s&quot;, tool_name, args_json);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在mcp_server.cc的ExecuteTool添加日志</span></span><br><span class="line"><span class="built_in">ESP_LOGI</span>(TAG, <span class="string">&quot;Calling tool: %s with args: %s&quot;</span>, tool_name, args_json);</span><br></pre></td></tr></table></figure>
 
 <p><strong>监控任务状态</strong>：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 串口监视器查看关键日志
-idf.py monitor | grep -E &quot;AudioService|McpServ<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 串口监视器查看关键日志</span></span><br><span class="line">idf.py monitor | grep -E <span class="string">&quot;AudioService|McpServ</span></span><br></pre></td></tr></table></figure>
 
       </div>
       
@@ -284,7 +284,7 @@ idf.py monitor | grep -E &quot;AudioService|McpServ<span aria-hidden="true" clas
           </div>
           <div class="post-foot-prev">
             
-              <a href="/2026/03/27/214-tai-shan-pi-ai/" target="_self">
+              <a href="/2026/03/27/216-tai-shan-pi-ai/" target="_self">
                 <span>Next</span>
                 <i class="iconfont icon-chevronright"></i>
               </a>
@@ -294,9 +294,9 @@ idf.py monitor | grep -E &quot;AudioService|McpServ<span aria-hidden="true" clas
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -305,6 +305,7 @@ idf.py monitor | grep -E &quot;AudioService|McpServ<span aria-hidden="true" clas
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -334,7 +335,7 @@ idf.py monitor | grep -E &quot;AudioService|McpServ<span aria-hidden="true" clas
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -346,14 +347,14 @@ idf.py monitor | grep -E &quot;AudioService|McpServ<span aria-hidden="true" clas
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

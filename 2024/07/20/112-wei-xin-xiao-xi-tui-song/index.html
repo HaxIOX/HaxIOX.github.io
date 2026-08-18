@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">微信消息推送</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1099
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -182,8 +195,7 @@
 <li>企业微信里面建立一个<code>应用</code></li>
 <li>记录应用的<code>agentid</code>与<code>secret</code></li>
 </ul>
-<h2 id="获取access-token"><a href="#获取access-token" class="headerlink" title="获取access_token"></a><a target="_blank" rel="noopener" href="https://developer.work.weixin.qq.com/document/path/91039">获取access_token</a></h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">url &#x3D; f&quot;https:&#x2F;&#x2F;qyapi.weixin.qq.com&#x2F;cgi-bin&#x2F;gettoken?corpid&#x3D;&#123;corp_id&#125;&amp;corpsecret&#x3D;&#123;corp_secret&#125;&quot;
-response &#x3D; requests.get(url)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="获取access-token"><a href="#获取access-token" class="headerlink" title="获取access_token"></a><a target="_blank" rel="noopener" href="https://developer.work.weixin.qq.com/document/path/91039">获取access_token</a></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url = <span class="string">f&quot;https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=<span class="subst">&#123;corp_id&#125;</span>&amp;corpsecret=<span class="subst">&#123;corp_secret&#125;</span>&quot;</span></span><br><span class="line">response = requests.get(url)</span><br></pre></td></tr></table></figure>
 
 <p>7200秒更新一次，所以获取后可以缓存一下</p>
 <h2 id="请求参数"><a href="#请求参数" class="headerlink" title="请求参数"></a>请求参数</h2><ol>
@@ -224,26 +236,10 @@ response &#x3D; requests.get(url)<span aria-hidden="true" class="line-numbers-ro
 <img src="/2024/07/20/112-wei-xin-xiao-xi-tui-song/image-20240728124515817.png" class="" title="image-20240728124515817">
 
 <h3 id="搭建校验网站"><a href="#搭建校验网站" class="headerlink" title="搭建校验网站"></a>搭建校验网站</h3><p>用flask开启端口，然后nginx映射域名到这个端口。</p>
-<h3 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
-    listen 80;
-    server_name wx.destroy.cool;
-    root &#x2F;var&#x2F;www&#x2F;weixin;
-    
-    # 提供静态文件(校验文件)
-    location &#x2F;WW_verify_b2PoGgNZ2RLswi2p.txt &#123;
-        alias &#x2F;var&#x2F;www&#x2F;weixin&#x2F;WW_verify_b2PoGgNZ2RLswi2p.txt;
-    &#125;
-    
-    location &#x2F; &#123;
-        proxy_pass http:&#x2F;&#x2F;127.0.0.1:5001;  # 指向现有的Flask应用
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name wx.destroy.cool;</span><br><span class="line">    root /var/www/weixin;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 提供静态文件(校验文件)</span></span><br><span class="line">    location /WW_verify_b2PoGgNZ2RLswi2p.txt &#123;</span><br><span class="line">        <span class="built_in">alias</span> /var/www/weixin/WW_verify_b2PoGgNZ2RLswi2p.txt;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:5001;  <span class="comment"># 指向现有的Flask应用</span></span><br><span class="line">        proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>设置软连接(所有的nginx配置都需要，这是nginx的配置方式)</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ln -s &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;weixin.conf &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s /etc/nginx/sites-available/weixin.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
 
 <p><strong>问题</strong></p>
 <p>nginx配置没问题，另一个api依然好用，ip访问没问题，域名出了问题。</p>
@@ -258,100 +254,15 @@ response &#x3D; requests.get(url)<span aria-hidden="true" class="line-numbers-ro
 <li><p>使用应用id与密钥获取access_access_token(缓存两小时)</p>
 </li>
 <li><p>使用token构建url，构建userid等请求参数</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">payload &#x3D; &#123;
-    &quot;touser&quot;: to_user,  # 接收消息的成员ID列表，多个用 &#39;|&#39; 分隔
-    &quot;msgtype&quot;: &quot;text&quot;,
-    &quot;agentid&quot;: agent_id,
-    &quot;text&quot;: &#123;
-        &quot;content&quot;: f&quot;&#123;title&#125;\n&#123;content&#125;&quot;
-    &#125;,
-    &quot;safe&quot;: 0
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">payload = &#123;</span><br><span class="line">    <span class="string">&quot;touser&quot;</span>: to_user,  <span class="comment"># 接收消息的成员ID列表，多个用 &#x27;|&#x27; 分隔</span></span><br><span class="line">    <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">    <span class="string">&quot;agentid&quot;</span>: agent_id,</span><br><span class="line">    <span class="string">&quot;text&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;content&quot;</span>: <span class="string">f&quot;<span class="subst">&#123;title&#125;</span>\n<span class="subst">&#123;content&#125;</span>&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;safe&quot;</span>: <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>缓存库与限流器的使用</p>
 </li>
 </ol>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">from flask import Flask, request, jsonify
-import requests
-import json
-import requests_cache
-from flask_limiter import Limiter, RateLimitExceeded
-from flask_limiter.util import get_remote_address
-
-app &#x3D; Flask(__name__)
-
-# 配置缓存，设置缓存有效期为1小时
-requests_cache.install_cache(&#39;wechat_cache&#39;, expire_after&#x3D;3600)
-# 配置速率限制
-limiter &#x3D; Limiter(
-    get_remote_address,
-    app&#x3D;app,
-    default_limits&#x3D;[&quot;200 per day&quot;, &quot;20 per minute&quot;]
-)
-
-def get_access_token(corp_id, corp_secret):
-    &quot;&quot;&quot;获取token&quot;&quot;&quot;
-    url &#x3D; f&quot;https:&#x2F;&#x2F;qyapi.weixin.qq.com&#x2F;cgi-bin&#x2F;gettoken?corpid&#x3D;&#123;corp_id&#125;&amp;corpsecret&#x3D;&#123;corp_secret&#125;&quot;
-    response &#x3D; requests.get(url)
-    data &#x3D; response.json()
-    if data[&#39;errcode&#39;] &#x3D;&#x3D; 0:
-        return data[&#39;access_token&#39;]
-    else:
-        raise Exception(f&quot;获取access_token失败: &#123;data[&#39;errmsg&#39;]&#125;&quot;)
-
-@app.route(&#39;&#x2F;&#39;, methods&#x3D;[&#39;GET&#39;])
-@limiter.limit(&quot;3 per 5 seconds&quot;, error_message&#x3D;&quot;您的请求频率过高，请稍后再试。&quot;)  # 添加速率限制
-def send():
-    corp_id &#x3D; &quot;xxxxxxxxx&quot;  # 替换为你的企业ID
-    corp_secret &#x3D; &quot;xxxxxxxxx&quot;  # 替换为你的应用Secret
-    agent_id &#x3D; &quot;xxxxxxxxx&quot;  # 替换为你的应用AgentId
-    to_user &#x3D; &quot;xxxxxxxxx|xxxxxxxxx&quot;  # 替换为接收者的UserID，多个用 &#39;|&#39; 分隔
-    title &#x3D; request.args.get(&#39;title&#39;)
-    content &#x3D; request.args.get(&#39;content&#39;)
-
-    if not title or not content:
-        return jsonify(&#123;&quot;error&quot;: &quot;title 和 content 参数是必须的&quot;&#125;), 400
-    try:
-        # 从缓存中获取access_token
-        access_token &#x3D; get_access_token(corp_id, corp_secret)
-    except Exception as e:
-        return jsonify(&#123;&quot;error&quot;: f&quot;获取access_token时发生错误: &#123;str(e)&#125;&quot;&#125;), 500
-
-    try:
-        response &#x3D; send_message(access_token, agent_id, to_user, title, content)
-    except Exception as e:
-        return jsonify(&#123;&quot;error&quot;: f&quot;发送消息时发生错误: &#123;str(e)&#125;&quot;&#125;), 500
-    # return jsonify(response)
-    return &quot;ok&quot;
-
-def send_message(access_token, agent_id, to_user, title, content):
-    &quot;&quot;&quot;消息发送&quot;&quot;&quot;
-    url &#x3D; f&quot;https:&#x2F;&#x2F;qyapi.weixin.qq.com&#x2F;cgi-bin&#x2F;message&#x2F;send?access_token&#x3D;&#123;access_token&#125;&quot;
-    payload &#x3D; &#123;
-        &quot;touser&quot;: to_user,  # 接收消息的成员ID列表，多个用 &#39;|&#39; 分隔
-        &quot;msgtype&quot;: &quot;text&quot;,
-        &quot;agentid&quot;: agent_id,
-        &quot;text&quot;: &#123;
-            &quot;content&quot;: f&quot;&#123;title&#125;\n&#123;content&#125;&quot;
-        &#125;,
-        &quot;safe&quot;: 0
-    &#125;
-    headers &#x3D; &#123;
-        &#39;Content-Type&#39;: &#39;application&#x2F;json&#39;
-    &#125;
-    response &#x3D; requests.post(url, headers&#x3D;headers, data&#x3D;json.dumps(payload))
-    response_data &#x3D; response.json()
-    if response_data[&#39;errcode&#39;] !&#x3D; 0:
-        raise Exception(f&quot;发送消息失败: &#123;response_data[&#39;errmsg&#39;]&#125;&quot;)
-    return response_data
-
-
-if __name__ &#x3D;&#x3D; &quot;__main__&quot;:
-    app.run(host&#x3D;&#39;0.0.0.0&#39;, port&#x3D;5001, debug&#x3D;False)
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request, jsonify</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> requests_cache</span><br><span class="line"><span class="keyword">from</span> flask_limiter <span class="keyword">import</span> Limiter, RateLimitExceeded</span><br><span class="line"><span class="keyword">from</span> flask_limiter.util <span class="keyword">import</span> get_remote_address</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置缓存，设置缓存有效期为1小时</span></span><br><span class="line">requests_cache.install_cache(<span class="string">&#x27;wechat_cache&#x27;</span>, expire_after=<span class="number">3600</span>)</span><br><span class="line"><span class="comment"># 配置速率限制</span></span><br><span class="line">limiter = Limiter(</span><br><span class="line">    get_remote_address,</span><br><span class="line">    app=app,</span><br><span class="line">    default_limits=[<span class="string">&quot;200 per day&quot;</span>, <span class="string">&quot;20 per minute&quot;</span>]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_access_token</span>(<span class="params">corp_id, corp_secret</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;获取token&quot;&quot;&quot;</span></span><br><span class="line">    url = <span class="string">f&quot;https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=<span class="subst">&#123;corp_id&#125;</span>&amp;corpsecret=<span class="subst">&#123;corp_secret&#125;</span>&quot;</span></span><br><span class="line">    response = requests.get(url)</span><br><span class="line">    data = response.json()</span><br><span class="line">    <span class="keyword">if</span> data[<span class="string">&#x27;errcode&#x27;</span>] == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> data[<span class="string">&#x27;access_token&#x27;</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">f&quot;获取access_token失败: <span class="subst">&#123;data[<span class="string">&#x27;errmsg&#x27;</span>]&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"><span class="meta">@limiter.limit(<span class="params"><span class="string">&quot;3 per 5 seconds&quot;</span>, error_message=<span class="string">&quot;您的请求频率过高，请稍后再试。&quot;</span></span>)  </span><span class="comment"># 添加速率限制</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">send</span>():</span><br><span class="line">    corp_id = <span class="string">&quot;xxxxxxxxx&quot;</span>  <span class="comment"># 替换为你的企业ID</span></span><br><span class="line">    corp_secret = <span class="string">&quot;xxxxxxxxx&quot;</span>  <span class="comment"># 替换为你的应用Secret</span></span><br><span class="line">    agent_id = <span class="string">&quot;xxxxxxxxx&quot;</span>  <span class="comment"># 替换为你的应用AgentId</span></span><br><span class="line">    to_user = <span class="string">&quot;xxxxxxxxx|xxxxxxxxx&quot;</span>  <span class="comment"># 替换为接收者的UserID，多个用 &#x27;|&#x27; 分隔</span></span><br><span class="line">    title = request.args.get(<span class="string">&#x27;title&#x27;</span>)</span><br><span class="line">    content = request.args.get(<span class="string">&#x27;content&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> title <span class="keyword">or</span> <span class="keyword">not</span> content:</span><br><span class="line">        <span class="keyword">return</span> jsonify(&#123;<span class="string">&quot;error&quot;</span>: <span class="string">&quot;title 和 content 参数是必须的&quot;</span>&#125;), <span class="number">400</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 从缓存中获取access_token</span></span><br><span class="line">        access_token = get_access_token(corp_id, corp_secret)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">return</span> jsonify(&#123;<span class="string">&quot;error&quot;</span>: <span class="string">f&quot;获取access_token时发生错误: <span class="subst">&#123;<span class="built_in">str</span>(e)&#125;</span>&quot;</span>&#125;), <span class="number">500</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = send_message(access_token, agent_id, to_user, title, content)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">return</span> jsonify(&#123;<span class="string">&quot;error&quot;</span>: <span class="string">f&quot;发送消息时发生错误: <span class="subst">&#123;<span class="built_in">str</span>(e)&#125;</span>&quot;</span>&#125;), <span class="number">500</span></span><br><span class="line">    <span class="comment"># return jsonify(response)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;ok&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">send_message</span>(<span class="params">access_token, agent_id, to_user, title, content</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;消息发送&quot;&quot;&quot;</span></span><br><span class="line">    url = <span class="string">f&quot;https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=<span class="subst">&#123;access_token&#125;</span>&quot;</span></span><br><span class="line">    payload = &#123;</span><br><span class="line">        <span class="string">&quot;touser&quot;</span>: to_user,  <span class="comment"># 接收消息的成员ID列表，多个用 &#x27;|&#x27; 分隔</span></span><br><span class="line">        <span class="string">&quot;msgtype&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="string">&quot;agentid&quot;</span>: agent_id,</span><br><span class="line">        <span class="string">&quot;text&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;content&quot;</span>: <span class="string">f&quot;<span class="subst">&#123;title&#125;</span>\n<span class="subst">&#123;content&#125;</span>&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">&quot;safe&quot;</span>: <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    response = requests.post(url, headers=headers, data=json.dumps(payload))</span><br><span class="line">    response_data = response.json()</span><br><span class="line">    <span class="keyword">if</span> response_data[<span class="string">&#x27;errcode&#x27;</span>] != <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">f&quot;发送消息失败: <span class="subst">&#123;response_data[<span class="string">&#x27;errmsg&#x27;</span>]&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> response_data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app.run(host=<span class="string">&#x27;0.0.0.0&#x27;</span>, port=<span class="number">5001</span>, debug=<span class="literal">False</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>Api测试</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http:&#x2F;&#x2F;localhost:5000&#x2F;?title&#x3D;呜呼&amp;content&#x3D;啊哈<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:5000/?title=呜呼&amp;content=啊哈</span><br></pre></td></tr></table></figure>
 
 <h2 id="微信同步"><a href="#微信同步" class="headerlink" title="微信同步"></a>微信同步</h2><p>企业微信的通知消息不会同步到微信怎么办</p>
 <p>在<strong>web管理后台-我的企业-微信插件</strong>中，可获取“邀请关注微信插件”的二维码。</p>
@@ -399,9 +310,9 @@ if __name__ &#x3D;&#x3D; &quot;__main__&quot;:
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -410,6 +321,7 @@ if __name__ &#x3D;&#x3D; &quot;__main__&quot;:
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -439,7 +351,7 @@ if __name__ &#x3D;&#x3D; &quot;__main__&quot;:
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -451,14 +363,14 @@ if __name__ &#x3D;&#x3D; &quot;__main__&quot;:
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

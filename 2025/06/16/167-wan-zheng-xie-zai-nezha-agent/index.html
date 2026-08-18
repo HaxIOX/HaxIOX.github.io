@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">完整卸载nezha-agent</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          661
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -183,44 +196,38 @@
 <p>这是查找任何残留进程的最终方法。</p>
 <ol>
 <li><p><strong>查找进程ID (PID):</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">ps aux | grep nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep nezha-agent</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>分析结果：</strong></p>
 <ul>
 <li><p>如果你看到<strong>两行</strong>结果，其中一行<strong>不包含 grep</strong>，那么你就找到了真正的 Agent 进程。记下它的 PID（通常是第二列的数字）。</p>
-<pre class="line-numbers language-none"><code class="language-none"># 示例输出 (找到了!)
-root      1234  0.1  0.5 ... &#x2F;opt&#x2F;nezha&#x2F;agent&#x2F;nezha-agent -s ...
-root      5678  0.0  0.1 ... grep nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 示例输出 (找到了!)</span><br><span class="line">root      1234  0.1  0.5 ... /opt/nezha/agent/nezha-agent -s ...</span><br><span class="line">root      5678  0.0  0.1 ... grep nezha-agent</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>如果你只看到<strong>一行</strong>，且该行包含 <code>grep nezha-agent</code>，那么说明<strong>没有 Agent 进程在运行</strong>，你可以直接跳到第二步。</p>
 </li>
 </ul>
 </li>
 <li><p><strong>杀死进程 (如果找到了):</strong></p>
-<pre class="line-numbers language-none"><code class="language-none"># 将 1234 替换为你找到的真实 PID
-kill -9 1234<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 将 1234 替换为你找到的真实 PID</span><br><span class="line">kill -9 1234</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p><strong>方法二：检查 systemd 服务 (如果用 systemctl 安装)</strong></p>
 <p>这是在现代 Linux 系统上最标准的管理方式。</p>
 <ol>
 <li><p><strong>检查服务状态：</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">systemctl status nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status nezha-agent</span><br></pre></td></tr></table></figure>
 
 <p>如果显示 <code>active (running)</code>，说明服务正在运行。</p>
 </li>
 <li><p><strong>停止并禁用服务：</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">sudo systemctl stop nezha-agent      # 停止当前运行的服务
-sudo systemctl disable nezha-agent   # 禁用服务，防止服务器重启后自动运行<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop nezha-agent      # 停止当前运行的服务</span><br><span class="line">sudo systemctl disable nezha-agent   # 禁用服务，防止服务器重启后自动运行</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p><strong>方法三：检查 Docker 容器 (如果用 Docker 安装)</strong></p>
 <ol>
 <li><p><strong>查找 Agent 容器：</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">docker ps -a | grep nezha<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a | grep nezha</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>停止并删除容器：</strong></p>
-<pre class="line-numbers language-none"><code class="language-none"># 将 nezha-agent 替换为你找到的真实容器名或ID
-docker stop nezha-agent
-docker rm nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 将 nezha-agent 替换为你找到的真实容器名或ID</span><br><span class="line">docker stop nezha-agent</span><br><span class="line">docker rm nezha-agent</span><br></pre></td></tr></table></figure>
 
 <p>如果你是用 <code>docker-compose</code>，请到 <code>docker-compose.yml</code> 文件所在目录执行 <code>docker-compose down</code>。</p>
 </li>
@@ -229,15 +236,14 @@ docker rm nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></
 <h2 id="第二步：删除-Agent-的相关文件"><a href="#第二步：删除-Agent-的相关文件" class="headerlink" title="第二步：删除 Agent 的相关文件"></a><strong>第二步：删除 Agent 的相关文件</strong></h2><p>卸载 Agent 包括停止服务、卸载服务，以及删除相关文件。以下是 Ubuntu 系统的卸载步骤：</p>
 <ol>
 <li><p>停止并卸载服务：</p>
-<pre class="line-numbers language-none"><code class="language-none">cd &#x2F;opt&#x2F;nezha&#x2F;agent&#x2F;
-.&#x2F;nezha-agent service uninstall<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/nezha/agent/</span><br><span class="line">./nezha-agent service uninstall</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>删除 Agent 文件夹：</p>
-<pre class="line-numbers language-none"><code class="language-none">rm -rf &#x2F;opt&#x2F;nezha&#x2F;agent&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /opt/nezha/agent/</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>如果安装了多个服务并想要全部卸载，可以使用 Agent 安装脚本的卸载功能：</p>
 <p>bash</p>
-<pre class="line-numbers language-none"><code class="language-none">.&#x2F;agent.sh uninstall<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./agent.sh uninstall</span><br></pre></td></tr></table></figure>
 
 <p><a target="_blank" rel="noopener" href="https://nezha.wiki/guide/agent.html">安装 Agent | 哪吒服务器监控</a></p>
 
@@ -282,9 +288,9 @@ docker rm nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -293,6 +299,7 @@ docker rm nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -322,7 +329,7 @@ docker rm nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -334,14 +341,14 @@ docker rm nezha-agent<span aria-hidden="true" class="line-numbers-rows"><span></
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

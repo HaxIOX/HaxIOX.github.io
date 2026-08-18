@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">MOS管与开关电路</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1705
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -195,12 +208,7 @@
 </ul>
 <img src="/2025/04/14/135-mos-guan-yu-kai-guan-dian-lu/1748574878064.png" class="" width="1748574878064">
 
-<h3 id="低边开关（Low-Side-Switch）"><a href="#低边开关（Low-Side-Switch）" class="headerlink" title="低边开关（Low-Side Switch）"></a>低边开关（Low-Side Switch）</h3><h3 id="1-电路形式"><a href="#1-电路形式" class="headerlink" title="1. 电路形式"></a>1. 电路形式</h3><pre class="line-numbers language-none"><code class="language-none">+VCC ──→── 负载 ──→──●───┐
-                    │   │
-                   漏(D) Q1(N-MOS)
-                   源(S)
-                    │
-                   GND<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="低边开关（Low-Side-Switch）"><a href="#低边开关（Low-Side-Switch）" class="headerlink" title="低边开关（Low-Side Switch）"></a>低边开关（Low-Side Switch）</h3><h3 id="1-电路形式"><a href="#1-电路形式" class="headerlink" title="1. 电路形式"></a>1. 电路形式</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+VCC ──→── 负载 ──→──●───┐</span><br><span class="line">                    │   │</span><br><span class="line">                   漏(D) Q1(N-MOS)</span><br><span class="line">                   源(S)</span><br><span class="line">                    │</span><br><span class="line">                   GND</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>Q1</strong>：通常选用 N 沟道（N-MOS），因为其电子迁移率高、导通电阻低、成本低。</li>
@@ -231,12 +239,7 @@
 </tr>
 </tbody></table>
 <h2 id="PMOS"><a href="#PMOS" class="headerlink" title="PMOS"></a>PMOS</h2><hr>
-<h3 id="高边开关（High-Side-Switch）"><a href="#高边开关（High-Side-Switch）" class="headerlink" title="高边开关（High-Side Switch）"></a>高边开关（High-Side Switch）</h3><h3 id="1-P-沟道-MOSFET-简单高边开关"><a href="#1-P-沟道-MOSFET-简单高边开关" class="headerlink" title="1. P 沟道 MOSFET 简单高边开关"></a>1. P 沟道 MOSFET 简单高边开关</h3><pre class="line-numbers language-none"><code class="language-none">+VCC ──●─── 源(S) Q2(P-MOS) 漏(D)───→── 负载 ──→── GND
-       │
-      R_pullup
-      100 kΩ
-       │
-     Gate ←─ MCU GPIO (3.3 V)／R_gate<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="高边开关（High-Side-Switch）"><a href="#高边开关（High-Side-Switch）" class="headerlink" title="高边开关（High-Side Switch）"></a>高边开关（High-Side Switch）</h3><h3 id="1-P-沟道-MOSFET-简单高边开关"><a href="#1-P-沟道-MOSFET-简单高边开关" class="headerlink" title="1. P 沟道 MOSFET 简单高边开关"></a>1. P 沟道 MOSFET 简单高边开关</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+VCC ──●─── 源(S) Q2(P-MOS) 漏(D)───→── 负载 ──→── GND</span><br><span class="line">       │</span><br><span class="line">      R_pullup</span><br><span class="line">      100 kΩ</span><br><span class="line">       │</span><br><span class="line">     Gate ←─ MCU GPIO (3.3 V)／R_gate</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>Q2</strong>：P 沟道 MOSFET，源极接 +VCC，漏极接负载。</li>
@@ -244,14 +247,7 @@
 <li><strong>门极驱动</strong>：MCU 低电平拉 Gate→V<sub>GS</sub>&#x3D;0–VCC＜0→Q2 导通；MCU 高电平（3.3 V）时，R_pullup 将 Gate 拉回 +VCC→V<sub>GS</sub>&#x3D;VCC–VCC&#x3D;0 V→Q2 关断。</li>
 <li></li>
 </ul>
-<h3 id="2-N-沟道-MOSFET-“驱动-高边”-方案"><a href="#2-N-沟道-MOSFET-“驱动-高边”-方案" class="headerlink" title="2. N 沟道 MOSFET “驱动+高边” 方案"></a>2. N 沟道 MOSFET “驱动+高边” 方案</h3><pre class="line-numbers language-none"><code class="language-none">+VCC ──●─── 源(S) Q3(N-MOS) 漏(D)───→── 负载 ──→── GND
-       │
-      Boot-strap &#x2F; 驱动芯片
-         ┌───────────┐
-         │ Gate Driver│
-         └───────────┘
-              │
-             MCU<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-N-沟道-MOSFET-“驱动-高边”-方案"><a href="#2-N-沟道-MOSFET-“驱动-高边”-方案" class="headerlink" title="2. N 沟道 MOSFET “驱动+高边” 方案"></a>2. N 沟道 MOSFET “驱动+高边” 方案</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+VCC ──●─── 源(S) Q3(N-MOS) 漏(D)───→── 负载 ──→── GND</span><br><span class="line">       │</span><br><span class="line">      Boot-strap / 驱动芯片</span><br><span class="line">         ┌───────────┐</span><br><span class="line">         │ Gate Driver│</span><br><span class="line">         └───────────┘</span><br><span class="line">              │</span><br><span class="line">             MCU</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>Q3</strong>：N 沟道 MOSFET 导通电阻更低，适合大电流场合。</li>
@@ -426,9 +422,9 @@
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -437,6 +433,7 @@
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -466,7 +463,7 @@
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -478,14 +475,14 @@
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

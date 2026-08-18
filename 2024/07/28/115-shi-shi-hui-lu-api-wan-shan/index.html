@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">实时汇率API更新</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          609
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -190,60 +203,13 @@
 <p>暂时完善不了，先鸽子</p>
 <h3 id="需要的参数"><a href="#需要的参数" class="headerlink" title="需要的参数"></a>需要的参数</h3><p>获取id，似乎不是生成的</p>
 <p><strong>url</strong></p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">base_url &#x3D; &quot;https:&#x2F;&#x2F;assets.msn.cn&#x2F;service&#x2F;Finance&#x2F;IdMap&quot;
-   url &#x3D; &#39;https:&#x2F;&#x2F;assets.msn.cn&#x2F;service&#x2F;Finance&#x2F;Charts&#39;
-   base_url &#x3D; &quot;https:&#x2F;&#x2F;assets.msn.cn&#x2F;service&#x2F;Finance&#x2F;Quotes&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">base_url = <span class="string">&quot;https://assets.msn.cn/service/Finance/IdMap&quot;</span></span><br><span class="line">   url = <span class="string">&#x27;https://assets.msn.cn/service/Finance/Charts&#x27;</span></span><br><span class="line">   base_url = <span class="string">&quot;https://assets.msn.cn/service/Finance/Quotes&quot;</span></span><br></pre></td></tr></table></figure>
 
 <img src="/2024/07/28/115-shi-shi-hui-lu-api-wan-shan/image-20240730181641735.png" class="" title="image-20240730181641735">
 
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">import requests
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 基本 URL</span></span><br><span class="line">base_url = <span class="string">&quot;https://assets.msn.cn/service/Finance/IdMap&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 参数</span></span><br><span class="line">params = &#123;</span><br><span class="line">    <span class="string">&quot;apikey&quot;</span>: <span class="string">&quot;0QfOX3Vn51YCzitbLaRkTTBadtWpgTN8NZLW0C1SEM&quot;</span>,</span><br><span class="line">    <span class="string">&quot;activityId&quot;</span>: <span class="string">&quot;0FA1F737-A1E8-4A29-A842-180324023DF7&quot;</span>,<span class="comment">#变化</span></span><br><span class="line">    <span class="string">&quot;ocid&quot;</span>: <span class="string">&quot;finance-utils-peregrine&quot;</span>,</span><br><span class="line">    <span class="string">&quot;cm&quot;</span>: <span class="string">&quot;zh-cn&quot;</span>,</span><br><span class="line">    <span class="string">&quot;it&quot;</span>: <span class="string">&quot;edgeid&quot;</span>,</span><br><span class="line">    <span class="string">&quot;scn&quot;</span>: <span class="string">&quot;APP_ANON&quot;</span>,</span><br><span class="line">    <span class="string">&quot;MStarIds&quot;</span>: <span class="string">&quot;PKRCNY&quot;</span><span class="comment">#变化ARSCNY</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-# 基本 URL
-base_url &#x3D; &quot;https:&#x2F;&#x2F;assets.msn.cn&#x2F;service&#x2F;Finance&#x2F;IdMap&quot;
-
-# 参数
-params &#x3D; &#123;
-    &quot;apikey&quot;: &quot;0QfOX3Vn51YCzitbLaRkTTBadtWpgTN8NZLW0C1SEM&quot;,
-    &quot;activityId&quot;: &quot;0FA1F737-A1E8-4A29-A842-180324023DF7&quot;,#变化
-    &quot;ocid&quot;: &quot;finance-utils-peregrine&quot;,
-    &quot;cm&quot;: &quot;zh-cn&quot;,
-    &quot;it&quot;: &quot;edgeid&quot;,
-    &quot;scn&quot;: &quot;APP_ANON&quot;,
-    &quot;MStarIds&quot;: &quot;PKRCNY&quot;#变化ARSCNY
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">
-base_url &#x3D; &quot;https:&#x2F;&#x2F;assets.msn.cn&#x2F;service&#x2F;Finance&#x2F;Quotes&quot;
-
-# 参数
-params &#x3D; &#123;
-    &quot;apikey&quot;: &quot;0QfOX3Vn51YCzitbLaRkTTBadtWpgTN8NZLW0C1SEM&quot;,
-    &quot;activityId&quot;: &quot;0FA1F737-A1E8-4A29-A842-180324023DF7&quot;,
-    &quot;ocid&quot;: &quot;finance-utils-peregrine&quot;,
-    &quot;cm&quot;: &quot;zh-cn&quot;,
-    &quot;it&quot;: &quot;edgeid&quot;,
-    &quot;scn&quot;: &quot;APP_ANON&quot;,
-    &quot;ids&quot;: &quot;auxj9c&quot;,  ## 如何获取
-    &quot;wrapodata&quot;: &quot;false&quot;
-&#125;
-
-# 发起请求
-response &#x3D; requests.get(base_url, params&#x3D;params)
-
-# 检查响应状态并获取数据
-if response.status_code &#x3D;&#x3D; 200:
-    data &#x3D; response.json()
-    print(data)
-else:
-    print(f&quot;请求失败，状态码：&#123;response.status_code&#125;&quot;)
-if isinstance(data, list) and len(data) &gt; 0 and &#39;price&#39; in data[0]:
-    price &#x3D; data[0][&#39;price&#39;]
-    Currency &#x3D; data[0][&#39;fromCurrency&#39;]
-    print(f&quot;&#123;Currency&#125;: &#123;price&#125;&quot;)
-else:
-    print(&quot;响应数据格式不正确或不包含&#39;price&#39;&quot;)
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">base_url = <span class="string">&quot;https://assets.msn.cn/service/Finance/Quotes&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 参数</span></span><br><span class="line">params = &#123;</span><br><span class="line">    <span class="string">&quot;apikey&quot;</span>: <span class="string">&quot;0QfOX3Vn51YCzitbLaRkTTBadtWpgTN8NZLW0C1SEM&quot;</span>,</span><br><span class="line">    <span class="string">&quot;activityId&quot;</span>: <span class="string">&quot;0FA1F737-A1E8-4A29-A842-180324023DF7&quot;</span>,</span><br><span class="line">    <span class="string">&quot;ocid&quot;</span>: <span class="string">&quot;finance-utils-peregrine&quot;</span>,</span><br><span class="line">    <span class="string">&quot;cm&quot;</span>: <span class="string">&quot;zh-cn&quot;</span>,</span><br><span class="line">    <span class="string">&quot;it&quot;</span>: <span class="string">&quot;edgeid&quot;</span>,</span><br><span class="line">    <span class="string">&quot;scn&quot;</span>: <span class="string">&quot;APP_ANON&quot;</span>,</span><br><span class="line">    <span class="string">&quot;ids&quot;</span>: <span class="string">&quot;auxj9c&quot;</span>,  <span class="comment">## 如何获取</span></span><br><span class="line">    <span class="string">&quot;wrapodata&quot;</span>: <span class="string">&quot;false&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 发起请求</span></span><br><span class="line">response = requests.get(base_url, params=params)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查响应状态并获取数据</span></span><br><span class="line"><span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">    data = response.json()</span><br><span class="line">    <span class="built_in">print</span>(data)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;请求失败，状态码：<span class="subst">&#123;response.status_code&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">isinstance</span>(data, <span class="built_in">list</span>) <span class="keyword">and</span> <span class="built_in">len</span>(data) &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="string">&#x27;price&#x27;</span> <span class="keyword">in</span> data[<span class="number">0</span>]:</span><br><span class="line">    price = data[<span class="number">0</span>][<span class="string">&#x27;price&#x27;</span>]</span><br><span class="line">    Currency = data[<span class="number">0</span>][<span class="string">&#x27;fromCurrency&#x27;</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;Currency&#125;</span>: <span class="subst">&#123;price&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;响应数据格式不正确或不包含&#x27;price&#x27;&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h2 id="最后完成"><a href="#最后完成" class="headerlink" title="最后完成"></a>最后完成</h2><p>选择原来的网站,但是是一次一次发起请求获取后存储,每个请求间隔3s,每两个小时获取一次,ps常用货币</p>
 <ul>
@@ -251,46 +217,11 @@ else:
 <li>redis是使用内存快速响应的库</li>
 <li>连接，插入，更新，删除</li>
 </ul>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">import pymongo
-import time
-
-# 连接MongoDB
-client &#x3D; pymongo.MongoClient(&quot;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;&quot;)
-
-# 创建数据库和集合
-db &#x3D; client[&quot;test_db&quot;]
-collection &#x3D; db[&quot;test_collection&quot;]
-
-# 准备数据
-data &#x3D; [&#123;&quot;name&quot;: chr(97 + i), &quot;value&quot;: i + 1&#125; for i in range(10)]
-print(&quot;初始数据: &quot;, data)
-
-# 插入数据
-collection.insert_many(data)
-print(&quot;数据已插入&quot;)
-
-# 等待30秒
-time.sleep(5)
-
-# 更新数据，将name与value对调
-for item in data:
-    collection.update_one(&#123;&quot;name&quot;: item[&quot;name&quot;]&#125;, &#123;&quot;$set&quot;: &#123;&quot;name&quot;: item[&quot;value&quot;], &quot;value&quot;: item[&quot;name&quot;]&#125;&#125;)
-
-# 验证更新
-updated_data &#x3D; list(collection.find(&#123;&#125;))
-print(&quot;更新后的数据: &quot;, updated_data)
-
-# 清理数据库
-# collection.drop()
-# client.drop_database(&quot;test_db&quot;)
-client.close()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接MongoDB</span></span><br><span class="line">client = pymongo.MongoClient(<span class="string">&quot;mongodb://localhost:27017/&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建数据库和集合</span></span><br><span class="line">db = client[<span class="string">&quot;test_db&quot;</span>]</span><br><span class="line">collection = db[<span class="string">&quot;test_collection&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 准备数据</span></span><br><span class="line">data = [&#123;<span class="string">&quot;name&quot;</span>: <span class="built_in">chr</span>(<span class="number">97</span> + i), <span class="string">&quot;value&quot;</span>: i + <span class="number">1</span>&#125; <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;初始数据: &quot;</span>, data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 插入数据</span></span><br><span class="line">collection.insert_many(data)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;数据已插入&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待30秒</span></span><br><span class="line">time.sleep(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新数据，将name与value对调</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> data:</span><br><span class="line">    collection.update_one(&#123;<span class="string">&quot;name&quot;</span>: item[<span class="string">&quot;name&quot;</span>]&#125;, &#123;<span class="string">&quot;$set&quot;</span>: &#123;<span class="string">&quot;name&quot;</span>: item[<span class="string">&quot;value&quot;</span>], <span class="string">&quot;value&quot;</span>: item[<span class="string">&quot;name&quot;</span>]&#125;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证更新</span></span><br><span class="line">updated_data = <span class="built_in">list</span>(collection.find(&#123;&#125;))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;更新后的数据: &quot;</span>, updated_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理数据库</span></span><br><span class="line"><span class="comment"># collection.drop()</span></span><br><span class="line"><span class="comment"># client.drop_database(&quot;test_db&quot;)</span></span><br><span class="line">client.close()</span><br></pre></td></tr></table></figure>
 
 <p>感觉程序没有被调用</p>
 <p>不是，是被限制访问了</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">data &#x3D; [
-    &#123;&quot;currency&quot;: COMMON_ABBREVIATIONS[i], &quot;value&quot;: get_exchange_rate(COMMON_ABBREVIATIONS[i])&#125;
-    for i in range(len(COMMON_ABBREVIATIONS))
-]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data = [</span><br><span class="line">    &#123;<span class="string">&quot;currency&quot;</span>: COMMON_ABBREVIATIONS[i], <span class="string">&quot;value&quot;</span>: get_exchange_rate(COMMON_ABBREVIATIONS[i])&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(COMMON_ABBREVIATIONS))</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 
 
       </div>
@@ -334,9 +265,9 @@ client.close()<span aria-hidden="true" class="line-numbers-rows"><span></span><s
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -345,6 +276,7 @@ client.close()<span aria-hidden="true" class="line-numbers-rows"><span></span><s
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -374,7 +306,7 @@ client.close()<span aria-hidden="true" class="line-numbers-rows"><span></span><s
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -386,14 +318,14 @@ client.close()<span aria-hidden="true" class="line-numbers-rows"><span></span><s
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

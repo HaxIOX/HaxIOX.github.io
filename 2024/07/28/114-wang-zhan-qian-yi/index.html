@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">网站迁移</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          242
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -181,33 +194,32 @@
 <ol>
 <li>安装 pipreqs</li>
 </ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pip install pipreqs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pipreqs</span><br></pre></td></tr></table></figure>
 
 <p>或者</p>
-<pre class="line-numbers language-none"><code class="language-none">pip freeze &gt; requirements.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip freeze &gt; requirements.txt</span><br></pre></td></tr></table></figure>
 
 <ol start="2">
 <li>使用 pipreqs</li>
 </ol>
 <p>导航到你的项目目录，并运行以下命令：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pipreqs &#x2F;path&#x2F;to&#x2F;your&#x2F;project<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipreqs /path/to/your/project</span><br></pre></td></tr></table></figure>
 
 <p>如果你的项目位于当前目录，可以使用：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pipreqs .
-pipreqs . --encoding&#x3D;utf-8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pipreqs .</span><br><span class="line">pipreqs . --encoding=utf-8</span><br></pre></td></tr></table></figure>
 
 <p>或者</p>
-<pre class="line-numbers language-none"><code class="language-none">pip install -r requirements.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
 
 <p>需要关闭代理</p>
 <h2 id="批量删除包"><a href="#批量删除包" class="headerlink" title="批量删除包"></a>批量删除包</h2><h3 id="方法-1：使用-pip-freeze-和-xargs"><a href="#方法-1：使用-pip-freeze-和-xargs" class="headerlink" title="方法 1：使用 pip freeze 和 xargs"></a>方法 1：使用 pip freeze 和 xargs</h3><ol>
 <li><p><strong>列出所有已安装的包并保存到文件中：</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">pip freeze &gt; requirements.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip freeze &gt; requirements.txt</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>编辑 requirements.txt 文件（可选）：</strong> 如果你想要保留某些包，可以手动编辑 <code>requirements.txt</code> 文件，删除那些你不想卸载的包。</p>
 </li>
 <li><p><strong>批量删除包：</strong> 使用 <code>xargs</code> 命令从 <code>requirements.txt</code> 文件中读取包名并删除它们</p>
-<pre class="line-numbers language-none"><code class="language-none">cat requirements.txt | xargs pip uninstall -y<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat requirements.txt | xargs pip uninstall -y</span><br></pre></td></tr></table></figure></li>
 </ol>
 
       </div>
@@ -251,9 +263,9 @@ pipreqs . --encoding&#x3D;utf-8<span aria-hidden="true" class="line-numbers-rows
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -262,6 +274,7 @@ pipreqs . --encoding&#x3D;utf-8<span aria-hidden="true" class="line-numbers-rows
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -291,7 +304,7 @@ pipreqs . --encoding&#x3D;utf-8<span aria-hidden="true" class="line-numbers-rows
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -303,14 +316,14 @@ pipreqs . --encoding&#x3D;utf-8<span aria-hidden="true" class="line-numbers-rows
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

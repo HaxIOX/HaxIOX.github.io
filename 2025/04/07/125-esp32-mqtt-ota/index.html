@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">ESP32_MQTT_OTA</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          381
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -184,36 +197,24 @@
       </div>
       <div class="markdown-body">
         <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><h2 id="OTA"><a href="#OTA" class="headerlink" title="OTA"></a>OTA</h2><h3 id="✅-第二步：准备-OTA-固件（v2-0）"><a href="#✅-第二步：准备-OTA-固件（v2-0）" class="headerlink" title="✅ 第二步：准备 OTA 固件（v2.0）"></a>✅ 第二步：<strong>准备 OTA 固件（v2.0）</strong></h3><p>将这个代码编译为你想升级的新版本，比如 v2.0：</p>
-<pre class="line-numbers language-none"><code class="language-none">#include &lt;Arduino.h&gt;
-
-void setup() &#123;
-  Serial.begin(115200);
-  delay(1000);
-  Serial.println(&quot;✅ Hello from OTA-updated firmware v2.0!&quot;);
-&#125;
-
-void loop() &#123;
-  Serial.println(&quot;🔁 Running new firmware...&quot;);
-  delay(3000);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;Arduino.h&gt;</span><br><span class="line"></span><br><span class="line">void setup() &#123;</span><br><span class="line">  Serial.begin(115200);</span><br><span class="line">  delay(1000);</span><br><span class="line">  Serial.println(&quot;✅ Hello from OTA-updated firmware v2.0!&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void loop() &#123;</span><br><span class="line">  Serial.println(&quot;🔁 Running new firmware...&quot;);</span><br><span class="line">  delay(3000);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>编译后拿到 <code>.pio/build/esp32dev/firmware.bin</code>，放在 Python HTTP 服务器目录下。</p>
 </blockquote>
-<h2 id="✅-第三步：运行-Python-OTA-服务器"><a href="#✅-第三步：运行-Python-OTA-服务器" class="headerlink" title="✅ 第三步：运行 Python OTA 服务器"></a>✅ 第三步：<strong>运行 Python OTA 服务器</strong></h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">cd &lt;含 firmware.bin 的目录&gt;
-python -m http.server 8080<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="✅-第三步：运行-Python-OTA-服务器"><a href="#✅-第三步：运行-Python-OTA-服务器" class="headerlink" title="✅ 第三步：运行 Python OTA 服务器"></a>✅ 第三步：<strong>运行 Python OTA 服务器</strong></h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &lt;含 firmware.bin 的目录&gt;</span><br><span class="line">python -m http.server <span class="number">8080</span></span><br></pre></td></tr></table></figure>
 
 <p>控制台会显示：</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">Serving HTTP on :: port 8080 ...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Serving HTTP on :: port <span class="number">8080</span> ...</span><br></pre></td></tr></table></figure>
 
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>1.ESP32连接超时</p>
 <p>如果 <code>http://localhost:8080/firmware.bin</code> 可以访问，而 <code>http://192.168.71.88:8080/firmware.bin</code> 无法访问，那么说明你本地服务器只绑定了 <code>localhost</code> 地址（即只对本机可见），并没有对外网或者局域网开放。为了让 ESP32 设备通过 <code>192.168.71.88</code> 地址访问，你需要让服务器绑定到 <code>0.0.0.0</code> 或者明确绑定到局域网的 IP 地址。</p>
 <h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><hr>
 <h4 id="1-确认服务器绑定到局域网-IP（0-0-0-0）"><a href="#1-确认服务器绑定到局域网-IP（0-0-0-0）" class="headerlink" title="1. 确认服务器绑定到局域网 IP（0.0.0.0）"></a>1. <strong>确认服务器绑定到局域网 IP（0.0.0.0）</strong></h4><p>确保你启动的 Python 服务器监听所有接口（0.0.0.0），而不仅仅是本地 <code>localhost</code>。你可以通过以下命令重新启动服务器：</p>
-<pre class="line-numbers language-none"><code class="language-none">python -m http.server 8080 --bind 0.0.0.0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m http.server 8080 --bind 0.0.0.0</span><br></pre></td></tr></table></figure>
 
 <p>或者明确绑定到你的局域网 IP（在你的情况下是 <code>192.168.71.92</code>）：</p>
-<pre class="line-numbers language-none"><code class="language-none">python -m http.server 8080 --bind 192.168.71.92<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m http.server 8080 --bind 192.168.71.92</span><br></pre></td></tr></table></figure>
 
 <p>这将确保你在 <strong>任何设备</strong>（包括 ESP32）上都可以访问 <code>http://192.168.71.92:8080/firmware.bin</code>。</p>
 <h3 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h3>
@@ -264,9 +265,9 @@ python -m http.server 8080<span aria-hidden="true" class="line-numbers-rows"><sp
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -275,6 +276,7 @@ python -m http.server 8080<span aria-hidden="true" class="line-numbers-rows"><sp
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -304,7 +306,7 @@ python -m http.server 8080<span aria-hidden="true" class="line-numbers-rows"><sp
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -316,14 +318,14 @@ python -m http.server 8080<span aria-hidden="true" class="line-numbers-rows"><sp
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

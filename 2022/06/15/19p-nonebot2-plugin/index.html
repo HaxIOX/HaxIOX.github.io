@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">nonebot2的插件编写</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1048
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -177,57 +190,7 @@
           
       </div>
       <div class="markdown-body">
-        <h2 id="我的第一个插件-ping"><a href="#我的第一个插件-ping" class="headerlink" title="我的第一个插件-ping"></a>我的第一个插件-ping</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">import requests
-import nonebot
-import httpx
-import json
-from nonebot import on_command
-from nonebot.matcher import Matcher
-from nonebot.params import ArgPlainText, CommandArg
-from fastapi import FastAPI
-from nonebot.rule import to_me
-from nonebot.typing import T_State
-from nonebot.adapters import Bot, Event
-from nonebot.permission import SUPERUSER
-from nonebot.adapters import Message
-
-
-ping &#x3D; on_command(&quot;ping &quot;, aliases&#x3D;&#123;&quot;p&quot;, &quot;pingg&quot;&#125;, priority&#x3D;10)     
-@ping.handle()
-async def ip_address(event: Event,matcher: Matcher, args: Message &#x3D; CommandArg()):
-    ip &#x3D; str(event.get_message()).strip(&quot;&#x2F;ping &quot;) #strip 剥离   
-    #if args:
-        #return
-    #async with httpx.AsyncClient() as client:
-        #response &#x3D; await client.get(f&quot;https:&#x2F;&#x2F;api.iyk0.cn&#x2F;api&#x2F;ip?ip&#x3D;&#123;ip&#125;&quot;)
-    #if response.is_error:
-        #logger.error(&quot;获取信息失败&quot;)
-        #return
-    #data &#x3D; response.json()
-    headers&#x3D;&#123;
-     &quot;user-agent&quot;: &quot;Mozilla&#x2F;5.0 (Linux; Android 6.0; Nexus 5 Build&#x2F;MRA58N) AppleWebKit&#x2F;537.36 (KHTML, like Gecko) Chrome&#x2F;106.0.0.0 Mobile Safari&#x2F;537.36 Edg&#x2F;106.0.1370.52&quot;
-    &#125;
-    url &#x3D; f&quot;https:&#x2F;&#x2F;api.iyk0.cn&#x2F;api&#x2F;ip?ip&#x3D;&#123;ip&#125;&quot;   
-    resp &#x3D; requests.get(url, headers&#x3D; headers)
-    resp.encoding &#x3D; &#39;utf-8&#39;
-    #resp &#x3D; resp.text  
-    #retdata &#x3D; json.loads(resp.text)
-    #msp &#x3D; str(resp.json())
-    retdata &#x3D; resp.json()    
-    data &#x3D;&#123;
-    &quot;code&quot;: retdata[&#39;code&#39;],
-    &quot;country&quot;: retdata[&#39;data&#39;][&#39;country&#39;],  
-    &quot;city&quot;: retdata[&#39;data&#39;][&#39;city&#39;],
-    &quot;lon&quot;: retdata[&#39;data&#39;][&#39;lon&#39;],
-    &quot;lat&quot;: retdata[&#39;data&#39;][&#39;lat&#39;],
-   &#125;
-   #data2 &#x3D; json.dumps(data, indent&#x3D;4)
-    data2 &#x3D;str(&quot;code:&quot;+data[&quot;code&quot;]+&quot;\n&quot;+&quot;国家:&quot;+data[&#39;country&#39;]+&quot;\n&quot; +&quot;城市:&quot;+ data[&#39;city&#39;]+&quot;\n&quot;+&quot;经度:&quot;+str(data[&quot;lon&quot;])+&quot;\n&quot; +&quot;纬度:&quot;+str(data[&#39;lat&#39;]))
-    #msg &#x3D; data[&#39;data&#39;][&#39;country&#39;]
-    await ping.finish( data2)
-       
-        # 提取json 关键数据方法
-        # 用res变量接收 get_url返回的数据<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+        <h2 id="我的第一个插件-ping"><a href="#我的第一个插件-ping" class="headerlink" title="我的第一个插件-ping"></a>我的第一个插件-ping</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> nonebot</span><br><span class="line"><span class="keyword">import</span> httpx</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> nonebot <span class="keyword">import</span> on_command</span><br><span class="line"><span class="keyword">from</span> nonebot.matcher <span class="keyword">import</span> Matcher</span><br><span class="line"><span class="keyword">from</span> nonebot.params <span class="keyword">import</span> ArgPlainText, CommandArg</span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"><span class="keyword">from</span> nonebot.rule <span class="keyword">import</span> to_me</span><br><span class="line"><span class="keyword">from</span> nonebot.typing <span class="keyword">import</span> T_State</span><br><span class="line"><span class="keyword">from</span> nonebot.adapters <span class="keyword">import</span> Bot, Event</span><br><span class="line"><span class="keyword">from</span> nonebot.permission <span class="keyword">import</span> SUPERUSER</span><br><span class="line"><span class="keyword">from</span> nonebot.adapters <span class="keyword">import</span> Message</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ping = on_command(<span class="string">&quot;ping &quot;</span>, aliases=&#123;<span class="string">&quot;p&quot;</span>, <span class="string">&quot;pingg&quot;</span>&#125;, priority=<span class="number">10</span>)     </span><br><span class="line"><span class="meta">@ping.handle()</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">ip_address</span>(<span class="params">event: Event,matcher: Matcher, args: Message = CommandArg(<span class="params"></span>)</span>):</span><br><span class="line">    ip = <span class="built_in">str</span>(event.get_message()).strip(<span class="string">&quot;/ping &quot;</span>) <span class="comment">#strip 剥离   </span></span><br><span class="line">    <span class="comment">#if args:</span></span><br><span class="line">        <span class="comment">#return</span></span><br><span class="line">    <span class="comment">#async with httpx.AsyncClient() as client:</span></span><br><span class="line">        <span class="comment">#response = await client.get(f&quot;https://api.iyk0.cn/api/ip?ip=&#123;ip&#125;&quot;)</span></span><br><span class="line">    <span class="comment">#if response.is_error:</span></span><br><span class="line">        <span class="comment">#logger.error(&quot;获取信息失败&quot;)</span></span><br><span class="line">        <span class="comment">#return</span></span><br><span class="line">    <span class="comment">#data = response.json()</span></span><br><span class="line">    headers=&#123;</span><br><span class="line">     <span class="string">&quot;user-agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36 Edg/106.0.1370.52&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    url = <span class="string">f&quot;https://api.iyk0.cn/api/ip?ip=<span class="subst">&#123;ip&#125;</span>&quot;</span>   </span><br><span class="line">    resp = requests.get(url, headers= headers)</span><br><span class="line">    resp.encoding = <span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">    <span class="comment">#resp = resp.text  </span></span><br><span class="line">    <span class="comment">#retdata = json.loads(resp.text)</span></span><br><span class="line">    <span class="comment">#msp = str(resp.json())</span></span><br><span class="line">    retdata = resp.json()    </span><br><span class="line">    data =&#123;</span><br><span class="line">    <span class="string">&quot;code&quot;</span>: retdata[<span class="string">&#x27;code&#x27;</span>],</span><br><span class="line">    <span class="string">&quot;country&quot;</span>: retdata[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;country&#x27;</span>],  </span><br><span class="line">    <span class="string">&quot;city&quot;</span>: retdata[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;city&#x27;</span>],</span><br><span class="line">    <span class="string">&quot;lon&quot;</span>: retdata[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;lon&#x27;</span>],</span><br><span class="line">    <span class="string">&quot;lat&quot;</span>: retdata[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;lat&#x27;</span>],</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">#data2 = json.dumps(data, indent=4)</span></span><br><span class="line">    data2 =<span class="built_in">str</span>(<span class="string">&quot;code:&quot;</span>+data[<span class="string">&quot;code&quot;</span>]+<span class="string">&quot;\n&quot;</span>+<span class="string">&quot;国家:&quot;</span>+data[<span class="string">&#x27;country&#x27;</span>]+<span class="string">&quot;\n&quot;</span> +<span class="string">&quot;城市:&quot;</span>+ data[<span class="string">&#x27;city&#x27;</span>]+<span class="string">&quot;\n&quot;</span>+<span class="string">&quot;经度:&quot;</span>+<span class="built_in">str</span>(data[<span class="string">&quot;lon&quot;</span>])+<span class="string">&quot;\n&quot;</span> +<span class="string">&quot;纬度:&quot;</span>+<span class="built_in">str</span>(data[<span class="string">&#x27;lat&#x27;</span>]))</span><br><span class="line">    <span class="comment">#msg = data[&#x27;data&#x27;][&#x27;country&#x27;]</span></span><br><span class="line">    <span class="keyword">await</span> ping.finish( data2)</span><br><span class="line">       </span><br><span class="line">        <span class="comment"># 提取json 关键数据方法</span></span><br><span class="line">        <span class="comment"># 用res变量接收 get_url返回的数据</span></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>第2行导入的on_command 注册一个消息类型的命令处理器，也就是说，让机器人识别你的命令需要用到他。logger是nb 日志记录器对象。详见： NoneBot.log 模块</p>
 </blockquote>
@@ -240,68 +203,18 @@ async def ip_address(event: Event,matcher: Matcher, args: Message &#x3D; Command
 <blockquote>
 <p>其中message参数是我们要发送的消息，可以是纯文本 message&#x3D;”你好” ，这里使用的 MessageSegment 是nb对cq协议的适配，可用于发送CQ码等（个人理解），即</p>
 </blockquote>
-<h3 id="如果你要发送图片"><a href="#如果你要发送图片" class="headerlink" title="如果你要发送图片"></a>如果你要发送图片</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">await sixty.send(message&#x3D;MessageSegment.image(img_url))
-等价于（不推荐）
-rely&#x3D;[&#123;
-      &quot;type&quot;: &quot;image&quot;,
-      &quot;data&quot;: &#123;
-      &quot;file&quot;: img_url
-              &#125;
-&#125;]
-await sixty.send(message&#x3D;rely)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="如果你要发送文本-图片，如下写法皆可："><a href="#如果你要发送文本-图片，如下写法皆可：" class="headerlink" title="如果你要发送文本+图片，如下写法皆可："></a>如果你要发送文本+图片，如下写法皆可：</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">await sixty.send(message&#x3D;&quot;今日早报&quot;+MessageSegment.image(img_url))
-rely&#x3D;[&#123;
-      &quot;type&quot;: &quot;text&quot;,
-      &quot;data&quot;: &#123;
-      &quot;text&quot;: &quot;今日早报&quot;
-              &#125;
-&#125;,
-&#123;
-      &quot;type&quot;: &quot;image&quot;,
-      &quot;data&quot;: &#123;
-      &quot;file&quot;: img_url
-              &#125;
-&#125;]
-
-await sixty.send(message&#x3D;rely)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="如果你要发送图片"><a href="#如果你要发送图片" class="headerlink" title="如果你要发送图片"></a>如果你要发送图片</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> sixty.send(message=MessageSegment.image(img_url))</span><br><span class="line">等价于（不推荐）</span><br><span class="line">rely=[&#123;</span><br><span class="line">      <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image&quot;</span>,</span><br><span class="line">      <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;file&quot;</span>: img_url</span><br><span class="line">              &#125;</span><br><span class="line">&#125;]</span><br><span class="line"><span class="keyword">await</span> sixty.send(message=rely)</span><br></pre></td></tr></table></figure>
+<h3 id="如果你要发送文本-图片，如下写法皆可："><a href="#如果你要发送文本-图片，如下写法皆可：" class="headerlink" title="如果你要发送文本+图片，如下写法皆可："></a>如果你要发送文本+图片，如下写法皆可：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> sixty.send(message=<span class="string">&quot;今日早报&quot;</span>+MessageSegment.image(img_url))</span><br><span class="line">rely=[&#123;</span><br><span class="line">      <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">      <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;text&quot;</span>: <span class="string">&quot;今日早报&quot;</span></span><br><span class="line">              &#125;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">      <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image&quot;</span>,</span><br><span class="line">      <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;file&quot;</span>: img_url</span><br><span class="line">              &#125;</span><br><span class="line">&#125;]</span><br><span class="line"></span><br><span class="line"><span class="keyword">await</span> sixty.send(message=rely)</span><br></pre></td></tr></table></figure>
 
 <h3 id="发送本地图片-暂时还没用过发本地图片-："><a href="#发送本地图片-暂时还没用过发本地图片-：" class="headerlink" title="发送本地图片(暂时还没用过发本地图片)："></a>发送本地图片(暂时还没用过发本地图片)：</h3><p>利用gocq+nb作为机器人发送本地图片时，若使用相对路径，要记得 路径是相对gocq的 而不是相对nb项目的</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">await sixty.send(message&#x3D;MessageSegment.image(&quot;file:&#x2F;&#x2F;&#x2F;路径&quot;))
-rely&#x3D;[&#123;
-      &quot;type&quot;: &quot;image&quot;,
-      &quot;data&quot;: &#123;
-      &quot;file&quot;: &quot;file:&#x2F;&#x2F;&#x2F;路径&quot;
-              &#125;
-&#125;]
-await sixty.send(message&#x3D;rely)
-
-路径问题本人一般使用Path:
-from pathlib import Path
-img_path &#x3D; Path() &#x2F; &quot;xxx.png&quot;
-# .resolve() 转为绝对路径
-img_path2 &#x3D; img_path.resolve()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> sixty.send(message=MessageSegment.image(<span class="string">&quot;file:///路径&quot;</span>))</span><br><span class="line">rely=[&#123;</span><br><span class="line">      <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image&quot;</span>,</span><br><span class="line">      <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;file&quot;</span>: <span class="string">&quot;file:///路径&quot;</span></span><br><span class="line">              &#125;</span><br><span class="line">&#125;]</span><br><span class="line"><span class="keyword">await</span> sixty.send(message=rely)</span><br><span class="line"></span><br><span class="line">路径问题本人一般使用Path:</span><br><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line">img_path = Path() / <span class="string">&quot;xxx.png&quot;</span></span><br><span class="line"><span class="comment"># .resolve() 转为绝对路径</span></span><br><span class="line">img_path2 = img_path.resolve()</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>实际上就是爬取数据,提取需要部分,调用nonebot发送<br>要学会爬取动态页面的数据</p>
 </blockquote>
 <p>(插件编写参考大佬)[<a target="_blank" rel="noopener" href="https://yzyyz.top/archives/nb2b1.html#%E7%BC%96%E5%86%99%E6%8F%92%E4%BB%B6]">https://yzyyz.top/archives/nb2b1.html#%E7%BC%96%E5%86%99%E6%8F%92%E4%BB%B6]</a></p>
 <h2 id="定时器任务"><a href="#定时器任务" class="headerlink" title="定时器任务"></a>定时器任务</h2><p>基本示例</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">import nonebot
-from nonebot import require,get_bots
-#[nonebot本模块主要定义了 NoneBot 启动所需函数，供 bot 入口文件调用。](https:&#x2F;&#x2F;v2.nonebot.dev&#x2F;docs&#x2F;api&#x2F;index#get_bot)
-#使用nonebot.require模块导入nonebot_plugin_apscheduler的scheduler
-timing &#x3D; require(&quot;nonebot_plugin_apscheduler&quot;).scheduler
-#设置在几点启动脚本
-@timing.scheduled_job(&quot;cron&quot;, hour&#x3D;&#39;22&#39;, minute&#x3D;&#39;56&#39;, id&#x3D;&quot;drink_tea&quot;)
-#启动的脚本
-async def drink_tea():
-    bot, &#x3D; get_bots().values()
-    # 发送一条群聊信息
-    await bot.send_msg(
-        message_type&#x3D;&quot;group&quot;,
-        group_id&#x3D;123456789,
-        message&#x3D;&#39;这是一条群聊信息&#39; 
- )<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nonebot</span><br><span class="line"><span class="keyword">from</span> nonebot <span class="keyword">import</span> require,get_bots</span><br><span class="line"><span class="comment">#[nonebot本模块主要定义了 NoneBot 启动所需函数，供 bot 入口文件调用。](https://v2.nonebot.dev/docs/api/index#get_bot)</span></span><br><span class="line"><span class="comment">#使用nonebot.require模块导入nonebot_plugin_apscheduler的scheduler</span></span><br><span class="line">timing = require(<span class="string">&quot;nonebot_plugin_apscheduler&quot;</span>).scheduler</span><br><span class="line"><span class="comment">#设置在几点启动脚本</span></span><br><span class="line"><span class="meta">@timing.scheduled_job(<span class="params"><span class="string">&quot;cron&quot;</span>, hour=<span class="string">&#x27;22&#x27;</span>, minute=<span class="string">&#x27;56&#x27;</span>, <span class="built_in">id</span>=<span class="string">&quot;drink_tea&quot;</span></span>)</span></span><br><span class="line"><span class="comment">#启动的脚本</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">drink_tea</span>():</span><br><span class="line">    bot, = get_bots().values()</span><br><span class="line">    <span class="comment"># 发送一条群聊信息</span></span><br><span class="line">    <span class="keyword">await</span> bot.send_msg(</span><br><span class="line">        message_type=<span class="string">&quot;group&quot;</span>,</span><br><span class="line">        group_id=<span class="number">123456789</span>,</span><br><span class="line">        message=<span class="string">&#x27;这是一条群聊信息&#x27;</span> </span><br><span class="line"> )</span><br></pre></td></tr></table></figure>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/starvapour/article/details/124780376">参考文章</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/a1255652/article/details/118740313">参考文章2</a><br><a target="_blank" rel="noopener" href="https://github.com/botuniverse/onebot-11/blob/master/event/message.md">onebot-11文档</a><br><a target="_blank" rel="noopener" href="https://docs.go-cqhttp.org/">go-cqhttp文档</a><br><a target="_blank" rel="noopener" href="https://v2.nonebot.dev/">nonebot2文档</a><br><a target="_blank" rel="noopener" href="https://github.com/MRSlouzk/Nonebot-plugintutorials">一个大佬的教程文档</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv19736511?spm_id_from=333.999.0.0">大佬的入门建议</a></p>
 
       </div>
@@ -345,9 +258,9 @@ async def drink_tea():
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -356,6 +269,7 @@ async def drink_tea():
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -385,7 +299,7 @@ async def drink_tea():
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -397,14 +311,14 @@ async def drink_tea():
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

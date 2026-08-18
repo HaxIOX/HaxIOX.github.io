@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">kali虚拟机网络配置</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          381
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -178,39 +191,11 @@
       </div>
       <div class="markdown-body">
         <h2 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h2><h3 id="暂时改变ip"><a href="#暂时改变ip" class="headerlink" title="暂时改变ip"></a>暂时改变ip</h3><p>在root权限下执行</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">ifconfig                           #查看本机IP地址
-vim &#x2F;etc&#x2F;network&#x2F;interfaces        #修改网卡配置文件
-
-auto eth0
-iface eth0 inet dhcp
-
-ifconfig eth0 192.168.31.119&#x2F;24    #配置临时ip
-route add default gw 192.168.31.1  #配置默认路由
-
-&#x2F;etc&#x2F;init.d&#x2F;networking restart     #重启网络服务 
-echo name server 8.8.8.8&gt; &#x2F;etc&#x2F;resolv.conf 
-                                   #配置dns服务器<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ifconfig                           #查看本机IP地址</span><br><span class="line">vim /etc/network/interfaces        #修改网卡配置文件</span><br><span class="line"></span><br><span class="line">auto eth0</span><br><span class="line">iface eth0 inet dhcp</span><br><span class="line"></span><br><span class="line">ifconfig eth0 192.168.31.119/24    #配置临时ip</span><br><span class="line">route add default gw 192.168.31.1  #配置默认路由</span><br><span class="line"></span><br><span class="line">/etc/init.d/networking restart     #重启网络服务 </span><br><span class="line">echo name server 8.8.8.8&gt; /etc/resolv.conf </span><br><span class="line">                                   #配置dns服务器</span><br></pre></td></tr></table></figure>
 
 <h3 id="永久改变ip"><a href="#永久改变ip" class="headerlink" title="永久改变ip"></a>永久改变ip</h3><p>vim &#x2F;etc&#x2F;network&#x2F;interfaces        #修改网卡配置文件</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">auto eth0
-iface eth0 inet static
-address 192.168.31.119
-netmask 255.255.255.0
-gateway 192.168.31.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="ssh连接虚拟机"><a href="#ssh连接虚拟机" class="headerlink" title="ssh连接虚拟机"></a>ssh连接虚拟机</h2><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">netstat -lnt                 &#x2F;&#x2F;查看开放是否开放22端口
-
-vim &#x2F;etc&#x2F;ssh&#x2F;sshd_config
-
-permitrootlogin yes
-pubkeyauthenticatation yes
-
-&#x2F;etc&#x2F;init.d&#x2F;ssh restart
-
-lsof -i :22                 &#x2F;&#x2F;查看22端口是否被监听
-
-&#x2F;etc&#x2F;init.d&#x2F;ssh status      &#x2F;&#x2F;查看ssh服务状态，running则表示已启动成功
-
-update-rc.d ssh enable      &#x2F;&#x2F;设置为自动启动ssh登录服务<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">auto eth0</span><br><span class="line">iface eth0 inet static</span><br><span class="line">address 192.168.31.119</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.31.1</span><br></pre></td></tr></table></figure>
+<h2 id="ssh连接虚拟机"><a href="#ssh连接虚拟机" class="headerlink" title="ssh连接虚拟机"></a>ssh连接虚拟机</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnt                 //查看开放是否开放22端口</span><br><span class="line"></span><br><span class="line">vim /etc/ssh/sshd_config</span><br><span class="line"></span><br><span class="line">permitrootlogin yes</span><br><span class="line">pubkeyauthenticatation yes</span><br><span class="line"></span><br><span class="line">/etc/init.d/ssh restart</span><br><span class="line"></span><br><span class="line">lsof -i :22                 //查看22端口是否被监听</span><br><span class="line"></span><br><span class="line">/etc/init.d/ssh status      //查看ssh服务状态，running则表示已启动成功</span><br><span class="line"></span><br><span class="line">update-rc.d ssh enable      //设置为自动启动ssh登录服务</span><br></pre></td></tr></table></figure>
 <h3 id="error"><a href="#error" class="headerlink" title="error"></a>error</h3><p>如果ssh连接不上且<code>ping不通</code>的话,把虚拟机的<code>nat模式</code>换成<code>桥接模式</code><br>nat模式下不可以ssh，虚拟机可以上网<br>桥接模式下可以ssh，但是虚拟机不能上网！！</p>
 <p>解决无法上网<br>vim &#x2F;etc&#x2F;resolv.conf</p>
 <p>nameserver dns<br>nameserver 114.114.114.114</p>
@@ -261,9 +246,9 @@ update-rc.d ssh enable      &#x2F;&#x2F;设置为自动启动ssh登录服务<spa
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -272,6 +257,7 @@ update-rc.d ssh enable      &#x2F;&#x2F;设置为自动启动ssh登录服务<spa
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -301,7 +287,7 @@ update-rc.d ssh enable      &#x2F;&#x2F;设置为自动启动ssh登录服务<spa
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -313,14 +299,14 @@ update-rc.d ssh enable      &#x2F;&#x2F;设置为自动启动ssh登录服务<spa
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

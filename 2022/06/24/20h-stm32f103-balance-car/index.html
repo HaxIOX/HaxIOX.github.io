@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">stm32f103平衡小车</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          6196
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -286,10 +299,7 @@
 </tbody></table>
 <p>编码器线数：线数就是编码器的分辨率，即转一圈发出的脉冲数</p>
 <p>脉冲值正比于实际速度,但不是实际速度,需要进一步计算</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F;速度测量值   
-velocity &#x3D; ( read_encoder2() + read_encoder3() )&#x2F;2;
-&#x2F;&#x2F;获取最新速度偏差&#x3D;&#x3D;测量速度（左右编码器之和）-目标速度（此处为零） 
-Encoder_Least &#x3D;0-(encoder_left+encoder_right); <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//速度测量值   </span></span><br><span class="line">velocity = ( read_encoder2() + read_encoder3() )/<span class="number">2</span>;</span><br><span class="line"><span class="comment">//获取最新速度偏差==测量速度（左右编码器之和）-目标速度（此处为零） </span></span><br><span class="line">Encoder_Least =<span class="number">0</span>-(encoder_left+encoder_right); </span><br></pre></td></tr></table></figure>
 
 <p>个人理解:这个偏差最后要*kp,相当于直接算到kp里面了,<code>PWM_out=Velocity_Kp*EnC_Err_Lowout+Velocity_Ki*Encoder_S;</code></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhao_ke_xue/article/details/108305821?ops_request_misc=%7B%22request_id%22:%22169148867816800213097839%22,%22scm%22:%2220140713.130102334.pc_all.%22%7D&request_id=169148867816800213097839&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~hot_rank-3-108305821-null-null.142%5Ev92%5Einsert_down28v1&utm_term=%E5%B9%B3%E8%A1%A1%E5%B0%8F%E8%BD%A6%E7%9A%84%E5%AE%9E%E9%99%85%E9%80%9F%E5%BA%A6&spm=1018.2226.3001.4187">平衡小车从原理到实践_平衡小车控制原理_白茶-清欢的博客-CSDN博客</a></p>
@@ -301,16 +311,7 @@ Encoder_Least &#x3D;0-(encoder_left+encoder_right); <span aria-hidden="true" cla
 <h1 id="重学平衡小车"><a href="#重学平衡小车" class="headerlink" title="重学平衡小车"></a>重学平衡小车</h1><h2 id="PID控制"><a href="#PID控制" class="headerlink" title="PID控制"></a>PID控制</h2><p>比例项：提高响应速度，减小静差。</p>
 <p>积分项：消除稳态误差。只要有偏差，我就积分，有一丁点偏差，我也会积分。积积，就会非常大。直到你偏差变为0.</p>
 <p>微分项：减小震荡以及超调。</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">Pwm&#x3D;Kp*e(k)+Ki*∑e(k)+Kd*[e(k)-e(k-1)]
-
-Kp*e(k)
-Ki*∑e(k)
-Kd*[e(k)-e(k-1)]
-
-Ki&#x3D;Kp*(1&#x2F;Ti) *Ti
-Kd&#x3D;Kp*(1&#x2F;T)*Td
-
-可见Ki、Kd都有Kp、所以Kp的值也会影响Ki、Kd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Pwm=Kp*e(k)+Ki*∑e(k)+Kd*[e(k)-e(k<span class="number">-1</span>)]</span><br><span class="line"></span><br><span class="line">Kp*e(k)</span><br><span class="line">Ki*∑e(k)</span><br><span class="line">Kd*[e(k)-e(k<span class="number">-1</span>)]</span><br><span class="line"></span><br><span class="line">Ki=Kp*(<span class="number">1</span>/Ti) *Ti</span><br><span class="line">Kd=Kp*(<span class="number">1</span>/T)*Td</span><br><span class="line"></span><br><span class="line">可见Ki、Kd都有Kp、所以Kp的值也会影响Ki、Kd</span><br></pre></td></tr></table></figure>
 
 
 
@@ -318,39 +319,15 @@ Kd&#x3D;Kp*(1&#x2F;T)*Td
 <p>位置闭环控制就是根据编码器的脉冲累加测量电机的位置信息，并与目标值进行比较，得到控制偏差，</p>
 <p>然后通过对偏差的比例、积分、微分进行控制，使偏差趋向于零的过程。</p>
 <p><strong>2.公式</strong></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">Pwm&#x3D;Kp\*e(k)+Ki\*∑e(k)+Kd\*[e(k)-e(k-1)]
-
-e(k)：本次偏差
-
-e(k-1)：上一次的偏差  
-
-∑e(k)：e(k)以及之前的偏差的累积和;其中k为1,2,,k;
-
-Pwm代表输出<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Pwm=Kp\*e(k)+Ki\*∑e(k)+Kd\*[e(k)-e(k<span class="number">-1</span>)]</span><br><span class="line"></span><br><span class="line">e(k)：本次偏差</span><br><span class="line"></span><br><span class="line">e(k<span class="number">-1</span>)：上一次的偏差  </span><br><span class="line"></span><br><span class="line">∑e(k)：e(k)以及之前的偏差的累积和;其中k为<span class="number">1</span>,<span class="number">2</span>,,k;</span><br><span class="line"></span><br><span class="line">Pwm代表输出</span><br></pre></td></tr></table></figure>
 
 <p>3.结构框图</p>
-<style>.xxmfbrmoshdn{zoom:150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps1.jpg" class="xxmfbrmoshdn" alt="img">
+<style>.gjgnjjwhlbyw{zoom:150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps1.jpg" class="gjgnjjwhlbyw" alt="img">
 
 <ol start="4">
 <li>C语言实现</li>
 </ol>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">int Position_PID (int Encoder , int Target)
-
- &#123; 	
-
-  static float Bias, Pwm, Integral_bias, Last_Bias;
-
-  Bias&#x3D;Encoder-Target; &#x2F;&#x2F;计算偏差
-
-  Integral_bias+&#x3D;Bias; &#x2F;&#x2F;求出偏差的积分	   
-
-  Pwm&#x3D;Position_KP*Bias+Position_KI*Integral_bias+Position_KD*(Bias-Last_Bias);  &#x2F;&#x2F;位置式PID控制器   
-
-  Last_Bias&#x3D;Bias;    &#x2F;&#x2F;保存上一次偏差 
-
-  return Pwm;      &#x2F;&#x2F;输出
-
- &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">Position_PID</span> <span class="params">(<span class="type">int</span> Encoder , <span class="type">int</span> Target)</span></span><br><span class="line"></span><br><span class="line"> &#123; 	</span><br><span class="line"></span><br><span class="line">  <span class="type">static</span> <span class="type">float</span> Bias, Pwm, Integral_bias, Last_Bias;</span><br><span class="line"></span><br><span class="line">  Bias=Encoder-Target; <span class="comment">//计算偏差</span></span><br><span class="line"></span><br><span class="line">  Integral_bias+=Bias; <span class="comment">//求出偏差的积分	   </span></span><br><span class="line"></span><br><span class="line">  Pwm=Position_KP*Bias+Position_KI*Integral_bias+Position_KD*(Bias-Last_Bias);  <span class="comment">//位置式PID控制器   </span></span><br><span class="line"></span><br><span class="line">  Last_Bias=Bias;    <span class="comment">//保存上一次偏差 </span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> Pwm;      <span class="comment">//输出</span></span><br><span class="line"></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="2-公式为什么kp不-误差"><a href="#2-公式为什么kp不-误差" class="headerlink" title="2.公式为什么kp不*误差"></a>2.公式为什么kp不*误差</h1><h3 id="串级PID"><a href="#串级PID" class="headerlink" title="串级PID"></a>串级PID</h3><p><strong>直立环</strong></p>
 <ol>
@@ -359,30 +336,22 @@ Pwm代表输出<span aria-hidden="true" class="line-numbers-rows"><span></span><
 <img src="/2022/06/24/20h-stm32f103-balance-car/wps2.jpg" class="" title="img">
 </li>
 <li><p>公式</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">a&#x3D;b1*θ+b2*θ;		——&gt;		比例微分控制【PDout&#x3D;Kp*Angle+Kd*( Angle-Angle_last)】<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a=b1*θ+b2*θ;		——&gt;		比例微分控制【PDout=Kp*Angle+Kd*( Angle-Angle_last)】</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>结构框图</p>
 </li>
 </ol>
-<style>.jitgnvpyluur{zoom:150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps3.jpg" class="jitgnvpyluur" alt="img"> 
+<style>.hxrwjkwxnssr{zoom:150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps3.jpg" class="hxrwjkwxnssr" alt="img"> 
 
 <p><strong>直立环：让小车角度趋近0；</strong></p>
 <p><strong>速度环：让电机速度趋近0；</strong></p>
-<h3 id="速度环、串级PID"><a href="#速度环、串级PID" class="headerlink" title="速度环、串级PID"></a>速度环、串级PID</h3><style>.lbxdwivrftxv{zoom: 150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps4.jpg" class="lbxdwivrftxv" alt="img"> 
+<h3 id="速度环、串级PID"><a href="#速度环、串级PID" class="headerlink" title="速度环、串级PID"></a>速度环、串级PID</h3><style>.clszyzlkraxa{zoom: 150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps4.jpg" class="clszyzlkraxa" alt="img"> 
 
 <p>速度环输入：1.给定速度。2.速度反馈。</p>
 <p>输出：<strong>角度值</strong>（直立环的期望速度输入）</p>
 <p>直立环输入：1.给定角度（速度环输出）。2.角度反馈</p>
 <p>输出：PWM（直接控制小车）</p>
- <pre class="line-numbers language-C" data-language="C"><code class="language-C">Vertical_out&#x3D;Kp1*( real_Angle- expect_Angle)+Kd*D( real_Angle- expect_Angle)				 &#x2F;&#x2F;直立PD控制器
-
-Velocity_out &#x3D;Kp2*(Encoder_ real- Encoder_ expect)+Ki*S(Encoder_ real- Encoder_ expect)		 &#x2F;&#x2F;速度PI控制器
-（NOTE：（1）Velocity_out &#x3D; expect_Angle.（2）Kp1：Vertical_Kp.（3）Kp2：Velocity_Kp.）
-
-&#x2F;&#x2F;解释
-直立环输出&#x3D;Kp1*（真实角度-期望角度+机械中值）+Kd*角度偏差的微分					  &#x2F;&#x2F;角度偏差&#x3D;真实角度-期望角度
-速度环输出&#x3D;Kp2*（反馈编码器值-期望编码器值）+Ki*编码器偏差的积分					
-&#x2F;&#x2F;编码器偏差&#x3D;反馈编码器值-期望编码器值（NOTE：（1）速度环输出&#x3D;直立环的期望角度。（2）Kp1：直立环Kp。（3）Kp2：速度环Kp。）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Vertical_out=Kp1*( real_Angle- expect_Angle)+Kd*D( real_Angle- expect_Angle)				 <span class="comment">//直立PD控制器</span></span><br><span class="line"></span><br><span class="line">Velocity_out =Kp2*(Encoder_ real- Encoder_ expect)+Ki*S(Encoder_ real- Encoder_ expect)		 <span class="comment">//速度PI控制器</span></span><br><span class="line">（NOTE：（<span class="number">1</span>）Velocity_out = expect_Angle.（<span class="number">2</span>）Kp1：Vertical_Kp.（<span class="number">3</span>）Kp2：Velocity_Kp.）</span><br><span class="line"></span><br><span class="line"><span class="comment">//解释</span></span><br><span class="line">直立环输出=Kp1*（真实角度-期望角度+机械中值）+Kd*角度偏差的微分					  <span class="comment">//角度偏差=真实角度-期望角度</span></span><br><span class="line">速度环输出=Kp2*（反馈编码器值-期望编码器值）+Ki*编码器偏差的积分					</span><br><span class="line"><span class="comment">//编码器偏差=反馈编码器值-期望编码器值（NOTE：（1）速度环输出=直立环的期望角度。（2）Kp1：直立环Kp。（3）Kp2：速度环Kp。）</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
 <li><strong>为什么输出是角度值呢</strong></li>
@@ -402,19 +371,7 @@ Velocity_out &#x3D;Kp2*(Encoder_ real- Encoder_ expect)+Ki*S(Encoder_ real- Enco
 </blockquote>
 <p>直立环输入：1.给定角度（速度环输出）。2.角度反馈</p>
 <p>输出：PWM（直接控制小车）</p>
- <pre class="line-numbers language-C" data-language="C"><code class="language-C">Vertical_out&#x3D;Kp1*( real_Angle- expect_Angle)+Kd*D( real_Angle- expect_Angle)				 &#x2F;&#x2F;直立PD控制器
-
-Velocity_out &#x3D;Kp2*(Encoder_ real- Encoder_ expect)+Ki*S(Encoder_ real- Encoder_ expect)		 &#x2F;&#x2F;速度PI控制器
-
-（NOTE：（1）Velocity_out &#x3D; expect_Angle.（2）Kp1：Vertical_Kp.（3）Kp2：Velocity_Kp.）
-
-【中文】
-
-直立环输出&#x3D;Kp1*（真实角度-期望角度+机械中值）+Kd*角度偏差的微分					  &#x2F;&#x2F;角度偏差&#x3D;真实角度-期望角度
-
-速度环输出&#x3D;Kp2*（反馈编码器值-期望编码器值）+Ki*编码器偏差的积分					&#x2F;&#x2F;编码器偏差&#x3D;反馈编码器值-期望编码器值
-
-（NOTE：（1）速度环输出&#x3D;直立环的期望角度。（2）Kp1：直立环Kp。（3）Kp2：速度环Kp。）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Vertical_out=Kp1*( real_Angle- expect_Angle)+Kd*D( real_Angle- expect_Angle)				 <span class="comment">//直立PD控制器</span></span><br><span class="line"></span><br><span class="line">Velocity_out =Kp2*(Encoder_ real- Encoder_ expect)+Ki*S(Encoder_ real- Encoder_ expect)		 <span class="comment">//速度PI控制器</span></span><br><span class="line"></span><br><span class="line">（NOTE：（<span class="number">1</span>）Velocity_out = expect_Angle.（<span class="number">2</span>）Kp1：Vertical_Kp.（<span class="number">3</span>）Kp2：Velocity_Kp.）</span><br><span class="line"></span><br><span class="line">【中文】</span><br><span class="line"></span><br><span class="line">直立环输出=Kp1*（真实角度-期望角度+机械中值）+Kd*角度偏差的微分					  <span class="comment">//角度偏差=真实角度-期望角度</span></span><br><span class="line"></span><br><span class="line">速度环输出=Kp2*（反馈编码器值-期望编码器值）+Ki*编码器偏差的积分					<span class="comment">//编码器偏差=反馈编码器值-期望编码器值</span></span><br><span class="line"></span><br><span class="line">（NOTE：（<span class="number">1</span>）速度环输出=直立环的期望角度。（<span class="number">2</span>）Kp1：直立环Kp。（<span class="number">3</span>）Kp2：速度环Kp。）</span><br></pre></td></tr></table></figure>
 
 <ol start="2">
 <li><strong>速度环是正反馈还是负反馈</strong></li>
@@ -481,20 +438,7 @@ Velocity_out &#x3D;Kp2*(Encoder_ real- Encoder_ expect)+Ki*S(Encoder_ real- Enco
 </blockquote>
 <h1 id="没关系-岁月还长-有些问题可以慢慢想"><a href="#没关系-岁月还长-有些问题可以慢慢想" class="headerlink" title="没关系,岁月还长,有些问题可以慢慢想"></a>没关系,岁月还长,有些问题可以慢慢想</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1H7411k76N?vd_source=f525a47bd6d8cb5b154158289da1d4d4">平衡小车的代码框架——代码开源-第3.1节</a></p>
 <h3 id="并级PID"><a href="#并级PID" class="headerlink" title="并级PID"></a>并级PID</h3><p>其实这个并级PID ,相当于二元函数,两个KP对应线性关系,输出PWM,请问对吗</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">是的，你的理解是正确的。在这个并级PID控制系统中，可以将其视为一个处理两个输入变量的二元函数，其中每个变量分别通过自己的PID控制器处理。这里的两个变量是小车的角度（直立环）和速度（速度环），每个环都有自己的比例系数（Kp），积分系数（Ki）以及微分系数（Kd）（虽然在速度环的代码示例中没有展示微分控制）。
-
-&#x2F;&#x2F;解析并级PID
-在并级PID中，每个控制环独立地计算其PID输出，然后将这些输出合并以形成最终的控制信号（如PWM）。在你提到的例子中，这种合并是简单的算术加法，即：
-
-每个控制环通过其比例（Kp）、积分（Ki）、和微分（Kd）参数独立响应其控制变量的偏差，这样的设计使得系统可以灵活调整对不同类型误差的响应。这里的关键是，**虽然每个环的输出是独立计算的，但在最终的执行动作上（如驱动电机的PWM信号）是相互影响的**
-
-&#x2F;&#x2F;特点与应用
-灵活性高：可以独立调整对角度和速度控制的敏感度和响应特性，使其适应不同的运行条件和性能要求。
-简化调试：调试时可以分别优化每个控制环，而不必担心其相互作用，简化了调试过程。
-然而，这也可能导致一些挑战：
-
-相互影响：在实际应用中，两个控制环的输出可能会相互影响，特别是在系统动态变化较大时，需要仔细调整参数以避免冲突。
-总的来说，你的理解是准确的，这种并级PID控制方式通过独立的线性关系（各自的PID环）合并输出，共同决定了最终的控制行为。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">是的，你的理解是正确的。在这个并级PID控制系统中，可以将其视为一个处理两个输入变量的二元函数，其中每个变量分别通过自己的PID控制器处理。这里的两个变量是小车的角度（直立环）和速度（速度环），每个环都有自己的比例系数（Kp），积分系数（Ki）以及微分系数（Kd）（虽然在速度环的代码示例中没有展示微分控制）。</span><br><span class="line"></span><br><span class="line"><span class="comment">//解析并级PID</span></span><br><span class="line">在并级PID中，每个控制环独立地计算其PID输出，然后将这些输出合并以形成最终的控制信号（如PWM）。在你提到的例子中，这种合并是简单的算术加法，即：</span><br><span class="line"></span><br><span class="line">每个控制环通过其比例（Kp）、积分（Ki）、和微分（Kd）参数独立响应其控制变量的偏差，这样的设计使得系统可以灵活调整对不同类型误差的响应。这里的关键是，**虽然每个环的输出是独立计算的，但在最终的执行动作上（如驱动电机的PWM信号）是相互影响的**</span><br><span class="line"></span><br><span class="line"><span class="comment">//特点与应用</span></span><br><span class="line">灵活性高：可以独立调整对角度和速度控制的敏感度和响应特性，使其适应不同的运行条件和性能要求。</span><br><span class="line">简化调试：调试时可以分别优化每个控制环，而不必担心其相互作用，简化了调试过程。</span><br><span class="line">然而，这也可能导致一些挑战：</span><br><span class="line"></span><br><span class="line">相互影响：在实际应用中，两个控制环的输出可能会相互影响，特别是在系统动态变化较大时，需要仔细调整参数以避免冲突。</span><br><span class="line">总的来说，你的理解是准确的，这种并级PID控制方式通过独立的线性关系（各自的PID环）合并输出，共同决定了最终的控制行为。</span><br></pre></td></tr></table></figure>
 
 
 
@@ -557,19 +501,7 @@ Velocity_out &#x3D;Kp2*(Encoder_ real- Encoder_ expect)+Ki*S(Encoder_ real- Enco
 </blockquote>
 <h3 id="MPU6050-1"><a href="#MPU6050-1" class="headerlink" title="MPU6050"></a>MPU6050</h3></li>
 </ol>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">void MPU6050_EXIT_Init(void)
-&#123;
-  EXTI_InitTypeDef EXTI_InitStructure;
-  GPIO_InitTypeDef GPIO_InitStructure;
-  NVIC_InitTypeDef NVIC_InitStructure;            	                                 
- &#x2F;&#x2F;1.不加优先级,无法显示数据
- &#x2F;&#x2F;2.为什么设置了kp值,小车没反应-&gt;因为玄学,重建文件夹复制进去就好了,也有可能是主控出问题了
- RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);  &#x2F;&#x2F;使能定时器PB的时钟
- RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);   &#x2F;&#x2F;外部中断，需要使能AFIO时钟 
-                                      
- &#x2F;&#x2F;3.改oled要改.c初始化设置,.h引脚定义
- &#x2F;&#x2F;4.改mpu要改.c初始化,.h引脚设置,但是因为用到了int中断引脚,所以还要去改int中断引脚的初始化.c,.h机的都要改
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">MPU6050_EXIT_Init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  EXTI_InitTypeDef EXTI_InitStructure;</span><br><span class="line">  GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">  NVIC_InitTypeDef NVIC_InitStructure;            	                                 </span><br><span class="line"> <span class="comment">//1.不加优先级,无法显示数据</span></span><br><span class="line"> <span class="comment">//2.为什么设置了kp值,小车没反应-&gt;因为玄学,重建文件夹复制进去就好了,也有可能是主控出问题了</span></span><br><span class="line"> RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);  <span class="comment">//使能定时器PB的时钟</span></span><br><span class="line"> RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);   <span class="comment">//外部中断，需要使能AFIO时钟 </span></span><br><span class="line">                                      </span><br><span class="line"> <span class="comment">//3.改oled要改.c初始化设置,.h引脚定义</span></span><br><span class="line"> <span class="comment">//4.改mpu要改.c初始化,.h引脚设置,但是因为用到了int中断引脚,所以还要去改int中断引脚的初始化.c,.h机的都要改</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>3.bluetooth(usart)出现电脑发送的的数据和单片机收到的数据不符的问题</p>
 <blockquote>
@@ -626,9 +558,9 @@ Velocity_out &#x3D;Kp2*(Encoder_ real- Encoder_ expect)+Ki*S(Encoder_ real- Enco
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -637,6 +569,7 @@ Velocity_out &#x3D;Kp2*(Encoder_ real- Encoder_ expect)+Ki*S(Encoder_ real- Enco
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -666,7 +599,7 @@ Velocity_out &#x3D;Kp2*(Encoder_ real- Encoder_ expect)+Ki*S(Encoder_ real- Enco
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -678,14 +611,14 @@ Velocity_out &#x3D;Kp2*(Encoder_ real- Encoder_ expect)+Ki*S(Encoder_ real- Enco
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

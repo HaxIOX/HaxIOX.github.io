@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">移远EG800K-CN</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1034
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -184,13 +197,7 @@
 </blockquote>
 <p>AT+QGPSCFG&#x3D;”autogps”  启用&#x2F;禁用GNSS自启动</p>
 <p>AT+CIMI </p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">AT+QGPS&#x3D;1   打开GNSS
-
-AT+QGPSLOC&#x3D;0 获取定位信息
-
-AT+QGPSEND  关闭GNSS 
-
-AT+QGPSGNMEA&#x3D;GSV<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">AT+QGPS=1   打开GNSS</span><br><span class="line"></span><br><span class="line">AT+QGPSLOC=0 获取定位信息</span><br><span class="line"></span><br><span class="line">AT+QGPSEND  关闭GNSS </span><br><span class="line"></span><br><span class="line">AT+QGPSGNMEA=GSV</span><br></pre></td></tr></table></figure>
 
 <img src="/2025/08/15/188-yi-yuan-eg800kcn/1755223838276.png" class="" width="1755223838276">
 
@@ -199,34 +206,11 @@ AT+QGPSGNMEA&#x3D;GSV<span aria-hidden="true" class="line-numbers-rows"><span></
 
 
 <p>配置USB或者调式uart输出NMEA</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$GNGGA,,,,,,0,00,127.00,,,,,,*62
-$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07
-$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02
-$GPGSV,1,1,01,24,,,25,0*65
-$GNRMC,,V,,,,,,,,,E,N,V*72
-$GNVTG,,,,,,,,,N*2E
-$GNGGA,,,,,,0,00,127.00,,,,,,*62
-$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07
-$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02
-$GPGSV,1,1,01,24,,,25,0*65
-$GNRMC,,V,,,,,,,,,E,N,V*72
-$GNVTG,,,,,,,,,N*2E
-$GNGGA,,,,,,0,00,127.00,,,,,,*62
-$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07
-$GNGSA,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02
-$GPGSV,1,1,01,24,,,25,0*65<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$GNGGA</span>,,,,,,0,00,127.00,,,,,,*62</span><br><span class="line"><span class="variable">$GNGSA</span>,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07</span><br><span class="line"><span class="variable">$GNGSA</span>,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02</span><br><span class="line"><span class="variable">$GPGSV</span>,1,1,01,24,,,25,0*65</span><br><span class="line"><span class="variable">$GNRMC</span>,,V,,,,,,,,,E,N,V*72</span><br><span class="line"><span class="variable">$GNVTG</span>,,,,,,,,,N*2E</span><br><span class="line"><span class="variable">$GNGGA</span>,,,,,,0,00,127.00,,,,,,*62</span><br><span class="line"><span class="variable">$GNGSA</span>,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07</span><br><span class="line"><span class="variable">$GNGSA</span>,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02</span><br><span class="line"><span class="variable">$GPGSV</span>,1,1,01,24,,,25,0*65</span><br><span class="line"><span class="variable">$GNRMC</span>,,V,,,,,,,,,E,N,V*72</span><br><span class="line"><span class="variable">$GNVTG</span>,,,,,,,,,N*2E</span><br><span class="line"><span class="variable">$GNGGA</span>,,,,,,0,00,127.00,,,,,,*62</span><br><span class="line"><span class="variable">$GNGSA</span>,A,1,,,,,,,,,,,,,127.00,127.00,127.00,1*07</span><br><span class="line"><span class="variable">$GNGSA</span>,A,1,,,,,,,,,,,,,127.00,127.00,127.00,4*02</span><br><span class="line"><span class="variable">$GPGSV</span>,1,1,01,24,,,25,0*65</span><br></pre></td></tr></table></figure>
 
 <p>1.2. 支持的NMEA语句类型<br>模块默认支持的NMEA语句与NMEA-0183协议兼容。另外，可以通过三种前缀区分不同卫星系统的<br>NMEA语句，如下所示：<br>GPS NMEA语句的前缀为“GP”，如下所示：<br>⚫ GPGGA – 全球定位系统定位数据，如时间、定位等<br>⚫ GPRMC – 推荐的最小具体GNSS数据<br>⚫ GPGSV – 可见的GPS卫星，例如可见的卫星数、卫星ID号等<br>⚫ GPGSA – 参与定位的GPS卫星ID号、精度因子等<br>⚫ GPVTG – 矢量跟踪与对地速度                                                 </p>
 <h1 id="4G"><a href="#4G" class="headerlink" title="4G"></a>4G</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h2 id="MQTT通信"><a href="#MQTT通信" class="headerlink" title="MQTT通信"></a>MQTT通信</h2><p>AT+QMTOPEN&#x3D;0,”c979197b.ala.dedicated.aws.emqxcloud.com”,1883</p>
-<pre class="line-numbers language-none"><code class="language-none">AT+CPIN?
-AT+CSQ
-AT+CREG?
-AT+CGDCONT?
-AT+CGDCONT&#x3D;1,&quot;IP&quot;,&quot;ctnet&quot;
-AT+CGACT&#x3D;1,1
-AT+CGPADDR&#x3D;1
-AT+QMTOPEN&#x3D;0,&quot;23.133.52.56&quot;,1883   
-AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒内快速发送<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">AT+CPIN?</span><br><span class="line">AT+CSQ</span><br><span class="line">AT+CREG?</span><br><span class="line">AT+CGDCONT?</span><br><span class="line">AT+CGDCONT=1,&quot;IP&quot;,&quot;ctnet&quot;</span><br><span class="line">AT+CGACT=1,1</span><br><span class="line">AT+CGPADDR=1</span><br><span class="line">AT+QMTOPEN=0,&quot;23.133.52.56&quot;,1883   </span><br><span class="line">AT+QMTCONN=0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒内快速发送</span><br></pre></td></tr></table></figure>
 
 <h3 id="阶段一：前提检查"><a href="#阶段一：前提检查" class="headerlink" title="阶段一：前提检查"></a>阶段一：前提检查</h3><p>在开始之前，请务必与服务提供商确认以下事项：</p>
 <ul>
@@ -237,42 +221,42 @@ AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒�
 <h3 id="阶段二：模块网络注册"><a href="#阶段二：模块网络注册" class="headerlink" title="阶段二：模块网络注册"></a>阶段二：模块网络注册</h3><p><strong>目标</strong>: 让模块连接到移动蜂窝网络并获取IP地址。</p>
 <ol>
 <li><p><strong>检查SIM卡状态</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">AT+CPIN?<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+CPIN?</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>预期</strong>: <code>+CPIN: READY</code></li>
 </ul>
 </li>
 <li><p><strong>检查信号质量</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">AT+CSQ<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+CSQ</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>预期</strong>: <code>+CSQ: &lt;rssi&gt;,&lt;ber&gt;</code> (rssi应 &gt; 10, 且不为99)</li>
 </ul>
 </li>
 <li><p><strong>检查网络注册</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">AT+CGREG?<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+CGREG?</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>预期</strong>: <code>+CGREG: 0,1</code> 或 <code>+CGREG: 0,5</code></li>
 </ul>
 </li>
 <li><p><strong>配置APN</strong> (以<code>ctnet</code>为例)</p>
-<pre class="line-numbers language-none"><code class="language-none">AT+CGDCONT&#x3D;1,&quot;IP&quot;,&quot;ctnet&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+CGDCONT=1,&quot;IP&quot;,&quot;ctnet&quot;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>预期</strong>: <code>OK</code></li>
 </ul>
 </li>
 <li><p><strong>激活数据通道</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">AT+QIACT&#x3D;1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+QIACT=1</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>预期</strong>: <code>OK</code></li>
 </ul>
 </li>
 <li><p><strong>确认获取IP</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">AT+CGPADDR&#x3D;1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+CGPADDR=1</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>预期</strong>: <code>+CGPADDR: 1,&lt;ip_address&gt;</code></li>
@@ -282,7 +266,7 @@ AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒�
 <h3 id="阶段三：连接MQTT服务器"><a href="#阶段三：连接MQTT服务器" class="headerlink" title="阶段三：连接MQTT服务器"></a>阶段三：连接MQTT服务器</h3><p><strong>目标</strong>: 建立TCP连接并完成MQTT登录。</p>
 <ol>
 <li><p><strong>(推荐) 配置MQTT版本</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">AT+QMTCFG&#x3D;&quot;version&quot;,0,4<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+QMTCFG=&quot;version&quot;,0,4</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>说明</strong>: 设置协议为MQTT v3.1.1，兼容性好。</li>
@@ -290,14 +274,14 @@ AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒�
 </ul>
 </li>
 <li><p><strong>建立TCP连接</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">AT+QMTOPEN&#x3D;0,&quot;&lt;服务器域名或IP&gt;&quot;,1883<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+QMTOPEN=0,&quot;&lt;服务器域名或IP&gt;&quot;,1883</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTOPEN: 0,0</code></li>
 </ul>
 </li>
 <li><p><strong>MQTT登录</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">AT+QMTCONN&#x3D;0,&quot;&lt;客户端ID&gt;&quot;,&quot;&lt;用户名&gt;&quot;,&quot;&lt;密码&gt;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+QMTCONN=0,&quot;&lt;客户端ID&gt;&quot;,&quot;&lt;用户名&gt;&quot;,&quot;&lt;密码&gt;&quot;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>说明</strong>: 必须在<code>AT+QMTOPEN</code>成功后立即执行。</li>
@@ -309,7 +293,7 @@ AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒�
 <h3 id="阶段四：MQTT数据操作"><a href="#阶段四：MQTT数据操作" class="headerlink" title="阶段四：MQTT数据操作"></a>阶段四：MQTT数据操作</h3><p><strong>目标</strong>: 订阅主题、发布消息、接收消息。</p>
 <ol>
 <li><p><strong>订阅主题</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">AT+QMTSUB&#x3D;0,1,&quot;topic&#x2F;sub&quot;,1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+QMTSUB=0,1,&quot;topic/sub&quot;,1</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>说明</strong>: 订阅主题 “topic&#x2F;sub”，QoS为1。</li>
@@ -317,7 +301,7 @@ AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒�
 </ul>
 </li>
 <li><p><strong>发布消息</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">AT+QMTPUBEX&#x3D;0,0,0,0,&quot;topic&#x2F;sub&quot;,5<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+QMTPUBEX=0,0,0,0,&quot;topic/sub&quot;,5</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>说明</strong>: 向 “topic&#x2F;pub” 主题发布5字节长的消息。</li>
@@ -335,22 +319,21 @@ AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒�
 <h3 id="阶段五：断开连接"><a href="#阶段五：断开连接" class="headerlink" title="阶段五：断开连接"></a>阶段五：断开连接</h3><p><strong>目标</strong>: 干净、优雅地断开连接。</p>
 <ol>
 <li><p><strong>断开MQTT会话</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">AT+QMTDISC&#x3D;0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+QMTDISC=0</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTDISC: 0,0</code></li>
 </ul>
 </li>
 <li><p><strong>关闭TCP通道</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">AT+QMTCLOSE&#x3D;0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AT+QMTCLOSE=0</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>预期</strong>: <code>OK</code> 及 <code>+QMTCLOSE: 0,0</code></li>
 </ul>
 </li>
 </ol>
-<h2 id="获取时间"><a href="#获取时间" class="headerlink" title="获取时间"></a>获取时间</h2><pre class="line-numbers language-none"><code class="language-none">AT+CCLK?        &#x2F;&#x2F;查询本地时间。 
-+CCLK: &quot;08&#x2F;01&#x2F;04,00:19:43+00&quot; <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="获取时间"><a href="#获取时间" class="headerlink" title="获取时间"></a>获取时间</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AT+CCLK?        //查询本地时间。 </span><br><span class="line">+CCLK: &quot;08/01/04,00:19:43+00&quot; </span><br></pre></td></tr></table></figure>
 
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><blockquote>
 <p>&#x2F;terminals&#x2F;T001&#x2F;config&#x2F;set</p>
@@ -400,9 +383,9 @@ AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒�
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -411,6 +394,7 @@ AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒�
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -440,7 +424,7 @@ AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒�
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -452,14 +436,14 @@ AT+QMTCONN&#x3D;0,&quot;card&quot;,&quot;eg800&quot;,&quot;7678&quot;   五秒�
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

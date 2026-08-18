@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">GM-502B浓度曲线拟合</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          573
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -259,27 +272,7 @@
 <li><p>它是一种<strong>浓度的相对单位</strong>，表示某种物质在混合物中的比例。</p>
 </li>
 </ul>
-<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &lt;math.h&gt;
-
-&#x2F;&#x2F; 硬件参数
-static const float Vc &#x3D; 3.3f;
-static const float RL &#x3D; 20000.0f;
-
-&#x2F;&#x2F; 用这次空气读数 909 mV 计算得到的 R0（建议存储在设备的非易失存储里）
-static const float R0 &#x3D; 52600.0f; &#x2F;&#x2F; ≈52.6 kΩ
-
-&#x2F;&#x2F; 拟合得到的系数（1–100 ppm 适用，基于手册曲线目读点）
-static const float a &#x3D; -2.1869f;
-static const float k &#x3D; 1.1174f;
-
-float ethanol_ppm_from_Vout(float Vout) &#123;
-    if (Vout &lt;&#x3D; 0.0f) return 0.0f;
-    float Rs &#x3D; RL * (Vc - Vout) &#x2F; Vout;
-    float ratio &#x3D; Rs &#x2F; R0;
-    if (ratio &lt;&#x3D; 0.0f) return 0.0f;
-    return k * powf(ratio, a);
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 硬件参数</span></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">float</span> Vc = <span class="number">3.3f</span>;</span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">float</span> RL = <span class="number">20000.0f</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用这次空气读数 909 mV 计算得到的 R0（建议存储在设备的非易失存储里）</span></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">float</span> R0 = <span class="number">52600.0f</span>; <span class="comment">// ≈52.6 kΩ</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 拟合得到的系数（1–100 ppm 适用，基于手册曲线目读点）</span></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">float</span> a = <span class="number">-2.1869f</span>;</span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">float</span> k = <span class="number">1.1174f</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">float</span> <span class="title function_">ethanol_ppm_from_Vout</span><span class="params">(<span class="type">float</span> Vout)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (Vout &lt;= <span class="number">0.0f</span>) <span class="keyword">return</span> <span class="number">0.0f</span>;</span><br><span class="line">    <span class="type">float</span> Rs = RL * (Vc - Vout) / Vout;</span><br><span class="line">    <span class="type">float</span> ratio = Rs / R0;</span><br><span class="line">    <span class="keyword">if</span> (ratio &lt;= <span class="number">0.0f</span>) <span class="keyword">return</span> <span class="number">0.0f</span>;</span><br><span class="line">    <span class="keyword">return</span> k * powf(ratio, a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>实际使用需要提前测出当前洁净空气下的R0，然后再进行测试</p>
 
@@ -324,9 +317,9 @@ float ethanol_ppm_from_Vout(float Vout) &#123;
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -335,6 +328,7 @@ float ethanol_ppm_from_Vout(float Vout) &#123;
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -364,7 +358,7 @@ float ethanol_ppm_from_Vout(float Vout) &#123;
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -376,14 +370,14 @@ float ethanol_ppm_from_Vout(float Vout) &#123;
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

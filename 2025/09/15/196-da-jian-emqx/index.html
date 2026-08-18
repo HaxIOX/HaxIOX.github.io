@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">搭建EMQX</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          151
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -177,20 +190,7 @@
           
       </div>
       <div class="markdown-body">
-        <h2 id="限制IP"><a href="#限制IP" class="headerlink" title="限制IP"></a>限制IP</h2><pre class="line-numbers language-none"><code class="language-none"># 1) 允许你的管理IP访问 18083
-iptables -I DOCKER-USER -p tcp --dport 18083 -s 203.0.113.10 -j ACCEPT
-# 2) 其余来源一律拒绝 18083
-iptables -A DOCKER-USER -p tcp --dport 18083 -j DROP
-
-# 如有 IPv6，再加一组（可选）
-# ip6tables -I DOCKER-USER -p tcp --dport 18083 -s 2001:db8::1234 -j ACCEPT
-# ip6tables -A DOCKER-USER -p tcp --dport 18083 -j DROP
-
-iptables -I DOCKER-USER -p tcp --dport 1883 -s 23.133.52.56 -j ACCEPT
-
-apt-get update &amp;&amp; apt-get install -y iptables-persistent
-netfilter-persistent save
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+        <h2 id="限制IP"><a href="#限制IP" class="headerlink" title="限制IP"></a>限制IP</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 1) 允许你的管理IP访问 18083</span><br><span class="line">iptables -I DOCKER-USER -p tcp --dport 18083 -s 203.0.113.10 -j ACCEPT</span><br><span class="line"># 2) 其余来源一律拒绝 18083</span><br><span class="line">iptables -A DOCKER-USER -p tcp --dport 18083 -j DROP</span><br><span class="line"></span><br><span class="line"># 如有 IPv6，再加一组（可选）</span><br><span class="line"># ip6tables -I DOCKER-USER -p tcp --dport 18083 -s 2001:db8::1234 -j ACCEPT</span><br><span class="line"># ip6tables -A DOCKER-USER -p tcp --dport 18083 -j DROP</span><br><span class="line"></span><br><span class="line">iptables -I DOCKER-USER -p tcp --dport 1883 -s 23.133.52.56 -j ACCEPT</span><br><span class="line"></span><br><span class="line">apt-get update &amp;&amp; apt-get install -y iptables-persistent</span><br><span class="line">netfilter-persistent save</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>iptables -F DOCKER-USER</p>
 <p>浏览器页面只能走 8083（WebSocket）</p>
@@ -237,9 +237,9 @@ netfilter-persistent save
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -248,6 +248,7 @@ netfilter-persistent save
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -277,7 +278,7 @@ netfilter-persistent save
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -289,14 +290,14 @@ netfilter-persistent save
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

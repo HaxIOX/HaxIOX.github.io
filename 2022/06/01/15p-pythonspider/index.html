@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">学习python爬虫</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1136
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -197,11 +210,7 @@
 </li>
 </ul>
 <p>箭头所指的就是标签,class是标签的属性用来区分标签的不同</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">print(soup.p.text)                    #打印网页中的p标签的内容,会打印出来第一个p标签的数据
-print(soup.find(&#39;p&#39;).text)            #和上一个一样获取第一个符合标签名的内容
-print(soup.find(&#39;div&#39;,class_&#x3D;&quot;content__list--item&quot;).text) #精确查找,class后面一定要有_,不能停和python的关键字重名,否则会被当做关键字,报错
-print(soup.find_all(&quot;div&quot;))#精确查找   #所有div标签
-print(soup.fin_all(&#39;dib&#39;,class_&#x3D;&quot;content__list--item&quot;)[1].text)   #findall也可以精确查找,符合条件的第一条数据<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(soup.p.text)                    <span class="comment">#打印网页中的p标签的内容,会打印出来第一个p标签的数据</span></span><br><span class="line"><span class="built_in">print</span>(soup.find(<span class="string">&#x27;p&#x27;</span>).text)            <span class="comment">#和上一个一样获取第一个符合标签名的内容</span></span><br><span class="line"><span class="built_in">print</span>(soup.find(<span class="string">&#x27;div&#x27;</span>,class_=<span class="string">&quot;content__list--item&quot;</span>).text) <span class="comment">#精确查找,class后面一定要有_,不能停和python的关键字重名,否则会被当做关键字,报错</span></span><br><span class="line"><span class="built_in">print</span>(soup.find_all(<span class="string">&quot;div&quot;</span>))<span class="comment">#精确查找   #所有div标签</span></span><br><span class="line"><span class="built_in">print</span>(soup.fin_all(<span class="string">&#x27;dib&#x27;</span>,class_=<span class="string">&quot;content__list--item&quot;</span>)[<span class="number">1</span>].text)   <span class="comment">#findall也可以精确查找,符合条件的第一条数据</span></span><br></pre></td></tr></table></figure>
 <h2 id="写代码前需要掌握的内容"><a href="#写代码前需要掌握的内容" class="headerlink" title="写代码前需要掌握的内容"></a>写代码前需要掌握的内容</h2><p>urllib库是python内置的，无需我们额外安装，只要安装了Python就可以使用这个库。<br>requests库是第三方库，需要我们自己安装。<br>安装命令,在cmd中输入</p>
 <blockquote>
 <p>pip install requests<br>pip install beautifulsoup4</p>
@@ -235,31 +244,7 @@ print(soup.fin_all(&#39;dib&#39;,class_&#x3D;&quot;content__list--item&quot;)[1]
 </ul>
 </li>
 </ul>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">import requests          #导入requests模块(请求)
-#url &#x3D; &#39;&#39;                #网址
-#res&#x3D;requests.get(url)   #请求
-#print(res)              #打印结果为200
-#print(res.text)         #查看数据 .text
-#HTML 超文本标记语言  由一个个标签组成
-import bs4               #导入bs4模块(解析)
-#soup&#x3D;bs4.BeautifulSoup(res.text,&#39;html.parser&#39;)  #加工成可以标签定位的数据
-import openpyxl          #导入写入excel的模块
-
-wb &#x3D; openpyxl.Workbook() #创建工作薄
-ws &#x3D; wb.active           #创建工作表
-
-ws.append([&quot;详细信息&quot;,&quot;优势&quot;,&quot;价格&quot;])    #写入表头 
-for i in range(1,6): #生成一个1-5的序列  [1,2,3,4,5]
-    url &#x3D; &quot;https:&#x2F;&#x2F;bj.lianjia.com&#x2F;zufang&#x2F;pg&#123;&#125;&#x2F;#contentList&quot;.format(i)  #在扩号里放入i的值,通过观察发现1-5页的网址的规律
-    res&#x3D; requests.get(url)
-    soup &#x3D; bs4.BeautifulSoup(res.text)
-    for i in soup.find_all(&quot;div&quot;,class_&#x3D;&quot;content__list--item&quot;):
-        lst &#x3D;[]
-        lst.append(i.find(&quot;p&quot;,class_&#x3D;&quot;content__list--item--des&quot;).text)
-        lst.append(i.find(&quot;p&quot;,class_&#x3D;&quot;content__list--item--bottom oneline&quot;).text)
-        lst.append(i.find(&quot;span&quot;,class_&#x3D;&quot;content__list--item-price&quot;).text)
-        ws.append(lst)
-wb.save(&quot;链家租房信息.xlsx&quot;)                                            #保存为excel文件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests          <span class="comment">#导入requests模块(请求)</span></span><br><span class="line"><span class="comment">#url = &#x27;&#x27;                #网址</span></span><br><span class="line"><span class="comment">#res=requests.get(url)   #请求</span></span><br><span class="line"><span class="comment">#print(res)              #打印结果为200</span></span><br><span class="line"><span class="comment">#print(res.text)         #查看数据 .text</span></span><br><span class="line"><span class="comment">#HTML 超文本标记语言  由一个个标签组成</span></span><br><span class="line"><span class="keyword">import</span> bs4               <span class="comment">#导入bs4模块(解析)</span></span><br><span class="line"><span class="comment">#soup=bs4.BeautifulSoup(res.text,&#x27;html.parser&#x27;)  #加工成可以标签定位的数据</span></span><br><span class="line"><span class="keyword">import</span> openpyxl          <span class="comment">#导入写入excel的模块</span></span><br><span class="line"></span><br><span class="line">wb = openpyxl.Workbook() <span class="comment">#创建工作薄</span></span><br><span class="line">ws = wb.active           <span class="comment">#创建工作表</span></span><br><span class="line"></span><br><span class="line">ws.append([<span class="string">&quot;详细信息&quot;</span>,<span class="string">&quot;优势&quot;</span>,<span class="string">&quot;价格&quot;</span>])    <span class="comment">#写入表头 </span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">6</span>): <span class="comment">#生成一个1-5的序列  [1,2,3,4,5]</span></span><br><span class="line">    url = <span class="string">&quot;https://bj.lianjia.com/zufang/pg&#123;&#125;/#contentList&quot;</span>.<span class="built_in">format</span>(i)  <span class="comment">#在扩号里放入i的值,通过观察发现1-5页的网址的规律</span></span><br><span class="line">    res= requests.get(url)</span><br><span class="line">    soup = bs4.BeautifulSoup(res.text)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> soup.find_all(<span class="string">&quot;div&quot;</span>,class_=<span class="string">&quot;content__list--item&quot;</span>):</span><br><span class="line">        lst =[]</span><br><span class="line">        lst.append(i.find(<span class="string">&quot;p&quot;</span>,class_=<span class="string">&quot;content__list--item--des&quot;</span>).text)</span><br><span class="line">        lst.append(i.find(<span class="string">&quot;p&quot;</span>,class_=<span class="string">&quot;content__list--item--bottom oneline&quot;</span>).text)</span><br><span class="line">        lst.append(i.find(<span class="string">&quot;span&quot;</span>,class_=<span class="string">&quot;content__list--item-price&quot;</span>).text)</span><br><span class="line">        ws.append(lst)</span><br><span class="line">wb.save(<span class="string">&quot;链家租房信息.xlsx&quot;</span>)                                            <span class="comment">#保存为excel文件</span></span><br></pre></td></tr></table></figure>
       </div>
       
         <div class="prev-or-next">
@@ -301,9 +286,9 @@ wb.save(&quot;链家租房信息.xlsx&quot;)                                    
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -312,6 +297,7 @@ wb.save(&quot;链家租房信息.xlsx&quot;)                                    
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -341,7 +327,7 @@ wb.save(&quot;链家租房信息.xlsx&quot;)                                    
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -353,14 +339,14 @@ wb.save(&quot;链家租房信息.xlsx&quot;)                                    
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

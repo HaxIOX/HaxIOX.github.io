@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">超声波模块</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1212
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -193,17 +206,13 @@
 <blockquote>
 <p>每个通道都有一个对应的捕获&#x2F;比较中断标志位。例如，如果你使用的是定时器3的通道3，则需要检查CC3IF位。当捕获事件发生时，硬件会自动将此位设置为1。</p>
 </blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">
-if (TIM3-&gt;SR &amp; TIM_SR_CC3IF) &#123;
-    &#x2F;&#x2F; 捕获事件发生在通道3
-&#125;
-在这段代码中，TIM_SR_CC3IF是一个宏，通常在头文件中定义，指向SR寄存器中相应的位。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span> (TIM3-&gt;SR &amp; TIM_SR_CC3IF) &#123;</span><br><span class="line">    <span class="comment">// 捕获事件发生在通道3</span></span><br><span class="line">&#125;</span><br><span class="line">在这段代码中，TIM_SR_CC3IF是一个宏，通常在头文件中定义，指向SR寄存器中相应的位。</span><br></pre></td></tr></table></figure>
 
 <p>清除捕获标志位:</p>
 <blockquote>
 <p>在STM32中，捕获标志位在读取捕获值后不会自动清零。为了防止误判为新的捕获事件，你需要在处理完捕获事件后手动清除该标志位。<br>通过读取定时器的捕获寄存器（如CCR3）完成，或者直接向SR寄存器写0到对应的标志位。</p>
 </blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">TIM3-&gt;SR &amp;&#x3D; ~TIM_SR_CC3IF;  &#x2F;&#x2F; 清除通道3的捕获标志位<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TIM3-&gt;SR &amp;= ~TIM_SR_CC3IF;  <span class="comment">// 清除通道3的捕获标志位</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -231,33 +240,9 @@ TimeElapsed = TIM_GetCounter(TIM2);  // 读取计时器值，单位根据定时�
 <ol start="3">
 <li>会卡住</li>
 </ol>
-<pre class="line-numbers language-none"><code class="language-none">while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1)&#x3D;&#x3D;1);  &#x2F;&#x2F; 等待回声信号结束,这里也不对   <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1)==1);  // 等待回声信号结束,这里也不对   </span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; 触发HC-SR04发送超声波
-void HCSR04_Trig(void) &#123;
-    GPIO_SetBits(GPIOB, GPIO_Pin_0);  &#x2F;&#x2F; GPIOB Pin 0输出高电平
-    delay_us(40);                      &#x2F;&#x2F; 延时10微秒
-    GPIO_ResetBits(GPIOB, GPIO_Pin_0); &#x2F;&#x2F; GPIOB Pin 0输出低电平
-&#125;
-void Distance_Get(void) 
-&#123;
-    HCSR04_Trig();
-    delay_ms(300);    
-    printf(&quot;等待回声信号开始&quot;);
-    while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1)); 
-    TIM_SetCounter(TIM2, 0);
-    TIM_Cmd(TIM2, ENABLE);    
-    printf(&quot;回声信号即将结束&quot;);  
-    while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1)&#x3D;&#x3D;0);  &#x2F;&#x2F;!!!!?卡住
-    printf(&quot;回声信号结束&quot;);
-    TIM_Cmd(TIM2,DISABLE);
-    Distance&#x3D;(Num&#x2F;5000*340*100)&#x2F;2;
-    if(Distance&gt;0)
-    &#123;
-      printf(&quot;Distance:%fcm\r\n&quot;,Distance);
-    &#125;  
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 触发HC-SR04发送超声波</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">HCSR04_Trig</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    GPIO_SetBits(GPIOB, GPIO_Pin_0);  <span class="comment">// GPIOB Pin 0输出高电平</span></span><br><span class="line">    delay_us(<span class="number">40</span>);                      <span class="comment">// 延时10微秒</span></span><br><span class="line">    GPIO_ResetBits(GPIOB, GPIO_Pin_0); <span class="comment">// GPIOB Pin 0输出低电平</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">Distance_Get</span><span class="params">(<span class="type">void</span>)</span> </span><br><span class="line">&#123;</span><br><span class="line">    HCSR04_Trig();</span><br><span class="line">    delay_ms(<span class="number">300</span>);    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;等待回声信号开始&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span> (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1)); </span><br><span class="line">    TIM_SetCounter(TIM2, <span class="number">0</span>);</span><br><span class="line">    TIM_Cmd(TIM2, ENABLE);    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;回声信号即将结束&quot;</span>);  </span><br><span class="line">    <span class="keyword">while</span> (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_1)==<span class="number">0</span>);  <span class="comment">//!!!!?卡住</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;回声信号结束&quot;</span>);</span><br><span class="line">    TIM_Cmd(TIM2,DISABLE);</span><br><span class="line">    Distance=(Num/<span class="number">5000</span>*<span class="number">340</span>*<span class="number">100</span>)/<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span>(Distance&gt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;Distance:%fcm\r\n&quot;</span>,Distance);</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
@@ -286,7 +271,7 @@ void Distance_Get(void)
 <h3 id="Stm32-RCT6-C8T6-移植过程的问题"><a href="#Stm32-RCT6-C8T6-移植过程的问题" class="headerlink" title="Stm32 RCT6 C8T6 移植过程的问题"></a>Stm32 RCT6 C8T6 移植过程的问题</h3><p>移植要改启动文件,否则时钟快十倍</p>
 <p>unsigned char stateInit &#x3D; 0;<br>	volatile unsigned char adjusted &#x3D; 1;<br>	unsigned int paraIndex &#x3D; 1;<br>	unsigned char paraTest &#x3D; 1;<br>	unsigned char TestTemp &#x3D; 0;<br>	signed char plscnt &#x3D; 1;
 	</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">SystemInit();<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SystemInit();</span><br></pre></td></tr></table></figure>
 
 <p>未解决</p>
 <p>rct6移植后出现时钟变快十倍</p>
@@ -332,9 +317,9 @@ void Distance_Get(void)
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -343,6 +328,7 @@ void Distance_Get(void)
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -372,7 +358,7 @@ void Distance_Get(void)
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -384,14 +370,14 @@ void Distance_Get(void)
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

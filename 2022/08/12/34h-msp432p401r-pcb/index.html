@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">msp432p401r-pcb</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          3693
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -266,95 +279,7 @@
 <p>　　DVCC正数字电源电压<br>　　DVSS数字电路地 （数字地）</p>
 <p>　　AVCC&#x2F;AVSS一般为模拟部分提供电源<br>　　DVCC&#x2F;DVSS一般为数字部分和内部I&#x2F;O提供电源</p>
 <p>为了避免引入电源干扰，通常需要把AVCC&#x2F;AVSS和DVCC&#x2F;DVSS隔离开。</p>
-<h2 id="pcb画板规则"><a href="#pcb画板规则" class="headerlink" title="pcb画板规则"></a>pcb画板规则</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">电源线要宽于信号线,tx,rx尽量不要过孔,尽量在同一面上
-电容尽量靠近引脚,走线要先过电容
-
-
-模拟&amp;数字部分
-1、不同速度信号线要分开布线，最好不要在PCB板面垂直方向同时出现两种以上信号线在水平位置上重合。若需要重合，尽可能使得信号线之间的速度差尽可能少，并且尽可能减少重合面积（例如：低速和中速信号线重合、中速和高速信号线重合、低速和高速信号线重合需谨慎考虑）
-
-2、PCB不同部分不同种类电路分区布线，无特殊要求下用地隔离（部分射频电路发射端不能铺铜，具体参照IC文档说明）。
-
-3、不建议在高速信号线上走一些元器件（例如大封装元器件下边布线），如果是在低速信号线上的元器件，则低速信号线很可能会被高速信号线干扰。
-
-4、0欧电阻可以当导线用。
-
-5、晶振比较特殊，是干扰源也是敏感源，一般晶振下方不走信号线并且周围铺地隔离。
-
-6、光耦、继电器、天线等等处理方法和第5条相同，原因差不多
-
-7、热敏元器件尽可能远离大功率，要散热的元器件（如电源电路上的电感MOS管等）。
-
-8、可以的话，不建议芯片上的多个VCC引脚共用一个滤波电容。
-
-9、芯片上不同的接地引脚，尽量不要全部通过同一个过孔接到地上，单独分开更好。
-
-10、AGND和DGND单点相连。
-
-11、芯片引脚焊盘比线宽的情况下，尽量不要让焊盘和线连接处宽度突变，做成斜渐变或者圆弧更好。
-
-12、区分好IC的DVCC和AVCC，不要直接在同一输出的电源端供电。省事的办法是：可以电源输出端直接给DVCC部分供电，然后再电源输出端过一个共模电感电路（或者就一个电感也可以）给AVCC部分供电，DGND和AGND同样隔离的方法。要求低的请忽略此条。
-
-13、如果分开了AVCC和DVCC层的时候，不要把AVCC错位到DGND上面或者DVCC错位到AGND上面，会有耦合电容。就是AVCC下方必须时AGND，DVCC下方必须是DGND。
-
-14、敏感电路请远离电感。
-
-15、敏感电路请远离I&#x2F;O口。
-
-16、过孔之间距离大于5mil，过孔到铜箔之间距离大于5mil。
-
-电源部分
-1、不同功率的电路务必相互分开隔离（强电和弱电要隔离开来），模拟、数字、电源电路都要隔离开来，必要时要使0欧电阻甚至是磁珠等把不同电路的地隔离开来（模拟地、数字地、功率地）。
-
-2、要求高的PCB，一般有电源层和地线层。使用双面板对要求低和成本低的请忽略此条。
-
-3、考虑散热的PCB，要参考PCB安装固定地方的空气流通路线、风口设计散热（不要被大的元器件：大电容等挡住空气流通路线）。通过大面积铺铜，打散热孔，开窗、加装散热片、风扇等散热。
-
-4、满足前面要求的情况下，可以将供电的电路和被供电的电路放同一侧。
-
-5、不要把热量传递到数字、模拟电路上，必要时开槽防止热量和此类电路接触。
-
-6、在电源部分的电路中，电感封装选型要考虑PCB设计时要过多少的电流I,然后电感的额定电流Irms与I的关系最好是：I&lt;Irms*0.8
-
-7、一般，输入端的小电容要靠近芯片，输出端的小电容远离芯片。
-
-8、非屏蔽电感会有漏磁，注意回避敏感电路，实在不行就用屏蔽电感。
-
-9、电源IC的VO和FB引脚走线避开与该路无关的二极管和电感，不要和电感线路平行。
-
-10、在电感引脚铺的铜或者线路不要靠太近，寄生电容会有点大。
-
-11、输入滤波CI电容（输入端的电容）对称放置会减少一点磁场影响。
-
-12、电源芯片SW引脚的线路面积不要做太大（小一点好）。
-
-13、矩形波回路的回路面积尽可能小一点。
-
-14、一个电源（LDO、开关也是）芯片的电路，配套的电容要尽可能靠近芯片。
-
-15、输入端线路要完全通过输入电容再进入芯片。（即输入端布线要完完全全从电容焊盘上方走过，可以线路比电容焊盘小一点）同样，输出端线路要完全通过输出电容再进入后面负载。
-
-16、电源反馈电路的反馈信号要在输出电容靠近后续负载的一端获得。
-
-17、输出端若需要过孔，建议过孔在电容后面。
-
-18、尽可能把输入和输出（电容、电阻......）所接的地时接到同一块地上。
-
-19、IC的散热地面积尽可能大一点。
-
-20、IC反馈电路上的电阻尽可能靠近IC，FB引脚线路覆盖面积小一点好（走线细而且短）尽量不与电感平行。
-
-21、BUCK芯片输入端可以加一个1μH电感，输出端加一个磁珠（小功率）可以抑制一定EMI。
-
-22、CI电容尽可能靠近Vin引脚是为了减少di&#x2F;dt回路面积，减少辐射EMI，如果CI集成到芯片内部就更好。
-
-23、关于FB分压电阻、COMP、SS连接到同一块地，然后单点与PGND相连或者通过过孔到背面地。
-
-24、如果不使用非一体成型电感，环绕电感一周铺地的同时预留一定空位挖空一周。
-
-25、Vout、FB走线请远离一下电感。
-
-26、CI和CO两个电容的地端，不要直接接在同一个地上。单过孔到另外一块地上。（和电感相连的电容纹波比较少，不相连的纹波比较大，直降相连的话输出纹波会变大。）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="pcb画板规则"><a href="#pcb画板规则" class="headerlink" title="pcb画板规则"></a>pcb画板规则</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">电源线要宽于信号线,tx,rx尽量不要过孔,尽量在同一面上</span><br><span class="line">电容尽量靠近引脚,走线要先过电容</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">模拟&amp;数字部分</span><br><span class="line"><span class="number">1</span>、不同速度信号线要分开布线，最好不要在PCB板面垂直方向同时出现两种以上信号线在水平位置上重合。若需要重合，尽可能使得信号线之间的速度差尽可能少，并且尽可能减少重合面积（例如：低速和中速信号线重合、中速和高速信号线重合、低速和高速信号线重合需谨慎考虑）</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、PCB不同部分不同种类电路分区布线，无特殊要求下用地隔离（部分射频电路发射端不能铺铜，具体参照IC文档说明）。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>、不建议在高速信号线上走一些元器件（例如大封装元器件下边布线），如果是在低速信号线上的元器件，则低速信号线很可能会被高速信号线干扰。</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>、<span class="number">0</span>欧电阻可以当导线用。</span><br><span class="line"></span><br><span class="line"><span class="number">5</span>、晶振比较特殊，是干扰源也是敏感源，一般晶振下方不走信号线并且周围铺地隔离。</span><br><span class="line"></span><br><span class="line"><span class="number">6</span>、光耦、继电器、天线等等处理方法和第<span class="number">5</span>条相同，原因差不多</span><br><span class="line"></span><br><span class="line"><span class="number">7</span>、热敏元器件尽可能远离大功率，要散热的元器件（如电源电路上的电感MOS管等）。</span><br><span class="line"></span><br><span class="line"><span class="number">8</span>、可以的话，不建议芯片上的多个VCC引脚共用一个滤波电容。</span><br><span class="line"></span><br><span class="line"><span class="number">9</span>、芯片上不同的接地引脚，尽量不要全部通过同一个过孔接到地上，单独分开更好。</span><br><span class="line"></span><br><span class="line"><span class="number">10</span>、AGND和DGND单点相连。</span><br><span class="line"></span><br><span class="line"><span class="number">11</span>、芯片引脚焊盘比线宽的情况下，尽量不要让焊盘和线连接处宽度突变，做成斜渐变或者圆弧更好。</span><br><span class="line"></span><br><span class="line"><span class="number">12</span>、区分好IC的DVCC和AVCC，不要直接在同一输出的电源端供电。省事的办法是：可以电源输出端直接给DVCC部分供电，然后再电源输出端过一个共模电感电路（或者就一个电感也可以）给AVCC部分供电，DGND和AGND同样隔离的方法。要求低的请忽略此条。</span><br><span class="line"></span><br><span class="line"><span class="number">13</span>、如果分开了AVCC和DVCC层的时候，不要把AVCC错位到DGND上面或者DVCC错位到AGND上面，会有耦合电容。就是AVCC下方必须时AGND，DVCC下方必须是DGND。</span><br><span class="line"></span><br><span class="line"><span class="number">14</span>、敏感电路请远离电感。</span><br><span class="line"></span><br><span class="line"><span class="number">15</span>、敏感电路请远离I/O口。</span><br><span class="line"></span><br><span class="line"><span class="number">16</span>、过孔之间距离大于<span class="number">5</span>mil，过孔到铜箔之间距离大于<span class="number">5</span>mil。</span><br><span class="line"></span><br><span class="line">电源部分</span><br><span class="line"><span class="number">1</span>、不同功率的电路务必相互分开隔离（强电和弱电要隔离开来），模拟、数字、电源电路都要隔离开来，必要时要使<span class="number">0</span>欧电阻甚至是磁珠等把不同电路的地隔离开来（模拟地、数字地、功率地）。</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、要求高的PCB，一般有电源层和地线层。使用双面板对要求低和成本低的请忽略此条。</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>、考虑散热的PCB，要参考PCB安装固定地方的空气流通路线、风口设计散热（不要被大的元器件：大电容等挡住空气流通路线）。通过大面积铺铜，打散热孔，开窗、加装散热片、风扇等散热。</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>、满足前面要求的情况下，可以将供电的电路和被供电的电路放同一侧。</span><br><span class="line"></span><br><span class="line"><span class="number">5</span>、不要把热量传递到数字、模拟电路上，必要时开槽防止热量和此类电路接触。</span><br><span class="line"></span><br><span class="line"><span class="number">6</span>、在电源部分的电路中，电感封装选型要考虑PCB设计时要过多少的电流I,然后电感的额定电流Irms与I的关系最好是：I&lt;Irms*<span class="number">0.8</span></span><br><span class="line"></span><br><span class="line"><span class="number">7</span>、一般，输入端的小电容要靠近芯片，输出端的小电容远离芯片。</span><br><span class="line"></span><br><span class="line"><span class="number">8</span>、非屏蔽电感会有漏磁，注意回避敏感电路，实在不行就用屏蔽电感。</span><br><span class="line"></span><br><span class="line"><span class="number">9</span>、电源IC的VO和FB引脚走线避开与该路无关的二极管和电感，不要和电感线路平行。</span><br><span class="line"></span><br><span class="line"><span class="number">10</span>、在电感引脚铺的铜或者线路不要靠太近，寄生电容会有点大。</span><br><span class="line"></span><br><span class="line"><span class="number">11</span>、输入滤波CI电容（输入端的电容）对称放置会减少一点磁场影响。</span><br><span class="line"></span><br><span class="line"><span class="number">12</span>、电源芯片SW引脚的线路面积不要做太大（小一点好）。</span><br><span class="line"></span><br><span class="line"><span class="number">13</span>、矩形波回路的回路面积尽可能小一点。</span><br><span class="line"></span><br><span class="line"><span class="number">14</span>、一个电源（LDO、开关也是）芯片的电路，配套的电容要尽可能靠近芯片。</span><br><span class="line"></span><br><span class="line"><span class="number">15</span>、输入端线路要完全通过输入电容再进入芯片。（即输入端布线要完完全全从电容焊盘上方走过，可以线路比电容焊盘小一点）同样，输出端线路要完全通过输出电容再进入后面负载。</span><br><span class="line"></span><br><span class="line"><span class="number">16</span>、电源反馈电路的反馈信号要在输出电容靠近后续负载的一端获得。</span><br><span class="line"></span><br><span class="line"><span class="number">17</span>、输出端若需要过孔，建议过孔在电容后面。</span><br><span class="line"></span><br><span class="line"><span class="number">18</span>、尽可能把输入和输出（电容、电阻......）所接的地时接到同一块地上。</span><br><span class="line"></span><br><span class="line"><span class="number">19</span>、IC的散热地面积尽可能大一点。</span><br><span class="line"></span><br><span class="line"><span class="number">20</span>、IC反馈电路上的电阻尽可能靠近IC，FB引脚线路覆盖面积小一点好（走线细而且短）尽量不与电感平行。</span><br><span class="line"></span><br><span class="line"><span class="number">21</span>、BUCK芯片输入端可以加一个<span class="number">1</span>μH电感，输出端加一个磁珠（小功率）可以抑制一定EMI。</span><br><span class="line"></span><br><span class="line"><span class="number">22</span>、CI电容尽可能靠近Vin引脚是为了减少di/dt回路面积，减少辐射EMI，如果CI集成到芯片内部就更好。</span><br><span class="line"></span><br><span class="line"><span class="number">23</span>、关于FB分压电阻、COMP、SS连接到同一块地，然后单点与PGND相连或者通过过孔到背面地。</span><br><span class="line"></span><br><span class="line"><span class="number">24</span>、如果不使用非一体成型电感，环绕电感一周铺地的同时预留一定空位挖空一周。</span><br><span class="line"></span><br><span class="line"><span class="number">25</span>、Vout、FB走线请远离一下电感。</span><br><span class="line"></span><br><span class="line"><span class="number">26</span>、CI和CO两个电容的地端，不要直接接在同一个地上。单过孔到另外一块地上。（和电感相连的电容纹波比较少，不相连的纹波比较大，直降相连的话输出纹波会变大。）</span><br></pre></td></tr></table></figure>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_48584490/article/details/123123214">参考文章</a></p>
 <p>[晶振封装参考](<a target="_blank" rel="noopener" href="https://www.sohu.com/a/486097858_120774276">常用的晶振尺寸有哪些?_mm (sohu.com)</a>)</p>
 
@@ -399,9 +324,9 @@
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -410,6 +335,7 @@
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -439,7 +365,7 @@
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -451,14 +377,14 @@
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

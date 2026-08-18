@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">Lvgl开发</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1383
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -182,23 +195,13 @@
 <li>Arduino IDE</li>
 <li>ESP32开发板包</li>
 </ul>
-<h2 id="Lvgl开发"><a href="#Lvgl开发" class="headerlink" title="Lvgl开发"></a>Lvgl开发</h2><h3 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F;  创建Beep开关
-lv_obj_t  * beep_label&#x3D; lv_label_create(panel1);  &#x2F;&#x2F; 创建标签“蜂鸣音”
-lv_label_set_text(beep_label, &quot;蜂鸣音(Beep)&quot;);  &#x2F;&#x2F; 设置标签文本
-lv_obj_add_style(beep_label, &amp;style_text_muted, 0);  &#x2F;&#x2F; 为标签应用样式
-
-lv_obj_t * Beep &#x3D; lv_switch_create(panel1);  &#x2F;&#x2F; 创建蜂鸣器开关
-lv_obj_align(Beep, LV_ALIGN_RIGHT_MID, -10, 0);
-
-&#x2F;&#x2F; 给开关控件添加事件回调，监听开关状态的变化
-lv_obj_add_event_cb(Beep, beep_switch_event_cb, LV_EVENT_VALUE_CHANGED, NULL);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Lvgl开发"><a href="#Lvgl开发" class="headerlink" title="Lvgl开发"></a>Lvgl开发</h2><h3 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  创建Beep开关</span></span><br><span class="line"><span class="type">lv_obj_t</span>  * beep_label= lv_label_create(panel1);  <span class="comment">// 创建标签“蜂鸣音”</span></span><br><span class="line">lv_label_set_text(beep_label, <span class="string">&quot;蜂鸣音(Beep)&quot;</span>);  <span class="comment">// 设置标签文本</span></span><br><span class="line">lv_obj_add_style(beep_label, &amp;style_text_muted, <span class="number">0</span>);  <span class="comment">// 为标签应用样式</span></span><br><span class="line"></span><br><span class="line"><span class="type">lv_obj_t</span> * Beep = lv_switch_create(panel1);  <span class="comment">// 创建蜂鸣器开关</span></span><br><span class="line">lv_obj_align(Beep, LV_ALIGN_RIGHT_MID, <span class="number">-10</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 给开关控件添加事件回调，监听开关状态的变化</span></span><br><span class="line">lv_obj_add_event_cb(Beep, beep_switch_event_cb, LV_EVENT_VALUE_CHANGED, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
 
 <p>获取开关状态</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">lv_obj_has_state(switch_obj, LV_STATE_CHECKED);  <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lv_obj_has_state(switch_obj, LV_STATE_CHECKED);  </span><br></pre></td></tr></table></figure>
 
 <h3 id="Grid布局"><a href="#Grid布局" class="headerlink" title="Grid布局"></a><a target="_blank" rel="noopener" href="https://lvgl.100ask.net/8.1/layouts/grid.html#overview">Grid布局</a></h3><p>大项目（<code>LV_GRID_CONTENT</code>）或“空闲单元”（FR）</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">void lv_obj_set_grid_cell(lv_obj_t * obj, lv_grid_align_t h_align, uint16_t col, uint16_t col_span, lv_grid_align_t v_align, uint16_t row, uint16_t row_span);
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">lv_obj_set_grid_cell</span><span class="params">(<span class="type">lv_obj_t</span> * obj, <span class="type">lv_grid_align_t</span> h_align, <span class="type">uint16_t</span> col, <span class="type">uint16_t</span> col_span, <span class="type">lv_grid_align_t</span> v_align, <span class="type">uint16_t</span> row, <span class="type">uint16_t</span> row_span)</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <table>
 <thead>
@@ -237,11 +240,10 @@ lv_obj_add_event_cb(Beep, beep_switch_event_cb, LV_EVENT_VALUE_CHANGED, NULL);<s
 <p>搜lvgl配置字体大小号</p>
 <p><strong>自定义</strong></p>
 <p>首先在menuconfig中关闭<code>Check this to not use custom lv_conf.h</code>，然后将<code>lv_conf.h</code>移到main文件下，并在项目文件夹下的<code>CMakeLists.txt</code>加上</p>
-<pre class="line-numbers language-none"><code class="language-none">add_compile_options(-DLV_CONF_PATH&#x3D;\&quot;$&#123;CMAKE_SOURCE_DIR&#125;&#x2F;main&#x2F;lv_conf.h\&quot;)
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add_compile_options(-DLV_CONF_PATH=\&quot;$&#123;CMAKE_SOURCE_DIR&#125;/main/lv_conf.h\&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>或者</p>
-<pre class="line-numbers language-none"><code class="language-none">add_compile_options(&quot;-DLV_CONF_PATH&#x3D;\&quot;$&#123;CMAKE_SOURCE_DIR&#125;&#x2F;main&#x2F;lv_conf.h\&quot;&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_compile_options(&quot;-DLV_CONF_PATH=\&quot;$&#123;CMAKE_SOURCE_DIR&#125;/main/lv_conf.h\&quot;&quot;)</span><br></pre></td></tr></table></figure>
 
 <p><strong>添加自定义字体</strong></p>
 <p>使能lv_conf.h的LV_FONT_FMT_TXT_LARGE :修改代码407行，改0为1</p>
@@ -252,23 +254,12 @@ lv_obj_add_event_cb(Beep, beep_switch_event_cb, LV_EVENT_VALUE_CHANGED, NULL);<s
 
 <p>放到LVGL的路径下的src文件夹下的font子文件夹中</p>
 <p>字体文件配置</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">#ifdef LV_LVGL_H_INCLUDE_SIMPLE
-#include &quot;lvgl.h&quot;
-#else
-#include &quot;..&#x2F;..&#x2F;lvgl.h&quot;
-#endif<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifdef</span> LV_LVGL_H_INCLUDE_SIMPLE</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;lvgl.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;../../lvgl.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 
 <p>添加到程序中，并加入</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F;中文字体声明
-LV_FONT_DECLARE(NotoSansCJK-Medium-5);
-lv_label_set_text(Beep_label, &quot;蜂鸣音&quot;);  &#x2F;&#x2F; 设置标签文本lv_obj_add_style_text_font(Beep_label, &amp;NotoSansCJK-Medium-5, 0);  &#x2F;&#x2F;后加的<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//中文字体声明</span></span><br><span class="line">LV_FONT_DECLARE(NotoSansCJK-Medium<span class="number">-5</span>);</span><br><span class="line">lv_label_set_text(Beep_label, <span class="string">&quot;蜂鸣音&quot;</span>);  <span class="comment">// 设置标签文本lv_obj_add_style_text_font(Beep_label, &amp;NotoSansCJK-Medium-5, 0);  //后加的</span></span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F;LV_FONT_DECLARE(字体名);
-LV_FONT_DECLARE(lv_font_gb2312_regular_script_14);
- 
-&#x2F;&#x2F;样式中设置字体API接口：
-lv_obj_set_style_text_font();    &#x2F;&#x2F;私有（本地）样式
-lv_style_set_text_font();        &#x2F;&#x2F;普通（共享）样式<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//LV_FONT_DECLARE(字体名);</span></span><br><span class="line">LV_FONT_DECLARE(lv_font_gb2312_regular_script_14);</span><br><span class="line"> </span><br><span class="line"><span class="comment">//样式中设置字体API接口：</span></span><br><span class="line">lv_obj_set_style_text_font();    <span class="comment">//私有（本地）样式</span></span><br><span class="line">lv_style_set_text_font();        <span class="comment">//普通（共享）样式</span></span><br></pre></td></tr></table></figure>
 
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_49337111/article/details/139175997">教程</a></p>
 <p><strong>字库</strong></p>
@@ -288,13 +279,7 @@ lv_style_set_text_font();        &#x2F;&#x2F;普通（共享）样式<span aria-
 <p>写死检测界面，固定数值检查是否正常-√，字体问题排除</p>
 </blockquote>
 <p>原因：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F; 假设 data 里 “F…R” 之间是 &quot;5212&quot;，那么 end_v1 - start_v1 &#x3D;&#x3D; 4
-char v1[end_v1 - start_v1 + 1]; &#x2F;&#x2F; 这里分配了 5 字节的空间：&#39;5&#39;,&#39;2&#39;,&#39;1&#39;,&#39;2&#39;,&#39;\0&#39;
-strncpy(v1, start_v1, 4);
-v1[4] &#x3D; &#39;\0&#39;;
-
-&#x2F;&#x2F; 下面这行要把 &quot; MHz&quot;（5 个字节，含终止符 &#39;\0&#39;）全写进去
-strcat(v1, &quot; MHz&quot;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假设 data 里 “F…R” 之间是 &quot;5212&quot;，那么 end_v1 - start_v1 == 4</span></span><br><span class="line"><span class="type">char</span> v1[end_v1 - start_v1 + <span class="number">1</span>]; <span class="comment">// 这里分配了 5 字节的空间：&#x27;5&#x27;,&#x27;2&#x27;,&#x27;1&#x27;,&#x27;2&#x27;,&#x27;\0&#x27;</span></span><br><span class="line"><span class="built_in">strncpy</span>(v1, start_v1, <span class="number">4</span>);</span><br><span class="line">v1[<span class="number">4</span>] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 下面这行要把 &quot; MHz&quot;（5 个字节，含终止符 &#x27;\0&#x27;）全写进去</span></span><br><span class="line"><span class="built_in">strcat</span>(v1, <span class="string">&quot; MHz&quot;</span>);</span><br></pre></td></tr></table></figure>
 
 <p><strong>越界写入</strong>：<code>v1</code> 长度只有 <code>len(v1)+1</code>，但 <code>&quot; MHz&quot;</code> 还要再写 4 个字节，立刻把栈上的邻近数据打乱，导致后续你给 LVGL 的字符串有时是乱码、方框。</p>
 <p><strong>悬空指针</strong>：<code>v1</code> 是局部数组，<code>DroneDetect()</code> 返回后就被释放，<code>droneSignalFrequency</code> 再去访问，会读到随机内存，也就会出现怪字符</p>
@@ -304,36 +289,20 @@ strcat(v1, &quot; MHz&quot;);<span aria-hidden="true" class="line-numbers-rows">
 <p>思路是发送AT指令获取状态后更新</p>
 <p>经过注释烧录烧录注释后判定为当调用蓝牙发送at+motor这个指令时，就会自启</p>
 <p>我没想明白，GPT老师指出</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&gt;char* start_v1 &#x3D; strchr(data, &#39;F&#39;) + 1;
-  if (start_v1 &#x3D;&#x3D; nullptr) return;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="type">char</span>* start_v1 = <span class="built_in">strchr</span>(data, <span class="string">&#x27;F&#x27;</span>) + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (start_v1 == nullptr) <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
 <p> 这个return永远无效，因为<code>+1</code></p>
 </blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">void DroneDetect(char* data) &#123;
-   
-  &#x2F;&#x2F; char* start_v1 &#x3D; strchr(data, &#39;F&#39;) + 1;
-  &#x2F;&#x2F; if (start_v1 &#x3D;&#x3D; nullptr) return;
-  
-  char* pF &#x3D; strchr(data, &#39;F&#39;);
-  if (!pF) return;          &#x2F;&#x2F; 没找到 F，就退出
-  char* start_v1 &#x3D; pF + 1;  &#x2F;&#x2F; 跳过 &#39;F&#39; 本身，指向数字起始
-
-  char* end_v1 &#x3D; strchr(data, &#39;R&#39;);
-  if (end_v1 &#x3D;&#x3D; nullptr) return;
-  char v1[end_v1 - start_v1 + 1];
-  strncpy(v1, start_v1, end_v1 - start_v1);
-  v1[end_v1 - start_v1] &#x3D; &#39;\0&#39;;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">DroneDetect</span><span class="params">(<span class="type">char</span>* data)</span> &#123;</span><br><span class="line">   </span><br><span class="line">  <span class="comment">// char* start_v1 = strchr(data, &#x27;F&#x27;) + 1;</span></span><br><span class="line">  <span class="comment">// if (start_v1 == nullptr) return;</span></span><br><span class="line">  </span><br><span class="line">  <span class="type">char</span>* pF = <span class="built_in">strchr</span>(data, <span class="string">&#x27;F&#x27;</span>);</span><br><span class="line">  <span class="keyword">if</span> (!pF) <span class="keyword">return</span>;          <span class="comment">// 没找到 F，就退出</span></span><br><span class="line">  <span class="type">char</span>* start_v1 = pF + <span class="number">1</span>;  <span class="comment">// 跳过 &#x27;F&#x27; 本身，指向数字起始</span></span><br><span class="line"></span><br><span class="line">  <span class="type">char</span>* end_v1 = <span class="built_in">strchr</span>(data, <span class="string">&#x27;R&#x27;</span>);</span><br><span class="line">  <span class="keyword">if</span> (end_v1 == nullptr) <span class="keyword">return</span>;</span><br><span class="line">  <span class="type">char</span> v1[end_v1 - start_v1 + <span class="number">1</span>];</span><br><span class="line">  <span class="built_in">strncpy</span>(v1, start_v1, end_v1 - start_v1);</span><br><span class="line">  v1[end_v1 - start_v1] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>3.<strong>提取不到数据</strong></p>
 <ol>
 <li><p><strong>使用 strncpy() 确保 pData 是一个 ‘\0’ 结尾的字符串</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">strncpy(buffer, (char*)pData, length);
-buffer[length] &#x3D; &#39;\0&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">strncpy(buffer, (char*)pData, length);</span><br><span class="line">buffer[length] = &#x27;\0&#x27;;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>修正 strstr() 搜索的字符串</strong></p>
 <ul>
 <li><p>你的数据是：</p>
-<pre class="line-numbers language-none"><code class="language-none">+PN &#x3D; A1-20-00<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+PN = A1-20-00</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>但 <code>strstr(buffer, &quot;+PN=&quot;)</code> <strong>不会匹配</strong>，因为数据中有空格 <code>&quot; &quot;</code>。</p>
 </li>
@@ -342,8 +311,7 @@ buffer[length] &#x3D; &#39;\0&#39;;<span aria-hidden="true" class="line-numbers-
 </ul>
 </li>
 <li><p><strong>修正 sscanf() 解析字符串</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">sscanf(pnPtr, &quot;+PN &#x3D; %s&quot;, pnValue);
-sscanf(snPtr, &quot;+SN &#x3D; %s&quot;, snValue);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sscanf(pnPtr, &quot;+PN = %s&quot;, pnValue);</span><br><span class="line">sscanf(snPtr, &quot;+SN = %s&quot;, snValue);</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>这样 <code>pnValue</code> 和 <code>snValue</code> <strong>只提取实际数据</strong>，不会包含 <code>&quot;+PN =&quot;</code> <strong>这部分字符串</strong>。</li>
@@ -421,9 +389,9 @@ sscanf(snPtr, &quot;+SN &#x3D; %s&quot;, snValue);<span aria-hidden="true" class
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -432,6 +400,7 @@ sscanf(snPtr, &quot;+SN &#x3D; %s&quot;, snValue);<span aria-hidden="true" class
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -461,7 +430,7 @@ sscanf(snPtr, &quot;+SN &#x3D; %s&quot;, snValue);<span aria-hidden="true" class
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -473,14 +442,14 @@ sscanf(snPtr, &quot;+SN &#x3D; %s&quot;, snValue);<span aria-hidden="true" class
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

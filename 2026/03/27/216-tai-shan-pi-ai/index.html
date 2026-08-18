@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      摸下泰山pi诶 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/northcat-avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">摸下泰山pi诶</div>
+      <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          6637
+        </span>
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2026-08-18 08:57:23
+        </span>
+        
+              <span class="post-tags">
+                <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                
+                <span class="span--tag mr-8">
+                  <a href="/tags/linux/" title="linux">
+                    #linux
+                  </a>
+                </span>
+                
+              </span>
+          
+      </div>
+      <div class="markdown-body">
+        <h2 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h2><p>最近耳朵听模型部署都起茧子了，寻思把泰山派掏出来清清灰</p>
+<h2 id="Buildroot"><a href="#Buildroot" class="headerlink" title="Buildroot"></a>Buildroot</h2><p>个人理解是开发半场上自带的基本芯片映射驱动，点灯只需要一条指令</p>
+<p>这部分参考<a target="_blank" rel="noopener" href="https://wiki.lckfb.com/zh-hans/tspi-rk3566/project-case/fat-little-cell-phone/sdk-compile.html#%E7%BC%96%E8%AF%91buildroot%E7%B3%BB%E7%BB%9F"> SDK编译 </a></p>
+<h3 id="配网"><a href="#配网" class="headerlink" title="配网"></a>配网</h3><p>这块泰山派当前这套系统里：</p>
+<ul>
+<li><strong>Wi-Fi 模组是 AP6212A &#x2F; BCM43438A1</strong></li>
+<li><strong>只支持 2.4G</strong></li>
+<li><strong>不能连 5G</strong></li>
+<li>真正要改的配置文件是：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/userdata/cfg/wpa_supplicant.conf</span><br></pre></td></tr></table></figure>
+
+<p>不是只改 <code>/etc/wpa_supplicant.conf</code>。</p>
+<p>而且这套系统里 <code>ifupdown</code> 对 <code>wpa-conf</code> 支持不靠谱，<strong>最稳的方法是自己写启动脚本：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">上电驱动</span><br><span class="line">→ wpa_supplicant 负责连 Wi-Fi</span><br><span class="line">→ udhcpc 负责拿 IP</span><br></pre></td></tr></table></figure>
+
+<h3 id="Wi-Fi-驱动"><a href="#Wi-Fi-驱动" class="headerlink" title="Wi-Fi 驱动"></a>Wi-Fi 驱动</h3><p>作用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">让系统识别 Wi-Fi 芯片，生成 wlan0</span><br></pre></td></tr></table></figure>
+
+<p>你看到的这类日志：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bcmdhd.ko</span><br><span class="line">fw_bcm43438a1.bin</span><br><span class="line">nvram_ap6212a.txt</span><br></pre></td></tr></table></figure>
+
+<p>就是驱动、固件、NVRAM 被加载。</p>
+<p>检查命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iw list</span><br><span class="line">ip link show wlan0</span><br></pre></td></tr></table></figure>
+
+<p>你这次 <code>iw list</code> 只有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Band 1: 2412~2472 MHz</span><br></pre></td></tr></table></figure>
+
+<p>所以确定：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">只支持 2.4G</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="扫描-Wi-Fi"><a href="#扫描-Wi-Fi" class="headerlink" title="扫描 Wi-Fi"></a>扫描 Wi-Fi</h3><p>作用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">看看周围有哪些 AP</span><br></pre></td></tr></table></figure>
+
+<p>命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iw dev wlan0 scan | grep -E &quot;SSID:|freq:|signal:&quot;</span><br></pre></td></tr></table></figure>
+
+<p>你后来已经扫到了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SSID: Tomorrow is another day 2.4G</span><br><span class="line">signal: -50 dBm</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li>路由器 2.4G 正常</li>
+<li>板子能看到它</li>
+<li>不是信号问题</li>
+</ul>
+<hr>
+<h3 id="连接-Wi-Fi"><a href="#连接-Wi-Fi" class="headerlink" title="连接 Wi-Fi"></a>连接 Wi-Fi</h3><p>作用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">拿着 SSID 和密码，真正连上 AP</span><br></pre></td></tr></table></figure>
+
+<p>核心程序：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wpa_supplicant</span><br></pre></td></tr></table></figure>
+
+<p>它读的配置文件是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/userdata/cfg/wpa_supplicant.conf</span><br></pre></td></tr></table></figure>
+
+<p>典型内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ctrl_interface=/var/run/wpa_supplicant</span><br><span class="line">ap_scan=1</span><br><span class="line">update_config=1</span><br><span class="line"></span><br><span class="line">network=&#123;</span><br><span class="line">    ssid=&quot;Tomorrow is another day 2.4G&quot;</span><br><span class="line">    psk=&quot;7678321.Com&quot;</span><br><span class="line">    key_mgmt=WPA-PSK</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>成功标志：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iw dev wlan0 link</span><br></pre></td></tr></table></figure>
+
+<p>输出类似：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Connected to xx:xx:xx:xx:xx:xx</span><br><span class="line">SSID: Tomorrow is another day 2.4G</span><br></pre></td></tr></table></figure>
+
+<p>失败时常见现象：</p>
+<ul>
+<li><code>Not connected.</code></li>
+<li><code>WPA failed</code></li>
+<li>一直扫描</li>
+</ul>
+<hr>
+<h3 id="获取-IP"><a href="#获取-IP" class="headerlink" title="获取 IP"></a>获取 IP</h3><p>作用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">连上 Wi-Fi 后，向路由器申请 IP 地址</span><br></pre></td></tr></table></figure>
+
+<p>核心程序：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">udhcpc</span><br></pre></td></tr></table></figure>
+
+<p>命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">udhcpc -i wlan0</span><br></pre></td></tr></table></figure>
+
+<p>成功后查看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip -4 addr show wlan0</span><br><span class="line">ip route</span><br></pre></td></tr></table></figure>
+
+<p>正常应该得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">192.168.31.x/24</span><br><span class="line">default via 192.168.31.1</span><br></pre></td></tr></table></figure>
+
+<p>如果你看到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">169.254.x.x</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Wi-Fi 没连上，或者 DHCP 没成功</span><br></pre></td></tr></table></figure>
+
+<p>这是“自救地址”，不是正常联网地址。</p>
+<hr>
+<h3 id="配网组件"><a href="#配网组件" class="headerlink" title="配网组件"></a>配网组件</h3><p><strong><code>wlan0</code></strong></p>
+<p>它是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">无线网卡接口</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>wpa_supplicant</code></strong></p>
+<p>它负责：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">连接 Wi-Fi</span><br></pre></td></tr></table></figure>
+
+<p>不是拿 IP。</p>
+<p><strong><code>udhcpc</code></strong></p>
+<p>它负责：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">拿 IP 地址</span><br></pre></td></tr></table></figure>
+
+<p>不是连接 Wi-Fi。</p>
+<p>所以整条链路是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wlan0 出现</span><br><span class="line">→ wpa_supplicant 连 Wi-Fi</span><br><span class="line">→ udhcpc 拿 IP</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>改错配置文件</strong></p>
+<p>你最初改的是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/wpa_supplicant.conf</span><br></pre></td></tr></table></figure>
+
+<p>但系统实际用的是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/userdata/cfg/wpa_supplicant.conf</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>把 DHCP 问题当成 Wi-Fi 问题</strong></p>
+<p>其实顺序不能反。</p>
+<p>必须先确认：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iw dev wlan0 link</span><br></pre></td></tr></table></figure>
+
+<p>如果这里还是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Not connected.</span><br></pre></td></tr></table></figure>
+
+<p>那就别看 DHCP。</p>
+<p>因为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">没连上 Wi-Fi</span><br><span class="line">→ udhcpc 一定拿不到 IP</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="配网步骤"><a href="#配网步骤" class="headerlink" title="配网步骤"></a>配网步骤</h3><p><strong>写好配置文件</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /userdata/cfg/wpa_supplicant.conf</span><br></pre></td></tr></table></figure>
+
+<p>内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ctrl_interface=/var/run/wpa_supplicant</span><br><span class="line">ap_scan=1</span><br><span class="line">update_config=1</span><br><span class="line"></span><br><span class="line">network=&#123;</span><br><span class="line">    ssid=&quot;Tomorrow is another day 2.4G&quot;</span><br><span class="line">    psk=&quot;7678321.Com&quot;</span><br><span class="line">    key_mgmt=WPA-PSK</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>清理旧进程</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">killall udhcpc 2&gt;/dev/null</span><br><span class="line">killall dhcpcd 2&gt;/dev/null</span><br><span class="line">killall wpa_supplicant 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>启用接口</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip link set wlan0 up</span><br><span class="line">mkdir -p /var/run/wpa_supplicant</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>连接 Wi-Fi</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wpa_supplicant -B \</span><br><span class="line">  -i wlan0 \</span><br><span class="line">  -c /userdata/cfg/wpa_supplicant.conf \</span><br><span class="line">  -C /var/run/wpa_supplicant \</span><br><span class="line">  -f /tmp/wpa.log</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>看有没有连上</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iw dev wlan0 link</span><br></pre></td></tr></table></figure>
+
+<p>如果输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Connected to ...</span><br><span class="line">SSID: Tomorrow is another day 2.4G</span><br></pre></td></tr></table></figure>
+
+<p>说明认证成功。</p>
+<hr>
+<p><strong>拿 IP</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">udhcpc -i wlan0</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>查看结果</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip -4 addr show wlan0</span><br><span class="line">ip route</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="开机自动联网方案"><a href="#开机自动联网方案" class="headerlink" title="开机自动联网方案"></a>开机自动联网方案</h3><p>因为系统自带的 <code>S40network + S41dhcpcd</code> 不稳定，建议自己写一个脚本。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/init.d/S42wifi</span><br></pre></td></tr></table></figure>
+
+<p>内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">case &quot;$1&quot; in</span><br><span class="line">    start)</span><br><span class="line">        killall udhcpc 2&gt;/dev/null</span><br><span class="line">        killall dhcpcd 2&gt;/dev/null</span><br><span class="line">        killall wpa_supplicant 2&gt;/dev/null</span><br><span class="line"></span><br><span class="line">        ip link set wlan0 up</span><br><span class="line">        mkdir -p /var/run/wpa_supplicant</span><br><span class="line"></span><br><span class="line">        wpa_supplicant -B \</span><br><span class="line">          -i wlan0 \</span><br><span class="line">          -c /userdata/cfg/wpa_supplicant.conf \</span><br><span class="line">          -C /var/run/wpa_supplicant \</span><br><span class="line">          -f /tmp/wpa.log</span><br><span class="line"></span><br><span class="line">        sleep 8</span><br><span class="line">        udhcpc -i wlan0</span><br><span class="line">        ;;</span><br><span class="line">    stop)</span><br><span class="line">        killall udhcpc 2&gt;/dev/null</span><br><span class="line">        killall dhcpcd 2&gt;/dev/null</span><br><span class="line">        killall wpa_supplicant 2&gt;/dev/null</span><br><span class="line">        ip link set wlan0 down</span><br><span class="line">        ;;</span><br><span class="line">    restart)</span><br><span class="line">        &quot;$0&quot; stop</span><br><span class="line">        sleep 1</span><br><span class="line">        &quot;$0&quot; start</span><br><span class="line">        ;;</span><br><span class="line">esac</span><br><span class="line"></span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+
+<p>加权限：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/init.d/S42wifi</span><br></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/S42wifi restart</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Wi-Fi-故障检查流程"><a href="#Wi-Fi-故障检查流程" class="headerlink" title="Wi-Fi 故障检查流程"></a>Wi-Fi 故障检查流程</h3><p>以后遇到 Wi-Fi 不通，就按这个顺序判断：</p>
+<p><strong>检查驱动</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iw list</span><br><span class="line">ip link show wlan0</span><br></pre></td></tr></table></figure>
+
+<p>没有 <code>wlan0</code>，先看驱动。</p>
+<hr>
+<p><strong>是否能扫到 AP</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iw dev wlan0 scan | grep -E &quot;SSID:|freq:|signal:&quot;</span><br></pre></td></tr></table></figure>
+
+<p>扫不到 AP，先看路由器、距离、频段。</p>
+<hr>
+<p><strong>检查连接状态</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iw dev wlan0 link</span><br></pre></td></tr></table></figure>
+
+<p>如果是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Not connected.</span><br></pre></td></tr></table></figure>
+
+<p>先看 <code>wpa_supplicant</code> 和密码。</p>
+<hr>
+<p><strong>是否申请到IP</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip -4 addr show wlan0</span><br></pre></td></tr></table></figure>
+
+<p>如果是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">169.254.x.x</span><br></pre></td></tr></table></figure>
+
+<p>说明 DHCP 没成，或者前面根本没连上。</p>
+<hr>
+<h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">路由器(2.4G)</span><br><span class="line">    ↓</span><br><span class="line">Wi-Fi 芯片/AP6212A</span><br><span class="line">    ↓</span><br><span class="line">驱动 bcmdhd.ko</span><br><span class="line">    ↓</span><br><span class="line">wlan0</span><br><span class="line">    ↓</span><br><span class="line">wpa_supplicant 负责认证</span><br><span class="line">    ↓</span><br><span class="line">udhcpc 负责拿 IP</span><br><span class="line">    ↓</span><br><span class="line">ip / route / ping / ssh</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">先有网卡</span><br><span class="line">再连 Wi-Fi</span><br><span class="line">最后拿 IP</span><br></pre></td></tr></table></figure>
+
+<h4 id="程序分工"><a href="#程序分工" class="headerlink" title="程序分工"></a>程序分工</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wpa_supplicant = 连 Wi-Fi</span><br><span class="line">udhcpc         = 拿 IP</span><br><span class="line">iw             = 看无线状态</span><br><span class="line">ip             = 看 IP 和路由</span><br></pre></td></tr></table></figure>
+
+<h4 id="核心文件"><a href="#核心文件" class="headerlink" title="核心文件"></a>核心文件</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/userdata/cfg/wpa_supplicant.conf</span><br></pre></td></tr></table></figure>
+
+<h4 id="核心命令"><a href="#核心命令" class="headerlink" title="核心命令"></a>核心命令</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ip link set wlan0 up</span><br><span class="line">wpa_supplicant -B -i wlan0 -c /userdata/cfg/wpa_supplicant.conf -C /var/run/wpa_supplicant</span><br><span class="line">iw dev wlan0 link</span><br><span class="line">udhcpc -i wlan0</span><br><span class="line">ip -4 addr show wlan0</span><br></pre></td></tr></table></figure>
+
+<h2 id="Debian-尝试记录"><a href="#Debian-尝试记录" class="headerlink" title="Debian 尝试记录"></a>Debian 尝试记录</h2><p>我靠老费劲了</p>
+<ul>
+<li>编译使用的ubuntu版本不要太新，文档写什么就用什么，否则容易有各种库与工具的冲突</li>
+<li>然后debian的镜像版本太老，官网上没有了，于是又换源</li>
+<li>然后又出现一个报错，全网搜索不得解，先不搞了，换ubuntu</li>
+</ul>
+<h2 id="Ubuntu-22-04"><a href="#Ubuntu-22-04" class="headerlink" title="Ubuntu 22.04"></a>Ubuntu 22.04</h2><h3 id="开发记录"><a href="#开发记录" class="headerlink" title="开发记录"></a>开发记录</h3><p>还没开始</p>
+<p>群佬推的教程<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42711665/article/details/158393261?sharetype=blog&shareId=158393261&sharerefer=APP&sharesource=2301_81128730&sharefrom=qq&qq_aio_chat_type=3">泰山派编译Ubuntu22.04</a></p>
+<p>全捣鼓好之后卖掉换最好看的或者搞自己的板子</p>
+<p>开始干</p>
+<h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4><p><strong>镜像的组成</strong></p>
+<p>都需要编译什么</p>
+<ul>
+<li>kernel linux内核</li>
+<li>uboot设备树</li>
+<li>rootf</li>
+</ul>
+<p>打包时要有vim、 iputils-ping</p>
+<p>编译成update.img,是用瑞芯微官方烧录工具RKDevTool_Release_v2.92，点击固件升级固件，固件选择更新后的update.img，然后按住板子的rec后按一下res，发现设备后，点击升级即可</p>
+<h4 id="开机"><a href="#开机" class="headerlink" title="开机"></a>开机</h4><p>有一个强制改密码的过程，先登录你设置的默认的用户名密码，然后更改密码就可以了</p>
+<p>遇到了两个问题</p>
+<ol>
+<li>开机后打印乱七八糟的东西说是麦克风的i2c数据传输问题，检查后发现是I2S1 RX 时钟配置错误</li>
+</ol>
+<blockquote>
+<p>原 DTS 使用旧属性：</p>
+<p><code>rockchip,clk-trcm = &lt;1&gt;;</code></p>
+<p>Linux 6.1 驱动不会解析该旧属性，已经替换为：</p>
+<p><code>rockchip,trcm-sync-tx-only;</code></p>
+</blockquote>
+<ol start="2">
+<li>wanl0拉不起来，bcmdhd 的自动固件选型</li>
+</ol>
+<p>AP6212 模组内部使用 BCM43430，不同硬件批次存在 silicon revision：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BCM43430 chiprev 0 -&gt; fw_bcm43438a0.bin + nvram_ap6212.txt</span><br><span class="line">BCM43430 chiprev 1 -&gt; fw_bcm43438a1.bin + nvram_ap6212a.txt</span><br></pre></td></tr></table></figure>
+
+<p>DTS 中的：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wifi_chip_type = &quot;ap6212&quot;</span><br></pre></td></tr></table></figure>
+
+<p>只表示模组系列。驱动启动后还会通过 SDIO 读取真实 chiprev，再选择 A0 或 A1。</p>
+<p>当前板子日志明确选择：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fw_bcm43438a1.bin</span><br></pre></td></tr></table></figure>
+
+<p>所以它是 revision 1，应配套：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fw_bcm43438a1.bin</span><br><span class="line">nvram_ap6212a.txt</span><br></pre></td></tr></table></figure>
+
+<h5 id="Wi-Fi-驱动与固件"><a href="#Wi-Fi-驱动与固件" class="headerlink" title="Wi-Fi 驱动与固件"></a>Wi-Fi 驱动与固件</h5><ol>
+<li><p>A0&#x2F;A1 是 BCM43430 的不同 silicon revision：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chiprev 0 -&gt; fw_bcm43438a0.bin + nvram_ap6212.txt</span><br><span class="line">chiprev 1 -&gt; fw_bcm43438a1.bin + nvram_ap6212a.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当前板子是 revision 1。直接复制改名可以临时修复：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /vendor/etc/firmware/fw_bcmdhd.bin \</span><br><span class="line">  /vendor/etc/firmware/fw_bcm43438a1.bin</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /vendor/etc/firmware/nvram.txt \</span><br><span class="line">  /vendor/etc/firmware/nvram_ap6212a.txt</span><br><span class="line"><span class="built_in">sudo</span> reboot</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>常用正式方案是同时安装 A0&#x2F;A1 文件，让 bcmdhd 自动选型。新镜像已包含：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fw_bcm43438a0.bin</span><br><span class="line">fw_bcm43438a1.bin</span><br><span class="line">fw_bcmdhd.bin</span><br><span class="line">nvram_ap6212.txt</span><br><span class="line">nvram_ap6212a.txt</span><br><span class="line">nvram.txt</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="配网-1"><a href="#配网-1" class="headerlink" title="配网"></a>配网</h4><p>ubuntu系统与buildroot系统不同不用写脚本执行命令自动配网，而是是用networkmanager</p>
+<p>本来要以为需要写个脚本，发现没vim，而且可以一键连接wifi，socool</p>
+<h5 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h5><p>查看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl is-active NetworkManager</span><br><span class="line">ip route</span><br><span class="line">nmcli device status</span><br><span class="line">nmcli connection show</span><br></pre></td></tr></table></figure>
+
+<p>扫描 Wi-Fi：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmcli device wifi list</span><br></pre></td></tr></table></figure>
+
+<p>连接：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nmcli device wifi connect &quot;SSID&quot; password &quot;密码&quot;</span><br></pre></td></tr></table></figure>
+
+<p>设置静态 IP：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo nmcli con mod &quot;连接名&quot; \</span><br><span class="line">ipv4.method manual \</span><br><span class="line">ipv4.addresses 192.168.31.100/24 \</span><br><span class="line">ipv4.gateway 192.168.31.1 \</span><br><span class="line">ipv4.dns &quot;223.5.5.5 8.8.8.8&quot;</span><br></pre></td></tr></table></figure>
+
+<p>开机自启：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nmcli con mod &quot;连接名&quot; connection.autoconnect yes</span><br></pre></td></tr></table></figure>
+
+<p>查看具体配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmcli con show &quot;连接名&quot;</span><br></pre></td></tr></table></figure>
+
+<p>立即让配置生效：</p>
+<p>执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo nmcli connection down &quot;ssid&quot;</span><br><span class="line">sudo nmcli connection up &quot;ssid&quot;</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<blockquote>
+<p>如果你现在是通过 SSH 操作板子，执行 <code>down</code> 后 SSH 会立刻断开。</p>
+</blockquote>
+<p>串口操作就没关系。</p>
+<p>也可以直接：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nmcli connection up &quot;Tomorrow is another day 2.4G&quot;</span><br></pre></td></tr></table></figure>
+
+<p>检查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip -4 addr show wlan0</span><br></pre></td></tr></table></figure>
+
+<p>应该看到：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inet 192.168.31.100/24</span><br></pre></td></tr></table></figure>
+
+<p>然后：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip routebash</span><br></pre></td></tr></table></figure>
+
+<p>应该有：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default via 192.168.31.1 dev wlan0</span><br></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping -c 3 192.168.31.1</span><br></pre></td></tr></table></figure>
+
+<p>再：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping -c 3 8.8.8.8</span><br></pre></td></tr></table></figure>
+
+<p>最后验证 DNS：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping -c 3 www.baidu.com</span><br></pre></td></tr></table></figure>
+
+<p>这样分别验证：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">路由器通信</span><br><span class="line">→ 外网通信</span><br><span class="line">→ DNS解析</span><br></pre></td></tr></table></figure>
+
+<h5 id="多环境配网"><a href="#多环境配网" class="headerlink" title="多环境配网"></a>多环境配网</h5><p>写脚本生成NetworkManager配置，开机后自动联网</p>
+<p>之前的buildroot是配网脚本</p>
+<p>因为脚本本身负责：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wpa_supplicant</span><br><span class="line">→ DHCP</span><br><span class="line">→ 联网</span><br></pre></td></tr></table></figure>
+
+<p>而现在 Ubuntu 写的这个脚本是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“生成 NetworkManager 配置”</span><br></pre></td></tr></table></figure>
+
+<p>生成之后：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">脚本退出</span><br><span class="line">    ↓</span><br><span class="line">NetworkManager 长期管理</span><br><span class="line">    ↓</span><br><span class="line">开机自动连接</span><br><span class="line">    ↓</span><br><span class="line">掉线自动处理</span><br><span class="line">    ↓</span><br><span class="line">环境变化自动选择连接</span><br></pre></td></tr></table></figure>
+
+<h5 id="开机流程-LED"><a href="#开机流程-LED" class="headerlink" title="开机流程 LED"></a>开机流程 LED</h5><p>Linux 开机流程可以简化成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">上电</span><br><span class="line">→ BootROM</span><br><span class="line">→ U-Boot</span><br><span class="line">→ 加载 Linux 内核 + 设备树</span><br><span class="line">→ Linux 内核初始化</span><br><span class="line">→ systemd 启动用户空间</span><br><span class="line">→ 启动各类服务</span><br><span class="line">→ NetworkManager 联网</span><br><span class="line">→ 系统进入可用状态</span><br></pre></td></tr></table></figure>
+
+<p>灯控对应：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">U-Boot / 内核早期 → 冰蓝</span><br><span class="line">systemd 初始化     → 红闪</span><br><span class="line">NetworkManager     → 蓝闪</span><br><span class="line">联网成功           → 蓝亮</span><br><span class="line">初始化完成         → 熄灭</span><br></pre></td></tr></table></figure>
+
+<h6 id="核心脚本"><a href="#核心脚本" class="headerlink" title="核心脚本"></a>核心脚本</h6><p>文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/sbin/boot-led.sh</span><br></pre></td></tr></table></figure>
+
+<p>建议最终逻辑：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">R=/sys/class/leds/rgb-led-r/brightness</span><br><span class="line">G=/sys/class/leds/rgb-led-g/brightness</span><br><span class="line">B=/sys/class/leds/rgb-led-b/brightness</span><br><span class="line"></span><br><span class="line">set_rgb()</span><br><span class="line">&#123;</span><br><span class="line">    echo &quot;$1&quot; &gt; &quot;$R&quot;</span><br><span class="line">    echo &quot;$2&quot; &gt; &quot;$G&quot;</span><br><span class="line">    echo &quot;$3&quot; &gt; &quot;$B&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 等待 LED 驱动准备好</span><br><span class="line">while [ ! -e &quot;$R&quot; ]; do</span><br><span class="line">    sleep 0.1</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"># 1. Ubuntu 初始化阶段：红灯闪</span><br><span class="line">while ! systemctl is-active --quiet NetworkManager; do</span><br><span class="line">    set_rgb 1 0 0</span><br><span class="line">    sleep 0.4</span><br><span class="line">    set_rgb 0 0 0</span><br><span class="line">    sleep 0.4</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"># 2. NetworkManager 已启动，等待 Wi-Fi：蓝灯闪</span><br><span class="line">while true; do</span><br><span class="line">    STATE=$(nmcli -t -f GENERAL.STATE device show wlan0 2&gt;/dev/null)</span><br><span class="line"></span><br><span class="line">    echo &quot;$STATE&quot; | grep -q &quot;100&quot; &amp;&amp; break</span><br><span class="line"></span><br><span class="line">    set_rgb 0 0 1</span><br><span class="line">    sleep 0.4</span><br><span class="line">    set_rgb 0 0 0</span><br><span class="line">    sleep 0.4</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"># 3. Wi-Fi 已连接，再确认真正能访问公网</span><br><span class="line">while ! ping -c 1 -W 2 223.5.5.5 &gt;/dev/null 2&gt;&amp;1; do</span><br><span class="line">    set_rgb 0 0 1</span><br><span class="line">    sleep 0.4</span><br><span class="line">    set_rgb 0 0 0</span><br><span class="line">    sleep 0.4</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"># 4. 网络完全正常：蓝灯常亮</span><br><span class="line">set_rgb 0 0 1</span><br><span class="line">sleep 5</span><br><span class="line"></span><br><span class="line"># 5. 初始化完成：RGB 全灭</span><br><span class="line">set_rgb 0 0 0</span><br><span class="line"></span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+
+<p>这里的关键就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping -c 1 -W 2 223.5.5.5</span><br></pre></td></tr></table></figure>
+
+<p>它验证的不是：</p>
+<blockquote>
+<p>“Wi-Fi 连没连上”</p>
+</blockquote>
+<p>而是：</p>
+<blockquote>
+<p><strong>“现在是不是真的已经可以访问公网。”</strong></p>
+</blockquote>
+<hr>
+<h6 id="什么时候执行"><a href="#什么时候执行" class="headerlink" title="什么时候执行"></a>什么时候执行</h6><p>文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/systemd/system/boot-led.service</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Taishan Pi Boot RGB LED</span><br><span class="line">After=local-fs.target</span><br><span class="line">Before=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">ExecStart=/usr/local/sbin/boot-led.sh</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>启用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl enable boot-led.service</span><br></pre></td></tr></table></figure>
+
+<p>查看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status boot-led.service</span><br></pre></td></tr></table></figure>
+
+<p>你的启动日志已经证明它会在：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Started Taishan Pi Boot RGB LED</span><br><span class="line">Starting Network Manager...</span><br></pre></td></tr></table></figure>
+
+<p>这个时间附近启动，所以非常适合：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">红闪 → NetworkManager启动 → 蓝闪</span><br></pre></td></tr></table></figure>
+
+<h4 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">精简 Buildroot</span><br><span class="line">自己控制：</span><br><span class="line">wpa_supplicant → udhcpc → 启动脚本</span><br><span class="line"></span><br><span class="line">Ubuntu</span><br><span class="line">NetworkManager 替你控制：</span><br><span class="line">Wi-Fi认证 → IP配置 → DNS → 开机自启</span><br></pre></td></tr></table></figure>
+
+<p>所以在泰山派 Ubuntu 上，<strong>“配置静态 IP + 开机自动联网”本身就是配置 NetworkManager，不需要额外脚本。</strong> </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">硬件：</span><br><span class="line">RK3566 + Wi-Fi芯片</span><br><span class="line">       ↓</span><br><span class="line">内核/驱动：</span><br><span class="line">bcmdhd</span><br><span class="line">       ↓</span><br><span class="line">用户空间：</span><br><span class="line">┌───────────────┬────────────────────┐</span><br><span class="line">│ Buildroot     │ Ubuntu             │</span><br><span class="line">├───────────────┼────────────────────┤</span><br><span class="line">│ 厂商脚本      │ NetworkManager等   │</span><br><span class="line">│ BusyBox       │ systemd            │</span><br><span class="line">│ udhcpc        │ DHCP管理器         │</span><br><span class="line">│ /userdata     │ /etc               │</span><br><span class="line">└───────────────┴────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h3 id="完整编译指南"><a href="#完整编译指南" class="headerlink" title="完整编译指南"></a>完整编译指南</h3><p>本文记录泰山派 V10（RK3566）从 SDK、Linux 内核到 Ubuntu 22.04 Desktop 镜像的完整流程，并包含 AP6212 Wi-Fi 驱动配置、镜像打包和烧录方法。</p>
+<h4 id="最终目标"><a href="#最终目标" class="headerlink" title="最终目标"></a>最终目标</h4><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>本次使用的配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>开发板</td>
+<td>泰山派 V10</td>
+</tr>
+<tr>
+<td>SoC</td>
+<td>Rockchip RK3566</td>
+</tr>
+<tr>
+<td>系统</td>
+<td>Ubuntu 22.04.5 LTS Desktop，arm64</td>
+</tr>
+<tr>
+<td>内核</td>
+<td>Linux 6.1.75</td>
+</tr>
+<tr>
+<td>Wi-Fi</td>
+<td>AP6212A1，SDIO，bcmdhd</td>
+</tr>
+<tr>
+<td>构建目录</td>
+<td><code>/home/haxio/tspi</code></td>
+</tr>
+<tr>
+<td>最终镜像</td>
+<td><code>rockdev/update.img</code></td>
+</tr>
+</tbody></table>
+<h4 id="需要准备的内容"><a href="#需要准备的内容" class="headerlink" title="需要准备的内容"></a>需要准备的内容</h4><p><strong>宿主机</strong></p>
+<p>建议使用 Ubuntu 18.04&#x2F;20.04 虚拟机，并准备至少 80 GB 可用空间（Desktop rootfs 和镜像会占用较多空间）。安装常用工具：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install -y git make gcc g++ bc bison flex libssl-dev \</span><br><span class="line">  libncurses5-dev device-tree-compiler lz4 liblz4-tool \</span><br><span class="line">  qemu-user-static binfmt-support e2fsprogs rsync unzip wget xz-utils \</span><br><span class="line">  cpio fakeroot</span><br></pre></td></tr></table></figure>
+
+<p>SDK 自带 ARM64 交叉编译器，不要用宿主机的 x86_64 <code>gcc</code> 编译内核。</p>
+<p><strong>SDK 和 Ubuntu rootfs</strong></p>
+<p>将完整 SDK 解压到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/haxio/tspi</span><br></pre></td></tr></table></figure>
+
+<p>准备官方 Ubuntu Base：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ubuntu-base-22.04.5-base-arm64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>它只提供最小 ARM64 用户空间，桌面、网络和 SSH 需要后续安装。</p>
+<h4 id="选择泰山派板级配置"><a href="#选择泰山派板级配置" class="headerlink" title="选择泰山派板级配置"></a>选择泰山派板级配置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/tspi</span><br><span class="line">./build.sh BoardConfig-rk3566-tspi-v10.mk</span><br></pre></td></tr></table></figure>
+
+<p>确认配置文件中的关键项：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RK_UBOOT_DEFCONFIG=rk3566</span><br><span class="line">RK_KERNEL_DTS=tspi-rk3566-user-v10-linux</span><br><span class="line">RK_CFG_BUILDROOT=rockchip_rk3566</span><br></pre></td></tr></table></figure>
+
+<p><code>parameter-buildroot-fit.txt</code> 中显示 <code>MACHINE_MODEL: RK3568</code> 是 SDK 对 RK356x 系列共用的元数据，不代表本板是 RK3568；泰山派实际使用 RK3566 U-Boot 和 RK3566 DTS。</p>
+<h4 id="编译-U-Boot、内核和模块"><a href="#编译-U-Boot、内核和模块" class="headerlink" title="编译 U-Boot、内核和模块"></a>编译 U-Boot、内核和模块</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/tspi</span><br><span class="line">./build.sh uboot</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> CROSS_COMPILE=<span class="string">&quot;<span class="variable">$PWD</span>/prebuilts/gcc/linux-x86/aarch64/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-&quot;</span></span><br><span class="line"><span class="built_in">export</span> ARCH=arm64</span><br><span class="line"></span><br><span class="line">./build.sh kernel</span><br><span class="line">./build.sh modules</span><br></pre></td></tr></table></figure>
+
+<p>正常产物包括：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kernel/arch/arm64/boot/Image</span><br><span class="line">kernel/arch/arm64/boot/dts/rockchip/tspi-rk3566-user-v10-linux.dtb</span><br><span class="line">kernel/boot.img</span><br><span class="line">rockdev/boot.img</span><br><span class="line">rockdev/uboot.img</span><br></pre></td></tr></table></figure>
+
+<p>如果出现 <code>gcc: unrecognized command line option &#39;-mlittle-endian&#39;</code>，说明 <code>CROSS_COMPILE</code> 没有生效。重新执行上面的 <code>export</code>，并检查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;<span class="variable">$&#123;CROSS_COMPILE&#125;</span>gcc&quot;</span> -dumpmachine</span><br></pre></td></tr></table></figure>
+
+<p>结果应为 <code>aarch64-linux-gnu</code>，不能是 <code>x86_64-linux-gnu</code>。</p>
+<p>如果旧版 <code>lz4c</code> 报 <code>--favor-decSpeed</code> 或 <code>-12</code> 参数错误，在 <code>kernel/scripts/Makefile.lib</code> 中将：</p>
+<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(LZ4)</span> -12 --favor-decSpeed stdin stdout</span><br></pre></td></tr></table></figure>
+
+<p>改为：</p>
+<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(LZ4)</span> -9 stdin stdout</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建-rootfs"><a href="#创建-rootfs" class="headerlink" title="创建 rootfs"></a>创建 rootfs</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/tspi</span><br><span class="line"><span class="built_in">mkdir</span> -p ubuntu-rootfs</span><br><span class="line"><span class="built_in">sudo</span> tar -xpf ubuntu-base-22.04.5-base-arm64.tar.gz -C ubuntu-rootfs</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /usr/bin/qemu-aarch64-static ubuntu-rootfs/usr/bin/</span><br></pre></td></tr></table></figure>
+
+<p>配置 ARM64 APT 源（Ubuntu Base 默认使用 ports 源）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> ubuntu-rootfs/etc/apt/sources.list &gt;/dev/null &lt;&lt;<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">deb http://ports.ubuntu.com/ubuntu-ports jammy main restricted universe multiverse</span><br><span class="line">deb http://ports.ubuntu.com/ubuntu-ports jammy-updates main restricted universe multiverse</span><br><span class="line">deb http://ports.ubuntu.com/ubuntu-ports jammy-security main restricted universe multiverse</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p>挂载 chroot 所需的虚拟文件系统：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mount --<span class="built_in">bind</span> /dev ubuntu-rootfs/dev</span><br><span class="line"><span class="built_in">sudo</span> mount -t proc /proc ubuntu-rootfs/proc</span><br><span class="line"><span class="built_in">sudo</span> mount -t sysfs /sys ubuntu-rootfs/sys</span><br><span class="line"><span class="built_in">sudo</span> mount -t devpts /dev/pts ubuntu-rootfs/dev/pts</span><br></pre></td></tr></table></figure>
+
+<p>进入 rootfs 安装桌面和网络组件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">chroot</span> ubuntu-rootfs /bin/bash</span><br><span class="line"><span class="built_in">export</span> HOME=/root</span><br><span class="line"><span class="built_in">export</span> LC_ALL=C</span><br><span class="line">apt update</span><br><span class="line">apt upgrade -y</span><br><span class="line">apt install -y ubuntu-desktop-minimal network-manager openssh-server <span class="built_in">sudo</span> \</span><br><span class="line">  locales language-pack-zh-hans wpasupplicant rfkill wireless-regdb iw</span><br></pre></td></tr></table></figure>
+
+<p>在 chroot 中设置账户、时区和默认图形目标：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">useradd -m -s /bin/bash tspi</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;tspi:orangepi2026&#x27;</span> | chpasswd</span><br><span class="line">usermod -aG <span class="built_in">sudo</span> tspi</span><br><span class="line"><span class="built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line"><span class="built_in">echo</span> Asia/Shanghai &gt; /etc/timezone</span><br><span class="line">locale-gen en_US.UTF-8 zh_CN.UTF-8</span><br><span class="line">systemctl <span class="built_in">enable</span> NetworkManager</span><br><span class="line">systemctl <span class="built_in">enable</span> ssh</span><br><span class="line">systemctl <span class="built_in">enable</span> gdm3</span><br><span class="line">systemctl set-default graphical.target</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+
+<p>卸载虚拟文件系统：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> umount ubuntu-rootfs/dev/pts</span><br><span class="line"><span class="built_in">sudo</span> umount ubuntu-rootfs/dev</span><br><span class="line"><span class="built_in">sudo</span> umount ubuntu-rootfs/proc</span><br><span class="line"><span class="built_in">sudo</span> umount ubuntu-rootfs/sys</span><br></pre></td></tr></table></figure>
+
+<p>配置主机名和 Netplan：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> tspi | <span class="built_in">sudo</span> <span class="built_in">tee</span> ubuntu-rootfs/etc/hostname &gt;/dev/null</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p ubuntu-rootfs/etc/netplan</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> ubuntu-rootfs/etc/netplan/01-network-manager-all.yaml &gt;/dev/null &lt;&lt;<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">network:</span><br><span class="line">  version: 2</span><br><span class="line">  renderer: NetworkManager</span><br><span class="line">EOF</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> 600 ubuntu-rootfs/etc/netplan/01-network-manager-all.yaml</span><br></pre></td></tr></table></figure>
+
+<h4 id="将内核模块安装到-rootfs"><a href="#将内核模块安装到-rootfs" class="headerlink" title="将内核模块安装到 rootfs"></a>将内核模块安装到 rootfs</h4><p>回到 SDK 根目录，并确认交叉编译器仍然有效：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/tspi</span><br><span class="line"><span class="built_in">export</span> ARCH=arm64</span><br><span class="line"><span class="built_in">export</span> CROSS_COMPILE=<span class="string">&quot;<span class="variable">$PWD</span>/prebuilts/gcc/linux-x86/aarch64/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> make -C kernel ARCH=<span class="string">&quot;<span class="variable">$ARCH</span>&quot;</span> CROSS_COMPILE=<span class="string">&quot;<span class="variable">$CROSS_COMPILE</span>&quot;</span> \</span><br><span class="line">  INSTALL_MOD_PATH=<span class="string">&quot;<span class="variable">$PWD</span>/ubuntu-rootfs&quot;</span> modules_install</span><br><span class="line"><span class="built_in">sudo</span> depmod -b ubuntu-rootfs 6.1.75</span><br></pre></td></tr></table></figure>
+
+<p>确认模块已安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find ubuntu-rootfs/lib/modules/6.1.75 -name <span class="string">&#x27;bcmdhd.ko*&#x27;</span></span><br><span class="line"><span class="built_in">test</span> -f ubuntu-rootfs/lib/modules/6.1.75/modules.dep &amp;&amp; <span class="built_in">echo</span> <span class="string">&#x27;modules OK&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果后续重新编译了不同版本的内核，应使用下面的命令获取实际版本，并将 <code>depmod</code> 后面的 <code>6.1.75</code> 替换为该结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -s -C kernel ARCH=arm64 kernelrelease</span><br></pre></td></tr></table></figure>
+
+<h4 id="Ubuntu-22-04-配置-AP6212-Wi-Fi"><a href="#Ubuntu-22-04-配置-AP6212-Wi-Fi" class="headerlink" title="Ubuntu 22.04 配置 AP6212 Wi-Fi"></a>Ubuntu 22.04 配置 AP6212 Wi-Fi</h4><p>DTS 已启用无线节点，并指定：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wifi_chip_type = &quot;ap6212&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Wi-Fi 固件来自：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">external/rkwifibt/firmware/broadcom/AP6212A1/wifi/</span><br></pre></td></tr></table></figure>
+
+<p><code>bcmdhd</code> 启用了 <code>FW_PATH_AUTO_SELECT</code>。DTS 中的 <code>ap6212</code> 是模组系列名，驱动还会根据 BCM43430 的 silicon revision 自动选择具体文件：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chiprev 0 -&gt; fw_bcm43438a0.bin + nvram_ap6212.txt</span><br><span class="line">chiprev 1 -&gt; fw_bcm43438a1.bin + nvram_ap6212a.txt</span><br></pre></td></tr></table></figure>
+
+<p>因此不能只放一个改名后的通用文件。正式镜像同时保留通用名和 A0&#x2F;A1 原始名：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p ubuntu-rootfs/vendor/etc/firmware</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> external/rkwifibt/firmware/broadcom/AP6212A1/wifi/fw_bcm43438a1.bin \</span><br><span class="line">  ubuntu-rootfs/vendor/etc/firmware/fw_bcmdhd.bin</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> external/rkwifibt/firmware/broadcom/AP6212A1/wifi/nvram_ap6212a.txt \</span><br><span class="line">  ubuntu-rootfs/vendor/etc/firmware/nvram.txt</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> external/rkwifibt/firmware/broadcom/AP6212A1/wifi/fw_bcm43438a0.bin \</span><br><span class="line">  ubuntu-rootfs/vendor/etc/firmware/fw_bcm43438a0.bin</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> external/rkwifibt/firmware/broadcom/AP6212A1/wifi/fw_bcm43438a1.bin \</span><br><span class="line">  ubuntu-rootfs/vendor/etc/firmware/fw_bcm43438a1.bin</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> external/rkwifibt/firmware/broadcom/AP6212A1/wifi/nvram_ap6212.txt \</span><br><span class="line">  ubuntu-rootfs/vendor/etc/firmware/nvram_ap6212.txt</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> external/rkwifibt/firmware/broadcom/AP6212A1/wifi/nvram_ap6212a.txt \</span><br><span class="line">  ubuntu-rootfs/vendor/etc/firmware/nvram_ap6212a.txt</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> external/rkwifibt/firmware/broadcom/AP6212A1/bt/BCM43430A1.hcd \</span><br><span class="line">  ubuntu-rootfs/vendor/etc/firmware/BCM43430A1.hcd</span><br></pre></td></tr></table></figure>
+
+<p>配置模块参数和开机自动加载：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p ubuntu-rootfs/etc/modprobe.d ubuntu-rootfs/etc/modules-load.d</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> ubuntu-rootfs/etc/modprobe.d/bcmdhd.conf &gt;/dev/null &lt;&lt;<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">options bcmdhd firmware_path=/vendor/etc/firmware/fw_bcmdhd.bin nvram_path=/vendor/etc/firmware/nvram.txt config_path=/vendor/etc/firmware/config.txt</span><br><span class="line">EOF</span><br><span class="line"><span class="built_in">echo</span> bcmdhd | <span class="built_in">sudo</span> <span class="built_in">tee</span> ubuntu-rootfs/etc/modules-load.d/bcmdhd.conf &gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<p>驱动参数可离线验证：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modprobe -d ubuntu-rootfs -S 6.1.75 --show-depends bcmdhd</span><br></pre></td></tr></table></figure>
+
+<p>启动后使用 <code>nmcli</code> 或 Ubuntu 桌面网络菜单连接 Wi-Fi。</p>
+<p>如果日志出现：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">failed /vendor/etc/firmware/fw_bcm43438a1.bin</span><br></pre></td></tr></table></figure>
+
+<p>说明驱动已经完成自动选型，但镜像缺少 A1 原始文件名。不要只修改 DTS；补齐上面的 A0&#x2F;A1 文件后重新制作 rootfs 和 <code>update.img</code>。</p>
+<h4 id="音频-I2S-RK809-配置"><a href="#音频-I2S-RK809-配置" class="headerlink" title="音频 I2S&#x2F;RK809 配置"></a>音频 I2S&#x2F;RK809 配置</h4><p>播放测试正常但录音出现：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rockchip-i2s-tdm ... rate(0)</span><br><span class="line">ASoC: error at snd_soc_dai_hw_params ... -22</span><br></pre></td></tr></table></figure>
+
+<p>原因是旧 DTS 属性 <code>rockchip,clk-trcm = &lt;1&gt;;</code> 不再被 Linux 6.1 的 I2S-TDM 驱动解析。将 <code>&amp;i2s1_8ch</code> 节点改为：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">&amp;i2s1_8ch</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">status</span> <span class="operator">=</span> <span class="string">&quot;okay&quot;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="attr">rockchip,trcm-sync-tx-only</span><span class="punctuation">;</span></span><br><span class="line">    <span class="attr">pinctrl-names</span> <span class="operator">=</span> <span class="string">&quot;default&quot;</span><span class="punctuation">;</span></span><br><span class="line">    pinctrl<span class="number">-0</span> = <span class="params">&lt;<span class="variable">&amp;i2s1m0_sclktx</span></span></span><br><span class="line"><span class="params">                 <span class="variable">&amp;i2s1m0_lrcktx</span></span></span><br><span class="line"><span class="params">                 <span class="variable">&amp;i2s1m0_sdi0</span></span></span><br><span class="line"><span class="params">                 <span class="variable">&amp;i2s1m0_sdo0</span>&gt;</span><span class="punctuation">;</span></span><br><span class="line"><span class="punctuation">&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<p>重新执行 <code>./build.sh kernel</code> 后再打包。验证播放和录音：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">speaker-test -D hw:1,0 -c 2 -r 48000 -F S16_LE</span><br><span class="line">arecord -D hw:1,0 -c 2 -r 48000 -f S16_LE -d 5 /tmp/test.wav</span><br></pre></td></tr></table></figure>
+
+<h4 id="制作-rootfs-ext4"><a href="#制作-rootfs-ext4" class="headerlink" title="制作 rootfs.ext4"></a>制作 rootfs.ext4</h4><p>制作前删除 chroot 临时文件，避免把宿主环境带入镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -f ubuntu-rootfs/usr/bin/qemu-aarch64-static</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -f ubuntu-rootfs/usr/sbin/policy-rc.d</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -f ubuntu-rootfs/var/lib/dbus/machine-id</span><br><span class="line"><span class="built_in">sudo</span> sh -c <span class="string">&#x27;: &gt; ubuntu-rootfs/etc/machine-id&#x27;</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf ubuntu-rootfs/var/cache/apt/archives/*.deb</span><br></pre></td></tr></table></figure>
+
+<p>当前参数表为 6 GiB rootfs 分区，本次使用 3800 MiB 文件系统：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mkfs.ext4 -F -L rootfs -d ubuntu-rootfs rockdev/rootfs.ext4 3800M</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chown</span> <span class="string">&quot;<span class="variable">$USER</span>:<span class="variable">$USER</span>&quot;</span> rockdev/rootfs.ext4</span><br><span class="line">e2fsck -fn rockdev/rootfs.ext4</span><br><span class="line"><span class="built_in">ln</span> -sfn rootfs.ext4 rockdev/rootfs.img</span><br></pre></td></tr></table></figure>
+
+<h4 id="生成完整升级镜像"><a href="#生成完整升级镜像" class="headerlink" title="生成完整升级镜像"></a>生成完整升级镜像</h4><p>Ubuntu 不使用 Buildroot recovery 时，编辑：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tools/linux/Linux_Pack_Firmware/rockdev/package-file</span><br></pre></td></tr></table></figure>
+
+<p>将下面一行注释掉：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#recovery Image/recovery.img</span><br></pre></td></tr></table></figure>
+
+<p>然后执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/tspi</span><br><span class="line">./build.sh firmware</span><br><span class="line">./build.sh updateimg</span><br></pre></td></tr></table></figure>
+
+<p>成功标志：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Make firmware OK!</span><br><span class="line">New image generated successfully!</span><br><span class="line">Running build_updateimg succeeded.</span><br></pre></td></tr></table></figure>
+
+<p>检查镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -lh rockdev/update.img</span><br><span class="line"><span class="built_in">sha256sum</span> rockdev/update.img</span><br></pre></td></tr></table></figure>
+
+<p>当前已验证的最终镜像 SHA256：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f81dd518d6442f7ebe19cd987b5dc28284a7221166263ebc7872d1636c592a24</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用-RKDevTool-烧录"><a href="#使用-RKDevTool-烧录" class="headerlink" title="使用 RKDevTool 烧录"></a>使用 RKDevTool 烧录</h4><p><code>update.img</code> 是完整 Rockchip 升级包，不需要手动填写各分区地址。</p>
+<ol>
+<li>将 <code>rockdev/update.img</code> 复制到 Windows。</li>
+<li>泰山派进入 Loader 或 Maskrom 模式并连接 USB OTG。</li>
+<li>RKDevTool 底部显示“发现一个 LOADER 设备”。</li>
+<li>进入“升级固件”页，点击“固件”，选择 <code>update.img</code>。</li>
+<li>等待固件信息解析完成，点击“升级”。</li>
+<li>等待成功提示，不要断电或拔 USB。</li>
+</ol>
+<p>不要把 <code>update.img</code> 填到“下载镜像”页的某个地址；手工地址烧录适用于拆分的 <code>MiniLoaderAll.bin</code>、<code>uboot.img</code>、<code>boot.img</code>、<code>rootfs.img</code> 等文件。</p>
+<h4 id="首次启动检查"><a href="#首次启动检查" class="headerlink" title="首次启动检查"></a>首次启动检查</h4><p>当前最终镜像账户：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">用户名：tspi</span><br><span class="line">密码：orangepi2026</span><br></pre></td></tr></table></figure>
+
+<p>该账户已加入 sudo，且没有设置首次强制改密。<code>tspi2026</code> 不建议作为密码，因为它包含用户名 <code>tspi</code>，会被 Ubuntu 密码质量策略拒绝；<code>orangepi2026</code> 不包含用户名。</p>
+<p>系统启动后执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> resize2fs /dev/disk/by-partlabel/rootfs</span><br><span class="line"><span class="built_in">df</span> -h /</span><br><span class="line"><span class="built_in">uname</span> -a</span><br><span class="line">lsmod | grep bcmdhd</span><br><span class="line">iw dev</span><br><span class="line">nmcli device</span><br><span class="line">dmesg | grep -iE <span class="string">&#x27;bcmdhd|firmware|wlan|sdio&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>连接 Wi-Fi：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nmcli device wifi list</span><br><span class="line"><span class="built_in">sudo</span> nmcli device wifi connect <span class="string">&quot;WiFi名称&quot;</span> password <span class="string">&quot;WiFi密码&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="常见问题速查"><a href="#常见问题速查" class="headerlink" title="常见问题速查"></a>常见问题速查</h4><ul>
+<li><code>gcc ... -mlittle-endian</code>：交叉编译器未生效，重新 <code>export CROSS_COMPILE</code>。</li>
+<li><code>recovery.img open file failed</code>：打包清单包含不存在的 Buildroot recovery，注释 recovery 条目。</li>
+<li><code>rootfs.img open file failed</code>：没有生成 <code>rockdev/rootfs.ext4</code>，先制作 ext4 镜像。</li>
+<li>RKDevTool 显示 RK3568：RK356x SDK 共用元数据，确认 U-Boot 为 <code>rk3566</code>、DTS 为 <code>tspi-rk3566-user-v10-linux</code> 即可。</li>
+<li>无 Wi-Fi：先看 <code>dmesg</code> 是否有 SDIO、固件路径和 GPIO 电源域错误，再确认 <code>bcmdhd.ko</code>、<code>fw_bcmdhd.bin</code> 和 <code>nvram.txt</code> 均存在。</li>
+<li><code>failed ... fw_bcm43438a1.bin</code>：驱动自动选中了 A1，但镜像只放了通用文件名；补齐 <code>fw_bcm43438a1.bin</code> 和 <code>nvram_ap6212a.txt</code>。</li>
+<li><code>Authentication token manipulation error</code>：旧镜像的 <code>haxio</code> 账户被设置为首次强制改密，且输入了错误的旧密码或根分区不可写；当前最终镜像已改为 <code>tspi/orangepi2026</code> 并取消强制改密。</li>
+<li>音频播放正常、录音失败并出现 <code>rate(0)</code>：检查 I2S1 是否使用 <code>rockchip,trcm-sync-tx-only;</code>，不要继续使用旧的 <code>rockchip,clk-trcm = &lt;1&gt;;</code>。</li>
+<li>Ubuntu rootfs 空间不足：执行 <code>resize2fs /dev/disk/by-partlabel/rootfs</code> 扩展到参数表的 6 GiB 分区。</li>
+</ul>
+<h2 id="启动logo"><a href="#启动logo" class="headerlink" title="启动logo"></a>启动logo</h2><h3 id="登录-Banner"><a href="#登录-Banner" class="headerlink" title="登录 Banner"></a>登录 Banner</h3><p>不用单独设置“开机自启”，因为这个脚本放在：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/profile.d/newworld-banner.sh</span><br></pre></td></tr></table></figure>
+
+<p>它不是“开机服务”，而是：</p>
+<blockquote>
+<p><strong>用户登录 Shell 时，由系统自动加载执行。</strong></p>
+</blockquote>
+<p>所以只需要保证文件存在并可读：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 644 /etc/profile.d/newworld-banner.sh</span><br></pre></td></tr></table></figure>
+
+<p>然后重新 SSH 登录，就会自动显示。</p>
+<p>逻辑区别是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">开机自启服务</span><br><span class="line">→ systemd</span><br><span class="line">→ systemctl enable xxx.service</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">登录欢迎界面</span><br><span class="line">→ /etc/profile.d/*.sh</span><br><span class="line">→ 登录 Shell 自动执行</span><br></pre></td></tr></table></figure>
+
+<p>所以这个 Banner <strong>不需要 <code>systemctl enable</code>，也不需要 <code>chmod +x</code></strong>。</p>
+<p>可以直接测试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile.d/newworld-banner.sh</span><br></pre></td></tr></table></figure>
+
+<p>脚本如下，tee优先覆盖</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/profile.d/newworld-banner.sh &gt;/dev/null &lt;&lt;<span class="string">&#x27;EOF&#x27;</span></span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"><span class="comment"># NewWorld Login Banner</span></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只在交互式 Shell 中显示</span></span><br><span class="line"><span class="keyword">case</span> $- <span class="keyword">in</span></span><br><span class="line">    *i*) ;;</span><br><span class="line">    *) <span class="built_in">return</span> 0 2&gt;/dev/null || <span class="built_in">exit</span> 0 ;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"><span class="comment"># Colors</span></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"></span><br><span class="line">RESET=<span class="string">&#x27;\033[0m&#x27;</span></span><br><span class="line">BOLD=<span class="string">&#x27;\033[1m&#x27;</span></span><br><span class="line"></span><br><span class="line">CYAN=<span class="string">&#x27;\033[36m&#x27;</span></span><br><span class="line">GREEN=<span class="string">&#x27;\033[32m&#x27;</span></span><br><span class="line">YELLOW=<span class="string">&#x27;\033[33m&#x27;</span></span><br><span class="line">RED=<span class="string">&#x27;\033[31m&#x27;</span></span><br><span class="line">GRAY=<span class="string">&#x27;\033[90m&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"><span class="comment"># Network</span></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"></span><br><span class="line">IFACE=<span class="string">&quot;<span class="subst">$(ip route show default 2&gt;/dev/null | awk &#x27;NR==1 &#123;print $5&#125;&#x27;)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">&quot;<span class="variable">$IFACE</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">    IP_ADDR=<span class="string">&quot;<span class="subst">$(ip -4 addr show <span class="string">&quot;<span class="variable">$IFACE</span>&quot;</span> 2&gt;/dev/null \</span></span></span><br><span class="line"><span class="subst"><span class="string">        | awk &#x27;/inet / &#123;print $2&#125;&#x27; \</span></span></span><br><span class="line"><span class="subst"><span class="string">        | cut -d/ -f1 \</span></span></span><br><span class="line"><span class="subst"><span class="string">        | head -n1)</span>&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    IFACE=<span class="string">&quot;N/A&quot;</span></span><br><span class="line">    IP_ADDR=<span class="string">&quot;N/A&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">[ -z <span class="string">&quot;<span class="variable">$IP_ADDR</span>&quot;</span> ] &amp;&amp; IP_ADDR=<span class="string">&quot;N/A&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检测公网连通性</span></span><br><span class="line"><span class="keyword">if</span> ping -c 1 -W 1 223.5.5.5 &gt;/dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">    NET_STATUS=<span class="string">&quot;● ONLINE&quot;</span></span><br><span class="line">    NET_COLOR=<span class="string">&quot;<span class="variable">$GREEN</span>&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    NET_STATUS=<span class="string">&quot;● OFFLINE&quot;</span></span><br><span class="line">    NET_COLOR=<span class="string">&quot;<span class="variable">$RED</span>&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"><span class="comment"># System</span></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -r /etc/os-release ]; <span class="keyword">then</span></span><br><span class="line">    . /etc/os-release</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> [ -n <span class="string">&quot;<span class="variable">$PRETTY_NAME</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">        OS_NAME=<span class="string">&quot;<span class="variable">$PRETTY_NAME</span>&quot;</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        OS_NAME=<span class="string">&quot;<span class="variable">$&#123;NAME:-Linux&#125;</span> <span class="variable">$&#123;VERSION_ID:-&#125;</span>&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    OS_NAME=<span class="string">&quot;Linux&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">SOC=<span class="string">&quot;RK3566&quot;</span></span><br><span class="line">KERNEL=<span class="string">&quot;<span class="subst">$(uname -r)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"><span class="comment"># Uptime</span></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"></span><br><span class="line">UP_SECONDS=<span class="string">&quot;<span class="subst">$(awk &#x27;&#123;print int($1)</span>&#125;&#x27; /proc/uptime 2&gt;/dev/null)&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [[ <span class="string">&quot;<span class="variable">$UP_SECONDS</span>&quot;</span> =~ ^[0-9]+$ ]]; <span class="keyword">then</span></span><br><span class="line"></span><br><span class="line">    DAYS=$((UP_SECONDS / <span class="number">86400</span>))</span><br><span class="line">    HOURS=$(((UP_SECONDS % <span class="number">86400</span>) / <span class="number">3600</span>))</span><br><span class="line">    MINS=$(((UP_SECONDS % <span class="number">3600</span>) / <span class="number">60</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$DAYS</span>&quot;</span> -gt 0 ]; <span class="keyword">then</span></span><br><span class="line">        UPTIME=<span class="string">&quot;<span class="variable">$&#123;DAYS&#125;</span>d <span class="variable">$&#123;HOURS&#125;</span>h <span class="variable">$&#123;MINS&#125;</span>m&quot;</span></span><br><span class="line">    <span class="keyword">elif</span> [ <span class="string">&quot;<span class="variable">$HOURS</span>&quot;</span> -gt 0 ]; <span class="keyword">then</span></span><br><span class="line">        UPTIME=<span class="string">&quot;<span class="variable">$&#123;HOURS&#125;</span>h <span class="variable">$&#123;MINS&#125;</span>m&quot;</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        UPTIME=<span class="string">&quot;<span class="variable">$&#123;MINS&#125;</span>m&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    UPTIME=<span class="string">&quot;N/A&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"><span class="comment"># CPU Usage</span></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">get_cpu_usage</span></span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">read</span> -r _ user <span class="built_in">nice</span> system idle iowait irq softirq steal _ &lt; /proc/stat</span><br><span class="line"></span><br><span class="line">    TOTAL1=$((user + nice + system + idle + iowait + irq + softirq + steal))</span><br><span class="line">    IDLE1=$((idle + iowait))</span><br><span class="line"></span><br><span class="line">    <span class="built_in">sleep</span> 0.2</span><br><span class="line"></span><br><span class="line">    <span class="built_in">read</span> -r _ user <span class="built_in">nice</span> system idle iowait irq softirq steal _ &lt; /proc/stat</span><br><span class="line"></span><br><span class="line">    TOTAL2=$((user + nice + system + idle + iowait + irq + softirq + steal))</span><br><span class="line">    IDLE2=$((idle + iowait))</span><br><span class="line"></span><br><span class="line">    TOTAL_DELTA=$((TOTAL2 - TOTAL1))</span><br><span class="line">    IDLE_DELTA=$((IDLE2 - IDLE1))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$TOTAL_DELTA</span>&quot;</span> -gt 0 ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> $((<span class="number">100</span> * (TOTAL_DELTA - IDLE_DELTA) / TOTAL_DELTA))</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> 0</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">CPU_USAGE=<span class="string">&quot;<span class="subst">$(get_cpu_usage)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$CPU_USAGE</span>&quot;</span> -ge 85 ]; <span class="keyword">then</span></span><br><span class="line">    CPU_COLOR=<span class="string">&quot;<span class="variable">$RED</span>&quot;</span></span><br><span class="line"><span class="keyword">elif</span> [ <span class="string">&quot;<span class="variable">$CPU_USAGE</span>&quot;</span> -ge 60 ]; <span class="keyword">then</span></span><br><span class="line">    CPU_COLOR=<span class="string">&quot;<span class="variable">$YELLOW</span>&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    CPU_COLOR=<span class="string">&quot;<span class="variable">$GREEN</span>&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"><span class="comment"># Temperature</span></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"></span><br><span class="line">TEMP=0</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ZONE <span class="keyword">in</span> /sys/class/thermal/thermal_zone*/temp; <span class="keyword">do</span></span><br><span class="line"></span><br><span class="line">    [ -r <span class="string">&quot;<span class="variable">$ZONE</span>&quot;</span> ] || <span class="built_in">continue</span></span><br><span class="line"></span><br><span class="line">    VALUE=<span class="string">&quot;<span class="subst">$(cat <span class="string">&quot;<span class="variable">$ZONE</span>&quot;</span> 2&gt;/dev/null)</span>&quot;</span></span><br><span class="line"></span><br><span class="line">    [[ <span class="string">&quot;<span class="variable">$VALUE</span>&quot;</span> =~ ^[0-9]+$ ]] || <span class="built_in">continue</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$VALUE</span>&quot;</span> -gt 1000 ]; <span class="keyword">then</span></span><br><span class="line">        VALUE=$((VALUE / <span class="number">1000</span>))</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$VALUE</span>&quot;</span> -gt <span class="string">&quot;<span class="variable">$TEMP</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">        TEMP=<span class="string">&quot;<span class="variable">$VALUE</span>&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$TEMP</span>&quot;</span> -gt 0 ]; <span class="keyword">then</span></span><br><span class="line"></span><br><span class="line">    TEMP_TEXT=<span class="string">&quot;<span class="variable">$&#123;TEMP&#125;</span>°C&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$TEMP</span>&quot;</span> -ge 80 ]; <span class="keyword">then</span></span><br><span class="line">        TEMP_COLOR=<span class="string">&quot;<span class="variable">$RED</span>&quot;</span></span><br><span class="line">    <span class="keyword">elif</span> [ <span class="string">&quot;<span class="variable">$TEMP</span>&quot;</span> -ge 65 ]; <span class="keyword">then</span></span><br><span class="line">        TEMP_COLOR=<span class="string">&quot;<span class="variable">$YELLOW</span>&quot;</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        TEMP_COLOR=<span class="string">&quot;<span class="variable">$GREEN</span>&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    TEMP_TEXT=<span class="string">&quot;N/A&quot;</span></span><br><span class="line">    TEMP_COLOR=<span class="string">&quot;<span class="variable">$GRAY</span>&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"><span class="comment"># Memory</span></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"></span><br><span class="line">MEMORY=<span class="string">&quot;<span class="subst">$(free -h 2&gt;/dev/null | awk &#x27;/^Mem:/ &#123;</span></span></span><br><span class="line"><span class="subst"><span class="string">    print $3 <span class="string">&quot; / &quot;</span> $2</span></span></span><br><span class="line"><span class="subst"><span class="string">&#125;&#x27;)</span>&quot;</span></span><br><span class="line"></span><br><span class="line">[ -z <span class="string">&quot;<span class="variable">$MEMORY</span>&quot;</span> ] &amp;&amp; MEMORY=<span class="string">&quot;N/A&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"><span class="comment"># Root Filesystem</span></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"></span><br><span class="line">ROOT_INFO=<span class="string">&quot;<span class="subst">$(df -hP / 2&gt;/dev/null | awk &#x27;NR==2 &#123;</span></span></span><br><span class="line"><span class="subst"><span class="string">    print $3 <span class="string">&quot; / &quot;</span> $2 <span class="string">&quot; (&quot;</span> $5 <span class="string">&quot;)&quot;</span></span></span></span><br><span class="line"><span class="subst"><span class="string">&#125;&#x27;)</span>&quot;</span></span><br><span class="line"></span><br><span class="line">[ -z <span class="string">&quot;<span class="variable">$ROOT_INFO</span>&quot;</span> ] &amp;&amp; ROOT_INFO=<span class="string">&quot;N/A&quot;</span></span><br><span class="line"></span><br><span class="line">ROOT_PERCENT=<span class="string">&quot;<span class="subst">$(df -P / 2&gt;/dev/null | awk &#x27;NR==2 &#123;</span></span></span><br><span class="line"><span class="subst"><span class="string">    gsub(<span class="string">&quot;%&quot;</span>, <span class="string">&quot;&quot;</span>, $5)</span></span></span><br><span class="line"><span class="string">    print <span class="variable">$5</span></span></span><br><span class="line"><span class="string">&#125;&#x27;)&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [[ <span class="string">&quot;<span class="variable">$ROOT_PERCENT</span>&quot;</span> =~ ^[0-9]+$ ]]; <span class="keyword">then</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$ROOT_PERCENT</span>&quot;</span> -ge 90 ]; <span class="keyword">then</span></span><br><span class="line">        ROOT_COLOR=<span class="string">&quot;<span class="variable">$RED</span>&quot;</span></span><br><span class="line">    <span class="keyword">elif</span> [ <span class="string">&quot;<span class="variable">$ROOT_PERCENT</span>&quot;</span> -ge 80 ]; <span class="keyword">then</span></span><br><span class="line">        ROOT_COLOR=<span class="string">&quot;<span class="variable">$YELLOW</span>&quot;</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        ROOT_COLOR=<span class="string">&quot;<span class="variable">$GREEN</span>&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    ROOT_COLOR=<span class="string">&quot;<span class="variable">$GRAY</span>&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"><span class="comment"># Total Storage</span></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"></span><br><span class="line">ROOT_SOURCE=<span class="string">&quot;<span class="subst">$(findmnt -n -o SOURCE / 2&gt;/dev/null)</span>&quot;</span></span><br><span class="line">ROOT_SOURCE=<span class="string">&quot;<span class="subst">$(readlink -f <span class="string">&quot;<span class="variable">$ROOT_SOURCE</span>&quot;</span> 2&gt;/dev/null)</span>&quot;</span></span><br><span class="line"></span><br><span class="line">ROOT_DISK=<span class="string">&quot;<span class="subst">$(lsblk -no PKNAME <span class="string">&quot;<span class="variable">$ROOT_SOURCE</span>&quot;</span> 2&gt;/dev/null | head -n1)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -n <span class="string">&quot;<span class="variable">$ROOT_DISK</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line"></span><br><span class="line">    STORAGE=<span class="string">&quot;<span class="subst">$(lsblk -dn -o SIZE <span class="string">&quot;/dev/<span class="variable">$ROOT_DISK</span>&quot;</span> 2&gt;/dev/null)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 找 eMMC / SD 主设备，优先取 mmcblk0</span></span><br><span class="line">    STORAGE=<span class="string">&quot;<span class="subst">$(lsblk -dn -o NAME,SIZE 2&gt;/dev/null \</span></span></span><br><span class="line"><span class="subst"><span class="string">        | awk &#x27;$1 == <span class="string">&quot;mmcblk0&quot;</span> &#123;print $2; exit&#125;&#x27;)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">[ -z <span class="string">&quot;<span class="variable">$STORAGE</span>&quot;</span> ] &amp;&amp; STORAGE=<span class="string">&quot;N/A&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"><span class="comment"># Banner</span></span><br><span class="line"><span class="comment"># ============================================================</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------- NEW WORLD Logo ----------------</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%b&quot;</span> <span class="string">&quot;<span class="variable">$&#123;BOLD&#125;</span><span class="variable">$&#123;CYAN&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> &lt;&lt;<span class="string">&#x27;LOGO&#x27;</span></span><br><span class="line">███╗   ██╗███████╗██╗    ██╗    ██╗    ██╗ ██████╗ ██████╗ ██╗     ██████╗</span><br><span class="line">████╗  ██║██╔════╝██║    ██║    ██║    ██║██╔═══██╗██╔══██╗██║     ██╔══██╗</span><br><span class="line">██╔██╗ ██║█████╗  ██║ █╗ ██║    ██║ █╗ ██║██║   ██║██████╔╝██║     ██║  ██║</span><br><span class="line">██║╚██╗██║██╔══╝  ██║███╗██║    ██║███╗██║██║   ██║██╔══██╗██║     ██║  ██║</span><br><span class="line">██║ ╚████║███████╗╚███╔███╔╝    ╚███╔███╔╝╚██████╔╝██║  ██║███████╗██████╔╝</span><br><span class="line">╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝      ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═════╝</span><br><span class="line">LOGO</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;%b\n&quot;</span> <span class="string">&quot;<span class="variable">$&#123;RESET&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------- Network ----------------</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot; <span class="variable">$&#123;BOLD&#125;</span>Network<span class="variable">$&#123;RESET&#125;</span>   <span class="variable">$&#123;NET_COLOR&#125;</span><span class="variable">$&#123;BOLD&#125;</span>%-15s<span class="variable">$&#123;RESET&#125;</span> <span class="variable">$&#123;GRAY&#125;</span>IP<span class="variable">$&#123;RESET&#125;</span>              <span class="variable">$&#123;CYAN&#125;</span>%s<span class="variable">$&#123;RESET&#125;</span>\n&quot;</span> \</span><br><span class="line">    <span class="string">&quot;<span class="variable">$NET_STATUS</span>&quot;</span> <span class="string">&quot;<span class="variable">$IP_ADDR</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;           <span class="variable">$&#123;GRAY&#125;</span>%-15s<span class="variable">$&#123;RESET&#125;</span> %s\n&quot;</span> \</span><br><span class="line">    <span class="string">&quot;Interface&quot;</span> <span class="string">&quot;<span class="variable">$IFACE</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------- System ----------------</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot; <span class="variable">$&#123;BOLD&#125;</span>System<span class="variable">$&#123;RESET&#125;</span>    <span class="variable">$&#123;GRAY&#125;</span>%-15s<span class="variable">$&#123;RESET&#125;</span> %s\n&quot;</span> \</span><br><span class="line">    <span class="string">&quot;OS&quot;</span> <span class="string">&quot;<span class="variable">$OS_NAME</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;           <span class="variable">$&#123;GRAY&#125;</span>%-15s<span class="variable">$&#123;RESET&#125;</span> %s\n&quot;</span> \</span><br><span class="line">    <span class="string">&quot;SoC&quot;</span> <span class="string">&quot;<span class="variable">$SOC</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;           <span class="variable">$&#123;GRAY&#125;</span>%-15s<span class="variable">$&#123;RESET&#125;</span> %s\n&quot;</span> \</span><br><span class="line">    <span class="string">&quot;Kernel&quot;</span> <span class="string">&quot;<span class="variable">$KERNEL</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;           <span class="variable">$&#123;GRAY&#125;</span>%-15s<span class="variable">$&#123;RESET&#125;</span> %s\n&quot;</span> \</span><br><span class="line">    <span class="string">&quot;Uptime&quot;</span> <span class="string">&quot;<span class="variable">$UPTIME</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------- Hardware ----------------</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot; <span class="variable">$&#123;BOLD&#125;</span>Hardware<span class="variable">$&#123;RESET&#125;</span>  <span class="variable">$&#123;GRAY&#125;</span>%-15s<span class="variable">$&#123;RESET&#125;</span> <span class="variable">$&#123;CPU_COLOR&#125;</span>%s%%<span class="variable">$&#123;RESET&#125;</span>\n&quot;</span> \</span><br><span class="line">    <span class="string">&quot;CPU&quot;</span> <span class="string">&quot;<span class="variable">$CPU_USAGE</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;           <span class="variable">$&#123;GRAY&#125;</span>%-15s<span class="variable">$&#123;RESET&#125;</span> <span class="variable">$&#123;TEMP_COLOR&#125;</span>%s<span class="variable">$&#123;RESET&#125;</span>\n&quot;</span> \</span><br><span class="line">    <span class="string">&quot;Temperature&quot;</span> <span class="string">&quot;<span class="variable">$TEMP_TEXT</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;           <span class="variable">$&#123;GRAY&#125;</span>%-15s<span class="variable">$&#123;RESET&#125;</span> %s\n&quot;</span> \</span><br><span class="line">    <span class="string">&quot;Memory&quot;</span> <span class="string">&quot;<span class="variable">$MEMORY</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;           <span class="variable">$&#123;GRAY&#125;</span>%-15s<span class="variable">$&#123;RESET&#125;</span> %s\n&quot;</span> \</span><br><span class="line">    <span class="string">&quot;Storage&quot;</span> <span class="string">&quot;<span class="variable">$STORAGE</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;           <span class="variable">$&#123;GRAY&#125;</span>%-15s<span class="variable">$&#123;RESET&#125;</span> <span class="variable">$&#123;ROOT_COLOR&#125;</span>%s<span class="variable">$&#123;RESET&#125;</span>\n&quot;</span> \</span><br><span class="line">    <span class="string">&quot;Root FS&quot;</span> <span class="string">&quot;<span class="variable">$ROOT_INFO</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ---------------- Bottom Divider ----------------</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;<span class="variable">$&#123;GRAY&#125;</span> -------------------------------------------------------------------------------<span class="variable">$&#123;RESET&#125;</span>\n&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<p>然后权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> 644 /etc/profile.d/newworld-banner.sh</span><br></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile.d/newworld-banner.sh</span><br></pre></td></tr></table></figure>
+
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2026/03/01/213-mo-xia-xiao-zhi-ai/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2026-08-18 08:57:23
+            </span>
+            
+                  <span class="post-tags">
+                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
+                    
+                    <span class="span--tag mr-8">
+                      <a href="/tags/linux/" title="linux">
+                        #linux
+                      </a>
+                    </span>
+                    
+                  </span>
+              
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2026/04/12/214-mo-xia-fasttext/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF"><span class="toc-text">项目背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buildroot"><span class="toc-text">Buildroot</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%91"><span class="toc-text">配网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Wi-Fi-%E9%A9%B1%E5%8A%A8"><span class="toc-text">Wi-Fi 驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F-Wi-Fi"><span class="toc-text">扫描 Wi-Fi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5-Wi-Fi"><span class="toc-text">连接 Wi-Fi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96-IP"><span class="toc-text">获取 IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%91%E7%BB%84%E4%BB%B6"><span class="toc-text">配网组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%91%E6%AD%A5%E9%AA%A4"><span class="toc-text">配网步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E8%81%94%E7%BD%91%E6%96%B9%E6%A1%88"><span class="toc-text">开机自动联网方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Wi-Fi-%E6%95%85%E9%9A%9C%E6%A3%80%E6%9F%A5%E6%B5%81%E7%A8%8B"><span class="toc-text">Wi-Fi 故障检查流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text">流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%88%86%E5%B7%A5"><span class="toc-text">程序分工</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%96%87%E4%BB%B6"><span class="toc-text">核心文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%91%BD%E4%BB%A4"><span class="toc-text">核心命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Debian-%E5%B0%9D%E8%AF%95%E8%AE%B0%E5%BD%95"><span class="toc-text">Debian 尝试记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ubuntu-22-04"><span class="toc-text">Ubuntu 22.04</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95"><span class="toc-text">开发记录</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA"><span class="toc-text">开机</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Wi-Fi-%E9%A9%B1%E5%8A%A8%E4%B8%8E%E5%9B%BA%E4%BB%B6"><span class="toc-text">Wi-Fi 驱动与固件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%91-1"><span class="toc-text">配网</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%91"><span class="toc-text">多环境配网</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA%E6%B5%81%E7%A8%8B-LED"><span class="toc-text">开机流程 LED</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%84%9A%E6%9C%AC"><span class="toc-text">核心脚本</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E6%89%A7%E8%A1%8C"><span class="toc-text">什么时候执行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E7%BC%96%E8%AF%91%E6%8C%87%E5%8D%97"><span class="toc-text">完整编译指南</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%9B%AE%E6%A0%87"><span class="toc-text">最终目标</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E5%87%86%E5%A4%87%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">需要准备的内容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%B3%B0%E5%B1%B1%E6%B4%BE%E6%9D%BF%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="toc-text">选择泰山派板级配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-U-Boot%E3%80%81%E5%86%85%E6%A0%B8%E5%92%8C%E6%A8%A1%E5%9D%97"><span class="toc-text">编译 U-Boot、内核和模块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-rootfs"><span class="toc-text">创建 rootfs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%86%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97%E5%AE%89%E8%A3%85%E5%88%B0-rootfs"><span class="toc-text">将内核模块安装到 rootfs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Ubuntu-22-04-%E9%85%8D%E7%BD%AE-AP6212-Wi-Fi"><span class="toc-text">Ubuntu 22.04 配置 AP6212 Wi-Fi</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9F%B3%E9%A2%91-I2S-RK809-%E9%85%8D%E7%BD%AE"><span class="toc-text">音频 I2S&#x2F;RK809 配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C-rootfs-ext4"><span class="toc-text">制作 rootfs.ext4</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%AE%8C%E6%95%B4%E5%8D%87%E7%BA%A7%E9%95%9C%E5%83%8F"><span class="toc-text">生成完整升级镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-RKDevTool-%E7%83%A7%E5%BD%95"><span class="toc-text">使用 RKDevTool 烧录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A6%96%E6%AC%A1%E5%90%AF%E5%8A%A8%E6%A3%80%E6%9F%A5"><span class="toc-text">首次启动检查</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E9%80%9F%E6%9F%A5"><span class="toc-text">常见问题速查</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8logo"><span class="toc-text">启动logo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95-Banner"><span class="toc-text">登录 Banner</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E6%91%B8%E4%B8%8B%E6%B3%B0%E5%B1%B1pi%E8%AF%B6 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2026%2F03%2F27%2F216-tai-shan-pi-ai%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2026/03/27/216-tai-shan-pi-ai/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">python常见报错以及解决</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1871
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -177,122 +190,40 @@
           
       </div>
       <div class="markdown-body">
-        <h2 id="command"><a href="#command" class="headerlink" title="command"></a>command</h2><h3 id="添加-删除然软连接"><a href="#添加-删除然软连接" class="headerlink" title="添加&#x2F;删除然软连接"></a>添加&#x2F;删除然软连接</h3><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">#添加python3软链接：
-ln -s &#x2F;usr&#x2F;local&#x2F;python3.10.1&#x2F;bin&#x2F;python3.10.1 &#x2F;usr&#x2F;bin&#x2F;python3
-#添加pip3软链接：
-ln -s &#x2F;usr&#x2F;local&#x2F;python3.10.1&#x2F;bin&#x2F;pip3.10.1 &#x2F;usr&#x2F;bin&#x2F;pip3
-
-#删除软连接的方法(&#96;慎用,不然会连着文件一起删除&#96;)
-unlink &#x2F;usr&#x2F;local&#x2F;python3.10.1&#x2F;bin&#x2F;python3.10.1&#x2F;usr&#x2F;bin&#x2F;python3
-rm -rf &#x2F;usr&#x2F;local&#x2F;python3.10.1&#x2F;bin&#x2F;python3.10.1&#x2F;usr&#x2F;bin&#x2F;python3    #末尾有&#96;&#x2F;&#96;的是连文件一起删除<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+        <h2 id="command"><a href="#command" class="headerlink" title="command"></a>command</h2><h3 id="添加-删除然软连接"><a href="#添加-删除然软连接" class="headerlink" title="添加&#x2F;删除然软连接"></a>添加&#x2F;删除然软连接</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#添加python3软链接：</span><br><span class="line">ln -s /usr/local/python3.10.1/bin/python3.10.1 /usr/bin/python3</span><br><span class="line">#添加pip3软链接：</span><br><span class="line">ln -s /usr/local/python3.10.1/bin/pip3.10.1 /usr/bin/pip3</span><br><span class="line"></span><br><span class="line">#删除软连接的方法(`慎用,不然会连着文件一起删除`)</span><br><span class="line">unlink /usr/local/python3.10.1/bin/python3.10.1/usr/bin/python3</span><br><span class="line">rm -rf /usr/local/python3.10.1/bin/python3.10.1/usr/bin/python3    #末尾有`/`的是连文件一起删除</span><br></pre></td></tr></table></figure>
 <h2 id="centos安装python时易出现的error"><a href="#centos安装python时易出现的error" class="headerlink" title="centos安装python时易出现的error"></a>centos安装python时易出现的error</h2><h3 id="WARNING-Retrying-Retry-total-1"><a href="#WARNING-Retrying-Retry-total-1" class="headerlink" title="WARNING: Retrying (Retry(total&#x3D;1,"></a>WARNING: Retrying (Retry(total&#x3D;1,</h3><p>connect&#x3D;None, read&#x3D;None, redirect&#x3D;None, status&#x3D;None)) after connec<br>原因:其实就是找第三方库的时候链接超时，总是获取不到。自带的pip命令去国外的服务器请求第三方包了，所以超时，因而换成国内镜像下载即可，并且要信任镜像的URL。</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">解决：以阿里的镜像为例
-第一步：开始报错
-pip3 install xlrd
-第二步：加上镜像地址，继续报错（因为未信任请求站点）
-pip3 install xlrd -i http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;pypi&#x2F;simple&#x2F;
-第三步：加上镜像，加上信任站点
-pip3 install xlrd -i http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;pypi&#x2F;simple&#x2F; --trusted-host mirrors.aliyun.com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">解决：以阿里的镜像为例</span><br><span class="line">第一步：开始报错</span><br><span class="line">pip3 install xlrd</span><br><span class="line">第二步：加上镜像地址，继续报错（因为未信任请求站点）</span><br><span class="line">pip3 install xlrd -i http://mirrors.aliyun.com/pypi/simple/</span><br><span class="line">第三步：加上镜像，加上信任站点</span><br><span class="line">pip3 install xlrd -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com</span><br></pre></td></tr></table></figure>
 <h3 id="ModuleNotFoundError-No-module-named-‘-ssl‘问题"><a href="#ModuleNotFoundError-No-module-named-‘-ssl‘问题" class="headerlink" title="ModuleNotFoundError: No module named ‘_ssl‘问题"></a>ModuleNotFoundError: No module named ‘_ssl‘问题</h3><p>centos安装python3时,查阅知需要的openssl版本最低为1.0.2，但是centos 默认的为1.0.1，所以需要重新更新openssl<br>安装依赖库</p>
 <blockquote>
 <p>yum install -y zlib zlib-dev openssl-devel sqlite-devel bzip2-devel libffi libffi-devel gcc gcc-c++</p>
 </blockquote>
 <h4 id="安装新版本的openssl"><a href="#安装新版本的openssl" class="headerlink" title="安装新版本的openssl"></a>安装新版本的openssl</h4><p>注意！openssl配置是用config，而不是configure，另外openssl编译安装依赖zlib动态库，所以一定要shared zlib 自行到官网查阅最新版本~</p>
 <p><a target="_blank" rel="noopener" href="http://www.openssl.org/source/">openssl安装包官网下载地址</a></p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">wget http:&#x2F;&#x2F;www.openssl.org&#x2F;source&#x2F;openssl-1.1.1.tar.gz            #（有网就可以直接下载，没网下载安装包通上传到centos中）
-
-tar -zxvf openssl-1.1.1k.tar.gz                                      （ 解压对应版本安装包）
-
-cd openssl-1.1.1k                                                     （进入对应的解压目录）
-
-.&#x2F;config --prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;openssl shared zlib 
-
- (prefix为配置安装目录，shared zlib 安装依赖库）这一步最重要，一定要shared
-
-make &amp;&amp; make install                                                         （编译、安装）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget http://www.openssl.org/source/openssl-1.1.1.tar.gz            #（有网就可以直接下载，没网下载安装包通上传到centos中）</span><br><span class="line"></span><br><span class="line">tar -zxvf openssl-1.1.1k.tar.gz                                      （ 解压对应版本安装包）</span><br><span class="line"></span><br><span class="line">cd openssl-1.1.1k                                                     （进入对应的解压目录）</span><br><span class="line"></span><br><span class="line">./config --prefix=/usr/local/openssl shared zlib </span><br><span class="line"></span><br><span class="line"> (prefix为配置安装目录，shared zlib 安装依赖库）这一步最重要，一定要shared</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install                                                         （编译、安装）</span><br></pre></td></tr></table></figure>
 <h4 id="设置环境变量LD-LIBRARY-PATH（二选一）"><a href="#设置环境变量LD-LIBRARY-PATH（二选一）" class="headerlink" title="设置环境变量LD_LIBRARY_PATH（二选一）"></a>设置环境变量LD_LIBRARY_PATH（二选一）</h4><p>这一步一定要有！！LD_LIBRARY_PATH环境变量主要用于指定查找共享库（动态链接库）时除了默认路径之外的其他路径。当执行函数动态链接.so时，如果此文件不在缺省目录下‘&#x2F;lib’ and ‘&#x2F;usr&#x2F;lib’，那么就需要指定环境变量LD_LIBRARY_PATH</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">（1）用户环境变量：
-echo &quot;export LD_LIBRARY_PATH&#x3D;$LD_LIBRARY_PATH:&#x2F;usr&#x2F;local&#x2F;openssl&#x2F;lib&quot; &gt;&gt; &#x2F;usr&#x2F;local&#x2F;.bash_profile     (在用户环境变量文件中添加openssl的环境变量)
-source &#x2F;usr&#x2F;local&#x2F;.bash_profile                        （重新加载该路径下的用户环境变量文件）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">（1）用户环境变量：</span><br><span class="line">echo &quot;export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/openssl/lib&quot; &gt;&gt; /usr/local/.bash_profile     (在用户环境变量文件中添加openssl的环境变量)</span><br><span class="line">source /usr/local/.bash_profile                        （重新加载该路径下的用户环境变量文件）</span><br></pre></td></tr></table></figure>
 <p>注：在实际服务器上应用过程中发现，该环境变量只会当前shell脚本生效，如果下次重新进入shell脚本会失效，故如果嫌麻烦每次启动服务都要用的话，可直接设置到path环境变量中。（该步涉及到Centos系统使用习惯，一般程序环境变量设置入用户变量即可，path专门保存系统变量，但一般用户环境变量会失效，放入path会全局生效）。</p>
 <p>（2）系统环境变量：</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">如果选择将其设置为全局的在path系统环境变量中设置命令如下：
-
-#在系统环境变量文件中添加openssl的环境变量
-echo &quot;export LD_LIBRARY_PATH&#x3D;$LD_LIBRARY_PATH:&#x2F;usr&#x2F;local&#x2F;openssl&#x2F;lib&quot; &gt;&gt;  &#x2F;etc&#x2F;profile    
-
-#重新加载该路径下的系统环境变量文件 
-source &#x2F;etc&#x2F;profile                              <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="解压python3-10-1并安装，指定刚才安装的1-1-1版本的openssl！"><a href="#解压python3-10-1并安装，指定刚才安装的1-1-1版本的openssl！" class="headerlink" title="解压python3.10.1并安装，指定刚才安装的1.1.1版本的openssl！"></a>解压python3.10.1并安装，指定刚才安装的1.1.1版本的openssl！</h4><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">tar -zxvf Python-3.10.1.tgz                                                               
-.&#x2F;configure --prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;&#x2F;python3 --with-openssl&#x3D;&#x2F;usr&#x2F;local&#x2F;&#x2F;openssl       (配置安装目录，指定openssl环境的安装目录)
-
-make &amp;&amp; make install                                                               （编译、安装）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">如果选择将其设置为全局的在path系统环境变量中设置命令如下：</span><br><span class="line"></span><br><span class="line">#在系统环境变量文件中添加openssl的环境变量</span><br><span class="line">echo &quot;export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/openssl/lib&quot; &gt;&gt;  /etc/profile    </span><br><span class="line"></span><br><span class="line">#重新加载该路径下的系统环境变量文件 </span><br><span class="line">source /etc/profile                              </span><br></pre></td></tr></table></figure>
+<h4 id="解压python3-10-1并安装，指定刚才安装的1-1-1版本的openssl！"><a href="#解压python3-10-1并安装，指定刚才安装的1-1-1版本的openssl！" class="headerlink" title="解压python3.10.1并安装，指定刚才安装的1.1.1版本的openssl！"></a>解压python3.10.1并安装，指定刚才安装的1.1.1版本的openssl！</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf Python-3.10.1.tgz                                                               </span><br><span class="line">./configure --prefix=/usr/local//python3 --with-openssl=/usr/local//openssl       (配置安装目录，指定openssl环境的安装目录)</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install                                                               （编译、安装）</span><br></pre></td></tr></table></figure>
 <p>检验ssl模块能否被导入<br>创建python软连接</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">ln -s &#x2F;usr&#x2F;local&#x2F;python3&#x2F;bin&#x2F;pip3  &#x2F;usr&#x2F;bin&#x2F;pip        #pip命令行调用指向pip3
-
-pip -V
-
-ln -s &#x2F;usr&#x2F;local&#x2F;python3&#x2F;bin&#x2F;python3  &#x2F;usr&#x2F;bin&#x2F;python             
-
-#python命令行调用指向python3,如果同时安装有其他版本python可通过该命令指定用到的python版本
-
-ln -s &#x2F;usr&#x2F;local&#x2F;python3&#x2F;bin&#x2F;python3  &#x2F;usr&#x2F;bin&#x2F;python3        
-
-#python3命令行调用指向python3,由于某些程序执行时要求是python3命令调用，该步可根据需要进行设置
-
-python --version           #查看当前python安装版                                         
-
-导入ssl模块
-python3                      （进入python3命令行）
-import ssl                   （导入ssl模块）
-
-import _ssl                  （导入_ssl模块）
-
-exit()                       （退出python3命令行）
-
-查看python软连接指向
-whereis python<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/python3/bin/pip3  /usr/bin/pip        #pip命令行调用指向pip3</span><br><span class="line"></span><br><span class="line">pip -V</span><br><span class="line"></span><br><span class="line">ln -s /usr/local/python3/bin/python3  /usr/bin/python             </span><br><span class="line"></span><br><span class="line">#python命令行调用指向python3,如果同时安装有其他版本python可通过该命令指定用到的python版本</span><br><span class="line"></span><br><span class="line">ln -s /usr/local/python3/bin/python3  /usr/bin/python3        </span><br><span class="line"></span><br><span class="line">#python3命令行调用指向python3,由于某些程序执行时要求是python3命令调用，该步可根据需要进行设置</span><br><span class="line"></span><br><span class="line">python --version           #查看当前python安装版                                         </span><br><span class="line"></span><br><span class="line">导入ssl模块</span><br><span class="line">python3                      （进入python3命令行）</span><br><span class="line">import ssl                   （导入ssl模块）</span><br><span class="line"></span><br><span class="line">import _ssl                  （导入_ssl模块）</span><br><span class="line"></span><br><span class="line">exit()                       （退出python3命令行）</span><br><span class="line"></span><br><span class="line">查看python软连接指向</span><br><span class="line">whereis python</span><br></pre></td></tr></table></figure>
 <p><code>以上Centos安装python3导入ssl时解决 ModuleNotFoundError: No module named &#39;_ssl&#39;问题的全部解决过程！</code></p>
 <h3 id="执行python3命令的时候出现-can‘t-open-file-‘XXX‘-Errno-2-No-such-file-or-directory"><a href="#执行python3命令的时候出现-can‘t-open-file-‘XXX‘-Errno-2-No-such-file-or-directory" class="headerlink" title="执行python3命令的时候出现 can‘t open file ‘XXX‘: [Errno 2] No such file or directory"></a>执行python3命令的时候出现 can‘t open file ‘XXX‘: [Errno 2] No such file or directory</h3><p>检查一下命令是不是打错了</p>
 <p><a href="%5B(72%E6%9D%A1%E6%B6%88%E6%81%AF">参考文章</a> 问题总结python: can‘t open file ‘XXX‘: <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_51736742/article/details/119863044">Errno 2] No such file or directory_++加油呀的博客-CSDN博客</a>)</p>
 <h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="ubuntu安装python是易出现的error"><a href="#ubuntu安装python是易出现的error" class="headerlink" title="ubuntu安装python是易出现的error"></a>ubuntu安装python是易出现的error</h2><p>待完成…</p>
-<h3 id="error98-address-already-in-use"><a href="#error98-address-already-in-use" class="headerlink" title="[error98]address already in use"></a>[error98]address already in use</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">lsof -t -i tcp:8080 | xargs kill -9<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h2 id="库相关error"><a href="#库相关error" class="headerlink" title="库相关error"></a>库相关error</h2><h3 id="Do-you-need-to-install-a-parser-library"><a href="#Do-you-need-to-install-a-parser-library" class="headerlink" title="Do you need to install a parser library"></a>Do you need to install a parser library</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">#方法一
-pip3 install lxml
-#方法二：换一种解析方式
-将soup &#x3D; BeautifulSoup(r.text, ‘lxml’)修改成如下形式即可：
-soup &#x3D; BeautifulSoup(r.text, ‘html.parser’)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="error98-address-already-in-use"><a href="#error98-address-already-in-use" class="headerlink" title="[error98]address already in use"></a>[error98]address already in use</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -t -i tcp:<span class="number">8080</span> | xargs kill -<span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h2 id="库相关error"><a href="#库相关error" class="headerlink" title="库相关error"></a>库相关error</h2><h3 id="Do-you-need-to-install-a-parser-library"><a href="#Do-you-need-to-install-a-parser-library" class="headerlink" title="Do you need to install a parser library"></a>Do you need to install a parser library</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方法一</span></span><br><span class="line">pip3 install lxml</span><br><span class="line"><span class="comment">#方法二：换一种解析方式</span></span><br><span class="line">将soup = BeautifulSoup(r.text, ‘lxml’)修改成如下形式即可：</span><br><span class="line">soup = BeautifulSoup(r.text, ‘html.parser’)</span><br></pre></td></tr></table></figure>
 <p>(lxml是python的一个解析库，支持HTML和XML的解析，支持XPath解析方式，而且解析效率非常高。<br>XML 指可扩展标记语言（eXtensible Markup Language）。<br>XML 被设计用来传输和存储数据。)</p>
-<h3 id="no-moudle-xxxx"><a href="#no-moudle-xxxx" class="headerlink" title="no moudle xxxx"></a>no moudle xxxx</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">#缺什么安装什么就行
-#PIL
-pip install Pillow
-#常用库
-pip install requests
-pip install beautifulsoup4
-pip install openpyxl<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="no-moudle-xxxx"><a href="#no-moudle-xxxx" class="headerlink" title="no moudle xxxx"></a>no moudle xxxx</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#缺什么安装什么就行</span></span><br><span class="line"><span class="comment">#PIL</span></span><br><span class="line">pip install Pillow</span><br><span class="line"><span class="comment">#常用库</span></span><br><span class="line">pip install requests</span><br><span class="line">pip install beautifulsoup4</span><br><span class="line">pip install openpyxl</span><br></pre></td></tr></table></figure>
 <h2 id="go-cqhttp提示风控后不重启服务器怎么处理"><a href="#go-cqhttp提示风控后不重启服务器怎么处理" class="headerlink" title="go-cqhttp提示风控后不重启服务器怎么处理"></a>go-cqhttp提示风控后不重启服务器怎么处理</h2><p>ctrl c以后再执行就提示打开数据库失败: open backend error: open level ldb error: resource temporarily unavailable</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">删除gocq的“session”文件
-
-ps -ef|grep mongod
-#查找进程，
-
-kill -9 2928
-#关闭进程
-重新打开gocq即可。 
-作者：四块sikuai https:&#x2F;&#x2F;www.bilibili.com&#x2F;read&#x2F;cv14682893&#x2F; 出处：bilibili<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">删除gocq的“session”文件</span><br><span class="line"></span><br><span class="line">ps -ef|grep mongod</span><br><span class="line"><span class="comment">#查找进程，</span></span><br><span class="line"></span><br><span class="line">kill -<span class="number">9</span> <span class="number">2928</span></span><br><span class="line"><span class="comment">#关闭进程</span></span><br><span class="line">重新打开gocq即可。 </span><br><span class="line">作者：四块sikuai https://www.bilibili.com/read/cv14682893/ 出处：bilibili</span><br></pre></td></tr></table></figure>
 <h2 id="安装地三方库的时候出现下载慢-并且出现一大段红字报错"><a href="#安装地三方库的时候出现下载慢-并且出现一大段红字报错" class="headerlink" title="安装地三方库的时候出现下载慢,并且出现一大段红字报错"></a>安装地三方库的时候出现下载慢,并且出现一大段红字报错</h2><p>原因:error翻译过来是 hash值和包不匹配<br>大概是pip源地址是国外的，在国内下载速度特慢，网速问题导致的下载错误，从而导致对用的哈希值不匹配<br><img src="http://45.92.193.42:7788/i/2022/07/12/62cd3ba5d6910.jpg" alt="01.jpg"></p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">pip install (要安装的库) -i http:&#x2F;&#x2F;pypi.douban.com&#x2F;simple --trusted-host&#x3D;pypi.douban.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install (要安装的库) -i http://pypi.douban.com/simple --trusted-host=pypi.douban.com</span><br></pre></td></tr></table></figure>
 <h2 id="pip‘s-dependency-resolver-does-not-currently-take-into-account-all-the-packages"><a href="#pip‘s-dependency-resolver-does-not-currently-take-into-account-all-the-packages" class="headerlink" title="pip‘s dependency resolver does not currently take into account all the packages"></a>pip‘s dependency resolver does not currently take into account all the packages</h2><p>pip 的依赖项解析器当前未考虑安装的所有包<br>根据错误提示，分别重新安装了报错要求的包</p>
-<h2 id="TypeError-object-of-type-‘Response’-has-no-len"><a href="#TypeError-object-of-type-‘Response’-has-no-len" class="headerlink" title="TypeError: object of type ‘Response’ has no len()"></a>TypeError: object of type ‘Response’ has no len()</h2><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">#TypeError：“响应”类型的对象没有 len()
-soup&#x3D;BeautifulSoup(web,&#39;lxml&#39;)
-这个地方有错，web在这里是一个response对象，无法用BeautifulSoup解析，如果要解析，解析对象应该是web.content，所以正确的写法是
-soup&#x3D;BeautifulSoup(web.content,&#39;lxml&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="TypeError-object-of-type-‘Response’-has-no-len"><a href="#TypeError-object-of-type-‘Response’-has-no-len" class="headerlink" title="TypeError: object of type ‘Response’ has no len()"></a>TypeError: object of type ‘Response’ has no len()</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#TypeError：“响应”类型的对象没有 len()</span><br><span class="line">soup=BeautifulSoup(web,&#x27;lxml&#x27;)</span><br><span class="line">这个地方有错，web在这里是一个response对象，无法用BeautifulSoup解析，如果要解析，解析对象应该是web.content，所以正确的写法是</span><br><span class="line">soup=BeautifulSoup(web.content,&#x27;lxml&#x27;)</span><br></pre></td></tr></table></figure>
 <h2 id="TypeError-Value-must-be-a-list-tuple-range-or-generator"><a href="#TypeError-Value-must-be-a-list-tuple-range-or-generator" class="headerlink" title="TypeError: Value must be a list, tuple, range or generator,"></a>TypeError: Value must be a list, tuple, range or generator,</h2><p> or a dict. Supplied value is &lt;class ‘str’&gt;</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">#value 必须是列表、元组、范围或生成器，或 dict。 提供的值为 &lt;class &#39;str&#39;&gt;
-for data in article_data:
-   ws.append(data)
-解决方法：
-ws.append([data])<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#value 必须是列表、元组、范围或生成器，或 dict。 提供的值为 &lt;class &#x27;str&#x27;&gt;</span><br><span class="line">for data in article_data:</span><br><span class="line">   ws.append(data)</span><br><span class="line">解决方法：</span><br><span class="line">ws.append([data])</span><br></pre></td></tr></table></figure>
 <h2 id="python版本问题-要多看官方给的文档"><a href="#python版本问题-要多看官方给的文档" class="headerlink" title="python版本问题,要多看官方给的文档"></a>python版本问题,要多看官方给的文档</h2><p>…待完成</p>
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44985985/article/details/124241962">参考文章</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/csdn_avatar_2019/article/details/122303978">2.1参考文章</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39715000/article/details/125009276">2.2参考文章</a></p>
 
@@ -337,9 +268,9 @@ ws.append([data])<span aria-hidden="true" class="line-numbers-rows"><span></span
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -348,6 +279,7 @@ ws.append([data])<span aria-hidden="true" class="line-numbers-rows"><span></span
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -377,7 +309,7 @@ ws.append([data])<span aria-hidden="true" class="line-numbers-rows"><span></span
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -389,14 +321,14 @@ ws.append([data])<span aria-hidden="true" class="line-numbers-rows"><span></span
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

@@ -440,10 +440,18 @@ a:hover {
   flex-wrap: wrap;
 }
 
-.post-attach .post-pubtime, .post-attach .post-tags, .post-attach .post-categories {
+.post-attach .post-wordcount, .post-attach .post-pubtime, .post-attach .post-tags, .post-attach .post-categories {
   padding: 0 10px;
   display: flex;
   align-items: center;
+}
+
+.post-attach .post-tags, .post-attach .post-categories {
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 @media (max-width: 768px) {

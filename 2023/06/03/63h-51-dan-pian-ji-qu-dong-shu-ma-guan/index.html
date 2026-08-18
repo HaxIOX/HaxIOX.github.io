@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">51单片机驱动数码管</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          506
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -179,16 +192,13 @@
       <div class="markdown-body">
         <h3 id="共阳极数码管"><a href="#共阳极数码管" class="headerlink" title="共阳极数码管"></a>共阳极数码管</h3><img src="/2023/06/03/63h-51-dan-pian-ji-qu-dong-shu-ma-guan/image-20230603224630917.png" class="" title="image-20230603224630917">
 
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">0x82,0xf8,0x80,0x90&#125;;&#96;&#96;&#96;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x82</span>,<span class="number">0xf8</span>,<span class="number">0x80</span>,<span class="number">0x90</span>&#125;;```</span><br></pre></td></tr></table></figure>
 
 <h3 id="共阴极数码管"><a href="#共阴极数码管" class="headerlink" title="共阴极数码管"></a>共阴极数码管</h3><img src="/2023/06/03/63h-51-dan-pian-ji-qu-dong-shu-ma-guan/image-20230603224657362.png" class="" title="image-20230603224657362">
 
 
 
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">unsigned char code seven_seg[9] &#x3D; &#123;
-                            0x3f , 0x06 , 0x5b , 
-                            0x4f , 0x66 , 0x6d , 
-                            0x7d ,0x07 , 0x7f  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">char</span> code seven_seg[<span class="number">9</span>] = &#123;</span><br><span class="line">                            <span class="number">0x3f</span> , <span class="number">0x06</span> , <span class="number">0x5b</span> , </span><br><span class="line">                            <span class="number">0x4f</span> , <span class="number">0x66</span> , <span class="number">0x6d</span> , </span><br><span class="line">                            <span class="number">0x7d</span> ,<span class="number">0x07</span> , <span class="number">0x7f</span>  &#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="小小坑"><a href="#小小坑" class="headerlink" title="小小坑"></a>小小坑</h2><ul>
 <li><p>如果发现if语句失灵,请检查括号是否括对了</p>
@@ -257,9 +267,9 @@
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -268,6 +278,7 @@
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -297,7 +308,7 @@
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -309,14 +320,14 @@
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

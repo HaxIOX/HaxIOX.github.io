@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">python的异步</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          836
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -178,16 +191,9 @@
       </div>
       <div class="markdown-body">
         <p>全局变量与内部变量</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">#test.py
-b&#x3D;&quot;外部没改的&quot;
-def a():
-    global b
-    b&#x3D;&quot;内部改完了&quot;
-print(b)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#test.py</span></span><br><span class="line">b=<span class="string">&quot;外部没改的&quot;</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">a</span>():</span><br><span class="line">    <span class="keyword">global</span> b</span><br><span class="line">    b=<span class="string">&quot;内部改完了&quot;</span></span><br><span class="line"><span class="built_in">print</span>(b)</span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">#2.py
-from .test import b
-print(b)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#2.py</span></span><br><span class="line"><span class="keyword">from</span> .test <span class="keyword">import</span> b</span><br><span class="line"><span class="built_in">print</span>(b)</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>输出结果为:外部没改的</p>
@@ -199,18 +205,15 @@ print(b)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <p>如果你想在导入juejin.py的时候执行他的某个函数，可以在__init__.py文件中直接调用。</p>
 <p>建议你不要将一个模块导入到另一个模块中，因为这会使您的代码变得难以维护。应该考虑使用函数或类来导出需要的功能，而不是导入整个模块。</p>
 <p>导入包</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">import JueJin_Sign<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> JueJin_Sign</span><br></pre></td></tr></table></figure>
 
 <p>导入同包的文件</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">from . import JueJin_Sign<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> JueJin_Sign</span><br></pre></td></tr></table></figure>
 
 <h2 id="error"><a href="#error" class="headerlink" title="error"></a>error</h2><h3 id="AttributeError-module-‘src-plugins-脚本管理-JueJin-Sign’-has-no-attribute-‘message-juejin’"><a href="#AttributeError-module-‘src-plugins-脚本管理-JueJin-Sign’-has-no-attribute-‘message-juejin’" class="headerlink" title="AttributeError: module ‘src.plugins.脚本管理.JueJin_Sign’ has no attribute ‘message_juejin’"></a>AttributeError: module ‘src.plugins.脚本管理.JueJin_Sign’ has no attribute ‘message_juejin’</h3><p>这句报错的意思是 模块没有message_juejin的属性,人话就是<code>没这个变量</code></p>
 <p>如果你很确定,已经在juejin.py声明了全局变量,那么很正常,因为juejin.py有定时任务,导入时异步执行了,所以只是挂起,并未运行函数,也就没有这个属性了</p>
 <p>然后我这样写(错误!!!)</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">if message_juejin and message_upvps:
-    #可以确定任务执行完毕,已经有这个属性了,进行下一步操作
-else:
-    print(&quot;时间没到,还未签到&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> message_juejin <span class="keyword">and</span> message_upvps:</span><br><span class="line">    <span class="comment">#可以确定任务执行完毕,已经有这个属性了,进行下一步操作</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;时间没到,还未签到&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>结果:仍然会出现上述报错,因为判断属性有没有的时候,仍然报错没有这个属性</p>
@@ -222,16 +225,10 @@ else:
 <p>name：要判断的属性名。</p>
 <p>  它返回一个布尔值，如果对象具有指定名称的属性返回 True，否则返回 False。</p>
 </blockquote>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">if hasattr(JueJin_Sign, &#39;message_juejin&#39;) and hasattr(UPVPS, &#39;message_up&#39;):
-    # do something 
-else:
-    # do something<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="built_in">hasattr</span>(JueJin_Sign, <span class="string">&#x27;message_juejin&#x27;</span>) <span class="keyword">and</span> <span class="built_in">hasattr</span>(UPVPS, <span class="string">&#x27;message_up&#x27;</span>):</span><br><span class="line">    <span class="comment"># do something </span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="comment"># do something</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="async用法"><a href="#async用法" class="headerlink" title="async用法"></a>async用法</h2><p>async是Python中用来实现异步编程的关键字。它可以让函数在执行时不会阻塞其他代码的执行。使用async关键字声明一个函数，并使用await调用另一个异步函数</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">async def main():
-    result &#x3D; await _async_function()
-    #等价于asyncio.run(my_async_func())
-    print(result)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    result = <span class="keyword">await</span> _async_function()</span><br><span class="line">    <span class="comment">#等价于asyncio.run(my_async_func())</span></span><br><span class="line">    <span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
 
 <p>使用async定义函数时，需要在函数内部使用await运算符来调用另一个异步函数。</p>
 <p>用sleep的话，你的bot在这3秒期间没法处理其他消息了</p>
@@ -280,9 +277,9 @@ else:
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -291,6 +288,7 @@ else:
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -320,7 +318,7 @@ else:
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -332,14 +330,14 @@ else:
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

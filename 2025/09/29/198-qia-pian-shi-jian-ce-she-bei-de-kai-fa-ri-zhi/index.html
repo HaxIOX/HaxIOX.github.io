@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">卡片式监测设备的开发日志</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          3996
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -256,79 +269,27 @@
 <p>&#x2F;alerts&#x2F;cardDetach </p>
 <p>&#x2F;alerts&#x2F;venue</p>
 </blockquote>
-<h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;
-  &quot;terminalId&quot;: &quot;T001&quot;,
-  &quot;userName&quot;: &quot;张三&quot;,
-  &quot;userPhone&quot;: &quot;13812345678&quot;,
-  &quot;emergencyContact&quot;: &quot;13911111111&quot;,
-  &quot;departureDateTime&quot;: &quot;2025-09-27 9:30:00&quot;,
-  &quot;returnDateTime&quot;: &quot;2025-09-27 11:40:00&quot;,
-  &quot;remark&quot;: &quot;外出办事&quot;,
-  &quot;destinationManagement&quot;: &#123;
-    &quot;enabled&quot;: true,
-    &quot;city&quot;: &quot;大连市&quot;,
-    &quot;arrivalDateTime&quot;: &quot;2025-09-27 9:35:00&quot;,
-    &quot;departureDateTime&quot;: &quot;2025-09-27 11:50:00&quot;
-  &#125;,
-  &quot;cardDetachAlert&quot;: &#123;
-    &quot;enabled&quot;: true,
-    &quot;disconnectTimeout&quot;: 30,
-    &quot;silentTimeout&quot;: 60,
-    &quot;silentPeriod&quot;: &quot;22:00-06:00&quot;
-  &#125;,
-  &quot;lawEnforcementAlert&quot;: &#123;
-    &quot;enabled&quot;: true,
-    &quot;stayTimeout&quot;: 120
-  &#125;,
-  &quot;suspiciousVenueAlert&quot;: &#123;
-    &quot;enabled&quot;: true,
-    &quot;stayTimeout&quot;: 60
-  &#125;,
-  &quot;drunkDrivingPrevention&quot;: &#123;
-    &quot;enabled&quot;: true,
-    &quot;reminderInterval&quot;: 30
-  &#125;,
-  &quot;drinkingMonitorAlert&quot;: &#123;
-    &quot;enabled&quot;: true,
-    &quot;monitorRules&quot;: [
-      &#123;
-        &quot;timeRange&quot;: &quot;18:00-23:00&quot;,
-        &quot;frequency&quot;: 3
-      &#125;,
-      &#123;
-        &quot;timeRange&quot;: &quot;07:00-18:00&quot;,
-        &quot;frequency&quot;: 5
-      &#125;
-    ]
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;terminalId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;T001&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;userName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;张三&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;userPhone&quot;</span><span class="punctuation">:</span> <span class="string">&quot;13812345678&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;emergencyContact&quot;</span><span class="punctuation">:</span> <span class="string">&quot;13911111111&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;departureDateTime&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2025-09-27 9:30:00&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;returnDateTime&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2025-09-27 11:40:00&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;remark&quot;</span><span class="punctuation">:</span> <span class="string">&quot;外出办事&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;destinationManagement&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;city&quot;</span><span class="punctuation">:</span> <span class="string">&quot;大连市&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;arrivalDateTime&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2025-09-27 9:35:00&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;departureDateTime&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2025-09-27 11:50:00&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;cardDetachAlert&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;disconnectTimeout&quot;</span><span class="punctuation">:</span> <span class="number">30</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;silentTimeout&quot;</span><span class="punctuation">:</span> <span class="number">60</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;silentPeriod&quot;</span><span class="punctuation">:</span> <span class="string">&quot;22:00-06:00&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;lawEnforcementAlert&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;stayTimeout&quot;</span><span class="punctuation">:</span> <span class="number">120</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;suspiciousVenueAlert&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;stayTimeout&quot;</span><span class="punctuation">:</span> <span class="number">60</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;drunkDrivingPrevention&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;reminderInterval&quot;</span><span class="punctuation">:</span> <span class="number">30</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;drinkingMonitorAlert&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;monitorRules&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;timeRange&quot;</span><span class="punctuation">:</span> <span class="string">&quot;18:00-23:00&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;frequency&quot;</span><span class="punctuation">:</span> <span class="number">3</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;timeRange&quot;</span><span class="punctuation">:</span> <span class="string">&quot;07:00-18:00&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;frequency&quot;</span><span class="punctuation">:</span> <span class="number">5</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="酒精传感器控制"><a href="#酒精传感器控制" class="headerlink" title="酒精传感器控制"></a>酒精传感器控制</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;502b&quot;, &quot;cmd&quot;: &quot;on&quot;&#125;     &#x2F;&#x2F; 开启酒精传感器
-&#123;&quot;device&quot;: &quot;502b&quot;, &quot;cmd&quot;: &quot;off&quot;&#125;    &#x2F;&#x2F; 关闭酒精传感器  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="酒精传感器控制"><a href="#酒精传感器控制" class="headerlink" title="酒精传感器控制"></a>酒精传感器控制</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;502b&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;on&quot;</span><span class="punctuation">&#125;</span>     <span class="comment">// 开启酒精传感器</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;502b&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;off&quot;</span><span class="punctuation">&#125;</span>    <span class="comment">// 关闭酒精传感器  </span></span><br></pre></td></tr></table></figure>
 
-<h3 id="摄像头控制"><a href="#摄像头控制" class="headerlink" title="摄像头控制"></a>摄像头控制</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;cam&quot;, &quot;cmd&quot;: &quot;on&quot;&#125;      &#x2F;&#x2F; 开启摄像头
-&#123;&quot;device&quot;: &quot;cam&quot;, &quot;cmd&quot;: &quot;off&quot;&#125;     &#x2F;&#x2F; 关闭摄像头<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="摄像头控制"><a href="#摄像头控制" class="headerlink" title="摄像头控制"></a>摄像头控制</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cam&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;on&quot;</span><span class="punctuation">&#125;</span>      <span class="comment">// 开启摄像头</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cam&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;off&quot;</span><span class="punctuation">&#125;</span>     <span class="comment">// 关闭摄像头</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="IMU传感器控制"><a href="#IMU传感器控制" class="headerlink" title="IMU传感器控制"></a>IMU传感器控制</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;imu&quot;, &quot;cmd&quot;: &quot;sta&quot;&#125;     &#x2F;&#x2F; 开始IMU数据上传
-&#123;&quot;device&quot;: &quot;imu&quot;, &quot;cmd&quot;: &quot;sto&quot;&#125;     &#x2F;&#x2F; 停止IMU数据上传<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="IMU传感器控制"><a href="#IMU传感器控制" class="headerlink" title="IMU传感器控制"></a>IMU传感器控制</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;imu&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sta&quot;</span><span class="punctuation">&#125;</span>     <span class="comment">// 开始IMU数据上传</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;imu&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sto&quot;</span><span class="punctuation">&#125;</span>     <span class="comment">// 停止IMU数据上传</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="LED控制"><a href="#LED控制" class="headerlink" title="LED控制"></a>LED控制</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;led&quot;, &quot;cmd&quot;: &quot;on&quot;&#125;      &#x2F;&#x2F; 开启LED
-&#123;&quot;device&quot;: &quot;led&quot;, &quot;cmd&quot;: &quot;off&quot;&#125;     &#x2F;&#x2F; 关闭LED<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="LED控制"><a href="#LED控制" class="headerlink" title="LED控制"></a>LED控制</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;led&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;on&quot;</span><span class="punctuation">&#125;</span>      <span class="comment">// 开启LED</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;led&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;off&quot;</span><span class="punctuation">&#125;</span>     <span class="comment">// 关闭LED</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="3-系统指令"><a href="#3-系统指令" class="headerlink" title="3. 系统指令"></a>3. 系统指令</h2><h3 id="立即时间同步"><a href="#立即时间同步" class="headerlink" title="立即时间同步"></a>立即时间同步</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;sync_time&quot;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="3-系统指令"><a href="#3-系统指令" class="headerlink" title="3. 系统指令"></a>3. 系统指令</h2><h3 id="立即时间同步"><a href="#立即时间同步" class="headerlink" title="立即时间同步"></a>立即时间同步</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;system&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sync_time&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="手动扫描"><a href="#手动扫描" class="headerlink" title="手动扫描"></a>手动扫描</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;scan_wifi&quot;&#125;   &#x2F;&#x2F; WiFi扫描
-&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;scan_ble&quot;&#125;    &#x2F;&#x2F; BLE扫描<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="手动扫描"><a href="#手动扫描" class="headerlink" title="手动扫描"></a>手动扫描</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;system&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;scan_wifi&quot;</span><span class="punctuation">&#125;</span>   <span class="comment">// WiFi扫描</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;system&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;scan_ble&quot;</span><span class="punctuation">&#125;</span>    <span class="comment">// BLE扫描</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="获取系统状态"><a href="#获取系统状态" class="headerlink" title="获取系统状态"></a>获取系统状态</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;status&quot;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="获取系统状态"><a href="#获取系统状态" class="headerlink" title="获取系统状态"></a>获取系统状态</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;system&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;status&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="重启系统"><a href="#重启系统" class="headerlink" title="重启系统"></a>重启系统</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;restart&quot;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="重启系统"><a href="#重启系统" class="headerlink" title="重启系统"></a>重启系统</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;system&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;restart&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="4-参数化指令"><a href="#4-参数化指令" class="headerlink" title="4. 参数化指令"></a>4. 参数化指令</h2><h3 id="带参数的传感器指令"><a href="#带参数的传感器指令" class="headerlink" title="带参数的传感器指令"></a>带参数的传感器指令</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;502b&quot;, &quot;cmd&quot;: &quot;read&quot;, &quot;param&quot;: 5&#125;    &#x2F;&#x2F; 连续读取5次
-&#123;&quot;device&quot;: &quot;imu&quot;, &quot;cmd&quot;: &quot;rate&quot;, &quot;param&quot;: 100&#125;   &#x2F;&#x2F; 设置采样率100Hz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="4-参数化指令"><a href="#4-参数化指令" class="headerlink" title="4. 参数化指令"></a>4. 参数化指令</h2><h3 id="带参数的传感器指令"><a href="#带参数的传感器指令" class="headerlink" title="带参数的传感器指令"></a>带参数的传感器指令</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;502b&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;read&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;param&quot;</span><span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">&#125;</span>    <span class="comment">// 连续读取5次</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;imu&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;rate&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;param&quot;</span><span class="punctuation">:</span> <span class="number">100</span><span class="punctuation">&#125;</span>   <span class="comment">// 设置采样率100Hz</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="带参数的系统指令"><a href="#带参数的系统指令" class="headerlink" title="带参数的系统指令"></a>带参数的系统指令</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json">&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;scan_wifi&quot;, &quot;param&quot;: 30&#125;  &#x2F;&#x2F; 扫描30秒
-&#123;&quot;device&quot;: &quot;system&quot;, &quot;cmd&quot;: &quot;heartbeat&quot;, &quot;param&quot;: 60&#125;  &#x2F;&#x2F; 设置心跳60秒<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="带参数的系统指令"><a href="#带参数的系统指令" class="headerlink" title="带参数的系统指令"></a>带参数的系统指令</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;system&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;scan_wifi&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;param&quot;</span><span class="punctuation">:</span> <span class="number">30</span><span class="punctuation">&#125;</span>  <span class="comment">// 扫描30秒</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;device&quot;</span><span class="punctuation">:</span> <span class="string">&quot;system&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="string">&quot;heartbeat&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;param&quot;</span><span class="punctuation">:</span> <span class="number">60</span><span class="punctuation">&#125;</span>  <span class="comment">// 设置心跳60秒</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><h2 id="9-26"><a href="#9-26" class="headerlink" title="9.26"></a>9.26</h2><p>1.R0标定有问题（范围少写个0）</p>
 <h2 id="9-27"><a href="#9-27" class="headerlink" title="9.27"></a>9.27</h2><p>1.手机无法显示卡片连接状态，因为手机ui不支持自定义ble服务</p>
@@ -390,35 +351,7 @@
 </ul>
 <p>好的，根据我们之前讨论的电源架构（BQ25606 + Boost + Buck-Boost），我为您推荐一些在工业界和创客圈都经过验证的、常用的转换器 IC。</p>
 <h3 id="1-推荐的电源树-Recommended-Power-Tree"><a href="#1-推荐的电源树-Recommended-Power-Tree" class="headerlink" title="1. 推荐的电源树 (Recommended Power Tree)"></a>1. 推荐的电源树 (Recommended Power Tree)</h3><p>这是我们确定的最稳定方案，解决了 5V 供电和 3.3V 低电量运行的问题：</p>
-<pre class="line-numbers language-none"><code class="language-none">+-----------+
-| USB-C 5V  |
-+-----+-----+
-      |
-      v
-+-----+-----+   +---------------+
-| BQ25606   +---&gt;| LiPo Battery  |
-| (充电+路径管理)|   (3.0V - 4.2V) |
-+-----+-----+   +---------------+
-      |
-      | (VBAT_SYS: 3.0V - 4.2V)
-      | (GND 必须极粗，建议铺地)
-      |
-+-----+---------------------+---------------------+
-|                           |                     |
-| (直连)                    | (Boost 升压)        | (Buck-Boost 升降压)
-|                           |                     |
-v                           v                     v
-[EG800K-CN]                 [5V Boost IC]         [3.3V Buck-Boost IC]
-(VBAT引脚)                  |                     |
-(2A 峰值)                   | (5V)                | (3.3V)
-(需 2mm 走线 )      |                     |
-                            |                     |
-                +-----------+-----------+ +-------+-----------+
-                |                       | |                   |
-                v                       v v                   v
-                [MQ-3]                  [MAX98357A] [ESP32 x2]        [OV5640]
-                (5V 加热器)             (5V 供电)   (Wi-Fi 峰值)        [ST7789]
-                                                                      [ICM42688]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">+-----------+</span><br><span class="line">| USB-C 5V  |</span><br><span class="line">+-----+-----+</span><br><span class="line">      |</span><br><span class="line">      v</span><br><span class="line">+-----+-----+   +---------------+</span><br><span class="line">| BQ25606   +---&gt;| LiPo Battery  |</span><br><span class="line">| (充电+路径管理)|   (3.0V - 4.2V) |</span><br><span class="line">+-----+-----+   +---------------+</span><br><span class="line">      |</span><br><span class="line">      | (VBAT_SYS: 3.0V - 4.2V)</span><br><span class="line">      | (GND 必须极粗，建议铺地)</span><br><span class="line">      |</span><br><span class="line">+-----+---------------------+---------------------+</span><br><span class="line">|                           |                     |</span><br><span class="line">| (直连)                    | (Boost 升压)        | (Buck-Boost 升降压)</span><br><span class="line">|                           |                     |</span><br><span class="line">v                           v                     v</span><br><span class="line">[EG800K-CN]                 [5V Boost IC]         [3.3V Buck-Boost IC]</span><br><span class="line">(VBAT引脚)                  |                     |</span><br><span class="line">(2A 峰值)                   | (5V)                | (3.3V)</span><br><span class="line">(需 2mm 走线 )      |                     |</span><br><span class="line">                            |                     |</span><br><span class="line">                +-----------+-----------+ +-------+-----------+</span><br><span class="line">                |                       | |                   |</span><br><span class="line">                v                       v v                   v</span><br><span class="line">                [MQ-3]                  [MAX98357A] [ESP32 x2]        [OV5640]</span><br><span class="line">                (5V 加热器)             (5V 供电)   (Wi-Fi 峰值)        [ST7789]</span><br><span class="line">                                                                      [ICM42688]</span><br></pre></td></tr></table></figure>
 
 <h3 id="2-转换器-IC-选型推荐"><a href="#2-转换器-IC-选型推荐" class="headerlink" title="2. 转换器 IC 选型推荐"></a>2. 转换器 IC 选型推荐</h3><h4 id="1-5V-Boost-升压-转换器"><a href="#1-5V-Boost-升压-转换器" class="headerlink" title="1. 5V Boost (升压) 转换器"></a>1. 5V Boost (升压) 转换器</h4><ul>
 <li><strong>需求：</strong> 输入 3.0V~4.2V，输出 5V，峰值输出电流 &gt; 1.2A (需驱动 MQ-3 和 MAX98357A)。</li>
@@ -471,27 +404,7 @@ v                           v                     v
 </ol>
 <p>换用峰值电流大于6的bq25616，这颗芯片的峰值电流为9A</p>
 <h3 id="推荐的“分时复用”电源架构"><a href="#推荐的“分时复用”电源架构" class="headerlink" title="推荐的“分时复用”电源架构"></a>推荐的“分时复用”电源架构</h3><p>我们重新规划一下您的电源树，分为“永久在线”和“按需开启”两部分：</p>
-<pre class="line-numbers language-none"><code class="language-none">+-----------+
-| BQ25616   |
-| (SYS OUT) |
-+-----+-----+
-      | (VBAT_SYS: 3.0V - 4.2V)
-      |
-+-----+----------------------------------+
-|                                        |
-| [“永久在线” Always-On]                 [“按需开启” Switched]
-| (为核心服务供电)                       (为主ESP32的GPIO口控制)
-|                                        |
-+-----+---------------------+            +-----------------+-----------------+
-|     |                     |            |                 |
-v     v                     v            v                 v
-[3.3V Buck-Boost (A)]       [3.8V Buck-Boost]    [3.3V Buck-Boost (B)] [5V Boost]
-|     (带 EN 引脚)          | (带 EN 引脚)
-|                           |            |                 |
-v                           v            v                 v
-[主 ESP32]                  [EG800K]             [第二颗 ESP32]      [MAX98357A (音频)]
-[ICM42688 (IMU)]            (4G 模块)            [OV5640 (摄像头)]   [MQ-3]
-                                         [ST7789 (LCD)]    [GM702B]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">+-----------+</span><br><span class="line">| BQ25616   |</span><br><span class="line">| (SYS OUT) |</span><br><span class="line">+-----+-----+</span><br><span class="line">      | (VBAT_SYS: 3.0V - 4.2V)</span><br><span class="line">      |</span><br><span class="line">+-----+----------------------------------+</span><br><span class="line">|                                        |</span><br><span class="line">| [“永久在线” Always-On]                 [“按需开启” Switched]</span><br><span class="line">| (为核心服务供电)                       (为主ESP32的GPIO口控制)</span><br><span class="line">|                                        |</span><br><span class="line">+-----+---------------------+            +-----------------+-----------------+</span><br><span class="line">|     |                     |            |                 |</span><br><span class="line">v     v                     v            v                 v</span><br><span class="line">[3.3V Buck-Boost (A)]       [3.8V Buck-Boost]    [3.3V Buck-Boost (B)] [5V Boost]</span><br><span class="line">|     (带 EN 引脚)          | (带 EN 引脚)</span><br><span class="line">|                           |            |                 |</span><br><span class="line">v                           v            v                 v</span><br><span class="line">[主 ESP32]                  [EG800K]             [第二颗 ESP32]      [MAX98357A (音频)]</span><br><span class="line">[ICM42688 (IMU)]            (4G 模块)            [OV5640 (摄像头)]   [MQ-3]</span><br><span class="line">                                         [ST7789 (LCD)]    [GM702B]</span><br></pre></td></tr></table></figure>
 
 <p>选定电源方案，明天布局布线</p>
 <h2 id="11-10-11-13"><a href="#11-10-11-13" class="headerlink" title="11.10-11.13"></a>11.10-11.13</h2><ul>
@@ -629,9 +542,9 @@ v                           v            v                 v
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -640,6 +553,7 @@ v                           v            v                 v
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -669,7 +583,7 @@ v                           v            v                 v
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -681,14 +595,14 @@ v                           v            v                 v
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

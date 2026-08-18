@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">docker的安装、卸载、迁移</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1453
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -178,167 +191,52 @@
       </div>
       <div class="markdown-body">
         <h2 id="安装Docker、Docker-compose"><a href="#安装Docker、Docker-compose" class="headerlink" title="安装Docker、Docker-compose"></a>安装Docker、Docker-compose</h2><p>更新,安装vim</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">apt-get update &amp;&amp; apt-get install -y wget vim<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get update &amp;&amp; apt-get install -y wget vim</span><br></pre></td></tr></table></figure>
 <p>非大陆Docker安装:</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">wget -qO- get.docker.com | bash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -qO- get.docker.com | bash</span><br></pre></td></tr></table></figure>
 <p>查看Docker版本</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">docker -v<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker -v</span><br></pre></td></tr></table></figure>
 <p>开机自动启动</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">systemctl enable docker<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h3 id="error-安装Docker后启动失败-Failed-to-start-docker-service-Unit-not-found"><a href="#error-安装Docker后启动失败-Failed-to-start-docker-service-Unit-not-found" class="headerlink" title="error:安装Docker后启动失败,Failed to start docker.service: Unit not found."></a>error:安装Docker后启动失败,Failed to start docker.service: Unit not found.</h3><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">运行docker-compose up -d
-
-报错,docker无法启动
-运行systemctl restart docker后,提示：Failed to start docker.service: Unit not found.
-
-在 &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system 下创建 docker.socket 文件
-cd &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system 
-
-vim docker.socket <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable docker</span><br></pre></td></tr></table></figure>
+<h3 id="error-安装Docker后启动失败-Failed-to-start-docker-service-Unit-not-found"><a href="#error-安装Docker后启动失败-Failed-to-start-docker-service-Unit-not-found" class="headerlink" title="error:安装Docker后启动失败,Failed to start docker.service: Unit not found."></a>error:安装Docker后启动失败,Failed to start docker.service: Unit not found.</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">运行docker-compose up -d</span><br><span class="line"></span><br><span class="line">报错,docker无法启动</span><br><span class="line">运行systemctl restart docker后,提示：Failed to start docker.service: Unit not found.</span><br><span class="line"></span><br><span class="line">在 /usr/lib/systemd/system 下创建 docker.socket 文件</span><br><span class="line">cd /usr/lib/systemd/system </span><br><span class="line"></span><br><span class="line">vim docker.socket </span><br></pre></td></tr></table></figure>
 
 <p>并写入：</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">[Unit]
-Description&#x3D;Docker Socket for the API
-PartOf&#x3D;docker.service
-
-[Socket]
-ListenStream&#x3D;&#x2F;var&#x2F;run&#x2F;docker.sock
-SocketMode&#x3D;0660
-SocketUser&#x3D;root
-SocketGroup&#x3D;docker
-
-[Install]
-WantedBy&#x3D;sockets.target<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Docker Socket for the API</span><br><span class="line">PartOf=docker.service</span><br><span class="line"></span><br><span class="line">[Socket]</span><br><span class="line">ListenStream=/var/run/docker.sock</span><br><span class="line">SocketMode=0660</span><br><span class="line">SocketUser=root</span><br><span class="line">SocketGroup=docker</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=sockets.target</span><br></pre></td></tr></table></figure>
 
 <p>但创建后仍然无法启动，提示：<code>Failed to start docker.service: Unit not found</code>，换另一种方式：</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">卸载现有版本Docker：
-yum remove docker
-yumdocker-client
-yum docker-client-latest
-yum docker-common
-yum docker-latest
-yum docker-latest-logrotate
-yum docker-logrotate
-yum docker-engine<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">卸载现有版本Docker：</span><br><span class="line">yum remove docker</span><br><span class="line">yumdocker-client</span><br><span class="line">yum docker-client-latest</span><br><span class="line">yum docker-common</span><br><span class="line">yum docker-latest</span><br><span class="line">yum docker-latest-logrotate</span><br><span class="line">yum docker-logrotate</span><br><span class="line">yum docker-engine</span><br></pre></td></tr></table></figure>
 
 <p>之后重装Docker，启动完成，注意到原来的&#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system目录下没有docker.socket与docker.service文件，重装后docker.service文件出现(大佬注意到的,我没注意观察)</p>
 <p>有大佬说是因为版本问题</p>
 <p><a target="_blank" rel="noopener" href="https://ask.csdn.net/questions/7695921?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165876565016780357234520%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=165876565016780357234520&biz_id=4&utm_medium=distribute.pc_search_result.none-task-ask_topic-2~all~first_rank_ecpm_v1~hot_rank-5-7695921-null-null.142%5Ev34%5Epc_rank_34,185%5Ev2%5Econtrol&utm_term=Failed%20to%20start%20docker.service:%20Unit%20not%20found.&spm=1018.2226.3001.4187">参考文章</a></p>
-<h2 id="非大陆Docker-compose安装"><a href="#非大陆Docker-compose安装" class="headerlink" title="非大陆Docker-compose安装"></a>非大陆Docker-compose安装</h2><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">sudo curl -L &quot;https:&#x2F;&#x2F;github.com&#x2F;docker&#x2F;compose&#x2F;releases&#x2F;download&#x2F;1.29.2&#x2F;docker-compose-$(uname -s)-$(uname -m)&quot; -o &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose
-sudo chmod +x &#x2F;usr&#x2F;local&#x2F;bin&#x2F;docker-compose
-docker-compose --version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="非大陆Docker-compose安装"><a href="#非大陆Docker-compose安装" class="headerlink" title="非大陆Docker-compose安装"></a>非大陆Docker-compose安装</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose</span><br><span class="line">sudo chmod +x /usr/local/bin/docker-compose</span><br><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure>
 
 <p>以下配置会增加一段自定义内网 IPv6 地址，开启容器的 IPv6 功能，以及限制日志文件大小，防止 Docker 日志塞满硬盘（泪的教训）：</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">cat &gt; &#x2F;etc&#x2F;docker&#x2F;daemon.json &lt;&lt;EOF
-&#123;
-    &quot;log-driver&quot;: &quot;json-file&quot;,
-    &quot;log-opts&quot;: &#123;
-        &quot;max-size&quot;: &quot;20m&quot;,
-        &quot;max-file&quot;: &quot;3&quot;
-    &#125;,
-    &quot;ipv6&quot;: true,
-    &quot;fixed-cidr-v6&quot;: &quot;fd00:dead:beef:c0::&#x2F;80&quot;,
-    &quot;experimental&quot;:true,
-    &quot;ip6tables&quot;:true
-&#125;
-EOF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">    &quot;log-driver&quot;: &quot;json-file&quot;,</span><br><span class="line">    &quot;log-opts&quot;: &#123;</span><br><span class="line">        &quot;max-size&quot;: &quot;20m&quot;,</span><br><span class="line">        &quot;max-file&quot;: &quot;3&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;ipv6&quot;: true,</span><br><span class="line">    &quot;fixed-cidr-v6&quot;: &quot;fd00:dead:beef:c0::/80&quot;,</span><br><span class="line">    &quot;experimental&quot;:true,</span><br><span class="line">    &quot;ip6tables&quot;:true</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
 <p>然后重启 Docker 服务：</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">systemctl restart docker<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
 <h2 id="文件管理"><a href="#文件管理" class="headerlink" title="文件管理"></a>文件管理</h2><p>给Docker的数据、配置文件新建一个文件夹，</p>
 <blockquote>
 <p>mkdir -p data&#x2F;docker_data</p>
 </blockquote>
 <h2 id="docker项目更新"><a href="#docker项目更新" class="headerlink" title="docker项目更新"></a>docker项目更新</h2><p>以halo博客项目为例</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">docker stop halo           # 先停止容器,注意容器的名字
-
-docker rm -f halo          # 删除容器,容器的名字
-
-cp -r ~&#x2F;.halo ~&#x2F;.halo.archive   #&#96;!!!备份数据&#96;（非常非常非常重要），注意你挂载出来的路径地址
-
-rm -rf ~&#x2F;.halo&#x2F;.leveldb    # 这一步是halo特有的,其他项目不用
-
-docker pull halohub&#x2F;halo:1.5.3   # 拉取最新的镜像，一般的话你知道特定的版本号就直接写即可，比如这边的1.5.3，如果不知道版本号，可以直接写latest，即 docker pull halohub&#x2F;halo:latest
-
-docker run -it -d --name halo -p 8090:8090 -v ~&#x2F;.halo:&#x2F;root&#x2F;.halo --restart&#x3D;unless-stopped halohub&#x2F;halo:1.5.3    # 重新运行容器 注意和搭建时候唯一不同的就是最后面的版本号不同，
-                                              #如果你是latest 那就把1.5.3改成latest
-docker image prune # 删除掉旧的镜像（可选）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">docker stop halo           # 先停止容器,注意容器的名字</span><br><span class="line"></span><br><span class="line">docker rm -f halo          # 删除容器,容器的名字</span><br><span class="line"></span><br><span class="line">cp -r ~/.halo ~/.halo.archive   #`!!!备份数据`（非常非常非常重要），注意你挂载出来的路径地址</span><br><span class="line"></span><br><span class="line">rm -rf ~/.halo/.leveldb    # 这一步是halo特有的,其他项目不用</span><br><span class="line"></span><br><span class="line">docker pull halohub/halo:1.5.3   # 拉取最新的镜像，一般的话你知道特定的版本号就直接写即可，比如这边的1.5.3，如果不知道版本号，可以直接写latest，即 docker pull halohub/halo:latest</span><br><span class="line"></span><br><span class="line">docker run -it -d --name halo -p 8090:8090 -v ~/.halo:/root/.halo --restart=unless-stopped halohub/halo:1.5.3    # 重新运行容器 注意和搭建时候唯一不同的就是最后面的版本号不同，</span><br><span class="line">                                              #如果你是latest 那就把1.5.3改成latest</span><br><span class="line">docker image prune # 删除掉旧的镜像（可选）</span><br></pre></td></tr></table></figure>
 
 <h2 id="docker-compose搭建的更新方法"><a href="#docker-compose搭建的更新方法" class="headerlink" title="docker-compose搭建的更新方法"></a>docker-compose搭建的更新方法</h2><p>以qbittorrent为例：</p>
 <p>搭建命令：</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">cd ~
-mkdir -p &#x2F;root&#x2F;data&#x2F;docker_data&#x2F;qBittorrent #创建qbitorrent数据文件夹
-cd &#x2F;root&#x2F;data&#x2F;docker_data&#x2F;qBittorrent
-mkdir config downloads #创建配置文件目录与下载目录
-nano docker-compose.yml #创建并编辑文件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">mkdir -p /root/data/docker_data/qBittorrent #创建qbitorrent数据文件夹</span><br><span class="line">cd /root/data/docker_data/qBittorrent</span><br><span class="line">mkdir config downloads #创建配置文件目录与下载目录</span><br><span class="line">nano docker-compose.yml #创建并编辑文件</span><br></pre></td></tr></table></figure>
 <p>docker-compose.yml配置文件</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">version: &quot;2&quot;
-services:
-  qbittorrent:
-    image: linuxserver&#x2F;qbittorrent:4.4.0
-    container_name: qbittorrent
-    environment:
-      - PUID&#x3D;1000
-      - PGID&#x3D;1000
-      - TZ&#x3D;Asia&#x2F;Shanghai # 你的时区
-      - UMASK_SET&#x3D;022
-      - WEBUI_PORT&#x3D;8081 # 将此处修改成你欲使用的 WEB 管理平台端口 
-    volumes:
-      - &#x2F;root&#x2F;data&#x2F;docker_data&#x2F;qBittorrent&#x2F;config:&#x2F;config # 绝对路径请修改为自己的config文件夹
-      - &#x2F;root&#x2F;data&#x2F;docker_data&#x2F;qBittorrent&#x2F;downloads:&#x2F;downloads # 绝对路径请修改为自己的downloads文件夹
-    ports:
-      # 要使用的映射下载端口与内部下载端口，可保持默认，安装完成后在管理页面仍然可以改成其他端口。
-      - 6881:6881 
-      - 6881:6881&#x2F;udp
-      # 此处WEB UI 目标端口与内部端口务必保证相同，见问题1
-      - 8081:8081
-    restart: unless-stopped
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">version: &quot;2&quot;</span><br><span class="line">services:</span><br><span class="line">  qbittorrent:</span><br><span class="line">    image: linuxserver/qbittorrent:4.4.0</span><br><span class="line">    container_name: qbittorrent</span><br><span class="line">    environment:</span><br><span class="line">      - PUID=1000</span><br><span class="line">      - PGID=1000</span><br><span class="line">      - TZ=Asia/Shanghai # 你的时区</span><br><span class="line">      - UMASK_SET=022</span><br><span class="line">      - WEBUI_PORT=8081 # 将此处修改成你欲使用的 WEB 管理平台端口 </span><br><span class="line">    volumes:</span><br><span class="line">      - /root/data/docker_data/qBittorrent/config:/config # 绝对路径请修改为自己的config文件夹</span><br><span class="line">      - /root/data/docker_data/qBittorrent/downloads:/downloads # 绝对路径请修改为自己的downloads文件夹</span><br><span class="line">    ports:</span><br><span class="line">      # 要使用的映射下载端口与内部下载端口，可保持默认，安装完成后在管理页面仍然可以改成其他端口。</span><br><span class="line">      - 6881:6881 </span><br><span class="line">      - 6881:6881/udp</span><br><span class="line">      # 此处WEB UI 目标端口与内部端口务必保证相同，见问题1</span><br><span class="line">      - 8081:8081</span><br><span class="line">    restart: unless-stopped</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>更新方法：</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">docker-compose pull     # 注意到上方docker-compose.yml里面linuxserver&#x2F;qbittorrent后面有版本号4.4.0，
-                        #（如果没有默认就是latest），所以更新需要修改版本号为新的版本号（更新到特定版本），或者直接删去现在的版本号（更新到最新版本）
-cp -r qBittorrent qBittorrent.archive    # 备份一下,也可以直接备份配置文档，因为有些时候，downloads里面文件很浪费空间 
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker-compose pull     # 注意到上方docker-compose.yml里面linuxserver/qbittorrent后面有版本号4.4.0，</span><br><span class="line">                        #（如果没有默认就是latest），所以更新需要修改版本号为新的版本号（更新到特定版本），或者直接删去现在的版本号（更新到最新版本）</span><br><span class="line">cp -r qBittorrent qBittorrent.archive    # 备份一下,也可以直接备份配置文档，因为有些时候，downloads里面文件很浪费空间 </span><br><span class="line"></span><br><span class="line">docker-compose up -d   #完成</span><br><span class="line"></span><br><span class="line">docker image prune # 删除掉旧的镜像（可选）</span><br></pre></td></tr></table></figure>
 
-docker-compose up -d   #完成
+<h2 id="docker迁移"><a href="#docker迁移" class="headerlink" title="docker迁移"></a>docker迁移</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">tar -czvf .halo.tar.gz .halo.archive   #文件的备份压缩</span><br><span class="line"></span><br><span class="line">scp -P 22 -r .halo.tar.gz root@192.248.190.156:/root  # scp -P 端口 -r /root/backup/backup.tar 用户名@IP:目标目录</span><br><span class="line">tar -zxvf .halo.tar.gz                #解压</span><br><span class="line"></span><br><span class="line">mv .halo.archive .halo                #把.halo.archive重命名成.halo</span><br><span class="line"></span><br><span class="line">确保迁移到的服务器有docker和docker compose环境</span><br><span class="line">执行容器`docker-compose up -d `</span><br><span class="line">如果无法完全启动,将`docker-compose.yml`删除,重建后</span><br><span class="line">再运行`docker-compose up -d`</span><br><span class="line">(docker-compose搭建的lsky-pro迁移成功)</span><br></pre></td></tr></table></figure>
 
-docker image prune # 删除掉旧的镜像（可选）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="docker迁移"><a href="#docker迁移" class="headerlink" title="docker迁移"></a>docker迁移</h2><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">tar -czvf .halo.tar.gz .halo.archive   #文件的备份压缩
-
-scp -P 22 -r .halo.tar.gz root@192.248.190.156:&#x2F;root  # scp -P 端口 -r &#x2F;root&#x2F;backup&#x2F;backup.tar 用户名@IP:目标目录
-tar -zxvf .halo.tar.gz                #解压
-
-mv .halo.archive .halo                #把.halo.archive重命名成.halo
-
-确保迁移到的服务器有docker和docker compose环境
-执行容器&#96;docker-compose up -d &#96;
-如果无法完全启动,将&#96;docker-compose.yml&#96;删除,重建后
-再运行&#96;docker-compose up -d&#96;
-(docker-compose搭建的lsky-pro迁移成功)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="Docker项目卸载（包括卸载Docker、docker-compose）"><a href="#Docker项目卸载（包括卸载Docker、docker-compose）" class="headerlink" title="Docker项目卸载（包括卸载Docker、docker-compose）"></a>Docker项目卸载（包括卸载Docker、docker-compose）</h2><h3 id="docker命令搭建的常用卸载方法"><a href="#docker命令搭建的常用卸载方法" class="headerlink" title="docker命令搭建的常用卸载方法"></a>docker命令搭建的常用卸载方法</h3><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">docker ps 
-
-docker stop 容器名字
-
-cd ~
-
-docker rm -f 容器名字
-
-rm -rf 映射出来的路径<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="docker-compose搭建的卸载方法"><a href="#docker-compose搭建的卸载方法" class="headerlink" title="docker-compose搭建的卸载方法"></a>docker-compose搭建的卸载方法</h3><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">cd &#x2F;root&#x2F;data&#x2F;docker_data&#x2F;qBittorrent
-
-docker-compose down 
-
-cd ~
-
-rm -rf &#x2F;root&#x2F;data&#x2F;docker_data&#x2F;qBittorrent # rm -rf 映射出来的路径<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="卸载docker本身"><a href="#卸载docker本身" class="headerlink" title="卸载docker本身"></a>卸载docker本身</h3><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
-sudo rm -rf &#x2F;var&#x2F;lib&#x2F;docker
-
-sudo rm -rf &#x2F;var&#x2F;lib&#x2F;containerd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Docker项目卸载（包括卸载Docker、docker-compose）"><a href="#Docker项目卸载（包括卸载Docker、docker-compose）" class="headerlink" title="Docker项目卸载（包括卸载Docker、docker-compose）"></a>Docker项目卸载（包括卸载Docker、docker-compose）</h2><h3 id="docker命令搭建的常用卸载方法"><a href="#docker命令搭建的常用卸载方法" class="headerlink" title="docker命令搭建的常用卸载方法"></a>docker命令搭建的常用卸载方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker ps </span><br><span class="line"></span><br><span class="line">docker stop 容器名字</span><br><span class="line"></span><br><span class="line">cd ~</span><br><span class="line"></span><br><span class="line">docker rm -f 容器名字</span><br><span class="line"></span><br><span class="line">rm -rf 映射出来的路径</span><br></pre></td></tr></table></figure>
+<h3 id="docker-compose搭建的卸载方法"><a href="#docker-compose搭建的卸载方法" class="headerlink" title="docker-compose搭建的卸载方法"></a>docker-compose搭建的卸载方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd /root/data/docker_data/qBittorrent</span><br><span class="line"></span><br><span class="line">docker-compose down </span><br><span class="line"></span><br><span class="line">cd ~</span><br><span class="line"></span><br><span class="line">rm -rf /root/data/docker_data/qBittorrent # rm -rf 映射出来的路径</span><br></pre></td></tr></table></figure>
+<h3 id="卸载docker本身"><a href="#卸载docker本身" class="headerlink" title="卸载docker本身"></a>卸载docker本身</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-compose-plugin</span><br><span class="line"></span><br><span class="line">sudo rm -rf /var/lib/docker</span><br><span class="line"></span><br><span class="line">sudo rm -rf /var/lib/containerd</span><br></pre></td></tr></table></figure>
 <p>参考：<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/debian/">https://docs.docker.com/engine/install/debian/</a></p>
-<h3 id="卸载docker-compose"><a href="#卸载docker-compose" class="headerlink" title="卸载docker-compose"></a>卸载docker-compose</h3><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">cd &#x2F;usr&#x2F;local&#x2F;bin&#x2F;
-
-rm -rf docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="卸载docker-compose"><a href="#卸载docker-compose" class="headerlink" title="卸载docker-compose"></a>卸载docker-compose</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/bin/</span><br><span class="line"></span><br><span class="line">rm -rf docker-compose</span><br></pre></td></tr></table></figure>
 
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/debian/">https://docs.docker.com/engine/install/debian/</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-comm-scp.html">https://www.runoob.com/linux/linux-comm-scp.html</a></p>
@@ -386,9 +284,9 @@ rm -rf docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -397,6 +295,7 @@ rm -rf docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -426,7 +325,7 @@ rm -rf docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -438,14 +337,14 @@ rm -rf docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

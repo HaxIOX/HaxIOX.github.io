@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">keil开发51单片机及使用汇编语言点亮数码管</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          836
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -234,41 +247,7 @@
 </tr>
 </tbody></table>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Danie_wu/article/details/80461726?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522166311995416782425166909%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=166311995416782425166909&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-80461726-null-null.142%5Ev47%5Epc_rank_34_default_2,201%5Ev3%5Econtrol_1&utm_term=cjne%E6%8C%87%E4%BB%A4&spm=1018.2226.3001.4187">常用汇编语言指令 1</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_51171997/article/details/115632110?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522166311995416782425166909%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=166311995416782425166909&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-2-115632110-null-null.142%5Ev47%5Epc_rank_34_default_2,201%5Ev3%5Econtrol_1&utm_term=cjne%E6%8C%87%E4%BB%A4&spm=1018.2226.3001.4187">常用汇编语言指令 2</a></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">ORG 0000H           ;指定程序的起始地址
-   SJMP  MAIN       ;跳转到MAIN程序
-MAIN:               ;程序的主程序
-    MOV  A,#08H     ;将08H送入A寄存器
-    MOV  P0,A       ;将A寄存器的值送入P0口
-    MOV  A,#00H     ;用来存储偏移量
-    MOV  R0,#10     ;记录循环次数,0-9有十个数
-    MOV  R1,#0
-    MOV  DPTR,#DIGIT ;数组首地址用DPRT记录,指针给DPRT,见解来说,DPRT是数组的第一个地址
-                     ;我想知道这个DIGIT是不是就是一个单纯的数组名
-LOOP:
-    MOV   A,R1
-    MOVC  A,@A+DPTR ;基地址的偏移指针,只能用a做偏移量
-    MOV   P2,A      ;读取到的数组内容赋值给P2引脚
-    INC   R1        ;偏移量加1
-    LCALL DELAY500MS ;LCALL的意思是调用，调用DELAY1000MS
-    DJNZ  R0,LOOP    ;将R0减一，非0则跳转到LOOP，为0则执行下一句（可以执行10次）
-    SJMP  MAIN
-
-DIGIT:
-    DB 0C0H,0F9H,0A4H,0B0H,099H,092H,082H,0F8H,080H,090H  ;前面加0,因为不能以字母开头
- ;共阳   0    1    2    3    4    5    6    7    8    9   ;注：在汇编语言中十六进制的立即数有一个规则，当十六进制数是字母开头时要在前面加0，
-                                                          ;这也就是为什么时#0C0H 而不是 #C0H的原因了）
-DELAY500MS:
-    MOV   R7,#17H     ;让CPU执行废指令达到延时的目的,可以通过调整R7,R6,R5的值调整延时的时间
-DL1:
-    MOV   R6,#98H
-DL0:
-    MOV   R5,#46H
-    DJNZ  R5,$      ;如果R5不为0，就跳转到$处，也就是跳转到本句，这样就可以实现延时
-    DJNZ  R6,DL0    ;当R6不为0时，跳转到DL0，为0时执行下一句
-    DJNZ  R7,DL1
-    NOP             ;空
-    RET             ;函数结束
-    END             ;整个程序块结束<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">ORG <span class="number">0000</span>H           ;指定程序的起始地址</span><br><span class="line">   SJMP  MAIN       ;跳转到MAIN程序</span><br><span class="line">MAIN:               ;程序的主程序</span><br><span class="line">    MOV  A,#<span class="number">08</span>H     ;将<span class="number">08</span>H送入A寄存器</span><br><span class="line">    MOV  P0,A       ;将A寄存器的值送入P0口</span><br><span class="line">    MOV  A,#<span class="number">00</span>H     ;用来存储偏移量</span><br><span class="line">    MOV  R0,#<span class="number">10</span>     ;记录循环次数,<span class="number">0</span><span class="number">-9</span>有十个数</span><br><span class="line">    MOV  R1,#<span class="number">0</span></span><br><span class="line">    MOV  DPTR,#DIGIT ;数组首地址用DPRT记录,指针给DPRT,见解来说,DPRT是数组的第一个地址</span><br><span class="line">                     ;我想知道这个DIGIT是不是就是一个单纯的数组名</span><br><span class="line">LOOP:</span><br><span class="line">    MOV   A,R1</span><br><span class="line">    MOVC  A,@A+DPTR ;基地址的偏移指针,只能用a做偏移量</span><br><span class="line">    MOV   P2,A      ;读取到的数组内容赋值给P2引脚</span><br><span class="line">    INC   R1        ;偏移量加<span class="number">1</span></span><br><span class="line">    LCALL DELAY500MS ;LCALL的意思是调用，调用DELAY1000MS</span><br><span class="line">    DJNZ  R0,LOOP    ;将R0减一，非<span class="number">0</span>则跳转到LOOP，为<span class="number">0</span>则执行下一句（可以执行<span class="number">10</span>次）</span><br><span class="line">    SJMP  MAIN</span><br><span class="line"></span><br><span class="line">DIGIT:</span><br><span class="line">    DB <span class="number">0</span>C0H,<span class="number">0F</span>9H,<span class="number">0</span>A4H,<span class="number">0B</span>0H,<span class="number">099</span>H,<span class="number">092</span>H,<span class="number">082</span>H,<span class="number">0F</span>8H,<span class="number">080</span>H,<span class="number">090</span>H  ;前面加<span class="number">0</span>,因为不能以字母开头</span><br><span class="line"> ;共阳   <span class="number">0</span>    <span class="number">1</span>    <span class="number">2</span>    <span class="number">3</span>    <span class="number">4</span>    <span class="number">5</span>    <span class="number">6</span>    <span class="number">7</span>    <span class="number">8</span>    <span class="number">9</span>   ;注：在汇编语言中十六进制的立即数有一个规则，当十六进制数是字母开头时要在前面加<span class="number">0</span>，</span><br><span class="line">                                                          ;这也就是为什么时#<span class="number">0</span>C0H 而不是 #C0H的原因了）</span><br><span class="line">DELAY500MS:</span><br><span class="line">    MOV   R7,#<span class="number">17</span>H     ;让CPU执行废指令达到延时的目的,可以通过调整R7,R6,R5的值调整延时的时间</span><br><span class="line">DL1:</span><br><span class="line">    MOV   R6,#<span class="number">98</span>H</span><br><span class="line">DL0:</span><br><span class="line">    MOV   R5,#<span class="number">46</span>H</span><br><span class="line">    DJNZ  R5,$      ;如果R5不为<span class="number">0</span>，就跳转到$处，也就是跳转到本句，这样就可以实现延时</span><br><span class="line">    DJNZ  R6,DL0    ;当R6不为<span class="number">0</span>时，跳转到DL0，为<span class="number">0</span>时执行下一句</span><br><span class="line">    DJNZ  R7,DL1</span><br><span class="line">    NOP             ;空</span><br><span class="line">    RET             ;函数结束</span><br><span class="line">    END             ;整个程序块结束</span><br></pre></td></tr></table></figure>
 
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yvge669/article/details/124522144">51单片机汇编语言点亮一位数码管</a></p>
 
@@ -313,9 +292,9 @@ DL0:
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -324,6 +303,7 @@ DL0:
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -353,7 +333,7 @@ DL0:
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -365,14 +345,14 @@ DL0:
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

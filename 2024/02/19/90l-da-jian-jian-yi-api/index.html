@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">搭建实时汇率简易api</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          2198
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -185,11 +198,7 @@
 <li><a target="_blank" rel="noopener" href="https://www.osgeo.cn/cpython/library/logging.html?highlight=logging#module-logging">logging—python的日志记录工具</a></li>
 </ul>
 <h2 id="Flask-limitter限流器"><a href="#Flask-limitter限流器" class="headerlink" title="Flask-limitter限流器"></a>Flask-limitter限流器</h2><p>使用flask-limitter对访问频率限制,对获取到的ip进行五秒内最多三次的限制</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">limiter &#x3D; Limiter(
-    app,
-    key_func&#x3D;get_remote_address,
-    default_limits&#x3D;[&quot;3 per 5 seconds&quot;, &quot;10 per hour&quot;]
-)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">limiter = Limiter(</span><br><span class="line">    app,</span><br><span class="line">    key_func=get_remote_address,</span><br><span class="line">    default_limits=[<span class="string">&quot;3 per 5 seconds&quot;</span>, <span class="string">&quot;10 per hour&quot;</span>]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/380861110">Flask-Limiter详细使用说明</a></li>
@@ -198,33 +207,22 @@
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/677508786">flask框架—limiter限流器的使用方法</a></li>
 </ul>
 <h2 id="打印日志"><a href="#打印日志" class="headerlink" title="打印日志"></a>打印日志</h2><p>basicConfig()函数要在debug()、info()等运行，且只要第一次运行才生效。后续的调用都是无效的。</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"># 创建一个日志记录器
-logger &#x3D; logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个日志记录器</span></span><br><span class="line">logger = logging.getLogger(__name__)</span><br><span class="line">logger.setLevel(logging.DEBUG)</span><br></pre></td></tr></table></figure>
 
 <p>创建一个日志记录器并设置其级别是为了为<strong>处理器（Handler）提供一个容器</strong>，以便可以将处理器添加到记录器中。</p>
 <p>这样可以使得多个处理器共享同一日志级别和日志过滤器。如果没有指定日志记录器，则处理器将无法添加到日志记录器中。</p>
 <p>比如两个处理器,<strong>一个控制端打印日志</strong>, <strong>一个输出日志到文件</strong></p>
 <h2 id="校准时间"><a href="#校准时间" class="headerlink" title="校准时间"></a>校准时间</h2><p>检查和修复系统时区配置</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">查看当前时区设置：
-cat &#x2F;etc&#x2F;timezone
-readlink &#x2F;etc&#x2F;localtime
-
-设置一致的时区：
-假设你希望使用 Asia&#x2F;Shanghai 时区：
-echo &quot;Asia&#x2F;Shanghai&quot; | sudo tee &#x2F;etc&#x2F;timezone
-sudo ln -sf &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai &#x2F;etc&#x2F;localtime<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">查看当前时区设置：</span><br><span class="line"><span class="built_in">cat</span> /etc/timezone</span><br><span class="line"><span class="built_in">readlink</span> /etc/localtime</span><br><span class="line"></span><br><span class="line">设置一致的时区：</span><br><span class="line">假设你希望使用 Asia/Shanghai 时区：</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Asia/Shanghai&quot;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/timezone</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure>
 
 <p><strong>重置时间后,记得将正在运行的服务重启</strong></p>
 <h2 id="无法启动nginx"><a href="#无法启动nginx" class="headerlink" title="无法启动nginx"></a>无法启动nginx</h2><p>查看监听端口</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">netstat -nultuln
-sudo netstat -tuln | grep 80<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netstat -nultuln</span><br><span class="line"><span class="built_in">sudo</span> netstat -tuln | grep 80</span><br></pre></td></tr></table></figure>
 
 <p>发现80端口被ipv6监听, 可能是因为v2ray的伪装域名, 我选择更改nginx的端口改为8000, 但是出现域名无法正产访问, 端口可以的问题</p>
 <p><a target="_blank" rel="noopener" href="http://23.26.232.222:8000/">http://23.26.232.222:8000/</a></p>
 <p>上面的可以,下面的不行</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http:&#x2F;&#x2F;23.26.232.222:8000&#x2F;exchange_rate?currency&#x3D;usd
-http:&#x2F;&#x2F;exrate.apigpt.eu.org&#x2F;exchange_rate?currency&#x3D;usd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://23.26.232.222:8000/exchange_rate?currency=usd</span><br><span class="line">http://exrate.apigpt.eu.org/exchange_rate?currency=usd</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><p><strong>exrate.apigpt.eu.org</strong> 目前无法处理此请求。HTTP ERROR 503</p>
@@ -235,18 +233,7 @@ http:&#x2F;&#x2F;exrate.apigpt.eu.org&#x2F;exchange_rate?currency&#x3D;usd<span 
 <ul>
 <li><input disabled="" type="checkbox"> <a target="_blank" rel="noopener" href="http://exrate.apigpt.eu.org/">http://exrate.apigpt.eu.org/</a></li>
 </ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
-    listen 8000;
-    server_name exrate.apigpt.eu.org;
-    location &#x2F; &#123;
-        #proxy_pass http:&#x2F;&#x2F;127.0.0.1:5000&#x2F;;
-        proxy_pass https:&#x2F;&#x2F;www.bilibili.com&#x2F;;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_set_header X-Forwarded-Prefix &#x2F;;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 8000;</span><br><span class="line">    server_name exrate.apigpt.eu.org;</span><br><span class="line">    location / &#123;</span><br><span class="line">        <span class="comment">#proxy_pass http://127.0.0.1:5000/;</span></span><br><span class="line">        proxy_pass https://www.bilibili.com/;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Prefix /;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>换回80端口就都行了, 域名换成80端口也行了</p>
 </li>
@@ -262,47 +249,40 @@ http:&#x2F;&#x2F;exrate.apigpt.eu.org&#x2F;exchange_rate?currency&#x3D;usd<span 
 </blockquote>
 <p>如果更改nginx默认监听的端口，那么访问时就要使用域名加上端口号</p>
 <h2 id="Nginx重启失败"><a href="#Nginx重启失败" class="headerlink" title="Nginx重启失败"></a>Nginx重启失败</h2><p>查看运行状态</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">systemctl status nginx<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status nginx</span><br></pre></td></tr></table></figure>
 
 <p>因为 nginx 启动需要一点点时间，而 systemd 在 nginx 完成启动前就去读取 pid file造成读取 pid 失败</p>
 <p>解决方法: </p>
 <p>让 systemd 在执行 ExecStart 的指令后等待一点点时间即可, 如果你的 nginx 启动需要时间更长，可以把 sleep 时间改长一点</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">mkdir -p &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;nginx.service.d
-printf &quot;[Service]\nExecStartPost&#x3D;&#x2F;bin&#x2F;sleep 0.1\n&quot; &gt; &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;nginx.service.d&#x2F;override.conf
-systemctl daemon-reload
-systemctl restart nginx.service<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p /etc/systemd/system/nginx.service.d</span><br><span class="line"><span class="built_in">printf</span> <span class="string">&quot;[Service]\nExecStartPost=/bin/sleep 0.1\n&quot;</span> &gt; /etc/systemd/system/nginx.service.d/override.conf</span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart nginx.service</span><br></pre></td></tr></table></figure>
 
 <p>出现报错,以及解决方法**[参考文章](<a target="_blank" rel="noopener" href="https://www.v2ex.com/t/300986">nginx Failed to read PID from file &#x2F;run&#x2F;nginx.pid: Invalid argument - V2EX</a>)**</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/z_xuewen/article/details/103859099"> Active: failed (Result: exit-code)</a></p>
 <p>安装redis</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">apt update
-apt install nginx
-#安装redis
-apt install redis<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install nginx</span><br><span class="line"><span class="comment">#安装redis</span></span><br><span class="line">apt install redis</span><br></pre></td></tr></table></figure>
 
 <p><strong>报错</strong>: ImportError: cannot import name ‘url_quote’ from ‘werkzeug.urls’ (&#x2F;usr&#x2F;local&#x2F;lib&#x2F;python3.9&#x2F;dist-packages&#x2F;werkzeug&#x2F;urls.py)</p>
 <p>flask版本太低,不兼容,更新一下就好了</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pip install --upgrade werkzeug
-pip install --upgrade Flask<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade werkzeug</span><br><span class="line">pip install --upgrade Flask</span><br></pre></td></tr></table></figure>
 
 <p><strong>报错</strong>: Job for nginx.service failed because the control process exited with error code.</p>
 <p>我这里是因为忘记配置</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ln -s &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;weixin.conf &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s /etc/nginx/sites-available/weixin.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
 
 <p>如果不创建符号链接将配置文件链接到 <code>sites-enabled</code> 目录中，Nginx 将不会加载或应用该站点的配置，该站点将不会在服务器上运行或生效。这样可以将配置文件保存在<code>sites-available</code> 目录中，暂时不启用, 不创建符号链接到 <code>sites-enabled</code> 目录中， Nginx就不会加载这些配置文件。</p>
 <hr>
 <ol>
 <li><p>检查nginx配置文件是否有错误</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nginx -t  <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -t  </span><br></pre></td></tr></table></figure>
 </li>
 <li><p>已经启动nginx或者配置文件中的端口号被占用<br>检查端口是否被占用</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">netstat -tnlp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -tnlp</span><br></pre></td></tr></table></figure>
 
 <p>如果端口已被占用, 选择换端口, 或者杀掉进程</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pkill -9 nginx<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkill -9 nginx</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>查看nginx日志</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cat &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /var/log/nginx/error.log</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>考虑权限问题</p>
 </li>
@@ -322,94 +302,30 @@ pip install --upgrade Flask<span aria-hidden="true" class="line-numbers-rows"><s
 <li><p><strong>生成客户端证书：</strong> 在 Cloudflare 仪表板中生成客户端证书，并下载证书和私钥。</p>
 </li>
 <li><p><strong>配置服务器验证客户端证书：</strong> 在 Nginx 配置中启用客户端证书验证。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
-    listen 443 ssl;
-    server_name exrate.apigpt.eu.org;
-
-    ssl_certificate &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;server.crt;
-    ssl_certificate_key &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;server.key;
-
-    ssl_client_certificate &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;cloudflare_ca.pem;  # CA 证书
-    ssl_verify_client on;  # 启用客户端证书验证
-
-    location &#x2F; &#123;
-        proxy_pass http:&#x2F;&#x2F;127.0.0.1:5000&#x2F;;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_set_header X-Forwarded-Prefix &#x2F;;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name exrate.apigpt.eu.org;</span><br><span class="line"></span><br><span class="line">    ssl_certificate /etc/nginx/ssl/server.crt;</span><br><span class="line">    ssl_certificate_key /etc/nginx/ssl/server.key;</span><br><span class="line"></span><br><span class="line">    ssl_client_certificate /etc/nginx/ssl/cloudflare_ca.pem;  <span class="comment"># CA 证书</span></span><br><span class="line">    ssl_verify_client on;  <span class="comment"># 启用客户端证书验证</span></span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:5000/;</span><br><span class="line">        proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Prefix /;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h4 id="配置源证书"><a href="#配置源证书" class="headerlink" title="配置源证书"></a>配置源证书</h4><ol>
 <li><p><strong>生成源证书：</strong> 在 Cloudflare 仪表板中生成源证书，并下载证书和私钥。</p>
 </li>
 <li><p><strong>配置服务器使用源证书：</strong> 在 Nginx 配置中配置源证书。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
-    listen 443 ssl;
-    server_name exrate.apigpt.eu.org;
-
-    ssl_certificate &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;cloudflare_origin.pem;
-    ssl_certificate_key &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;cloudflare_origin.key;
-
-    location &#x2F; &#123;
-        proxy_pass http:&#x2F;&#x2F;127.0.0.1:5000&#x2F;;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_set_header X-Forwarded-Prefix &#x2F;;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name exrate.apigpt.eu.org;</span><br><span class="line"></span><br><span class="line">    ssl_certificate /etc/nginx/ssl/cloudflare_origin.pem;</span><br><span class="line">    ssl_certificate_key /etc/nginx/ssl/cloudflare_origin.key;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:5000/;</span><br><span class="line">        proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Prefix /;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
 <li><strong>客户端证书</strong>主要用于客户端和服务器之间的双向身份验证，确保只有授权的客户端可以访问服务器。</li>
 <li><strong>源证书</strong>用于在 Cloudflare 和源服务器之间加密流量，保护从 Cloudflare 到源服务器的通信。</li>
 </ul>
 <p>给权限</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo chmod 600 &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;exrate_api.pem #公钥
-sudo chmod 600 &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;exrate_api.key #私钥<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> 600 /etc/nginx/ssl/exrate_api.pem <span class="comment">#公钥</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> 600 /etc/nginx/ssl/exrate_api.key <span class="comment">#私钥</span></span><br></pre></td></tr></table></figure>
 
 <p>nginx配置</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
-    listen 80;
-    server_name exrate.apigpt.eu.org;
-
-    # 重定向 HTTP 请求到 HTTPS
-    return 301 https:&#x2F;&#x2F;$server_name$request_uri;
-&#125;
-
-server &#123;
-    listen 443 ssl;
-    server_name exrate.apigpt.eu.org;
-
-    ssl_certificate &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;exrate_api.pem;
-    ssl_certificate_key &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;exrate_api.key;   
-   
-    # ssl验证相关配置
-    ssl_session_timeout  5m;    #缓存有效期
-    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;    #加密算法
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;    #安全链接可选的加密协议
-    ssl_prefer_server_ciphers on;   #使用服务器端的首选算法
-
-    location &#x2F; &#123;
-        proxy_pass http:&#x2F;&#x2F;127.0.0.1:5000&#x2F;;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_set_header X-Forwarded-Prefix &#x2F;;
-    &#125;
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name exrate.apigpt.eu.org;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 重定向 HTTP 请求到 HTTPS</span></span><br><span class="line">    <span class="built_in">return</span> 301 https://$server_name<span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name exrate.apigpt.eu.org;</span><br><span class="line"></span><br><span class="line">    ssl_certificate /etc/nginx/ssl/exrate_api.pem;</span><br><span class="line">    ssl_certificate_key /etc/nginx/ssl/exrate_api.key;   </span><br><span class="line">   </span><br><span class="line">    <span class="comment"># ssl验证相关配置</span></span><br><span class="line">    ssl_session_timeout  5m;    <span class="comment">#缓存有效期</span></span><br><span class="line">    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;    <span class="comment">#加密算法</span></span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;    <span class="comment">#安全链接可选的加密协议</span></span><br><span class="line">    ssl_prefer_server_ciphers on;   <span class="comment">#使用服务器端的首选算法</span></span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:5000/;</span><br><span class="line">        proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Prefix /;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>出现错误</p>
 <img src="/2024/02/19/90l-da-jian-jian-yi-api/image-20240221085320742.png" class="" title="image-20240221085320742">
 
 <p><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/support/troubleshooting/cloudflare-errors/troubleshooting-cloudflare-5xx-errors/#526error">Cloudflare 5XX 错误疑难解答 ·Cloudflare 支持文档</a></p>
 <p>查看日志,未发现报错,说明nginx配置没有问题</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo cat &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">cat</span> /var/log/nginx/error.log</span><br></pre></td></tr></table></figure>
 
 <p><strong>Error code 525</strong>可能能使因为nginx配置文件,关于ssl部分配置错误出现的问题</p>
 <p>例如我这里<code> listen 443 ssl;</code>忘记加ssl的</p>
@@ -469,9 +385,9 @@ server &#123;
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -480,6 +396,7 @@ server &#123;
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -509,7 +426,7 @@ server &#123;
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -521,14 +438,14 @@ server &#123;
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

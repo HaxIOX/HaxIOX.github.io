@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">ESP-IDF开发ESP32</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          824
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -205,10 +218,7 @@
 <li><p><strong>分别指定下载和 Monitor 的端口</strong></p>
 <ul>
 <li><p>在启动下载时（BOOT loader 阶段）系统是给第二个 VID&#x2F;PID，你可以在脚本里区分：</p>
-<pre class="line-numbers language-none"><code class="language-none"># 先用空的 -p ，让 esptool 自动选，刷完之后…
-idf.py flash
-# 再切回第一个端口用 monitor
-idf.py -p COM9 monitor<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 先用空的 -p ，让 esptool 自动选，刷完之后…</span><br><span class="line">idf.py flash</span><br><span class="line"># 再切回第一个端口用 monitor</span><br><span class="line">idf.py -p COM9 monitor</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>或者在 <code>idf.py menuconfig</code> → “Serial flasher config” 中把 “Flasher port” 设为 <code>auto</code>。</p>
 </li>
@@ -232,7 +242,7 @@ idf.py -p COM9 monitor<span aria-hidden="true" class="line-numbers-rows"><span><
 <li>或者：手工拼 802.11 Beacon + <code>esp_wifi_80211_tx</code></li>
 </ul>
 <h1 id="Esptools烧录固件"><a href="#Esptools烧录固件" class="headerlink" title="Esptools烧录固件"></a>Esptools烧录固件</h1><p>在ESP-IDF编译后德 打印数据获取固件以及固件地址</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">c:\Users\VIBTEK\.espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:\Users\VIBTEK\esp\v5.4.2\esp-idf\components\esptool_py\esptool\esptool.py -p COM5 -b 460800 --before default_reset --after hard_reset --chip esp32s3 write_flash --flash_mode dio --flash_freq 80m --flash_size 2MB &#96;0x0&#96; bootloader&#x2F;bootloader.bin &#96;0x10000&#96; DroneDetection_V3.0.bin &#96;0x8000&#96; partition_table&#x2F;partition-table.bin <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c:\Users\VIBTEK\.espressif\python_env\idf5.<span class="number">4</span>_py3.<span class="number">11</span>_env\Scripts\python.exe C:\Users\VIBTEK\esp\v5.<span class="number">4.2</span>\esp-idf\components\esptool_py\esptool\esptool.py -p COM5 -b <span class="number">460800</span> --before default_reset --after hard_reset --chip esp32s3 write_flash --flash_mode dio --flash_freq <span class="number">80</span>m --flash_size <span class="number">2</span>MB `<span class="number">0x0</span>` bootloader/bootloader.bin `<span class="number">0x10000</span>` DroneDetection_V3.<span class="number">0.b</span>in `<span class="number">0x8000</span>` partition_table/partition-table.bin </span><br></pre></td></tr></table></figure>
 
 <p>填入esptool后点击<code>CombineBin</code>将固件合并为一个，合并后的固件烧录地址为<code>0x0</code></p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_48057513/article/details/143827373?spm=1001.2101.3001.6650.5&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Ctr-5-143827373-blog-138012468.235%5Ev43%5Epc_blog_bottom_relevance_base6&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Ctr-5-143827373-blog-138012468.235%5Ev43%5Epc_blog_bottom_relevance_base6&utm_relevant_index=5">ESP32s3烧录bin，乐鑫下载工具flash_download_tool_乐鑫烧录工具-CSDN博客</a></p>
@@ -285,9 +295,9 @@ idf.py -p COM9 monitor<span aria-hidden="true" class="line-numbers-rows"><span><
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -296,6 +306,7 @@ idf.py -p COM9 monitor<span aria-hidden="true" class="line-numbers-rows"><span><
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -325,7 +336,7 @@ idf.py -p COM9 monitor<span aria-hidden="true" class="line-numbers-rows"><span><
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -337,14 +348,14 @@ idf.py -p COM9 monitor<span aria-hidden="true" class="line-numbers-rows"><span><
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

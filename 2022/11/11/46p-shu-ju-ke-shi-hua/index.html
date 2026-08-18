@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">PY数据可视化</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          181
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -178,33 +191,7 @@
       </div>
       <div class="markdown-body">
         <p><a target="_blank" rel="noopener" href="https://gallery.pyecharts.org/">pyrchart的官方文档</a></p>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">from pyecharts import options as opts
-from pyecharts.charts import Map
-from pyecharts.faker import Faker
-
-f &#x3D; open(&#39;国内疫情数据.csv&#39;, mode&#x3D;&#39;a&#39;, encoding&#x3D;&#39;utf-8-sig&#39;, newline&#x3D;&#39;&#39;)
-csv_writer &#x3D; csv.writer(f)
-csv_read &#x3D; csv.reader(f)
-csv_writer.writerow([&quot;date&quot;,&quot;province&quot;, &quot;city&quot;, &quot;local_confirm_add&quot;, &quot;local_wzz_add&quot;])
-
-df &#x3D; pd.read_csv(&quot;国内疫情数据.csv&quot;) #读取csv文件
-city &#x3D; df[&#39;city&#39;].tolist()          #tolist()转成列表
-local_confirm_add &#x3D; df[&#39;local_confirm_add&#39;].tolist()  # 转成列表
-title &#x3D; str(date)
-
-c &#x3D; (
-    Map()
-    .add(&quot;商家A&quot;, [list(z) for z in zip(Faker.country, Faker.values())], &quot;world&quot;)
-    .set_series_opts(label_opts&#x3D;opts.LabelOpts(is_show&#x3D;False))
-    .set_global_opts(
-        title_opts&#x3D;opts.TitleOpts(title&#x3D;&quot;Map-世界地图&quot;),
-        visualmap_opts&#x3D;opts.VisualMapOpts(max_&#x3D;200),
-    )
-    .render(&quot;map_world.html&quot;)
-)
-#不知道数据是什么可以打印出来看一下
-print(Faker.country)
-print(Faler.values())<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyecharts <span class="keyword">import</span> options <span class="keyword">as</span> opts</span><br><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Map</span><br><span class="line"><span class="keyword">from</span> pyecharts.faker <span class="keyword">import</span> Faker</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;国内疫情数据.csv&#x27;</span>, mode=<span class="string">&#x27;a&#x27;</span>, encoding=<span class="string">&#x27;utf-8-sig&#x27;</span>, newline=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">csv_writer = csv.writer(f)</span><br><span class="line">csv_read = csv.reader(f)</span><br><span class="line">csv_writer.writerow([<span class="string">&quot;date&quot;</span>,<span class="string">&quot;province&quot;</span>, <span class="string">&quot;city&quot;</span>, <span class="string">&quot;local_confirm_add&quot;</span>, <span class="string">&quot;local_wzz_add&quot;</span>])</span><br><span class="line"></span><br><span class="line">df = pd.read_csv(<span class="string">&quot;国内疫情数据.csv&quot;</span>) <span class="comment">#读取csv文件</span></span><br><span class="line">city = df[<span class="string">&#x27;city&#x27;</span>].tolist()          <span class="comment">#tolist()转成列表</span></span><br><span class="line">local_confirm_add = df[<span class="string">&#x27;local_confirm_add&#x27;</span>].tolist()  <span class="comment"># 转成列表</span></span><br><span class="line">title = <span class="built_in">str</span>(date)</span><br><span class="line"></span><br><span class="line">c = (</span><br><span class="line">    Map()</span><br><span class="line">    .add(<span class="string">&quot;商家A&quot;</span>, [<span class="built_in">list</span>(z) <span class="keyword">for</span> z <span class="keyword">in</span> <span class="built_in">zip</span>(Faker.country, Faker.values())], <span class="string">&quot;world&quot;</span>)</span><br><span class="line">    .set_series_opts(label_opts=opts.LabelOpts(is_show=<span class="literal">False</span>))</span><br><span class="line">    .set_global_opts(</span><br><span class="line">        title_opts=opts.TitleOpts(title=<span class="string">&quot;Map-世界地图&quot;</span>),</span><br><span class="line">        visualmap_opts=opts.VisualMapOpts(max_=<span class="number">200</span>),</span><br><span class="line">    )</span><br><span class="line">    .render(<span class="string">&quot;map_world.html&quot;</span>)</span><br><span class="line">)</span><br><span class="line"><span class="comment">#不知道数据是什么可以打印出来看一下</span></span><br><span class="line"><span class="built_in">print</span>(Faker.country)</span><br><span class="line"><span class="built_in">print</span>(Faler.values())</span><br></pre></td></tr></table></figure>
       </div>
       
         <div class="prev-or-next">
@@ -246,9 +233,9 @@ print(Faler.values())<span aria-hidden="true" class="line-numbers-rows"><span></
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -257,6 +244,7 @@ print(Faler.values())<span aria-hidden="true" class="line-numbers-rows"><span></
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -286,7 +274,7 @@ print(Faler.values())<span aria-hidden="true" class="line-numbers-rows"><span></
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -298,14 +286,14 @@ print(Faler.values())<span aria-hidden="true" class="line-numbers-rows"><span></
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

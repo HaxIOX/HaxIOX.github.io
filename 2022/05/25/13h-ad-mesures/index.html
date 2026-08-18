@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">AD一些基础的使用方法</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1396
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -214,120 +227,18 @@
 <h2 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h2><ul>
 <li><h3 id="原理图绘制"><a href="#原理图绘制" class="headerlink" title="原理图绘制"></a>原理图绘制</h3></li>
 </ul>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">连线
-  快捷键线 CTRL+W,空格把线变直
-  Place→Deirectives→给引脚打上红叉
-  不进行DRC检查
-元器件编号
-  Tools→Annotation<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">连线</span><br><span class="line">  快捷键线 CTRL+W,空格把线变直</span><br><span class="line">  Place→Deirectives→给引脚打上红叉</span><br><span class="line">  不进行DRC检查</span><br><span class="line">元器件编号</span><br><span class="line">  Tools→Annotation</span><br></pre></td></tr></table></figure>
 
-<h3 id="封装添加-编译-交互"><a href="#封装添加-编译-交互" class="headerlink" title="封装添加 编译 交互"></a>封装添加 编译 交互</h3><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">封装添加
-  可以借助&quot;Find Similar Objects...&quot;批量添加封装
-  取消阴影 shift+C
-  右键元器件&quot;Find Similar Objects...&quot;,可以查找同类型元器件,会出现阴影.
-  封装管理器 T+G,用于检查封装的问题
+<h3 id="封装添加-编译-交互"><a href="#封装添加-编译-交互" class="headerlink" title="封装添加 编译 交互"></a>封装添加 编译 交互</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">封装添加</span><br><span class="line">  可以借助&quot;Find Similar Objects...&quot;批量添加封装</span><br><span class="line">  取消阴影 shift+C</span><br><span class="line">  右键元器件&quot;Find Similar Objects...&quot;,可以查找同类型元器件,会出现阴影.</span><br><span class="line">  封装管理器 T+G,用于检查封装的问题</span><br><span class="line"></span><br><span class="line">编译</span><br><span class="line">  右键Project编译，检查error</span><br><span class="line">  导入到PCB</span><br><span class="line"></span><br><span class="line">交互 | 原理图与PCB之间</span><br><span class="line">  原理图中选中模块，按shift+ctrl+x，PCB中才能选中我们需要的模块</span><br></pre></td></tr></table></figure>
 
-编译
-  右键Project编译，检查error
-  导入到PCB
-
-交互 | 原理图与PCB之间
-  原理图中选中模块，按shift+ctrl+x，PCB中才能选中我们需要的模块<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="PCB绘制-布线-自动布线"><a href="#PCB绘制-布线-自动布线" class="headerlink" title="PCB绘制 布线 自动布线"></a>PCB绘制 布线 自动布线</h3><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">PCB绘制
-shift+s单独查看每层
-  布局
-    隐藏飞线 N
-    布线时再用
-    逐个模块布局
-    用Tools→Component Placement把元器件选出来
-    元器件放底层:要在移动中按L，按空格旋转
-
-  布线
-    手动布线
-    隐藏Top&#x2F;Bottom Overlay
-    可视性管理面板快捷键L进行恢复
-      
-    快捷键N,调出飞线，并隐藏GND飞线
-    普通布线10mil，电源线15mil
-
-    打开可见性管理面板ctrl+D
-      如隐藏文字，方便布线;还可调节布线时的亮度 Dimmed objects
-        Design→Rules...改为6mil
-        →Electrical 电气属性
-        →Manufacturing
-
-    ctrl+W调出布线(十字架)
-    布线不能有锐角&#x2F;直角
-    *键调出过孔，连接顶层和底层
-    过孔一般12mil&#x2F;24mil
-   
-  自动布线
-    先去设置规则Design→Rules...
-      Electrical 电气属性
-      Clearance 间距
-      改6mil
-
-      Routing 布线
-      Widrh 线宽
-      Design→Rule Wizard
-      添加电源线改线宽15mil
-      
-      Routing Via Style 过孔
-      12mil&#x2F;24mil
-      
-      快捷键TE， 画泪滴
-      Tools→Teardrops...
-
-    Route→Auto Route→All...
-    过孔Tab→Find Similiar Objects→去掉阻焊层 Solder Mask  Expansion 改0mil
-    按g改网格单位
-    短路:打过孔Tab→自动移除回路Automatically Remove Loops<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="铺铜-丝印-电气规则"><a href="#铺铜-丝印-电气规则" class="headerlink" title="铺铜 丝印 电气规则"></a>铺铜 丝印 电气规则</h3><pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">覆铜
-  快捷键 F3
-  Tab
-    Net选GND
-    勾选 Remove Dead Copper  移除死铜(会全部报错)
-    Tools→ Polygon Pours→ Repout All 全部重覆
-
-    顶层&#x2F;底层都要覆铜
-    *键切换底层查看
-    Design→ Rules...→ Electrical 电气属性→Clearance间距→Advanced → Poly 那一行改10mil
-    报错重覆 →0Repout All
-      
-    放置小过孔:连接两层覆铜;加固
-    Design→ Rules...→Plane→Polygon Connect Style→最右Via Connection
-    改成直连，就不是十字架形了
-     
-丝印层
-    重新调出丝印
-    调出Tab
-    改文字高度，字体
-   三维模式下，直接拖文字改位置
-
-电气规则检查(规则设置)
-  可以与覆铜转换顺序
-    Tools→ Design RuleCheck...→ Run
-    调出Messages→双击可以定位
-    一定要重新覆铜
-     再更新错误，改错...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="PCB绘制-布线-自动布线"><a href="#PCB绘制-布线-自动布线" class="headerlink" title="PCB绘制 布线 自动布线"></a>PCB绘制 布线 自动布线</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">PCB绘制</span><br><span class="line">shift+s单独查看每层</span><br><span class="line">  布局</span><br><span class="line">    隐藏飞线 N</span><br><span class="line">    布线时再用</span><br><span class="line">    逐个模块布局</span><br><span class="line">    用Tools→Component Placement把元器件选出来</span><br><span class="line">    元器件放底层:要在移动中按L，按空格旋转</span><br><span class="line"></span><br><span class="line">  布线</span><br><span class="line">    手动布线</span><br><span class="line">    隐藏Top/Bottom Overlay</span><br><span class="line">    可视性管理面板快捷键L进行恢复</span><br><span class="line">      </span><br><span class="line">    快捷键N,调出飞线，并隐藏GND飞线</span><br><span class="line">    普通布线10mil，电源线15mil</span><br><span class="line"></span><br><span class="line">    打开可见性管理面板ctrl+D</span><br><span class="line">      如隐藏文字，方便布线;还可调节布线时的亮度 Dimmed objects</span><br><span class="line">        Design→Rules...改为6mil</span><br><span class="line">        →Electrical 电气属性</span><br><span class="line">        →Manufacturing</span><br><span class="line"></span><br><span class="line">    ctrl+W调出布线(十字架)</span><br><span class="line">    布线不能有锐角/直角</span><br><span class="line">    *键调出过孔，连接顶层和底层</span><br><span class="line">    过孔一般12mil/24mil</span><br><span class="line">   </span><br><span class="line">  自动布线</span><br><span class="line">    先去设置规则Design→Rules...</span><br><span class="line">      Electrical 电气属性</span><br><span class="line">      Clearance 间距</span><br><span class="line">      改6mil</span><br><span class="line"></span><br><span class="line">      Routing 布线</span><br><span class="line">      Widrh 线宽</span><br><span class="line">      Design→Rule Wizard</span><br><span class="line">      添加电源线改线宽15mil</span><br><span class="line">      </span><br><span class="line">      Routing Via Style 过孔</span><br><span class="line">      12mil/24mil</span><br><span class="line">      </span><br><span class="line">      快捷键TE， 画泪滴</span><br><span class="line">      Tools→Teardrops...</span><br><span class="line"></span><br><span class="line">    Route→Auto Route→All...</span><br><span class="line">    过孔Tab→Find Similiar Objects→去掉阻焊层 Solder Mask  Expansion 改0mil</span><br><span class="line">    按g改网格单位</span><br><span class="line">    短路:打过孔Tab→自动移除回路Automatically Remove Loops</span><br></pre></td></tr></table></figure>
+<h3 id="铺铜-丝印-电气规则"><a href="#铺铜-丝印-电气规则" class="headerlink" title="铺铜 丝印 电气规则"></a>铺铜 丝印 电气规则</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">覆铜</span><br><span class="line">  快捷键 F3</span><br><span class="line">  Tab</span><br><span class="line">    Net选GND</span><br><span class="line">    勾选 Remove Dead Copper  移除死铜(会全部报错)</span><br><span class="line">    Tools→ Polygon Pours→ Repout All 全部重覆</span><br><span class="line"></span><br><span class="line">    顶层/底层都要覆铜</span><br><span class="line">    *键切换底层查看</span><br><span class="line">    Design→ Rules...→ Electrical 电气属性→Clearance间距→Advanced → Poly 那一行改10mil</span><br><span class="line">    报错重覆 →0Repout All</span><br><span class="line">      </span><br><span class="line">    放置小过孔:连接两层覆铜;加固</span><br><span class="line">    Design→ Rules...→Plane→Polygon Connect Style→最右Via Connection</span><br><span class="line">    改成直连，就不是十字架形了</span><br><span class="line">     </span><br><span class="line">丝印层</span><br><span class="line">    重新调出丝印</span><br><span class="line">    调出Tab</span><br><span class="line">    改文字高度，字体</span><br><span class="line">   三维模式下，直接拖文字改位置</span><br><span class="line"></span><br><span class="line">电气规则检查(规则设置)</span><br><span class="line">  可以与覆铜转换顺序</span><br><span class="line">    Tools→ Design RuleCheck...→ Run</span><br><span class="line">    调出Messages→双击可以定位</span><br><span class="line">    一定要重新覆铜</span><br><span class="line">     再更新错误，改错...</span><br></pre></td></tr></table></figure>
 <h3 id="原理图库-封装库"><a href="#原理图库-封装库" class="headerlink" title="原理图库 封装库"></a>原理图库 封装库</h3><p>原理图库绘制</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">&gt;注意引脚的小白点(指焊点)向外
-  利用向导 Tools→ Symbal Wizard...
-注意改引脚属性→Passive
-  自己找资源:立创EDA
-Design→ Make Schematic&#x2F;PCB Library<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;注意引脚的小白点(指焊点)向外</span><br><span class="line">  利用向导 Tools→ Symbal Wizard...</span><br><span class="line">注意改引脚属性→Passive</span><br><span class="line">  自己找资源:立创EDA</span><br><span class="line">Design→ Make Schematic/PCB Library</span><br></pre></td></tr></table></figure>
 <p>PCB封装库绘制</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">&gt;最关键:焊盘的大小和距离
-    孔径比插针大0.1-0.2mm
-    焊盘比孔径大0.45-0.5mm<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;最关键:焊盘的大小和距离</span><br><span class="line">    孔径比插针大0.1-0.2mm</span><br><span class="line">    焊盘比孔径大0.45-0.5mm</span><br></pre></td></tr></table></figure>
 <p>看芯片手册</p>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">&gt;快捷键G&#x2F;ctrl+shift+G 改变焊盘距离
-灰色覆铜，紫色阻焊层
-改变原点在中心或一脚
- Edit→ Set Refeience
-更改元器件名称
-原理图元件库文件 + PCB元件库文件添加到*.Libpkg，编译后就会出现*.IntLib 元件集成库文件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;快捷键G/ctrl+shift+G 改变焊盘距离</span><br><span class="line">灰色覆铜，紫色阻焊层</span><br><span class="line">改变原点在中心或一脚</span><br><span class="line"> Edit→ Set Refeience</span><br><span class="line">更改元器件名称</span><br><span class="line">原理图元件库文件 + PCB元件库文件添加到*.Libpkg，编译后就会出现*.IntLib 元件集成库文件</span><br></pre></td></tr></table></figure>
 
 <h3 id="导入库"><a href="#导入库" class="headerlink" title="导入库"></a>导入库</h3><p>默认位置 System-default locations</p>
 <p>安装库Data management-&gt;File-based libraries</p>
@@ -380,9 +291,9 @@ Design→ Make Schematic&#x2F;PCB Library<span aria-hidden="true" class="line-nu
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -391,6 +302,7 @@ Design→ Make Schematic&#x2F;PCB Library<span aria-hidden="true" class="line-nu
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -420,7 +332,7 @@ Design→ Make Schematic&#x2F;PCB Library<span aria-hidden="true" class="line-nu
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -432,14 +344,14 @@ Design→ Make Schematic&#x2F;PCB Library<span aria-hidden="true" class="line-nu
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">openclaw玩一哈</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          745
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -191,180 +204,30 @@
 </li>
 </ul>
 <p>运行新手引导向导（并安装服务）</p>
-<pre class="line-numbers language-none"><code class="language-none">openclaw onboard --install-daemon<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw onboard --install-daemon</span><br></pre></td></tr></table></figure>
 
 <p>根据指引填入刚刚获取Bot的token，后面向bot发送&#x2F;start获取Pairing code填入</p>
 <p>或者完成安装后手动添加</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">openclaw pairing approve telegram &quot;paring code&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw pairing approve telegram <span class="string">&quot;paring code&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="启动-Gateway-网关"><a href="#启动-Gateway-网关" class="headerlink" title="启动 Gateway 网关"></a>启动 Gateway 网关</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">openclaw gateway status<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="启动-Gateway-网关"><a href="#启动-Gateway-网关" class="headerlink" title="启动 Gateway 网关"></a>启动 Gateway 网关</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw gateway status</span><br></pre></td></tr></table></figure>
 
-<h2 id="快速验证"><a href="#快速验证" class="headerlink" title="快速验证"></a>快速验证</h2><pre class="line-numbers language-none"><code class="language-none">openclaw status
-openclaw health
-openclaw security audit --deep<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="快速验证"><a href="#快速验证" class="headerlink" title="快速验证"></a>快速验证</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openclaw status</span><br><span class="line">openclaw health</span><br><span class="line">openclaw security audit --deep</span><br></pre></td></tr></table></figure>
 
 <h2 id="配置模型与API"><a href="#配置模型与API" class="headerlink" title="配置模型与API"></a>配置模型与API</h2><p>参考某站唐洛大佬的配置，将其改为自己的api的配置，然后塞到openclaw配置文件汇总<code>../.openclaw/openclaw.json</code></p>
 <p>如果不想手动编辑配置，可以运行配置引导：</p>
-<pre class="line-numbers language-none"><code class="language-none">openclaw onboard<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openclaw onboard</span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-none"><code class="language-none">&#123;
-  &#x2F;&#x2F; others...
-  &quot;models&quot;: &#123;
-    &quot;providers&quot;: &#123;
-      &quot;myapi-openai&quot;: &#123;
-        &quot;baseUrl&quot;: &quot;https:&#x2F;&#x2F;new.xychatai.com&#x2F;codex&#x2F;v1&quot;,
-        &quot;apiKey&quot;: &quot;sk-PnQXgffavrw4Jb3Aeo5UEY1XJzHipS3d&quot;,
-        &quot;api&quot;: &quot;openai-responses&quot;,
-        &quot;models&quot;: [
-          &#123;
-            &quot;id&quot;: &quot;gpt-5.3-codex&quot;,
-            &quot;name&quot;: &quot;GPT-5.3 Codex&quot;,
-            &quot;reasoning&quot;: true,
-            &quot;input&quot;: [
-              &quot;text&quot;,
-              &quot;image&quot;
-            ],
-            &quot;cost&quot;: &#123;
-              &quot;input&quot;: 1.75,
-              &quot;output&quot;: 14,
-              &quot;cacheRead&quot;: 0.175,
-              &quot;cacheWrite&quot;: 0.175
-            &#125;,
-            &quot;contextWindow&quot;: 400000,
-            &quot;maxTokens&quot;: 128000
-          &#125;,
-          &#123;
-            &quot;id&quot;: &quot;gpt-5.2&quot;,
-            &quot;name&quot;: &quot;GPT-5.2&quot;,
-            &quot;reasoning&quot;: true,
-            &quot;input&quot;: [
-              &quot;text&quot;,
-              &quot;image&quot;
-            ],
-            &quot;cost&quot;: &#123;
-              &quot;input&quot;: 1.75,
-              &quot;output&quot;: 14,
-              &quot;cacheRead&quot;: 0.175,
-              &quot;cacheWrite&quot;: 0.175
-            &#125;,
-            &quot;contextWindow&quot;: 400000,
-            &quot;maxTokens&quot;: 128000
-          &#125;
-        ]
-      &#125;,
-      &quot;myapi-claude&quot;: &#123;
-        &quot;baseUrl&quot;: &quot;https:&#x2F;&#x2F;myapi.com&quot;,
-        &quot;apiKey&quot;: &quot;sk-******&quot;,
-        &quot;api&quot;: &quot;anthropic-messages&quot;,
-        &quot;models&quot;: [
-          &#123;
-            &quot;id&quot;: &quot;claude-opus-4-6&quot;,
-            &quot;name&quot;: &quot;Claude Opus 4.6&quot;,
-            &quot;reasoning&quot;: true,
-            &quot;input&quot;: [
-              &quot;text&quot;,
-              &quot;image&quot;
-            ],
-            &quot;cost&quot;: &#123;
-              &quot;input&quot;: 5,
-              &quot;output&quot;: 25,
-              &quot;cacheRead&quot;: 0.5,
-              &quot;cacheWrite&quot;: 6.25
-            &#125;,
-            &quot;contextWindow&quot;: 200000,
-            &quot;maxTokens&quot;: 64000
-          &#125;,
-          &#123;
-            &quot;id&quot;: &quot;claude-sonnet-4-5-20250929&quot;,
-            &quot;name&quot;: &quot;Claude Sonnet 4.5&quot;,
-            &quot;reasoning&quot;: true,
-            &quot;input&quot;: [
-              &quot;text&quot;,
-              &quot;image&quot;
-            ],
-            &quot;cost&quot;: &#123;
-              &quot;input&quot;: 3,
-              &quot;output&quot;: 15,
-              &quot;cacheRead&quot;: 0.3,
-              &quot;cacheWrite&quot;: 3.75
-            &#125;,
-            &quot;contextWindow&quot;: 200000,
-            &quot;maxTokens&quot;: 64000
-          &#125;
-        ]
-      &#125;,
-      &quot;myapi-gemini&quot;: &#123;
-        &quot;baseUrl&quot;: &quot;https:&#x2F;&#x2F;myapi.com&#x2F;v1beta&quot;,
-        &quot;apiKey&quot;: &quot;sk-******&quot;,
-        &quot;api&quot;: &quot;google-generative-ai&quot;,
-        &quot;models&quot;: [
-          &#123;
-            &quot;id&quot;: &quot;gemini-3-pro-preview&quot;,
-            &quot;name&quot;: &quot;Gemini 3 Pro&quot;,
-            &quot;reasoning&quot;: true,
-            &quot;input&quot;: [
-              &quot;text&quot;,
-              &quot;image&quot;
-            ],
-            &quot;cost&quot;: &#123;
-              &quot;input&quot;: 2,
-              &quot;output&quot;: 12,
-              &quot;cacheRead&quot;: 0.2,
-              &quot;cacheWrite&quot;: 0.2
-            &#125;,
-            &quot;contextWindow&quot;: 1048576,
-            &quot;maxTokens&quot;: 65536
-          &#125;,
-          &#123;
-            &quot;id&quot;: &quot;gemini-3-flash-preview&quot;,
-            &quot;name&quot;: &quot;Gemini 3 Flash&quot;,
-            &quot;reasoning&quot;: true,
-            &quot;input&quot;: [
-              &quot;text&quot;,
-              &quot;image&quot;
-            ],
-            &quot;cost&quot;: &#123;
-              &quot;input&quot;: 0.5,
-              &quot;output&quot;: 3,
-              &quot;cacheRead&quot;: 0.05,
-              &quot;cacheWrite&quot;: 0.05
-            &#125;,
-            &quot;contextWindow&quot;: 1048576,
-            &quot;maxTokens&quot;: 65536
-          &#125;
-        ]
-      &#125;
-    &#125;
-  &#125;,
-  &quot;agents&quot;: &#123;
-    &quot;defaults&quot;: &#123;
-      &quot;model&quot;: &#123;
-        &quot;primary&quot;: &quot;myapi-openai&#x2F;gpt-5.3-codex&quot;,
-        &quot;fallbacks&quot;: [
-          &quot;myapi-claude&#x2F;claude-opus-4-6&quot;,
-          &quot;myapi-gemini&#x2F;gemini-3-pro-preview&quot;
-        ]
-      &#125;,
-      &quot;models&quot;: &#123;
-        &quot;myapi-openai&#x2F;gpt-5.3-codex&quot;: &#123;&#125;,
-        &quot;myapi-openai&#x2F;gpt-5.2&quot;: &#123;&#125;,
-        &quot;myapi-claude&#x2F;claude-opus-4-6&quot;: &#123;&#125;,
-        &quot;myapi-claude&#x2F;claude-sonnet-4-5-20250929&quot;: &#123;&#125;,
-        &quot;myapi-gemini&#x2F;gemini-3-pro-preview&quot;: &#123;&#125;,
-        &quot;myapi-gemini&#x2F;gemini-3-flash-preview&quot;: &#123;&#125;
-      &#125;
-    &#125;
-  &#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  // others...</span><br><span class="line">  &quot;models&quot;: &#123;</span><br><span class="line">    &quot;providers&quot;: &#123;</span><br><span class="line">      &quot;myapi-openai&quot;: &#123;</span><br><span class="line">        &quot;baseUrl&quot;: &quot;https://new.xychatai.com/codex/v1&quot;,</span><br><span class="line">        &quot;apiKey&quot;: &quot;sk-PnQXgffavrw4Jb3Aeo5UEY1XJzHipS3d&quot;,</span><br><span class="line">        &quot;api&quot;: &quot;openai-responses&quot;,</span><br><span class="line">        &quot;models&quot;: [</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;id&quot;: &quot;gpt-5.3-codex&quot;,</span><br><span class="line">            &quot;name&quot;: &quot;GPT-5.3 Codex&quot;,</span><br><span class="line">            &quot;reasoning&quot;: true,</span><br><span class="line">            &quot;input&quot;: [</span><br><span class="line">              &quot;text&quot;,</span><br><span class="line">              &quot;image&quot;</span><br><span class="line">            ],</span><br><span class="line">            &quot;cost&quot;: &#123;</span><br><span class="line">              &quot;input&quot;: 1.75,</span><br><span class="line">              &quot;output&quot;: 14,</span><br><span class="line">              &quot;cacheRead&quot;: 0.175,</span><br><span class="line">              &quot;cacheWrite&quot;: 0.175</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;contextWindow&quot;: 400000,</span><br><span class="line">            &quot;maxTokens&quot;: 128000</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;id&quot;: &quot;gpt-5.2&quot;,</span><br><span class="line">            &quot;name&quot;: &quot;GPT-5.2&quot;,</span><br><span class="line">            &quot;reasoning&quot;: true,</span><br><span class="line">            &quot;input&quot;: [</span><br><span class="line">              &quot;text&quot;,</span><br><span class="line">              &quot;image&quot;</span><br><span class="line">            ],</span><br><span class="line">            &quot;cost&quot;: &#123;</span><br><span class="line">              &quot;input&quot;: 1.75,</span><br><span class="line">              &quot;output&quot;: 14,</span><br><span class="line">              &quot;cacheRead&quot;: 0.175,</span><br><span class="line">              &quot;cacheWrite&quot;: 0.175</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;contextWindow&quot;: 400000,</span><br><span class="line">            &quot;maxTokens&quot;: 128000</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;myapi-claude&quot;: &#123;</span><br><span class="line">        &quot;baseUrl&quot;: &quot;https://myapi.com&quot;,</span><br><span class="line">        &quot;apiKey&quot;: &quot;sk-******&quot;,</span><br><span class="line">        &quot;api&quot;: &quot;anthropic-messages&quot;,</span><br><span class="line">        &quot;models&quot;: [</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;id&quot;: &quot;claude-opus-4-6&quot;,</span><br><span class="line">            &quot;name&quot;: &quot;Claude Opus 4.6&quot;,</span><br><span class="line">            &quot;reasoning&quot;: true,</span><br><span class="line">            &quot;input&quot;: [</span><br><span class="line">              &quot;text&quot;,</span><br><span class="line">              &quot;image&quot;</span><br><span class="line">            ],</span><br><span class="line">            &quot;cost&quot;: &#123;</span><br><span class="line">              &quot;input&quot;: 5,</span><br><span class="line">              &quot;output&quot;: 25,</span><br><span class="line">              &quot;cacheRead&quot;: 0.5,</span><br><span class="line">              &quot;cacheWrite&quot;: 6.25</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;contextWindow&quot;: 200000,</span><br><span class="line">            &quot;maxTokens&quot;: 64000</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;id&quot;: &quot;claude-sonnet-4-5-20250929&quot;,</span><br><span class="line">            &quot;name&quot;: &quot;Claude Sonnet 4.5&quot;,</span><br><span class="line">            &quot;reasoning&quot;: true,</span><br><span class="line">            &quot;input&quot;: [</span><br><span class="line">              &quot;text&quot;,</span><br><span class="line">              &quot;image&quot;</span><br><span class="line">            ],</span><br><span class="line">            &quot;cost&quot;: &#123;</span><br><span class="line">              &quot;input&quot;: 3,</span><br><span class="line">              &quot;output&quot;: 15,</span><br><span class="line">              &quot;cacheRead&quot;: 0.3,</span><br><span class="line">              &quot;cacheWrite&quot;: 3.75</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;contextWindow&quot;: 200000,</span><br><span class="line">            &quot;maxTokens&quot;: 64000</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;myapi-gemini&quot;: &#123;</span><br><span class="line">        &quot;baseUrl&quot;: &quot;https://myapi.com/v1beta&quot;,</span><br><span class="line">        &quot;apiKey&quot;: &quot;sk-******&quot;,</span><br><span class="line">        &quot;api&quot;: &quot;google-generative-ai&quot;,</span><br><span class="line">        &quot;models&quot;: [</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;id&quot;: &quot;gemini-3-pro-preview&quot;,</span><br><span class="line">            &quot;name&quot;: &quot;Gemini 3 Pro&quot;,</span><br><span class="line">            &quot;reasoning&quot;: true,</span><br><span class="line">            &quot;input&quot;: [</span><br><span class="line">              &quot;text&quot;,</span><br><span class="line">              &quot;image&quot;</span><br><span class="line">            ],</span><br><span class="line">            &quot;cost&quot;: &#123;</span><br><span class="line">              &quot;input&quot;: 2,</span><br><span class="line">              &quot;output&quot;: 12,</span><br><span class="line">              &quot;cacheRead&quot;: 0.2,</span><br><span class="line">              &quot;cacheWrite&quot;: 0.2</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;contextWindow&quot;: 1048576,</span><br><span class="line">            &quot;maxTokens&quot;: 65536</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;id&quot;: &quot;gemini-3-flash-preview&quot;,</span><br><span class="line">            &quot;name&quot;: &quot;Gemini 3 Flash&quot;,</span><br><span class="line">            &quot;reasoning&quot;: true,</span><br><span class="line">            &quot;input&quot;: [</span><br><span class="line">              &quot;text&quot;,</span><br><span class="line">              &quot;image&quot;</span><br><span class="line">            ],</span><br><span class="line">            &quot;cost&quot;: &#123;</span><br><span class="line">              &quot;input&quot;: 0.5,</span><br><span class="line">              &quot;output&quot;: 3,</span><br><span class="line">              &quot;cacheRead&quot;: 0.05,</span><br><span class="line">              &quot;cacheWrite&quot;: 0.05</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;contextWindow&quot;: 1048576,</span><br><span class="line">            &quot;maxTokens&quot;: 65536</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;agents&quot;: &#123;</span><br><span class="line">    &quot;defaults&quot;: &#123;</span><br><span class="line">      &quot;model&quot;: &#123;</span><br><span class="line">        &quot;primary&quot;: &quot;myapi-openai/gpt-5.3-codex&quot;,</span><br><span class="line">        &quot;fallbacks&quot;: [</span><br><span class="line">          &quot;myapi-claude/claude-opus-4-6&quot;,</span><br><span class="line">          &quot;myapi-gemini/gemini-3-pro-preview&quot;</span><br><span class="line">        ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;models&quot;: &#123;</span><br><span class="line">        &quot;myapi-openai/gpt-5.3-codex&quot;: &#123;&#125;,</span><br><span class="line">        &quot;myapi-openai/gpt-5.2&quot;: &#123;&#125;,</span><br><span class="line">        &quot;myapi-claude/claude-opus-4-6&quot;: &#123;&#125;,</span><br><span class="line">        &quot;myapi-claude/claude-sonnet-4-5-20250929&quot;: &#123;&#125;,</span><br><span class="line">        &quot;myapi-gemini/gemini-3-pro-preview&quot;: &#123;&#125;,</span><br><span class="line">        &quot;myapi-gemini/gemini-3-flash-preview&quot;: &#123;&#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>配置后重启，先找到PID</p>
-<pre class="line-numbers language-none"><code class="language-none">ps aux | grep -i openclaw-gateway<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep -i openclaw-gateway</span><br></pre></td></tr></table></figure>
 
 <p>优雅退出</p>
-<pre class="line-numbers language-none"><code class="language-none">kill -TERM PID <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -TERM PID </span><br></pre></td></tr></table></figure>
 
 <p>两秒后执行,可以看到已经被自动拉起了</p>
-<pre class="line-numbers language-none"><code class="language-none">ps aux | grep -i openclaw<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep -i openclaw</span><br></pre></td></tr></table></figure>
 
 
 
@@ -416,9 +279,9 @@ openclaw security audit --deep<span aria-hidden="true" class="line-numbers-rows"
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -427,6 +290,7 @@ openclaw security audit --deep<span aria-hidden="true" class="line-numbers-rows"
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -456,7 +320,7 @@ openclaw security audit --deep<span aria-hidden="true" class="line-numbers-rows"
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -468,14 +332,14 @@ openclaw security audit --deep<span aria-hidden="true" class="line-numbers-rows"
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

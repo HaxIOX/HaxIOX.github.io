@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">linux常用命令</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1534
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -197,43 +210,12 @@
 <p>yum install firewall -y, apt-get install firewalld</p>
 </blockquote>
 <p>开放&#x2F;关闭特定端口<br><code>Ubuntu</code></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&gt;firewall-cmd --zone&#x3D;public --add-port&#x3D;25565&#x2F;tcp --permanent
-
-firewall-cmd --zone&#x3D;public --add-port&#x3D;25565&#x2F;tcp --permanent<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;firewall-cmd --zone=public --add-port=<span class="number">25565</span>/tcp --permanent</span><br><span class="line"></span><br><span class="line">firewall-cmd --zone=public --add-port=<span class="number">25565</span>/tcp --permanent</span><br></pre></td></tr></table></figure>
 <p> ‘有安全组的需要在安全组开放端口,我有的时候调不好直接把防火墙关了’</p>
 <h2 id="Screen的安装与使用"><a href="#Screen的安装与使用" class="headerlink" title="Screen的安装与使用"></a>Screen的安装与使用</h2><blockquote>
 <p>yum install -y screen</p>
 </blockquote>
-<pre class="line-numbers language-linux" data-language="linux"><code class="language-linux">(1)创建进程名称
-&gt;screen -S xxx   
-
-(2)查看创建的进程
-&gt;screen -ls
-
-(3)常用命令
-&gt;screen -S session_name              # 新建
-
-&gt;screen -ls（或者screen -list）      # 列出所有session
-
-&gt;screen -r session_name               # 回到session_name这个session
-
-&gt;screen -d session_name               # 远程detach某个session
-
-&gt;screen -d -r session_name            # 结束当前session并回到session_name这个session
-
-&gt;screen -XS session_name  quit     #杀死名为seesion_name的screen
-或者kill 进程号
-
-在 screen 中，如果想翻看之前的屏幕输出，使用向上键和pageUp 都是不行的，这时候使用
-
-&gt;ctrl + a + [&#123; 
-
-&gt;从后台进程里出来，按键：ctrl+A+D，回到主终端。
-
-&gt;但如果在主进程里ctrl+A+D，就会断开ssh连接
-
-结束当前screen窗口
-&gt;exit 或者 ctrl+d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">(1)创建进程名称</span><br><span class="line">&gt;screen -S xxx   </span><br><span class="line"></span><br><span class="line">(2)查看创建的进程</span><br><span class="line">&gt;screen -ls</span><br><span class="line"></span><br><span class="line">(3)常用命令</span><br><span class="line">&gt;screen -S session_name              # 新建</span><br><span class="line"></span><br><span class="line">&gt;screen -ls（或者screen -list）      # 列出所有session</span><br><span class="line"></span><br><span class="line">&gt;screen -r session_name               # 回到session_name这个session</span><br><span class="line"></span><br><span class="line">&gt;screen -d session_name               # 远程detach某个session</span><br><span class="line"></span><br><span class="line">&gt;screen -d -r session_name            # 结束当前session并回到session_name这个session</span><br><span class="line"></span><br><span class="line">&gt;screen -XS session_name  quit     #杀死名为seesion_name的screen</span><br><span class="line">或者kill 进程号</span><br><span class="line"></span><br><span class="line">在 screen 中，如果想翻看之前的屏幕输出，使用向上键和pageUp 都是不行的，这时候使用</span><br><span class="line"></span><br><span class="line">&gt;ctrl + a + [&#123; </span><br><span class="line"></span><br><span class="line">&gt;从后台进程里出来，按键：ctrl+A+D，回到主终端。</span><br><span class="line"></span><br><span class="line">&gt;但如果在主进程里ctrl+A+D，就会断开ssh连接</span><br><span class="line"></span><br><span class="line">结束当前screen窗口</span><br><span class="line">&gt;exit 或者 ctrl+d</span><br></pre></td></tr></table></figure>
 
 <h2 id="测速脚本"><a href="#测速脚本" class="headerlink" title="测速脚本"></a>测速脚本</h2><blockquote>
 <p>wget -qO- bench.sh | bash</p>
@@ -332,63 +314,10 @@ firewall-cmd --zone&#x3D;public --add-port&#x3D;25565&#x2F;tcp --permanent<span 
 <blockquote>
 <p>mv &#x2F;home&#x2F;packageA &#x2F;home&#x2F;packageB&#x2F;<br>或<br>mv &#x2F;home&#x2F;packageA &#x2F;home&#x2F;packageB<br>这两种方法效果是一样的<br>5.移动一个文件夹下的所有内容到另一个文件夹下面<br>mv &#x2F;home&#x2F;packageA&#x2F;* &#x2F;home&#x2F;packageB&#x2F;</p>
 </blockquote>
-<h2 id="安装类命令"><a href="#安装类命令" class="headerlink" title="安装类命令"></a>安装类命令</h2><h3 id="安装python3"><a href="#安装python3" class="headerlink" title="安装python3"></a>安装python3</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">#获取安装包
-wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;3.8.10&#x2F;Python-3.8.10.tgz
-
-#下载完成之后，将安装包解压到当前目录：
-tar xvf Python-3.8.10.tgz
-
-#安装需要的依赖
-apt -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel
-
-#先进入Python3目录下的Python-3.8.10目录：
-cd Python-3.8.10
-
-#指定python3安装路径：
-.&#x2F;configure prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;python3.8.10
-
-#编译+安装
-make &amp;&amp; make install
-
-#添加python3软链接：
-ln -s &#x2F;usr&#x2F;local&#x2F;python3.8.10&#x2F;bin&#x2F;python3.8.10 &#x2F;usr&#x2F;bin&#x2F;python3
-#添加pip3软链接：
- ln -s &#x2F;usr&#x2F;local&#x2F;python3.8.10&#x2F;bin&#x2F;pip3.8.10 &#x2F;usr&#x2F;bin&#x2F;pip3
-
-#配置python环境变量
-配置环境变量主要是能快速使用pip3安装命令。
-
-vi ~&#x2F;.bash_profile添加如下配置
-
-export PYTHON_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;python3.8.10
-export PATH&#x3D;$PYTHON_HOME&#x2F;bin:$PATH
-
-#使配置生效
-source ~&#x2F;.bash_profile
-
-#检查版本
-python3 --version
-python3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="安装类命令"><a href="#安装类命令" class="headerlink" title="安装类命令"></a>安装类命令</h2><h3 id="安装python3"><a href="#安装python3" class="headerlink" title="安装python3"></a>安装python3</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#获取安装包</span><br><span class="line">wget https:<span class="comment">//www.python.org/ftp/python/3.8.10/Python-3.8.10.tgz</span></span><br><span class="line"></span><br><span class="line">#下载完成之后，将安装包解压到当前目录：</span><br><span class="line">tar xvf Python<span class="number">-3.8</span>.<span class="number">10.</span>tgz</span><br><span class="line"></span><br><span class="line">#安装需要的依赖</span><br><span class="line">apt -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel</span><br><span class="line"></span><br><span class="line">#先进入Python3目录下的Python<span class="number">-3.8</span>.<span class="number">10</span>目录：</span><br><span class="line">cd Python<span class="number">-3.8</span>.<span class="number">10</span></span><br><span class="line"></span><br><span class="line">#指定python3安装路径：</span><br><span class="line">./configure prefix=/usr/local/python3.<span class="number">8.10</span></span><br><span class="line"></span><br><span class="line">#编译+安装</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line">#添加python3软链接：</span><br><span class="line">ln -s /usr/local/python3.<span class="number">8.10</span>/bin/python3.<span class="number">8.10</span> /usr/bin/python3</span><br><span class="line">#添加pip3软链接：</span><br><span class="line"> ln -s /usr/local/python3.<span class="number">8.10</span>/bin/pip3.<span class="number">8.10</span> /usr/bin/pip3</span><br><span class="line"></span><br><span class="line">#配置python环境变量</span><br><span class="line">配置环境变量主要是能快速使用pip3安装命令。</span><br><span class="line"></span><br><span class="line">vi ~/.bash_profile添加如下配置</span><br><span class="line"></span><br><span class="line">export PYTHON_HOME=/usr/local/python3.<span class="number">8.10</span></span><br><span class="line">export PATH=$PYTHON_HOME/bin:$PATH</span><br><span class="line"></span><br><span class="line">#使配置生效</span><br><span class="line">source ~/.bash_profile</span><br><span class="line"></span><br><span class="line">#检查版本</span><br><span class="line">python3 --version</span><br><span class="line">python3</span><br></pre></td></tr></table></figure>
 
 <h3 id="安装nodejs"><a href="#安装nodejs" class="headerlink" title="安装nodejs"></a>安装nodejs</h3><p><a target="_blank" rel="noopener" href="http://nodejs.cn/download/">nodejs官网</a></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">wget https:&#x2F;&#x2F;nodejs.org&#x2F;dist&#x2F;v12.18.1&#x2F;node-v12.18.1-linux-x64.tar.xz         &#x2F;&#x2F; 下载
-tar xf node-v12.18.1-linux-x64.tar.xz                                        &#x2F;&#x2F; 解压
-cd node-v12.18.1-linux-x64                                                   &#x2F;&#x2F; 进入解压目录
-
-&#x2F;&#x2F;解压文件的 bin 目录底下包含了 node、npm 等命令，我们可以修改linux系统的环境变量（profile）来设置直接运行命令：
-&#x2F;&#x2F;建议先备份，养成修改重要文件之前先备份的好习惯。
-cp &#x2F;etc&#x2F;profile &#x2F;etc&#x2F;profile.bak
-
-vim &#x2F;etc&#x2F;profile
-&#x2F;&#x2F;在最下面添加 export PATH&#x3D;$PATH: 后面跟上 node 下 bin 目录的路径
-export PATH&#x3D;$PATH:&#x2F;root&#x2F;node-v12.18.1-linux-x64&#x2F;bin
-
-&#x2F;&#x2F;立即生效
-source &#x2F;etc&#x2F;profile
-&#x2F;&#x2F;查看版本
-node -v
-v12.18.1
-&#x2F;&#x2F;安装成功<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">wget https:<span class="comment">//nodejs.org/dist/v12.18.1/node-v12.18.1-linux-x64.tar.xz         // 下载</span></span><br><span class="line">tar xf node-v12.<span class="number">18.1</span>-linux-x64.tar.xz                                        <span class="comment">// 解压</span></span><br><span class="line">cd node-v12.<span class="number">18.1</span>-linux-x64                                                   <span class="comment">// 进入解压目录</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//解压文件的 bin 目录底下包含了 node、npm 等命令，我们可以修改linux系统的环境变量（profile）来设置直接运行命令：</span></span><br><span class="line"><span class="comment">//建议先备份，养成修改重要文件之前先备份的好习惯。</span></span><br><span class="line">cp /etc/profile /etc/profile.bak</span><br><span class="line"></span><br><span class="line">vim /etc/profile</span><br><span class="line"><span class="comment">//在最下面添加 export PATH=$PATH: 后面跟上 node 下 bin 目录的路径</span></span><br><span class="line">export PATH=$PATH:/root/node-v12.<span class="number">18.1</span>-linux-x64/bin</span><br><span class="line"></span><br><span class="line"><span class="comment">//立即生效</span></span><br><span class="line">source /etc/profile</span><br><span class="line"><span class="comment">//查看版本</span></span><br><span class="line">node -v</span><br><span class="line">v12.<span class="number">18.1</span></span><br><span class="line"><span class="comment">//安装成功</span></span><br></pre></td></tr></table></figure>
       </div>
       
         <div class="prev-or-next">
@@ -430,9 +359,9 @@ v12.18.1
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -441,6 +370,7 @@ v12.18.1
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -470,7 +400,7 @@ v12.18.1
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -482,14 +412,14 @@ v12.18.1
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

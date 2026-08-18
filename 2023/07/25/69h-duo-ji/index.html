@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">舵机</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1880
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -205,32 +218,10 @@
 <p>Pulse&#x3D;150+Angel&#x2F;90*(250-50)</p>
 <p>原理,占空比2.5-12.5%*2000&#x3D;50-&gt;250对应0-180度 </p>
 <p>公式计算并没有问题就是不知道为什么,不能正常输出脉冲</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F;void Sevor_move(int8_t Angel)
-&#x2F;&#x2F;&#123;
-&#x2F;&#x2F;    &#x2F;&#x2F; 计算PWM信号的占空比
-&#x2F;&#x2F;    float pulse_float &#x3D; 50.0+Angel&#x2F;180.0*(250.0-50.0);
-&#x2F;&#x2F;    uint16_t pulse &#x3D;(uint16_t)(pulse_float+0.5) ;
-&#x2F;&#x2F;    &#x2F;&#x2F; 设置PWM信号的占空比
-&#x2F;&#x2F;    TIM_SetCompare1(TIM1, pulse);
-&#x2F;&#x2F;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//void Sevor_move(int8_t Angel)</span></span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//    // 计算PWM信号的占空比</span></span><br><span class="line"><span class="comment">//    float pulse_float = 50.0+Angel/180.0*(250.0-50.0);</span></span><br><span class="line"><span class="comment">//    uint16_t pulse =(uint16_t)(pulse_float+0.5) ;</span></span><br><span class="line"><span class="comment">//    // 设置PWM信号的占空比</span></span><br><span class="line"><span class="comment">//    TIM_SetCompare1(TIM1, pulse);</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p>GPT写的正确的代码</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">void Sevor_move(int8_t Angel)
-&#123;
-  uint16_t pulse;
-    &#x2F;&#x2F; 将角度限制在-90到90度之间
-    if (Angel &lt; -90) &#123;
-        Angel &#x3D; -90;
-    &#125; else if (Angel &gt; 90) &#123;
-        Angel &#x3D; 90;
-    &#125;
-
-    &#x2F;&#x2F; 计算PWM信号的脉冲宽度对应的计数值
-    pulse &#x3D; 50 + (uint16_t)((Angel + 90) &#x2F; 180.0 * 200); &#x2F;&#x2F; 50对应0.5ms, 250对应2.5ms
-
-    &#x2F;&#x2F; 设置PWM信号的脉冲宽度
-    TIM_SetCompare1(TIM1, pulse);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Sevor_move</span><span class="params">(<span class="type">int8_t</span> Angel)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">uint16_t</span> pulse;</span><br><span class="line">    <span class="comment">// 将角度限制在-90到90度之间</span></span><br><span class="line">    <span class="keyword">if</span> (Angel &lt; <span class="number">-90</span>) &#123;</span><br><span class="line">        Angel = <span class="number">-90</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Angel &gt; <span class="number">90</span>) &#123;</span><br><span class="line">        Angel = <span class="number">90</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算PWM信号的脉冲宽度对应的计数值</span></span><br><span class="line">    pulse = <span class="number">50</span> + (<span class="type">uint16_t</span>)((Angel + <span class="number">90</span>) / <span class="number">180.0</span> * <span class="number">200</span>); <span class="comment">// 50对应0.5ms, 250对应2.5ms</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置PWM信号的脉冲宽度</span></span><br><span class="line">    TIM_SetCompare1(TIM1, pulse);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ol>
 <li><p>在 0 到 180 度的范围内，将角度映射到 0.5ms 到 2.5ms 的脉冲宽度范围。为了实现这个映射，我们可以使用线性关系。</p>
@@ -246,14 +237,7 @@
 </ol>
 <h3 id="更改后"><a href="#更改后" class="headerlink" title="更改后"></a>更改后</h3><p>我的代码更改后正常</p>
 <p>我认为:是因为uint8_t是8位无符号的整型变量也就是一个字节,最大是256,Angel输入为0-180,,也没超啊</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">void Sevor_move(int Angel)
-&#123;
-    &#x2F;&#x2F; 计算PWM信号的占空比
-    float pulse_float &#x3D; 50.0+Angel&#x2F;180.0*(250.0-50.0);
-    uint16_t pulse &#x3D;(uint16_t)(pulse_float+0.5) ;
-    &#x2F;&#x2F; 设置PWM信号的占空比
-    TIM_SetCompare1(TIM1, pulse);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Sevor_move</span><span class="params">(<span class="type">int</span> Angel)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 计算PWM信号的占空比</span></span><br><span class="line">    <span class="type">float</span> pulse_float = <span class="number">50.0</span>+Angel/<span class="number">180.0</span>*(<span class="number">250.0</span><span class="number">-50.0</span>);</span><br><span class="line">    <span class="type">uint16_t</span> pulse =(<span class="type">uint16_t</span>)(pulse_float+<span class="number">0.5</span>) ;</span><br><span class="line">    <span class="comment">// 设置PWM信号的占空比</span></span><br><span class="line">    TIM_SetCompare1(TIM1, pulse);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>换成int之后又换回uint8_t了,好使了,好像是<code>玄学</code>啊</p>
 <h3 id="更正"><a href="#更正" class="headerlink" title="更正"></a>更正</h3><p>是int8_t不可以</p>
@@ -279,7 +263,7 @@
 <h2 id="控制舵机的缓动算法"><a href="#控制舵机的缓动算法" class="headerlink" title="控制舵机的缓动算法"></a>控制舵机的缓动算法</h2><p>当控制舵机进行旋转时，普通的方式往往会直接指定舵机的目标角度，然后直接让舵机转动到目标角度。这种方式会导致舵机在转动时突然停下，可能会产生颤动或者不够平滑的效果。</p>
 <p>为了实现丝滑旋转效果，我们可以采用缓动（Easing）方法。缓动是一种用于平滑过渡动画效果的数学算法，它可以让舵机在旋转过程中逐渐增加或减小角速度，从而使得旋转过程更加平滑和自然。</p>
 <p>缓动算法的基本思想是通过线性插值来计算舵机的当前角度。假设舵机起始角度为 <code>start</code>，目标角度为 <code>target</code>，当前时间为 <code>t</code>，持续时间为 <code>duration</code>，那么可以使用如下的线性插值公式来计算舵机的当前角度：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">current_angle &#x3D; start + (target - start) * t &#x2F; duration<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">current_angle = start + (target - start) * t / duration</span><br></pre></td></tr></table></figure>
 
 <p>这个公式会根据当前时间 <code>t</code> 的变化，逐步将舵机的角度从起始角度 <code>start</code> 过渡到目标角度 <code>target</code>，从而实现平滑的旋转效果。</p>
 <p>在示例代码中，我们定义了起始角度 <code>servo_start_angle</code> 为 0 度，目标角度 <code>servo_target_angle</code> 为 360 度（一圈），持续时间 <code>duration</code> 为 5000 毫秒（即 5 秒）。然后，我们使用一个循环来模拟整个缓动过程。在每次循环中，我们根据当前时间 <code>t</code> 使用缓动函数 <code>easing</code> 来计算舵机的当前角度 <code>servo_current_angle</code>，然后将舵机设置到当前角度，并等待一段时间（时间步长 <code>time_step</code>）再进行下一次循环。</p>
@@ -327,9 +311,9 @@
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -338,6 +322,7 @@
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -367,7 +352,7 @@
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -379,14 +364,14 @@
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

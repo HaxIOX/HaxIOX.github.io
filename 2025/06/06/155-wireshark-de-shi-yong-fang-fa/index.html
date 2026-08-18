@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,9 +166,15 @@
     <div class="post-content">
       <div class="post-title">windows环境下Wireshark抓取802.11数据包</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1324
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2026-04-20 12:02:24
+          2026-07-28 22:04:04
         </span>
         
               <span class="post-tags">
@@ -177,59 +190,18 @@
           
       </div>
       <div class="markdown-body">
-        <h1 id="wireshark"><a href="#wireshark" class="headerlink" title="wireshark"></a><a target="_blank" rel="noopener" href="https://www.wireshark.org/docs/wsug_html_chunked/ChCapPrerequisitesSection.html">wireshark</a></h1><p>常见的陷阱：</p>
+        <h1 id="wireshark"><a href="#wireshark" class="headerlink" title="wireshark"></a><a target="_blank" rel="noopener" href="https://www.wireshark.org/docs/wsug_html_chunked/ChCapPrerequisitesSection.html">wireshark</a></h1><p>主要问题:</p>
 <ul>
-<li>您可能需要特殊权限才能开始实时捕获。</li>
-<li>您需要选择正确的网络接口来捕获数据包数据。</li>
-<li>您需要在网络中的正确位置进行捕获，以查看您 想看看。</li>
+<li>windows驱动可能不支持monitor模式</li>
+<li>需要手动设置切换信道</li>
 </ul>
 <p><strong>查看网卡是否支持Monitor mode</strong></p>
 <p>CMD中输入命令</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">netsh wlan show drivers<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh wlan show drivers</span><br></pre></td></tr></table></figure>
 
 
 
-<pre class="line-numbers language-none"><code class="language-none">C:\Users\Administrator&gt;netsh wlan show drivers
-
-接口名称: WLAN
-
-    驱动程序                  : Realtek 8822CE Wireless LAN 802.11ac PCI-E NIC
-    供应商                    : Realtek Semiconductor Corp.
-    提供程序                  : Realtek Semiconductor Corp.
-    日期                      : 2022&#x2F;6&#x2F;24
-    版本                      : 2024.10.138.0
-    INF 文件                  : oem207.inf
-    类型                      : 本机 WLAN 驱动程序
-    支持的无线电类型          : 802.11n 802.11g 802.11b 802.11ac 802.11n 802.11a
-    支持 FIPS 140-2 模式: 是
-    支持 802.11w 管理帧保护 : 是
-    支持的承载网络  : 否
-    基础结构模式中支持的身份验证和密码:
-                                开放式             无
-                                WPA2 - 个人       CCMP
-                                开放式             WEP-40bit
-                                开放式             WEP-104 位
-                                开放式             WEP
-                                WPA - 企业        TKIP
-                                WPA - 个人        TKIP
-                                WPA2 - 企业       TKIP
-                                WPA2 - 个人       TKIP
-                                WPA - 企业        CCMP
-                                WPA - 个人        CCMP
-                                WPA2 - 企业       CCMP
-                                WPA3 - 个人       CCMP
-                                WPA3 - 企业       GCMP-256
-                                OWE             CCMP
-                                供应商定义的          TKIP
-                                供应商定义的          CCMP
-                                供应商定义的          供应商定义的
-                                供应商定义的          供应商定义的
-                                WPA2 - 企业       供应商定义的
-                                WPA2 - 企业       供应商定义的
-                                供应商定义的          供应商定义的
-                                供应商定义的          供应商定义的
-    支持的无线显示器: 是 (图形驱动程序: 是，WLAN 驱动程序: 是)
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;netsh wlan show drivers</span><br><span class="line"></span><br><span class="line">接口名称: WLAN</span><br><span class="line"></span><br><span class="line">    驱动程序                  : Realtek 8822CE Wireless LAN 802.11ac PCI-E NIC</span><br><span class="line">    供应商                    : Realtek Semiconductor Corp.</span><br><span class="line">    提供程序                  : Realtek Semiconductor Corp.</span><br><span class="line">    日期                      : 2022/6/24</span><br><span class="line">    版本                      : 2024.10.138.0</span><br><span class="line">    INF 文件                  : oem207.inf</span><br><span class="line">    类型                      : 本机 WLAN 驱动程序</span><br><span class="line">    支持的无线电类型          : 802.11n 802.11g 802.11b 802.11ac 802.11n 802.11a</span><br><span class="line">    支持 FIPS 140-2 模式: 是</span><br><span class="line">    支持 802.11w 管理帧保护 : 是</span><br><span class="line">    支持的承载网络  : 否</span><br><span class="line">    基础结构模式中支持的身份验证和密码:</span><br><span class="line">                                开放式             无</span><br><span class="line">                                WPA2 - 个人       CCMP</span><br><span class="line">                                开放式             WEP-40bit</span><br><span class="line">                                开放式             WEP-104 位</span><br><span class="line">                                开放式             WEP</span><br><span class="line">                                WPA - 企业        TKIP</span><br><span class="line">                                WPA - 个人        TKIP</span><br><span class="line">                                WPA2 - 企业       TKIP</span><br><span class="line">                                WPA2 - 个人       TKIP</span><br><span class="line">                                WPA - 企业        CCMP</span><br><span class="line">                                WPA - 个人        CCMP</span><br><span class="line">                                WPA2 - 企业       CCMP</span><br><span class="line">                                WPA3 - 个人       CCMP</span><br><span class="line">                                WPA3 - 企业       GCMP-256</span><br><span class="line">                                OWE             CCMP</span><br><span class="line">                                供应商定义的          TKIP</span><br><span class="line">                                供应商定义的          CCMP</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">                                WPA2 - 企业       供应商定义的</span><br><span class="line">                                WPA2 - 企业       供应商定义的</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">    支持的无线显示器: 是 (图形驱动程序: 是，WLAN 驱动程序: 是)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>没显示<code>支持的网络监视模式: 是</code></p>
 <p>不支持 monitor mode</p>
@@ -318,7 +290,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2026-04-20 12:02:24
+              2026-07-28 22:04:04
             </span>
             
                   <span class="post-tags">
@@ -345,9 +317,9 @@
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -356,6 +328,7 @@
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -385,7 +358,7 @@
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -397,14 +370,14 @@
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

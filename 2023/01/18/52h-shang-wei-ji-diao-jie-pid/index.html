@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">上位机调节pid</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1851
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -188,22 +201,7 @@
 <blockquote>
 <p>所以p1是a的首地址,<em>p1即为取出p1地址的值,即</em>p1为a的首地址的值<br>不对,p1是指针变量，它指向a的首地址，所以p1的值为a的首地址。而*p1是取出p1指向的地址的值，即a的值。</p>
 </blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">int a &#x3D; 258;
-&#x2F;&#x2F;使用unsigned char来验证int的每一个字节
-unsigned char *p1 &#x3D; (unsigned char*)&amp;a;   &#x2F;&#x2F;获取a的首地址
-unsigned char *p2 &#x3D; (unsigned char*)&amp;a+1; &#x2F;&#x2F;获取a的首地址的后一个字节地址
-unsigned char *p3 &#x3D; (unsigned char*)&amp;a+2; &#x2F;&#x2F;获取a的首地址的后两个字节地址
-unsigned char *p4 &#x3D; (unsigned char*)&amp;a+3; &#x2F;&#x2F;获取a的首地址的后三个字节地址
-printf(&quot;[a] p1:%x, %d\r\n&quot;, p1, *p1); &#x2F;&#x2F;打印p1的地址与存储的字节内容
-printf(&quot;[a] p2:%x, %d\r\n&quot;, p2, *p2); &#x2F;&#x2F;打印p2的地址与存储的字节内容
-printf(&quot;[a] p3:%x, %d\r\n&quot;, p3, *p3); &#x2F;&#x2F;打印p3的地址与存储的字节内容
-printf(&quot;[a] p4:%x, %d\r\n&quot;, p4, *p4); &#x2F;&#x2F;打印p4的地址与存储的字节内容
-运行结果：
-
-[a] p1:5216f804, 2
-[a] p2:5216f805, 1
-[a] p3:5216f806, 0
-[a] p4:5216f807, 0这个就取出的是首地址的值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">258</span>;</span><br><span class="line"><span class="comment">//使用unsigned char来验证int的每一个字节</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> *p1 = (<span class="type">unsigned</span> <span class="type">char</span>*)&amp;a;   <span class="comment">//获取a的首地址</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> *p2 = (<span class="type">unsigned</span> <span class="type">char</span>*)&amp;a+<span class="number">1</span>; <span class="comment">//获取a的首地址的后一个字节地址</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> *p3 = (<span class="type">unsigned</span> <span class="type">char</span>*)&amp;a+<span class="number">2</span>; <span class="comment">//获取a的首地址的后两个字节地址</span></span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> *p4 = (<span class="type">unsigned</span> <span class="type">char</span>*)&amp;a+<span class="number">3</span>; <span class="comment">//获取a的首地址的后三个字节地址</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;[a] p1:%x, %d\r\n&quot;</span>, p1, *p1); <span class="comment">//打印p1的地址与存储的字节内容</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;[a] p2:%x, %d\r\n&quot;</span>, p2, *p2); <span class="comment">//打印p2的地址与存储的字节内容</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;[a] p3:%x, %d\r\n&quot;</span>, p3, *p3); <span class="comment">//打印p3的地址与存储的字节内容</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;[a] p4:%x, %d\r\n&quot;</span>, p4, *p4); <span class="comment">//打印p4的地址与存储的字节内容</span></span><br><span class="line">运行结果：</span><br><span class="line"></span><br><span class="line">[a] p1:<span class="number">5216f</span>804, <span class="number">2</span></span><br><span class="line">[a] p2:<span class="number">5216f</span>805, <span class="number">1</span></span><br><span class="line">[a] p3:<span class="number">5216f</span>806, <span class="number">0</span></span><br><span class="line">[a] p4:<span class="number">5216f</span>807, <span class="number">0</span>这个就取出的是首地址的值</span><br></pre></td></tr></table></figure>
 <p>对于这段代码,<code>他将变量a的地址强制转换成了unsigned char类型的指针</code>,并用p1,p2,p3,p4分别指向了a的首地址和后1,2,3个字节的地址,通过p1,*p2,*p3,*p4获取到了这些地址所存储的值,这些值就是a在内存中的二进制表示,根据不同的机器字节序,会得到不同的结果。</p>
 <blockquote>
 <p>所以在上面代码中打印p1会获得a的首地址,打印*p1会获得a的首地址的值<br>是的，在上面的代码中，p1是a的首地址，而p1是存储在a的首地址的值。这段代码中，首先将int类型的a转换为unsigned char类型的指针p1，然后利用p1来访问a的每一个字节，p2、p3、p4分别是a的首地址后一个字节、后两个字节、后三个字节的地址。在打印p1、p2、p3、p4时，会输出这些地址的十六进制值，在打印p1、*p2、*p3、*p4时，会输出这些地址所存储的值。</p>
@@ -214,71 +212,15 @@ printf(&quot;[a] p4:%x, %d\r\n&quot;, p4, *p4); &#x2F;&#x2F;打印p4的地址与
 <blockquote>
 <p>不对我说错了是<em>p&#x3D;</em>(&amp;a),即p&#x3D;a的首地址,*p&#x3D;a的值<br>对的，p&#x3D;(&amp;a)，即p&#x3D;&amp;a，即p是a的首地址，*p&#x3D;a的值。</p>
 </blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">void printf_bin(int num)
-&#123;
-    int i, j, k;
-    unsigned char *p &#x3D; (unsigned char*)&amp;num + 3;&#x2F;&#x2F;p先指向num后面第3个字节的地址，即num的最高位字节地址
-
-    for (i &#x3D; 0; i &lt; 4; i++) &#x2F;&#x2F;依次处理4个字节(32位）
-    &#123;
-        j &#x3D; *(p - i); &#x2F;&#x2F;取每个字节的首地址，从高位字节到低位字节，即p p-1 p-2 p-3地址处
-        for (int k &#x3D; 7; k &gt;&#x3D; 0; k--) &#x2F;&#x2F;处理每个字节的8个位，注意字节内部的二进制数是按照人的习惯存储！
-        &#123;
-            if (j &amp; (1 &lt;&lt; k))&#x2F;&#x2F;1左移k位，与单前的字节内容j进行或运算，如k&#x3D;7时，00000000&amp;10000000&#x3D;0 -&gt;该字节的最高位为0
-                printf(&quot;1&quot;);
-            else
-                printf(&quot;0&quot;);
-        &#125;
-        printf(&quot; &quot;);&#x2F;&#x2F;每8位加个空格，方便查看
-    &#125;
-    printf(&quot;\r\n&quot;);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">printf_bin</span><span class="params">(<span class="type">int</span> num)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i, j, k;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> *p = (<span class="type">unsigned</span> <span class="type">char</span>*)&amp;num + <span class="number">3</span>;<span class="comment">//p先指向num后面第3个字节的地址，即num的最高位字节地址</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) <span class="comment">//依次处理4个字节(32位）</span></span><br><span class="line">    &#123;</span><br><span class="line">        j = *(p - i); <span class="comment">//取每个字节的首地址，从高位字节到低位字节，即p p-1 p-2 p-3地址处</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">7</span>; k &gt;= <span class="number">0</span>; k--) <span class="comment">//处理每个字节的8个位，注意字节内部的二进制数是按照人的习惯存储！</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (j &amp; (<span class="number">1</span> &lt;&lt; k))<span class="comment">//1左移k位，与单前的字节内容j进行或运算，如k=7时，00000000&amp;10000000=0 -&gt;该字节的最高位为0</span></span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; &quot;</span>);<span class="comment">//每8位加个空格，方便查看</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>所以1左移k位的意思就是生成一个第k位为1的八位二进制数<br>对的，1左移k位的意思就是生成一个第k位为1,其他位为0的二进制数。例如：1左移3位，就是0001000，第4位为1，其他位为0。在这段代码中，通过将1左移k位，再与j进行&amp;运算，就可以判断j的第k位是否为1，从而将整数num转换为二进制并输出。</p>
 </blockquote>
 <p>在这段代码中，1左移k位的操作是从低位到高位进行的，以便将每一位的值枚举出来。这样才能依次比较每一位与j的值是否相同，如果相同则输出1，否则输出0。</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">对应unsigned char型的数字，如果只需要显示8位2进制数，可以对上述小程序简化：
-
-void printf_bin_8(unsigned char num)
-&#123;
-    int k;
-    unsigned char *p &#x3D; (unsigned char*)&amp;num;
-
-    for (int k &#x3D; 7; k &gt;&#x3D; 0; k--) &#x2F;&#x2F;处理8个位
-    &#123;
-        if (*p &amp; (1 &lt;&lt; k))
-            printf(&quot;1&quot;);
-        else
-            printf(&quot;0&quot;);
-    &#125;
-    printf(&quot;\r\n&quot;);
-&#125;
-
-&#x2F;&#x2F;数字12的运行效果
-00001100
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">对应<span class="type">unsigned</span> <span class="type">char</span>型的数字，如果只需要显示<span class="number">8</span>位<span class="number">2</span>进制数，可以对上述小程序简化：</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">printf_bin_8</span><span class="params">(<span class="type">unsigned</span> <span class="type">char</span> num)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> k;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> *p = (<span class="type">unsigned</span> <span class="type">char</span>*)&amp;num;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">7</span>; k &gt;= <span class="number">0</span>; k--) <span class="comment">//处理8个位</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (*p &amp; (<span class="number">1</span> &lt;&lt; k))</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//数字12的运行效果</span></span><br><span class="line"><span class="number">00001100</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>因为unsign  char只有一个字节</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">
-&#x2F;&#x2F;在64位系统中, unsigned char仍然是1个字节, 与32位系统中相同。 不过, 在64位系统中, int, long, long long等变量可能会比32位系统中多占用一些字节。 
-&#x2F;&#x2F;下面是一个在64位系统中将int转换为二进制的例子:
-void printf_bin_64(unsigned int num)
-&#123;
-int i, k;
-unsigned char p &#x3D; (unsigned char)&amp;num + 7;&#x2F;&#x2F;p先指向num后面第7个字节的地址，即num的最高位字节地址
-for (i &#x3D; 0; i &lt; 8; i++) &#x2F;&#x2F;依次处理8个字节(64位）
-&#123;
-    for (int k &#x3D; 7; k &gt;&#x3D; 0; k--) &#x2F;&#x2F;处理每个字节的8个位
-    &#123;
-        if (*(p - i) &amp; (1 &lt;&lt; k))
-            printf(&quot;1&quot;);
-        else
-            printf(&quot;0&quot;);
-    &#125;
-    printf(&quot; &quot;);&#x2F;&#x2F;每8位加个空格，方便查看
-&#125;
-printf(&quot;\r\n&quot;);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//在64位系统中, unsigned char仍然是1个字节, 与32位系统中相同。 不过, 在64位系统中, int, long, long long等变量可能会比32位系统中多占用一些字节。 </span></span><br><span class="line"><span class="comment">//下面是一个在64位系统中将int转换为二进制的例子:</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">printf_bin_64</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span> num)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="type">int</span> i, k;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> p = (<span class="type">unsigned</span> <span class="type">char</span>)&amp;num + <span class="number">7</span>;<span class="comment">//p先指向num后面第7个字节的地址，即num的最高位字节地址</span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++) <span class="comment">//依次处理8个字节(64位）</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">7</span>; k &gt;= <span class="number">0</span>; k--) <span class="comment">//处理每个字节的8个位</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (*(p - i) &amp; (<span class="number">1</span> &lt;&lt; k))</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot; &quot;</span>);<span class="comment">//每8位加个空格，方便查看</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>大佬观点</p>
 <blockquote>
@@ -326,9 +268,9 @@ printf(&quot;\r\n&quot;);
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -337,6 +279,7 @@ printf(&quot;\r\n&quot;);
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -366,7 +309,7 @@ printf(&quot;\r\n&quot;);
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -378,14 +321,14 @@ printf(&quot;\r\n&quot;);
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

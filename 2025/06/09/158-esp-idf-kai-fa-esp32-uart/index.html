@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">ESP-IDF开发ESP32 UART</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1046
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -207,56 +220,7 @@
 <li><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/peripherals/uart.html#uart-api-using-interrupts">使用中断</a> - 触发特定通信事件的中断</li>
 <li><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/v5.4.1/esp32s3/api-reference/peripherals/uart.html#uart-api-deleting-driver">删除驱动程序</a> - 如无需 UART 通信，则释放已分配的资</li>
 </ol>
-<h1 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h1><h1 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h1><pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &quot;freertos&#x2F;FreeRTOS.h&quot;
-#include &quot;freertos&#x2F;task.h&quot;
-#include &quot;esp_system.h&quot;
-#include &quot;esp_log.h&quot;
-#include &quot;driver&#x2F;uart.h&quot;
-#include &quot;string.h&quot;
-#include &quot;driver&#x2F;gpio.h&quot;
-
-static const int RX_BUF_SIZE &#x3D; 1024;
-
-#define TXD_PIN (GPIO_NUM_4)
-#define RXD_PIN (GPIO_NUM_5)
-
-void uart_init(void)
-&#123;
-    const uart_config_t uart_config &#x3D; &#123;
-        .baud_rate &#x3D; 115200,
-        .data_bits &#x3D; UART_DATA_8_BITS,
-        .parity &#x3D; UART_PARITY_DISABLE,
-        .stop_bits &#x3D; UART_STOP_BITS_1,
-        .flow_ctrl &#x3D; UART_HW_FLOWCTRL_DISABLE,
-        .source_clk &#x3D; UART_SCLK_DEFAULT,
-    &#125;;
-    &#x2F;&#x2F; We won&#39;t use a buffer for sending data.
-    uart_driver_install(UART_NUM_0, RX_BUF_SIZE * 2, 0, 0, NULL, 0);
-    uart_param_config(UART_NUM_0, &amp;uart_config);
-    &#x2F;&#x2F;uart_set_pin(UART_NUM_0, TXD_PIN, RXD_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
-&#125;
-
-static void tx_task(void *arg)
-&#123;
-    static const char *TX_TASK_TAG &#x3D; &quot;TX_TASK&quot;;
-    esp_log_level_set(TX_TASK_TAG, ESP_LOG_INFO);
-    while (1)
-    &#123;
-        &#x2F;&#x2F; sendData(TX_TASK_TAG, &quot;Hello world&quot;);
-        &#x2F;&#x2F; Write data to UART.
-        char *test_str &#x3D; &quot;Hello World!\n&quot;;
-        uart_write_bytes(UART_NUM_0, (const char *)test_str, strlen(test_str));
-        vTaskDelay(2000 &#x2F; portTICK_PERIOD_MS);
-    &#125;
-&#125;
-
-void app_main(void)
-&#123;
-    uart_init();
-    &#x2F;&#x2F; xTaskCreate(rx_task, &quot;uart_rx_task&quot;, 1024 * 2, NULL, configMAX_PRIORITIES - 1, NULL);
-    xTaskCreate(tx_task, &quot;uart_tx_task&quot;, 1024 * 2, NULL, configMAX_PRIORITIES - 2, NULL);
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h1><h1 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;freertos/FreeRTOS.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;freertos/task.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;esp_system.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;esp_log.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;driver/uart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;string.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;driver/gpio.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">int</span> RX_BUF_SIZE = <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> TXD_PIN (GPIO_NUM_4)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RXD_PIN (GPIO_NUM_5)</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">uart_init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">uart_config_t</span> uart_config = &#123;</span><br><span class="line">        .baud_rate = <span class="number">115200</span>,</span><br><span class="line">        .data_bits = UART_DATA_8_BITS,</span><br><span class="line">        .parity = UART_PARITY_DISABLE,</span><br><span class="line">        .stop_bits = UART_STOP_BITS_1,</span><br><span class="line">        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,</span><br><span class="line">        .source_clk = UART_SCLK_DEFAULT,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">// We won&#x27;t use a buffer for sending data.</span></span><br><span class="line">    uart_driver_install(UART_NUM_0, RX_BUF_SIZE * <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="number">0</span>);</span><br><span class="line">    uart_param_config(UART_NUM_0, &amp;uart_config);</span><br><span class="line">    <span class="comment">//uart_set_pin(UART_NUM_0, TXD_PIN, RXD_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">tx_task</span><span class="params">(<span class="type">void</span> *arg)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">char</span> *TX_TASK_TAG = <span class="string">&quot;TX_TASK&quot;</span>;</span><br><span class="line">    esp_log_level_set(TX_TASK_TAG, ESP_LOG_INFO);</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// sendData(TX_TASK_TAG, &quot;Hello world&quot;);</span></span><br><span class="line">        <span class="comment">// Write data to UART.</span></span><br><span class="line">        <span class="type">char</span> *test_str = <span class="string">&quot;Hello World!\n&quot;</span>;</span><br><span class="line">        uart_write_bytes(UART_NUM_0, (<span class="type">const</span> <span class="type">char</span> *)test_str, <span class="built_in">strlen</span>(test_str));</span><br><span class="line">        vTaskDelay(<span class="number">2000</span> / portTICK_PERIOD_MS);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">app_main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    uart_init();</span><br><span class="line">    <span class="comment">// xTaskCreate(rx_task, &quot;uart_rx_task&quot;, 1024 * 2, NULL, configMAX_PRIORITIES - 1, NULL);</span></span><br><span class="line">    xTaskCreate(tx_task, <span class="string">&quot;uart_tx_task&quot;</span>, <span class="number">1024</span> * <span class="number">2</span>, <span class="literal">NULL</span>, configMAX_PRIORITIES - <span class="number">2</span>, <span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ol>
 <li><p>关于ESP32-S3将USB-OTG与Uart0都引出到Type-c，但是前者却无法通信，ESP32-C3确可以正常</p>
@@ -265,11 +229,7 @@ void app_main(void)
 <p>ctrl+shift+p输入 menuconfig 开启usb cdc</p>
 </blockquote>
 <p>开启后会出现无法烧录的问题</p>
-<pre class="line-numbers language-none"><code class="language-none">-- Configuring incomplete, errors occurred!
-HINT: The component &#39;esp_log&#39; could not be found. This could be because: component name was misspelled, the component was not added to the build, the component has been moved to the IDF component manager, the component has been removed and refactored into some other component or the component may not be supported by the selected target.
-Please look out for component in &#39;https:&#x2F;&#x2F;components.espressif.com&#39; and add using &#39;idf.py add-dependency&#39; command.
-Refer to the migration guide for more details about moved components.
-Refer to the build-system guide for more details about how components are found and included in the build.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-- Configuring incomplete, errors occurred!</span><br><span class="line">HINT: The component &#x27;esp_log&#x27; could not be found. This could be because: component name was misspelled, the component was not added to the build, the component has been moved to the IDF component manager, the component has been removed and refactored into some other component or the component may not be supported by the selected target.</span><br><span class="line">Please look out for component in &#x27;https://components.espressif.com&#x27; and add using &#x27;idf.py add-dependency&#x27; command.</span><br><span class="line">Refer to the migration guide for more details about moved components.</span><br><span class="line">Refer to the build-system guide for more details about how components are found and included in the build.</span><br></pre></td></tr></table></figure>
 
 <p>暂未解决，且程序也需要改动，不能使用UART来进行通信</p>
 <p><strong>设置的不对，直接在menuconfig中搜索不知道把什么东西设置成cdc模式了</strong></p>
@@ -282,10 +242,7 @@ Refer to the build-system guide for more details about how components are found 
 <li>又出现</li>
 </ol>
 <p><strong><code>esp32:ninja: build stopped: subcommand failed. ninja failed with exit code 1.</code></strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">REQUIRES esp_tinyusb
-idf.py add-dependency espressif&#x2F;esp_tinyusb
-idf.py fullclean
-idf.py build<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">REQUIRES esp_tinyusb</span><br><span class="line">idf.py add-dependency espressif/esp_tinyusb</span><br><span class="line">idf.py fullclean</span><br><span class="line">idf.py build</span><br></pre></td></tr></table></figure>
 
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mondraker/article/details/135834794">ESP-IDF:如何在menuconfig中设置</a></p>
 <p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-idf/zh_CN/stable/esp32s3/api-guides/usb-otg-console.html">USB OTG 控制台 - ESP32-S3 - — ESP-IDF 编程指南 v5.4.1 文档</a></p>
@@ -355,9 +312,9 @@ idf.py build<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -366,6 +323,7 @@ idf.py build<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -395,7 +353,7 @@ idf.py build<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -407,14 +365,14 @@ idf.py build<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

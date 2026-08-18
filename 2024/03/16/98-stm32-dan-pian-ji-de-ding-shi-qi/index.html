@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">STM32单片机的定时器</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          2537
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -218,8 +231,7 @@
 <h3 id="TIM-ClearFlag"><a href="#TIM-ClearFlag" class="headerlink" title="TIM_ ClearFlag"></a>TIM_ ClearFlag</h3><img src="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/image-20240317080908937.png" class="" title="image-20240317080908937">
 
 <p>放在这里清除</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">TIM_ClearFlag(TIM2, TIM_FLAG_Update);                           
-TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TIM_ClearFlag(TIM2, TIM_FLAG_Update);                           </span><br><span class="line">TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);</span><br></pre></td></tr></table></figure>
 
 <p>因为<strong>TIM_TimeBaseInit()初始化函数</strong>的末尾手动生成了一个更新事件,重新装在预分频器和重复计数器的值</p>
 <blockquote>
@@ -230,12 +242,9 @@ TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);<span aria-hidden="true" class="line-num
 <ul>
 <li>更新事件与更新中断几乎同时发生, <strong>更新中断会置中断标志位, 初始化结束后就会立刻进入中断</strong>, 所以在初始化之后, <strong>手动清除中断标志位</strong>就可以解决这个问题</li>
 </ul>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;* Generate an update event to reload the Prescaler and the Repetition counter
-   values immediately *&#x2F;
-TIMx-&gt;EGR &#x3D; TIM_PSCReloadMode_Immediate;   <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Generate an update event to reload the Prescaler and the Repetition counter</span></span><br><span class="line"><span class="comment">   values immediately */</span></span><br><span class="line">TIMx-&gt;EGR = TIM_PSCReloadMode_Immediate;   </span><br></pre></td></tr></table></figure>
 
-<h3 id="ARR与PSC"><a href="#ARR与PSC" class="headerlink" title="ARR与PSC"></a>ARR与PSC</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">TIM_TimeBaseInitStructure.TIM_Period &#x3D; 10000-1;                &#x2F;&#x2F;自动重装载值 ARR
-TIM_TimeBaseInitStructure.TIM_Prescaler &#x3D; 7200-1;              &#x2F;&#x2F;预分频系数 PSC<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="ARR与PSC"><a href="#ARR与PSC" class="headerlink" title="ARR与PSC"></a>ARR与PSC</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TIM_TimeBaseInitStructure.TIM_Period = <span class="number">10000</span><span class="number">-1</span>;                <span class="comment">//自动重装载值 ARR</span></span><br><span class="line">TIM_TimeBaseInitStructure.TIM_Prescaler = <span class="number">7200</span><span class="number">-1</span>;              <span class="comment">//预分频系数 PSC</span></span><br></pre></td></tr></table></figure>
 
 <p>ARR↑, PSC↓,以更快的速度计更多的数</p>
 <p>也就是说ARR越大, 计数上限越大, 同时频率越高;PSC越小, 频率越高</p>
@@ -284,9 +293,7 @@ TIM_TimeBaseInitStructure.TIM_Prescaler &#x3D; 7200-1;              &#x2F;&#x2F;
 <li>因为ccr&#x2F;arr&#x3D;占空比,故换算出此时的ccr</li>
 </ul>
 </blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">❌TIM_SetCompare2(TIM2,((angle&#x2F;180)*2+0.5)&#x2F;20*100);
-  没错,这么算是正确的,公式复杂了一些
-   CCR &#x3D; (最小脉宽 + (angle&#x2F;180) * 脉宽范围) &#x2F; 定时器周期 * ARR<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">❌TIM_SetCompare2(TIM2,((angle/<span class="number">180</span>)*<span class="number">2</span>+<span class="number">0.5</span>)/<span class="number">20</span>*<span class="number">100</span>);</span><br><span class="line">  没错,这么算是正确的,公式复杂了一些</span><br><span class="line">   CCR = (最小脉宽 + (angle/<span class="number">180</span>) * 脉宽范围) / 定时器周期 * ARR</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>pulse&#x3D;(180&#x2F;180)*(2.5-0.5)+0.5角度换算脉冲宽度</p>
@@ -296,8 +303,7 @@ TIM_TimeBaseInitStructure.TIM_Prescaler &#x3D; 7200-1;              &#x2F;&#x2F;
 <p>根据占空比为2.5%~12.5%</p>
 <p>根据<strong>0.5&#x2F;20</strong><del><strong>2.5&#x2F;20</strong>&#x3D;<strong>2.5&#x2F;100</strong></del><strong>12.5&#x2F;100</strong>的对应关系,其实就是<strong>占空比</strong></p>
 <p>✔️其实就是0.5~2.5ms&#x2F;20ms&#x3D;占空比(2.5%12.5%)  ARR&#x3D;100,那么对应占空比的CCR为2.5-12.5</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">TIM_SetCompare2(TIM2,angle&#x2F;180*10+2.5);           
-&#x2F;&#x2F;这个也没错,之前失效的原因是更改ARR后没有更改PSC,导致周期发生变化<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TIM_SetCompare2(TIM2,angle/<span class="number">180</span>*<span class="number">10</span>+<span class="number">2.5</span>);           </span><br><span class="line"><span class="comment">//这个也没错,之前失效的原因是更改ARR后没有更改PSC,导致周期发生变化</span></span><br></pre></td></tr></table></figure>
 
 <p>单位HZ对应s,即20ms的频率为1&#x2F;0.02&#x3D;50hz,即舵机频率为50HZ</p>
 <p>那么<strong>Freq&#x3D;CK_PSC&#x2F;(PSC+1)&#x2F;(ARR+1)&#x3D;50HZ,</strong></p>
@@ -305,10 +311,7 @@ TIM_TimeBaseInitStructure.TIM_Prescaler &#x3D; 7200-1;              &#x2F;&#x2F;
 <h3 id="驱动电机"><a href="#驱动电机" class="headerlink" title="驱动电机"></a>驱动电机</h3><p>电机的频率一般式<strong>5K~20KHZ</strong>,根据公式72&#x2F;(psc+1)&#x2F;(arr+1)&#x3D;20K</p>
 <p>可令(psc+1)&#x3D;0, (arr+1)&#x3D;3600</p>
 <h3 id="非PID控制电机位置"><a href="#非PID控制电机位置" class="headerlink" title="非PID控制电机位置"></a>非PID控制电机位置</h3><p>以前写的,忘了咋算,难道是试出来的</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">Load(-800,1000);  &#x2F;&#x2F;0.73s一圈左右                               
-delay_ms(762);    &#x2F;&#x2F;但是没有达到,取三次脉冲平均值计算,有误差,但是误差变小了
-t2&#x3D;Read_Speed(2);
-t4&#x3D;Read_Speed(4);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Load(<span class="number">-800</span>,<span class="number">1000</span>);  <span class="comment">//0.73s一圈左右                               </span></span><br><span class="line">delay_ms(<span class="number">762</span>);    <span class="comment">//但是没有达到,取三次脉冲平均值计算,有误差,但是误差变小了</span></span><br><span class="line">t2=Read_Speed(<span class="number">2</span>);</span><br><span class="line">t4=Read_Speed(<span class="number">4</span>);</span><br></pre></td></tr></table></figure>
 
 <p>72m&#x2F;7200&#x3D;10k,1560&#x2F;10k&#x2F;2&#x3D;760</p>
 <p>我当时很有可能是通过<strong>实际测试固定占空比的脉冲数</strong>,然后<strong>1560除以脉冲数</strong>就得到了<strong>固定占空比转一圈</strong>的时间</p>
@@ -334,56 +337,17 @@ t4&#x3D;Read_Speed(4);<span aria-hidden="true" class="line-numbers-rows"><span><
 
 
 
-<h3 id="易错"><a href="#易错" class="headerlink" title="易错"></a>易错</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">void IC_Init(void)
-&#123;
-  &#x2F;&#x2F; 初始化RCC时钟配置
-  &#x2F;&#x2F;定时器时钟开启
-    
-  &#x2F;&#x2F;输入比较引脚初始化
-  &#x2F;&#x2F;时基单元初始化
-    
-  &#x2F;&#x2F;下面是输入捕获初始化
-  TIM_ICInitTypeDef TIM_ICInitStructure;
-  TIM_ICInitStructure.TIM_Channel &#x3D; TIM_Channel_1;
-  TIM_ICInitStructure.TIM_ICFilter &#x3D; 0xF;                       &#x2F;&#x2F;输入捕获滤波器配置
-  TIM_ICInitStructure.TIM_ICPolarity &#x3D; TIM_ICPolarity_Rising; &#x2F;&#x2F; 捕获信号的极性设置，这里设置为上升沿触发捕获
-  TIM_ICInitStructure.TIM_ICPrescaler &#x3D; TIM_ICPSC_DIV1;         &#x2F;&#x2F;输入捕获分频系数,这里选择
-  TIM_ICInitStructure.TIM_ICSelection &#x3D; TIM_ICSelection_DirectTI;
-  TIM_PWMIConfig(TIM3,&amp;TIM_ICInitStructure);                    &#x2F;&#x2F;PWMI交叉模式, 相当于下面配置,只有通道1、2能用 
-
-	&#x2F;&#x2F; 手动配置通道2间接捕获模式
-    &#x2F;&#x2F;  TIM_ICInitStructure.TIM_Channel &#x3D; TIM_Channel_2;
-	&#x2F;&#x2F;  TIM_ICInitStructure.TIM_ICFilter &#x3D; 0xF;
-	&#x2F;&#x2F;  TIM_ICInitStructure.TIM_ICPolarity &#x3D; TIM_ICPolarity_Falling;
-	&#x2F;&#x2F;  TIM_ICInitStructure.TIM_ICPrescaler &#x3D; TIM_ICPSC_DIV1;        
-	&#x2F;&#x2F;  TIM_ICInitStructure.TIM_ICSelection &#x3D; TIM_ICSelection_IndirectTI;
-    
-  &#x2F;&#x2F; 初始化定时器3的输入捕获功能
-  TIM_ICInit(TIM3, &amp;TIM_ICInitStructure);                       
-  &#x2F;&#x2F; 选择定时器3的输入触发源，这里选择的是TI1FP1（通道1的滤波后上升沿触发）
-  TIM_SelectInputTrigger(TIM3,TIM_TS_TI1FP1);                   &#x2F;&#x2F;选择输入触发源
-  &#x2F;&#x2F; 设置定时器3的从模式为重置模式，使定时器可以在触发输入时自动重置计数器,清零
-  TIM_SelectSlaveMode(TIM3,TIM_SlaveMode_Reset);               
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="易错"><a href="#易错" class="headerlink" title="易错"></a>易错</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">IC_Init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 初始化RCC时钟配置</span></span><br><span class="line">  <span class="comment">//定时器时钟开启</span></span><br><span class="line">    </span><br><span class="line">  <span class="comment">//输入比较引脚初始化</span></span><br><span class="line">  <span class="comment">//时基单元初始化</span></span><br><span class="line">    </span><br><span class="line">  <span class="comment">//下面是输入捕获初始化</span></span><br><span class="line">  TIM_ICInitTypeDef TIM_ICInitStructure;</span><br><span class="line">  TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;</span><br><span class="line">  TIM_ICInitStructure.TIM_ICFilter = <span class="number">0xF</span>;                       <span class="comment">//输入捕获滤波器配置</span></span><br><span class="line">  TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising; <span class="comment">// 捕获信号的极性设置，这里设置为上升沿触发捕获</span></span><br><span class="line">  TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;         <span class="comment">//输入捕获分频系数,这里选择</span></span><br><span class="line">  TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;</span><br><span class="line">  TIM_PWMIConfig(TIM3,&amp;TIM_ICInitStructure);                    <span class="comment">//PWMI交叉模式, 相当于下面配置,只有通道1、2能用 </span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 手动配置通道2间接捕获模式</span></span><br><span class="line">    <span class="comment">//  TIM_ICInitStructure.TIM_Channel = TIM_Channel_2;</span></span><br><span class="line">	<span class="comment">//  TIM_ICInitStructure.TIM_ICFilter = 0xF;</span></span><br><span class="line">	<span class="comment">//  TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Falling;</span></span><br><span class="line">	<span class="comment">//  TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;        </span></span><br><span class="line">	<span class="comment">//  TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_IndirectTI;</span></span><br><span class="line">    </span><br><span class="line">  <span class="comment">// 初始化定时器3的输入捕获功能</span></span><br><span class="line">  TIM_ICInit(TIM3, &amp;TIM_ICInitStructure);                       </span><br><span class="line">  <span class="comment">// 选择定时器3的输入触发源，这里选择的是TI1FP1（通道1的滤波后上升沿触发）</span></span><br><span class="line">  TIM_SelectInputTrigger(TIM3,TIM_TS_TI1FP1);                   <span class="comment">//选择输入触发源</span></span><br><span class="line">  <span class="comment">// 设置定时器3的从模式为重置模式，使定时器可以在触发输入时自动重置计数器,清零</span></span><br><span class="line">  TIM_SelectSlaveMode(TIM3,TIM_SlaveMode_Reset);               </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>DirectTI</strong></p>
 <p> 表示 <strong>Direct Input Capture</strong>,直接输入捕获. 当设置为 <code>TIM_ICSelection_DirectTI</code> 时，意味着输入捕获通道（如 IC1, IC2, IC3, IC4）直接连接到相应的外部引脚（即 TI1, TI2, TI3, TI4）上</p>
 <p><strong>TIM_ICSelection_IndirectTI</strong>置为间接捕获模式，IC2将从IC1的信号捕获，即使物理上连接到TI2</p>
 <p>即实现了<strong>通道一捕获频率,通道2捕获占空比</strong>,IC2选择下降沿,是因为占空比&#x3D;高电平脉冲宽度&#x2F;周期</p>
 <p><strong>频率获取函数</strong></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">uint32_t IC_GetFreq(void)
-&#123;
- 	&#x2F;&#x2F;捕获的是CNT计数值,Freq&#x3D;1M&#x2F;N
-	return 1000000 &#x2F; (TIM_GetCapture1(TIM3) + 1); &#x2F;&#x2F;因为计数器从0开始计数,所以实际计数值&#x3D;N+1
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uint32_t</span> <span class="title function_">IC_GetFreq</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line"> 	<span class="comment">//捕获的是CNT计数值,Freq=1M/N</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">1000000</span> / (TIM_GetCapture1(TIM3) + <span class="number">1</span>); <span class="comment">//因为计数器从0开始计数,所以实际计数值=N+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>占空比计算函数</strong></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">uint32_t IC_GetDuty(void)
-&#123;
-    &#x2F;&#x2F;占空比的结果是0~1的数,所以*100变成整数
-	return (TIM_GetCapture2(TIM3)+1)*100&#x2F; (TIM_GetCapture1(TIM3)+1);
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uint32_t</span> <span class="title function_">IC_GetDuty</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//占空比的结果是0~1的数,所以*100变成整数</span></span><br><span class="line">	<span class="keyword">return</span> (TIM_GetCapture2(TIM3)+<span class="number">1</span>)*<span class="number">100</span>/ (TIM_GetCapture1(TIM3)+<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>整型除法会导致小数部分丢失，导致结果总是0。当0乘以100后，结果仍然是0,<strong>所以*100要放在前面</strong></p>
 <p>🔺注意<strong>类型转换</strong>的问题,或者可以使用(float)强制类型转换,函数类型也换成float,也可以</p>
@@ -450,9 +414,9 @@ t4&#x3D;Read_Speed(4);<span aria-hidden="true" class="line-numbers-rows"><span><
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -461,6 +425,7 @@ t4&#x3D;Read_Speed(4);<span aria-hidden="true" class="line-numbers-rows"><span><
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -490,7 +455,7 @@ t4&#x3D;Read_Speed(4);<span aria-hidden="true" class="line-numbers-rows"><span><
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -502,14 +467,14 @@ t4&#x3D;Read_Speed(4);<span aria-hidden="true" class="line-numbers-rows"><span><
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

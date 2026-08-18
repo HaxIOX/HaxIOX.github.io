@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">stm32f407串口与tft输出adc</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          3292
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -200,190 +213,13 @@
 <p>通过设置ADC1的三个通道采样顺序并且开启DMA相对应的通道，对数据寄存器当中每一次的采样值（对应每个通道的外部电压转换值）进行收集，并传递到CPU的内部寄存器当中，再对电压值进行串口输出</p>
 </blockquote>
 <h2 id="F407在ADC实验中使用的函数理解"><a href="#F407在ADC实验中使用的函数理解" class="headerlink" title="F407在ADC实验中使用的函数理解"></a>F407在ADC实验中使用的函数理解</h2><h3 id="非DMA的相关函数"><a href="#非DMA的相关函数" class="headerlink" title="非DMA的相关函数"></a>非DMA的相关函数</h3><h3 id="有关DMA的相关函数"><a href="#有关DMA的相关函数" class="headerlink" title="有关DMA的相关函数"></a>有关DMA的相关函数</h3><p>待更新….</p>
-<h2 id="STM32F407的ADC的基础知识"><a href="#STM32F407的ADC的基础知识" class="headerlink" title="STM32F407的ADC的基础知识"></a>STM32F407的ADC的基础知识</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">　　1，ADC是12位逐次逼近型模拟数字转换器。
-　　2，ADC的时钟不超过36MHz。
-　　3，STM32F407的ADC的最小转换时间为0.41us。
-　　4，STM32F407将ADC的转换分为2个通道组：规则通道组和注入通道组
-　　　　因为规则组和注入组，我们不需要在切换AD循环扫描的通道时，重新配置AD循环扫描的通道。（某MCU就只有单次ADC扫描，切换通道时，需要重新配置ADC寄存器）
-　　5，有规则通道组和注入通道组的ADC外设，使MCU能在某些需要快速检测和监视的领域（如工控应用），有了优势。
-　　6，当使用ADC的连续模式时，建议采样DMA模式。
-　　7，当使用ADC的单次模式时，只进行一次转换。
-　　8，ADC相邻两个采样阶段之间的时间间隔是延时5个时钟-20个时钟（例如，在1ms单位时间内，延时时间越少，在采样次数越多。）
-　　9，对于每个要转换的通道，采样时间影响了转换结果的准确度和ADC的转换速率。采样时间越长，转换结果准确度越高，ADC的转换速率越低。
-
-　　　　ADC转换时间 &#x3D; 采样时间（3~480个ADCCLK周期） + 12个ADCCLK周期
-
-　　10，STM32F407的ADC触发极性分为四种：（1）禁止触发检测、（2）在上升沿时检测、（3）在下降时检测、（4）在上升和下降时均检测。
-　　　　当使用第（1）时，表示使用软件转换，我在开发中最常用这个；当使用第（2）（3）（4）时，表示使用事件来启动转换。
-　　11，STM32F407的ADC的分辨率有四档：6、8、10、12位。ADC的分辨率影响ADC的转换时间。
-　　12，如果已经使能了一个PORT的时钟，那么该PORT的时钟，不能再被使能。
-二，ADC实验：
-　　1，使用ADC1的通道PA5时，需要使能：GPIOA时钟、ADC1时钟。
-　　2，设置PA5为：不带上下拉电阻；模拟输入（将GPIO用于ADC采样的通道，需要设置为模拟输入，输入电压不超过3.3V）。
-　　3，STM32F407开发板的ADC的正模拟参考电压接的是3.3V，负模拟参考电压接的是GND。
-　　4，当硬件ADC开始进行转换之后，我们可以根据判断转换结束标志位是否被置一来判断是否跳出死循环。
-　　　　（1）当在等待ADC转换结束期间，死循环可被中断给打断，以便系统可运行其他更高需要实时处理的事件。
-　　　　（2）硬件ADC的转换过程，是不会被应用软件给打断的。,
-　　5，测试ADC1的PA5的连续转换模式，使用DMA？
-　　　　应用：对一阵列的传感器进行信号采集
-　　6，利用ADC1来测试温度传感器、内部参考电压、BAT电压？<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="STM32F407的ADC的基础知识"><a href="#STM32F407的ADC的基础知识" class="headerlink" title="STM32F407的ADC的基础知识"></a>STM32F407的ADC的基础知识</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">　　<span class="number">1</span>，ADC是<span class="number">12</span>位逐次逼近型模拟数字转换器。</span><br><span class="line">　　<span class="number">2</span>，ADC的时钟不超过<span class="number">36</span>MHz。</span><br><span class="line">　　<span class="number">3</span>，STM32F407的ADC的最小转换时间为<span class="number">0.41u</span>s。</span><br><span class="line">　　<span class="number">4</span>，STM32F407将ADC的转换分为<span class="number">2</span>个通道组：规则通道组和注入通道组</span><br><span class="line">　　　　因为规则组和注入组，我们不需要在切换AD循环扫描的通道时，重新配置AD循环扫描的通道。（某MCU就只有单次ADC扫描，切换通道时，需要重新配置ADC寄存器）</span><br><span class="line">　　<span class="number">5</span>，有规则通道组和注入通道组的ADC外设，使MCU能在某些需要快速检测和监视的领域（如工控应用），有了优势。</span><br><span class="line">　　<span class="number">6</span>，当使用ADC的连续模式时，建议采样DMA模式。</span><br><span class="line">　　<span class="number">7</span>，当使用ADC的单次模式时，只进行一次转换。</span><br><span class="line">　　<span class="number">8</span>，ADC相邻两个采样阶段之间的时间间隔是延时<span class="number">5</span>个时钟<span class="number">-20</span>个时钟（例如，在<span class="number">1</span>ms单位时间内，延时时间越少，在采样次数越多。）</span><br><span class="line">　　<span class="number">9</span>，对于每个要转换的通道，采样时间影响了转换结果的准确度和ADC的转换速率。采样时间越长，转换结果准确度越高，ADC的转换速率越低。</span><br><span class="line"></span><br><span class="line">　　　　ADC转换时间 = 采样时间（<span class="number">3</span>~<span class="number">480</span>个ADCCLK周期） + <span class="number">12</span>个ADCCLK周期</span><br><span class="line"></span><br><span class="line">　　<span class="number">10</span>，STM32F407的ADC触发极性分为四种：（<span class="number">1</span>）禁止触发检测、（<span class="number">2</span>）在上升沿时检测、（<span class="number">3</span>）在下降时检测、（<span class="number">4</span>）在上升和下降时均检测。</span><br><span class="line">　　　　当使用第（<span class="number">1</span>）时，表示使用软件转换，我在开发中最常用这个；当使用第（<span class="number">2</span>）（<span class="number">3</span>）（<span class="number">4</span>）时，表示使用事件来启动转换。</span><br><span class="line">　　<span class="number">11</span>，STM32F407的ADC的分辨率有四档：<span class="number">6</span>、<span class="number">8</span>、<span class="number">10</span>、<span class="number">12</span>位。ADC的分辨率影响ADC的转换时间。</span><br><span class="line">　　<span class="number">12</span>，如果已经使能了一个PORT的时钟，那么该PORT的时钟，不能再被使能。</span><br><span class="line">二，ADC实验：</span><br><span class="line">　　<span class="number">1</span>，使用ADC1的通道PA5时，需要使能：GPIOA时钟、ADC1时钟。</span><br><span class="line">　　<span class="number">2</span>，设置PA5为：不带上下拉电阻；模拟输入（将GPIO用于ADC采样的通道，需要设置为模拟输入，输入电压不超过<span class="number">3.3</span>V）。</span><br><span class="line">　　<span class="number">3</span>，STM32F407开发板的ADC的正模拟参考电压接的是<span class="number">3.3</span>V，负模拟参考电压接的是GND。</span><br><span class="line">　　<span class="number">4</span>，当硬件ADC开始进行转换之后，我们可以根据判断转换结束标志位是否被置一来判断是否跳出死循环。</span><br><span class="line">　　　　（<span class="number">1</span>）当在等待ADC转换结束期间，死循环可被中断给打断，以便系统可运行其他更高需要实时处理的事件。</span><br><span class="line">　　　　（<span class="number">2</span>）硬件ADC的转换过程，是不会被应用软件给打断的。,</span><br><span class="line">　　<span class="number">5</span>，测试ADC1的PA5的连续转换模式，使用DMA？</span><br><span class="line">　　　　应用：对一阵列的传感器进行信号采集</span><br><span class="line">　　<span class="number">6</span>，利用ADC1来测试温度传感器、内部参考电压、BAT电压？</span><br></pre></td></tr></table></figure>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_30443075/article/details/99765337?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_utm_term~default-0-99765337-blog-119870392.t0_eslanding_v1&spm=1001.2101.3001.4242.1&utm_relevant_index=3">参考文章</a></p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="ADC-c"><a href="#ADC-c" class="headerlink" title="ADC.c"></a>ADC.c</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F;初始化ADC															   
-void  Adc_Init(void)
-&#123;    
-  GPIO_InitTypeDef  GPIO_InitStructure;
-	ADC_CommonInitTypeDef ADC_CommonInitStructure;
-	ADC_InitTypeDef       ADC_InitStructure;
-	
-  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);&#x2F;&#x2F;使能GPIOA时钟
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE); &#x2F;&#x2F;使能ADC1时钟
-
-  &#x2F;&#x2F;先初始化ADC1通道5 IO口
-  GPIO_InitStructure.GPIO_Pin &#x3D; GPIO_Pin_5;&#x2F;&#x2F;PA5 通道5
-  GPIO_InitStructure.GPIO_Mode &#x3D; GPIO_Mode_AN;&#x2F;&#x2F;模拟输入
-  GPIO_InitStructure.GPIO_PuPd &#x3D; GPIO_PuPd_NOPULL ;&#x2F;&#x2F;不带上下拉
-  GPIO_Init(GPIOA, &amp;GPIO_InitStructure);&#x2F;&#x2F;初始化  
- 
-	RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC1,ENABLE);	  &#x2F;&#x2F;ADC1复位
-	RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC1,DISABLE);	&#x2F;&#x2F;复位结束	 
- 
-	
-  ADC_CommonInitStructure.ADC_Mode &#x3D; ADC_Mode_Independent;&#x2F;&#x2F;独立模式
-  ADC_CommonInitStructure.ADC_TwoSamplingDelay &#x3D; ADC_TwoSamplingDelay_5Cycles;&#x2F;&#x2F;两个采样阶段之间的延迟5个时钟
-  ADC_CommonInitStructure.ADC_DMAAccessMode &#x3D; ADC_DMAAccessMode_Disabled; &#x2F;&#x2F;DMA失能
-  ADC_CommonInitStructure.ADC_Prescaler &#x3D; ADC_Prescaler_Div4;&#x2F;&#x2F;预分频4分频。ADCCLK&#x3D;PCLK2&#x2F;4&#x3D;84&#x2F;4&#x3D;21Mhz,ADC时钟最好不要超过36Mhz 
-  ADC_CommonInit(&amp;ADC_CommonInitStructure);&#x2F;&#x2F;初始化
-	
-  ADC_InitStructure.ADC_Resolution &#x3D; ADC_Resolution_12b;&#x2F;&#x2F;12位模式
-  ADC_InitStructure.ADC_ScanConvMode &#x3D; DISABLE;&#x2F;&#x2F;非扫描模式	
-  ADC_InitStructure.ADC_ContinuousConvMode &#x3D; DISABLE;&#x2F;&#x2F;关闭连续转换
-  ADC_InitStructure.ADC_ExternalTrigConvEdge &#x3D; ADC_ExternalTrigConvEdge_None;&#x2F;&#x2F;禁止触发检测，使用软件触发
-  ADC_InitStructure.ADC_DataAlign &#x3D; ADC_DataAlign_Right;&#x2F;&#x2F;右对齐	
-  ADC_InitStructure.ADC_NbrOfConversion &#x3D; 1;&#x2F;&#x2F;1个转换在规则序列中 也就是只转换规则序列1 
-  ADC_Init(ADC1, &amp;ADC_InitStructure);&#x2F;&#x2F;ADC初始化
-	
- 
-	ADC_Cmd(ADC1, ENABLE);&#x2F;&#x2F;开启AD转换器	
-
-&#125;				  
-&#x2F;&#x2F;获得ADC值
-&#x2F;&#x2F;ch: @ref ADC_channels 
-&#x2F;&#x2F;通道值 0~16取值范围为：ADC_Channel_0~ADC_Channel_16
-&#x2F;&#x2F;返回值:转换结果
-u16 Get_Adc(u8 ch)   
-&#123;
-	  	&#x2F;&#x2F;设置指定ADC的规则组通道，一个序列，采样时间
-	ADC_RegularChannelConfig(ADC1, ch, 1, ADC_SampleTime_480Cycles );	&#x2F;&#x2F;ADC1,ADC通道,480个周期,提高采样时间可以提高精确度			    
-  
-	ADC_SoftwareStartConv(ADC1);		&#x2F;&#x2F;使能指定的ADC1的软件转换启动功能	
-	 
-	while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC ));&#x2F;&#x2F;等待转换结束
-
-	return ADC_GetConversionValue(ADC1);	&#x2F;&#x2F;返回最近一次ADC1规则组的转换结果
-&#125;
-&#x2F;&#x2F;获取通道ch的转换值，取times次,然后平均 
-&#x2F;&#x2F;ch:通道编号
-&#x2F;&#x2F;times:获取次数
-&#x2F;&#x2F;返回值:通道ch的times次转换结果平均值
-u16 Get_Adc_Average(u8 ch,u8 times)
-&#123;
-	u32 temp_val&#x3D;0;
-	u8 t;
-	for(t&#x3D;0;t&lt;times;t++)
-	&#123;
-		temp_val+&#x3D;Get_Adc(ch);
-		delay_ms(5);
-	&#125;
-	return temp_val&#x2F;times;
-&#125; 
-	 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="ADC-c"><a href="#ADC-c" class="headerlink" title="ADC.c"></a>ADC.c</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化ADC															   </span></span><br><span class="line"><span class="type">void</span>  <span class="title function_">Adc_Init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;    </span><br><span class="line">  GPIO_InitTypeDef  GPIO_InitStructure;</span><br><span class="line">	ADC_CommonInitTypeDef ADC_CommonInitStructure;</span><br><span class="line">	ADC_InitTypeDef       ADC_InitStructure;</span><br><span class="line">	</span><br><span class="line">  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);<span class="comment">//使能GPIOA时钟</span></span><br><span class="line">  RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE); <span class="comment">//使能ADC1时钟</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//先初始化ADC1通道5 IO口</span></span><br><span class="line">  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;<span class="comment">//PA5 通道5</span></span><br><span class="line">  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;<span class="comment">//模拟输入</span></span><br><span class="line">  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;<span class="comment">//不带上下拉</span></span><br><span class="line">  GPIO_Init(GPIOA, &amp;GPIO_InitStructure);<span class="comment">//初始化  </span></span><br><span class="line"> </span><br><span class="line">	RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC1,ENABLE);	  <span class="comment">//ADC1复位</span></span><br><span class="line">	RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC1,DISABLE);	<span class="comment">//复位结束	 </span></span><br><span class="line"> </span><br><span class="line">	</span><br><span class="line">  ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;<span class="comment">//独立模式</span></span><br><span class="line">  ADC_CommonInitStructure.ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;<span class="comment">//两个采样阶段之间的延迟5个时钟</span></span><br><span class="line">  ADC_CommonInitStructure.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled; <span class="comment">//DMA失能</span></span><br><span class="line">  ADC_CommonInitStructure.ADC_Prescaler = ADC_Prescaler_Div4;<span class="comment">//预分频4分频。ADCCLK=PCLK2/4=84/4=21Mhz,ADC时钟最好不要超过36Mhz </span></span><br><span class="line">  ADC_CommonInit(&amp;ADC_CommonInitStructure);<span class="comment">//初始化</span></span><br><span class="line">	</span><br><span class="line">  ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;<span class="comment">//12位模式</span></span><br><span class="line">  ADC_InitStructure.ADC_ScanConvMode = DISABLE;<span class="comment">//非扫描模式	</span></span><br><span class="line">  ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;<span class="comment">//关闭连续转换</span></span><br><span class="line">  ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;<span class="comment">//禁止触发检测，使用软件触发</span></span><br><span class="line">  ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;<span class="comment">//右对齐	</span></span><br><span class="line">  ADC_InitStructure.ADC_NbrOfConversion = <span class="number">1</span>;<span class="comment">//1个转换在规则序列中 也就是只转换规则序列1 </span></span><br><span class="line">  ADC_Init(ADC1, &amp;ADC_InitStructure);<span class="comment">//ADC初始化</span></span><br><span class="line">	</span><br><span class="line"> </span><br><span class="line">	ADC_Cmd(ADC1, ENABLE);<span class="comment">//开启AD转换器	</span></span><br><span class="line"></span><br><span class="line">&#125;				  </span><br><span class="line"><span class="comment">//获得ADC值</span></span><br><span class="line"><span class="comment">//ch: @ref ADC_channels </span></span><br><span class="line"><span class="comment">//通道值 0~16取值范围为：ADC_Channel_0~ADC_Channel_16</span></span><br><span class="line"><span class="comment">//返回值:转换结果</span></span><br><span class="line">u16 <span class="title function_">Get_Adc</span><span class="params">(u8 ch)</span>   </span><br><span class="line">&#123;</span><br><span class="line">	  	<span class="comment">//设置指定ADC的规则组通道，一个序列，采样时间</span></span><br><span class="line">	ADC_RegularChannelConfig(ADC1, ch, <span class="number">1</span>, ADC_SampleTime_480Cycles );	<span class="comment">//ADC1,ADC通道,480个周期,提高采样时间可以提高精确度			    </span></span><br><span class="line">  </span><br><span class="line">	ADC_SoftwareStartConv(ADC1);		<span class="comment">//使能指定的ADC1的软件转换启动功能	</span></span><br><span class="line">	 </span><br><span class="line">	<span class="keyword">while</span>(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC ));<span class="comment">//等待转换结束</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> ADC_GetConversionValue(ADC1);	<span class="comment">//返回最近一次ADC1规则组的转换结果</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//获取通道ch的转换值，取times次,然后平均 </span></span><br><span class="line"><span class="comment">//ch:通道编号</span></span><br><span class="line"><span class="comment">//times:获取次数</span></span><br><span class="line"><span class="comment">//返回值:通道ch的times次转换结果平均值</span></span><br><span class="line">u16 <span class="title function_">Get_Adc_Average</span><span class="params">(u8 ch,u8 times)</span></span><br><span class="line">&#123;</span><br><span class="line">	u32 temp_val=<span class="number">0</span>;</span><br><span class="line">	u8 t;</span><br><span class="line">	<span class="keyword">for</span>(t=<span class="number">0</span>;t&lt;times;t++)</span><br><span class="line">	&#123;</span><br><span class="line">		temp_val+=Get_Adc(ch);</span><br><span class="line">		delay_ms(<span class="number">5</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> temp_val/times;</span><br><span class="line">&#125; </span><br><span class="line">	 </span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>3 个函数，Adc_Init 函数用于初始化 ADC1。这里我们仅开通了 1 个通道，即通道 5。第二<br>个函数 Get_Adc，用于读取某个通道的 ADC 值，例如我们读取通道 5 上的 ADC 值，就可以通<br>过 Get_Adc（ADC_Channel_5）得到。最后一个函数 Get_Adc_Average，用于多次获取 ADC 值，<br>取平均，用来提高准确度。</p>
 </blockquote>
-<h3 id="main"><a href="#main" class="headerlink" title="main"></a>main</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &quot;sys.h&quot;
-#include &quot;delay.h&quot;
-#include &quot;usart.h&quot;
-#include &quot;led.h&quot;
-#include &quot;adc.h&quot;
-#include &quot;lcd_init.h&quot;
-#include &quot;lcd.h&quot;
-#include &quot;pic.h&quot;
-#include &quot;timer.h&quot;
-&#x2F;&#x2F;              ----------------------------------------------------------------
-&#x2F;&#x2F;              GND    电源地
-&#x2F;&#x2F;              VCC  接5V或3.3v电源
-&#x2F;&#x2F;              SCL   PG12（SCLK）
-&#x2F;&#x2F;              SDA   PD5（MOSI）
-&#x2F;&#x2F;              RES   PD4
-&#x2F;&#x2F;              DC    PD15
-&#x2F;&#x2F;              CS    PD1
-&#x2F;&#x2F;              BLK   PE8
-&#x2F;&#x2F;              ----------------------------------------------------------------
-&#x2F;&#x2F;更新日期 2022 08 17
-&#x2F;*问题
-1.无法读出小数部分
-解决:
-lcd函数的问题,更换了lcd的库所以函数功能改变,原来的显示小数功能的函数不适用了
-原函数无法直接显示小数,所以通过将小数转换成整数显示,改后的函数可直接显示小数
-2.printf使用报错,usart senddata发送,串口助手不显示
-main.c(72): error:  #167: argument of type &quot;int&quot; is incompatible with parameter of type &quot;const char *restrict&quot;
-解决:
-因为print(&#39;adc:&#39;)用了单引号
-3.只显示adc不显示数据
-解决:
-没加f%
-是时候补一补c语言了
-*&#x2F;
-int main(void)
-&#123; 
- 	u16 adcx;
-	float temp;
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);&#x2F;&#x2F;设置系统中断优先级分组2
-	delay_init(168);    &#x2F;&#x2F;初始化延时函数
-	uart_init(115200);	&#x2F;&#x2F;初始化串口波特率为115200
-	LED_Init();					&#x2F;&#x2F;初始化LED 
- 	LCD_Init();         &#x2F;&#x2F;初始化LCD接口
-	Adc_Init();         &#x2F;&#x2F;初始化ADC
-	&#x2F;&#x2F;POINT_COLOR&#x3D;RED; 
-  
-&#x2F;&#x2F;	float t&#x3D;0;
-	delay_init(168);
-	LED_Init();&#x2F;&#x2F;LED初始化
-	LCD_Init();&#x2F;&#x2F;LCD初始化
-	LCD_Fill(0,0,LCD_W,LCD_H,WHITE);
-	LED0&#x3D;0;
-  
-  	LCD_ShowChinese(0,10,&quot;Increaseing Nun:&quot;,RED,WHITE,16,0);
-		LCD_ShowString(0,20,&quot;Explorer STM32F4&quot;,RED,WHITE,16,0);
-		LCD_ShowString(0,40,&quot;ADC TEST&quot;,RED,WHITE,16,0);
-		LCD_ShowString(0,60,&quot;ATOM@ALIENTEK&quot;,RED,WHITE,16,0);
-    LCD_ShowString(0,100, &quot;ADC1_CH5_VAL:&quot;,RED,WHITE,16,0);
-    LCD_ShowString(0,120,&quot;ADC1_CH5_VOL:0.000V&quot;,RED,WHITE,16,0);
-
-		LCD_ShowString(0,80,&quot;2014&#x2F;5&#x2F;6&quot;,RED,WHITE,16,0);
-
-	while(1)
-	&#123; 
-		adcx&#x3D;Get_Adc_Average(ADC_Channel_5,20);  &#x2F;&#x2F;获取通道5的转换值，20次取平均
-                                             &#x2F;&#x2F;显示ADCC采样后的原始值
-    LCD_ShowIntNum(110,100,adcx,3,RED,WHITE,16);
-		temp&#x3D;(float)adcx*(3.3&#x2F;4096);            &#x2F;&#x2F;获取计算后的带小数的实际电压值，比如3.1111
-&#x2F;&#x2F;	adcx&#x3D;temp;                            &#x2F;&#x2F;赋值整数部分给adcx变量，因为adcx为u16整形
-                                            &#x2F;&#x2F;显示电压值的整数部分，3.1111的话，这里就是显示3
-&#x2F;&#x2F;  LCD_ShowIntNum(104,120,adcx,1,RED,WHITE,16);
-&#x2F;&#x2F;	temp-&#x3D;adcx;                           &#x2F;&#x2F;把已经显示的整数部分去掉，留下小数部分，比如3.1111-3&#x3D;0.1111
-&#x2F;&#x2F;	temp*&#x3D;1000;                           &#x2F;&#x2F;小数部分乘以1000，例如：0.1111就转换为111.1，相当于保留三位小数。
-&#x2F;&#x2F;  LCD_ShowxNum(150,150,temp,3,16,0X80);   &#x2F;&#x2F;显示小数部分（前面转换为了整形显示），这里显示的就是111.
-    LCD_ShowFloatNum1(104,120,temp,3,RED,WHITE,16);  &#x2F;&#x2F;120  120
-		LED0&#x3D;!LED0;
-		delay_ms(250);	 
-    printf(&quot;ADC:%f \r\n&quot;,temp);
-   
-&#x2F;&#x2F;  
-	&#125;
-&#125;
-
-1.54tft屏和串口都可以输出adc的值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="main"><a href="#main" class="headerlink" title="main"></a>main</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;sys.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;delay.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;usart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;led.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;adc.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;lcd_init.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;lcd.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;pic.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;timer.h&quot;</span></span></span><br><span class="line"><span class="comment">//              ----------------------------------------------------------------</span></span><br><span class="line"><span class="comment">//              GND    电源地</span></span><br><span class="line"><span class="comment">//              VCC  接5V或3.3v电源</span></span><br><span class="line"><span class="comment">//              SCL   PG12（SCLK）</span></span><br><span class="line"><span class="comment">//              SDA   PD5（MOSI）</span></span><br><span class="line"><span class="comment">//              RES   PD4</span></span><br><span class="line"><span class="comment">//              DC    PD15</span></span><br><span class="line"><span class="comment">//              CS    PD1</span></span><br><span class="line"><span class="comment">//              BLK   PE8</span></span><br><span class="line"><span class="comment">//              ----------------------------------------------------------------</span></span><br><span class="line"><span class="comment">//更新日期 2022 08 17</span></span><br><span class="line"><span class="comment">/*问题</span></span><br><span class="line"><span class="comment">1.无法读出小数部分</span></span><br><span class="line"><span class="comment">解决:</span></span><br><span class="line"><span class="comment">lcd函数的问题,更换了lcd的库所以函数功能改变,原来的显示小数功能的函数不适用了</span></span><br><span class="line"><span class="comment">原函数无法直接显示小数,所以通过将小数转换成整数显示,改后的函数可直接显示小数</span></span><br><span class="line"><span class="comment">2.printf使用报错,usart senddata发送,串口助手不显示</span></span><br><span class="line"><span class="comment">main.c(72): error:  #167: argument of type &quot;int&quot; is incompatible with parameter of type &quot;const char *restrict&quot;</span></span><br><span class="line"><span class="comment">解决:</span></span><br><span class="line"><span class="comment">因为print(&#x27;adc:&#x27;)用了单引号</span></span><br><span class="line"><span class="comment">3.只显示adc不显示数据</span></span><br><span class="line"><span class="comment">解决:</span></span><br><span class="line"><span class="comment">没加f%</span></span><br><span class="line"><span class="comment">是时候补一补c语言了</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123; </span><br><span class="line"> 	u16 adcx;</span><br><span class="line">	<span class="type">float</span> temp;</span><br><span class="line">	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);<span class="comment">//设置系统中断优先级分组2</span></span><br><span class="line">	delay_init(<span class="number">168</span>);    <span class="comment">//初始化延时函数</span></span><br><span class="line">	uart_init(<span class="number">115200</span>);	<span class="comment">//初始化串口波特率为115200</span></span><br><span class="line">	LED_Init();					<span class="comment">//初始化LED </span></span><br><span class="line"> 	LCD_Init();         <span class="comment">//初始化LCD接口</span></span><br><span class="line">	Adc_Init();         <span class="comment">//初始化ADC</span></span><br><span class="line">	<span class="comment">//POINT_COLOR=RED; </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//	float t=0;</span></span><br><span class="line">	delay_init(<span class="number">168</span>);</span><br><span class="line">	LED_Init();<span class="comment">//LED初始化</span></span><br><span class="line">	LCD_Init();<span class="comment">//LCD初始化</span></span><br><span class="line">	LCD_Fill(<span class="number">0</span>,<span class="number">0</span>,LCD_W,LCD_H,WHITE);</span><br><span class="line">	LED0=<span class="number">0</span>;</span><br><span class="line">  </span><br><span class="line">  	LCD_ShowChinese(<span class="number">0</span>,<span class="number">10</span>,<span class="string">&quot;Increaseing Nun:&quot;</span>,RED,WHITE,<span class="number">16</span>,<span class="number">0</span>);</span><br><span class="line">		LCD_ShowString(<span class="number">0</span>,<span class="number">20</span>,<span class="string">&quot;Explorer STM32F4&quot;</span>,RED,WHITE,<span class="number">16</span>,<span class="number">0</span>);</span><br><span class="line">		LCD_ShowString(<span class="number">0</span>,<span class="number">40</span>,<span class="string">&quot;ADC TEST&quot;</span>,RED,WHITE,<span class="number">16</span>,<span class="number">0</span>);</span><br><span class="line">		LCD_ShowString(<span class="number">0</span>,<span class="number">60</span>,<span class="string">&quot;ATOM@ALIENTEK&quot;</span>,RED,WHITE,<span class="number">16</span>,<span class="number">0</span>);</span><br><span class="line">    LCD_ShowString(<span class="number">0</span>,<span class="number">100</span>, <span class="string">&quot;ADC1_CH5_VAL:&quot;</span>,RED,WHITE,<span class="number">16</span>,<span class="number">0</span>);</span><br><span class="line">    LCD_ShowString(<span class="number">0</span>,<span class="number">120</span>,<span class="string">&quot;ADC1_CH5_VOL:0.000V&quot;</span>,RED,WHITE,<span class="number">16</span>,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">		LCD_ShowString(<span class="number">0</span>,<span class="number">80</span>,<span class="string">&quot;2014/5/6&quot;</span>,RED,WHITE,<span class="number">16</span>,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123; </span><br><span class="line">		adcx=Get_Adc_Average(ADC_Channel_5,<span class="number">20</span>);  <span class="comment">//获取通道5的转换值，20次取平均</span></span><br><span class="line">                                             <span class="comment">//显示ADCC采样后的原始值</span></span><br><span class="line">    LCD_ShowIntNum(<span class="number">110</span>,<span class="number">100</span>,adcx,<span class="number">3</span>,RED,WHITE,<span class="number">16</span>);</span><br><span class="line">		temp=(<span class="type">float</span>)adcx*(<span class="number">3.3</span>/<span class="number">4096</span>);            <span class="comment">//获取计算后的带小数的实际电压值，比如3.1111</span></span><br><span class="line"><span class="comment">//	adcx=temp;                            //赋值整数部分给adcx变量，因为adcx为u16整形</span></span><br><span class="line">                                            <span class="comment">//显示电压值的整数部分，3.1111的话，这里就是显示3</span></span><br><span class="line"><span class="comment">//  LCD_ShowIntNum(104,120,adcx,1,RED,WHITE,16);</span></span><br><span class="line"><span class="comment">//	temp-=adcx;                           //把已经显示的整数部分去掉，留下小数部分，比如3.1111-3=0.1111</span></span><br><span class="line"><span class="comment">//	temp*=1000;                           //小数部分乘以1000，例如：0.1111就转换为111.1，相当于保留三位小数。</span></span><br><span class="line"><span class="comment">//  LCD_ShowxNum(150,150,temp,3,16,0X80);   //显示小数部分（前面转换为了整形显示），这里显示的就是111.</span></span><br><span class="line">    LCD_ShowFloatNum1(<span class="number">104</span>,<span class="number">120</span>,temp,<span class="number">3</span>,RED,WHITE,<span class="number">16</span>);  <span class="comment">//120  120</span></span><br><span class="line">		LED0=!LED0;</span><br><span class="line">		delay_ms(<span class="number">250</span>);	 </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;ADC:%f \r\n&quot;</span>,temp);</span><br><span class="line">   </span><br><span class="line"><span class="comment">//  </span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">1.54</span>tft屏和串口都可以输出adc的值</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>这个程序将每隔 250ms 读取一次 ADC通道 5 的值，并显示读到的 ADC 值（数字量），以及其转换成模拟量后的电压值。同时控制 LED0闪烁，以提示程序正在运行。</p>
 </blockquote>
@@ -430,9 +266,9 @@ int main(void)
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -441,6 +277,7 @@ int main(void)
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -470,7 +307,7 @@ int main(void)
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -482,14 +319,14 @@ int main(void)
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

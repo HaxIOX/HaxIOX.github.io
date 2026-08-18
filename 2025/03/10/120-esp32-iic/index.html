@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">ESP32 IIC开发</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          530
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -189,10 +202,7 @@
 <li>如果多个 I2C 设备（如 TSL2591）使用不同的 I2C 引脚（你现在是分别 <code>Wire.begin(8, 9)</code> 和 <code>Wire.begin(10, 11)</code>），那么 <strong>只有一个 Wire 对象在起作用</strong>，后初始化的会覆盖前面的。</li>
 </ul>
 <p>✅ <strong>解决方法：</strong> 使用多个 I2C 设备时，应创建多个 <code>TwoWire</code> 对象（即多个 I2C 总线）：</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">TwoWire Wire_TSL &#x3D; TwoWire(0);
-TwoWire Wire_APDS &#x3D; TwoWire(1);
-Wire_TSL.begin(TSL2591_SDA, TSL2591_SCL);
-Wire_APDS.begin(APDS9930_SDA, APDS9930_SCL);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TwoWire Wire_TSL = TwoWire(<span class="number">0</span>);</span><br><span class="line">TwoWire Wire_APDS = TwoWire(<span class="number">1</span>);</span><br><span class="line">Wire_TSL.begin(TSL2591_SDA, TSL2591_SCL);</span><br><span class="line">Wire_APDS.begin(APDS9930_SDA, APDS9930_SCL);</span><br></pre></td></tr></table></figure>
 
 <p>并告诉 apds.begin() 用哪个 I2C 对象（如果库支持），否则你只能用一个总线！<br>然后这个库需要手动配置传感器的iic库，获取地址，读取数据什么的</p>
 <h2 id="🧩-常见格式符号说明"><a href="#🧩-常见格式符号说明" class="headerlink" title="🧩 常见格式符号说明"></a>🧩 常见格式符号说明</h2><table>
@@ -247,33 +257,19 @@ Wire_APDS.begin(APDS9930_SDA, APDS9930_SCL);<span aria-hidden="true" class="line
 <h3 id="问题-1"><a href="#问题-1" class="headerlink" title="问题"></a>问题</h3><ol>
 <li></li>
 </ol>
-<pre class="line-numbers language-none"><code class="language-none">💡 TSL2591: ���?O lux
-📟 APDS9930: 20
-💡 TSL2591: ���?O lux<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">💡 TSL2591: ���?O lux</span><br><span class="line">📟 APDS9930: 20</span><br><span class="line">💡 TSL2591: ���?O lux</span><br></pre></td></tr></table></figure>
 
 <p>🛑 <strong>问题点：</strong><br>你传入的是 <code>String</code> 类型（<code>tsl_lux</code>），但 <code>printf()</code> 只接受 <em><em>C 风格字符串（char</em>）</em>*，不能直接接受 Arduino 的 <code>String</code> 类型，会导致输出乱码（例如 <code>���?O</code>）。</p>
-<h3 id="✅-正确写法-1（用-Serial-print）："><a href="#✅-正确写法-1（用-Serial-print）：" class="headerlink" title="✅ 正确写法 1（用 Serial.print）："></a>✅ 正确写法 1（用 <code>Serial.print</code>）：</h3><pre class="line-numbers language-none"><code class="language-none">cpp
-
-
-复制编辑
-Serial.print(&quot;💡 &quot;);
-Serial.print(tsl_lux);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="✅-正确写法-1（用-Serial-print）："><a href="#✅-正确写法-1（用-Serial-print）：" class="headerlink" title="✅ 正确写法 1（用 Serial.print）："></a>✅ 正确写法 1（用 <code>Serial.print</code>）：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cpp</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">Serial.print(&quot;💡 &quot;);</span><br><span class="line">Serial.print(tsl_lux);</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h3 id="✅-正确写法-2（转换为-c-str-）："><a href="#✅-正确写法-2（转换为-c-str-）：" class="headerlink" title="✅ 正确写法 2（转换为 c_str()）："></a>✅ 正确写法 2（转换为 c_str()）：</h3><pre class="line-numbers language-none"><code class="language-none">cpp
-
-
-复制编辑
-Serial.printf(&quot;💡 TSL2591:\n%s&quot;, tsl_lux.c_str());<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="✅-正确写法-2（转换为-c-str-）："><a href="#✅-正确写法-2（转换为-c-str-）：" class="headerlink" title="✅ 正确写法 2（转换为 c_str()）："></a>✅ 正确写法 2（转换为 c_str()）：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cpp</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">Serial.printf(&quot;💡 TSL2591:\n%s&quot;, tsl_lux.c_str());</span><br></pre></td></tr></table></figure>
 
 <p>因为 <code>String.c_str()</code> 返回的是底层的 <code>const char*</code>，这样才能被 <code>printf()</code> 正确识别。</p>
 <p>2.<strong>android 蓝牙ble 133,Android 关于蓝牙BLE引发Gatt133的问题</strong></p>
 <p><a target="_blank" rel="noopener" href="https://huaweicloud.csdn.net/64e5c64c4165333c3076a8b0.html">android 蓝牙ble 133</a></p>
 <p>3.<strong>传感器初始化失败</strong></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">if (!tsl.begin()) &#123;
-  Serial.println(&quot;❌ 初始化失败&quot;);
-  while (1);  &#x2F;&#x2F; 👉 死循环：程序卡死，永远不再往下执行
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!tsl.begin()) &#123;</span><br><span class="line">  Serial.println(<span class="string">&quot;❌ 初始化失败&quot;</span>);</span><br><span class="line">  <span class="keyword">while</span> (<span class="number">1</span>);  <span class="comment">// 👉 死循环：程序卡死，永远不再往下执行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><code>while(1)</code>会导致两个问题</p>
 <ul>
@@ -327,9 +323,9 @@ Serial.printf(&quot;💡 TSL2591:\n%s&quot;, tsl_lux.c_str());<span aria-hidden=
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -338,6 +334,7 @@ Serial.printf(&quot;💡 TSL2591:\n%s&quot;, tsl_lux.c_str());<span aria-hidden=
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -367,7 +364,7 @@ Serial.printf(&quot;💡 TSL2591:\n%s&quot;, tsl_lux.c_str());<span aria-hidden=
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -379,14 +376,14 @@ Serial.printf(&quot;💡 TSL2591:\n%s&quot;, tsl_lux.c_str());<span aria-hidden=
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

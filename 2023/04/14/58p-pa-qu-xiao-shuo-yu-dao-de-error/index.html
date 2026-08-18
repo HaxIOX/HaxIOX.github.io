@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">类实现爬取小说存储到mysql遇到的问题</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1191
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -180,22 +193,13 @@
         <h2 id="类实现"><a href="#类实现" class="headerlink" title="类实现"></a>类实现</h2><h3 id="参数个数一致却报错"><a href="#参数个数一致却报错" class="headerlink" title="参数个数一致却报错"></a>参数个数一致却报错</h3><p>TypeError: get_chapters() takes 3 positional arguments but 4 were given</p>
 <p> get_chapters()需要3个位置参数，但给出的是4个</p>
 <p>报错原因:调用函数的时候把self也当做参数给了</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">#错误写法
-def get_bookname(self):
-    self.get_chapters(self,bookName,bookId, book_path)
-def get_chapters(self,bookName, bookId, book_path):<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#错误写法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_bookname</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="variable language_">self</span>.get_chapters(<span class="variable language_">self</span>,bookName,bookId, book_path)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_chapters</span>(<span class="params">self,bookName, bookId, book_path</span>):</span><br></pre></td></tr></table></figure>
 
 <p>在类方法中，第一个参数通常是 <code>self</code>，它表示对该类实例的引用。当你调用类方法时，Python 会自动将该类实例传递给 <code>self</code> 参数。因此，在调用类方法时，不需要显式传递 <code>self</code> 参数。</p>
 <h3 id="for循环失效"><a href="#for循环失效" class="headerlink" title="for循环失效"></a>for循环失效</h3><p>原因:for循环里面有<code>return</code></p>
-<pre class="line-numbers language-none"><code class="language-none">&quot;&quot;&quot;切记
-return执行后函数不会在继续执行了
-如果在函数for循环后面return,则for循环只执行一次
-&quot;&quot;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;切记</span><br><span class="line">return执行后函数不会在继续执行了</span><br><span class="line">如果在函数for循环后面return,则for循环只执行一次</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
 
-<h3 id="创建多级目录"><a href="#创建多级目录" class="headerlink" title="创建多级目录"></a>创建多级目录</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">import os
-book_path &#x3D; os.path.join(&quot;我的书架&quot;, bookName)
-if not os.path.exists(book_path):
-    os.makedirs(os.path.join(&quot;我的书架&quot;, bookName))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="创建多级目录"><a href="#创建多级目录" class="headerlink" title="创建多级目录"></a>创建多级目录</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">book_path = os.path.join(<span class="string">&quot;我的书架&quot;</span>, bookName)</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(book_path):</span><br><span class="line">    os.makedirs(os.path.join(<span class="string">&quot;我的书架&quot;</span>, bookName))</span><br></pre></td></tr></table></figure>
 
 <p><code>os.makedirs()</code> 函数可以递归地创建多级目录。在这个例子中，如果 “我的书架” 目录不存在，则 <code>os.makedirs()</code> 会自动创建 “我的书架” 目录，然后在 “我的书架” 目录下创建 <code>bookName</code> 子目录。</p>
 <h2 id="存储到mysql数据库"><a href="#存储到mysql数据库" class="headerlink" title="存储到mysql数据库"></a>存储到mysql数据库</h2><h3 id="报错AttributeError-‘NoneType’-object-has-no-attribute-‘encoding’"><a href="#报错AttributeError-‘NoneType’-object-has-no-attribute-‘encoding’" class="headerlink" title="报错AttributeError: ‘NoneType’ object has no attribute ‘encoding’"></a>报错AttributeError: ‘NoneType’ object has no attribute ‘encoding’</h3><p>起因关于charset的设置,我在类方法的初始化里设置<code>charset=&quot;utf-8&quot;</code></p>
@@ -207,66 +211,32 @@ if not os.path.exists(book_path):
 <p>在实际使用中，<code>UTF-8</code> 和 <code>UTF8</code> 通常是可以互换使用的，在 MySQL 中，<code>UTF-8</code> 和 <code>UTF8</code> 可能无法互换使用，<code>UTF8</code> 是指代 <code>utf8mb3</code> 字符集的别名，它使用最多 3 个字节来存储 Unicode 字符。而 <code>UTF-8</code> 则是标准中使用连字符 <code>-</code> 分隔的字符集名称，它使用 1 到 4 个字节来存储 Unicode 字符。</p>
 <p>在 MySQL 中，如果你使用 <code>UTF-8</code> 来替代 <code>UTF8</code>，可能会导致 MySQL 无法识别该字符集名称，从而出现错误。</p>
 </blockquote>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">class Spider(object):
-    def __init__(self, host, port, user, password,
-                 database, charset, **kwargs):
-        # 连接数据库服务器
-        self.conn &#x3D; pymysql.connect(host&#x3D;host, port&#x3D;port, user&#x3D;user, password&#x3D;password,
-                                    database&#x3D;database, cursorclass&#x3D;pymysql.cursors.DictCursor,
-                                    charset&#x3D;charset, **kwargs)
-        # 获取游标
-        self.cursor &#x3D; self.conn.cursor()
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Spider</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, host, port, user, password,</span></span><br><span class="line"><span class="params">                 database, charset, **kwargs</span>):</span><br><span class="line">        <span class="comment"># 连接数据库服务器</span></span><br><span class="line">        <span class="variable language_">self</span>.conn = pymysql.connect(host=host, port=port, user=user, password=password,</span><br><span class="line">                                    database=database, cursorclass=pymysql.cursors.DictCursor,</span><br><span class="line">                                    charset=charset, **kwargs)</span><br><span class="line">        <span class="comment"># 获取游标</span></span><br><span class="line">        <span class="variable language_">self</span>.cursor = <span class="variable language_">self</span>.conn.cursor()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 初始化表、</span></span><br><span class="line">        <span class="variable language_">self</span>.init_table()</span><br></pre></td></tr></table></figure>
 
-        # 初始化表、
-        self.init_table()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">
-def init_table(self):
-    # 使用 execute()  方法执行 SQL 查询
-    sql1 &#x3D; &quot;&quot;&quot;
-              create table if not exists book(
-              id int primary key auto_increment,
-              bookName varchar(32),
-              coverImg varchar(255),
-              authorPenName varchar(32)
-              )character set&#x3D;utf8; 
-              &quot;&quot;&quot;
-    self.query(sql1)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">init_table</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="comment"># 使用 execute()  方法执行 SQL 查询</span></span><br><span class="line">    sql1 = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">              create table if not exists book(</span></span><br><span class="line"><span class="string">              id int primary key auto_increment,</span></span><br><span class="line"><span class="string">              bookName varchar(32),</span></span><br><span class="line"><span class="string">              coverImg varchar(255),</span></span><br><span class="line"><span class="string">              authorPenName varchar(32)</span></span><br><span class="line"><span class="string">              )character set=utf8; </span></span><br><span class="line"><span class="string">              &quot;&quot;&quot;</span></span><br><span class="line">    <span class="variable language_">self</span>.query(sql1)</span><br></pre></td></tr></table></figure>
 
 <h3 id="解决表记录重复问题"><a href="#解决表记录重复问题" class="headerlink" title="解决表记录重复问题"></a>解决表记录重复问题</h3><p>两个方法,一个是报错停止,一个是跳过</p>
 <ul>
 <li>您可以在数据库表中添加唯一约束。在这种情况下，如果插入的记录重复，则会引发错误，从而防止重复的记录被插入。</li>
 </ul>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">ALTER TABLE table_name ADD UNIQUE (column_name);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name ADD UNIQUE (column_name);</span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">try:
-    cursor.execute(&quot;INSERT INTO book (bookName, coverImg, authorPenName) VALUES (%s, %s, %s)&quot;, (bookName, coverImg, authorPenName))
-    conn.commit()
-    print(&quot;插入成功&quot;)
-except mysql.connector.IntegrityError:
-    print(&quot;记录已存在&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    cursor.execute(<span class="string">&quot;INSERT INTO book (bookName, coverImg, authorPenName) VALUES (%s, %s, %s)&quot;</span>, (bookName, coverImg, authorPenName))</span><br><span class="line">    conn.commit()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;插入成功&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> mysql.connector.IntegrityError:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;记录已存在&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>在这个示例中，<code>cursor.execute</code>方法执行参数化查询，并将变量值作为参数传递。如果插入记录时发生唯一约束冲突，则会引发<code>mysql.connector.IntegrityError</code>异常，您可以根据需要处理该异常</p>
 <ul>
 <li>您可以使用<code>INSERT IGNORE</code>语句来在插入记录时跳过重复记录。这个语句会尝试将记录插入表中，但是如果违反了唯一约束，则会忽略该操作，而不是引发错误。</li>
 </ul>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"># a&#x3D;&quot;INSERT IGNORE INTO book (bookName)&quot;
-# self.query(a)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># a=&quot;INSERT IGNORE INTO book (bookName)&quot;</span></span><br><span class="line"><span class="comment"># self.query(a)</span></span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">sql &#x3D; f&quot;&quot;&quot;insert into book (bookName,coverImg,authorPenName) values (
-      &quot;&#123;bookName&#125;&quot;,&quot;&#123;coverImg&#125;&quot;,&quot;&#123;authorPenName&#125;&quot;);&quot;&quot;&quot;
-      <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">f&quot;&quot;&quot;insert into book (bookName,coverImg,authorPenName) values (</span></span><br><span class="line"><span class="string">      &quot;<span class="subst">&#123;bookName&#125;</span>&quot;,&quot;<span class="subst">&#123;coverImg&#125;</span>&quot;,&quot;<span class="subst">&#123;authorPenName&#125;</span>&quot;);&quot;&quot;&quot;</span></span><br><span class="line">      </span><br></pre></td></tr></table></figure>
 
 
 
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">sql &#x3D; f&quot;&quot;&quot;insert IGNORE into book (bookName,coverImg,authorPenName) values (
-            &quot;&#123;bookName&#125;&quot;,&quot;&#123;coverImg&#125;&quot;,&quot;&#123;authorPenName&#125;&quot;);&quot;&quot;&quot;
-print(&quot;sql:::&quot;, sql)
-self.query(sql)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">f&quot;&quot;&quot;insert IGNORE into book (bookName,coverImg,authorPenName) values (</span></span><br><span class="line"><span class="string">            &quot;<span class="subst">&#123;bookName&#125;</span>&quot;,&quot;<span class="subst">&#123;coverImg&#125;</span>&quot;,&quot;<span class="subst">&#123;authorPenName&#125;</span>&quot;);&quot;&quot;&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;sql:::&quot;</span>, sql)</span><br><span class="line"><span class="variable language_">self</span>.query(sql)</span><br></pre></td></tr></table></figure>
 
 <p>在您的Python代码中，您可以使用以下命令来执行<code>INSERT IGNORE</code>语句：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">cursor.execute(&quot;INSERT IGNORE INTO book (bookName, coverImg, authorPenName) VALUES (%s, %s, %s)&quot;, (bookName, coverImg, authorPenName))
-conn.commit()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cursor.execute(<span class="string">&quot;INSERT IGNORE INTO book (bookName, coverImg, authorPenName) VALUES (%s, %s, %s)&quot;</span>, (bookName, coverImg, authorPenName))</span><br><span class="line">conn.commit()</span><br></pre></td></tr></table></figure>
 
 <p>在这个示例中，<code>cursor.execute</code>方法执行<code>INSERT IGNORE</code>语句，并将变量值作为参数传递。如果插入记录时发生唯一约束冲突，则会忽略该操作，而不是引发错误。请注意，即使插入操作被忽略，您仍然需要调用<code>conn.commit()</code>方法来提交事务。</p>
 <h2 id="一定要注意for循环后面的语句的位置"><a href="#一定要注意for循环后面的语句的位置" class="headerlink" title="一定要注意for循环后面的语句的位置"></a>一定要注意for循环后面的语句的位置</h2><p>如何return放在for循环里,就只会执行一次</p>
@@ -312,9 +282,9 @@ conn.commit()<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -323,6 +293,7 @@ conn.commit()<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -352,7 +323,7 @@ conn.commit()<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -364,14 +335,14 @@ conn.commit()<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

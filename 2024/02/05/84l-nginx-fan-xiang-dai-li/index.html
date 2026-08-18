@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">🔥Nginx反向代理</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1177
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -199,73 +212,25 @@
 </li>
 <li><p><strong>配置 Nginx 反向代理</strong>：编辑 Nginx 的配置文件以设置反向代理。</p>
 <p>在新加坡服务器上找到 Nginx 的配置文件，通常在 <code>/etc/nginx/sites-available/</code> 目录下。你可以创建一个新的配置文件，比如 <code>isgeek.top</code>。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
-    listen 80;
-    server_name www.123.top;
-
-    location &#x2F; &#123;
-        proxy_pass http:&#x2F;&#x2F;111.111.111.111:80; 
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name www.123.top;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://111.111.111.111:80; </span><br><span class="line">        proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这个配置会将所有来自 <code>www.isgeek.top</code> 的请求转发到洛杉矶服务器上的 Hexo 博客。</p>
 </li>
 <li><p><strong>启用配置文件</strong>：在 <code>/etc/nginx/sites-enabled/</code> 目录中创建符号链接，将配置文件链接到 <code>sites-available</code> 中。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo ln -s &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;123.top &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">ln</span> -s /etc/nginx/sites-available/123.top /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>重新加载 Nginx</strong>：重新加载 Nginx，使配置生效。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo systemctl reload nginx<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl reload nginx</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>现在，当访问 <code>www.123.top</code> 时，请求将被转发到洛杉矶服务器上的 Hexo 博客。请确保新加坡服务器上的防火墙允许流量通过端口 80（如果使用了其他端口，也需要打开相应的端口）。</p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>配置如下,希望能通过ip+端口访问该路径的文件,但是一直是<strong>welcom to nginx</strong>,也就是nginx的默认界面,我还以为是自定义配置没有生效,结果是<strong>默认配置</strong>的锅🥘</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
-    listen 80;
-    root &#x2F;home; # 网站目录的路径
-    #server_name www.isgeek.top; # 你的域名
-    #root &#x2F;home&#x2F;hexo; # 网站目录的路径
-    location &#x2F; &#123;
-        try_files $uri $uri&#x2F; &#x3D;404;
-    &#125;
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    root /home; <span class="comment"># 网站目录的路径</span></span><br><span class="line">    <span class="comment">#server_name www.isgeek.top; # 你的域名</span></span><br><span class="line">    <span class="comment">#root /home/hexo; # 网站目录的路径</span></span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ =404;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>原因:</strong></p>
 <p><code>/etc/nginx/sites-available</code>的default文件,默认配置直接访问80端口的页面,所以只需要删掉或者注释掉即可</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># Default server configuration
-server &#123;
-	listen 80 default_server;
-	listen [::]:80 default_server;
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Default server configuration</span></span><br><span class="line">server &#123;</span><br><span class="line">	listen 80 default_server;</span><br><span class="line">	listen [::]:80 default_server;</span><br><span class="line"></span><br><span class="line">	<span class="comment"># SSL configuration</span></span><br><span class="line">	<span class="comment">#</span></span><br><span class="line">	<span class="comment"># listen 443 ssl default_server;</span></span><br><span class="line">	<span class="comment"># listen [::]:443 ssl default_server;</span></span><br><span class="line"></span><br><span class="line">	root /var/www/html;</span><br><span class="line">	<span class="comment"># Add index.php to the list if you are using PHP</span></span><br><span class="line">	index index.html index.htm index.nginx-debian.html;</span><br><span class="line">	</span><br><span class="line">	server_name _;</span><br><span class="line">	<span class="comment">#location / &#123;</span></span><br><span class="line">		<span class="comment"># First attempt to serve request as file, then</span></span><br><span class="line">		<span class="comment"># as directory, then fall back to displaying a 404.</span></span><br><span class="line">		<span class="comment">#try_files $uri $uri/ =404;</span></span><br><span class="line">	<span class="comment">#&#125;</span></span><br></pre></td></tr></table></figure>
 
-	# SSL configuration
-	#
-	# listen 443 ssl default_server;
-	# listen [::]:443 ssl default_server;
-
-	root &#x2F;var&#x2F;www&#x2F;html;
-	# Add index.php to the list if you are using PHP
-	index index.html index.htm index.nginx-debian.html;
-	
-	server_name _;
-	#location &#x2F; &#123;
-		# First attempt to serve request as file, then
-		# as directory, then fall back to displaying a 404.
-		#try_files $uri $uri&#x2F; &#x3D;404;
-	#&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
-    listen 80;
-    root &#x2F;home; # 网站目录的路径
-    #server_name www.isgeek.top; # 你的域名
-    #root &#x2F;home&#x2F;hexo; # 网站目录的路径
-    location &#x2F; &#123;
-        try_files $uri $uri&#x2F; &#x3D;404;
-    &#125;
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    root /home; <span class="comment"># 网站目录的路径</span></span><br><span class="line">    <span class="comment">#server_name www.isgeek.top; # 你的域名</span></span><br><span class="line">    <span class="comment">#root /home/hexo; # 网站目录的路径</span></span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ =404;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><strong>注意</strong>不能用ipv4反代ipv6啊小傻瓜😢</p>
 <h2 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h2><p>反代</p>
@@ -276,38 +241,13 @@ server &#123;
 </li>
 </ul>
 <p>代理服务器的nginx配置</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
-    listen 80;
-    server_name www.isgeek.top;    #绑定代理服务器(本机)ip地址
-
-    location &#x2F; &#123;
-        proxy_pass http:&#x2F;&#x2F;ip;  # 目标服务器的IP和端口
-        #proxy_pass https:&#x2F;&#x2F;www.bilibili.com&#x2F;;  # 直接跳b站
-    &#125;
-&#125;   <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name www.isgeek.top;    <span class="comment">#绑定代理服务器(本机)ip地址</span></span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://ip;  <span class="comment"># 目标服务器的IP和端口</span></span><br><span class="line">        <span class="comment">#proxy_pass https://www.bilibili.com/;  # 直接跳b站</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
 
 <h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡\"></a>负载均衡\</h2><p><strong>个人理解</strong></p>
 <blockquote>
 <p>负载均衡就是多台服务器搭建同一个网站,然后你访问代理服务器,转发到任意或者固定的一台服务器,实现负载均衡</p>
 </blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">upstream backend_servers &#123;
-     server ip;          # 多台搭建同一网站的服务器ip
-     server ip;       
-&#125;
-
-server &#123;
-    listen 80;
-    server_name www.isgeek.top;    #绑定本机ip地址
-
-    location &#x2F; &#123;
-        proxy_pass http:&#x2F;&#x2F;backend_servers;  
-        
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    &#125;
-&#125;   <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">upstream backend_servers &#123;</span><br><span class="line">     server ip;          <span class="comment"># 多台搭建同一网站的服务器ip</span></span><br><span class="line">     server ip;       </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name www.isgeek.top;    <span class="comment">#绑定本机ip地址</span></span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://backend_servers;  </span><br><span class="line">        </span><br><span class="line">        proxy_set_header Host <span class="variable">$host</span>;</span><br><span class="line">        proxy_set_header X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
 
 <p><a href="%5B%E3%80%90nginx%E5%85%A5%E9%97%A8%E3%80%91nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%95%99%E7%A8%8B_%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9_bilibili%5D(https://www.bilibili.com/video/BV1Bx411Z7Do/?spm_id_from=333.337.search-card.all.click)">b站大佬关于nginx负载均衡的讲解</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45490198/article/details/131357591">Nginx-反向代理详解</a></p>
@@ -354,9 +294,9 @@ server &#123;
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -365,6 +305,7 @@ server &#123;
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -394,7 +335,7 @@ server &#123;
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -406,14 +347,14 @@ server &#123;
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

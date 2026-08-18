@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">hexo搭建过程中遇到的坑</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1768
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -238,9 +251,7 @@
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/645679541">解决Hexo+Github+Typora图片无法正确显示的问题 - 知乎 (zhihu.com)</a></p>
 <h2 id="err-Error-Spawn-failed"><a href="#err-Error-Spawn-failed" class="headerlink" title="err: Error: Spawn failed."></a>err: Error: Spawn failed.</h2><p>he correct access rights and the repository exists</p>
 <p> (1)首先重新设置一下git的用户名和邮箱</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">git config --global user.name &quot;xxx&quot;
-    
-git config --global user.email &quot;xxx&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;xxx&quot;</span></span><br><span class="line">    </span><br><span class="line">git config --global user.email <span class="string">&quot;xxx&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>(2) 删除.ssh文件夹</p>
 <p>(3)git输入</p>
@@ -278,16 +289,16 @@ git config --global user.email &quot;xxx&quot;<span aria-hidden="true" class="li
 <h3 id="SSL-certificate-problem-unable-to-get-local-issuer-certificate"><a href="#SSL-certificate-problem-unable-to-get-local-issuer-certificate" class="headerlink" title="SSL certificate problem: unable to get local issuer certificate"></a>SSL certificate problem: unable to get local issuer certificate</h3><blockquote>
 <p>这是由于当你通过HTTPS访问Git远程仓库的时候，如果服务器上的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=SSL&spm=1001.2101.3001.7020">SSL</a>证书未经过第三方机构认证，git就会报错。原因是因为未知的没有签署过的证书意味着可能存在很大的风险。解决办法就是通过下面的命令将git中的sslverify关掉：</p>
 </blockquote>
-<pre class="line-numbers language-none"><code class="language-none">git config --global http.sslverify false<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.sslverify false</span><br></pre></td></tr></table></figure>
 
 <p>　　上面这行命令的影响范围是系统当前用户，如果要设置为全局所有用户，可以改成这样：</p>
-<pre class="line-numbers language-none"><code class="language-none">git config --system http.sslverify false<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --system http.sslverify false</span><br></pre></td></tr></table></figure>
 
 <p>　　如果只是想针对当前仓库进行设置，可以在需要修改的仓库目录下执行：</p>
-<pre class="line-numbers language-none"><code class="language-none">git config http.sslverify false<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config http.sslverify false</span><br></pre></td></tr></table></figure>
 
 <p>　　如果你的仓库中存在嵌套的git子模块（就是子模块中又引用了子模块），在进行初始化时，仍然有可能遇到self signed certificate in certificate chain的错误，此时可以通过执行下面的命令来解决：</p>
-<pre class="line-numbers language-none"><code class="language-none">npm config set strict-ssl false<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config set strict-ssl false</span><br></pre></td></tr></table></figure>
 <h2 id="执行remote-add时：fatal-Not-a-git-repository"><a href="#执行remote-add时：fatal-Not-a-git-repository" class="headerlink" title="执行remote add时：fatal: Not a git repository"></a>执行remote add时：fatal: Not a git repository</h2><blockquote>
 <p>执行git remote add命令时报这个错误：</p>
 </blockquote>
@@ -412,9 +423,9 @@ git config --global user.email &quot;xxx&quot;<span aria-hidden="true" class="li
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -423,6 +434,7 @@ git config --global user.email &quot;xxx&quot;<span aria-hidden="true" class="li
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -452,7 +464,7 @@ git config --global user.email &quot;xxx&quot;<span aria-hidden="true" class="li
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -464,14 +476,14 @@ git config --global user.email &quot;xxx&quot;<span aria-hidden="true" class="li
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">python文字转图片</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          500
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -178,72 +191,13 @@
       </div>
       <div class="markdown-body">
         <h2 id="文字转图片"><a href="#文字转图片" class="headerlink" title="文字转图片"></a>文字转图片</h2><p>可以用pygame库或者pillow库</p>
-<h3 id="pygame"><a href="#pygame" class="headerlink" title="pygame"></a>pygame</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">import pygame
-# 初始化pygame
-pygame.init()
-
-# 设置文字内容
-text &#x3D; &quot;Hello World!\nHow are you?&quot;
-
-# 设置字体和大小
-font &#x3D; pygame.font.Font(None, 36)
-
-# 使用render()函数将文字转换为图片
-text_image &#x3D; font.render(text, True, (255, 255, 255))
-
-# 使用save()函数将图片保存到文件
-pygame.image.save(text_image, &quot;text.png&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="pygame"><a href="#pygame" class="headerlink" title="pygame"></a>pygame</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pygame</span><br><span class="line"><span class="comment"># 初始化pygame</span></span><br><span class="line">pygame.init()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置文字内容</span></span><br><span class="line">text = <span class="string">&quot;Hello World!\nHow are you?&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置字体和大小</span></span><br><span class="line">font = pygame.font.Font(<span class="literal">None</span>, <span class="number">36</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用render()函数将文字转换为图片</span></span><br><span class="line">text_image = font.render(text, <span class="literal">True</span>, (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用save()函数将图片保存到文件</span></span><br><span class="line">pygame.image.save(text_image, <span class="string">&quot;text.png&quot;</span>)</span><br></pre></td></tr></table></figure>
 <p>这个代码只能转一行,不能进行换行</p>
 <blockquote>
 <p>想换行的话,将文本拆分,然后分别渲染成多个图片,最后进行图片的合并</p>
 </blockquote>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">import pygame
-
-# 初始化pygame
-pygame.init()
-
-# 设置文字内容
-text &#x3D; &quot;Hello World! How are you?&quot;
-
-# 设置字体和大小
-font &#x3D; pygame.font.Font(None, 36)
-
-# 设置行宽
-line_width &#x3D; 200
-
-# 分割文本
-lines &#x3D; []
-for line in text.split(&quot;\n&quot;):
-    lines.extend(textwrap.wrap(line, width&#x3D;line_width))
-
-# 创建一个空白图像
-image &#x3D; pygame.Surface((line_width, len(lines)*font.size(&quot;A&quot;)[1]),pygame.SRCALPHA)
-
-# 渲染每一行
-y &#x3D; 0
-for line in lines:
-    text_image &#x3D; font.render(line, True, (255, 255, 255))
-    image.blit(text_image, (0, y))
-    y +&#x3D; font.size(&quot;A&quot;)[1]
-
-# 保存图像
-pygame.image.save(image, &quot;text.png&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="pillow库"><a href="#pillow库" class="headerlink" title="pillow库"></a>pillow库</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">import os
-import Image,ImageDraw,ImageFont,ImageFilter
-import random
-
-text&#x3D;&quot;任何屁话，\n只要被打印出来\n就成了真理&quot;
-# PIL实现
-width&#x3D;60*4
-height&#x3D;60*2
-im&#x3D;Image.new(&#39;RGB&#39;,(width,height),(255,255,255))
-dr&#x3D;ImageDraw.Draw(im)
-font&#x3D;ImageFont.truetype(os.path.join(&quot;C:\\Windows\\Fonts\\&quot;, &quot;simhei.ttf&quot;),20)
-dr.text((10,5),text,font&#x3D;font,fill&#x3D;&#39;#000000&#39;) 
-im.show()
-im.save(&quot;t.png&quot;)
-#在代码执行完后自动删除图片
-os.remove(&quot;text.png&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pygame</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化pygame</span></span><br><span class="line">pygame.init()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置文字内容</span></span><br><span class="line">text = <span class="string">&quot;Hello World! How are you?&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置字体和大小</span></span><br><span class="line">font = pygame.font.Font(<span class="literal">None</span>, <span class="number">36</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置行宽</span></span><br><span class="line">line_width = <span class="number">200</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 分割文本</span></span><br><span class="line">lines = []</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> text.split(<span class="string">&quot;\n&quot;</span>):</span><br><span class="line">    lines.extend(textwrap.wrap(line, width=line_width))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个空白图像</span></span><br><span class="line">image = pygame.Surface((line_width, <span class="built_in">len</span>(lines)*font.size(<span class="string">&quot;A&quot;</span>)[<span class="number">1</span>]),pygame.SRCALPHA)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 渲染每一行</span></span><br><span class="line">y = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">    text_image = font.render(line, <span class="literal">True</span>, (<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>))</span><br><span class="line">    image.blit(text_image, (<span class="number">0</span>, y))</span><br><span class="line">    y += font.size(<span class="string">&quot;A&quot;</span>)[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存图像</span></span><br><span class="line">pygame.image.save(image, <span class="string">&quot;text.png&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="pillow库"><a href="#pillow库" class="headerlink" title="pillow库"></a>pillow库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> Image,ImageDraw,ImageFont,ImageFilter</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">text=<span class="string">&quot;任何屁话，\n只要被打印出来\n就成了真理&quot;</span></span><br><span class="line"><span class="comment"># PIL实现</span></span><br><span class="line">width=<span class="number">60</span>*<span class="number">4</span></span><br><span class="line">height=<span class="number">60</span>*<span class="number">2</span></span><br><span class="line">im=Image.new(<span class="string">&#x27;RGB&#x27;</span>,(width,height),(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>))</span><br><span class="line">dr=ImageDraw.Draw(im)</span><br><span class="line">font=ImageFont.truetype(os.path.join(<span class="string">&quot;C:\\Windows\\Fonts\\&quot;</span>, <span class="string">&quot;simhei.ttf&quot;</span>),<span class="number">20</span>)</span><br><span class="line">dr.text((<span class="number">10</span>,<span class="number">5</span>),text,font=font,fill=<span class="string">&#x27;#000000&#x27;</span>) </span><br><span class="line">im.show()</span><br><span class="line">im.save(<span class="string">&quot;t.png&quot;</span>)</span><br><span class="line"><span class="comment">#在代码执行完后自动删除图片</span></span><br><span class="line">os.remove(<span class="string">&quot;text.png&quot;</span>)</span><br></pre></td></tr></table></figure>
 <img src="/2023/01/15/51p-python-wen-zi-zhuan-tu-pian/01.jpg" class="">
 <p><code>因为bot是搭建在linux服务器上的,所以可能会出现下面问题</code></p>
 <blockquote>
@@ -294,9 +248,9 @@ os.remove(&quot;text.png&quot;)<span aria-hidden="true" class="line-numbers-rows
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -305,6 +259,7 @@ os.remove(&quot;text.png&quot;)<span aria-hidden="true" class="line-numbers-rows
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -334,7 +289,7 @@ os.remove(&quot;text.png&quot;)<span aria-hidden="true" class="line-numbers-rows
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -346,14 +301,14 @@ os.remove(&quot;text.png&quot;)<span aria-hidden="true" class="line-numbers-rows
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

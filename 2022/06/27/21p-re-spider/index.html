@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">通过正则表达式爬虫</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          512
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -177,56 +190,23 @@
           
       </div>
       <div class="markdown-body">
-        <h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="常用的正则表达式"><a href="#常用的正则表达式" class="headerlink" title="常用的正则表达式"></a>常用的正则表达式</h3><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h3 id="报错UnicodeEncodeError-‘gbk’-codec-can’t-encode-character-‘-xe7’-in-position-10"><a href="#报错UnicodeEncodeError-‘gbk’-codec-can’t-encode-character-‘-xe7’-in-position-10" class="headerlink" title="报错UnicodeEncodeError: ‘gbk’ codec can’t encode character ‘\xe7’ in position 10"></a>报错UnicodeEncodeError: ‘gbk’ codec can’t encode character ‘\xe7’ in position 10</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">大多数的做法是f &#x3D; open(&quot;blog.csv&quot;,mode&#x3D;&quot;w&quot;)在这个后面加上一个encoding&#x3D;utf-8,加上之后可以运行,但写入表格的数据出现乱码,有的让将utf-8改成utf-8-sig,还有其他的方法是改成GB啥啥的我忘了,基本都没用
-
-解决:
-resp &#x3D; requests.get(url,headers&#x3D;headers)
-resp.encoding &#x3D; &#39;utf-8&#39;      #暂时不知道为什么加在这里就可以
-page_content&#x3D;resp.text<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+        <h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="常用的正则表达式"><a href="#常用的正则表达式" class="headerlink" title="常用的正则表达式"></a>常用的正则表达式</h3><h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h3 id="报错UnicodeEncodeError-‘gbk’-codec-can’t-encode-character-‘-xe7’-in-position-10"><a href="#报错UnicodeEncodeError-‘gbk’-codec-can’t-encode-character-‘-xe7’-in-position-10" class="headerlink" title="报错UnicodeEncodeError: ‘gbk’ codec can’t encode character ‘\xe7’ in position 10"></a>报错UnicodeEncodeError: ‘gbk’ codec can’t encode character ‘\xe7’ in position 10</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">大多数的做法是f = <span class="built_in">open</span>(<span class="string">&quot;blog.csv&quot;</span>,mode=<span class="string">&quot;w&quot;</span>)在这个后面加上一个encoding=utf-<span class="number">8</span>,加上之后可以运行,但写入表格的数据出现乱码,有的让将utf-<span class="number">8</span>改成utf-<span class="number">8</span>-sig,还有其他的方法是改成GB啥啥的我忘了,基本都没用</span><br><span class="line"></span><br><span class="line">解决:</span><br><span class="line">resp = requests.get(url,headers=headers)</span><br><span class="line">resp.encoding = <span class="string">&#x27;utf-8&#x27;</span>      <span class="comment">#暂时不知道为什么加在这里就可以</span></span><br><span class="line">page_content=resp.text</span><br></pre></td></tr></table></figure>
 
 <h2 id="常见的爬虫中文乱码问题"><a href="#常见的爬虫中文乱码问题" class="headerlink" title="常见的爬虫中文乱码问题"></a>常见的爬虫中文乱码问题</h2><h3 id="网址编码为gbk"><a href="#网址编码为gbk" class="headerlink" title="网址编码为gbk"></a>网址编码为gbk</h3><blockquote>
 <p>1.查看网页源代码的head部分的编码：</p>
 </blockquote>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">，发现网页编码为gbk类型
 2.利用requests库的方法查看默认输出的编码类型
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">import requests
-url &#x3D; &#39;https:&#x2F;&#x2F;chengdu.chashebao.com&#x2F;yanglao&#x2F;19077.html&#39;
-
-response &#x3D; requests.get(url)
-print(response.encoding)  
-
-输出结果为编码ISO-8859-1，并不是原网页的编码类型。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;https://chengdu.chashebao.com/yanglao/19077.html&#x27;</span></span><br><span class="line"></span><br><span class="line">response = requests.get(url)</span><br><span class="line"><span class="built_in">print</span>(response.encoding)  </span><br><span class="line"></span><br><span class="line">输出结果为编码ISO-<span class="number">8859</span>-<span class="number">1</span>，并不是原网页的编码类型。</span><br></pre></td></tr></table></figure>
 
 <p>3.利用requests库改变输出结果的编码</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">import requests
-
-url &#x3D; &#39;https:&#x2F;&#x2F;chengdu.chashebao.com&#x2F;yanglao&#x2F;19077.html&#39;
-
-response &#x3D; requests.get(url)
-response.encoding &#x3D; &#39;gbk&#39;
-print(response.encoding)  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://chengdu.chashebao.com/yanglao/19077.html&#x27;</span></span><br><span class="line"></span><br><span class="line">response = requests.get(url)</span><br><span class="line">response.encoding = <span class="string">&#x27;gbk&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(response.encoding)  </span><br></pre></td></tr></table></figure>
 <p>输出结果为编码gbk，与原网页保持一致。</p>
 <p>基于以上三个步骤，即可解决爬虫中文乱码问题。</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">import requests
-
-def get_html(url):
-    try:
-        response &#x3D; requests.get(url)
-        response.encoding &#x3D; &#39;gbk&#39;  # 改变编码
-        print(response.encoding)
-        html &#x3D; response.text
-        return html
-    except:
-        print(&#39;请求网址出错&#39;)
-
-url &#x3D; &#39;https:&#x2F;&#x2F;chengdu.chashebao.com&#x2F;yanglao&#x2F;19077.html&#39;
-html &#x3D; get_html(url)
-print(html)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_html</span>(<span class="params">url</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        response = requests.get(url)</span><br><span class="line">        response.encoding = <span class="string">&#x27;gbk&#x27;</span>  <span class="comment"># 改变编码</span></span><br><span class="line">        <span class="built_in">print</span>(response.encoding)</span><br><span class="line">        html = response.text</span><br><span class="line">        <span class="keyword">return</span> html</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;请求网址出错&#x27;</span>)</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://chengdu.chashebao.com/yanglao/19077.html&#x27;</span></span><br><span class="line">html = get_html(url)</span><br><span class="line"><span class="built_in">print</span>(html)</span><br></pre></td></tr></table></figure>
 
 <h3 id="网址编码为utf-8"><a href="#网址编码为utf-8" class="headerlink" title="网址编码为utf-8"></a>网址编码为utf-8</h3><p>对于有些网页编码为utf-8的网址，输出事发现中文为乱码，此时我们需要进行两次重编码。</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">response &#x3D; requests.get(url, headers&#x3D;headers)
-response.encoding &#x3D; &#39;GBK&#39;      (#我没加这个也是可以的)
-response.encoding &#x3D; &#39;utf-8&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">response = requests.get(url, headers=headers)</span><br><span class="line">response.encoding = <span class="string">&#x27;GBK&#x27;</span>      (<span class="comment">#我没加这个也是可以的)</span></span><br><span class="line">response.encoding = <span class="string">&#x27;utf-8&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="网址编码为gb2312"><a href="#网址编码为gb2312" class="headerlink" title="网址编码为gb2312"></a>网址编码为gb2312</h3><p>response.encoding &#x3D; ‘GBK’</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>为什么这么改,和为什么会出现这样的报错我暂时还不懂,学懂了之后会写上<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44321116/article/details/104280012?ops_request_misc=&request_id=&biz_id=102&utm_term=gbk%27%20codec%20can%27t%20encode%20charac&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-5-104280012.142%5Ev24%5Epc_rank_34,157%5Ev15%5Enew_3&spm=1018.2226.3001.4187">参考文章1</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_17249717/article/details/98472363?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165634565316782395370345%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=165634565316782395370345&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-2-98472363-null-null.142%5Ev24%5Epc_rank_34,157%5Ev15%5Enew_3&utm_term=python%E7%88%AC%E8%99%AB%E5%87%BA%E7%8E%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81&spm=1018.2226.3001.4187">参考文章2</a></p>
@@ -272,9 +252,9 @@ response.encoding &#x3D; &#39;utf-8&#39;<span aria-hidden="true" class="line-num
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -283,6 +263,7 @@ response.encoding &#x3D; &#39;utf-8&#39;<span aria-hidden="true" class="line-num
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -312,7 +293,7 @@ response.encoding &#x3D; &#39;utf-8&#39;<span aria-hidden="true" class="line-num
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -324,14 +305,14 @@ response.encoding &#x3D; &#39;utf-8&#39;<span aria-hidden="true" class="line-num
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">搭建独角数卡</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1930
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -199,148 +212,72 @@
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><blockquote>
 <p>官网也太干净了</p>
 </blockquote>
-<h2 id="1-系统更新与基础软件"><a href="#1-系统更新与基础软件" class="headerlink" title="1. 系统更新与基础软件"></a>1. 系统更新与基础软件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt update &amp;&amp; sudo apt upgrade -y
-sudo apt install -y git curl unzip<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="1-系统更新与基础软件"><a href="#1-系统更新与基础软件" class="headerlink" title="1. 系统更新与基础软件"></a>1. 系统更新与基础软件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update &amp;&amp; <span class="built_in">sudo</span> apt upgrade -y</span><br><span class="line"><span class="built_in">sudo</span> apt install -y git curl unzip</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="2-安装和切换到-PHP-7-4"><a href="#2-安装和切换到-PHP-7-4" class="headerlink" title="2. 安装和切换到 PHP 7.4"></a>2. 安装和切换到 PHP 7.4</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 安装 PHP7.4 及常用扩展
-sudo apt install -y \
-  php7.4-cli php7.4-fpm php7.4-mbstring php7.4-xml \
-  php7.4-gd php7.4-mysql php7.4-zip php7.4-curl \
-  php7.4-bcmath php7.4-fileinfo php-redis
-
-# 将系统默认 php 命令指向 PHP7.4
-sudo update-alternatives --set php &#x2F;usr&#x2F;bin&#x2F;php7.4
-sudo update-alternatives --set phar &#x2F;usr&#x2F;bin&#x2F;phar7.4
-sudo update-alternatives --set phar.phar &#x2F;usr&#x2F;bin&#x2F;phar.phar7.4
-
-# 验证
-php -v
-sudo systemctl restart php7.4-fpm<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="2-安装和切换到-PHP-7-4"><a href="#2-安装和切换到-PHP-7-4" class="headerlink" title="2. 安装和切换到 PHP 7.4"></a>2. 安装和切换到 PHP 7.4</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 PHP7.4 及常用扩展</span></span><br><span class="line"><span class="built_in">sudo</span> apt install -y \</span><br><span class="line">  php7.4-cli php7.4-fpm php7.4-mbstring php7.4-xml \</span><br><span class="line">  php7.4-gd php7.4-mysql php7.4-zip php7.4-curl \</span><br><span class="line">  php7.4-bcmath php7.4-fileinfo php-redis</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将系统默认 php 命令指向 PHP7.4</span></span><br><span class="line"><span class="built_in">sudo</span> update-alternatives --<span class="built_in">set</span> php /usr/bin/php7.4</span><br><span class="line"><span class="built_in">sudo</span> update-alternatives --<span class="built_in">set</span> phar /usr/bin/phar7.4</span><br><span class="line"><span class="built_in">sudo</span> update-alternatives --<span class="built_in">set</span> phar.phar /usr/bin/phar.phar7.4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证</span></span><br><span class="line">php -v</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart php7.4-fpm</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="3-安装-Nginx、MySQL、Redis、Supervisor"><a href="#3-安装-Nginx、MySQL、Redis、Supervisor" class="headerlink" title="3. 安装 Nginx、MySQL、Redis、Supervisor"></a>3. 安装 Nginx、MySQL、Redis、Supervisor</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt install -y nginx mysql-server redis-server supervisor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="3-安装-Nginx、MySQL、Redis、Supervisor"><a href="#3-安装-Nginx、MySQL、Redis、Supervisor" class="headerlink" title="3. 安装 Nginx、MySQL、Redis、Supervisor"></a>3. 安装 Nginx、MySQL、Redis、Supervisor</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y nginx mysql-server redis-server supervisor</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="4-配置-MySQL-数据库"><a href="#4-配置-MySQL-数据库" class="headerlink" title="4. 配置 MySQL 数据库"></a>4. 配置 MySQL 数据库</h2><ol>
 <li><p>初始化安全设置：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">&#x2F;udo mysql_secure_installation<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/udo mysql_secure_installation</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>登录 MySQL 并建库建用户（替换 <code>your_password</code>）：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo mysql -u root -p
-CREATE DATABASE dujiaoka CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER &#39;dujiaoka&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;your_password&#39;;
-GRANT ALL PRIVILEGES ON dujiaoka.* TO &#39;dujiaoka&#39;@&#39;localhost&#39;;
-FLUSH PRIVILEGES;
-EXIT;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mysql -u root -p</span><br><span class="line">CREATE DATABASE dujiaoka CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;</span><br><span class="line">CREATE USER <span class="string">&#x27;dujiaoka&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;your_password&#x27;</span>;</span><br><span class="line">GRANT ALL PRIVILEGES ON dujiaoka.* TO <span class="string">&#x27;dujiaoka&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">EXIT;</span><br></pre></td></tr></table></figure></li>
 </ol>
 <hr>
-<h2 id="5-安装-Composer"><a href="#5-安装-Composer" class="headerlink" title="5. 安装 Composer"></a>5. 安装 Composer</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">curl -sS https:&#x2F;&#x2F;getcomposer.org&#x2F;installer | php
-sudo mv composer.phar &#x2F;usr&#x2F;local&#x2F;bin&#x2F;composer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="5-安装-Composer"><a href="#5-安装-Composer" class="headerlink" title="5. 安装 Composer"></a>5. 安装 Composer</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -sS https://getcomposer.org/installer | php</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">mv</span> composer.phar /usr/local/bin/composer</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="6-获取代码并配置环境"><a href="#6-获取代码并配置环境" class="headerlink" title="6. 获取代码并配置环境"></a>6. 获取代码并配置环境</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd &#x2F;var&#x2F;www
-git clone https:&#x2F;&#x2F;github.com&#x2F;assimon&#x2F;dujiaoka.git
-cd dujiaoka
-cp .env.example .env<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="6-获取代码并配置环境"><a href="#6-获取代码并配置环境" class="headerlink" title="6. 获取代码并配置环境"></a>6. 获取代码并配置环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /var/www</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/assimon/dujiaoka.git</span><br><span class="line"><span class="built_in">cd</span> dujiaoka</span><br><span class="line"><span class="built_in">cp</span> .env.example .<span class="built_in">env</span></span><br></pre></td></tr></table></figure>
 
 <p>编辑 <code>.env</code>，设置与你的环境一致的值：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">DB_CONNECTION&#x3D;mysql
-DB_HOST&#x3D;127.0.0.1
-DB_PORT&#x3D;3306
-DB_DATABASE&#x3D;dujiaoka
-DB_USERNAME&#x3D;dujiaoka
-DB_PASSWORD&#x3D;your_password
-
-REDIS_HOST&#x3D;127.0.0.1
-REDIS_PASSWORD&#x3D;null
-REDIS_PORT&#x3D;6379
-
-APP_DEBUG&#x3D;false<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">DB_CONNECTION=mysql</span><br><span class="line">DB_HOST=127.0.0.1</span><br><span class="line">DB_PORT=3306</span><br><span class="line">DB_DATABASE=dujiaoka</span><br><span class="line">DB_USERNAME=dujiaoka</span><br><span class="line">DB_PASSWORD=your_password</span><br><span class="line"></span><br><span class="line">REDIS_HOST=127.0.0.1</span><br><span class="line">REDIS_PASSWORD=null</span><br><span class="line">REDIS_PORT=6379</span><br><span class="line"></span><br><span class="line">APP_DEBUG=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="7-安装-PHP-依赖、生成-key-和迁移"><a href="#7-安装-PHP-依赖、生成-key-和迁移" class="headerlink" title="7. 安装 PHP 依赖、生成 key 和迁移"></a>7. 安装 PHP 依赖、生成 key 和迁移</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">composer install --no-dev -o
-php artisan key:generate
-php artisan migrate --seed<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="7-安装-PHP-依赖、生成-key-和迁移"><a href="#7-安装-PHP-依赖、生成-key-和迁移" class="headerlink" title="7. 安装 PHP 依赖、生成 key 和迁移"></a>7. 安装 PHP 依赖、生成 key 和迁移</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">composer install --no-dev -o</span><br><span class="line">php artisan key:generate</span><br><span class="line">php artisan migrate --seed</span><br></pre></td></tr></table></figure>
 
 <p>设置目录权限：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo chown -R www-data:www-data storage bootstrap&#x2F;cache
-sudo chmod -R 775 storage bootstrap&#x2F;cache<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">chown</span> -R www-data:www-data storage bootstrap/cache</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> -R 775 storage bootstrap/cache</span><br></pre></td></tr></table></figure>
 
 <p>清理并缓存配置：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">php artisan config:clear
-php artisan config:cache<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">php artisan config:clear</span><br><span class="line">php artisan config:cache</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="8-配置-Nginx"><a href="#8-配置-Nginx" class="headerlink" title="8. 配置 Nginx"></a>8. 配置 Nginx</h2><p>在 <code>/etc/nginx/sites-available/dujiaoka</code> 写入：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">server &#123;
-    listen 80;
-    server_name your.domain.com;
-    root &#x2F;var&#x2F;www&#x2F;dujiaoka&#x2F;public;
-    index index.php;
-
-    location &#x2F; &#123;
-        try_files $uri $uri&#x2F; &#x2F;index.php$is_args$query_string;
-    &#125;
-
-    location ~ \.php$ &#123;
-        include snippets&#x2F;fastcgi-php.conf;
-        fastcgi_pass unix:&#x2F;run&#x2F;php&#x2F;php7.4-fpm.sock;
-    &#125;
-
-    location ~ &#x2F;\.ht &#123; deny all; &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name your.domain.com;</span><br><span class="line">    root /var/www/dujiaoka/public;</span><br><span class="line">    index index.php;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ /index.php$is_args<span class="variable">$query_string</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        include snippets/fastcgi-php.conf;</span><br><span class="line">        fastcgi_pass unix:/run/php/php7.4-fpm.sock;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~ /\.ht &#123; deny all; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>启用并重载：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo ln -s &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;dujiaoka &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;
-sudo nginx -t
-sudo systemctl reload nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">ln</span> -s /etc/nginx/sites-available/dujiaoka /etc/nginx/sites-enabled/</span><br><span class="line"><span class="built_in">sudo</span> nginx -t</span><br><span class="line"><span class="built_in">sudo</span> systemctl reload nginx</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h2 id="9-配置-Supervisor-守护队列"><a href="#9-配置-Supervisor-守护队列" class="headerlink" title="9. 配置 Supervisor 守护队列"></a>9. 配置 Supervisor 守护队列</h2><p>创建 <code>/etc/supervisor/conf.d/dujiaoka-worker.conf</code>：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">[program:dujiaoka-worker]
-command&#x3D;php &#x2F;var&#x2F;www&#x2F;dujiaoka&#x2F;artisan queue:work --sleep&#x3D;3 --tries&#x3D;3 --daemon
-autostart&#x3D;true
-autorestart&#x3D;true
-user&#x3D;www-data
-numprocs&#x3D;1
-redirect_stderr&#x3D;true
-stdout_logfile&#x3D;&#x2F;var&#x2F;www&#x2F;dujiaoka&#x2F;storage&#x2F;logs&#x2F;worker.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[program:dujiaoka-worker]</span><br><span class="line"><span class="built_in">command</span>=php /var/www/dujiaoka/artisan queue:work --<span class="built_in">sleep</span>=3 --tries=3 --daemon</span><br><span class="line">autostart=<span class="literal">true</span></span><br><span class="line">autorestart=<span class="literal">true</span></span><br><span class="line">user=www-data</span><br><span class="line">numprocs=1</span><br><span class="line">redirect_stderr=<span class="literal">true</span></span><br><span class="line">stdout_logfile=/var/www/dujiaoka/storage/logs/worker.log</span><br></pre></td></tr></table></figure>
 
 <p>然后：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo supervisorctl reread
-sudo supervisorctl update
-sudo supervisorctl start dujiaoka-worker:*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> supervisorctl reread</span><br><span class="line"><span class="built_in">sudo</span> supervisorctl update</span><br><span class="line"><span class="built_in">sudo</span> supervisorctl start dujiaoka-worker:*</span><br></pre></td></tr></table></figure>
 
 <hr>
 <p>或者：</p>
-<h3 id="1-为-artisan-添加可执行权限"><a href="#1-为-artisan-添加可执行权限" class="headerlink" title="1. 为 artisan 添加可执行权限"></a>1. 为 artisan 添加可执行权限</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo chmod +x &#x2F;var&#x2F;www&#x2F;dujiaoka&#x2F;artisan<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="1-为-artisan-添加可执行权限"><a href="#1-为-artisan-添加可执行权限" class="headerlink" title="1. 为 artisan 添加可执行权限"></a>1. 为 artisan 添加可执行权限</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">chmod</span> +x /var/www/dujiaoka/artisan</span><br></pre></td></tr></table></figure>
 
 <p>这样才能让 Supervisor 或 www-data 用户去调用它。</p>
 <hr>
 <h3 id="2-把-Supervisor-配置写入文件"><a href="#2-把-Supervisor-配置写入文件" class="headerlink" title="2. 把 Supervisor 配置写入文件"></a>2. 把 Supervisor 配置写入文件</h3><p>用你的编辑器（或 <code>tee</code> + heredoc）在 <code>/etc/supervisor/conf.d/dujiaoka-worker.conf</code> 创建以下内容：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo tee &#x2F;etc&#x2F;supervisor&#x2F;conf.d&#x2F;dujiaoka-worker.conf &lt;&lt; &#39;EOF&#39;
-[program:dujiaoka-worker]
-command&#x3D;php &#x2F;var&#x2F;www&#x2F;dujiaoka&#x2F;artisan queue:work --sleep&#x3D;3 --tries&#x3D;3 --daemon
-autostart&#x3D;true
-autorestart&#x3D;true
-user&#x3D;www-data
-numprocs&#x3D;1
-redirect_stderr&#x3D;true
-stdout_logfile&#x3D;&#x2F;var&#x2F;www&#x2F;dujiaoka&#x2F;storage&#x2F;logs&#x2F;worker.log
-EOF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/supervisor/conf.d/dujiaoka-worker.conf &lt;&lt; <span class="string">&#x27;EOF&#x27;</span></span><br><span class="line">[program:dujiaoka-worker]</span><br><span class="line"><span class="built_in">command</span>=php /var/www/dujiaoka/artisan queue:work --<span class="built_in">sleep</span>=3 --tries=3 --daemon</span><br><span class="line">autostart=<span class="literal">true</span></span><br><span class="line">autorestart=<span class="literal">true</span></span><br><span class="line">user=www-data</span><br><span class="line">numprocs=1</span><br><span class="line">redirect_stderr=<span class="literal">true</span></span><br><span class="line">stdout_logfile=/var/www/dujiaoka/storage/logs/worker.log</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
 
 <p>（如果你更习惯用 <code>nano</code>&#x2F;<code>vi</code>，也可以 <code>sudo nano /etc/supervisor/conf.d/dujiaoka-worker.conf</code> 然后粘上去、保存。）</p>
 <hr>
-<h3 id="3-重新加载并启动"><a href="#3-重新加载并启动" class="headerlink" title="3. 重新加载并启动"></a>3. 重新加载并启动</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo supervisorctl reread
-sudo supervisorctl update
-sudo supervisorctl start dujiaoka-worker:*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="3-重新加载并启动"><a href="#3-重新加载并启动" class="headerlink" title="3. 重新加载并启动"></a>3. 重新加载并启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> supervisorctl reread</span><br><span class="line"><span class="built_in">sudo</span> supervisorctl update</span><br><span class="line"><span class="built_in">sudo</span> supervisorctl start dujiaoka-worker:*</span><br></pre></td></tr></table></figure>
 
 <p>此时 <code>supervisorctl status</code> 应该能看到 <code>dujiaoka-worker</code> 正在运行。</p>
 <hr>
 <p>这样就能避免“命令未找到”和“artisan 权限被拒绝”的问题了。</p>
 <h2 id="10-访问后台"><a href="#10-访问后台" class="headerlink" title="10. 访问后台"></a>10. 访问后台</h2><p>在浏览器中打开：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http:&#x2F;&#x2F;your.domain.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://your.domain.com</span><br></pre></td></tr></table></figure>
 
 <p>会自动跳转<code>http://your.domain.com/install</code>,填入设置的数据库名称密码</p>
 <blockquote>
@@ -364,64 +301,46 @@ sudo supervisorctl start dujiaoka-worker:*<span aria-hidden="true" class="line-n
 <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="php7-4无法安装"><a href="#php7-4无法安装" class="headerlink" title="php7.4无法安装"></a>php7.4无法安装</h2><p>Ubuntu 22.04 及以后版本官方仓库只提供 PHP 8.1+，要装 PHP 7.4 需要加第三方源。</p>
 <h2 id="方案-A：添加-Ondrej-Sury-的-PPA，安装-PHP-7-4"><a href="#方案-A：添加-Ondrej-Sury-的-PPA，安装-PHP-7-4" class="headerlink" title="方案 A：添加 Ondřej Surý 的 PPA，安装 PHP 7.4"></a>方案 A：添加 Ondřej Surý 的 PPA，安装 PHP 7.4</h2><ol>
 <li><p><strong>安装添加 PPA 的工具</strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt update
-sudo apt install -y software-properties-common<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install -y software-properties-common</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>添加 Ondřej Surý 的 PHP 源</strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo add-apt-repository ppa:ondrej&#x2F;php
-sudo apt update<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> add-apt-repository ppa:ondrej/php</span><br><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>安装 PHP 7.4 及扩展</strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt install -y \
-  php7.4-cli php7.4-fpm php7.4-mbstring php7.4-xml \
-  php7.4-gd php7.4-mysql php7.4-zip php7.4-curl \
-  php7.4-bcmath php7.4-fileinfo php-redis<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y \</span><br><span class="line">  php7.4-cli php7.4-fpm php7.4-mbstring php7.4-xml \</span><br><span class="line">  php7.4-gd php7.4-mysql php7.4-zip php7.4-curl \</span><br><span class="line">  php7.4-bcmath php7.4-fileinfo php-redis</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>切换系统默认 php（可选，但强烈推荐）</strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo update-alternatives --set php &#x2F;usr&#x2F;bin&#x2F;php7.4
-sudo update-alternatives --set phar &#x2F;usr&#x2F;bin&#x2F;phar7.4
-sudo update-alternatives --set phar.phar &#x2F;usr&#x2F;bin&#x2F;phar.phar7.4
-php -v    # 确认输出为 7.4.x
-sudo systemctl restart php7.4-fpm<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> update-alternatives --<span class="built_in">set</span> php /usr/bin/php7.4</span><br><span class="line"><span class="built_in">sudo</span> update-alternatives --<span class="built_in">set</span> phar /usr/bin/phar7.4</span><br><span class="line"><span class="built_in">sudo</span> update-alternatives --<span class="built_in">set</span> phar.phar /usr/bin/phar.phar7.4</span><br><span class="line">php -v    <span class="comment"># 确认输出为 7.4.x</span></span><br><span class="line"><span class="built_in">sudo</span> systemctl restart php7.4-fpm</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>回到项目目录，重装依赖并缓存配置</strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd &#x2F;var&#x2F;www&#x2F;dujiaoka
-composer install --no-dev -o
-php artisan config:clear
-php artisan config:cache<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /var/www/dujiaoka</span><br><span class="line">composer install --no-dev -o</span><br><span class="line">php artisan config:clear</span><br><span class="line">php artisan config:cache</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>这样就能正常生成 <code>vendor/autoload.php</code> 并运行 <code>php artisan</code> 系列命令。</p>
 <h2 id="mysql的密码强度"><a href="#mysql的密码强度" class="headerlink" title="mysql的密码强度"></a>mysql的密码强度</h2><p>设置为强，则弱密码无法成功创建用户。</p>
 <ol>
 <li><p><strong>查看当前策略设置</strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">SHOW VARIABLES LIKE &#39;validate_password%&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE <span class="string">&#x27;validate_password%&#x27;</span>;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>把策略调到最低</strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">SET GLOBAL validate_password.policy &#x3D; LOW;
-SET GLOBAL validate_password.length &#x3D; 4;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SET GLOBAL validate_password.policy = LOW;</span><br><span class="line">SET GLOBAL validate_password.length = 4;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>再创建用户</strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">CREATE USER &#39;dujiaoka&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;dujiaoka&#39;;
-GRANT ALL PRIVILEGES ON dujiaoka.* TO &#39;dujiaoka&#39;@&#39;localhost&#39;;
-FLUSH PRIVILEGES;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER <span class="string">&#x27;dujiaoka&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED BY <span class="string">&#x27;dujiaoka&#x27;</span>;</span><br><span class="line">GRANT ALL PRIVILEGES ON dujiaoka.* TO <span class="string">&#x27;dujiaoka&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>如果你想彻底卸载这个插件，也可以：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">UNINSTALL PLUGIN validate_password;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UNINSTALL PLUGIN validate_password;</span><br></pre></td></tr></table></figure>
 
 <p><code>记得每条 SQL 语句都要以分号 </code>;<code> 结尾</code></p>
 <h2 id="（禁用默认站点"><a href="#（禁用默认站点" class="headerlink" title="（禁用默认站点"></a>（禁用默认站点</h2><p>如果你希望所有访问都落到 dujiaoka 上，也可以直接关掉默认配置：</p>
-<pre class="line-numbers language-none"><code class="language-none">bash复制编辑sudo rm &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;default
-sudo nginx -t
-sudo systemctl reload nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bash复制编辑sudo rm /etc/nginx/sites-enabled/default</span><br><span class="line">sudo nginx -t</span><br><span class="line">sudo systemctl reload nginx</span><br></pre></td></tr></table></figure>
 
 <p>这样不管访问 IP 还是任何其它 “Host”，都会匹配到你 <code>/etc/nginx/sites-available/dujiaoka</code> 这个块。</p>
 <h2 id="HTTP-请求已经被-Laravel-强制重定向到-HTTPS"><a href="#HTTP-请求已经被-Laravel-强制重定向到-HTTPS" class="headerlink" title="HTTP 请求已经被 Laravel 强制重定向到 HTTPS"></a>HTTP 请求已经被 Laravel 强制重定向到 HTTPS</h2><h2 id="方案一：给站点启用-HTTPS（推荐）"><a href="#方案一：给站点启用-HTTPS（推荐）" class="headerlink" title="方案一：给站点启用 HTTPS（推荐）"></a>方案一：给站点启用 HTTPS（推荐）</h2><ol>
 <li><p><strong>安装 Certbot</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">sudo apt update
-sudo apt install -y certbot python3-certbot-nginx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install -y certbot python3-certbot-nginx</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>为你的域名申请并自动配置 SSL</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">sudo certbot --nginx -d onecards.tech -d www.onecards.tech<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo certbot --nginx -d onecards.tech -d www.onecards.tech</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>按提示输入邮箱，勾选同意协议。</li>
@@ -429,32 +348,29 @@ sudo apt install -y certbot python3-certbot-nginx<span aria-hidden="true" class=
 </ul>
 </li>
 <li><p><strong>验证</strong><br> 申请完成后，Certbot 会自动在 <code>/etc/nginx/sites-enabled/dujiaoka</code> 加入 443 监听配置并重载 Nginx。<br> 再访问：</p>
-<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;onecards.tech&#x2F;admin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://onecards.tech/admin</span><br></pre></td></tr></table></figure>
 
 <p>应该能正确看到 <code>/admin/auth/login</code> 登录页。</p>
 </li>
 <li><p><strong>自动续期</strong><br> Certbot 会添加定时任务自动续期，你可以执行一次模拟续期验证：</p>
-<pre class="line-numbers language-none"><code class="language-none">sudo certbot renew --dry-run<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo certbot renew --dry-run</span><br></pre></td></tr></table></figure></li>
 </ol>
 <hr>
 <h2 id="方案二：取消-HTTPS-强制，先用-HTTP-访问"><a href="#方案二：取消-HTTPS-强制，先用-HTTP-访问" class="headerlink" title="方案二：取消 HTTPS 强制，先用 HTTP 访问"></a>方案二：取消 HTTPS 强制，先用 HTTP 访问</h2><p>如果短期内不想折腾 SSL，可以临时让 Laravel 不跳转到 HTTPS，回到纯 HTTP：</p>
 <ol>
 <li><p>编辑 <code>.env</code>：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">APP_URL&#x3D;http:&#x2F;&#x2F;onecards.tech<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APP_URL=http://onecards.tech</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>如果有设置“强制 HTTPS”中间件，注释掉或删除 <code>App\Http\Middleware\TrustProxies</code> 中对 <code>\Illuminate\Http\Middleware\EnsureHttps</code> 的调用；或者在 <code>AppServiceProvider</code> 里取消 <code>URL::forceScheme(&#39;https&#39;)</code>。</p>
 </li>
 <li><p>清理缓存并重建：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">php artisan config:clear
-php artisan route:clear
-php artisan view:clear
-php artisan config:cache<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">php artisan config:clear</span><br><span class="line">php artisan route:clear</span><br><span class="line">php artisan view:clear</span><br><span class="line">php artisan config:cache</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>重新加载 Nginx（只要 80 端口在跑，就可以直接访问）：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo systemctl reload nginx<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl reload nginx</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>然后访问：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http:&#x2F;&#x2F;onecards.tech&#x2F;admin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://onecards.tech/admin</span><br></pre></td></tr></table></figure>
 
 <p>就不会再 302 跳到 HTTPS 了。</p>
 </li>
@@ -502,9 +418,9 @@ php artisan config:cache<span aria-hidden="true" class="line-numbers-rows"><span
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -513,6 +429,7 @@ php artisan config:cache<span aria-hidden="true" class="line-numbers-rows"><span
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -542,7 +459,7 @@ php artisan config:cache<span aria-hidden="true" class="line-numbers-rows"><span
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -554,14 +471,14 @@ php artisan config:cache<span aria-hidden="true" class="line-numbers-rows"><span
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

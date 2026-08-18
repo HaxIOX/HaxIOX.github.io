@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">矩阵按键</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1842
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -195,21 +208,7 @@
 <p><a target="_blank" rel="noopener" href="https://www.elecfans.com/d/2004214.html">小编科普几种按键消抖电路的设计方案-电子发烧友网 (elecfans.com)</a></p>
 <h1 id="矩阵按键"><a href="#矩阵按键" class="headerlink" title="矩阵按键"></a>矩阵按键</h1><p><strong>行线（Rows）</strong>：连接到 MCU 的若干个 GPIO 引脚，配置为输出（Output）。</p>
 <p><strong>列线（Cols）</strong>：连接到 MCU 的若干个 GPIO 引脚，配置为输入（Input）并启用内部上拉（Pull-Up）或外部上拉电阻。</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">for (i &#x3D; 0; i &lt; m; i++) &#123;
-    &#x2F;&#x2F; 1) 先将所有行拉高（不上）：
-    for (k &#x3D; 0; k &lt; m; k++)
-        digitalWrite(Row[k], HIGH);
-    &#x2F;&#x2F; 2) 再将当前行 Ri 拉低（下拉）：
-    digitalWrite(Row[i], LOW);
-    &#x2F;&#x2F; 3) 读取所有列：
-    for (j &#x3D; 0; j &lt; n; j++) &#123;
-        if (digitalRead(Col[j]) &#x3D;&#x3D; LOW) &#123;
-            &#x2F;&#x2F; 行 i、列 j 上有按键按下
-            key &#x3D; mapKey(i, j);
-            debounceAndReport(key);
-        &#125;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">    <span class="comment">// 1) 先将所有行拉高（不上）：</span></span><br><span class="line">    <span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; m; k++)</span><br><span class="line">        digitalWrite(Row[k], HIGH);</span><br><span class="line">    <span class="comment">// 2) 再将当前行 Ri 拉低（下拉）：</span></span><br><span class="line">    digitalWrite(Row[i], LOW);</span><br><span class="line">    <span class="comment">// 3) 读取所有列：</span></span><br><span class="line">    <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (digitalRead(Col[j]) == LOW) &#123;</span><br><span class="line">            <span class="comment">// 行 i、列 j 上有按键按下</span></span><br><span class="line">            key = mapKey(i, j);</span><br><span class="line">            debounceAndReport(key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>注意：上拉输入时，未按下时读取为 HIGH，按下时行线拉低→列线被拉低，读取 LOW’</p>
 <h2 id="基于中断的扫描"><a href="#基于中断的扫描" class="headerlink" title="基于中断的扫描"></a>基于中断的扫描</h2><p>基于中断的扫描（高级）</p>
@@ -232,13 +231,7 @@
 <li><p><strong>原理</strong>：把行&#x2F;列接到扩展器，引脚上拉&#x2F;下拉同样能做矩阵扫描；有些扩展器还带中断引脚，可在任何输入状态改变时报警。</p>
 </li>
 <li><p><strong>典型接法</strong>：</p>
-<pre class="line-numbers language-none"><code class="language-none">text复制编辑MCU ↔ I2C ↔ PCF8574
-             ┌───┐
-        P0 ──│   │── Row0
-        P1 ──│   │── Row1
-        …    │   │
-        P7 ──│   │── ColN
-             └───┘<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">text复制编辑MCU ↔ I2C ↔ PCF8574</span><br><span class="line">             ┌───┐</span><br><span class="line">        P0 ──│   │── Row0</span><br><span class="line">        P1 ──│   │── Row1</span><br><span class="line">        …    │   │</span><br><span class="line">        P7 ──│   │── ColN</span><br><span class="line">             └───┘</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>特点</strong>：利用扩展器内部中断，可以混合“中断＋寄存器读扫描”方式，降低 MCU 轮询负担。</p>
 </li>
@@ -410,9 +403,9 @@
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -421,6 +414,7 @@
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -450,7 +444,7 @@
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -462,14 +456,14 @@
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">OpenMV</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          889
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -188,31 +201,7 @@
 
 <h2 id="OpenMV串口通信"><a href="#OpenMV串口通信" class="headerlink" title="OpenMV串口通信"></a>OpenMV串口通信</h2><h2 id="问题-oled不显示"><a href="#问题-oled不显示" class="headerlink" title="问题 oled不显示"></a>问题 oled不显示</h2><p>首先判断是串口中断的问题还是配置的问题,使用test文件检测串口是否能收发数据,如果不能则为配置错误,(我没有检测,因为我看了好几遍感觉没问题,最后还是有问题),我是,找一个能正常使用的,然后一步一步改成一样的,哪一步现象改变,就是那块的问题,或者最后剩下的就是问题</p>
 <h3 id="通讯协议"><a href="#通讯协议" class="headerlink" title="通讯协议"></a>通讯协议</h3><p>自己写,发送方和接收方的一样就行</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">void USART3_IRQHandler(void)                
-&#123;
-    static int i&#x3D;0;
-		static u8 Rebuf[20]&#x3D;&#123;0&#125;;
-  if(USART_GetITStatus(USART3, USART_IT_RXNE) !&#x3D; RESET)
-  &#123;
-      Rebuf[i++] &#x3D; USART_ReceiveData(USART3);  &#x2F;&#x2F;接收数据
-  if(Rebuf[0]!&#x3D;0x2C) i&#x3D;0;             	      &#x2F;&#x2F;判断第一个帧头0xa3
-  if((i&#x3D;&#x3D;2)&amp;&amp;(Rebuf[1]!&#x3D;0x12))i&#x3D;0;   		 &#x2F;&#x2F;判断第二个帧头0xb3
-  &#x2F;&#x2F;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;方法一&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;    
-  if(i&#x3D;&#x3D;5)                    &#x2F;&#x2F;共五个字节的数据
-   &#123;            		     &#x2F;&#x2F;故rebuf[i++]&#x3D;[0,1,2,3,4],也就是rebuf[4]时,i&#x3D;5
-      if(Rebuf[4] &#x3D;&#x3D; 0x5B)    &#x2F;&#x2F;代表一组数据传输完毕 
-  	  &#123; 			         &#x2F;&#x2F;!!!!判断帧尾0xc3,这个方法会多给一个0,比如65显示650,应该跟补位有关系	                 
-         memcpy(openmv_data,Rebuf,i);&#x2F;&#x2F;这个函数的具体作用
- 		&#125;  i &#x3D; 0;             &#x2F;&#x2F;清空数组
-  	&#125; 
-  &#125;
-&#125;            
-    &#x2F;&#x2F;[1]识别到的数字:
-    &#x2F;&#x2F;openmv_num &#x3D; openmv_data[2];
-    &#x2F;&#x2F;[2]数字的x、y坐标:
-    &#x2F;&#x2F;openmv_x &#x3D; openmv_data [2];
-    &#x2F;&#x2F;openmv_y &#x3D; openmv_data [3];
-    &#x2F;&#x2F;USART_ClearITPendingBit(USART3,USART_IT_RXNE);   &#x2F;&#x2F;清除中断标志<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">USART3_IRQHandler</span><span class="params">(<span class="type">void</span>)</span>                </span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> i=<span class="number">0</span>;</span><br><span class="line">		<span class="type">static</span> u8 Rebuf[<span class="number">20</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">  <span class="keyword">if</span>(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)</span><br><span class="line">  &#123;</span><br><span class="line">      Rebuf[i++] = USART_ReceiveData(USART3);  <span class="comment">//接收数据</span></span><br><span class="line">  <span class="keyword">if</span>(Rebuf[<span class="number">0</span>]!=<span class="number">0x2C</span>) i=<span class="number">0</span>;             	      <span class="comment">//判断第一个帧头0xa3</span></span><br><span class="line">  <span class="keyword">if</span>((i==<span class="number">2</span>)&amp;&amp;(Rebuf[<span class="number">1</span>]!=<span class="number">0x12</span>))i=<span class="number">0</span>;   		 <span class="comment">//判断第二个帧头0xb3</span></span><br><span class="line">  <span class="comment">//======================方法一========================    </span></span><br><span class="line">  <span class="keyword">if</span>(i==<span class="number">5</span>)                    <span class="comment">//共五个字节的数据</span></span><br><span class="line">   &#123;            		     <span class="comment">//故rebuf[i++]=[0,1,2,3,4],也就是rebuf[4]时,i=5</span></span><br><span class="line">      <span class="keyword">if</span>(Rebuf[<span class="number">4</span>] == <span class="number">0x5B</span>)    <span class="comment">//代表一组数据传输完毕 </span></span><br><span class="line">  	  &#123; 			         <span class="comment">//!!!!判断帧尾0xc3,这个方法会多给一个0,比如65显示650,应该跟补位有关系	                 </span></span><br><span class="line">         <span class="built_in">memcpy</span>(openmv_data,Rebuf,i);<span class="comment">//这个函数的具体作用</span></span><br><span class="line"> 		&#125;  i = <span class="number">0</span>;             <span class="comment">//清空数组</span></span><br><span class="line">  	&#125; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;            </span><br><span class="line">    <span class="comment">//[1]识别到的数字:</span></span><br><span class="line">    <span class="comment">//openmv_num = openmv_data[2];</span></span><br><span class="line">    <span class="comment">//[2]数字的x、y坐标:</span></span><br><span class="line">    <span class="comment">//openmv_x = openmv_data [2];</span></span><br><span class="line">    <span class="comment">//openmv_y = openmv_data [3];</span></span><br><span class="line">    <span class="comment">//USART_ClearITPendingBit(USART3,USART_IT_RXNE);   //清除中断标志</span></span><br></pre></td></tr></table></figure>
 
 <p>是的，您发送的数据是5个字节，但第一段代码中的if判断条件是<code>if(i&gt;=10)</code>。这个判断条件并不准确，但实际上并不影响正确接收到数据。</p>
 <p>在第一段代码中，当接收到完整的5个字节的数据包时，就将数据复制到openmv_data数组中进行进一步处理。而当接收到的数据长度大于等于10个字节时，虽然if条件不满足，但并不会影响接收到的数据。因为即使接收到的数据长度大于5个字节，也只有前5个字节是有效的数据，后面的字节会被忽略掉。</p>
@@ -220,12 +209,7 @@
 <p>我只传输五个字节的数据,这段代码能正常运行的原因是接收到了十个字节,然后取其中的两个字节,其他的不要,相当于发送方发两条,接收方接收两条在一条数据里,但是只读取一条完整的数据对嘛</p>
 </blockquote>
 <p>虽然这种实现方式可能会浪费一些接收缓冲区的空间，但由于数据包长度是固定的，因此在这种情况下也不会影响数据的正确接收。但是为了提高代码的可读性和可维护性，建议将if判断条件改为<code>if(i==5)</code>，这样可以更准确地判断接收到的数据是否完整，并避免浪费缓冲区的空间。</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">  &#x2F;&#x2F;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;方法二&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;        
-  if(i&gt;&#x3D;10)
-&#123;
-	memcpy(openmv_data,Rebuf,i);
-	i &#x3D; 0;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">//========方法二============        </span></span><br><span class="line">  <span class="keyword">if</span>(i&gt;=<span class="number">10</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">memcpy</span>(openmv_data,Rebuf,i);</span><br><span class="line">	i = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -286,9 +270,9 @@
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -297,6 +281,7 @@
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -326,7 +311,7 @@
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -338,14 +323,14 @@
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

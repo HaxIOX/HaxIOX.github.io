@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">ESP32串口通信</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          509
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -228,30 +241,7 @@
 </li>
 <li></li>
 </ul>
-<h3 id="串口透传"><a href="#串口透传" class="headerlink" title="串口透传"></a>串口透传</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &lt;Arduino.h&gt;
-
-void setup() &#123;
-  &#x2F;&#x2F; 初始化 UART0，波特率为 115200（注意这里是和目标模块一致的波特率）
-  Serial0.begin(115200); 
-  Serial.begin(115200); &#x2F;&#x2F; 主串口，用于打印输出到串口监视器
-  Serial0.println(&quot;UART0 Loopback Test Started&quot;);
-  delay(1000);
-&#125;
-
-void loop() &#123;
-  &#x2F;&#x2F; 向模块发送数据
-  Serial0.print(&quot;111&quot;);
-
-  &#x2F;&#x2F; 接收 Serial0 的数据，并打印到主串口
-  while (Serial0.available()) &#123;
-    uint8_t receivedByte &#x3D; Serial0.read();  &#x2F;&#x2F; 读取收到的字节
-    Serial.print(&quot;Received: 0x&quot;);
-    if (receivedByte &lt; 0x10) Serial.print(&quot;0&quot;); &#x2F;&#x2F; 补零对齐
-    Serial.println(receivedByte, HEX);         &#x2F;&#x2F; 十六进制输出
-  &#125;
-
-  delay(1000);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="串口透传"><a href="#串口透传" class="headerlink" title="串口透传"></a>串口透传</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Arduino.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">setup</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="comment">// 初始化 UART0，波特率为 115200（注意这里是和目标模块一致的波特率）</span></span><br><span class="line">  Serial0.begin(<span class="number">115200</span>); </span><br><span class="line">  Serial.begin(<span class="number">115200</span>); <span class="comment">// 主串口，用于打印输出到串口监视器</span></span><br><span class="line">  Serial0.println(<span class="string">&quot;UART0 Loopback Test Started&quot;</span>);</span><br><span class="line">  delay(<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">loop</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="comment">// 向模块发送数据</span></span><br><span class="line">  Serial0.print(<span class="string">&quot;111&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 接收 Serial0 的数据，并打印到主串口</span></span><br><span class="line">  <span class="keyword">while</span> (Serial0.available()) &#123;</span><br><span class="line">    <span class="type">uint8_t</span> receivedByte = Serial0.read();  <span class="comment">// 读取收到的字节</span></span><br><span class="line">    Serial.print(<span class="string">&quot;Received: 0x&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (receivedByte &lt; <span class="number">0x10</span>) Serial.print(<span class="string">&quot;0&quot;</span>); <span class="comment">// 补零对齐</span></span><br><span class="line">    Serial.println(receivedByte, HEX);         <span class="comment">// 十六进制输出</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  delay(<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>注意，我总是容易失败，就是使用其他串口的时候，需要研究一下esp32的串口到底是怎么配置的</p>
 <h2 id="ESP32-C3"><a href="#ESP32-C3" class="headerlink" title="ESP32 C3"></a>ESP32 C3</h2><h3 id="问题-1"><a href="#问题-1" class="headerlink" title="问题"></a>问题</h3><p>1.没有usb to uart芯片的情况下，usb串口可以下载但是不可以打印</p>
@@ -259,9 +249,7 @@ void loop() &#123;
 <p>因为usb-cdc（Communication Device Class），一种通讯协议类，模拟串口</p>
 </blockquote>
 <p>platformio.ini中添加</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">build_flags &#x3D; 
-  -DARDUINO_USB_MODE&#x3D;1
-  -DARDUINO_USB_CDC_ON_BOOT&#x3D;1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">build_flags = </span><br><span class="line">  -DARDUINO_USB_MODE=<span class="number">1</span></span><br><span class="line">  -DARDUINO_USB_CDC_ON_BOOT=<span class="number">1</span></span><br></pre></td></tr></table></figure>
 
 <p>Arduino ide开启usb cdc on boot</p>
 <h2 id="ESP32-S3"><a href="#ESP32-S3" class="headerlink" title="ESP32 S3"></a>ESP32 S3</h2><p>1.串口打印需要更改串口号</p>
@@ -313,9 +301,9 @@ void loop() &#123;
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -324,6 +312,7 @@ void loop() &#123;
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -353,7 +342,7 @@ void loop() &#123;
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -365,14 +354,14 @@ void loop() &#123;
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">IIC协议</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1535
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -228,25 +241,7 @@
 <p>是否需要延时, 延时多久</p>
 <p>官方手册给的大多是0-160ns, 的其他大佬案例有2us,或者10us的</p>
 <p><strong>验证硬件</strong></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">int main(void)
-&#123;	
-  uint8_t ack ;
-  delay_init();
-  OLED_Init();	
-  IIC_Init();  
-    
-  IIC_Start();        &#x2F;&#x2F;开始&#x2F;再开始
-  IIC_SendByte(0xD0); &#x2F;&#x2F; 1110 000 0R&#x2F;W 前七位是地址
-  ack &#x3D; IIC_ReadAck();&#x2F;&#x2F;读取响应
-  IIC_Stop();         &#x2F;&#x2F;停止
-    
-  OLED_ShowString(1,1,&quot;ACK:&quot;);
-  OLED_ShowNum(1,5,ack,3);
-  while(1)
-	&#123;
-	&#125;
-&#125;
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;	</span><br><span class="line">  <span class="type">uint8_t</span> ack ;</span><br><span class="line">  delay_init();</span><br><span class="line">  OLED_Init();	</span><br><span class="line">  IIC_Init();  </span><br><span class="line">    </span><br><span class="line">  IIC_Start();        <span class="comment">//开始/再开始</span></span><br><span class="line">  IIC_SendByte(<span class="number">0xD0</span>); <span class="comment">// 1110 000 0R/W 前七位是地址</span></span><br><span class="line">  ack = IIC_ReadAck();<span class="comment">//读取响应</span></span><br><span class="line">  IIC_Stop();         <span class="comment">//停止</span></span><br><span class="line">    </span><br><span class="line">  OLED_ShowString(<span class="number">1</span>,<span class="number">1</span>,<span class="string">&quot;ACK:&quot;</span>);</span><br><span class="line">  OLED_ShowNum(<span class="number">1</span>,<span class="number">5</span>,ack,<span class="number">3</span>);</span><br><span class="line">  <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h2 id="MPU6050"><a href="#MPU6050" class="headerlink" title="MPU6050"></a>MPU6050</h2><ol>
 <li><p>初始化, 解除睡眠模式</p>
@@ -266,29 +261,7 @@
 <ol start="4">
 <li>获取寄存器三轴角速度与加速度值</li>
 </ol>
-<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">#define MPU6050_SMPLRT_DIV		0x19
-#define	MPU6050_CONFIG			0x1A
-#define	MPU6050_GYRO_CONFIG		0x1B
-#define	MPU6050_ACCEL_CONFIG	0x1C
-
-#define	MPU6050_ACCEL_XOUT_H	0x3B
-#define	MPU6050_ACCEL_XOUT_L	0x3C
-#define	MPU6050_ACCEL_YOUT_H	0x3D
-#define	MPU6050_ACCEL_YOUT_L	0x3E
-#define	MPU6050_ACCEL_ZOUT_H	0x3F
-#define	MPU6050_ACCEL_ZOUT_L	0x40
-#define	MPU6050_TEMP_OUT_H		0x41
-#define	MPU6050_TEMP_OUT_L		0x42
-#define	MPU6050_GYRO_XOUT_H		0x43
-#define	MPU6050_GYRO_XOUT_L		0x44
-#define	MPU6050_GYRO_YOUT_H		0x45
-#define	MPU6050_GYRO_YOUT_L		0x46
-#define	MPU6050_GYRO_ZOUT_H		0x47
-#define	MPU6050_GYRO_ZOUT_L		0x48
-
-#define	MPU6050_PWR_MGMT_1		0x6B
-#define	MPU6050_PWR_MGMT_2		0x6C
-#define	MPU6050_WHO_AM_I		0x75<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MPU6050_SMPLRT_DIV		0x19</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_CONFIG			0x1A</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_GYRO_CONFIG		0x1B</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_ACCEL_CONFIG	0x1C</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_ACCEL_XOUT_H	0x3B</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_ACCEL_XOUT_L	0x3C</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_ACCEL_YOUT_H	0x3D</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_ACCEL_YOUT_L	0x3E</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_ACCEL_ZOUT_H	0x3F</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_ACCEL_ZOUT_L	0x40</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_TEMP_OUT_H		0x41</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_TEMP_OUT_L		0x42</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_GYRO_XOUT_H		0x43</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_GYRO_XOUT_L		0x44</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_GYRO_YOUT_H		0x45</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_GYRO_YOUT_L		0x46</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_GYRO_ZOUT_H		0x47</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_GYRO_ZOUT_L		0x48</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_PWR_MGMT_1		0x6B</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_PWR_MGMT_2		0x6C</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MPU6050_WHO_AM_I		0x75</span></span><br></pre></td></tr></table></figure>
 
 <ol>
 <li><strong>MPU6050_SMPLRT_DIV</strong></li>
@@ -322,19 +295,7 @@
 <p>配置陀螺仪外部时钟</p>
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>已经第二次了,因为忘记<em><strong>初始化delay</strong></em>,导致程序卡死</p>
 <p>是因为delay_us函数有一个do while,没初始化<em><strong>fac_us的值就无法初始化</strong></em>,所以就一直在while里面等待,</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">void delay_us(u32 nus)
-&#123;		
-	u32 temp;	    	 
-	SysTick-&gt;LOAD&#x3D;nus*fac_us; 					&#x2F;&#x2F;时间加载	  		 
-	SysTick-&gt;VAL&#x3D;0x00;        					&#x2F;&#x2F;清空计数器
-	SysTick-&gt;CTRL|&#x3D;SysTick_CTRL_ENABLE_Msk ;	&#x2F;&#x2F;开始倒数	  
-	do
-	&#123;
-		temp&#x3D;SysTick-&gt;CTRL;
-	&#125;while((temp&amp;0x01)&amp;&amp;!(temp&amp;(1&lt;&lt;16)));		&#x2F;&#x2F;等待时间到达   
-	SysTick-&gt;CTRL&amp;&#x3D;~SysTick_CTRL_ENABLE_Msk;	&#x2F;&#x2F;关闭计数器
-	SysTick-&gt;VAL &#x3D;0X00;      					 &#x2F;&#x2F;清空计数器	 
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">delay_us</span><span class="params">(u32 nus)</span></span><br><span class="line">&#123;		</span><br><span class="line">	u32 temp;	    	 </span><br><span class="line">	SysTick-&gt;LOAD=nus*fac_us; 					<span class="comment">//时间加载	  		 </span></span><br><span class="line">	SysTick-&gt;VAL=<span class="number">0x00</span>;        					<span class="comment">//清空计数器</span></span><br><span class="line">	SysTick-&gt;CTRL|=SysTick_CTRL_ENABLE_Msk ;	<span class="comment">//开始倒数	  </span></span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">	&#123;</span><br><span class="line">		temp=SysTick-&gt;CTRL;</span><br><span class="line">	&#125;<span class="keyword">while</span>((temp&amp;<span class="number">0x01</span>)&amp;&amp;!(temp&amp;(<span class="number">1</span>&lt;&lt;<span class="number">16</span>)));		<span class="comment">//等待时间到达   </span></span><br><span class="line">	SysTick-&gt;CTRL&amp;=~SysTick_CTRL_ENABLE_Msk;	<span class="comment">//关闭计数器</span></span><br><span class="line">	SysTick-&gt;VAL =<span class="number">0X00</span>;      					 <span class="comment">//清空计数器	 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="硬件IIC"><a href="#硬件IIC" class="headerlink" title="硬件IIC"></a>硬件IIC</h2><p><strong>软件IIC与硬件IIC的区别</strong></p>
 <p>软件手动模拟IIC协议</p>
@@ -407,9 +368,9 @@
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -418,6 +379,7 @@
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -447,7 +409,7 @@
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -459,14 +421,14 @@
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

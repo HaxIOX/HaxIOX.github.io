@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">ESP32S3驱动OV5640</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          963
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -178,187 +191,7 @@
       </div>
       <div class="markdown-body">
         <h1 id="Arduino"><a href="#Arduino" class="headerlink" title="Arduino"></a>Arduino</h1><p>测试Demo，安装esp_camera库，实现网站实时显示摄像头内容。</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &quot;esp_camera.h&quot;
-#include &lt;WiFi.h&gt;
-#include &quot;esp_http_server.h&quot; &#x2F;&#x2F; 需要包含这个库来创建网页服务器
-&#x2F;&#x2F; 替换为您的 Wi-Fi 名称和密码
-const char* ssid &#x3D; &quot;&quot;;
-const char* password &#x3D; &quot;&quot;;
-
-&#x2F;&#x2F; #define PWDN_GPIO_NUM      5  &#x2F;&#x2F; OV_PWDN 
-&#x2F;&#x2F; #define RESET_GPIO_NUM     4  &#x2F;&#x2F; OV_RESET 
-&#x2F;&#x2F; #define XCLK_GPIO_NUM      -1  &#x2F;&#x2F; 这个引脚需要手动连接到模块的 XCLK 输入点
-&#x2F;&#x2F; #define SIOD_GPIO_NUM      2  &#x2F;&#x2F; OV_SDA 
-&#x2F;&#x2F; #define SIOC_GPIO_NUM      1  &#x2F;&#x2F; OV_SCL 
-
-&#x2F;&#x2F; #define Y9_GPIO_NUM        9  &#x2F;&#x2F; OV_D7 
-&#x2F;&#x2F; #define Y8_GPIO_NUM        10 &#x2F;&#x2F; OV_D6 
-&#x2F;&#x2F; #define Y7_GPIO_NUM        11 &#x2F;&#x2F; OV_D5 
-&#x2F;&#x2F; #define Y6_GPIO_NUM        12 &#x2F;&#x2F; OV_D4 
-&#x2F;&#x2F; #define Y5_GPIO_NUM        14 &#x2F;&#x2F; OV_D3 
-&#x2F;&#x2F; #define Y4_GPIO_NUM        13 &#x2F;&#x2F; OV_D2 
-&#x2F;&#x2F; #define Y3_GPIO_NUM        16 &#x2F;&#x2F; OV_D1 
-&#x2F;&#x2F; #define Y2_GPIO_NUM        15 &#x2F;&#x2F; OV_D0 
-&#x2F;&#x2F; #define VSYNC_GPIO_NUM     6  &#x2F;&#x2F; OV_VSYNC 
-&#x2F;&#x2F; #define HREF_GPIO_NUM      7  &#x2F;&#x2F; OV_HREF 
-&#x2F;&#x2F; #define PCLK_GPIO_NUM      8  &#x2F;&#x2F; OV_PCLK 
-
-#define PWDN_GPIO_NUM      5
-#define RESET_GPIO_NUM     4
-#define XCLK_GPIO_NUM      -1  &#x2F;&#x2F; -1 表示模块自带时钟，ESP32不提供
-#define SIOD_GPIO_NUM      2
-#define SIOC_GPIO_NUM      1
-
-#define Y9_GPIO_NUM        9
-#define Y8_GPIO_NUM        10
-#define Y7_GPIO_NUM        11
-#define Y6_GPIO_NUM        12
-#define Y5_GPIO_NUM        14
-#define Y4_GPIO_NUM        13
-#define Y3_GPIO_NUM        16
-#define Y2_GPIO_NUM        15
-
-#define VSYNC_GPIO_NUM     6
-#define HREF_GPIO_NUM      7
-#define PCLK_GPIO_NUM      8
-
-static esp_err_t stream_handler(httpd_req_t *req)&#123;
-  camera_fb_t * fb &#x3D; NULL;
-  esp_err_t res &#x3D; ESP_OK;
-  size_t _jpg_buf_len &#x3D; 0;
-  uint8_t * _jpg_buf &#x3D; NULL;
-  char * part_buf[64];
-
-  res &#x3D; httpd_resp_set_type(req, &quot;multipart&#x2F;x-mixed-replace;boundary&#x3D;--frame&quot;);
-  if(res !&#x3D; ESP_OK)&#123;
-    return res;
-  &#125;
-
-  while(true)&#123;
-    fb &#x3D; esp_camera_fb_get();
-    if (!fb) &#123;
-      Serial.println(&quot;Camera capture failed&quot;);
-      res &#x3D; ESP_FAIL;
-    &#125; else &#123;
-      if(fb-&gt;format !&#x3D; PIXFORMAT_JPEG)&#123;
-        bool jpeg_converted &#x3D; frame2jpg(fb, 80, &amp;_jpg_buf, &amp;_jpg_buf_len);
-        esp_camera_fb_return(fb);
-        fb &#x3D; NULL;
-        if(!jpeg_converted)&#123;
-          Serial.println(&quot;JPEG compression failed&quot;);
-          res &#x3D; ESP_FAIL;
-        &#125;
-      &#125; else &#123;
-        _jpg_buf_len &#x3D; fb-&gt;len;
-        _jpg_buf &#x3D; fb-&gt;buf;
-      &#125;
-    &#125;
-    if(res &#x3D;&#x3D; ESP_OK)&#123;
-      size_t hlen &#x3D; snprintf((char *)part_buf, 64, &quot;Content-Type: image&#x2F;jpeg\r\nContent-Length: %u\r\n\r\n&quot;, _jpg_buf_len);
-      res &#x3D; httpd_resp_send_chunk(req, (const char *)part_buf, hlen);
-    &#125;
-    if(res &#x3D;&#x3D; ESP_OK)&#123;
-      res &#x3D; httpd_resp_send_chunk(req, (const char *)_jpg_buf, _jpg_buf_len);
-    &#125;
-    if(res &#x3D;&#x3D; ESP_OK)&#123;
-      res &#x3D; httpd_resp_send_chunk(req, &quot;\r\n--frame\r\n&quot;, strlen(&quot;\r\n--frame\r\n&quot;));
-    &#125;
-    if(fb)&#123;
-      esp_camera_fb_return(fb);
-      fb &#x3D; NULL;
-      _jpg_buf &#x3D; NULL;
-    &#125; else if(_jpg_buf)&#123;
-      free(_jpg_buf);
-      _jpg_buf &#x3D; NULL;
-    &#125;
-    if(res !&#x3D; ESP_OK)&#123;
-      break;
-    &#125;
-  &#125;
-  return res;
-&#125;
-
-void startCameraServer()&#123;
-  httpd_handle_t stream_httpd &#x3D; NULL;
-  httpd_config_t config &#x3D; HTTPD_DEFAULT_CONFIG();
-
-  httpd_uri_t stream_uri &#x3D; &#123;
-    .uri       &#x3D; &quot;&#x2F;&quot;,
-    .method    &#x3D; HTTP_GET,
-    .handler   &#x3D; stream_handler,
-    .user_ctx  &#x3D; NULL
-  &#125;;
-
-  if (httpd_start(&amp;stream_httpd, &amp;config) &#x3D;&#x3D; ESP_OK) &#123;
-    httpd_register_uri_handler(stream_httpd, &amp;stream_uri);
-  &#125;
-&#125;
-
-&#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
-&#x2F;&#x2F; 主程序
-&#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
-
-void setup() &#123;
-  Serial.begin(115200);
-  Serial.setDebugOutput(true);
-  Serial.println();
-
-  camera_config_t config;
-  config.ledc_channel &#x3D; LEDC_CHANNEL_0;
-  config.ledc_timer &#x3D; LEDC_TIMER_0;
-  config.pin_d0 &#x3D; Y2_GPIO_NUM;
-  config.pin_d1 &#x3D; Y3_GPIO_NUM;
-  config.pin_d2 &#x3D; Y4_GPIO_NUM;
-  config.pin_d3 &#x3D; Y5_GPIO_NUM;
-  config.pin_d4 &#x3D; Y6_GPIO_NUM;
-  config.pin_d5 &#x3D; Y7_GPIO_NUM;
-  config.pin_d6 &#x3D; Y8_GPIO_NUM;
-  config.pin_d7 &#x3D; Y9_GPIO_NUM;
-  config.pin_xclk &#x3D; XCLK_GPIO_NUM;
-  config.pin_pclk &#x3D; PCLK_GPIO_NUM;
-  config.pin_vsync &#x3D; VSYNC_GPIO_NUM;
-  config.pin_href &#x3D; HREF_GPIO_NUM;
-  config.pin_sccb_sda &#x3D; SIOD_GPIO_NUM;
-  config.pin_sccb_scl &#x3D; SIOC_GPIO_NUM;
-  config.pin_pwdn &#x3D; PWDN_GPIO_NUM;
-  config.pin_reset &#x3D; RESET_GPIO_NUM;
-  &#x2F;&#x2F; config.xclk_freq_hz &#x3D; 0; &#x2F;&#x2F; 当pin_xclk为-1时，此项无效
-  config.xclk_freq_hz &#x3D; 20000000; &#x2F;&#x2F; 提供一个非零的虚拟值，例如20MHz
-  config.pixel_format &#x3D; PIXFORMAT_JPEG;
-
-  &#x2F;&#x2F; 对于高分辨率 (OV5640 支持 UXGA, QXGA 等)
-  &#x2F;&#x2F; 您可能需要使用 PSRAM。请确保您的 ESP32-S3 开发板有 PSRAM。
-  config.frame_size &#x3D; FRAMESIZE_UXGA; &#x2F;&#x2F; 1600x1200
-  config.jpeg_quality &#x3D; 12; &#x2F;&#x2F; 质量可以适当调整 (0-63, 数值越小质量越高)
-  config.fb_count &#x3D; 2;
-  config.fb_location &#x3D; CAMERA_FB_IN_PSRAM; &#x2F;&#x2F; 强制使用PSRAM
-
-  &#x2F;&#x2F; 初始化摄像头
-  esp_err_t err &#x3D; esp_camera_init(&amp;config);
-  if (err !&#x3D; ESP_OK) &#123;
-    Serial.printf(&quot;摄像头初始化失败，错误码: 0x%x&quot;, err);
-    return;
-  &#125;
-  Serial.println(&quot;摄像头初始化成功！&quot;);
-
-  &#x2F;&#x2F; 连接 WiFi
-  WiFi.begin(ssid, password);
-  while (WiFi.status() !&#x3D; WL_CONNECTED) &#123;
-    delay(500);
-    Serial.print(&quot;.&quot;);
-  &#125;
-  Serial.println(&quot;\nWiFi 已连接&quot;);
-  Serial.print(&quot;摄像头视频流地址: http:&#x2F;&#x2F;&quot;);
-  Serial.println(WiFi.localIP());
-
-  &#x2F;&#x2F; 启动网页服务器
-  startCameraServer();
-&#125;
-
-void loop() &#123;
-  &#x2F;&#x2F; 主循环保持空闲，因为服务器在后台运行
-  delay(10000);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;esp_camera.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;WiFi.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;esp_http_server.h&quot;</span> <span class="comment">// 需要包含这个库来创建网页服务器</span></span></span><br><span class="line"><span class="comment">// 替换为您的 Wi-Fi 名称和密码</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* ssid = <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* password = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// #define PWDN_GPIO_NUM      5  // OV_PWDN </span></span><br><span class="line"><span class="comment">// #define RESET_GPIO_NUM     4  // OV_RESET </span></span><br><span class="line"><span class="comment">// #define XCLK_GPIO_NUM      -1  // 这个引脚需要手动连接到模块的 XCLK 输入点</span></span><br><span class="line"><span class="comment">// #define SIOD_GPIO_NUM      2  // OV_SDA </span></span><br><span class="line"><span class="comment">// #define SIOC_GPIO_NUM      1  // OV_SCL </span></span><br><span class="line"></span><br><span class="line"><span class="comment">// #define Y9_GPIO_NUM        9  // OV_D7 </span></span><br><span class="line"><span class="comment">// #define Y8_GPIO_NUM        10 // OV_D6 </span></span><br><span class="line"><span class="comment">// #define Y7_GPIO_NUM        11 // OV_D5 </span></span><br><span class="line"><span class="comment">// #define Y6_GPIO_NUM        12 // OV_D4 </span></span><br><span class="line"><span class="comment">// #define Y5_GPIO_NUM        14 // OV_D3 </span></span><br><span class="line"><span class="comment">// #define Y4_GPIO_NUM        13 // OV_D2 </span></span><br><span class="line"><span class="comment">// #define Y3_GPIO_NUM        16 // OV_D1 </span></span><br><span class="line"><span class="comment">// #define Y2_GPIO_NUM        15 // OV_D0 </span></span><br><span class="line"><span class="comment">// #define VSYNC_GPIO_NUM     6  // OV_VSYNC </span></span><br><span class="line"><span class="comment">// #define HREF_GPIO_NUM      7  // OV_HREF </span></span><br><span class="line"><span class="comment">// #define PCLK_GPIO_NUM      8  // OV_PCLK </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PWDN_GPIO_NUM      5</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RESET_GPIO_NUM     4</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> XCLK_GPIO_NUM      -1  <span class="comment">// -1 表示模块自带时钟，ESP32不提供</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SIOD_GPIO_NUM      2</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SIOC_GPIO_NUM      1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Y9_GPIO_NUM        9</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Y8_GPIO_NUM        10</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Y7_GPIO_NUM        11</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Y6_GPIO_NUM        12</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Y5_GPIO_NUM        14</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Y4_GPIO_NUM        13</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Y3_GPIO_NUM        16</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Y2_GPIO_NUM        15</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> VSYNC_GPIO_NUM     6</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> HREF_GPIO_NUM      7</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PCLK_GPIO_NUM      8</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">esp_err_t</span> <span class="title function_">stream_handler</span><span class="params">(<span class="type">httpd_req_t</span> *req)</span>&#123;</span><br><span class="line">  <span class="type">camera_fb_t</span> * fb = <span class="literal">NULL</span>;</span><br><span class="line">  <span class="type">esp_err_t</span> res = ESP_OK;</span><br><span class="line">  <span class="type">size_t</span> _jpg_buf_len = <span class="number">0</span>;</span><br><span class="line">  <span class="type">uint8_t</span> * _jpg_buf = <span class="literal">NULL</span>;</span><br><span class="line">  <span class="type">char</span> * part_buf[<span class="number">64</span>];</span><br><span class="line"></span><br><span class="line">  res = httpd_resp_set_type(req, <span class="string">&quot;multipart/x-mixed-replace;boundary=--frame&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span>(res != ESP_OK)&#123;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">    fb = esp_camera_fb_get();</span><br><span class="line">    <span class="keyword">if</span> (!fb) &#123;</span><br><span class="line">      Serial.println(<span class="string">&quot;Camera capture failed&quot;</span>);</span><br><span class="line">      res = ESP_FAIL;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">if</span>(fb-&gt;format != PIXFORMAT_JPEG)&#123;</span><br><span class="line">        <span class="type">bool</span> jpeg_converted = frame2jpg(fb, <span class="number">80</span>, &amp;_jpg_buf, &amp;_jpg_buf_len);</span><br><span class="line">        esp_camera_fb_return(fb);</span><br><span class="line">        fb = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">if</span>(!jpeg_converted)&#123;</span><br><span class="line">          Serial.println(<span class="string">&quot;JPEG compression failed&quot;</span>);</span><br><span class="line">          res = ESP_FAIL;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        _jpg_buf_len = fb-&gt;len;</span><br><span class="line">        _jpg_buf = fb-&gt;buf;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(res == ESP_OK)&#123;</span><br><span class="line">      <span class="type">size_t</span> hlen = <span class="built_in">snprintf</span>((<span class="type">char</span> *)part_buf, <span class="number">64</span>, <span class="string">&quot;Content-Type: image/jpeg\r\nContent-Length: %u\r\n\r\n&quot;</span>, _jpg_buf_len);</span><br><span class="line">      res = httpd_resp_send_chunk(req, (<span class="type">const</span> <span class="type">char</span> *)part_buf, hlen);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(res == ESP_OK)&#123;</span><br><span class="line">      res = httpd_resp_send_chunk(req, (<span class="type">const</span> <span class="type">char</span> *)_jpg_buf, _jpg_buf_len);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(res == ESP_OK)&#123;</span><br><span class="line">      res = httpd_resp_send_chunk(req, <span class="string">&quot;\r\n--frame\r\n&quot;</span>, <span class="built_in">strlen</span>(<span class="string">&quot;\r\n--frame\r\n&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(fb)&#123;</span><br><span class="line">      esp_camera_fb_return(fb);</span><br><span class="line">      fb = <span class="literal">NULL</span>;</span><br><span class="line">      _jpg_buf = <span class="literal">NULL</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(_jpg_buf)&#123;</span><br><span class="line">      <span class="built_in">free</span>(_jpg_buf);</span><br><span class="line">      _jpg_buf = <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(res != ESP_OK)&#123;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">startCameraServer</span><span class="params">()</span>&#123;</span><br><span class="line">  <span class="type">httpd_handle_t</span> stream_httpd = <span class="literal">NULL</span>;</span><br><span class="line">  <span class="type">httpd_config_t</span> config = HTTPD_DEFAULT_CONFIG();</span><br><span class="line"></span><br><span class="line">  <span class="type">httpd_uri_t</span> stream_uri = &#123;</span><br><span class="line">    .uri       = <span class="string">&quot;/&quot;</span>,</span><br><span class="line">    .method    = HTTP_GET,</span><br><span class="line">    .handler   = stream_handler,</span><br><span class="line">    .user_ctx  = <span class="literal">NULL</span></span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (httpd_start(&amp;stream_httpd, &amp;config) == ESP_OK) &#123;</span><br><span class="line">    httpd_register_uri_handler(stream_httpd, &amp;stream_uri);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ===================================================</span></span><br><span class="line"><span class="comment">// 主程序</span></span><br><span class="line"><span class="comment">// ===================================================</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">setup</span><span class="params">()</span> &#123;</span><br><span class="line">  Serial.begin(<span class="number">115200</span>);</span><br><span class="line">  Serial.setDebugOutput(<span class="literal">true</span>);</span><br><span class="line">  Serial.println();</span><br><span class="line"></span><br><span class="line">  <span class="type">camera_config_t</span> config;</span><br><span class="line">  config.ledc_channel = LEDC_CHANNEL_0;</span><br><span class="line">  config.ledc_timer = LEDC_TIMER_0;</span><br><span class="line">  config.pin_d0 = Y2_GPIO_NUM;</span><br><span class="line">  config.pin_d1 = Y3_GPIO_NUM;</span><br><span class="line">  config.pin_d2 = Y4_GPIO_NUM;</span><br><span class="line">  config.pin_d3 = Y5_GPIO_NUM;</span><br><span class="line">  config.pin_d4 = Y6_GPIO_NUM;</span><br><span class="line">  config.pin_d5 = Y7_GPIO_NUM;</span><br><span class="line">  config.pin_d6 = Y8_GPIO_NUM;</span><br><span class="line">  config.pin_d7 = Y9_GPIO_NUM;</span><br><span class="line">  config.pin_xclk = XCLK_GPIO_NUM;</span><br><span class="line">  config.pin_pclk = PCLK_GPIO_NUM;</span><br><span class="line">  config.pin_vsync = VSYNC_GPIO_NUM;</span><br><span class="line">  config.pin_href = HREF_GPIO_NUM;</span><br><span class="line">  config.pin_sccb_sda = SIOD_GPIO_NUM;</span><br><span class="line">  config.pin_sccb_scl = SIOC_GPIO_NUM;</span><br><span class="line">  config.pin_pwdn = PWDN_GPIO_NUM;</span><br><span class="line">  config.pin_reset = RESET_GPIO_NUM;</span><br><span class="line">  <span class="comment">// config.xclk_freq_hz = 0; // 当pin_xclk为-1时，此项无效</span></span><br><span class="line">  config.xclk_freq_hz = <span class="number">20000000</span>; <span class="comment">// 提供一个非零的虚拟值，例如20MHz</span></span><br><span class="line">  config.pixel_format = PIXFORMAT_JPEG;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 对于高分辨率 (OV5640 支持 UXGA, QXGA 等)</span></span><br><span class="line">  <span class="comment">// 您可能需要使用 PSRAM。请确保您的 ESP32-S3 开发板有 PSRAM。</span></span><br><span class="line">  config.frame_size = FRAMESIZE_UXGA; <span class="comment">// 1600x1200</span></span><br><span class="line">  config.jpeg_quality = <span class="number">12</span>; <span class="comment">// 质量可以适当调整 (0-63, 数值越小质量越高)</span></span><br><span class="line">  config.fb_count = <span class="number">2</span>;</span><br><span class="line">  config.fb_location = CAMERA_FB_IN_PSRAM; <span class="comment">// 强制使用PSRAM</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 初始化摄像头</span></span><br><span class="line">  <span class="type">esp_err_t</span> err = esp_camera_init(&amp;config);</span><br><span class="line">  <span class="keyword">if</span> (err != ESP_OK) &#123;</span><br><span class="line">    Serial.<span class="built_in">printf</span>(<span class="string">&quot;摄像头初始化失败，错误码: 0x%x&quot;</span>, err);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  Serial.println(<span class="string">&quot;摄像头初始化成功！&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 连接 WiFi</span></span><br><span class="line">  WiFi.begin(ssid, password);</span><br><span class="line">  <span class="keyword">while</span> (WiFi.status() != WL_CONNECTED) &#123;</span><br><span class="line">    delay(<span class="number">500</span>);</span><br><span class="line">    Serial.print(<span class="string">&quot;.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  Serial.println(<span class="string">&quot;\nWiFi 已连接&quot;</span>);</span><br><span class="line">  Serial.print(<span class="string">&quot;摄像头视频流地址: http://&quot;</span>);</span><br><span class="line">  Serial.println(WiFi.localIP());</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 启动网页服务器</span></span><br><span class="line">  startCameraServer();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">loop</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="comment">// 主循环保持空闲，因为服务器在后台运行</span></span><br><span class="line">  delay(<span class="number">10000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id=""><a href="#" class="headerlink" title=""></a></h1><ul>
 <li><p><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-faq/zh_CN/latest/application-solution/camera-application.html">摄像头应用方案 - - — ESP-FAQ latest 文档</a></p>
@@ -415,9 +248,9 @@ void loop() &#123;
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -426,6 +259,7 @@ void loop() &#123;
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -455,7 +289,7 @@ void loop() &#123;
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -467,14 +301,14 @@ void loop() &#123;
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

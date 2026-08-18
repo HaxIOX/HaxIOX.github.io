@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">requests库实现自动签到</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1131
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -179,11 +192,7 @@
       <div class="markdown-body">
         <h2 id="签到原理"><a href="#签到原理" class="headerlink" title="签到原理"></a>签到原理</h2><p>按下<code>签到</code>后,浏览器向会发送请求,所以我们只需要模拟浏览器,给对应的url发送请求就可以了</p>
 <h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><p>但是,签到之前一般要先登录,登录的原理是<code>提交表单</code>这部分内容参考&lt;&lt;python网络爬虫权威指南&gt;&gt;<br>大多数网页表单都是由一些 HTML 字段、一个提交按钮和一个进行表单处理的操作页面构<br>成的。虽然这些 HTML 字段通常由文字内容构成，但是也可以实现文件上传或包含其他非<br>文字内容。<br><a href="pythonscraping.com">书中提供的示例网站</a><br>构建了一组不同类型的表单和登录窗口，以便你用网络爬虫抓取。最简单的表单位于<br><a target="_blank" rel="noopener" href="http://pythonscraping.com/pages/files/form.html%E3%80%82">http://pythonscraping.com/pages/files/form.html。</a><br>这个表单的源代码是：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">&lt;form method&#x3D;&quot;post&quot; action&#x3D;&quot;processing.php&quot;&gt;
-First name: &lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;firstname&quot;&gt;&lt;br&gt;
-Last name: &lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;lastname&quot;&gt;&lt;br&gt;
-&lt;input type&#x3D;&quot;submit&quot; value&#x3D;&quot;Submit&quot;&gt;
-&lt;&#x2F;form&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;form method=<span class="string">&quot;post&quot;</span> action=<span class="string">&quot;processing.php&quot;</span>&gt;</span><br><span class="line">First name: &lt;<span class="built_in">input</span> <span class="built_in">type</span>=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;firstname&quot;</span>&gt;&lt;br&gt;</span><br><span class="line">Last name: &lt;<span class="built_in">input</span> <span class="built_in">type</span>=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;lastname&quot;</span>&gt;&lt;br&gt;</span><br><span class="line">&lt;<span class="built_in">input</span> <span class="built_in">type</span>=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;Submit&quot;</span>&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>首先，两个输入字段的名称是 firstname 和 lastname，<br>这两个字段的名称决定了表单提交后要被 POST 到服务器上的可变参数的名称。<br>如果你想模拟表单提交数据的行为，就要保证你的变量名称与字段名称是一一对应的。<br>其次，表单的操作发生在 <code>processing.php</code>（绝对路径是<a target="_blank" rel="noopener" href="http://pythonscraping.com/files/processing">http://pythonscraping.com/files/processing</a>.<br>php）。对表单的任何 POST 请求其实都发生在这个页面上，而非表单本身所在的页面。</p>
 </blockquote>
@@ -191,27 +200,15 @@ Last name: &lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;lastname&quot;&g
 <p>切记：HTML 表单的目的，只是帮助网站的访问者将格式正确的请求发送到进行实际操作的</p>
 </blockquote>
 <p>用 Requests 库提交表单只需 4 行代码，包括导入库文件的语句和打印内容的指令</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">import requests
-params &#x3D; &#123;&#39;firstname&#39;: &#39;Ryan&#39;, &#39;lastname&#39;: &#39;Mitchell&#39;&#125;
-r &#x3D; requests.post(&quot;http:&#x2F;&#x2F;pythonscraping.com&#x2F;pages&#x2F;processing.php&quot;, data&#x3D;params)
-print(r.text)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">params = &#123;<span class="string">&#x27;firstname&#x27;</span>: <span class="string">&#x27;Ryan&#x27;</span>, <span class="string">&#x27;lastname&#x27;</span>: <span class="string">&#x27;Mitchell&#x27;</span>&#125;</span><br><span class="line">r = requests.post(<span class="string">&quot;http://pythonscraping.com/pages/processing.php&quot;</span>, data=params)</span><br><span class="line"><span class="built_in">print</span>(r.text)</span><br></pre></td></tr></table></figure>
 <p>表单被提交之后，程序应该会返回响应的内容：</p>
 <blockquote>
 <p>Hello there, Ryan Mitchell!<br>然后保存cooike,请求签到按钮对应的url</p>
 </blockquote>
 <h3 id="跟踪cookies的两个方法"><a href="#跟踪cookies的两个方法" class="headerlink" title="跟踪cookies的两个方法"></a>跟踪cookies的两个方法</h3><p>直接从请求结果中获得</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">r &#x3D; requests.post(&quot;http:&#x2F;&#x2F;pythonscraping.com&#x2F;pages&#x2F;processing.php&quot;, data&#x3D;params)
-print(&#39;Cookie is set to:&#39;)
-print(r.cookies.get_dict())
-print(&#39;Going to profile page...&#39;)
-r &#x3D; requests.get(&#39;http:&#x2F;&#x2F;pythonscraping.com&#x2F;pages&#x2F;cookies&#x2F;profile.php&#39;,cookies&#x3D;r.cookies)
-#请求完成
-print(r.text)#打印一下返回的内容,看看是否签到成功<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">r = requests.post(<span class="string">&quot;http://pythonscraping.com/pages/processing.php&quot;</span>, data=params)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Cookie is set to:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(r.cookies.get_dict())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Going to profile page...&#x27;</span>)</span><br><span class="line">r = requests.get(<span class="string">&#x27;http://pythonscraping.com/pages/cookies/profile.php&#x27;</span>,cookies=r.cookies)</span><br><span class="line"><span class="comment">#请求完成</span></span><br><span class="line"><span class="built_in">print</span>(r.text)<span class="comment">#打印一下返回的内容,看看是否签到成功</span></span><br></pre></td></tr></table></figure>
 <p>通过requests.Session()获得<br>会话（session）对象（通过调用 requests.Session() 获取）会持续跟踪会话信息，包括 cookie、header，甚至是 HTTP 协议的信息，比如 HTTPAdapter（为 HTTP和 HTTPS 的链接会话提供统一接口）</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">session&#x3D;requests.Session()
-s &#x3D; session.post(&#39;http:&#x2F;&#x2F;pythonscraping.com&#x2F;pages&#x2F;cookies&#x2F;welcome.php&#39;, params)
-print(&#39;Cookie is set to:&#39;)
-print(s.cookies.get_dict())<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">session=requests.Session()</span><br><span class="line">s = session.post(<span class="string">&#x27;http://pythonscraping.com/pages/cookies/welcome.php&#x27;</span>, params)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Cookie is set to:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(s.cookies.get_dict())</span><br></pre></td></tr></table></figure>
 <h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>不管我怎么请求,都无法签到<br>后来发现签到请求的url也需要post提交表单</p>
 <h3 id="MutableMapping-from-collections"><a href="#MutableMapping-from-collections" class="headerlink" title="MutableMapping from collections"></a>MutableMapping from collections</h3><p>ImportError: cannot import name <code>MutableMapping</code>（<code>Iterable</code>）from collections<br>网上查寻资料说是python版本过高（我是最新的3.10.1，需要版本降级)<br>详细报错</p>
 
@@ -219,13 +216,11 @@ print(s.cookies.get_dict())<span aria-hidden="true" class="line-numbers-rows"><s
 <blockquote>
 <p>自 Python 3.10 開始，庫 collections 以下各項都停用了，其中就包含了 pygal._compat.py 中的 from collections import Iterator</p>
 </blockquote>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">[&quot;Awaitable&quot;, &quot;Coroutine&quot;, &quot;AsyncIterable&quot;, &quot;AsyncIterator&quot;, &quot;AsyncGenerator&quot;, &quot;Hashable&quot;,<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">&quot;Awaitable&quot;</span>, <span class="string">&quot;Coroutine&quot;</span>, <span class="string">&quot;AsyncIterable&quot;</span>, <span class="string">&quot;AsyncIterator&quot;</span>, <span class="string">&quot;AsyncGenerator&quot;</span>, <span class="string">&quot;Hashable&quot;</span>,</span><br></pre></td></tr></table></figure>
 <p><a href="">为什么改成.abc就好用了</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_47251596/article/details/124198903">参考文章</a></p>
 <h2 id="使用代理"><a href="#使用代理" class="headerlink" title="使用代理"></a>使用代理</h2><p>import os<br>os.environ[“http_proxy”] &#x3D; “<a target="_blank" rel="noopener" href="http://127.0.0.1:1231/">http://127.0.0.1:1231</a>“<br>os.environ[“https_proxy”] &#x3D; “<a target="_blank" rel="noopener" href="http://127.0.0.1:1231/">http://127.0.0.1:1231</a>“<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/whatday/article/details/112169945">参考文章</a><br>如果电脑开着代理,且没有加上面代码,会报错</p>
 <h2 id="设置定时任务"><a href="#设置定时任务" class="headerlink" title="设置定时任务"></a>设置定时任务</h2><p>使用的是apscheduler,下面这三行代码就可以了</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">sched &#x3D; BlockingScheduler()
-sched.add_job(main, &#39;cron&#39;, hour&#x3D;10, minute&#x3D;55)
-sched.start()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sched = BlockingScheduler()</span><br><span class="line">sched.add_job(main, <span class="string">&#x27;cron&#x27;</span>, hour=<span class="number">10</span>, minute=<span class="number">55</span>)</span><br><span class="line">sched.start()</span><br></pre></td></tr></table></figure>
 <p><a target="_blank" rel="noopener" href="https://huaweicloud.csdn.net/63802ef2dacf622b8df86279.html?spm=1001.2101.3001.6650.11&utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~activity-11-102600181-blog-124737291.pc_relevant_recovery_v2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~activity-11-102600181-blog-124737291.pc_relevant_recovery_v2&utm_relevant_index=17#5_apscheduler__186?login=from_csdn">参考文章</a></p>
 <h2 id="server酱通知"><a href="#server酱通知" class="headerlink" title="server酱通知"></a>server酱通知</h2><p>server酱API调用实例<br>最简单的调用方式，直接在浏览器中输入以下 URL：</p>
 <blockquote>
@@ -235,16 +230,7 @@ sched.start()<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://sctapi.ftqq.com/SCT90898T5nukNVW9mMKCGjtQxCN6Xs3K.send?title=messagetitle&desp=messagecontent">https://sctapi.ftqq.com/SCT90898T5nukNVW9mMKCGjtQxCN6Xs3K.send?title=messagetitle&amp;desp=messagecontent</a></p>
 </blockquote>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">def send_wechat(msg):
-    &quot;&quot;&quot;server酱推送&quot;&quot;&quot;
-    #token &#x3D; &#39; XXXXXXXXXXXXXXXXXX&#39; #前边复制到那个token
-    key&#x3D;&quot;SCT90898T5nukNVW9mMKCGjtQxCN6Xs3K&quot;
-    messagetitle &#x3D; &#39;标题&#39;
-    messagecontent &#x3D; 想要的内容
-    url &#x3D; f&quot;https:&#x2F;&#x2F;sctapi.ftqq.com&#x2F;&#123;key&#125;.send?title&#x3D;&#123;messagetitle&#125;&amp;desp&#x3D;&#123;messagecontent&#125;&quot;
-    #print(url)
-    r &#x3D; requests.get(url&#x3D;url)
-    #print(r.text)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">send_wechat</span>(<span class="params">msg</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;server酱推送&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment">#token = &#x27; XXXXXXXXXXXXXXXXXX&#x27; #前边复制到那个token</span></span><br><span class="line">    key=<span class="string">&quot;SCT90898T5nukNVW9mMKCGjtQxCN6Xs3K&quot;</span></span><br><span class="line">    messagetitle = <span class="string">&#x27;标题&#x27;</span></span><br><span class="line">    messagecontent = 想要的内容</span><br><span class="line">    url = <span class="string">f&quot;https://sctapi.ftqq.com/<span class="subst">&#123;key&#125;</span>.send?title=<span class="subst">&#123;messagetitle&#125;</span>&amp;desp=<span class="subst">&#123;messagecontent&#125;</span>&quot;</span></span><br><span class="line">    <span class="comment">#print(url)</span></span><br><span class="line">    r = requests.get(url=url)</span><br><span class="line">    <span class="comment">#print(r.text)</span></span><br></pre></td></tr></table></figure>
 <h2 id="微信企业号通知"><a href="#微信企业号通知" class="headerlink" title="微信企业号通知"></a>微信企业号通知</h2><p>待完成…….</p>
 <h2 id="部署到服务器上"><a href="#部署到服务器上" class="headerlink" title="部署到服务器上"></a>部署到服务器上</h2><p>screen挂后台</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_46497373/article/details/119873630?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3-119873630-blog-119858120.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3-119873630-blog-119858120.pc_relevant_default&utm_relevant_index=4">整体代码参考</a></p>
@@ -291,9 +277,9 @@ sched.start()<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -302,6 +288,7 @@ sched.start()<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -331,7 +318,7 @@ sched.start()<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -343,14 +330,14 @@ sched.start()<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">linux环境下编译</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          540
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -190,12 +203,11 @@
 <img src="/2025/06/16/168-linux-huan-jing-xia-bian-yi/1750128388524.png" class="" width="1750128388524">
 
 <p><strong>测试</strong></p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ping 192.168.208.1
-curl -x http:&#x2F;&#x2F;192.168.208.1:10808 http:&#x2F;&#x2F;www.google.com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ping 192.168.208.1</span><br><span class="line">curl -x http://192.168.208.1:10808 http://www.google.com</span><br></pre></td></tr></table></figure>
 
 <p>一把这个时候<code>curl</code>可以成功,ping如果不通关闭防火墙试一下</p>
 <h1 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h1><p>由于 Ubuntu 24.04 LTS 的新版「应用中心」不再支持 DEB 安装包，我们需要先安装 GDebi 工具来解决 DEB 的安装问题。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo apt install gdebi<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install gdebi</span><br></pre></td></tr></table></figure>
 
 <p>下载好.deb格式的安装包后,右键<code>GDebi 软件包安装程序</code>打开</p>
 <h1 id="浏览器配置代理"><a href="#浏览器配置代理" class="headerlink" title="浏览器配置代理"></a>浏览器配置代理</h1><h2 id="Edge"><a href="#Edge" class="headerlink" title="Edge"></a>Edge</h2><p>edge 走得是系统代理，直接设系统代理就行。如果你想单独给 edge 设置代理要装插件实现</p>
@@ -204,39 +216,28 @@ curl -x http:&#x2F;&#x2F;192.168.208.1:10808 http:&#x2F;&#x2F;www.google.com<spa
 
 <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="无法上网"><a href="#无法上网" class="headerlink" title="无法上网"></a>无法上网</h2><p><strong>NetworkManager 的全局网络状态被禁用了</strong></p>
 <p><code>/var/lib/NetworkManager/NetworkManager.state</code> </p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">[main]
-NetworkingEnabled&#x3D;false<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[main]</span><br><span class="line">NetworkingEnabled=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Error: Connection activation failed: No suitable device found for this connection (device lo not available because device is strictly unmanaged).
-
-manager: Networking is disabled by state file<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Error: Connection activation failed: No suitable device found <span class="keyword">for</span> this connection (device lo not available because device is strictly unmanaged).</span><br><span class="line"></span><br><span class="line">manager: Networking is disabled by state file</span><br></pre></td></tr></table></figure>
 
 <p>解决方法：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmcli networking on
-
-nmcli connection up ens33-conn
-
-nmcli device status<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nmcli networking on</span><br><span class="line"></span><br><span class="line">nmcli connection up ens33-conn</span><br><span class="line"></span><br><span class="line">nmcli device status</span><br></pre></td></tr></table></figure>
 
 
 <h2 id="无法使用主机代理"><a href="#无法使用主机代理" class="headerlink" title="无法使用主机代理"></a>无法使用主机代理</h2><p>1.<strong>公共网络的防火墙需要关闭</strong></p>
 <p>检查 v2ray 是否监听 0.0.0.0（支持局域网访问）</p>
 <p>打开 v2rayN → 设置 → 代理端口 → 确保监听地址为：</p>
-<pre class="line-numbers language-none"><code class="language-none">0.0.0.0:10808<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.0.0.0:10808</span><br></pre></td></tr></table></figure>
 
 <p>不要是 <code>127.0.0.1:10808</code>（仅限本机）</p>
 <p>你也可以在主机上执行（CMD）：</p>
-<pre class="line-numbers language-none"><code class="language-none">netstat -an | findstr 10808<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -an | findstr 10808</span><br></pre></td></tr></table></figure>
 
 <p>应该能看到：</p>
-<pre class="line-numbers language-none"><code class="language-none">TCP    0.0.0.0:10808       LISTENING<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TCP    0.0.0.0:10808       LISTENING</span><br></pre></td></tr></table></figure>
 
 <h3 id="添加规则放行-VMware-和-ping"><a href="#添加规则放行-VMware-和-ping" class="headerlink" title="添加规则放行 VMware 和 ping"></a>添加规则放行 VMware 和 ping</h3><p>如果你不希望关闭防火墙，可以用管理员 PowerShell 添加规则：</p>
-<pre class="line-numbers language-none"><code class="language-none"># 放行 v2ray 端口
-New-NetFirewallRule -DisplayName &quot;Allow v2ray 10808&quot; -Direction Inbound -Protocol TCP -LocalPort 10808 -Action Allow -InterfaceAlias &quot;VMware Network Adapter VMnet8&quot;
-
-# 放行 ping（ICMPv4）
-New-NetFirewallRule -DisplayName &quot;Allow ICMPv4 ping from VM&quot; -Protocol ICMPv4 -IcmpType 8 -Direction Inbound -Action Allow -InterfaceAlias &quot;VMware Network Adapter VMnet8&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 放行 v2ray 端口</span><br><span class="line">New-NetFirewallRule -DisplayName &quot;Allow v2ray 10808&quot; -Direction Inbound -Protocol TCP -LocalPort 10808 -Action Allow -InterfaceAlias &quot;VMware Network Adapter VMnet8&quot;</span><br><span class="line"></span><br><span class="line"># 放行 ping（ICMPv4）</span><br><span class="line">New-NetFirewallRule -DisplayName &quot;Allow ICMPv4 ping from VM&quot; -Protocol ICMPv4 -IcmpType 8 -Direction Inbound -Action Allow -InterfaceAlias &quot;VMware Network Adapter VMnet8&quot;</span><br></pre></td></tr></table></figure>
 
 <p>运行完之后，<strong>重新测试 ping 和 curl</strong>。</p>
 <p>2.<strong>在虚拟机中的本机ip段需要对应</strong></p>
@@ -283,9 +284,9 @@ New-NetFirewallRule -DisplayName &quot;Allow ICMPv4 ping from VM&quot; -Protocol
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -294,6 +295,7 @@ New-NetFirewallRule -DisplayName &quot;Allow ICMPv4 ping from VM&quot; -Protocol
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -323,7 +325,7 @@ New-NetFirewallRule -DisplayName &quot;Allow ICMPv4 ping from VM&quot; -Protocol
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -335,14 +337,14 @@ New-NetFirewallRule -DisplayName &quot;Allow ICMPv4 ping from VM&quot; -Protocol
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

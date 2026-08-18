@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">STM32通信接口</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          968
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -201,14 +214,7 @@
 <p>● 数据已经从TDR移送到移位寄存器，数据发送已经开始</p>
 <p>● TDR寄存器被清空</p>
 <p>● 下一个数据可以被写进USART_DR寄存器而不会覆盖先前的数据</p>
-<h3 id="发送字符串"><a href="#发送字符串" class="headerlink" title="发送字符串"></a>发送字符串</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;*发送字符串函数*&#x2F;
-void Serial_SendString(char *string)
-&#123;
-  for(uint16_t i&#x3D;0;string[i]!&#x3D;&#39;\0&#39;;i++)                   &#x2F;&#x2F;C语言中字符串最后一位为&#39;\0&#39;
-  &#123;
-    Serial_SendByte(string[i]);
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="发送字符串"><a href="#发送字符串" class="headerlink" title="发送字符串"></a>发送字符串</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*发送字符串函数*/</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Serial_SendString</span><span class="params">(<span class="type">char</span> *<span class="built_in">string</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">uint16_t</span> i=<span class="number">0</span>;<span class="built_in">string</span>[i]!=<span class="string">&#x27;\0&#x27;</span>;i++)                   <span class="comment">//C语言中字符串最后一位为&#x27;\0&#x27;</span></span><br><span class="line">  &#123;</span><br><span class="line">    Serial_SendByte(<span class="built_in">string</span>[i]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p> 这是一个循环，它会持续检查当前字符是否是字符串的终结符（即空字符 <code>&#39;\0&#39;</code>）。</p>
 <p> 在 C 语言中，<strong>所有的字符串都以空字符结束</strong>，这个循环利用这一点来判断何时停止发送。</p>
@@ -231,41 +237,20 @@ void Serial_SendString(char *string)
 <p>问题1</p>
 <p>oled显示屏后面有乱码</p>
 <p>解决: 代码的逻辑问题, 这段代码,会将\r写入发送的数据包,所以OLED会乱码</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">else if(RxState&#x3D;&#x3D;1)
-  &#123;
-    Serial_RxPacket[pRxPacket]&#x3D;RxData;        
-    pRxPacket++;  
-    if(RxData&#x3D;&#x3D;&#39;\r&#39;)
-    &#123;
-      RxState&#x3D;2;
-     &#125;
-   &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> <span class="keyword">if</span>(RxState==<span class="number">1</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    Serial_RxPacket[pRxPacket]=RxData;        </span><br><span class="line">    pRxPacket++;  </span><br><span class="line">    <span class="keyword">if</span>(RxData==<span class="string">&#x27;\r&#x27;</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      RxState=<span class="number">2</span>;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">&#x2F;&#x2F;修改逻辑后, 只能返回一次收到的数据
-Serial_SendString((char *)Serial_RxPacket); <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//修改逻辑后, 只能返回一次收到的数据</span></span><br><span class="line">Serial_SendString((<span class="type">char</span> *)Serial_RxPacket); </span><br></pre></td></tr></table></figure>
 
 <h3 id="未解决"><a href="#未解决" class="headerlink" title="未解决"></a>未解决</h3><p>问题2</p>
 <p>串口发回数据包会影响主循环的oled显示,且数据只能发回一次,但是如果是@11可以一直返回,@111长度以后就不可以了,应该是溢出卡死了</p>
 <p>但不是<strong>数组溢出</strong>因为我增大了数组值,也没有改变</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">Serial_RxFlag &#x3D; 1;
-Serial_SendString((char *)Serial_RxPacket); <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Serial_RxFlag = <span class="number">1</span>;</span><br><span class="line">Serial_SendString((<span class="type">char</span> *)Serial_RxPacket); </span><br></pre></td></tr></table></figure>
 
 <h2 id="格式问题"><a href="#格式问题" class="headerlink" title="格式问题"></a>格式问题</h2><p>如何发送字符串</p>
 <p>发送数字</p>
 <p>解析字符串</p>
 <p>发送一帧数据</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">snprintf：将四个整型数据转换为字符串并格式化为&lt;data1,data2,data3,data4&gt;的形式。
-Serial_SendString：逐字符发送构造好的数据帧字符串。
-发送函数说明
-c
-复制代码
-void Send_Monitor_Data(int data1, int data2, int data3, int data4)
-&#123;
-    snprintf(Serial_TxPacket, sizeof(Serial_TxPacket), &quot;&lt;%d,%d,%d,%d&gt;&quot;, data1, data2, data3, data4);
-    Serial_SendString(Serial_TxPacket);
-&#125;
-snprintf：将整数数据格式化为字符串，并存储在Serial_TxPacket中。确保构造的字符串符合&lt;1,2,3,4&gt;的格式。
-Serial_SendString：发送格式化好的字符串。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">snprintf</span>：将四个整型数据转换为字符串并格式化为&lt;data1,data2,data3,data4&gt;的形式。</span><br><span class="line">Serial_SendString：逐字符发送构造好的数据帧字符串。</span><br><span class="line">发送函数说明</span><br><span class="line">c</span><br><span class="line">复制代码</span><br><span class="line"><span class="type">void</span> <span class="title function_">Send_Monitor_Data</span><span class="params">(<span class="type">int</span> data1, <span class="type">int</span> data2, <span class="type">int</span> data3, <span class="type">int</span> data4)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">snprintf</span>(Serial_TxPacket, <span class="keyword">sizeof</span>(Serial_TxPacket), <span class="string">&quot;&lt;%d,%d,%d,%d&gt;&quot;</span>, data1, data2, data3, data4);</span><br><span class="line">    Serial_SendString(Serial_TxPacket);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">snprintf</span>：将整数数据格式化为字符串，并存储在Serial_TxPacket中。确保构造的字符串符合&lt;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&gt;的格式。</span><br><span class="line">Serial_SendString：发送格式化好的字符串。</span><br></pre></td></tr></table></figure>
 
 
       </div>
@@ -309,9 +294,9 @@ Serial_SendString：发送格式化好的字符串。<span aria-hidden="true" cl
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -320,6 +305,7 @@ Serial_SendString：发送格式化好的字符串。<span aria-hidden="true" cl
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -349,7 +335,7 @@ Serial_SendString：发送格式化好的字符串。<span aria-hidden="true" cl
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -361,14 +347,14 @@ Serial_SendString：发送格式化好的字符串。<span aria-hidden="true" cl
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

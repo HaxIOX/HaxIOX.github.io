@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">在VPS上部署NeZha探针</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          681
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -199,10 +212,10 @@
 </ol>
 <h2 id="面板端"><a href="#面板端" class="headerlink" title="面板端"></a>面板端</h2><ol>
 <li><p>官方安装脚本</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">curl -L https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;naiba&#x2F;nezha&#x2F;master&#x2F;script&#x2F;install.sh  -o nezha.sh &amp;&amp; chmod +x nezha.sh &amp;&amp; sudo .&#x2F;nezha.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://raw.githubusercontent.com/naiba/nezha/master/script/install.sh  -o nezha.sh &amp;&amp; <span class="built_in">chmod</span> +x nezha.sh &amp;&amp; <span class="built_in">sudo</span> ./nezha.sh</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>境内服务器使用：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">curl -L https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;naiba&#x2F;nezha@master&#x2F;script&#x2F;install.sh -o nezha.sh &amp;&amp; chmod +x nezha.sh &amp;&amp; sudo CN&#x3D;true .&#x2F;nezha.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://cdn.jsdelivr.net/gh/naiba/nezha@master/script/install.sh -o nezha.sh &amp;&amp; <span class="built_in">chmod</span> +x nezha.sh &amp;&amp; <span class="built_in">sudo</span> CN=<span class="literal">true</span> ./nezha.sh</span><br></pre></td></tr></table></figure>
 
 <p>访问面板<code>http://a.com:8008</code>或者<code>ip:8008</code>检查是否安装成功</p>
 <h3 id="❗注意"><a href="#❗注意" class="headerlink" title="❗注意:"></a>❗注意:</h3><p>若服务器搭建了其它网站需要配置<code>nginx反向代理</code>,<strong>否则会跳转至你的服务器的其他网站</strong></p>
@@ -210,33 +223,13 @@
 <blockquote>
 <p>vim &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;nezha.conf</p>
 </blockquote>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#PROXY-START&#x2F;
-server &#123;
-    listen 80;
-    server_name vps.isgeek.eu.org;
-
-    location &#x2F; &#123;
-        proxy_pass http:&#x2F;&#x2F;127.0.0.1:8000;
-        proxy_set_header Host $http_host;
-        proxy_set_header Upgrade $http_upgrade;
-    &#125;
-
-    location ~ ^&#x2F;(ws|terminal&#x2F;.+)$ &#123;
-        proxy_pass http:&#x2F;&#x2F;127.0.0.1:8000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection &quot;Upgrade&quot;;
-        proxy_set_header Host $http_host;
-    &#125;
-&#125;
-
-#PROXY-END&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#PROXY-START/</span></span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name vps.isgeek.eu.org;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:8000;</span><br><span class="line">        proxy_set_header Host <span class="variable">$http_host</span>;</span><br><span class="line">        proxy_set_header Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~ ^/(ws|terminal/.+)$ &#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:8000;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade <span class="variable">$http_upgrade</span>;</span><br><span class="line">        proxy_set_header Connection <span class="string">&quot;Upgrade&quot;</span>;</span><br><span class="line">        proxy_set_header Host <span class="variable">$http_host</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#PROXY-END/</span></span><br></pre></td></tr></table></figure>
 
 <p>2.<strong>启用配置文件</strong>：在 <code>/etc/nginx/sites-enabled/</code> 目录中创建符号链接，将配置文件链接到 <code>sites-available</code> 中。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo ln -s &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;nezha.conf &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">ln</span> -s /etc/nginx/sites-available/nezha.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure>
 
 <p>3.<strong>重新加载 Nginx</strong>：重新加载 Nginx，使配置生效。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sudo systemctl reload nginx<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl reload nginx</span><br></pre></td></tr></table></figure>
 
 <p>访问面板<code>http://a.com:8008</code>或者<code>ip:8008</code>检查是否成功</p>
 </li>
@@ -247,7 +240,7 @@ server &#123;
 <li><p>点击右上角登录，使用Github账户登录，进入后台</p>
 <p>准备<strong>另一个</strong>绑定面板端ip的域名(<code>注意不能开小黄云代理</code>),或者直接绑定原面板端的域名也可以, 去<strong>设置</strong>添加<strong>未接入cdn的面板服务器域名&#x2F;ip</strong>, 保存(比较麻烦的一点就是,需要一个域名一台机器)</p>
 <p>先点击<strong>新增服务器</strong>，设置好信息，<strong>新增</strong>, 然后点击绿色小企鹅，复制一键安装客户端命令，在客户机上粘贴执行即可<br>命令格式为：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">curl -L https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;naiba&#x2F;nezha&#x2F;master&#x2F;script&#x2F;install.sh -o nezha.sh &amp;&amp; chmod +x nezha.sh &amp;&amp; sudo .&#x2F;nezha.sh install_agent b.com 5555 [密钥]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://raw.githubusercontent.com/naiba/nezha/master/script/install.sh -o nezha.sh &amp;&amp; <span class="built_in">chmod</span> +x nezha.sh &amp;&amp; <span class="built_in">sudo</span> ./nezha.sh install_agent b.com 5555 [密钥]</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>一切顺利的话，在面板首页即可看到客户端上线了</p>
 </li>
@@ -302,9 +295,9 @@ server &#123;
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -313,6 +306,7 @@ server &#123;
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -342,7 +336,7 @@ server &#123;
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -354,14 +348,14 @@ server &#123;
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

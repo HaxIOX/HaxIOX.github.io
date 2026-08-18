@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">Warp</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          271
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -179,32 +192,16 @@
       <div class="markdown-body">
         <h1 id="warp"><a href="#warp" class="headerlink" title="warp"></a>warp</h1><p><a target="_blank" rel="noopener" href="https://p3terx.com/go/aHR0cHM6Ly8xLjEuMS4xLw">Cloudflare WARP</a> (简称 WARP) 是 Cloud­flare 提供的一项基于 Wire­Guard 的网络流量安全及加速服务</p>
 <p>##LXC使用教程</p>
-<h2 id="安装Warp："><a href="#安装Warp：" class="headerlink" title="安装Warp："></a>安装Warp：</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">apk update
-apk upgrade
-apk add sudo bash curl wget vim tar unzip
-apk add curl &amp;&amp; apk add bash &amp;&amp; apk add wget<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="安装Warp："><a href="#安装Warp：" class="headerlink" title="安装Warp："></a>安装Warp：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apk update</span><br><span class="line">apk upgrade</span><br><span class="line">apk add <span class="built_in">sudo</span> bash curl wget vim tar unzip</span><br><span class="line">apk add curl &amp;&amp; apk add bash &amp;&amp; apk add wget</span><br></pre></td></tr></table></figure>
 
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">wget -N https:&#x2F;&#x2F;gitlab.com&#x2F;fscarmen&#x2F;warp&#x2F;-&#x2F;raw&#x2F;main&#x2F;menu.sh &amp;&amp; bash menu.sh 4<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -N https://gitlab.com/fscarmen/warp/-/raw/main/menu.sh &amp;&amp; bash menu.sh 4</span><br></pre></td></tr></table></figure>
 
 <p>如果第一次没有获取到ip,则使用<code>warp u</code>卸载然后重装,一般第二次就可以了</p>
 <h2 id="哪吒面板："><a href="#哪吒面板：" class="headerlink" title="哪吒面板："></a>哪吒面板：</h2><p>apk add bash curl (把community源前的#删了)<br>使用哪吒后台一键安装命令，去掉sudu</p>
-<h2 id="常用脚本"><a href="#常用脚本" class="headerlink" title="常用脚本"></a>常用脚本</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">## 某某UI：
-apk add curl&amp;&amp;apk add bash &amp;&amp; bash &lt;(curl -Ls https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Lynn-Becky&#x2F;Alpine-x-ui&#x2F;main&#x2F;alpine-xui.sh)
-
-## 某R：
-apk add wget sudo curl &amp;&amp; wget -N https:&#x2F;&#x2F;github.com&#x2F;Cd1s&#x2F;alpineXrayR&#x2F;releases&#x2F;download&#x2F;one-click&#x2F;install-xrayr.sh &amp;&amp; chmod +x install-xrayr.sh &amp;&amp; bash install-xrayr.sh
-
-##ArgoX：
-bash &lt;(wget -qO- https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;fscarmen&#x2F;argox&#x2F;main&#x2F;argox.sh)
-
-##某BOX：
-bash &lt;(wget -qO- https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;fscarmen&#x2F;sing-box&#x2F;main&#x2F;sing-box.sh)
-
-## Alpine 软件管理：
-rc-service 软件名 restart<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="常用脚本"><a href="#常用脚本" class="headerlink" title="常用脚本"></a>常用脚本</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 某某UI：</span></span><br><span class="line">apk add curl&amp;&amp;apk add bash &amp;&amp; bash &lt;(curl -Ls https://raw.githubusercontent.com/Lynn-Becky/Alpine-x-ui/main/alpine-xui.sh)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 某R：</span></span><br><span class="line">apk add wget <span class="built_in">sudo</span> curl &amp;&amp; wget -N https://github.com/Cd1s/alpineXrayR/releases/download/one-click/install-xrayr.sh &amp;&amp; <span class="built_in">chmod</span> +x install-xrayr.sh &amp;&amp; bash install-xrayr.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">##ArgoX：</span></span><br><span class="line">bash &lt;(wget -qO- https://raw.githubusercontent.com/fscarmen/argox/main/argox.sh)</span><br><span class="line"></span><br><span class="line"><span class="comment">##某BOX：</span></span><br><span class="line">bash &lt;(wget -qO- https://raw.githubusercontent.com/fscarmen/sing-box/main/sing-box.sh)</span><br><span class="line"></span><br><span class="line"><span class="comment">## Alpine 软件管理：</span></span><br><span class="line">rc-service 软件名 restart</span><br></pre></td></tr></table></figure>
 
 <p>x-ui</p>
-<pre class="line-numbers language-none"><code class="language-none">bash &lt;(curl -Ls https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ozersource&#x2F;x-ui-alpine&#x2F;main&#x2F;x-ui<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash &lt;(curl -Ls https://raw.githubusercontent.com/ozersource/x-ui-alpine/main/x-ui</span><br></pre></td></tr></table></figure>
 
 
 
@@ -250,9 +247,9 @@ rc-service 软件名 restart<span aria-hidden="true" class="line-numbers-rows"><
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -261,6 +258,7 @@ rc-service 软件名 restart<span aria-hidden="true" class="line-numbers-rows"><
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -290,7 +288,7 @@ rc-service 软件名 restart<span aria-hidden="true" class="line-numbers-rows"><
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -302,14 +300,14 @@ rc-service 软件名 restart<span aria-hidden="true" class="line-numbers-rows"><
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

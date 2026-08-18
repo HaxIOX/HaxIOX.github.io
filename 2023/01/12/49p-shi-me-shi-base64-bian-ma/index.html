@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">base64编码</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          875
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -190,51 +203,34 @@
 
 <h2 id="转换演示”AbC”"><a href="#转换演示”AbC”" class="headerlink" title="转换演示”AbC”"></a>转换演示”AbC”</h2><p>十进制:”Abc”:65,98,99<br>二进制:0100 0001,0110 0010, 0110 0011<br>Base64:0100 00,0101 10,0010 01,1000 11<br>补0变成八位:<code>00</code>0100 00,<code>00</code>0101 10,<code>00</code>0010 01,<code>00</code>1000 11<br>Base64:16,22,9,67  查Base64编码表获得<code>QWJj</code><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/JGYBZX_G/article/details/125636691">Base64编码步骤</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/doublepg13/article/details/128383734?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-2-128383734-blog-127026213.pc_relevant_multi_platform_whitelistv3&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-2-128383734-blog-127026213.pc_relevant_multi_platform_whitelistv3&utm_relevant_index=5">Base64编码剖析</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/libin-1/p/6165485.html">Base64编码原理分析</a></p>
 <h2 id="Base64的应用"><a href="#Base64的应用" class="headerlink" title="Base64的应用"></a>Base64的应用</h2><p>因为Base64码是将二进制转换为可打印的字符,所以我们要先将ASCII码转变成二进制数据<br>我这里是调用api时传入的url需要用base64转换</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">import base64
-print(base64.b64encode(b&#39;binary\x00string&#39;))
-print(base64.b64decode(&#39;YmluYXJ5AHN0cmluZw&#x3D;&#x3D;&#39;))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="built_in">print</span>(base64.b64encode(<span class="string">b&#x27;binary\x00string&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(base64.b64decode(<span class="string">&#x27;YmluYXJ5AHN0cmluZw==&#x27;</span>))</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p><code>&gt;&gt;&gt;</code>b’YmluYXJ5AHN0cmluZw&#x3D;&#x3D;’<br> <code>&gt;&gt;&gt;</code>b’binary\x00string’<br>这个b应该是用来区分base64编码和字符串吧，所以如果想单纯的使用base64编码需要把多余的字符去掉</p>
 </blockquote>
-<h3 id="decode为utf-8编码"><a href="#decode为utf-8编码" class="headerlink" title="decode为utf-8编码"></a>decode为utf-8编码</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">a&#x3D;&#39;AbC&#39;.encode()
-a &#x3D;a.decode(&#39;utf-8&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<h3 id="str转化为utf-8编码"><a href="#str转化为utf-8编码" class="headerlink" title="str转化为utf-8编码"></a>str转化为utf-8编码</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python">a&#x3D;&#39;AbC&#39;.encode()
-a &#x3D;str(a,&#39;utf-8&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="decode为utf-8编码"><a href="#decode为utf-8编码" class="headerlink" title="decode为utf-8编码"></a>decode为utf-8编码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="string">&#x27;AbC&#x27;</span>.encode()</span><br><span class="line">a =a.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="str转化为utf-8编码"><a href="#str转化为utf-8编码" class="headerlink" title="str转化为utf-8编码"></a>str转化为utf-8编码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="string">&#x27;AbC&#x27;</span>.encode()</span><br><span class="line">a =<span class="built_in">str</span>(a,<span class="string">&#x27;utf-8&#x27;</span>)</span><br></pre></td></tr></table></figure>
 <p><a target="_blank" rel="noopener" href="http://t.zoukankan.com/annatest-p-14758317.html">参考文章</a></p>
 <h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><h3 id="字符型转换为字节型-str转换byte"><a href="#字符型转换为字节型-str转换byte" class="headerlink" title="字符型转换为字节型,str转换byte"></a>字符型转换为字节型,str转换byte</h3><blockquote>
 <p>str.encode(“utf-8”)<br>b”str”</p>
 </blockquote>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">a&#x3D;b&quot;uuudiy.com&quot;
-a &#x3D; base64.b64encode(a)
-print(a)
-&gt;&#96;&gt;&gt;&gt;&#96;b&#39;dXV1ZGl5LmNvbQ&#x3D;&#x3D;&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">a&#x3D;base64.b64decode(a)
-a &#x3D; str(a, &#39;utf-8&#39;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="string">b&quot;uuudiy.com&quot;</span></span><br><span class="line">a = base64.b64encode(a)</span><br><span class="line"><span class="built_in">print</span>(a)</span><br><span class="line">&gt;`&gt;&gt;&gt;`<span class="string">b&#x27;dXV1ZGl5LmNvbQ==&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a=base64.b64decode(a)</span><br><span class="line">a = <span class="built_in">str</span>(a, <span class="string">&#x27;utf-8&#x27;</span>)</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p><code>&gt;&gt;&gt;</code>dXV1ZGl5LmNvbQ&#x3D;&#x3D;</p>
 </blockquote>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lotus_2015/article/details/104637938?spm=1001.2101.3001.6650.6&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-6-104637938-blog-126154421.pc_relevant_3mothn_strategy_recovery&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-6-104637938-blog-126154421.pc_relevant_3mothn_strategy_recovery&utm_relevant_index=13">Base64和Base64URL加解密</a></p>
 <h2 id="类型转换-1"><a href="#类型转换-1" class="headerlink" title="类型转换"></a>类型转换</h2><p>首先是<code>.encode()</code></p>
 <p>将字符串转为二进制</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">a&#x3D;&quot;uuudiy.com&quot;
-print(a.encode())
-&gt;&gt;&gt;b&#39;uuudiy.com&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="string">&quot;uuudiy.com&quot;</span></span><br><span class="line"><span class="built_in">print</span>(a.encode())</span><br><span class="line">&gt;&gt;&gt;<span class="string">b&#x27;uuudiy.com&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p><code>.decode()</code>将二进制数据转换为字符(按照指定的字符集（例如UTF-8）解码成字符串)</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">#b&#x3D;b.decode(&#39;utf-8&#39;) 
-#b &#x3D; str(b,&#39;utf-8&#39;)
-print(b)
-&gt;&gt;&gt;uuudiy.com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#b=b.decode(&#x27;utf-8&#x27;) </span></span><br><span class="line"><span class="comment">#b = str(b,&#x27;utf-8&#x27;)</span></span><br><span class="line"><span class="built_in">print</span>(b)</span><br><span class="line">&gt;&gt;&gt;uuudiy.com</span><br></pre></td></tr></table></figure>
 
 <h3 id="base64库"><a href="#base64库" class="headerlink" title="base64库"></a>base64库</h3><p>base64是将<code>二进制数据</code>按照(base64字符集)转换为<code>字符串</code></p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">import base64
-a&#x3D;&quot;uuudiy.com&quot;
-print(base64.b64encode(a.encode()))
-
-&gt;&gt;&gt;b&#39;dXV1ZGl5LmNvbQ&#x3D;&#x3D;&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">a=<span class="string">&quot;uuudiy.com&quot;</span></span><br><span class="line"><span class="built_in">print</span>(base64.b64encode(a.encode()))</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;<span class="string">b&#x27;dXV1ZGl5LmNvbQ==&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>返回的结果是二进制数据所以要加<code>.decode()</code></p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">&gt;&gt;&gt;dXV1ZGl5LmNvbQ&#x3D;&#x3D;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;dXV1ZGl5LmNvbQ==</span><br></pre></td></tr></table></figure>
 
 
 
@@ -280,9 +276,9 @@ print(base64.b64encode(a.encode()))
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -291,6 +287,7 @@ print(base64.b64encode(a.encode()))
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -320,7 +317,7 @@ print(base64.b64encode(a.encode()))
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -332,14 +329,14 @@ print(base64.b64encode(a.encode()))
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

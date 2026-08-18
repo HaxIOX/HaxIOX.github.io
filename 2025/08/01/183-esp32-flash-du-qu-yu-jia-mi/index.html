@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">ESP32_Flash读取与加密</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1118
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-30 17:38:01
@@ -178,21 +191,21 @@
       </div>
       <div class="markdown-body">
         <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>偶然发现ESP官方的<a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esptool/en/latest/esp32/installation.html">esptools</a>竟然可以直接读取固件</p>
-<h1 id="安装esptool"><a href="#安装esptool" class="headerlink" title="安装esptool"></a>安装esptool</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pip install esptool<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h1 id="安装esptool"><a href="#安装esptool" class="headerlink" title="安装esptool"></a>安装esptool</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install esptool</span><br></pre></td></tr></table></figure>
 
 <h2 id="read-flash"><a href="#read-flash" class="headerlink" title="read flash"></a><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esptool/en/release-v4/esp32s3/esptool/basic-commands.html#read-flash-contents-read-flash">read flash</a></h2><p>ead-flash 命令允许读回闪存的内容。该命令的参数是地址、大小和要输出到的文件路径。例如，要读取完整的 2MB 连接闪存：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">esptool -p COM18 -b 460800 read_flash 0 0x200000 flash_contents.bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esptool -p COM18 -b 460800 read_flash 0 0x200000 flash_contents.bin</span><br></pre></td></tr></table></figure>
 
 <p>使用<code>all</code>自动检测flash尺寸</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">esptool -p PORT -b 460800 read-flash 0 ALL flash_contents.bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esptool -p PORT -b 460800 read-flash 0 ALL flash_contents.bin</span><br></pre></td></tr></table></figure>
 
 <p>windows环境下安装<code>esptool</code>后，会在Script生成esptool.exe文件,所以使用<code>esptool</code>或者<code>python -m esptool</code>执行命令,linux或者macos使用<code>esptool.py</code></p>
 <h2 id="write-flash"><a href="#write-flash" class="headerlink" title="write-flash"></a><a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esptool/en/release-v4/esp32s3/esptool/basic-commands.html#write-binary-data-to-flash-write-flash">write-flash</a></h2><p>二进制数据可以通过串行命令写入 ESP 的闪存芯片：<code>write-flash</code></p>
 <p>烧录完整固件</p>
-<pre class="line-numbers language-none"><code class="language-none">esptool --port COM18 --baud 460800 write_flash 0x00000 flash_contents.bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esptool --port COM18 --baud 460800 write_flash 0x00000 flash_contents.bin</span><br></pre></td></tr></table></figure>
 
 <p>可以在同一命令行上给出多个闪存地址和文件名：</p>
-<pre class="line-numbers language-none"><code class="language-none">esptool --port COM18 write-flash 0x00000 my_app.elf-0x00000.bin 0x40000 my_app.elf-0x40000.bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esptool --port COM18 write-flash 0x00000 my_app.elf-0x00000.bin 0x40000 my_app.elf-0x40000.bin</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>esptool可以实现读取指定地址指定长度的数据,同样也可以写入</p>
@@ -200,17 +213,17 @@
 <p><code>esptool</code> 的 <code>read-flash</code>（CLI 中写作 <code>read_flash</code>）命令就是按你指定的偏移和长度去读取 Flash 的任意区域——也就意味着只要你知道某个分区在 Flash 上的起始地址和大小，就能<strong>只读出</strong>那一段数据，而不会影响其它分区。</p>
 <ul>
 <li><p><strong>命令形式</strong>：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">esptool --port PORT --baud BAUD read_flash &lt;address&gt; &lt;size&gt; &lt;outfile&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esptool --port PORT --baud BAUD read_flash &lt;address&gt; &lt;size&gt; &lt;outfile&gt;</span><br></pre></td></tr></table></figure>
 
 <p>其中 <code>&lt;address&gt;</code> 是起始偏移，<code>&lt;size&gt;</code> 是要读出的字节数（可以用十六进制、后缀 k&#x2F;M，或用 <code>ALL</code> 来自动探测整片 Flash）[</p>
 </li>
 <li><p><strong>示例：只读 Bootloader（位于 0x1000）</strong><br> 假设你编译的 bootloader.bin 是 0x8000 字节（32 KB），那么：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">esptool --port COM18 --baud 460800 read_flash 0x1000 0x8000 bootloader.bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esptool --port COM18 --baud 460800 read_flash 0x1000 0x8000 bootloader.bin</span><br></pre></td></tr></table></figure>
 
 <p>这样仅会把从偏移 <code>0x1000</code> 开始、长度为 <code>0x8000</code> 的那部分数据导出到 <code>bootloader.bin</code>。</p>
 </li>
 <li><p><strong>示例：只读分区表（位于 0x8000，默认长度 0xC00）</strong><br> ESP-IDF 默认把分区表编译为 0xC00（3072 B），放在 Flash 偏移 <code>0x8000</code>：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">esptool --port COM18 --baud 460800 read_flash 0x8000 0xC00 partition-table.bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esptool --port COM18 --baud 460800 read_flash 0x8000 0xC00 partition-table.bin</span><br></pre></td></tr></table></figure>
 
 <p>这样就只会导出分区表，不会碰到应用固件或文件系统区域。</p>
 </li>
@@ -239,30 +252,14 @@
 <p>启用 flash 加密将增大引导加载程序，因而可能需更新分区表偏移量，本次是0x8000改为0x10000</p>
 <p>运行以下命令来构建和烧录完整的镜像。</p>
 <blockquote>
-<pre class="line-numbers language-none"><code class="language-none">idf.py flash monitor<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></blockquote>
-<h3 id="生成密钥"><a href="#生成密钥" class="headerlink" title="生成密钥"></a>生成密钥</h3><pre class="line-numbers language-none"><code class="language-none">idf.py secure-generate-flash-encryption-key my_flash_encryption_key.bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idf.py flash monitor</span><br></pre></td></tr></table></figure></blockquote>
+<h3 id="生成密钥"><a href="#生成密钥" class="headerlink" title="生成密钥"></a>生成密钥</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idf.py secure-generate-flash-encryption-key my_flash_encryption_key.bin</span><br></pre></td></tr></table></figure>
 
 <p><strong>在第一次加密启动前</strong>，使用以下命令将该密钥烧录到设备上，这个操作只能执行 <strong>一次</strong>。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">idf.py --port PORT efuse-burn-key BLOCK_KEY0  my_flash_encryption_key.bin XTS_AES_128_KEY<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idf.py --port PORT efuse-burn-key BLOCK_KEY0  my_flash_encryption_key.bin XTS_AES_128_KEY</span><br></pre></td></tr></table></figure>
 
 <p>然后烧录程序后（第一次是明文烧录），二级引导加载程序将配置并启用 flash 加密块</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">PS C:\Users\VIBTEK\Desktop\flash&gt; idf.py --port COM18 efuse-burn-key BLOCK_KEY0 my_flash_encryption_key.bin XTS_AES_128_KEY
-Executing action: efuse-burn-key
-Running espefuse.py in directory C:\Users\VIBTEK\Desktop\flash
-Executing &quot;c:\Users\VIBTEK\.espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe -mespefuse burn_key -p COM18 --chip esp32s3 BLOCK_KEY0 my_flash_encryption_key.bin XTS_AES_128_KEY&quot;...
-espefuse.py v4.9.0
-Connecting....
-
-&#x3D;&#x3D;&#x3D; Run &quot;burn_key&quot; command &#x3D;&#x3D;&#x3D;
-Sensitive data will be hidden (see --show-sensitive-info)
-Burn keys to blocks:
- - BLOCK_KEY0 -&gt; [?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ??]
-        Reversing byte order for AES-XTS hardware peripheral
-        &#39;KEY_PURPOSE_0&#39;: &#39;USER&#39; -&gt; &#39;XTS_AES_128_KEY&#39;.
-        Disabling write to &#39;KEY_PURPOSE_0&#39;.
-        Disabling read to key block
-        Disabling write to key block
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\VIBTEK\Desktop\flash&gt; idf.py --port COM18 efuse-burn-key BLOCK_KEY0 my_flash_encryption_key.bin XTS_AES_128_KEY</span><br><span class="line">Executing action: efuse-burn-key</span><br><span class="line">Running espefuse.py <span class="keyword">in</span> directory C:\Users\VIBTEK\Desktop\flash</span><br><span class="line">Executing <span class="string">&quot;c:\Users\VIBTEK\.espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe -mespefuse burn_key -p COM18 --chip esp32s3 BLOCK_KEY0 my_flash_encryption_key.bin XTS_AES_128_KEY&quot;</span>...</span><br><span class="line">espefuse.py v4.9.0</span><br><span class="line">Connecting....</span><br><span class="line"></span><br><span class="line">=== Run <span class="string">&quot;burn_key&quot;</span> <span class="built_in">command</span> ===</span><br><span class="line">Sensitive data will be hidden (see --show-sensitive-info)</span><br><span class="line">Burn keys to blocks:</span><br><span class="line"> - BLOCK_KEY0 -&gt; [?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ??]</span><br><span class="line">        Reversing byte order <span class="keyword">for</span> AES-XTS hardware peripheral</span><br><span class="line">        <span class="string">&#x27;KEY_PURPOSE_0&#x27;</span>: <span class="string">&#x27;USER&#x27;</span> -&gt; <span class="string">&#x27;XTS_AES_128_KEY&#x27;</span>.</span><br><span class="line">        Disabling write to <span class="string">&#x27;KEY_PURPOSE_0&#x27;</span>.</span><br><span class="line">        Disabling <span class="built_in">read</span> to key block</span><br><span class="line">        Disabling write to key block</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>加密不可逆,芯片设定为加密后无法取消,除了换芯片</p>
@@ -319,9 +316,9 @@ Burn keys to blocks:
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -330,6 +327,7 @@ Burn keys to blocks:
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -359,7 +357,7 @@ Burn keys to blocks:
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -371,14 +369,14 @@ Burn keys to blocks:
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   

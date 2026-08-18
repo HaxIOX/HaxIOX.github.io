@@ -31,11 +31,18 @@
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
     
 <link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
 
   
 
@@ -64,7 +71,7 @@
       document.documentElement.setAttribute('color-mode', colorMode)
     }
   </script>
-<meta name="generator" content="Hexo 6.3.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
   <body>
@@ -74,7 +81,7 @@
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/avatar.png" alt="">
+        <img src="/images/northcat-avatar.png" alt="">
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
@@ -159,6 +166,12 @@
     <div class="post-content">
       <div class="post-title">网页监控</div>
       <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          695
+        </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
           2026-04-20 12:02:24
@@ -200,61 +213,57 @@
 <p>时间</p>
 </blockquote>
 <h2 id="搭建项目环境"><a href="#搭建项目环境" class="headerlink" title="搭建项目环境"></a>搭建项目环境</h2><h3 id="使用-venv-模块创建虚拟环境"><a href="#使用-venv-模块创建虚拟环境" class="headerlink" title="使用 venv 模块创建虚拟环境"></a>使用 <code>venv</code> 模块创建虚拟环境</h3><h4 id="步骤一：安装-venv"><a href="#步骤一：安装-venv" class="headerlink" title="步骤一：安装 venv"></a>步骤一：安装 <code>venv</code></h4><p>通常Python 3已经自带 <code>venv</code> 模块，如果没有，可以通过以下命令安装：</p>
-<pre class="line-numbers language-none"><code class="language-none">sudo apt-get install python3-venv<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python3-venv</span><br></pre></td></tr></table></figure>
 
 <h4 id="步骤二：创建虚拟环境"><a href="#步骤二：创建虚拟环境" class="headerlink" title="步骤二：创建虚拟环境"></a>步骤二：创建虚拟环境</h4><ol>
 <li><p><strong>进入你的项目目录</strong>：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cd &#x2F;path&#x2F;to&#x2F;your&#x2F;project
-#我的项目目录在opt
-cd opt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /path/to/your/project</span><br><span class="line"><span class="comment">#我的项目目录在opt</span></span><br><span class="line"><span class="built_in">cd</span> opt</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>创建虚拟环境</strong>：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">python3 -m venv venv<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m venv venv</span><br></pre></td></tr></table></figure>
 
 <p>这将在你的项目目录中创建一个名为 <code>venv</code> 的文件夹，包含虚拟环境。</p>
 </li>
 </ol>
-<h4 id="步骤三：激活虚拟环境"><a href="#步骤三：激活虚拟环境" class="headerlink" title="步骤三：激活虚拟环境"></a>步骤三：激活虚拟环境</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">source venv&#x2F;bin&#x2F;activate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="步骤三：激活虚拟环境"><a href="#步骤三：激活虚拟环境" class="headerlink" title="步骤三：激活虚拟环境"></a>步骤三：激活虚拟环境</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> venv/bin/activate</span><br></pre></td></tr></table></figure>
 
 <p>激活后，你的命令行提示符会发生变化，显示虚拟环境的名称，例如 <code>(venv)</code>。</p>
-<h4 id="步骤四：安装所需的Python包"><a href="#步骤四：安装所需的Python包" class="headerlink" title="步骤四：安装所需的Python包"></a>步骤四：安装所需的Python包</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pip install -r requirements.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="步骤四：安装所需的Python包"><a href="#步骤四：安装所需的Python包" class="headerlink" title="步骤四：安装所需的Python包"></a>步骤四：安装所需的Python包</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
 
 <h4 id="步骤五：退出虚拟环境"><a href="#步骤五：退出虚拟环境" class="headerlink" title="步骤五：退出虚拟环境"></a>步骤五：退出虚拟环境</h4><p>完成工作后，你可以通过以下命令退出虚拟环境：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">deactivate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
 
 <h2 id="重建虚拟环境"><a href="#重建虚拟环境" class="headerlink" title="重建虚拟环境"></a>重建虚拟环境</h2><p><strong>删除虚拟环境</strong>：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rm -rf &#x2F;opt&#x2F;venv<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> -rf /opt/venv</span><br></pre></td></tr></table></figure>
 
 <p><strong>重新创建虚拟环境</strong>：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">python3 -m venv &#x2F;opt&#x2F;env<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m venv /opt/env</span><br></pre></td></tr></table></figure>
 
 <p><strong>激活虚拟环境</strong>：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">source &#x2F;opt&#x2F;venv&#x2F;bin&#x2F;activate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /opt/venv/bin/activate</span><br></pre></td></tr></table></figure>
 
 <h2 id="符号链接"><a href="#符号链接" class="headerlink" title="符号链接"></a>符号链接</h2><p>系统中已经安装了 Python 3.9.2，但没有 <code>python</code> 命令的别名。使用<code>符号链接</code>，将 <code>python3</code> 命令创建一个别名为 <code>python</code></p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">sudo ln -s &#x2F;usr&#x2F;bin&#x2F;python3 &#x2F;usr&#x2F;bin&#x2F;python
-python3 --version
-python --version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /usr/<span class="built_in">bin</span>/python3 /usr/<span class="built_in">bin</span>/python</span><br><span class="line">python3 --version</span><br><span class="line">python --version</span><br></pre></td></tr></table></figure>
 
 <h3 id="符号链接-快捷方式"><a href="#符号链接-快捷方式" class="headerlink" title="符号链接(快捷方式)"></a>符号链接(快捷方式)</h3><ol>
 <li><strong>可见性</strong>：符号链接文件可以通过 <code>ls -l</code> 命令看到链接关系。</li>
 <li><strong>目标文件删除</strong>：如果目标文件被删除，符号链接将指向一个无效的位置，成为“悬挂”链接。</li>
 </ol>
 <h3 id="创建符号链接"><a href="#创建符号链接" class="headerlink" title="创建符号链接"></a>创建符号链接</h3><p>使用 <code>ln -s</code> 命令可以创建符号链接：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ln -s [目标文件或目录] [符号链接名]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s [目标文件或目录] [符号链接名]</span><br></pre></td></tr></table></figure>
 
 <p>例如：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ln -s &#x2F;usr&#x2F;bin&#x2F;python3 &#x2F;usr&#x2F;bin&#x2F;python<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s /usr/bin/python3 /usr/bin/python</span><br></pre></td></tr></table></figure>
 
 <h3 id="删除符号链接"><a href="#删除符号链接" class="headerlink" title="删除符号链接"></a>删除符号链接</h3><p>删除符号链接时只需要删除链接文件本身，不会影响目标文件：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rm &#x2F;usr&#x2F;bin&#x2F;python<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> /usr/bin/python</span><br></pre></td></tr></table></figure>
 
 <p>这条命令只删除符号链接 <code>link_to_file.txt</code>，不影响 <code>original_file.txt</code>。</p>
 <h2 id="招生信息监测"><a href="#招生信息监测" class="headerlink" title="招生信息监测"></a>招生信息监测</h2><p><a target="_blank" rel="noopener" href="https://gs.dlut.edu.cn/yjszs/zcwj1.htm">大连理工大学研究生院（新） (dlut.edu.cn)</a></p>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">/html/body/div[2]/div[2]/div[2]/div/ul/li[1]/a<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/html/body/div[2]/div[2]/div[2]/div/ul/li[1]/a</span><br></pre></td></tr></table></figure>
 
 <p><a target="_blank" rel="noopener" href="http://yz.neu.edu.cn/sszs/list.htm">东北大学硕士公告 (neu.edu.cn)</a></p>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">//*[@id="wp_news_w6"]/ul/li[1]/div[1]/span[2]/a<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//*[@id=&quot;wp_news_w6&quot;]/ul/li[1]/div[1]/span[2]/a</span><br></pre></td></tr></table></figure>
 
 
       </div>
@@ -298,9 +307,9 @@ python --version<span aria-hidden="true" class="line-numbers-rows"><span></span>
       
     </div>
     
-  <div id="btn-catalog" class="btn-catalog">
-    <i class="iconfont icon-catalog"></i>
-  </div>
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
   <div class="post-catalog hidden" id="catalog">
     <div class="title">Contents</div>
     <div class="catalog-content">
@@ -309,6 +318,7 @@ python --version<span aria-hidden="true" class="line-numbers-rows"><span></span>
       
     </div>
   </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
 
   
 <script src="/js/catalog.js"></script>
@@ -338,7 +348,7 @@ python --version<span aria-hidden="true" class="line-numbers-rows"><span></span>
       
         <li>
           
-              <a title="github" target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
                 <i class="iconfont icon-github"></i>
               </a>
               
@@ -350,14 +360,14 @@ python --version<span aria-hidden="true" class="line-numbers-rows"><span></span>
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Copyright © 2026 Oranges</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
         
     </div>
   
     
     <div class="footer-more">
       
-        <a target="_blank" rel="noopener" href="https://github.com/zchengsite/hexo-theme-oranges">Theme by Oranges | Powered by Hexo</a>
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
         
     </div>
   
