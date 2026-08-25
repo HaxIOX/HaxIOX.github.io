@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>linux on esp32</title>
+      <link href="/2026/08/23/219-linux-on-esp32/"/>
+      <url>/2026/08/23/219-linux-on-esp32/</url>
+      
+        <content type="html"><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>公众号刷到了<a href="https://github.com/GrieferPig/esp32-s31-linux">在 ESP32-S31 上原生运行 <strong>Linux 6.12 RV32 MMU Linux</strong>的项目</a></p><p>这件事之所以在 S31 上突然变得现实，核心是 S31 的 CPU 架构发生了很大变化。</p><table><thead><tr><th>项目</th><th>ESP32-S31</th></tr></thead><tbody><tr><td>CPU</td><td>双核 32-bit RISC-V</td></tr><tr><td>主频</td><td>最高 320 MHz</td></tr><tr><td>SRAM</td><td>512 KB</td></tr><tr><td>外部 RAM</td><td>DDR PSRAM</td></tr><tr><td>MMU</td><td><strong>支持</strong></td></tr><tr><td>ISA</td><td>RISC-V</td></tr><tr><td>Linux</td><td>可以走 MMU Linux</td></tr></tbody></table><p><strong>启动链</strong></p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ESP32-S31 ROM      │      ▼ESP-IDF Second Stage Bootloader      │      ▼Factory Loader  ├── 初始化 DDR PSRAM  ├── 建立 Flash XIP 映射  ├── 初始化共享 SRAM  ├── 保留 FreeRTOS &#x2F; 无线固件环境  │  ▼OpenSBI      │      │ M-mode      ▼Linux Kernel      │ S-mode      ▼Buildroot RootFS      │      ├── BusyBox      ├── Dropbear      ├── iproute2      ├── tcpdump      └── ...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><strong>S31 和 S3 CPU 架构对比</strong></p><table><thead><tr><th></th><th>ESP32-S31</th><th>ESP32-S3</th></tr></thead><tbody><tr><td>CPU</td><td><strong>RISC-V</strong></td><td><strong>Xtensa LX7</strong></td></tr><tr><td>核数</td><td>2</td><td>2</td></tr><tr><td>主频</td><td>320 MHz</td><td>240 MHz</td></tr><tr><td>SRAM</td><td>512 KB</td><td>512 KB</td></tr><tr><td>Linux ISA</td><td>riscv32</td><td>xtensa</td></tr><tr><td>OpenSBI</td><td>✅</td><td>❌</td></tr><tr><td>Linux S-mode</td><td>✅</td><td>❌</td></tr><tr><td>标准 MMU Linux</td><td>✅</td><td>❌</td></tr><tr><td>NOMMU Linux</td><td>可</td><td>✅</td></tr></tbody></table><p>想搞一下，但是没有s31，就去查了一下s3支持不支持，发现了另一个开源项目</p><ul><li><a href="https://github.com/paulneja/Linux-on-esp32-S3/tree/main">paulneja&#x2F;Linux-on-esp32-S3</a></li><li></li></ul><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h2 id="关于Ubuntu、Buildroot、Linux-内核、驱动、rootfs-一些混淆"><a href="#关于Ubuntu、Buildroot、Linux-内核、驱动、rootfs-一些混淆" class="headerlink" title="关于Ubuntu、Buildroot、Linux 内核、驱动、rootfs 一些混淆"></a>关于<strong>Ubuntu、Buildroot、Linux 内核、驱动、rootfs</strong> 一些混淆</h2><h3 id="完整-Linux-系统"><a href="#完整-Linux-系统" class="headerlink" title="完整 Linux 系统"></a>完整 Linux 系统</h3><p>一块板子能跑 Linux，通常大致是：</p><pre class="line-numbers language-none"><code class="language-none">BootROM  ↓Bootloader（U-Boot &#x2F; 厂商 loader）  ↓Linux Kernel  ├─ CPU&#x2F;内存管理  ├─ GPIO  ├─ I2C  ├─ SPI  ├─ Wi-Fi  ├─ LCD  ├─ USB  └─ 各种驱动  ↓RootFS 根文件系统  ├─ &#x2F;bin  ├─ &#x2F;sbin  ├─ &#x2F;etc  ├─ &#x2F;lib  ├─ shell  ├─ 网络工具  └─ 用户程序<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>其中：</p><ul><li><strong>Kernel</strong> &#x3D; 内核 + 大部分硬件驱动</li><li><strong>RootFS</strong> &#x3D; 用户空间</li><li><strong>Buildroot</strong> &#x3D; 用来“生成 Kernel&#x2F;RootFS&#x2F;工具链等”的构建系统之一</li><li><strong>Ubuntu</strong> &#x3D; 一套完整 Linux 发行版</li></ul><hr><p><strong>泰山派烧 Ubuntu，不等于 Buildroot</strong></p><p>比如泰山派上烧一个 Ubuntu 镜像，更接近：</p><pre class="line-numbers language-none"><code class="language-none">U-Boot  ↓Linux Kernel  ↓泰山派板级驱动  ↓Ubuntu RootFS      ├─ systemd      ├─ apt      ├─ bash      ├─ libc      ├─ ssh      ├─ Python      └─ 大量 Ubuntu 软件包<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>这里 rootfs 是 <strong>Ubuntu 的 rootfs</strong>。</p><p>不是 Buildroot。</p><p>当然厂家在开发 BSP 的过程中，可能会同时提供：</p><pre class="line-numbers language-none"><code class="language-none">UbuntuDebianBuildrootYoctoAndroid<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>这些是不同用户空间&#x2F;构建方案。</p><hr><h3 id="Buildroot-是什么"><a href="#Buildroot-是什么" class="headerlink" title="Buildroot 是什么"></a>Buildroot 是什么</h3><p>你可以把 Buildroot 理解成：</p><blockquote><p><strong>一个“做嵌入式 Linux 系统镜像”的自动化工厂。</strong></p></blockquote><p>例如配置：</p><pre class="line-numbers language-none"><code class="language-none">CPU &#x3D; XtensaKernel &#x3D; Linux 6.11libc &#x3D; uClibcShell &#x3D; BusyBox hush启用 &#x3D; Dropbear启用 &#x3D; iproute2启用 &#x3D; Wi-Fi工具RootFS &#x3D; cramfs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>然后 Buildroot 给你生成：</p><pre class="line-numbers language-none"><code class="language-none">toolchainkernel imagerootfsBusyBox各种用户态程序<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>所以：</p><pre class="line-numbers language-none"><code class="language-none">Buildroot ≠ Linux系统里的某一层Buildroot &#x3D; 构建这些东西的工具<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><hr><h3 id="ESP32-S3-跑的是什么"><a href="#ESP32-S3-跑的是什么" class="headerlink" title="ESP32-S3 跑的是什么"></a>ESP32-S3 跑的是什么</h3><p>你目前这套可以画成：</p><pre class="line-numbers language-none"><code class="language-none">ESP32-S3│├─ Core A│    ESP-IDF &#x2F; FreeRTOS│      └─ Wi-Fi 固件│└─ Core B     Linux Kernel 6.11       ↓     Buildroot 生成的 RootFS       ├─ BusyBox       ├─ hush shell       ├─ 网络工具       ├─ init       └─ 一些小工具<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>所以严格来说：</p><blockquote><p><strong>我们不是“只用了 Buildroot 的一部分”。</strong></p></blockquote><p>而是：</p><blockquote><p><strong>用了 Buildroot 来生成一个非常精简的 Linux 用户空间，同时配上专门移植的 ESP32-S3 Linux Kernel。</strong></p></blockquote><hr><h3 id="Wi-Fi"><a href="#Wi-Fi" class="headerlink" title="Wi-Fi"></a>Wi-Fi</h3><p>普通泰山派可能是：</p><pre class="line-numbers language-none"><code class="language-none">Linux Kernel    ↓Wi-Fi driver    ↓Wi-Fi 芯片<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>而当前 ESP32-S3 比较奇葩：</p><pre class="line-numbers language-none"><code class="language-none">Linux ↓espsta0 ↓共享内存 IPC ↓另一个 CPU Core ↓FreeRTOS &#x2F; ESP-IDF ↓乐鑫 Wi-Fi 固件 ↓Wi-Fi 硬件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>所以 Wi-Fi 不完全属于 Buildroot。</p><p>Buildroot 只是可能提供：</p><pre class="line-numbers language-none"><code class="language-none">ippingiwdhcp clientshell<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>真正 Wi-Fi 底层实现是：</p><pre class="line-numbers language-none"><code class="language-none">Linux driver+IPC+ESP-IDF+Wi-Fi firmware<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><hr><h3 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h3><pre class="line-numbers language-none"><code class="language-none">                   Linux 板卡系统                        │         ┌──────────────┴──────────────┐         │                             │     Linux Kernel                   RootFS         │                             │    硬件&#x2F;驱动层                    用户空间         │                             │GPIO SPI I2C LCD WiFi          shell ssh 程序 libc                                       │                             ┌─────────┴─────────┐                             │                   │                          Ubuntu             Buildroot生成<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>Ubuntu 和 Buildroot <strong>不是上下级关系</strong>。</p><p>更像是两条路线：</p><pre class="line-numbers language-none"><code class="language-none">Kernel + Ubuntu RootFS<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>或者：</p><pre class="line-numbers language-none"><code class="language-none">Kernel + Buildroot RootFS<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><hr><h3 id="对比两个项目"><a href="#对比两个项目" class="headerlink" title="对比两个项目"></a>对比两个项目</h3><table><thead><tr><th></th><th>泰山派 Ubuntu</th><th>ESP32-S3 当前系统</th></tr></thead><tbody><tr><td>Kernel</td><td>Linux</td><td>Linux 6.11</td></tr><tr><td>驱动</td><td>泰山派 BSP 比较完整</td><td>ESP32-S3 BSP 很少</td></tr><tr><td>RootFS</td><td>Ubuntu</td><td>Buildroot 生成</td></tr><tr><td>Shell</td><td>bash 等</td><td>BusyBox hush</td></tr><tr><td>apt</td><td>✅</td><td>❌</td></tr><tr><td>Python</td><td>✅ 通常有&#x2F;可装</td><td>基本不适合</td></tr><tr><td>Wi-Fi</td><td>Linux 驱动为主</td><td>Linux + FreeRTOS IPC</td></tr><tr><td>LCD驱动</td><td>通常 BSP 已提供</td><td><strong>我们准备自己补</strong></td></tr><tr><td>系统完整度</td><td>高</td><td>很精简</td></tr></tbody></table><p>所以你可以把我们现在的 ESP32-S3 理解成：</p><blockquote><p><strong>已经有“Linux 内核 + 一个最小 Buildroot 用户空间 + 少量板级驱动”，但 BSP 远远没有泰山派成熟。</strong></p></blockquote>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>one开机卡</title>
       <link href="/2026/07/18/218-one-kai-ji-qia/"/>
       <url>/2026/07/18/218-one-kai-ji-qia/</url>
@@ -11,6 +24,18 @@
         <content type="html"><![CDATA[<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>想利用上我的5060，但是有的时候忙用不上，也不能睡眠，不然就无法唤醒了，遂寻找远程开机方案</p><h1 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h1><p>1.智能插座+bios</p><blockquote><p>缺点: 无法唤醒睡眠</p></blockquote><p>2.wake 唤醒</p><blockquote><p>需要网口接路由器，且主板支持，目前位置过远不太方便</p></blockquote><p>根据需求，只有开机卡符合要求</p><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ol><li><p>开机卡</p></li><li><p>查看微星b650gamingwifi是否有空闲pcie口（有x1且在显卡上方，这个x后面数字与带宽有关）</p></li><li><p>自制一个，思路是远程控制IO模拟开关机按键</p></li><li><p>问题点其实在验证，要测试好测试好测试好再上机</p></li></ol>]]></content>
       
       
+      <categories>
+          
+          <category> 硬件设计 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 电路设计 </tag>
+            
+        </tags>
       
     </entry>
     
@@ -24,6 +49,18 @@
         <content type="html"><![CDATA[]]></content>
       
       
+      <categories>
+          
+          <category> 嵌入式开发 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 硬件 </tag>
+            
+        </tags>
       
     </entry>
     
@@ -114,6 +151,20 @@
         <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>与clawbot一样，到处都是，所以摸一下</p><h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><ol><li>ESP32将麦克风数据通过i2s接收并进行回声处理后，使用opus编码将二进文件（俗称音频流）实时上传到服务器，并将LLM结果返回后通过opus解码后I2S播放，如果要调用外设，比如开关灯，需要通过mcp</li><li>MCP，给模型用的接口，ESP32与服务器建立websocket连接口，ESP32会发个hello，确认连接完成，然后模型可以发送tools&#x2F;list，来获取当前支持的MCP，MCP格式有工具名，描述，参数等，可以用来实现开关灯</li></ol><h3 id="📌claude对我理解的补充说明"><a href="#📌claude对我理解的补充说明" class="headerlink" title="📌claude对我理解的补充说明"></a>📌claude对我理解的补充说明</h3><p><strong>关于第1点的细节补充</strong>：</p><ul><li>“二进文件”更准确说是<strong>二进制数据包</strong>（不是文件，是实时流）</li><li>完整流程应该是：<code>I2S接收 → AudioProcessor(回声处理) → Opus编码 → WebSocket上传</code></li><li>下行是：<code>WebSocket接收 → Opus解码 → I2S播放</code></li><li>I2S是数字音频接口，连接ESP32和音频芯片（如ES8311）</li></ul><p><strong>关于第2点的细节补充</strong>：</p><ul><li>MCP完整流程：<code>hello → initialize → tools/list → tools/call</code></li><li>注意：不是”模型发送tools&#x2F;list”，而是<strong>服务器代表模型</strong>发送</li><li>MCP基于JSON-RPC 2.0协议，每个消息都有<code>jsonrpc</code>、<code>method</code>、<code>params</code>、<code>id</code>字段</li></ul><h1 id="我吸收的"><a href="#我吸收的" class="headerlink" title="我吸收的"></a>我吸收的</h1><ol><li><p>音频流is what</p><blockquote><p>opus编码后的二进制文件</p></blockquote></li><li><p>为什么需要AEC回声消除</p><blockquote><p>为了消除麦克风采集到的扬声器数据,消除回音</p></blockquote></li><li><p>队列的作用</p><blockquote><p>用于不同任务之间的缓冲</p></blockquote></li></ol><h3 id="📌-claude对我理解的扩展（保留你的原文，下面是补充）"><a href="#📌-claude对我理解的扩展（保留你的原文，下面是补充）" class="headerlink" title="📌 claude对我理解的扩展（保留你的原文，下面是补充）"></a>📌 claude对我理解的扩展（保留你的原文，下面是补充）</h3><p><strong>关于”音频流”</strong>：</p><ul><li>✅ 你说的对，就是opus编码后的二进制数据</li><li>补充：更准确说是<strong>数据包流</strong>，每个包60ms（960个采样点@16kHz），不是一个完整文件</li></ul><p><strong>关于”AEC回声消除”</strong>：</p><ul><li>✅ 核心理解正确</li><li>补充：AEC通过对比扬声器参考信号和麦克风输入，计算出回声部分并减去</li></ul><p><strong>关于”队列”</strong>：</p><ul><li>✅ 完全正确</li><li>补充：项目中有4个队列，<code>audio_encode_queue_</code>连接AudioProcessor→OpusEncoder</li></ul><h2 id="三任务架构"><a href="#三任务架构" class="headerlink" title="三任务架构"></a>三任务架构</h2><pre class="line-numbers language-none"><code class="language-none">AudioInputTask (优先级8)  - 从麦克风读取数据，优先级最高防止丢帧OpusCodecTask  (优先级5)  - 编解码处理AudioOutputTask(优先级4)  - 播放音频，优先级最低<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><h2 id="关键数据流"><a href="#关键数据流" class="headerlink" title="关键数据流"></a>关键数据流</h2><p><strong>四个队列</strong>：</p><ul><li><code>audio_encode_queue_</code>：等待编码的PCM数据</li><li><code>audio_send_queue_</code>：编码后等待发送的Opus数据</li><li><code>audio_decode_queue_</code>：接收到等待解码的Opus数据</li><li><code>audio_playback_queue_</code>：解码后等待播放的PCM数据</li></ul><h2 id="采样率转换"><a href="#采样率转换" class="headerlink" title="采样率转换"></a>采样率转换</h2><p><strong>为什么需要重采样</strong>：</p><ul><li>音频芯片可能是48kHz</li><li>AudioProcessor和Opus都需要16kHz</li><li><code>input_resampler_</code>负责转换：48kHz → 16kHz</li></ul><p><strong>计算公式</strong>：</p><pre class="line-numbers language-none"><code class="language-none">采样点数 &#x3D; 采样率 × 时间16kHz × 0.06s &#x3D; 960个采样点（Opus一帧）48kHz × 0.01s &#x3D; 480个采样点（AudioInputTask每次读取）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><h2 id="实际应用场景"><a href="#实际应用场景" class="headerlink" title="实际应用场景"></a>实际应用场景</h2><p><strong>用户说：”帮我开灯”</strong></p><pre class="line-numbers language-none"><code class="language-none">1. 麦克风采集 → I2S → AudioProcessor → Opus编码 → WebSocket上传2. 服务器ASR识别：&quot;帮我开灯&quot;3. LLM理解意图，查找MCP工具列表，找到gpio.write4. 服务器发送：tools&#x2F;call &#123;name: &quot;gpio.write&quot;, arguments: &#123;pin: 5, value: 1&#125;&#125;5. ESP32执行GPIO控制，点亮LED6. 服务器TTS生成：&quot;好的，已为您开灯&quot;7. 音频流下发 → Opus解码 → I2S播放<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="易错点总结"><a href="#易错点总结" class="headerlink" title="易错点总结"></a>易错点总结</h2><ol><li>❌ <strong>音频流是MP3</strong> → ✅ 是Opus，延迟更低</li><li>❌ <strong>MCP方法是tools&#x2F;execute</strong> → ✅ 是tools&#x2F;call</li><li>❌ <strong>Opus配置参数包括码率</strong> → ✅ 是采样率、声道数、帧时长</li></ol><h2 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h2><p><strong>查看音频数据流</strong>：</p><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">&#x2F;&#x2F; 在AudioInputTask添加日志ESP_LOGI(TAG, &quot;Queue depth: %d&quot;, uxQueueMessagesWaiting(audio_encode_queue_));<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p><strong>检查MCP工具调用</strong>：</p><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">&#x2F;&#x2F; 在mcp_server.cc的ExecuteTool添加日志ESP_LOGI(TAG, &quot;Calling tool: %s with args: %s&quot;, tool_name, args_json);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p><strong>监控任务状态</strong>：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 串口监视器查看关键日志idf.py monitor | grep -E &quot;AudioService|McpServ<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>]]></content>
       
       
+      <categories>
+          
+          <category> 嵌入式开发 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ESP32 </tag>
+            
+            <tag> AI </tag>
+            
+        </tags>
       
     </entry>
     
@@ -161,7 +212,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> 脚本 </tag>
             
         </tags>
       
@@ -446,7 +497,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> ESP32 </tag>
             
         </tags>
       
@@ -1052,7 +1103,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> ESP-IDF </tag>
             
         </tags>
       
@@ -1304,7 +1355,9 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> PHP </tag>
+            
+            <tag> Nginx </tag>
             
         </tags>
       
@@ -1483,7 +1536,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> Nginx </tag>
             
         </tags>
       
@@ -1533,7 +1586,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> Wi-Fi </tag>
             
         </tags>
       
@@ -1683,7 +1736,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> Linux </tag>
             
         </tags>
       
@@ -1783,7 +1836,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> Linux </tag>
             
         </tags>
       
@@ -2565,7 +2618,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> Python </tag>
             
         </tags>
       
@@ -2590,7 +2643,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> Python </tag>
             
         </tags>
       
@@ -2615,7 +2668,9 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> Python </tag>
+            
+            <tag> Nginx </tag>
             
         </tags>
       
@@ -2640,7 +2695,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> 脚本 </tag>
             
         </tags>
       
@@ -2665,7 +2720,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> SPI </tag>
             
         </tags>
       
@@ -2917,7 +2972,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> Matlab </tag>
             
         </tags>
       
@@ -2942,7 +2997,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> Linux </tag>
             
         </tags>
       
@@ -3392,7 +3447,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> js逆向 </tag>
             
         </tags>
       
@@ -3467,7 +3522,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> 电路设计 </tag>
             
         </tags>
       
@@ -3592,7 +3647,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> Linux </tag>
             
         </tags>
       
@@ -3742,7 +3797,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> 摄像头 </tag>
             
         </tags>
       
@@ -3896,7 +3951,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> 电路设计 </tag>
             
         </tags>
       
@@ -3946,7 +4001,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> 爬虫 </tag>
             
         </tags>
       
@@ -3971,7 +4026,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> 爬虫 </tag>
             
         </tags>
       
@@ -4023,7 +4078,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> 爬虫 </tag>
             
         </tags>
       
@@ -4048,7 +4103,7 @@
       
         <tags>
             
-            <tag> 单片机 </tag>
+            <tag> 爬虫 </tag>
             
         </tags>
       
@@ -4402,7 +4457,7 @@
             
             <tag> STM32F407 </tag>
             
-            <tag> USART </tag>
+            <tag> UART </tag>
             
         </tags>
       
@@ -4454,7 +4509,7 @@
             
             <tag> STM32F407 </tag>
             
-            <tag> USART_DMA </tag>
+            <tag> UART </tag>
             
         </tags>
       
@@ -4579,7 +4634,7 @@
       
         <tags>
             
-            <tag> 芯片 </tag>
+            <tag> PCB </tag>
             
         </tags>
       
@@ -4604,7 +4659,7 @@
       
         <tags>
             
-            <tag> 芯片 </tag>
+            <tag> I2C </tag>
             
         </tags>
       
@@ -5280,8 +5335,6 @@
         <tags>
             
             <tag> STM32F407 </tag>
-            
-            <tag> TIMER </tag>
             
         </tags>
       
