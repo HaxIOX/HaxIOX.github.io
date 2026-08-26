@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -302,7 +303,44 @@
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>216</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 

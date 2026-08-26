@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -170,7 +171,7 @@
         
         <span class="post-wordcount">
           <i class="iconfont icon-edit mr-10" title="Words"></i>
-          1200
+          1215
         </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
@@ -216,23 +217,10 @@
 <img src="/2024/03/06/92-ji-yu-51-dan-pian-ji-feng-ming-qi-de-yin-le-bo-fang-qi/image-20240306105046915.png" class="" title="image-20240306105046915">
 
 <h2 id="buzzer发声驱动"><a href="#buzzer发声驱动" class="headerlink" title="buzzer发声驱动"></a>buzzer发声驱动</h2><p>错误写法: 这个是有源蜂鸣器的写法, 相当于发了一个脉冲。</p>
-<pre class="line-numbers language-C" data-language="C"><code class="language-C">void Buzzer_Beep(void)
-&#123;
-  Buzzer&#x3D;0;
-  Delay_ms(500);
-  Buzzer&#x3D;1;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Buzzer_Beep</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  Buzzer=<span class="number">0</span>;</span><br><span class="line">  Delay_ms(<span class="number">500</span>);</span><br><span class="line">  Buzzer=<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>正确写法: 应该持续发送脉冲</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">void Buzzer_Beep(void)
-&#123;
-  unsigned i &#x3D;0;
-  for(i&#x3D;0;i&lt;50;i++) &#x2F;&#x2F;频率&#x3D;1&#x2F;周期ms
-  &#123;
-    Buzzer&#x3D;!Buzzer;
-    Delay_ms(2.5); 
-  &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Buzzer_Beep</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> i =<span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">50</span>;i++) <span class="comment">//频率=1/周期ms</span></span><br><span class="line">  &#123;</span><br><span class="line">    Buzzer=!Buzzer;</span><br><span class="line">    Delay_ms(<span class="number">2.5</span>); </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="buzzer演奏音乐"><a href="#buzzer演奏音乐" class="headerlink" title="buzzer演奏音乐"></a>buzzer演奏音乐</h2><h3 id="乐理"><a href="#乐理" class="headerlink" title="乐理"></a>乐理</h3><img src="/2024/03/06/92-ji-yu-51-dan-pian-ji-feng-ming-qi-de-yin-le-bo-fang-qi/image-20240306083044454.png" class="" title="image-20240306083044454">
 
@@ -418,7 +406,44 @@
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>216</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 

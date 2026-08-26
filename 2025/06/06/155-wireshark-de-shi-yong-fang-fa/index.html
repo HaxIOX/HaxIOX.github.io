@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -170,11 +171,11 @@
         
         <span class="post-wordcount">
           <i class="iconfont icon-edit mr-10" title="Words"></i>
-          1282
+          1324
         </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2026-08-23 21:18:57
+          2026-08-25 08:44:17
         </span>
         
               <span class="post-tags">
@@ -197,51 +198,11 @@
 </ul>
 <p><strong>查看网卡是否支持Monitor mode</strong></p>
 <p>CMD中输入命令</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">netsh wlan show drivers<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh wlan show drivers</span><br></pre></td></tr></table></figure>
 
 
 
-<pre class="line-numbers language-none"><code class="language-none">C:\Users\Administrator&gt;netsh wlan show drivers
-
-接口名称: WLAN
-
-    驱动程序                  : Realtek 8822CE Wireless LAN 802.11ac PCI-E NIC
-    供应商                    : Realtek Semiconductor Corp.
-    提供程序                  : Realtek Semiconductor Corp.
-    日期                      : 2022&#x2F;6&#x2F;24
-    版本                      : 2024.10.138.0
-    INF 文件                  : oem207.inf
-    类型                      : 本机 WLAN 驱动程序
-    支持的无线电类型          : 802.11n 802.11g 802.11b 802.11ac 802.11n 802.11a
-    支持 FIPS 140-2 模式: 是
-    支持 802.11w 管理帧保护 : 是
-    支持的承载网络  : 否
-    基础结构模式中支持的身份验证和密码:
-                                开放式             无
-                                WPA2 - 个人       CCMP
-                                开放式             WEP-40bit
-                                开放式             WEP-104 位
-                                开放式             WEP
-                                WPA - 企业        TKIP
-                                WPA - 个人        TKIP
-                                WPA2 - 企业       TKIP
-                                WPA2 - 个人       TKIP
-                                WPA - 企业        CCMP
-                                WPA - 个人        CCMP
-                                WPA2 - 企业       CCMP
-                                WPA3 - 个人       CCMP
-                                WPA3 - 企业       GCMP-256
-                                OWE             CCMP
-                                供应商定义的          TKIP
-                                供应商定义的          CCMP
-                                供应商定义的          供应商定义的
-                                供应商定义的          供应商定义的
-                                WPA2 - 企业       供应商定义的
-                                WPA2 - 企业       供应商定义的
-                                供应商定义的          供应商定义的
-                                供应商定义的          供应商定义的
-    支持的无线显示器: 是 (图形驱动程序: 是，WLAN 驱动程序: 是)
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;netsh wlan show drivers</span><br><span class="line"></span><br><span class="line">接口名称: WLAN</span><br><span class="line"></span><br><span class="line">    驱动程序                  : Realtek 8822CE Wireless LAN 802.11ac PCI-E NIC</span><br><span class="line">    供应商                    : Realtek Semiconductor Corp.</span><br><span class="line">    提供程序                  : Realtek Semiconductor Corp.</span><br><span class="line">    日期                      : 2022/6/24</span><br><span class="line">    版本                      : 2024.10.138.0</span><br><span class="line">    INF 文件                  : oem207.inf</span><br><span class="line">    类型                      : 本机 WLAN 驱动程序</span><br><span class="line">    支持的无线电类型          : 802.11n 802.11g 802.11b 802.11ac 802.11n 802.11a</span><br><span class="line">    支持 FIPS 140-2 模式: 是</span><br><span class="line">    支持 802.11w 管理帧保护 : 是</span><br><span class="line">    支持的承载网络  : 否</span><br><span class="line">    基础结构模式中支持的身份验证和密码:</span><br><span class="line">                                开放式             无</span><br><span class="line">                                WPA2 - 个人       CCMP</span><br><span class="line">                                开放式             WEP-40bit</span><br><span class="line">                                开放式             WEP-104 位</span><br><span class="line">                                开放式             WEP</span><br><span class="line">                                WPA - 企业        TKIP</span><br><span class="line">                                WPA - 个人        TKIP</span><br><span class="line">                                WPA2 - 企业       TKIP</span><br><span class="line">                                WPA2 - 个人       TKIP</span><br><span class="line">                                WPA - 企业        CCMP</span><br><span class="line">                                WPA - 个人        CCMP</span><br><span class="line">                                WPA2 - 企业       CCMP</span><br><span class="line">                                WPA3 - 个人       CCMP</span><br><span class="line">                                WPA3 - 企业       GCMP-256</span><br><span class="line">                                OWE             CCMP</span><br><span class="line">                                供应商定义的          TKIP</span><br><span class="line">                                供应商定义的          CCMP</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">                                WPA2 - 企业       供应商定义的</span><br><span class="line">                                WPA2 - 企业       供应商定义的</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">    支持的无线显示器: 是 (图形驱动程序: 是，WLAN 驱动程序: 是)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>没显示<code>支持的网络监视模式: 是</code></p>
 <p>不支持 monitor mode</p>
@@ -330,7 +291,7 @@
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2026-08-23 21:18:57
+              2026-08-25 08:44:17
             </span>
             
                   <span class="post-tags">
@@ -422,7 +383,44 @@
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>216</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 

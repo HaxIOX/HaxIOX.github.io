@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -170,11 +171,11 @@
         
         <span class="post-wordcount">
           <i class="iconfont icon-edit mr-10" title="Words"></i>
-          1009
+          1031
         </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2026-08-23 21:18:55
+          2026-08-25 08:44:17
         </span>
         
               <span class="post-tags">
@@ -202,8 +203,7 @@
 <li><p>存放在用户目录下（如 <code>/root/.ssh/authorized_keys</code>）</p>
 </li>
 <li><p>文件中<strong>每行一把</strong>公钥：</p>
-<pre class="line-numbers language-none"><code class="language-none">ssh-rsa AAAAB3… user@host
-ssh-ed25519 BBBBB… deploy@ci<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-rsa AAAAB3… user@host</span><br><span class="line">ssh-ed25519 BBBBB… deploy@ci</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>可以有多把公钥，任何一把对应的私钥都可登录；删行即可撤销访问。</p>
 </li>
@@ -216,8 +216,7 @@ ssh-ed25519 BBBBB… deploy@ci<span aria-hidden="true" class="line-numbers-rows"
 </ol>
 <h1 id="密钥登录部署"><a href="#密钥登录部署" class="headerlink" title="密钥登录部署"></a>密钥登录部署</h1><ol>
 <li><p><strong>在本地生成一对密钥</strong>(在哪生成都可以)</p>
-<pre class="line-numbers language-none"><code class="language-none">ssh-keygen -t rsa -b 2048 -f ~&#x2F;.ssh&#x2F;my_id_rsa  
-# 这会生成 ~&#x2F;.ssh&#x2F;my_id_rsa（私钥）和 ~&#x2F;.ssh&#x2F;my_id_rsa.pub（公钥）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 2048 -f ~/.ssh/my_id_rsa  </span><br><span class="line"># 这会生成 ~/.ssh/my_id_rsa（私钥）和 ~/.ssh/my_id_rsa.pub（公钥）</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>把公钥传到服务器</strong></p>
 <ul>
@@ -227,24 +226,17 @@ ssh-ed25519 BBBBB… deploy@ci<span aria-hidden="true" class="line-numbers-rows"
 </ul>
 </li>
 <li><p>或者手动：</p>
-<pre class="line-numbers language-none"><code class="language-none">mkdir -p &#x2F;root&#x2F;.ssh
-chmod 700 &#x2F;root&#x2F;.ssh
-echo &#39;ssh-rsa AAAA…your-key… user@host&#39; \
-  &gt;&gt; &#x2F;root&#x2F;.ssh&#x2F;authorized_keys
-chmod 600 &#x2F;root&#x2F;.ssh&#x2F;authorized_keys<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /root/.ssh</span><br><span class="line">chmod 700 /root/.ssh</span><br><span class="line">echo &#x27;ssh-rsa AAAA…your-key… user@host&#x27; \</span><br><span class="line">  &gt;&gt; /root/.ssh/authorized_keys</span><br><span class="line">chmod 600 /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 <li><p><strong>验证 <code>authorized_keys</code></strong></p>
-<pre class="line-numbers language-none"><code class="language-none">cat &#x2F;root&#x2F;.ssh&#x2F;authorized_keys
-# 确认里面有一整行从 my_id_rsa.pub 复制过来的公钥
-ls -ld &#x2F;root&#x2F;.ssh           # 应该是 700
-ls -l  &#x2F;root&#x2F;.ssh&#x2F;authorized_keys  # 应该是 600<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat /root/.ssh/authorized_keys</span><br><span class="line"># 确认里面有一整行从 my_id_rsa.pub 复制过来的公钥</span><br><span class="line">ls -ld /root/.ssh           # 应该是 700</span><br><span class="line">ls -l  /root/.ssh/authorized_keys  # 应该是 600</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>用私钥登录</strong><br> 在你本地（或 Termius、WSL、Git Bash）执行：</p>
-<pre class="line-numbers language-none"><code class="language-none">ssh -i ~&#x2F;.ssh&#x2F;my_id_rsa root@38.49.38.67<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i ~/.ssh/my_id_rsa root@38.49.38.67</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>调试</strong><br> 如果仍然失败，加上 <code>-vvv</code>：</p>
-<pre class="line-numbers language-none"><code class="language-none">ssh -vvv -i ~&#x2F;.ssh&#x2F;my_id_rsa root@38.49.38.67<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -vvv -i ~/.ssh/my_id_rsa root@38.49.38.67</span><br></pre></td></tr></table></figure>
 
 <p>看到 <code>Offering public key: ... my_id_rsa</code> 且 <code>Server accepts key:</code> 就会通过。</p>
 </li>
@@ -257,10 +249,7 @@ ls -l  &#x2F;root&#x2F;.ssh&#x2F;authorized_keys  # 应该是 600<span aria-hidd
 <p>在 <code>/root/.ssh/authorized_keys</code> 里目前只放了一行公钥；但实际上你可以往这个文件里<strong>每行添加一串公钥</strong>，也就相当于授权了多把私钥。(但其实没必要同一把私钥就可以)</p>
 <hr>
 <p><strong>1. <code>authorized_keys</code> 能存放多把公钥</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">&#x2F;root&#x2F;.ssh&#x2F;authorized_keys  内容示例：
-ssh-rsa AAAAB3Nza… 第一把公钥 user1@pc1
-ssh-rsa AAAAB3Nza… 第二把公钥 user2@laptop
-ssh-ed25519 AAAAC3Nza… 第三把公钥 deploy@ci<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/root/.ssh/authorized_keys  内容示例：</span><br><span class="line">ssh-rsa AAAAB3Nza… 第一把公钥 user1@pc1</span><br><span class="line">ssh-rsa AAAAB3Nza… 第二把公钥 user2@laptop</span><br><span class="line">ssh-ed25519 AAAAC3Nza… 第三把公钥 deploy@ci</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>每行一把</strong>：文件里每一行都是一把整的公钥。</li>
@@ -340,13 +329,12 @@ ssh-ed25519 AAAAC3Nza… 第三把公钥 deploy@ci<span aria-hidden="true" class
 <hr>
 <h2 id="增加公钥"><a href="#增加公钥" class="headerlink" title="增加公钥"></a>增加公钥</h2><ol>
 <li><p>编辑 <code>/root/.ssh/authorized_keys</code>：</p>
-<pre class="line-numbers language-none"><code class="language-none">vim &#x2F;root&#x2F;.ssh&#x2F;authorized_keys<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>每行粘入一个新的公钥字符串（完整的 <code>ssh-rsa AAAA…</code> 或 <code>ssh-ed25519 …</code>）。</p>
 </li>
 <li><p>保存后保证权限仍然是：</p>
-<pre class="line-numbers language-none"><code class="language-none">chmod 700 &#x2F;root&#x2F;.ssh
-chmod 600 &#x2F;root&#x2F;.ssh&#x2F;authorized_keys<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod 700 /root/.ssh</span><br><span class="line">chmod 600 /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>此后，任何对应这些公钥的私钥都可以用来登录 <code>root</code>。</p>
 </li>
@@ -366,7 +354,7 @@ chmod 600 &#x2F;root&#x2F;.ssh&#x2F;authorized_keys<span aria-hidden="true" clas
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2026-08-23 21:18:55
+              2026-08-25 08:44:17
             </span>
             
                   <span class="post-tags">
@@ -458,7 +446,44 @@ chmod 600 &#x2F;root&#x2F;.ssh&#x2F;authorized_keys<span aria-hidden="true" clas
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>216</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 

@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -170,7 +171,7 @@
         
         <span class="post-wordcount">
           <i class="iconfont icon-edit mr-10" title="Words"></i>
-          1685
+          1705
         </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
@@ -208,12 +209,7 @@
 </ul>
 <img src="/2025/04/14/135-mos-guan-yu-kai-guan-dian-lu/1748574878064.png" class="" width="1748574878064">
 
-<h3 id="低边开关（Low-Side-Switch）"><a href="#低边开关（Low-Side-Switch）" class="headerlink" title="低边开关（Low-Side Switch）"></a>低边开关（Low-Side Switch）</h3><h3 id="1-电路形式"><a href="#1-电路形式" class="headerlink" title="1. 电路形式"></a>1. 电路形式</h3><pre class="line-numbers language-none"><code class="language-none">+VCC ──→── 负载 ──→──●───┐
-                    │   │
-                   漏(D) Q1(N-MOS)
-                   源(S)
-                    │
-                   GND<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="低边开关（Low-Side-Switch）"><a href="#低边开关（Low-Side-Switch）" class="headerlink" title="低边开关（Low-Side Switch）"></a>低边开关（Low-Side Switch）</h3><h3 id="1-电路形式"><a href="#1-电路形式" class="headerlink" title="1. 电路形式"></a>1. 电路形式</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+VCC ──→── 负载 ──→──●───┐</span><br><span class="line">                    │   │</span><br><span class="line">                   漏(D) Q1(N-MOS)</span><br><span class="line">                   源(S)</span><br><span class="line">                    │</span><br><span class="line">                   GND</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>Q1</strong>：通常选用 N 沟道（N-MOS），因为其电子迁移率高、导通电阻低、成本低。</li>
@@ -244,12 +240,7 @@
 </tr>
 </tbody></table>
 <h2 id="PMOS"><a href="#PMOS" class="headerlink" title="PMOS"></a>PMOS</h2><hr>
-<h3 id="高边开关（High-Side-Switch）"><a href="#高边开关（High-Side-Switch）" class="headerlink" title="高边开关（High-Side Switch）"></a>高边开关（High-Side Switch）</h3><h3 id="1-P-沟道-MOSFET-简单高边开关"><a href="#1-P-沟道-MOSFET-简单高边开关" class="headerlink" title="1. P 沟道 MOSFET 简单高边开关"></a>1. P 沟道 MOSFET 简单高边开关</h3><pre class="line-numbers language-none"><code class="language-none">+VCC ──●─── 源(S) Q2(P-MOS) 漏(D)───→── 负载 ──→── GND
-       │
-      R_pullup
-      100 kΩ
-       │
-     Gate ←─ MCU GPIO (3.3 V)／R_gate<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="高边开关（High-Side-Switch）"><a href="#高边开关（High-Side-Switch）" class="headerlink" title="高边开关（High-Side Switch）"></a>高边开关（High-Side Switch）</h3><h3 id="1-P-沟道-MOSFET-简单高边开关"><a href="#1-P-沟道-MOSFET-简单高边开关" class="headerlink" title="1. P 沟道 MOSFET 简单高边开关"></a>1. P 沟道 MOSFET 简单高边开关</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+VCC ──●─── 源(S) Q2(P-MOS) 漏(D)───→── 负载 ──→── GND</span><br><span class="line">       │</span><br><span class="line">      R_pullup</span><br><span class="line">      100 kΩ</span><br><span class="line">       │</span><br><span class="line">     Gate ←─ MCU GPIO (3.3 V)／R_gate</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>Q2</strong>：P 沟道 MOSFET，源极接 +VCC，漏极接负载。</li>
@@ -257,14 +248,7 @@
 <li><strong>门极驱动</strong>：MCU 低电平拉 Gate→V<sub>GS</sub>&#x3D;0–VCC＜0→Q2 导通；MCU 高电平（3.3 V）时，R_pullup 将 Gate 拉回 +VCC→V<sub>GS</sub>&#x3D;VCC–VCC&#x3D;0 V→Q2 关断。</li>
 <li></li>
 </ul>
-<h3 id="2-N-沟道-MOSFET-“驱动-高边”-方案"><a href="#2-N-沟道-MOSFET-“驱动-高边”-方案" class="headerlink" title="2. N 沟道 MOSFET “驱动+高边” 方案"></a>2. N 沟道 MOSFET “驱动+高边” 方案</h3><pre class="line-numbers language-none"><code class="language-none">+VCC ──●─── 源(S) Q3(N-MOS) 漏(D)───→── 负载 ──→── GND
-       │
-      Boot-strap &#x2F; 驱动芯片
-         ┌───────────┐
-         │ Gate Driver│
-         └───────────┘
-              │
-             MCU<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-N-沟道-MOSFET-“驱动-高边”-方案"><a href="#2-N-沟道-MOSFET-“驱动-高边”-方案" class="headerlink" title="2. N 沟道 MOSFET “驱动+高边” 方案"></a>2. N 沟道 MOSFET “驱动+高边” 方案</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+VCC ──●─── 源(S) Q3(N-MOS) 漏(D)───→── 负载 ──→── GND</span><br><span class="line">       │</span><br><span class="line">      Boot-strap / 驱动芯片</span><br><span class="line">         ┌───────────┐</span><br><span class="line">         │ Gate Driver│</span><br><span class="line">         └───────────┘</span><br><span class="line">              │</span><br><span class="line">             MCU</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>Q3</strong>：N 沟道 MOSFET 导通电阻更低，适合大电流场合。</li>
@@ -504,7 +488,44 @@
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>216</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 

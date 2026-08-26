@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -170,7 +171,7 @@
         
         <span class="post-wordcount">
           <i class="iconfont icon-edit mr-10" title="Words"></i>
-          501
+          506
         </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
@@ -192,16 +193,13 @@
       <div class="markdown-body">
         <h3 id="共阳极数码管"><a href="#共阳极数码管" class="headerlink" title="共阳极数码管"></a>共阳极数码管</h3><img src="/2023/06/03/63h-51-dan-pian-ji-qu-dong-shu-ma-guan/image-20230603224630917.png" class="" title="image-20230603224630917">
 
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">0x82,0xf8,0x80,0x90&#125;;&#96;&#96;&#96;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x82</span>,<span class="number">0xf8</span>,<span class="number">0x80</span>,<span class="number">0x90</span>&#125;;```</span><br></pre></td></tr></table></figure>
 
 <h3 id="共阴极数码管"><a href="#共阴极数码管" class="headerlink" title="共阴极数码管"></a>共阴极数码管</h3><img src="/2023/06/03/63h-51-dan-pian-ji-qu-dong-shu-ma-guan/image-20230603224657362.png" class="" title="image-20230603224657362">
 
 
 
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">unsigned char code seven_seg[9] &#x3D; &#123;
-                            0x3f , 0x06 , 0x5b , 
-                            0x4f , 0x66 , 0x6d , 
-                            0x7d ,0x07 , 0x7f  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">char</span> code seven_seg[<span class="number">9</span>] = &#123;</span><br><span class="line">                            <span class="number">0x3f</span> , <span class="number">0x06</span> , <span class="number">0x5b</span> , </span><br><span class="line">                            <span class="number">0x4f</span> , <span class="number">0x66</span> , <span class="number">0x6d</span> , </span><br><span class="line">                            <span class="number">0x7d</span> ,<span class="number">0x07</span> , <span class="number">0x7f</span>  &#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="小小坑"><a href="#小小坑" class="headerlink" title="小小坑"></a>小小坑</h2><ul>
 <li><p>如果发现if语句失灵,请检查括号是否括对了</p>
@@ -335,7 +333,44 @@
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>216</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 

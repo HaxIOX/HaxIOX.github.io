@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -170,7 +171,7 @@
         
         <span class="post-wordcount">
           <i class="iconfont icon-edit mr-10" title="Words"></i>
-          1761
+          1768
         </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
@@ -251,9 +252,7 @@
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/645679541">解决Hexo+Github+Typora图片无法正确显示的问题 - 知乎 (zhihu.com)</a></p>
 <h2 id="err-Error-Spawn-failed"><a href="#err-Error-Spawn-failed" class="headerlink" title="err: Error: Spawn failed."></a>err: Error: Spawn failed.</h2><p>he correct access rights and the repository exists</p>
 <p> (1)首先重新设置一下git的用户名和邮箱</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">git config --global user.name &quot;xxx&quot;
-    
-git config --global user.email &quot;xxx&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;xxx&quot;</span></span><br><span class="line">    </span><br><span class="line">git config --global user.email <span class="string">&quot;xxx&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>(2) 删除.ssh文件夹</p>
 <p>(3)git输入</p>
@@ -291,16 +290,16 @@ git config --global user.email &quot;xxx&quot;<span aria-hidden="true" class="li
 <h3 id="SSL-certificate-problem-unable-to-get-local-issuer-certificate"><a href="#SSL-certificate-problem-unable-to-get-local-issuer-certificate" class="headerlink" title="SSL certificate problem: unable to get local issuer certificate"></a>SSL certificate problem: unable to get local issuer certificate</h3><blockquote>
 <p>这是由于当你通过HTTPS访问Git远程仓库的时候，如果服务器上的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=SSL&spm=1001.2101.3001.7020">SSL</a>证书未经过第三方机构认证，git就会报错。原因是因为未知的没有签署过的证书意味着可能存在很大的风险。解决办法就是通过下面的命令将git中的sslverify关掉：</p>
 </blockquote>
-<pre class="line-numbers language-none"><code class="language-none">git config --global http.sslverify false<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.sslverify false</span><br></pre></td></tr></table></figure>
 
 <p>　　上面这行命令的影响范围是系统当前用户，如果要设置为全局所有用户，可以改成这样：</p>
-<pre class="line-numbers language-none"><code class="language-none">git config --system http.sslverify false<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --system http.sslverify false</span><br></pre></td></tr></table></figure>
 
 <p>　　如果只是想针对当前仓库进行设置，可以在需要修改的仓库目录下执行：</p>
-<pre class="line-numbers language-none"><code class="language-none">git config http.sslverify false<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config http.sslverify false</span><br></pre></td></tr></table></figure>
 
 <p>　　如果你的仓库中存在嵌套的git子模块（就是子模块中又引用了子模块），在进行初始化时，仍然有可能遇到self signed certificate in certificate chain的错误，此时可以通过执行下面的命令来解决：</p>
-<pre class="line-numbers language-none"><code class="language-none">npm config set strict-ssl false<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config set strict-ssl false</span><br></pre></td></tr></table></figure>
 <h2 id="执行remote-add时：fatal-Not-a-git-repository"><a href="#执行remote-add时：fatal-Not-a-git-repository" class="headerlink" title="执行remote add时：fatal: Not a git repository"></a>执行remote add时：fatal: Not a git repository</h2><blockquote>
 <p>执行git remote add命令时报这个错误：</p>
 </blockquote>
@@ -490,7 +489,44 @@ git config --global user.email &quot;xxx&quot;<span aria-hidden="true" class="li
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>216</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 

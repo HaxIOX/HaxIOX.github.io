@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -170,11 +171,11 @@
         
         <span class="post-wordcount">
           <i class="iconfont icon-edit mr-10" title="Words"></i>
-          839
+          873
         </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          2026-08-23 21:18:56
+          2026-08-25 08:44:17
         </span>
         
               <span class="post-tags">
@@ -197,17 +198,7 @@
 <p>需要全局单播地址才能连接外部IPv6服务器。</p>
 <p>打开命令行，<code>ipconfig</code></p>
 <p>发现</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">无线局域网适配器 WLAN:
-   连接特定的 DNS 后缀 . . . . . . . :
-   本地链接 IPv6 地址. . . . . . . . : fe80::9095:5329:2298:180c%3
-   IPv4 地址 . . . . . . . . . . . . : 192.168.31.78
-   子网掩码  . . . . . . . . . . . . : 255.255.255.0
-   默认网关. . . . . . . . . . . . . : 192.168.31.1
-隧道适配器 Teredo Tunneling Pseudo-Interface:
-   连接特定的 DNS 后缀 . . . . . . . :
-   IPv6 地址 . . . . . . . . . . . . : 2001隐藏
-   本地链接 IPv6 地址. . . . . . . . : fe80::2c16:1c7f:505c:8d62%13
-   默认网关. . . . . . . . . . . . . : ::<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">无线局域网适配器 WLAN:</span><br><span class="line">   连接特定的 DNS 后缀 . . . . . . . :</span><br><span class="line">   本地链接 IPv6 地址. . . . . . . . : fe80::9095:5329:2298:180c%3</span><br><span class="line">   IPv4 地址 . . . . . . . . . . . . : 192.168.31.78</span><br><span class="line">   子网掩码  . . . . . . . . . . . . : 255.255.255.0</span><br><span class="line">   默认网关. . . . . . . . . . . . . : 192.168.31.1</span><br><span class="line">隧道适配器 Teredo Tunneling Pseudo-Interface:</span><br><span class="line">   连接特定的 DNS 后缀 . . . . . . . :</span><br><span class="line">   IPv6 地址 . . . . . . . . . . . . : 2001隐藏</span><br><span class="line">   本地链接 IPv6 地址. . . . . . . . : fe80::2c16:1c7f:505c:8d62%13</span><br><span class="line">   默认网关. . . . . . . . . . . . . : ::</span><br></pre></td></tr></table></figure>
 
 <p><strong>主要问题：</strong></p>
 <ol>
@@ -224,35 +215,15 @@
 <li>联系ISP确认是否提供IPv6服务</li>
 </ul>
 <p><strong>方法2：优化Teredo隧道</strong> 以管理员身份运行命令提示符：</p>
-<pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd"># 重置Teredo
-netsh interface teredo set state disabled
-netsh interface teredo set state type&#x3D;default
-netsh interface ipv6 reset
-
-# 重启网络服务
-ipconfig &#x2F;flushdns<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 重置Teredo</span><br><span class="line">netsh interface teredo <span class="built_in">set</span> state disabled</span><br><span class="line">netsh interface teredo <span class="built_in">set</span> state <span class="built_in">type</span>=default</span><br><span class="line">netsh interface ipv6 reset</span><br><span class="line"></span><br><span class="line"># 重启网络服务</span><br><span class="line"><span class="built_in">ipconfig</span> /flushdns</span><br></pre></td></tr></table></figure>
 
 <p><strong>方法3：测试当前IPv6连接</strong></p>
-<pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd"># 测试Teredo是否工作
-ping -6 ipv6.google.com
-ping -6 2001:4860:4860::8888
-
-# 检查路由
-netsh interface ipv6 show route<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 测试Teredo是否工作</span><br><span class="line"><span class="built_in">ping</span> -<span class="number">6</span> ipv6.google.com</span><br><span class="line"><span class="built_in">ping</span> -<span class="number">6</span> <span class="number">2001</span>:<span class="number">4860</span>:<span class="number">4860</span>::<span class="number">8888</span></span><br><span class="line"></span><br><span class="line"># 检查路由</span><br><span class="line">netsh interface ipv6 show route</span><br></pre></td></tr></table></figure>
 
 <p><strong>临时解决方案：</strong> 如果以上方法都不行，可以使用IPv6隧道服务（如Hurricane Electric的tunnel broker）来获得稳定的IPv6连接。</p>
 <p>你可以先试试重置Teredo，然后测试能否ping通IPv6地址。</p>
 <p>进入路由器的后台管理界面,打开ipv6配置后,<code>ipconfig</code></p>
-<pre class="line-numbers language-none"><code class="language-none">无线局域网适配器 WLAN:
-   连接特定的 DNS 后缀 . . . . . . . :
-   IPv6 地址 . . . . . . . . . . . . : 2408:822f:1ab1:67c::255
-   IPv6 地址 . . . . . . . . . . . . : 2408:隐藏
-   临时 IPv6 地址. . . . . . . . . . : 2408:隐藏
-   本地链接 IPv6 地址. . . . . . . . : fe80::9095:5329:2298:180c%3
-   IPv4 地址 . . . . . . . . . . . . : 192.168.31.78
-   子网掩码  . . . . . . . . . . . . : 255.255.255.0
-   默认网关. . . . . . . . . . . . . : fe80::46f7:70ff:fe1e:9728%3
-                                       192.168.31.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">无线局域网适配器 WLAN:</span><br><span class="line">   连接特定的 DNS 后缀 . . . . . . . :</span><br><span class="line">   IPv6 地址 . . . . . . . . . . . . : 2408:822f:1ab1:67c::255</span><br><span class="line">   IPv6 地址 . . . . . . . . . . . . : 2408:隐藏</span><br><span class="line">   临时 IPv6 地址. . . . . . . . . . : 2408:隐藏</span><br><span class="line">   本地链接 IPv6 地址. . . . . . . . : fe80::9095:5329:2298:180c%3</span><br><span class="line">   IPv4 地址 . . . . . . . . . . . . : 192.168.31.78</span><br><span class="line">   子网掩码  . . . . . . . . . . . . : 255.255.255.0</span><br><span class="line">   默认网关. . . . . . . . . . . . . : fe80::46f7:70ff:fe1e:9728%3</span><br><span class="line">                                       192.168.31.1</span><br></pre></td></tr></table></figure>
 
 <p><strong>Teredo隧道的作用：</strong> Teredo是微软开发的一种IPv6过渡技术，它的目的是让处于IPv4网络中的设备也能访问IPv6资源。</p>
 <p><strong>为什么之前没开IPv6也有IPv6地址：</strong></p>
@@ -293,7 +264,7 @@ netsh interface ipv6 show route<span aria-hidden="true" class="line-numbers-rows
           <div class="post-attach">
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-              2026-08-23 21:18:56
+              2026-08-25 08:44:17
             </span>
             
                   <span class="post-tags">
@@ -385,7 +356,44 @@ netsh interface ipv6 show route<span aria-hidden="true" class="line-numbers-rows
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>216</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 

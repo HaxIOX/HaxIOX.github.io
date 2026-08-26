@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -170,7 +171,7 @@
         
         <span class="post-wordcount">
           <i class="iconfont icon-edit mr-10" title="Words"></i>
-          230
+          235
         </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
@@ -203,11 +204,7 @@
 <li>有人的tcp转虚拟串口</li>
 </ul>
 <h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p><strong>将串口数据通过TCP&#x2F;IP隧道传输</strong>，让Windows端通过虚拟串口软件接收数据。</p>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="1-Linux端配置-串口-TCP"><a href="#1-Linux端配置-串口-TCP" class="headerlink" title="1. Linux端配置 (串口 -&gt; TCP)"></a><strong>1. Linux端配置 (串口 -&gt; TCP)</strong></h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 安装socat
-sudo apt install socat
-
-# 将串口&#x2F;dev&#x2F;ttyS0的数据转发到TCP 8888端口
-socat -d -d TCP-LISTEN:8888,reuseaddr,fork FILE:&#x2F;dev&#x2F;ttyS0,raw,echo&#x3D;0,b115200<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="1-Linux端配置-串口-TCP"><a href="#1-Linux端配置-串口-TCP" class="headerlink" title="1. Linux端配置 (串口 -&gt; TCP)"></a><strong>1. Linux端配置 (串口 -&gt; TCP)</strong></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装socat</span></span><br><span class="line"><span class="built_in">sudo</span> apt install socat</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将串口/dev/ttyS0的数据转发到TCP 8888端口</span></span><br><span class="line">socat -d -d TCP-LISTEN:8888,reuseaddr,fork FILE:/dev/ttyS0,raw,<span class="built_in">echo</span>=0,b115200</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>参数说明</strong>：<ul>
@@ -337,7 +334,44 @@ socat -d -d TCP-LISTEN:8888,reuseaddr,fork FILE:&#x2F;dev&#x2F;ttyS0,raw,echo&#x
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>216</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 

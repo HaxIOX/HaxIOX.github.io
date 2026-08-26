@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -170,7 +171,7 @@
         
         <span class="post-wordcount">
           <i class="iconfont icon-edit mr-10" title="Words"></i>
-          662
+          677
         </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
@@ -191,21 +192,7 @@
       </div>
       <div class="markdown-body">
         <p>在TPS54560DDAR模块中，输出电压的反馈电路是由一个电阻分压器组成的。这个电阻分压器包括两个固定阻值电阻 R1 和 R2，以及一个反馈电阻 RF，如下图所示：</p>
-<pre class="line-numbers language-none"><code class="language-none">+Vin
-  |
-  |
-  |
- &#x2F; \
-R1 R2
-|   |
-|   |
-|   |
---- |
-  | |
-RF|_| Vout
-  |
------
------<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+Vin</span><br><span class="line">  |</span><br><span class="line">  |</span><br><span class="line">  |</span><br><span class="line"> / \</span><br><span class="line">R1 R2</span><br><span class="line">|   |</span><br><span class="line">|   |</span><br><span class="line">|   |</span><br><span class="line">--- |</span><br><span class="line">  | |</span><br><span class="line">RF|_| Vout</span><br><span class="line">  |</span><br><span class="line">-----</span><br><span class="line">-----</span><br></pre></td></tr></table></figure>
 
 <p>反馈电路的基本原理是，通过调整反馈电路的电阻值，使得反馈电压等于参考电压（通常为0.8V），从而实现稳定的输出电压。在TPS54560DDAR中，输出电压的公式为：</p>
 <p>Vout &#x3D; Vref x (1 + R1&#x2F;R2) + RF x I(RF)</p>
@@ -329,7 +316,44 @@ RF|_| Vout
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>216</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 

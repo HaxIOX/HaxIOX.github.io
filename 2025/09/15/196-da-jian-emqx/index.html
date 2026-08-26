@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -170,7 +171,7 @@
         
         <span class="post-wordcount">
           <i class="iconfont icon-edit mr-10" title="Words"></i>
-          137
+          151
         </span>
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
@@ -190,20 +191,7 @@
           
       </div>
       <div class="markdown-body">
-        <h2 id="限制IP"><a href="#限制IP" class="headerlink" title="限制IP"></a>限制IP</h2><pre class="line-numbers language-none"><code class="language-none"># 1) 允许你的管理IP访问 18083
-iptables -I DOCKER-USER -p tcp --dport 18083 -s 203.0.113.10 -j ACCEPT
-# 2) 其余来源一律拒绝 18083
-iptables -A DOCKER-USER -p tcp --dport 18083 -j DROP
-
-# 如有 IPv6，再加一组（可选）
-# ip6tables -I DOCKER-USER -p tcp --dport 18083 -s 2001:db8::1234 -j ACCEPT
-# ip6tables -A DOCKER-USER -p tcp --dport 18083 -j DROP
-
-iptables -I DOCKER-USER -p tcp --dport 1883 -s 23.133.52.56 -j ACCEPT
-
-apt-get update &amp;&amp; apt-get install -y iptables-persistent
-netfilter-persistent save
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+        <h2 id="限制IP"><a href="#限制IP" class="headerlink" title="限制IP"></a>限制IP</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 1) 允许你的管理IP访问 18083</span><br><span class="line">iptables -I DOCKER-USER -p tcp --dport 18083 -s 203.0.113.10 -j ACCEPT</span><br><span class="line"># 2) 其余来源一律拒绝 18083</span><br><span class="line">iptables -A DOCKER-USER -p tcp --dport 18083 -j DROP</span><br><span class="line"></span><br><span class="line"># 如有 IPv6，再加一组（可选）</span><br><span class="line"># ip6tables -I DOCKER-USER -p tcp --dport 18083 -s 2001:db8::1234 -j ACCEPT</span><br><span class="line"># ip6tables -A DOCKER-USER -p tcp --dport 18083 -j DROP</span><br><span class="line"></span><br><span class="line">iptables -I DOCKER-USER -p tcp --dport 1883 -s 23.133.52.56 -j ACCEPT</span><br><span class="line"></span><br><span class="line">apt-get update &amp;&amp; apt-get install -y iptables-persistent</span><br><span class="line">netfilter-persistent save</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>iptables -F DOCKER-USER</p>
 <p>浏览器页面只能走 8083（WebSocket）</p>
@@ -315,7 +303,44 @@ netfilter-persistent save
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>216</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 
