@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      linux on esp32 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- Raleway-Font -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+    </script>
+    
+<script src="/js/macBlock.js"></script>
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+  <body>
+    <div id="app">
+      <div class="header">
+  <div class="avatar">
+    <a href="/">
+      <!-- 头像取消懒加载，添加no-lazy -->
+      
+        <img src="/images/northcat-avatar.png" alt="">
+      
+    </a>
+    <div class="nickname"><a href="/">Northcat</a></div>
+  </div>
+  <div class="navbar">
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+
+  <!-- LaTex Display -->
+
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  <div class="container post-details" id="post-details">
+    <div class="post-content">
+      <div class="post-title">linux on esp32</div>
+      <div class="post-attach">
+        
+        
+        <span class="post-wordcount">
+          <i class="iconfont icon-edit mr-10" title="Words"></i>
+          1081
+        </span>
+        <span class="post-pubtime">
+          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          2026-08-27 11:37:05
+        </span>
+        
+      </div>
+      <div class="markdown-body">
+        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>公众号刷到了<a target="_blank" rel="noopener" href="https://github.com/GrieferPig/esp32-s31-linux">在 ESP32-S31 上原生运行 <strong>Linux 6.12 RV32 MMU Linux</strong>的项目</a></p>
+<p>这件事之所以在 S31 上突然变得现实，核心是 S31 的 CPU 架构发生了很大变化。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>ESP32-S31</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU</td>
+<td>双核 32-bit RISC-V</td>
+</tr>
+<tr>
+<td>主频</td>
+<td>最高 320 MHz</td>
+</tr>
+<tr>
+<td>SRAM</td>
+<td>512 KB</td>
+</tr>
+<tr>
+<td>外部 RAM</td>
+<td>DDR PSRAM</td>
+</tr>
+<tr>
+<td>MMU</td>
+<td><strong>支持</strong></td>
+</tr>
+<tr>
+<td>ISA</td>
+<td>RISC-V</td>
+</tr>
+<tr>
+<td>Linux</td>
+<td>可以走 MMU Linux</td>
+</tr>
+</tbody></table>
+<p><strong>启动链</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">ESP32-S31 ROM</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">ESP-IDF Second Stage Bootloader</span><br><span class="line">      │</span><br><span class="line">      ▼</span><br><span class="line">Factory Loader</span><br><span class="line">  ├── 初始化 DDR PSRAM</span><br><span class="line">  ├── 建立 Flash XIP 映射</span><br><span class="line">  ├── 初始化共享 SRAM</span><br><span class="line">  ├── 保留 FreeRTOS / 无线固件环境</span><br><span class="line">  │</span><br><span class="line">  ▼</span><br><span class="line">OpenSBI</span><br><span class="line">      │</span><br><span class="line">      │ M-mode</span><br><span class="line">      ▼</span><br><span class="line">Linux Kernel</span><br><span class="line">      │ S-mode</span><br><span class="line">      ▼</span><br><span class="line">Buildroot RootFS</span><br><span class="line">      │</span><br><span class="line">      ├── BusyBox</span><br><span class="line">      ├── Dropbear</span><br><span class="line">      ├── iproute2</span><br><span class="line">      ├── tcpdump</span><br><span class="line">      └── ...</span><br></pre></td></tr></table></figure>
+
+<p><strong>S31 和 S3 CPU 架构对比</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ESP32-S31</th>
+<th>ESP32-S3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU</td>
+<td><strong>RISC-V</strong></td>
+<td><strong>Xtensa LX7</strong></td>
+</tr>
+<tr>
+<td>核数</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>主频</td>
+<td>320 MHz</td>
+<td>240 MHz</td>
+</tr>
+<tr>
+<td>SRAM</td>
+<td>512 KB</td>
+<td>512 KB</td>
+</tr>
+<tr>
+<td>Linux ISA</td>
+<td>riscv32</td>
+<td>xtensa</td>
+</tr>
+<tr>
+<td>OpenSBI</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Linux S-mode</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>标准 MMU Linux</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>NOMMU Linux</td>
+<td>可</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<p>想搞一下，但是没有s31，就去查了一下s3支持不支持，发现了另一个开源项目</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/paulneja/Linux-on-esp32-S3/tree/main">paulneja&#x2F;Linux-on-esp32-S3</a></li>
+<li></li>
+</ul>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h2 id="关于Ubuntu、Buildroot、Linux-内核、驱动、rootfs-一些混淆"><a href="#关于Ubuntu、Buildroot、Linux-内核、驱动、rootfs-一些混淆" class="headerlink" title="关于Ubuntu、Buildroot、Linux 内核、驱动、rootfs 一些混淆"></a>关于<strong>Ubuntu、Buildroot、Linux 内核、驱动、rootfs</strong> 一些混淆</h2><h3 id="完整-Linux-系统"><a href="#完整-Linux-系统" class="headerlink" title="完整 Linux 系统"></a>完整 Linux 系统</h3><p>一块板子能跑 Linux，通常大致是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">BootROM</span><br><span class="line">  ↓</span><br><span class="line">Bootloader（U-Boot / 厂商 loader）</span><br><span class="line">  ↓</span><br><span class="line">Linux Kernel</span><br><span class="line">  ├─ CPU/内存管理</span><br><span class="line">  ├─ GPIO</span><br><span class="line">  ├─ I2C</span><br><span class="line">  ├─ SPI</span><br><span class="line">  ├─ Wi-Fi</span><br><span class="line">  ├─ LCD</span><br><span class="line">  ├─ USB</span><br><span class="line">  └─ 各种驱动</span><br><span class="line">  ↓</span><br><span class="line">RootFS 根文件系统</span><br><span class="line">  ├─ /bin</span><br><span class="line">  ├─ /sbin</span><br><span class="line">  ├─ /etc</span><br><span class="line">  ├─ /lib</span><br><span class="line">  ├─ shell</span><br><span class="line">  ├─ 网络工具</span><br><span class="line">  └─ 用户程序</span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li><strong>Kernel</strong> &#x3D; 内核 + 大部分硬件驱动</li>
+<li><strong>RootFS</strong> &#x3D; 用户空间</li>
+<li><strong>Buildroot</strong> &#x3D; 用来“生成 Kernel&#x2F;RootFS&#x2F;工具链等”的构建系统之一</li>
+<li><strong>Ubuntu</strong> &#x3D; 一套完整 Linux 发行版</li>
+</ul>
+<hr>
+<p><strong>泰山派烧 Ubuntu，不等于 Buildroot</strong></p>
+<p>比如泰山派上烧一个 Ubuntu 镜像，更接近：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">U-Boot</span><br><span class="line">  ↓</span><br><span class="line">Linux Kernel</span><br><span class="line">  ↓</span><br><span class="line">泰山派板级驱动</span><br><span class="line">  ↓</span><br><span class="line">Ubuntu RootFS</span><br><span class="line">      ├─ systemd</span><br><span class="line">      ├─ apt</span><br><span class="line">      ├─ bash</span><br><span class="line">      ├─ libc</span><br><span class="line">      ├─ ssh</span><br><span class="line">      ├─ Python</span><br><span class="line">      └─ 大量 Ubuntu 软件包</span><br></pre></td></tr></table></figure>
+
+<p>这里 rootfs 是 <strong>Ubuntu 的 rootfs</strong>。</p>
+<p>不是 Buildroot。</p>
+<p>当然厂家在开发 BSP 的过程中，可能会同时提供：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Ubuntu</span><br><span class="line">Debian</span><br><span class="line">Buildroot</span><br><span class="line">Yocto</span><br><span class="line">Android</span><br></pre></td></tr></table></figure>
+
+<p>这些是不同用户空间&#x2F;构建方案。</p>
+<hr>
+<h3 id="Buildroot-是什么"><a href="#Buildroot-是什么" class="headerlink" title="Buildroot 是什么"></a>Buildroot 是什么</h3><p>你可以把 Buildroot 理解成：</p>
+<blockquote>
+<p><strong>一个“做嵌入式 Linux 系统镜像”的自动化工厂。</strong></p>
+</blockquote>
+<p>例如配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CPU = Xtensa</span><br><span class="line">Kernel = Linux 6.11</span><br><span class="line">libc = uClibc</span><br><span class="line">Shell = BusyBox hush</span><br><span class="line">启用 = Dropbear</span><br><span class="line">启用 = iproute2</span><br><span class="line">启用 = Wi-Fi工具</span><br><span class="line">RootFS = cramfs</span><br></pre></td></tr></table></figure>
+
+<p>然后 Buildroot 给你生成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">toolchain</span><br><span class="line">kernel image</span><br><span class="line">rootfs</span><br><span class="line">BusyBox</span><br><span class="line">各种用户态程序</span><br></pre></td></tr></table></figure>
+
+<p>所以：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Buildroot ≠ Linux系统里的某一层</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Buildroot = 构建这些东西的工具</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="ESP32-S3-跑的是什么"><a href="#ESP32-S3-跑的是什么" class="headerlink" title="ESP32-S3 跑的是什么"></a>ESP32-S3 跑的是什么</h3><p>你目前这套可以画成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ESP32-S3</span><br><span class="line">│</span><br><span class="line">├─ Core A</span><br><span class="line">│    ESP-IDF / FreeRTOS</span><br><span class="line">│      └─ Wi-Fi 固件</span><br><span class="line">│</span><br><span class="line">└─ Core B</span><br><span class="line">     Linux Kernel 6.11</span><br><span class="line">       ↓</span><br><span class="line">     Buildroot 生成的 RootFS</span><br><span class="line">       ├─ BusyBox</span><br><span class="line">       ├─ hush shell</span><br><span class="line">       ├─ 网络工具</span><br><span class="line">       ├─ init</span><br><span class="line">       └─ 一些小工具</span><br></pre></td></tr></table></figure>
+
+<p>所以严格来说：</p>
+<blockquote>
+<p><strong>我们不是“只用了 Buildroot 的一部分”。</strong></p>
+</blockquote>
+<p>而是：</p>
+<blockquote>
+<p><strong>用了 Buildroot 来生成一个非常精简的 Linux 用户空间，同时配上专门移植的 ESP32-S3 Linux Kernel。</strong></p>
+</blockquote>
+<hr>
+<h3 id="Wi-Fi"><a href="#Wi-Fi" class="headerlink" title="Wi-Fi"></a>Wi-Fi</h3><p>普通泰山派可能是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Linux Kernel</span><br><span class="line">    ↓</span><br><span class="line">Wi-Fi driver</span><br><span class="line">    ↓</span><br><span class="line">Wi-Fi 芯片</span><br></pre></td></tr></table></figure>
+
+<p>而当前 ESP32-S3 比较奇葩：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Linux</span><br><span class="line"> ↓</span><br><span class="line">espsta0</span><br><span class="line"> ↓</span><br><span class="line">共享内存 IPC</span><br><span class="line"> ↓</span><br><span class="line">另一个 CPU Core</span><br><span class="line"> ↓</span><br><span class="line">FreeRTOS / ESP-IDF</span><br><span class="line"> ↓</span><br><span class="line">乐鑫 Wi-Fi 固件</span><br><span class="line"> ↓</span><br><span class="line">Wi-Fi 硬件</span><br></pre></td></tr></table></figure>
+
+<p>所以 Wi-Fi 不完全属于 Buildroot。</p>
+<p>Buildroot 只是可能提供：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ip</span><br><span class="line">ping</span><br><span class="line">iw</span><br><span class="line">dhcp client</span><br><span class="line">shell</span><br></pre></td></tr></table></figure>
+
+<p>真正 Wi-Fi 底层实现是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Linux driver</span><br><span class="line">+</span><br><span class="line">IPC</span><br><span class="line">+</span><br><span class="line">ESP-IDF</span><br><span class="line">+</span><br><span class="line">Wi-Fi firmware</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">                   Linux 板卡系统</span><br><span class="line">                        │</span><br><span class="line">         ┌──────────────┴──────────────┐</span><br><span class="line">         │                             │</span><br><span class="line">     Linux Kernel                   RootFS</span><br><span class="line">         │                             │</span><br><span class="line">    硬件/驱动层                    用户空间</span><br><span class="line">         │                             │</span><br><span class="line">GPIO SPI I2C LCD WiFi          shell ssh 程序 libc</span><br><span class="line">                                       │</span><br><span class="line">                             ┌─────────┴─────────┐</span><br><span class="line">                             │                   │</span><br><span class="line">                          Ubuntu             Buildroot生成</span><br></pre></td></tr></table></figure>
+
+<p>Ubuntu 和 Buildroot <strong>不是上下级关系</strong>。</p>
+<p>更像是两条路线：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Kernel + Ubuntu RootFS</span><br></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Kernel + Buildroot RootFS</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="对比两个项目"><a href="#对比两个项目" class="headerlink" title="对比两个项目"></a>对比两个项目</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>泰山派 Ubuntu</th>
+<th>ESP32-S3 当前系统</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Kernel</td>
+<td>Linux</td>
+<td>Linux 6.11</td>
+</tr>
+<tr>
+<td>驱动</td>
+<td>泰山派 BSP 比较完整</td>
+<td>ESP32-S3 BSP 很少</td>
+</tr>
+<tr>
+<td>RootFS</td>
+<td>Ubuntu</td>
+<td>Buildroot 生成</td>
+</tr>
+<tr>
+<td>Shell</td>
+<td>bash 等</td>
+<td>BusyBox hush</td>
+</tr>
+<tr>
+<td>apt</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>✅ 通常有&#x2F;可装</td>
+<td>基本不适合</td>
+</tr>
+<tr>
+<td>Wi-Fi</td>
+<td>Linux 驱动为主</td>
+<td>Linux + FreeRTOS IPC</td>
+</tr>
+<tr>
+<td>LCD驱动</td>
+<td>通常 BSP 已提供</td>
+<td><strong>我们准备自己补</strong></td>
+</tr>
+<tr>
+<td>系统完整度</td>
+<td>高</td>
+<td>很精简</td>
+</tr>
+</tbody></table>
+<p>所以你可以把我们现在的 ESP32-S3 理解成：</p>
+<blockquote>
+<p><strong>已经有“Linux 内核 + 一个最小 Buildroot 用户空间 + 少量板级驱动”，但 BSP 远远没有泰山派成熟。</strong></p>
+</blockquote>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2026/07/18/218-one-kai-ji-qia/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              2026-08-27 11:37:05
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2026/08/28/220-shi-bo-qi-fen-jue/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
+  <div class="post-catalog hidden" id="catalog">
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%B7%E5%9B%A0"><span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EUbuntu%E3%80%81Buildroot%E3%80%81Linux-%E5%86%85%E6%A0%B8%E3%80%81%E9%A9%B1%E5%8A%A8%E3%80%81rootfs-%E4%B8%80%E4%BA%9B%E6%B7%B7%E6%B7%86"><span class="toc-text">关于Ubuntu、Buildroot、Linux 内核、驱动、rootfs 一些混淆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4-Linux-%E7%B3%BB%E7%BB%9F"><span class="toc-text">完整 Linux 系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Buildroot-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">Buildroot 是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ESP32-S3-%E8%B7%91%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">ESP32-S3 跑的是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Wi-Fi"><span class="toc-text">Wi-Fi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB"><span class="toc-text">关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94%E4%B8%A4%E4%B8%AA%E9%A1%B9%E7%9B%AE"><span class="toc-text">对比两个项目</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
+        
+    </div>
+  
+  
+</div>
+
+      </div>
+
+      <div class="tools-bar">
+        <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+        
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+        
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+        
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + linux%20on%20esp32 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2026%2F08%2F23%2F219-linux-on-esp32%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2026/08/23/219-linux-on-esp32/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+      </div>
+    </div>
+  </body>
+</html>
