@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -172,10 +173,21 @@
           <i class="iconfont icon-edit mr-10" title="Words"></i>
           6196
         </span>
+        
+        
+        <span class="post-pubtime">
+          <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span class="post-date-label">Publish time</span>
+          2022-06-24 17:53:09
+        </span>
+        
+        
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          <span class="post-date-label">Update time</span>
           2026-04-20 12:02:24
         </span>
+        
         
               <span class="post-tags">
                 <i class="iconfont icon-tags mr-10" title="Tags"></i>
@@ -322,7 +334,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Pwm=Kp\*e(k)+Ki\*∑e(k)+Kd\*[e(k)-e(k<span class="number">-1</span>)]</span><br><span class="line"></span><br><span class="line">e(k)：本次偏差</span><br><span class="line"></span><br><span class="line">e(k<span class="number">-1</span>)：上一次的偏差  </span><br><span class="line"></span><br><span class="line">∑e(k)：e(k)以及之前的偏差的累积和;其中k为<span class="number">1</span>,<span class="number">2</span>,,k;</span><br><span class="line"></span><br><span class="line">Pwm代表输出</span><br></pre></td></tr></table></figure>
 
 <p>3.结构框图</p>
-<style>.xtbexxelnntg{zoom:150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps1.jpg" class="xtbexxelnntg" alt="img">
+<style>.cqpynpvkntvp{zoom:150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps1.jpg" class="cqpynpvkntvp" alt="img">
 
 <ol start="4">
 <li>C语言实现</li>
@@ -341,11 +353,11 @@
 <li><p>结构框图</p>
 </li>
 </ol>
-<style>.yopcspthnrxr{zoom:150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps3.jpg" class="yopcspthnrxr" alt="img"> 
+<style>.vjcoojqekmli{zoom:150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps3.jpg" class="vjcoojqekmli" alt="img"> 
 
 <p><strong>直立环：让小车角度趋近0；</strong></p>
 <p><strong>速度环：让电机速度趋近0；</strong></p>
-<h3 id="速度环、串级PID"><a href="#速度环、串级PID" class="headerlink" title="速度环、串级PID"></a>速度环、串级PID</h3><style>.ryxwqriviruq{zoom: 150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps4.jpg" class="ryxwqriviruq" alt="img"> 
+<h3 id="速度环、串级PID"><a href="#速度环、串级PID" class="headerlink" title="速度环、串级PID"></a>速度环、串级PID</h3><style>.rqjdmpuwkoox{zoom: 150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps4.jpg" class="rqjdmpuwkoox" alt="img"> 
 
 <p>速度环输入：1.给定速度。2.速度反馈。</p>
 <p>输出：<strong>角度值</strong>（直立环的期望速度输入）</p>
@@ -530,9 +542,17 @@
           </div>
           <div class="post-attach">
             <span class="post-pubtime">
+              <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span class="post-date-label">Publish time</span>
+              2022-06-24 17:53:09
+            </span>
+            
+            <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              <span class="post-date-label">Update time</span>
               2026-04-20 12:02:24
             </span>
+            
             
                   <span class="post-tags">
                     <i class="iconfont icon-tags mr-10" title="Tags"></i>
@@ -623,7 +643,44 @@
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 

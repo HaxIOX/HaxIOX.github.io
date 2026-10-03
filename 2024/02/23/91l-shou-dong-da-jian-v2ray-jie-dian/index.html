@@ -40,6 +40,7 @@
 
     <script>
       window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
     </script>
     
 <script src="/js/macBlock.js"></script>
@@ -172,10 +173,21 @@
           <i class="iconfont icon-edit mr-10" title="Words"></i>
           764
         </span>
+        
+        
+        <span class="post-pubtime">
+          <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span class="post-date-label">Publish time</span>
+          2024-02-23 17:48:29
+        </span>
+        
+        
         <span class="post-pubtime">
           <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+          <span class="post-date-label">Update time</span>
           2026-04-20 12:02:24
         </span>
+        
         
               <span class="post-tags">
                 <i class="iconfont icon-tags mr-10" title="Tags"></i>
@@ -232,7 +244,7 @@
 
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[Sat Feb 24 16:18:25 CST 2024] Using CA: https://acme.zerossl.com/v2/DV90</span><br><span class="line">[Sat Feb 24 16:18:25 CST 2024] Standalone mode.</span><br><span class="line">[Sat Feb 24 16:18:25 CST 2024] No EAB credentials found <span class="keyword">for</span> ZeroSSL, <span class="built_in">let</span><span class="string">&#x27;s get one</span></span><br><span class="line"><span class="string">[Sat Feb 24 16:18:25 CST 2024] acme.sh is using ZeroSSL as default CA now.</span></span><br><span class="line"><span class="string">[Sat Feb 24 16:18:25 CST 2024] Please update your account with an email address first.</span></span><br><span class="line"><span class="string">[Sat Feb 24 16:18:25 CST 2024] acme.sh --register-account -m my@example.com</span></span><br><span class="line"><span class="string">[Sat Feb 24 16:18:25 CST 2024] See: https://github.com/acmesh-official/acme.sh/wiki/ZeroSSL.com-CA</span></span><br><span class="line"><span class="string">[Sat Feb 24 16:18:26 CST 2024] Please add &#x27;</span>--debug<span class="string">&#x27; or &#x27;</span>--<span class="built_in">log</span><span class="string">&#x27; to check more details.</span></span><br><span class="line"><span class="string">[Sat Feb 24 16:18:26 CST 2024] See: https://github.com/acmesh-official/acme.sh/wiki/How-to-debug-acme.sh</span></span><br></pre></td></tr></table></figure>
 
-<p>acme.sh –register-account -m <a href="mailto:&#x69;&#115;&#x67;&#x65;&#x65;&#107;&#48;&#x31;&#x40;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;">isgeek01@gmail.com</a> –server zerossl</p>
+<p>acme.sh –register-account -m <a href="mailto:&#105;&#x73;&#103;&#x65;&#101;&#x6b;&#48;&#49;&#64;&#103;&#x6d;&#97;&#105;&#108;&#46;&#99;&#x6f;&#109;">isgeek01@gmail.com</a> –server zerossl</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@30f2f8f483:~# acme.sh --register-account -m isgeek01@gmail.com --server zerossl</span><br><span class="line">[Sat Feb 24 16:22:17 CST 2024] No EAB credentials found <span class="keyword">for</span> ZeroSSL, <span class="built_in">let</span><span class="string">&#x27;s get one</span></span><br><span class="line"><span class="string">[Sat Feb 24 16:22:19 CST 2024] Registering account: https://acme.zerossl.com/v2/DV90</span></span><br><span class="line"><span class="string">[Sat Feb 24 16:22:21 CST 2024] Registered</span></span><br><span class="line"><span class="string">[Sat Feb 24 16:22:21 CST 2024] ACCOUNT_THUMBPRINT=&#x27;</span>2lPZ8zUYF2z1V_G8uXwS92iHZaenoVa6h83GCcoaHiA<span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>试一下</p>
@@ -253,9 +265,17 @@
           </div>
           <div class="post-attach">
             <span class="post-pubtime">
+              <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span class="post-date-label">Publish time</span>
+              2024-02-23 17:48:29
+            </span>
+            
+            <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              <span class="post-date-label">Update time</span>
               2026-04-20 12:02:24
             </span>
+            
             
                   <span class="post-tags">
                     <i class="iconfont icon-tags mr-10" title="Tags"></i>
@@ -346,7 +366,44 @@
     </div>
   
   
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
 </div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
 
       </div>
 
