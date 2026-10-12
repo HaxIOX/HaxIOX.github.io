@@ -32,6 +32,7 @@
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
@@ -76,8 +77,12 @@
 
 
   <body>
+    
     <div id="app">
-      <div class="header">
+      
+        
+
+<div class="header">
   <div class="avatar">
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
@@ -87,7 +92,9 @@
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
   </div>
+
   <div class="navbar">
+    
     <ul>
       
         <li class="nav-item" data-path="/">
@@ -112,12 +119,17 @@
       
     </ul>
   </div>
+
 </div>
+
 
 
 <script src="/js/activeNav.js"></script>
 
 
+
+
+      
 
       <div class="flex-container">
         <!-- 标签详情页，展示某个标签下的文章列表，url形式：https://yoursite/tags/某个标签/ -->
@@ -128,97 +140,82 @@
       <span>硬件设计</span>
     </h2>
   </div>
-  
-    <div class="post-list">
+  <!-- .post-list 是 fit-content + margin auto 的收缩居中块，必须只包一层、且在循环外：
+       写在循环里会变成「每篇各自居中」，各行左边缘参差不齐。放在外面才能让各行共用
+       同一左边缘、整块在版心内居中（与首页 index.ejs 的写法一致）。 -->
+  <div class="post-list">
+    
       <div class="post-item" title="one开机卡">
         <span class="time-m-d">2026-07-18</span>
         <a href="/2026/07/18/218-one-kai-ji-qia/">
           <span>one开机卡</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="四层PCB绘制的注意事项">
         <span class="time-m-d">2025-11-13</span>
         <a href="/2025/11/13/204-si-ceng-pcb-hui-zhi-de-zhu-yi-shi-xiang/">
           <span>四层PCB绘制的注意事项</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="OV5640摄像头模块设计">
         <span class="time-m-d">2025-09-10</span>
         <a href="/2025/09/10/195-ov5640-she-xiang-tou-mo-kuai-she-ji/">
           <span>OV5640摄像头模块设计</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="天线前置电路设计">
         <span class="time-m-d">2025-09-08</span>
         <a href="/2025/09/08/194-tian-xian-she-ji/">
           <span>天线前置电路设计</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="TVS and ESD">
         <span class="time-m-d">2025-08-21</span>
         <a href="/2025/08/21/192-tvs-and-esd/">
           <span>TVS and ESD</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="PCA9555扩展芯片">
         <span class="time-m-d">2025-08-20</span>
         <a href="/2025/08/20/191-pca9555-kuo-zhan-xin-pian/">
           <span>PCA9555扩展芯片</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="ESP32S3驱动OV5640">
         <span class="time-m-d">2025-08-14</span>
         <a href="/2025/08/14/186-esp32s3-qu-dong-ov5640/">
           <span>ESP32S3驱动OV5640</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="常用LDO方案">
         <span class="time-m-d">2025-08-05</span>
         <a href="/2025/08/05/185-ldo-fang-an/">
           <span>常用LDO方案</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="电池管理芯片方案">
         <span class="time-m-d">2025-08-05</span>
         <a href="/2025/08/05/184-dian-chi-guan-li-xin-pian-fang-an/">
           <span>电池管理芯片方案</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="电阻-电容-电感">
         <span class="time-m-d">2025-07-16</span>
         <a href="/2025/07/16/179-dian-zu-dian-rong-dian-gan/">
           <span>电阻-电容-电感</span>
         </a>
       </div>
-    </div>
-  
+    
+  </div>
   <nav class="post-navigation">
     
     <span class="page-num">1 / 3</span>
@@ -301,8 +298,8 @@
       </div>
 
       <div class="tools-bar">
-        <div class="back-to-top tools-bar-item hidden">
-  <a href="javascript: void(0)">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
     <i class="iconfont icon-chevronup"></i>
   </a>
 </div>
@@ -312,9 +309,9 @@
 
 
 
-        
+  
   <div class="search-icon tools-bar-item" id="search-icon">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Search">
       <i class="iconfont icon-search"></i>
     </a>
   </div>
@@ -505,9 +502,9 @@
 
 
 
-        
+  
   <div class="tools-bar-item theme-icon" id="switch-color-scheme">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Switch color mode">
       <i id="theme-icon" class="iconfont icon-moon"></i>
     </a>
   </div>
@@ -519,14 +516,15 @@
 
 
 
-        
+  
   
   
 <script src="/js/shares.js"></script>
 
 
 
-      </div>
+</div>
+
     </div>
   </body>
 </html>

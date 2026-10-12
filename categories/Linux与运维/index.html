@@ -32,6 +32,7 @@
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
@@ -76,8 +77,12 @@
 
 
   <body>
+    
     <div id="app">
-      <div class="header">
+      
+        
+
+<div class="header">
   <div class="avatar">
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
@@ -87,7 +92,9 @@
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
   </div>
+
   <div class="navbar">
+    
     <ul>
       
         <li class="nav-item" data-path="/">
@@ -112,12 +119,17 @@
       
     </ul>
   </div>
+
 </div>
+
 
 
 <script src="/js/activeNav.js"></script>
 
 
+
+
+      
 
       <div class="flex-container">
         <!-- 标签详情页，展示某个标签下的文章列表，url形式：https://yoursite/tags/某个标签/ -->
@@ -128,97 +140,82 @@
       <span>Linux与运维</span>
     </h2>
   </div>
-  
-    <div class="post-list">
+  <!-- .post-list 是 fit-content + margin auto 的收缩居中块，必须只包一层、且在循环外：
+       写在循环里会变成「每篇各自居中」，各行左边缘参差不齐。放在外面才能让各行共用
+       同一左边缘、整块在版心内居中（与首页 index.ejs 的写法一致）。 -->
+  <div class="post-list">
+    
       <div class="post-item" title="使用反向代理隔离源站">
         <span class="time-m-d">2025-12-12</span>
         <a href="/2025/12/12/208-shi-yong-fan-xiang-dai-li-ge-chi-yuan-zhan/">
           <span>使用反向代理隔离源站</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="AliMPay搭建">
         <span class="time-m-d">2025-11-16</span>
         <a href="/2025/11/16/205-alimpay-da-jian/">
           <span>AliMPay搭建</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="linux to windows 无线串口">
         <span class="time-m-d">2025-07-24</span>
         <a href="/2025/07/24/181-linux-to-windows-wu-xian-chuan-kou/">
           <span>linux to windows 无线串口</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="linux环境下编译">
         <span class="time-m-d">2025-06-16</span>
         <a href="/2025/06/16/168-linux-huan-jing-xia-bian-yi/">
           <span>linux环境下编译</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="完整卸载nezha-agent">
         <span class="time-m-d">2025-06-16</span>
         <a href="/2025/06/16/167-wan-zheng-xie-zai-nezha-agent/">
           <span>完整卸载nezha-agent</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="Nezha探针搭建(V1.12.4)">
         <span class="time-m-d">2025-06-02</span>
         <a href="/2025/06/02/152-nezha-tan-zhen-da-jian/">
           <span>Nezha探针搭建(V1.12.4)</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="夸克网盘自动签到">
         <span class="time-m-d">2025-06-01</span>
         <a href="/2025/06/01/150-kua-ke-wang-pan-zi-dong-qian-dao/">
           <span>夸克网盘自动签到</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="搭建中转服务器">
         <span class="time-m-d">2025-05-14</span>
         <a href="/2025/05/14/134-da-jian-zhong-zhuan-fu-wu-qi/">
           <span>搭建中转服务器</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="Orange Pi">
         <span class="time-m-d">2025-03-30</span>
         <a href="/2025/03/30/128-orange-pi-shang-shou/">
           <span>Orange Pi</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="油猴脚本">
         <span class="time-m-d">2024-09-10</span>
         <a href="/2024/09/10/116-bai-du-wang-pan-lian-jie-tiao-zhuan/">
           <span>油猴脚本</span>
         </a>
       </div>
-    </div>
-  
+    
+  </div>
   <nav class="post-navigation">
     
     <span class="page-num">1 / 4</span>
@@ -301,8 +298,8 @@
       </div>
 
       <div class="tools-bar">
-        <div class="back-to-top tools-bar-item hidden">
-  <a href="javascript: void(0)">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
     <i class="iconfont icon-chevronup"></i>
   </a>
 </div>
@@ -312,9 +309,9 @@
 
 
 
-        
+  
   <div class="search-icon tools-bar-item" id="search-icon">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Search">
       <i class="iconfont icon-search"></i>
     </a>
   </div>
@@ -505,9 +502,9 @@
 
 
 
-        
+  
   <div class="tools-bar-item theme-icon" id="switch-color-scheme">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Switch color mode">
       <i id="theme-icon" class="iconfont icon-moon"></i>
     </a>
   </div>
@@ -519,14 +516,15 @@
 
 
 
-        
+  
   
   
 <script src="/js/shares.js"></script>
 
 
 
-      </div>
+</div>
+
     </div>
   </body>
 </html>

@@ -32,6 +32,11 @@
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
+  
+    
+<link rel="stylesheet" href="/css/friends.css">
+
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
@@ -76,8 +81,12 @@
 
 
   <body>
+    
     <div id="app">
-      <div class="header">
+      
+        
+
+<div class="header">
   <div class="avatar">
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
@@ -87,7 +96,9 @@
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
   </div>
+
   <div class="navbar">
+    
     <ul>
       
         <li class="nav-item" data-path="/">
@@ -112,12 +123,17 @@
       
     </ul>
   </div>
+
 </div>
+
 
 
 <script src="/js/activeNav.js"></script>
 
 
+
+
+      
 
       <div class="flex-container">
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
@@ -159,34 +175,59 @@
 
   
   <!-- 朋友页 url形式：https://yoursite/friends/ -->
-  <div class="container friend-index">
-    <div class="friend-list">
-      
-        <div class="friend-list-item">
-          <span class="nickname">@ Zcheng</span>
-          <a href="https://zcheng.site/" target="_blank">
-            <span class="site-path">https://zcheng.site/</span>
-          </a>
-          <p class="card-meta">
+  
+
+<div class="container friend-index">
+  <header class="friend-index-header">
+    <h1>Friends</h1>
+    <span class="friend-index-total">2</span>
+  </header>
+
+  
+    
+      <div class="friend-grid">
+        
+          <article class="friend-card">
             
-          </p>
-        </div>
-      
-        <div class="friend-list-item">
-          <span class="nickname">@ Hexo</span>
-          <a href="https://hexo.io/" target="_blank">
-            <span class="site-path">https://hexo.io/</span>
-          </a>
-          <p class="card-meta">
+
+  <span class="friend-avatar friend-avatar-initial" aria-hidden="true">Z</span>
+
+
+            <div class="friend-body">
+              
+                <a class="friend-link" href="https://zcheng.site/" target="_blank" rel="noopener">
+                  <span class="friend-name">Zcheng</span>
+                  <span class="friend-host">zcheng.site</span>
+                </a>
+              
+              
+            </div>
+          </article>
+        
+          <article class="friend-card">
             
-          </p>
-        </div>
-      
-    </div>
-    <div class="markdown-body">
-      
-    </div>
-  </div>
+
+  <span class="friend-avatar friend-avatar-initial" aria-hidden="true">H</span>
+
+
+            <div class="friend-body">
+              
+                <a class="friend-link" href="https://hexo.io/" target="_blank" rel="noopener">
+                  <span class="friend-name">Hexo</span>
+                  <span class="friend-host">hexo.io</span>
+                </a>
+              
+              
+            </div>
+          </article>
+        
+      </div>
+    
+  
+
+  
+</div>
+
   
 
   
@@ -266,8 +307,8 @@
       </div>
 
       <div class="tools-bar">
-        <div class="back-to-top tools-bar-item hidden">
-  <a href="javascript: void(0)">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
     <i class="iconfont icon-chevronup"></i>
   </a>
 </div>
@@ -277,9 +318,9 @@
 
 
 
-        
+  
   <div class="search-icon tools-bar-item" id="search-icon">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Search">
       <i class="iconfont icon-search"></i>
     </a>
   </div>
@@ -470,9 +511,9 @@
 
 
 
-        
+  
   <div class="tools-bar-item theme-icon" id="switch-color-scheme">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Switch color mode">
       <i id="theme-icon" class="iconfont icon-moon"></i>
     </a>
   </div>
@@ -484,10 +525,10 @@
 
 
 
-        
+  
   
     <div class="share-icon tools-bar-item">
-      <a href="javascript: void(0)" id="share-icon">
+      <a href="javascript: void(0)" id="share-icon" title="Share">
         <i class="iconfont iconshare"></i>
       </a>
       <div class="share-content hidden">
@@ -509,7 +550,8 @@
 
 
 
-      </div>
+</div>
+
     </div>
   </body>
 </html>

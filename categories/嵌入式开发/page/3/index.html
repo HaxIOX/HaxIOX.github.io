@@ -32,6 +32,7 @@
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
@@ -76,8 +77,12 @@
 
 
   <body>
+    
     <div id="app">
-      <div class="header">
+      
+        
+
+<div class="header">
   <div class="avatar">
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
@@ -87,7 +92,9 @@
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
   </div>
+
   <div class="navbar">
+    
     <ul>
       
         <li class="nav-item" data-path="/">
@@ -112,12 +119,17 @@
       
     </ul>
   </div>
+
 </div>
+
 
 
 <script src="/js/activeNav.js"></script>
 
 
+
+
+      
 
       <div class="flex-container">
         <!-- 标签详情页，展示某个标签下的文章列表，url形式：https://yoursite/tags/某个标签/ -->
@@ -128,97 +140,82 @@
       <span>嵌入式开发</span>
     </h2>
   </div>
-  
-    <div class="post-list">
+  <!-- .post-list 是 fit-content + margin auto 的收缩居中块，必须只包一层、且在循环外：
+       写在循环里会变成「每篇各自居中」，各行左边缘参差不齐。放在外面才能让各行共用
+       同一左边缘、整块在版心内居中（与首页 index.ejs 的写法一致）。 -->
+  <div class="post-list">
+    
       <div class="post-item" title="ESP32-S3驱动WS2812_RGB灯">
         <span class="time-m-d">2025-07-08</span>
         <a href="/2025/07/08/174-esp32-s3-qu-dong-ws2812-rgb-deng/">
           <span>ESP32-S3驱动WS2812_RGB灯</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="ESP_IDF_OTA">
         <span class="time-m-d">2025-07-03</span>
         <a href="/2025/07/03/173-esp-idf-ota/">
           <span>ESP_IDF_OTA</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="驱动LED点阵屏">
         <span class="time-m-d">2025-06-22</span>
         <a href="/2025/06/22/171-qu-dong-led-dian-zhen-ping/">
           <span>驱动LED点阵屏</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="Proteus仿真入门">
         <span class="time-m-d">2025-06-21</span>
         <a href="/2025/06/21/170-proteus-fang-zhen-ru-men/">
           <span>Proteus仿真入门</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="基于stm32的班级投票系统">
         <span class="time-m-d">2025-06-21</span>
         <a href="/2025/06/21/169-ji-yu-stm32-de-duo-ren-tou-piao-xi-tong/">
           <span>基于stm32的班级投票系统</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="搭建独角数卡">
         <span class="time-m-d">2025-06-14</span>
         <a href="/2025/06/14/166-da-jian-du-jiao-shu-qia/">
           <span>搭建独角数卡</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="ESP-IDF开发遇到的一些小问题">
         <span class="time-m-d">2025-06-10</span>
         <a href="/2025/06/10/162-esp-idf-kai-fa-yu-dao-de-yi-xie-xiao-wen-ti/">
           <span>ESP-IDF开发遇到的一些小问题</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="C语言回炉">
         <span class="time-m-d">2025-06-09</span>
         <a href="/2025/06/09/159-c-yu-yan-hui-lu/">
           <span>C语言回炉</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="todolist网站搭建">
         <span class="time-m-d">2025-06-08</span>
         <a href="/2025/06/08/157-todolist-wang-zhan-da-jian/">
           <span>todolist网站搭建</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="windows环境下Wireshark抓取802.11数据包">
         <span class="time-m-d">2025-06-06</span>
         <a href="/2025/06/06/155-wireshark-de-shi-yong-fang-fa/">
           <span>windows环境下Wireshark抓取802.11数据包</span>
         </a>
       </div>
-    </div>
-  
+    
+  </div>
   <nav class="post-navigation">
     
       <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/page/2/"><i class="iconfont icon-angleleft"></i></a>
@@ -303,8 +300,8 @@
       </div>
 
       <div class="tools-bar">
-        <div class="back-to-top tools-bar-item hidden">
-  <a href="javascript: void(0)">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
     <i class="iconfont icon-chevronup"></i>
   </a>
 </div>
@@ -314,9 +311,9 @@
 
 
 
-        
+  
   <div class="search-icon tools-bar-item" id="search-icon">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Search">
       <i class="iconfont icon-search"></i>
     </a>
   </div>
@@ -507,9 +504,9 @@
 
 
 
-        
+  
   <div class="tools-bar-item theme-icon" id="switch-color-scheme">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Switch color mode">
       <i id="theme-icon" class="iconfont icon-moon"></i>
     </a>
   </div>
@@ -521,14 +518,15 @@
 
 
 
-        
+  
   
   
 <script src="/js/shares.js"></script>
 
 
 
-      </div>
+</div>
+
     </div>
   </body>
 </html>

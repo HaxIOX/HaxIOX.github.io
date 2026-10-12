@@ -32,6 +32,7 @@
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
@@ -76,48 +77,9 @@
 
 
   <body>
+    
     <div id="app">
-      <div class="header">
-  <div class="avatar">
-    <a href="/">
-      <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/northcat-avatar.png" alt="">
-      
-    </a>
-    <div class="nickname"><a href="/">Northcat</a></div>
-  </div>
-  <div class="navbar">
-    <ul>
-      
-        <li class="nav-item" data-path="/">
-          <a href="/">Home</a>
-        </li>
-      
-        <li class="nav-item" data-path="/archives/">
-          <a href="/archives/">Archives</a>
-        </li>
-      
-        <li class="nav-item" data-path="/tags/">
-          <a href="/tags/">Tags</a>
-        </li>
-      
-        <li class="nav-item" data-path="/friends/">
-          <a href="/friends/">Friends</a>
-        </li>
-      
-        <li class="nav-item" data-path="/about/">
-          <a href="/about/">About</a>
-        </li>
-      
-    </ul>
-  </div>
-</div>
-
-
-<script src="/js/activeNav.js"></script>
-
-
 
       <div class="flex-container">
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
@@ -163,43 +125,62 @@
 
   
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
-  <div class="container post-details" id="post-details">
+  
+  <div class="container post-details has-catalog" id="post-details">
     <div class="post-content">
       <div class="post-title">Max30102模块</div>
       <div class="post-attach">
         
         
-        <span class="post-wordcount">
-          <i class="iconfont icon-edit mr-10" title="Words"></i>
-          2371
-        </span>
         
-        
-        <span class="post-pubtime">
-          <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-          <span class="post-date-label">Publish time</span>
-          2024-04-09 16:24:53
-        </span>
-        
-        
-        <span class="post-pubtime">
-          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          <span class="post-date-label">Update time</span>
-          2026-04-20 12:02:24
-        </span>
-        
-        
-              <span class="post-tags">
-                <i class="iconfont icon-tags mr-10" title="Tags"></i>
-                
-                <span class="span--tag mr-8">
-                  <a href="/tags/%E4%BC%A0%E6%84%9F%E5%99%A8/" title="传感器">
-                    #传感器
-                  </a>
-                </span>
-                
-              </span>
+        <div class="post-meta-line">
+          <span class="post-wordcount">
+            <i class="iconfont icon-edit mr-10" title="Words"></i>
+            2371
+          </span>
           
+          <span class="post-pubtime">
+            <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span class="post-date-label">Publish time</span>
+            2024-04-09
+          </span>
+          
+          
+          <span class="post-pubtime">
+            <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+            <span class="post-date-label">Update time</span>
+            2026-04-20
+          </span>
+          
+        </div>
+        
+<div class="post-meta-line">
+  
+    <span class="post-tags">
+      <i class="iconfont icon-tags mr-10" title="Tags"></i>
+      
+      <span class="span--tag mr-8">
+        <a href="/tags/%E4%BC%A0%E6%84%9F%E5%99%A8/" title="传感器">
+          #传感器
+        </a>
+      </span>
+      
+    </span>
+  
+  
+    <span class="post-categories">
+      <i class="iconfont icon-bookmark" title="Categories"></i>
+      
+      <span class="span--category">
+        <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/" title="嵌入式开发">
+          <b>#</b> 嵌入式开发
+        </a>
+      </span>
+      
+    </span>
+  
+</div>
+
       </div>
       <div class="markdown-body">
         <h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*MAX30102寄存器地址宏定义*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> max30100_WR_address 0xAE</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX30102_Device_address max30100_WR_address</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> I2C_WR	0		<span class="comment">/* 写控制bit */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> I2C_RD	1		<span class="comment">/* 读控制bit */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_INTR_STATUS_1 		0x00</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_INTR_STATUS_2 		0x01</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_INTR_ENABLE_1 		0x02</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_INTR_ENABLE_2 		0x03</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_FIFO_WR_PTR 		0x04</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_OVF_COUNTER 		0x05</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_FIFO_RD_PTR 		0x06</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_FIFO_DATA 			0x07</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_FIFO_CONFIG 		0x08</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_MODE_CONFIG 		0x09</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_SPO2_CONFIG 		0x0A</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_LED1_PA 			0x0C</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_LED2_PA 			0x0D</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_PILOT_PA 			0x10</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_MULTI_LED_CTRL1 0x11</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_MULTI_LED_CTRL2 0x12</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_TEMP_INTR 			0x1F</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_TEMP_FRAC 			0x20</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_TEMP_CONFIG 		0x21</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_PROX_INT_THRESH 0x30</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_REV_ID 				0xFE</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REG_PART_ID 			0xFF</span></span><br></pre></td></tr></table></figure>
@@ -317,27 +298,15 @@
             <span class="post-pubtime">
               <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
               <span class="post-date-label">Publish time</span>
-              2024-04-09 16:24:53
+              2024-04-09
             </span>
             
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
               <span class="post-date-label">Update time</span>
-              2026-04-20 12:02:24
+              2026-04-20
             </span>
             
-            
-                  <span class="post-tags">
-                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
-                    
-                    <span class="span--tag mr-8">
-                      <a href="/tags/%E4%BC%A0%E6%84%9F%E5%99%A8/" title="传感器">
-                        #传感器
-                      </a>
-                    </span>
-                    
-                  </span>
-              
           </div>
           <div class="post-foot-prev">
             
@@ -350,11 +319,61 @@
         </div>
       
     </div>
-    
+    <aside class="post-sidebar">
+      
+        <div class="sidebar-author">
+          <img class="sidebar-avatar" src="/images/northcat-avatar.png" alt="Northcat">
+        </div>
+      
+      
   <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
     <i class="iconfont icon-catalog" aria-hidden="true"></i>
   </button>
   <div class="post-catalog hidden" id="catalog">
+    
+
+  <div class="navbar navbar--rail">
+    
+    <!-- 灯绳导航的悬浮命中区：灯绳本体只有 2px 宽，瞄准很难，
+         这块透明矩形把「灯绳附近」也算进可悬浮范围（样式见 catalog-left.css） -->
+    <span class="rail-hit" aria-hidden="true"></span>
+    
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+  
+<script src="/js/topNav.js"></script>
+
+
+
     <div class="title">Contents</div>
     <div class="catalog-content">
       
@@ -370,6 +389,7 @@
 
 
 
+    </aside>
     
       <div class="comments-container">
         
@@ -458,8 +478,8 @@
       </div>
 
       <div class="tools-bar">
-        <div class="back-to-top tools-bar-item hidden">
-  <a href="javascript: void(0)">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
     <i class="iconfont icon-chevronup"></i>
   </a>
 </div>
@@ -469,9 +489,9 @@
 
 
 
-        
+  
   <div class="search-icon tools-bar-item" id="search-icon">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Search">
       <i class="iconfont icon-search"></i>
     </a>
   </div>
@@ -662,9 +682,9 @@
 
 
 
-        
+  
   <div class="tools-bar-item theme-icon" id="switch-color-scheme">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Switch color mode">
       <i id="theme-icon" class="iconfont icon-moon"></i>
     </a>
   </div>
@@ -676,10 +696,10 @@
 
 
 
-        
+  
   
     <div class="share-icon tools-bar-item">
-      <a href="javascript: void(0)" id="share-icon">
+      <a href="javascript: void(0)" id="share-icon" title="Share">
         <i class="iconfont iconshare"></i>
       </a>
       <div class="share-content hidden">
@@ -701,7 +721,8 @@
 
 
 
-      </div>
+</div>
+
     </div>
   </body>
 </html>

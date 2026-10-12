@@ -32,6 +32,7 @@
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
@@ -76,48 +77,9 @@
 
 
   <body>
+    
     <div id="app">
-      <div class="header">
-  <div class="avatar">
-    <a href="/">
-      <!-- 头像取消懒加载，添加no-lazy -->
       
-        <img src="/images/northcat-avatar.png" alt="">
-      
-    </a>
-    <div class="nickname"><a href="/">Northcat</a></div>
-  </div>
-  <div class="navbar">
-    <ul>
-      
-        <li class="nav-item" data-path="/">
-          <a href="/">Home</a>
-        </li>
-      
-        <li class="nav-item" data-path="/archives/">
-          <a href="/archives/">Archives</a>
-        </li>
-      
-        <li class="nav-item" data-path="/tags/">
-          <a href="/tags/">Tags</a>
-        </li>
-      
-        <li class="nav-item" data-path="/friends/">
-          <a href="/friends/">Friends</a>
-        </li>
-      
-        <li class="nav-item" data-path="/about/">
-          <a href="/about/">About</a>
-        </li>
-      
-    </ul>
-  </div>
-</div>
-
-
-<script src="/js/activeNav.js"></script>
-
-
 
       <div class="flex-container">
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
@@ -163,43 +125,62 @@
 
   
   <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
-  <div class="container post-details" id="post-details">
+  
+  <div class="container post-details has-catalog" id="post-details">
     <div class="post-content">
       <div class="post-title">nonebot2的插件编写</div>
       <div class="post-attach">
         
         
-        <span class="post-wordcount">
-          <i class="iconfont icon-edit mr-10" title="Words"></i>
-          1048
-        </span>
         
-        
-        <span class="post-pubtime">
-          <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-          <span class="post-date-label">Publish time</span>
-          2022-06-15 19:00:58
-        </span>
-        
-        
-        <span class="post-pubtime">
-          <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
-          <span class="post-date-label">Update time</span>
-          2026-04-20 12:02:24
-        </span>
-        
-        
-              <span class="post-tags">
-                <i class="iconfont icon-tags mr-10" title="Tags"></i>
-                
-                <span class="span--tag mr-8">
-                  <a href="/tags/NoneBot2/" title="NoneBot2">
-                    #NoneBot2
-                  </a>
-                </span>
-                
-              </span>
+        <div class="post-meta-line">
+          <span class="post-wordcount">
+            <i class="iconfont icon-edit mr-10" title="Words"></i>
+            1048
+          </span>
           
+          <span class="post-pubtime">
+            <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span class="post-date-label">Publish time</span>
+            2022-06-15
+          </span>
+          
+          
+          <span class="post-pubtime">
+            <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+            <span class="post-date-label">Update time</span>
+            2026-04-20
+          </span>
+          
+        </div>
+        
+<div class="post-meta-line">
+  
+    <span class="post-tags">
+      <i class="iconfont icon-tags mr-10" title="Tags"></i>
+      
+      <span class="span--tag mr-8">
+        <a href="/tags/NoneBot2/" title="NoneBot2">
+          #NoneBot2
+        </a>
+      </span>
+      
+    </span>
+  
+  
+    <span class="post-categories">
+      <i class="iconfont icon-bookmark" title="Categories"></i>
+      
+      <span class="span--category">
+        <a href="/categories/%E4%B8%8A%E4%BD%8D%E6%9C%BA%E4%B8%8E%E8%84%9A%E6%9C%AC/" title="上位机与脚本">
+          <b>#</b> 上位机与脚本
+        </a>
+      </span>
+      
+    </span>
+  
+</div>
+
       </div>
       <div class="markdown-body">
         <h2 id="我的第一个插件-ping"><a href="#我的第一个插件-ping" class="headerlink" title="我的第一个插件-ping"></a>我的第一个插件-ping</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> nonebot</span><br><span class="line"><span class="keyword">import</span> httpx</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> nonebot <span class="keyword">import</span> on_command</span><br><span class="line"><span class="keyword">from</span> nonebot.matcher <span class="keyword">import</span> Matcher</span><br><span class="line"><span class="keyword">from</span> nonebot.params <span class="keyword">import</span> ArgPlainText, CommandArg</span><br><span class="line"><span class="keyword">from</span> fastapi <span class="keyword">import</span> FastAPI</span><br><span class="line"><span class="keyword">from</span> nonebot.rule <span class="keyword">import</span> to_me</span><br><span class="line"><span class="keyword">from</span> nonebot.typing <span class="keyword">import</span> T_State</span><br><span class="line"><span class="keyword">from</span> nonebot.adapters <span class="keyword">import</span> Bot, Event</span><br><span class="line"><span class="keyword">from</span> nonebot.permission <span class="keyword">import</span> SUPERUSER</span><br><span class="line"><span class="keyword">from</span> nonebot.adapters <span class="keyword">import</span> Message</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ping = on_command(<span class="string">&quot;ping &quot;</span>, aliases=&#123;<span class="string">&quot;p&quot;</span>, <span class="string">&quot;pingg&quot;</span>&#125;, priority=<span class="number">10</span>)     </span><br><span class="line"><span class="meta">@ping.handle()</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">ip_address</span>(<span class="params">event: Event,matcher: Matcher, args: Message = CommandArg(<span class="params"></span>)</span>):</span><br><span class="line">    ip = <span class="built_in">str</span>(event.get_message()).strip(<span class="string">&quot;/ping &quot;</span>) <span class="comment">#strip 剥离   </span></span><br><span class="line">    <span class="comment">#if args:</span></span><br><span class="line">        <span class="comment">#return</span></span><br><span class="line">    <span class="comment">#async with httpx.AsyncClient() as client:</span></span><br><span class="line">        <span class="comment">#response = await client.get(f&quot;https://api.iyk0.cn/api/ip?ip=&#123;ip&#125;&quot;)</span></span><br><span class="line">    <span class="comment">#if response.is_error:</span></span><br><span class="line">        <span class="comment">#logger.error(&quot;获取信息失败&quot;)</span></span><br><span class="line">        <span class="comment">#return</span></span><br><span class="line">    <span class="comment">#data = response.json()</span></span><br><span class="line">    headers=&#123;</span><br><span class="line">     <span class="string">&quot;user-agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36 Edg/106.0.1370.52&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    url = <span class="string">f&quot;https://api.iyk0.cn/api/ip?ip=<span class="subst">&#123;ip&#125;</span>&quot;</span>   </span><br><span class="line">    resp = requests.get(url, headers= headers)</span><br><span class="line">    resp.encoding = <span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">    <span class="comment">#resp = resp.text  </span></span><br><span class="line">    <span class="comment">#retdata = json.loads(resp.text)</span></span><br><span class="line">    <span class="comment">#msp = str(resp.json())</span></span><br><span class="line">    retdata = resp.json()    </span><br><span class="line">    data =&#123;</span><br><span class="line">    <span class="string">&quot;code&quot;</span>: retdata[<span class="string">&#x27;code&#x27;</span>],</span><br><span class="line">    <span class="string">&quot;country&quot;</span>: retdata[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;country&#x27;</span>],  </span><br><span class="line">    <span class="string">&quot;city&quot;</span>: retdata[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;city&#x27;</span>],</span><br><span class="line">    <span class="string">&quot;lon&quot;</span>: retdata[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;lon&#x27;</span>],</span><br><span class="line">    <span class="string">&quot;lat&quot;</span>: retdata[<span class="string">&#x27;data&#x27;</span>][<span class="string">&#x27;lat&#x27;</span>],</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">#data2 = json.dumps(data, indent=4)</span></span><br><span class="line">    data2 =<span class="built_in">str</span>(<span class="string">&quot;code:&quot;</span>+data[<span class="string">&quot;code&quot;</span>]+<span class="string">&quot;\n&quot;</span>+<span class="string">&quot;国家:&quot;</span>+data[<span class="string">&#x27;country&#x27;</span>]+<span class="string">&quot;\n&quot;</span> +<span class="string">&quot;城市:&quot;</span>+ data[<span class="string">&#x27;city&#x27;</span>]+<span class="string">&quot;\n&quot;</span>+<span class="string">&quot;经度:&quot;</span>+<span class="built_in">str</span>(data[<span class="string">&quot;lon&quot;</span>])+<span class="string">&quot;\n&quot;</span> +<span class="string">&quot;纬度:&quot;</span>+<span class="built_in">str</span>(data[<span class="string">&#x27;lat&#x27;</span>]))</span><br><span class="line">    <span class="comment">#msg = data[&#x27;data&#x27;][&#x27;country&#x27;]</span></span><br><span class="line">    <span class="keyword">await</span> ping.finish( data2)</span><br><span class="line">       </span><br><span class="line">        <span class="comment"># 提取json 关键数据方法</span></span><br><span class="line">        <span class="comment"># 用res变量接收 get_url返回的数据</span></span><br></pre></td></tr></table></figure>
@@ -244,27 +225,15 @@
             <span class="post-pubtime">
               <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
               <span class="post-date-label">Publish time</span>
-              2022-06-15 19:00:58
+              2022-06-15
             </span>
             
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
               <span class="post-date-label">Update time</span>
-              2026-04-20 12:02:24
+              2026-04-20
             </span>
             
-            
-                  <span class="post-tags">
-                    <i class="iconfont icon-tags mr-10" title="Tags"></i>
-                    
-                    <span class="span--tag mr-8">
-                      <a href="/tags/NoneBot2/" title="NoneBot2">
-                        #NoneBot2
-                      </a>
-                    </span>
-                    
-                  </span>
-              
           </div>
           <div class="post-foot-prev">
             
@@ -277,11 +246,61 @@
         </div>
       
     </div>
-    
+    <aside class="post-sidebar">
+      
+        <div class="sidebar-author">
+          <img class="sidebar-avatar" src="/images/northcat-avatar.png" alt="Northcat">
+        </div>
+      
+      
   <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
     <i class="iconfont icon-catalog" aria-hidden="true"></i>
   </button>
   <div class="post-catalog hidden" id="catalog">
+    
+
+  <div class="navbar navbar--rail">
+    
+    <!-- 灯绳导航的悬浮命中区：灯绳本体只有 2px 宽，瞄准很难，
+         这块透明矩形把「灯绳附近」也算进可悬浮范围（样式见 catalog-left.css） -->
+    <span class="rail-hit" aria-hidden="true"></span>
+    
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+  
+<script src="/js/topNav.js"></script>
+
+
+
     <div class="title">Contents</div>
     <div class="catalog-content">
       
@@ -297,6 +316,7 @@
 
 
 
+    </aside>
     
       <div class="comments-container">
         
@@ -385,8 +405,8 @@
       </div>
 
       <div class="tools-bar">
-        <div class="back-to-top tools-bar-item hidden">
-  <a href="javascript: void(0)">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
     <i class="iconfont icon-chevronup"></i>
   </a>
 </div>
@@ -396,9 +416,9 @@
 
 
 
-        
+  
   <div class="search-icon tools-bar-item" id="search-icon">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Search">
       <i class="iconfont icon-search"></i>
     </a>
   </div>
@@ -589,9 +609,9 @@
 
 
 
-        
+  
   <div class="tools-bar-item theme-icon" id="switch-color-scheme">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Switch color mode">
       <i id="theme-icon" class="iconfont icon-moon"></i>
     </a>
   </div>
@@ -603,10 +623,10 @@
 
 
 
-        
+  
   
     <div class="share-icon tools-bar-item">
-      <a href="javascript: void(0)" id="share-icon">
+      <a href="javascript: void(0)" id="share-icon" title="Share">
         <i class="iconfont iconshare"></i>
       </a>
       <div class="share-content hidden">
@@ -628,7 +648,8 @@
 
 
 
-      </div>
+</div>
+
     </div>
   </body>
 </html>

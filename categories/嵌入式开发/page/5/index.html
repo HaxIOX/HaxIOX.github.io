@@ -32,6 +32,7 @@
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
@@ -76,8 +77,12 @@
 
 
   <body>
+    
     <div id="app">
-      <div class="header">
+      
+        
+
+<div class="header">
   <div class="avatar">
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
@@ -87,7 +92,9 @@
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
   </div>
+
   <div class="navbar">
+    
     <ul>
       
         <li class="nav-item" data-path="/">
@@ -112,12 +119,17 @@
       
     </ul>
   </div>
+
 </div>
+
 
 
 <script src="/js/activeNav.js"></script>
 
 
+
+
+      
 
       <div class="flex-container">
         <!-- 标签详情页，展示某个标签下的文章列表，url形式：https://yoursite/tags/某个标签/ -->
@@ -128,97 +140,82 @@
       <span>嵌入式开发</span>
     </h2>
   </div>
-  
-    <div class="post-list">
+  <!-- .post-list 是 fit-content + margin auto 的收缩居中块，必须只包一层、且在循环外：
+       写在循环里会变成「每篇各自居中」，各行左边缘参差不齐。放在外面才能让各行共用
+       同一左边缘、整块在版心内居中（与首页 index.ejs 的写法一致）。 -->
+  <div class="post-list">
+    
       <div class="post-item" title="Git">
         <span class="time-m-d">2025-04-07</span>
         <a href="/2025/04/07/132-git/">
           <span>Git</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="MQTT">
         <span class="time-m-d">2025-04-01</span>
         <a href="/2025/04/01/130-mqtt-fu-wu-qi/">
           <span>MQTT</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="fusion360">
         <span class="time-m-d">2025-03-29</span>
         <a href="/2025/03/29/127-fusion360/">
           <span>fusion360</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="ESP32_MQTT_OTA">
         <span class="time-m-d">2025-03-28</span>
         <a href="/2025/03/28/126-micradar/">
           <span>ESP32_MQTT_OTA</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="ESP32系统板">
         <span class="time-m-d">2025-03-26</span>
         <a href="/2025/03/26/124-esp32-xi-tong-ban/">
           <span>ESP32系统板</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="ESP32驱动多传感器">
         <span class="time-m-d">2025-03-21</span>
         <a href="/2025/03/21/122-esp32-s3-chuan-gan-qi/">
           <span>ESP32驱动多传感器</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="ESP32串口通信">
         <span class="time-m-d">2025-03-16</span>
         <a href="/2025/03/16/123-esp32-uart/">
           <span>ESP32串口通信</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="ESP32_S3_WIFI">
         <span class="time-m-d">2025-03-12</span>
         <a href="/2025/03/12/121-esp32-s3-wifi/">
           <span>ESP32_S3_WIFI</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
-      <div class="post-item" title="ESP32 IIC开发">
-        <span class="time-m-d">2025-03-10</span>
-        <a href="/2025/03/10/120-esp32-iic/">
-          <span>ESP32 IIC开发</span>
-        </a>
-      </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="ESP32_S3_BLE学习记录">
         <span class="time-m-d">2025-03-10</span>
         <a href="/2025/03/10/119-esp32-ble/">
           <span>ESP32_S3_BLE学习记录</span>
         </a>
       </div>
-    </div>
-  
+    
+      <div class="post-item" title="ESP32 IIC开发">
+        <span class="time-m-d">2025-03-10</span>
+        <a href="/2025/03/10/120-esp32-iic/">
+          <span>ESP32 IIC开发</span>
+        </a>
+      </div>
+    
+  </div>
   <nav class="post-navigation">
     
       <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/page/4/"><i class="iconfont icon-angleleft"></i></a>
@@ -303,8 +300,8 @@
       </div>
 
       <div class="tools-bar">
-        <div class="back-to-top tools-bar-item hidden">
-  <a href="javascript: void(0)">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
     <i class="iconfont icon-chevronup"></i>
   </a>
 </div>
@@ -314,9 +311,9 @@
 
 
 
-        
+  
   <div class="search-icon tools-bar-item" id="search-icon">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Search">
       <i class="iconfont icon-search"></i>
     </a>
   </div>
@@ -507,9 +504,9 @@
 
 
 
-        
+  
   <div class="tools-bar-item theme-icon" id="switch-color-scheme">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Switch color mode">
       <i id="theme-icon" class="iconfont icon-moon"></i>
     </a>
   </div>
@@ -521,14 +518,15 @@
 
 
 
-        
+  
   
   
 <script src="/js/shares.js"></script>
 
 
 
-      </div>
+</div>
+
     </div>
   </body>
 </html>

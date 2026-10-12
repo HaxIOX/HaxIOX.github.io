@@ -32,6 +32,7 @@
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
@@ -76,8 +77,12 @@
 
 
   <body>
+    
     <div id="app">
-      <div class="header">
+      
+        
+
+<div class="header">
   <div class="avatar">
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
@@ -87,7 +92,9 @@
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
   </div>
+
   <div class="navbar">
+    
     <ul>
       
         <li class="nav-item" data-path="/">
@@ -112,12 +119,17 @@
       
     </ul>
   </div>
+
 </div>
+
 
 
 <script src="/js/activeNav.js"></script>
 
 
+
+
+      
 
       <div class="flex-container">
         <!-- 标签详情页，展示某个标签下的文章列表，url形式：https://yoursite/tags/某个标签/ -->
@@ -128,97 +140,82 @@
       <span>嵌入式开发</span>
     </h2>
   </div>
-  
-    <div class="post-list">
+  <!-- .post-list 是 fit-content + margin auto 的收缩居中块，必须只包一层、且在循环外：
+       写在循环里会变成「每篇各自居中」，各行左边缘参差不齐。放在外面才能让各行共用
+       同一左边缘、整块在版心内居中（与首页 index.ejs 的写法一致）。 -->
+  <div class="post-list">
+    
       <div class="post-item" title="超声波模块">
         <span class="time-m-d">2024-04-08</span>
         <a href="/2024/04/08/106-chao-sheng-bo-mo-kuai/">
           <span>超声波模块</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="简易数字示波器">
         <span class="time-m-d">2024-04-05</span>
         <a href="/2024/04/05/105-jian-yi-shu-zi-shi-bo-qi/">
           <span>简易数字示波器</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="STM32驱动无刷电机">
         <span class="time-m-d">2024-04-02</span>
         <a href="/2024/04/02/104-stm32-qu-dong-wu-shua-dian-ji/">
           <span>STM32驱动无刷电机</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="STM32通信接口">
         <span class="time-m-d">2024-03-24</span>
         <a href="/2024/03/24/101-stm32-tong-xin-jie-kou/">
           <span>STM32通信接口</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="机械臂matlab仿真">
         <span class="time-m-d">2024-03-21</span>
         <a href="/2024/03/21/100-ji-jie-bi-matlab-fang-zhen/">
           <span>机械臂matlab仿真</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="泰山派学习笔记(1)">
         <span class="time-m-d">2024-03-17</span>
         <a href="/2024/03/17/99-tai-shan-pai-xue-xi-bi-ji-1/">
           <span>泰山派学习笔记(1)</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="STM32单片机的定时器">
         <span class="time-m-d">2024-03-16</span>
         <a href="/2024/03/16/98-stm32-dan-pian-ji-de-ding-shi-qi/">
           <span>STM32单片机的定时器</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="STM32单片机的EXTI外部中断">
         <span class="time-m-d">2024-03-12</span>
         <a href="/2024/03/12/97-stm32-dan-pian-ji-de-exti-wai-bu-zhong-duan/">
           <span>STM32单片机的EXTI外部中断</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="STM32单片机的GPIO模式">
         <span class="time-m-d">2024-03-12</span>
         <a href="/2024/03/12/96-stm32-dan-pian-ji-de-gpio-mo-shi/">
           <span>STM32单片机的GPIO模式</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="基于涡流悬浮的磁悬浮小车">
         <span class="time-m-d">2024-03-10</span>
         <a href="/2024/03/10/95-wo-liu-xuan-fu-xiao-che/">
           <span>基于涡流悬浮的磁悬浮小车</span>
         </a>
       </div>
-    </div>
-  
+    
+  </div>
   <nav class="post-navigation">
     
       <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BC%80%E5%8F%91/page/6/"><i class="iconfont icon-angleleft"></i></a>
@@ -303,8 +300,8 @@
       </div>
 
       <div class="tools-bar">
-        <div class="back-to-top tools-bar-item hidden">
-  <a href="javascript: void(0)">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
     <i class="iconfont icon-chevronup"></i>
   </a>
 </div>
@@ -314,9 +311,9 @@
 
 
 
-        
+  
   <div class="search-icon tools-bar-item" id="search-icon">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Search">
       <i class="iconfont icon-search"></i>
     </a>
   </div>
@@ -507,9 +504,9 @@
 
 
 
-        
+  
   <div class="tools-bar-item theme-icon" id="switch-color-scheme">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Switch color mode">
       <i id="theme-icon" class="iconfont icon-moon"></i>
     </a>
   </div>
@@ -521,14 +518,15 @@
 
 
 
-        
+  
   
   
 <script src="/js/shares.js"></script>
 
 
 
-      </div>
+</div>
+
     </div>
   </body>
 </html>

@@ -32,6 +32,7 @@
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
+  
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
   <!-- 代码块风格 -->
   
@@ -76,8 +77,12 @@
 
 
   <body>
+    
     <div id="app">
-      <div class="header">
+      
+        
+
+<div class="header">
   <div class="avatar">
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
@@ -87,7 +92,9 @@
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
   </div>
+
   <div class="navbar">
+    
     <ul>
       
         <li class="nav-item" data-path="/">
@@ -112,12 +119,17 @@
       
     </ul>
   </div>
+
 </div>
+
 
 
 <script src="/js/activeNav.js"></script>
 
 
+
+
+      
 
       <div class="flex-container">
         <!-- 标签详情页，展示某个标签下的文章列表，url形式：https://yoursite/tags/某个标签/ -->
@@ -128,97 +140,82 @@
       <span>上位机与脚本</span>
     </h2>
   </div>
-  
-    <div class="post-list">
+  <!-- .post-list 是 fit-content + margin auto 的收缩居中块，必须只包一层、且在循环外：
+       写在循环里会变成「每篇各自居中」，各行左边缘参差不齐。放在外面才能让各行共用
+       同一左边缘、整块在版心内居中（与首页 index.ejs 的写法一致）。 -->
+  <div class="post-list">
+    
       <div class="post-item" title="python文字转图片">
         <span class="time-m-d">2023-01-15</span>
         <a href="/2023/01/15/51p-python-wen-zi-zhuan-tu-pian/">
           <span>python文字转图片</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="写nonebot2插件时遇见的问题">
         <span class="time-m-d">2023-01-15</span>
         <a href="/2023/01/15/50p-nonebot-questions/">
           <span>写nonebot2插件时遇见的问题</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="base64编码">
         <span class="time-m-d">2023-01-12</span>
         <a href="/2023/01/12/49p-shi-me-shi-base64-bian-ma/">
           <span>base64编码</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="requests库实现自动签到">
         <span class="time-m-d">2022-12-02</span>
         <a href="/2022/12/02/48p-python-qian-dao-jiao-ben/">
           <span>requests库实现自动签到</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="PY数据可视化">
         <span class="time-m-d">2022-11-11</span>
         <a href="/2022/11/11/46p-shu-ju-ke-shi-hua/">
           <span>PY数据可视化</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="爬虫遇到的error">
         <span class="time-m-d">2022-11-03</span>
         <a href="/2022/11/03/45p-pa-chong-bao-cuo/">
           <span>爬虫遇到的error</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="matlab的几个绘图函数">
         <span class="time-m-d">2022-09-12</span>
         <a href="/2022/09/12/38m-matlab/">
           <span>matlab的几个绘图函数</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="通过正则表达式爬虫">
         <span class="time-m-d">2022-06-27</span>
         <a href="/2022/06/27/21p-re-spider/">
           <span>通过正则表达式爬虫</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="nonebot2的插件编写">
         <span class="time-m-d">2022-06-15</span>
         <a href="/2022/06/15/19p-nonebot2-plugin/">
           <span>nonebot2的插件编写</span>
         </a>
       </div>
-    </div>
-  
-    <div class="post-list">
+    
       <div class="post-item" title="python常见报错以及解决">
         <span class="time-m-d">2022-06-03</span>
         <a href="/2022/06/03/16p-python-command-erro/">
           <span>python常见报错以及解决</span>
         </a>
       </div>
-    </div>
-  
+    
+  </div>
   <nav class="post-navigation">
     
       <a href="/categories/%E4%B8%8A%E4%BD%8D%E6%9C%BA%E4%B8%8E%E8%84%9A%E6%9C%AC/"><i class="iconfont icon-angleleft"></i></a>
@@ -303,8 +300,8 @@
       </div>
 
       <div class="tools-bar">
-        <div class="back-to-top tools-bar-item hidden">
-  <a href="javascript: void(0)">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
     <i class="iconfont icon-chevronup"></i>
   </a>
 </div>
@@ -314,9 +311,9 @@
 
 
 
-        
+  
   <div class="search-icon tools-bar-item" id="search-icon">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Search">
       <i class="iconfont icon-search"></i>
     </a>
   </div>
@@ -507,9 +504,9 @@
 
 
 
-        
+  
   <div class="tools-bar-item theme-icon" id="switch-color-scheme">
-    <a href="javascript: void(0)">
+    <a href="javascript: void(0)" title="Switch color mode">
       <i id="theme-icon" class="iconfont icon-moon"></i>
     </a>
   </div>
@@ -521,14 +518,15 @@
 
 
 
-        
+  
   
   
 <script src="/js/shares.js"></script>
 
 
 
-      </div>
+</div>
+
     </div>
   </body>
 </html>
