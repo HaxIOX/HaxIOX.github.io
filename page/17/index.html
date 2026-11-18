@@ -23,9 +23,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -42,6 +39,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -80,7 +83,7 @@
         
 
 <div class="header">
-  <div class="avatar">
+  <div class="avatar avatar--motto">
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
@@ -88,6 +91,9 @@
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
+    
+      <div class="motto"><span style="--i:0"><span>干</span></span><span style="--i:1"><span>饭</span></span><span style="--i:2"><span>干</span></span><span style="--i:3"><span>饭</span></span><span style="--i:4"><span>！</span></span></div>
+    
   </div>
 
   <div class="navbar">
@@ -136,6 +142,19 @@
         <div class="container index">
   <div class="post-list">
     <!-- 遍历渲染文章 -->
+    
+      <div class="post-item" title="基于ip5306的简易充电宝">
+        <div class="time-m-d">2022-07-23</div>
+        <div class="title">
+          <a href="/2022/07/23/26h-ip5306/">
+            
+              
+                <span>基于ip5306的简易充电宝</span>
+              
+            
+          </a>
+        </div>
+      </div>
     
       <div class="post-item" title="使用Nginx为服务器绑定多个域名">
         <div class="time-m-d">2022-07-21</div>
@@ -280,19 +299,6 @@
         </div>
       </div>
     
-      <div class="post-item" title="linux搭建基于nonebot2和go-cqhttp的qq机器人">
-        <div class="time-m-d">2022-05-28</div>
-        <div class="title">
-          <a href="/2022/05/28/14l-nonebot2-qqbot/">
-            
-              
-                <span>linux搭建基于nonebot2和go-cqhttp的qq机器人</span>
-              
-            
-          </a>
-        </div>
-      </div>
-    
   </div>
   <nav class="post-navigation">
     
@@ -341,7 +347,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

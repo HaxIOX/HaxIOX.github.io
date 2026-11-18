@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -344,7 +347,7 @@
 </ul>
 <p>好的，根据我们之前讨论的电源架构（BQ25606 + Boost + Buck-Boost），我为您推荐一些在工业界和创客圈都经过验证的、常用的转换器 IC。</p>
 <h3 id="1-推荐的电源树-Recommended-Power-Tree"><a href="#1-推荐的电源树-Recommended-Power-Tree" class="headerlink" title="1. 推荐的电源树 (Recommended Power Tree)"></a>1. 推荐的电源树 (Recommended Power Tree)</h3><p>这是我们确定的最稳定方案，解决了 5V 供电和 3.3V 低电量运行的问题：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">+-----------+</span><br><span class="line">| USB-C 5V  |</span><br><span class="line">+-----+-----+</span><br><span class="line">      |</span><br><span class="line">      v</span><br><span class="line">+-----+-----+   +---------------+</span><br><span class="line">| BQ25606   +---&gt;| LiPo Battery  |</span><br><span class="line">| (充电+路径管理)|   (3.0V - 4.2V) |</span><br><span class="line">+-----+-----+   +---------------+</span><br><span class="line">      |</span><br><span class="line">      | (VBAT_SYS: 3.0V - 4.2V)</span><br><span class="line">      | (GND 必须极粗，建议铺地)</span><br><span class="line">      |</span><br><span class="line">+-----+---------------------+---------------------+</span><br><span class="line">|                           |                     |</span><br><span class="line">| (直连)                    | (Boost 升压)        | (Buck-Boost 升降压)</span><br><span class="line">|                           |                     |</span><br><span class="line">v                           v                     v</span><br><span class="line">[EG800K-CN]                 [5V Boost IC]         [3.3V Buck-Boost IC]</span><br><span class="line">(VBAT引脚)                  |                     |</span><br><span class="line">(2A 峰值)                   | (5V)                | (3.3V)</span><br><span class="line">(需 2mm 走线 )      |                     |</span><br><span class="line">                            |                     |</span><br><span class="line">                +-----------+-----------+ +-------+-----------+</span><br><span class="line">                |                       | |                   |</span><br><span class="line">                v                       v v                   v</span><br><span class="line">                [MQ-3]                  [MAX98357A] [ESP32 x2]        [OV5640]</span><br><span class="line">                (5V 加热器)             (5V 供电)   (Wi-Fi 峰值)        [ST7789]</span><br><span class="line">                                                                      [ICM42688]</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">+-----------+</span><br><span class="line">| USB-C 5V  |</span><br><span class="line">+-----+-----+</span><br><span class="line">      |</span><br><span class="line">      v</span><br><span class="line">+-----+-----+   +---------------+</span><br><span class="line">| BQ25606   +---&gt;| LiPo Battery  |</span><br><span class="line">| (充电+路径管理)|   (3.0V - 4.2V) |</span><br><span class="line">+-----+-----+   +---------------+</span><br><span class="line">      |</span><br><span class="line">      | (VBAT_SYS: 3.0V - 4.2V)</span><br><span class="line">      | (GND 必须极粗，建议铺地)</span><br><span class="line">      |</span><br><span class="line">+-----+---------------------+---------------------+</span><br><span class="line">|                           |                     |</span><br><span class="line">| (直连)                    | (Boost 升压)        | (Buck-Boost 升降压)</span><br><span class="line">|                           |                     |</span><br><span class="line">v                           v                     v</span><br><span class="line">[EG800K-CN]                 [5V Boost IC]         [3.3V Buck-Boost IC]</span><br><span class="line">(VBAT引脚)                  |                     |</span><br><span class="line">(2A 峰值)                   | (5V)                | (3.3V)</span><br><span class="line">(需 2mm 走线 )      |                     |</span><br><span class="line">                            |                     |</span><br><span class="line">                +-----------+-----------+ +-------+-----------+</span><br><span class="line">                |                       | |                   |</span><br><span class="line">                v                       v v                   v</span><br><span class="line">                [MQ-3]                  [MAX98357A] [ESP32 x2]        [OV5640]</span><br><span class="line">                (5V 加热器)             (5V 供电)   (Wi-Fi 峰值)        [ST7789]</span><br><span class="line">                                                                      [ICM42688]</span><br></pre></td></tr></table></figure>
 
 <h3 id="2-转换器-IC-选型推荐"><a href="#2-转换器-IC-选型推荐" class="headerlink" title="2. 转换器 IC 选型推荐"></a>2. 转换器 IC 选型推荐</h3><h4 id="1-5V-Boost-升压-转换器"><a href="#1-5V-Boost-升压-转换器" class="headerlink" title="1. 5V Boost (升压) 转换器"></a>1. 5V Boost (升压) 转换器</h4><ul>
 <li><strong>需求：</strong> 输入 3.0V~4.2V，输出 5V，峰值输出电流 &gt; 1.2A (需驱动 MQ-3 和 MAX98357A)。</li>
@@ -397,7 +400,7 @@
 </ol>
 <p>换用峰值电流大于6的bq25616，这颗芯片的峰值电流为9A</p>
 <h3 id="推荐的“分时复用”电源架构"><a href="#推荐的“分时复用”电源架构" class="headerlink" title="推荐的“分时复用”电源架构"></a>推荐的“分时复用”电源架构</h3><p>我们重新规划一下您的电源树，分为“永久在线”和“按需开启”两部分：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">+-----------+</span><br><span class="line">| BQ25616   |</span><br><span class="line">| (SYS OUT) |</span><br><span class="line">+-----+-----+</span><br><span class="line">      | (VBAT_SYS: 3.0V - 4.2V)</span><br><span class="line">      |</span><br><span class="line">+-----+----------------------------------+</span><br><span class="line">|                                        |</span><br><span class="line">| [“永久在线” Always-On]                 [“按需开启” Switched]</span><br><span class="line">| (为核心服务供电)                       (为主ESP32的GPIO口控制)</span><br><span class="line">|                                        |</span><br><span class="line">+-----+---------------------+            +-----------------+-----------------+</span><br><span class="line">|     |                     |            |                 |</span><br><span class="line">v     v                     v            v                 v</span><br><span class="line">[3.3V Buck-Boost (A)]       [3.8V Buck-Boost]    [3.3V Buck-Boost (B)] [5V Boost]</span><br><span class="line">|     (带 EN 引脚)          | (带 EN 引脚)</span><br><span class="line">|                           |            |                 |</span><br><span class="line">v                           v            v                 v</span><br><span class="line">[主 ESP32]                  [EG800K]             [第二颗 ESP32]      [MAX98357A (音频)]</span><br><span class="line">[ICM42688 (IMU)]            (4G 模块)            [OV5640 (摄像头)]   [MQ-3]</span><br><span class="line">                                         [ST7789 (LCD)]    [GM702B]</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">+-----------+</span><br><span class="line">| BQ25616   |</span><br><span class="line">| (SYS OUT) |</span><br><span class="line">+-----+-----+</span><br><span class="line">      | (VBAT_SYS: 3.0V - 4.2V)</span><br><span class="line">      |</span><br><span class="line">+-----+----------------------------------+</span><br><span class="line">|                                        |</span><br><span class="line">| [“永久在线” Always-On]                 [“按需开启” Switched]</span><br><span class="line">| (为核心服务供电)                       (为主ESP32的GPIO口控制)</span><br><span class="line">|                                        |</span><br><span class="line">+-----+---------------------+            +-----------------+-----------------+</span><br><span class="line">|     |                     |            |                 |</span><br><span class="line">v     v                     v            v                 v</span><br><span class="line">[3.3V Buck-Boost (A)]       [3.8V Buck-Boost]    [3.3V Buck-Boost (B)] [5V Boost]</span><br><span class="line">|     (带 EN 引脚)          | (带 EN 引脚)</span><br><span class="line">|                           |            |                 |</span><br><span class="line">v                           v            v                 v</span><br><span class="line">[主 ESP32]                  [EG800K]             [第二颗 ESP32]      [MAX98357A (音频)]</span><br><span class="line">[ICM42688 (IMU)]            (4G 模块)            [OV5640 (摄像头)]   [MQ-3]</span><br><span class="line">                                         [ST7789 (LCD)]    [GM702B]</span><br></pre></td></tr></table></figure>
 
 <p>选定电源方案，明天布局布线</p>
 <h2 id="11-10-11-13"><a href="#11-10-11-13" class="headerlink" title="11.10-11.13"></a>11.10-11.13</h2><ul>
@@ -656,7 +659,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

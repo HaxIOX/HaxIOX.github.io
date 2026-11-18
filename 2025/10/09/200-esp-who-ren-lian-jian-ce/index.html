@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -189,21 +192,21 @@
 <blockquote>
 <p>需要，因为需要在menuconfig中配置引脚</p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$env:IDF_EXTRA_ACTIONS_PATH = &quot;C:\Users\VIBTEK\Desktop\esp-who-master\tools&quot;</span><br><span class="line"></span><br><span class="line">echo $Env:IDF_EXTRA_ACTIONS_PATH</span><br><span class="line"># 这个需要先在对应的example中查看支持的bsp，detect就需要加上noglib</span><br><span class="line">idf.py reconfigure -DIDF_TARGET=&quot;esp32s3&quot; -DSDKCONFIG_DEFAULTS=&quot;sdkconfig.bsp.esp32_s3_eye_noglib&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$env:IDF_EXTRA_ACTIONS_PATH</span> = <span class="string">&quot;C:\Users\VIBTEK\Desktop\esp-who-master\tools&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$Env:IDF_EXTRA_ACTIONS_PATH</span></span><br><span class="line"><span class="comment"># 这个需要先在对应的example中查看支持的bsp，detect就需要加上noglib</span></span><br><span class="line">idf.py reconfigure <span class="literal">-DIDF_TARGET</span>=<span class="string">&quot;esp32s3&quot;</span> <span class="literal">-DSDKCONFIG_DEFAULTS</span>=<span class="string">&quot;sdkconfig.bsp.esp32_s3_eye_noglib&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>$Env:IDF_EXTRA_ACTIONS_PATH&#x3D;”&#x2F;C:&#x2F;Users&#x2F;VIBTEK&#x2F;Desktop&#x2F;esp-who-master&#x2F;tools&#x2F;“<br>echo $Env:IDF_EXTRA_ACTIONS_PATH</p>
 <p>注意下划线</p>
 <p>idf.py reconfigure -DIDF_TARGET&#x3D;”esp32s3” -DSDKCONFIG_DEFAULTS&#x3D;”sdkconfig.bsp.esp32_s3_eye”</p>
 <p>idf.py reconfigure -DIDF_TARGET&#x3D;”esp32s3” -DSDKCONFIG_DEFAULTS&#x3D;”sdkconfig.bsp.esp32_s3_eye_noglib”</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$env:IDF_EXTRA_ACTIONS_PATH = &quot;C:\Users\VIBTEK\Desktop\esp-who-master\tools&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$env:IDF_EXTRA_ACTIONS_PATH</span> = <span class="string">&quot;C:\Users\VIBTEK\Desktop\esp-who-master\tools&quot;</span></span><br></pre></td></tr></table></figure>
 
 <ol start="2">
 <li></li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\VIBTEK\Desktop\esp-who-master\examples\human_face_detect&gt; idf.py reconfigure -DIDF_TARGET=&quot;esp32s3&quot; -DSDKCONFIG_DEFAULTS=&quot;sdkconfig.bsp.esp32_s3_eye_noglib&quot;</span><br><span class="line">Executing action: reconfigure</span><br><span class="line">Project sdkconfig &#x27;C:/Users/VIBTEK/Desktop/esp-who-master/examples/human_face_detect/sdkconfig&#x27; was generated for target &#x27;esp32s3&#x27;, but environment variable IDF_TARGET is set to &#x27;esp32&#x27;. Run &#x27;idf.py set-target esp32&#x27; to generate new sdkconfig file for target esp32.</span><br><span class="line">PS C:\Users\VIBTEK\Desktop\esp-who-master\examples\human_face_detect&gt; </span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PS</span> C:\Users\VIBTEK\Desktop\esp<span class="literal">-who-master</span>\examples\human_face_detect&gt; idf.py reconfigure <span class="literal">-DIDF_TARGET</span>=<span class="string">&quot;esp32s3&quot;</span> <span class="literal">-DSDKCONFIG_DEFAULTS</span>=<span class="string">&quot;sdkconfig.bsp.esp32_s3_eye_noglib&quot;</span></span><br><span class="line">Executing action: reconfigure</span><br><span class="line">Project sdkconfig <span class="string">&#x27;C:/Users/VIBTEK/Desktop/esp-who-master/examples/human_face_detect/sdkconfig&#x27;</span> was generated <span class="keyword">for</span> target <span class="string">&#x27;esp32s3&#x27;</span>, but environment variable IDF_TARGET is <span class="built_in">set</span> to <span class="string">&#x27;esp32&#x27;</span>. Run <span class="string">&#x27;idf.py set-target esp32&#x27;</span> to generate new sdkconfig file <span class="keyword">for</span> target esp32.</span><br><span class="line"><span class="built_in">PS</span> C:\Users\VIBTEK\Desktop\esp<span class="literal">-who-master</span>\examples\human_face_detect&gt; </span><br></pre></td></tr></table></figure>
 
 <p>删除sdkconfig，build，menage_components重新配置</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idf.py reconfigure -DIDF_TARGET=&quot;esp32s3&quot; -DSDKCONFIG_DEFAULTS=&quot;sdkconfig.bsp.esp32_s3_eye_noglib&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idf.py reconfigure -DIDF_TARGET=<span class="string">&quot;esp32s3&quot;</span> -DSDKCONFIG_DEFAULTS=<span class="string">&quot;sdkconfig.bsp.esp32_s3_eye_noglib&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>删除重配</strong></p>
 <p>编译成功,更改cam引脚，出现i2c冲突，无法正常使用</p>
@@ -372,7 +375,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

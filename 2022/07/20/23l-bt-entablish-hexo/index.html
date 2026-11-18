@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -213,7 +216,7 @@
 
 <h2 id="免密登录配置"><a href="#免密登录配置" class="headerlink" title="免密登录配置"></a>免密登录配置</h2><p>之前配置过，只要复制公钥到服务器了就可以了。<br>本地终端创建 ssh key</p>
 <blockquote>
-<p>ssh-keygen -t rsa -C “<a href="mailto:&#121;&#x6f;&#x75;&#114;&#95;&#101;&#x6d;&#97;&#105;&#x6c;&#x40;&#121;&#111;&#x75;&#114;&#101;&#109;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#109;">your_email@youremail.com</a>“</p>
+<p>ssh-keygen -t rsa -C “<a href="mailto:&#x79;&#111;&#x75;&#114;&#95;&#x65;&#x6d;&#97;&#x69;&#108;&#x40;&#121;&#x6f;&#117;&#x72;&#101;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#111;&#x6d;">your_email@youremail.com</a>“</p>
 </blockquote>
 <p>将公钥添加到服务器authorized_keys文件中<br>git用户下输入</p>
 <blockquote>
@@ -395,7 +398,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

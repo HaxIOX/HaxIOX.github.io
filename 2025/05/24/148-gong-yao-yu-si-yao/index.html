@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -195,7 +198,7 @@
 <li><p>存放在用户目录下（如 <code>/root/.ssh/authorized_keys</code>）</p>
 </li>
 <li><p>文件中<strong>每行一把</strong>公钥：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-rsa AAAAB3… user@host</span><br><span class="line">ssh-ed25519 BBBBB… deploy@ci</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-rsa AAAAB3… user@host</span><br><span class="line">ssh-ed25519 BBBBB… deploy@ci</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>可以有多把公钥，任何一把对应的私钥都可登录；删行即可撤销访问。</p>
 </li>
@@ -208,7 +211,7 @@
 </ol>
 <h1 id="密钥登录部署"><a href="#密钥登录部署" class="headerlink" title="密钥登录部署"></a>密钥登录部署</h1><ol>
 <li><p><strong>在本地生成一对密钥</strong>(在哪生成都可以)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 2048 -f ~/.ssh/my_id_rsa  </span><br><span class="line"># 这会生成 ~/.ssh/my_id_rsa（私钥）和 ~/.ssh/my_id_rsa.pub（公钥）</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 2048 -f ~/.ssh/my_id_rsa  </span><br><span class="line"># 这会生成 ~/.ssh/my_id_rsa（私钥）和 ~/.ssh/my_id_rsa.pub（公钥）</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>把公钥传到服务器</strong></p>
 <ul>
@@ -218,17 +221,17 @@
 </ul>
 </li>
 <li><p>或者手动：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /root/.ssh</span><br><span class="line">chmod 700 /root/.ssh</span><br><span class="line">echo &#x27;ssh-rsa AAAA…your-key… user@host&#x27; \</span><br><span class="line">  &gt;&gt; /root/.ssh/authorized_keys</span><br><span class="line">chmod 600 /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p /root/.ssh</span><br><span class="line"><span class="built_in">chmod</span> 700 /root/.ssh</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;ssh-rsa AAAA…your-key… user@host&#x27;</span> \</span><br><span class="line">  &gt;&gt; /root/.ssh/authorized_keys</span><br><span class="line"><span class="built_in">chmod</span> 600 /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 <li><p><strong>验证 <code>authorized_keys</code></strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat /root/.ssh/authorized_keys</span><br><span class="line"># 确认里面有一整行从 my_id_rsa.pub 复制过来的公钥</span><br><span class="line">ls -ld /root/.ssh           # 应该是 700</span><br><span class="line">ls -l  /root/.ssh/authorized_keys  # 应该是 600</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /root/.ssh/authorized_keys</span><br><span class="line"><span class="comment"># 确认里面有一整行从 my_id_rsa.pub 复制过来的公钥</span></span><br><span class="line"><span class="built_in">ls</span> -ld /root/.ssh           <span class="comment"># 应该是 700</span></span><br><span class="line"><span class="built_in">ls</span> -l  /root/.ssh/authorized_keys  <span class="comment"># 应该是 600</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>用私钥登录</strong><br> 在你本地（或 Termius、WSL、Git Bash）执行：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i ~/.ssh/my_id_rsa root@38.49.38.67</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i ~/.ssh/my_id_rsa root@38.49.38.67</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>调试</strong><br> 如果仍然失败，加上 <code>-vvv</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -vvv -i ~/.ssh/my_id_rsa root@38.49.38.67</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -vvv -i ~/.ssh/my_id_rsa root@38.49.38.67</span><br></pre></td></tr></table></figure>
 
 <p>看到 <code>Offering public key: ... my_id_rsa</code> 且 <code>Server accepts key:</code> 就会通过。</p>
 </li>
@@ -241,7 +244,7 @@
 <p>在 <code>/root/.ssh/authorized_keys</code> 里目前只放了一行公钥；但实际上你可以往这个文件里<strong>每行添加一串公钥</strong>，也就相当于授权了多把私钥。(但其实没必要同一把私钥就可以)</p>
 <hr>
 <p><strong>1. <code>authorized_keys</code> 能存放多把公钥</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/root/.ssh/authorized_keys  内容示例：</span><br><span class="line">ssh-rsa AAAAB3Nza… 第一把公钥 user1@pc1</span><br><span class="line">ssh-rsa AAAAB3Nza… 第二把公钥 user2@laptop</span><br><span class="line">ssh-ed25519 AAAAC3Nza… 第三把公钥 deploy@ci</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/root/.ssh/authorized_keys  内容示例：</span><br><span class="line">ssh-rsa AAAAB3Nza… 第一把公钥 user1@pc1</span><br><span class="line">ssh-rsa AAAAB3Nza… 第二把公钥 user2@laptop</span><br><span class="line">ssh-ed25519 AAAAC3Nza… 第三把公钥 deploy@ci</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>每行一把</strong>：文件里每一行都是一把整的公钥。</li>
@@ -321,12 +324,12 @@
 <hr>
 <h2 id="增加公钥"><a href="#增加公钥" class="headerlink" title="增加公钥"></a>增加公钥</h2><ol>
 <li><p>编辑 <code>/root/.ssh/authorized_keys</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>每行粘入一个新的公钥字符串（完整的 <code>ssh-rsa AAAA…</code> 或 <code>ssh-ed25519 …</code>）。</p>
 </li>
 <li><p>保存后保证权限仍然是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod 700 /root/.ssh</span><br><span class="line">chmod 600 /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 700 /root/.ssh</span><br><span class="line"><span class="built_in">chmod</span> 600 /root/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>此后，任何对应这些公钥的私钥都可以用来登录 <code>root</code>。</p>
 </li>
@@ -494,7 +497,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

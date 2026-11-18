@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -197,7 +200,7 @@
 
 <p>AT+NAME?：获得设备名称，这个AT指令有很大可能性是没有返回的，因为我也看到了很多的例子……，但是其他的指令都是没有问题的，直接设置设备名称就行了；</p>
 <p>不常用指令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">2.AT+RESET:HC-05复位</span><br><span class="line">3. AT+VERSION?：获取HC-05的软件版本号，只能获取，不能修改。</span><br><span class="line">4. AT+ORGL:恢复出厂默认设置，当把模块设置乱了，使用此命令进行恢复默认值。</span><br><span class="line">5. AT+ADDR?：获取HC-05的蓝牙地址码，只能获取，不能修改。</span><br><span class="line">6. AT+NAME？:获取HC-05的名字,AT+NAME=xlg，修改模块的名字为xlg，具体名字自行修改。</span><br><span class="line">7. AT+CLASS?：设置查询设备的类型，尽量不要去修改此参数。默认是1F00。</span><br><span class="line">8. AT+IAC?：查询设置查询访问码，默认是9E8B33，尽量不要去修改此参数。</span><br><span class="line">9. AT+PSWD？:查询设置配对密码,AT+PSWD=”0000”,密码要有双引号,密码是四位数字.</span><br><span class="line">10. AT+UART：AT+UART？是查询当前模块的波特率，AT+UART=波特率,0,0。</span><br><span class="line">11. AT+CMODE：AT+CMODE？是查询当前连接模式。AT+CMODE=0，1，2(0——指定蓝牙地址连接模式（指定蓝牙地址由绑定指令设置）1——任意蓝牙地址连接模式（不受绑定指令设置地址的约束）2——回环角色（Slave-Loop）默认连接模式：0)。</span><br><span class="line">12. AT+BIND:AT+BIND?查询当前绑定地址,AT+BIND=NAP，UAP，LAP(用逗号隔开)。</span><br><span class="line">13. AT+RMADD:从蓝牙配对列表中删除所有认证设备.</span><br><span class="line">14. AT+STATE？:获取蓝牙模块工作状态.</span><br><span class="line">15. AT+LINK=NAP,UAP,LAP：与远程设备建立连接。</span><br><span class="line">17. AT+RNAME？NAP，UAP，LAP:获取远程蓝牙设备名称.</span><br><span class="line">18. AT+ADCN?：获取蓝牙配对列表中认证设备数。</span><br><span class="line">19. AT+MRAD？获取最近使用过的蓝牙认证设备地址。</span><br><span class="line">20. AT+INQM:设置查询模式,AT+INQM=1，9，48(1-带RSSI信号强度指示,9-超过9个蓝牙设备响应则终止查询,48-设定超时为48*1.28=61.44秒)</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">2.AT+RESET:HC-05复位</span><br><span class="line">3. AT+VERSION?：获取HC-05的软件版本号，只能获取，不能修改。</span><br><span class="line">4. AT+ORGL:恢复出厂默认设置，当把模块设置乱了，使用此命令进行恢复默认值。</span><br><span class="line">5. AT+ADDR?：获取HC-05的蓝牙地址码，只能获取，不能修改。</span><br><span class="line">6. AT+NAME？:获取HC-05的名字,AT+NAME=xlg，修改模块的名字为xlg，具体名字自行修改。</span><br><span class="line">7. AT+CLASS?：设置查询设备的类型，尽量不要去修改此参数。默认是1F00。</span><br><span class="line">8. AT+IAC?：查询设置查询访问码，默认是9E8B33，尽量不要去修改此参数。</span><br><span class="line">9. AT+PSWD？:查询设置配对密码,AT+PSWD=”0000”,密码要有双引号,密码是四位数字.</span><br><span class="line">10. AT+UART：AT+UART？是查询当前模块的波特率，AT+UART=波特率,0,0。</span><br><span class="line">11. AT+CMODE：AT+CMODE？是查询当前连接模式。AT+CMODE=0，1，2(0——指定蓝牙地址连接模式（指定蓝牙地址由绑定指令设置）1——任意蓝牙地址连接模式（不受绑定指令设置地址的约束）2——回环角色（Slave-Loop）默认连接模式：0)。</span><br><span class="line">12. AT+BIND:AT+BIND?查询当前绑定地址,AT+BIND=NAP，UAP，LAP(用逗号隔开)。</span><br><span class="line">13. AT+RMADD:从蓝牙配对列表中删除所有认证设备.</span><br><span class="line">14. AT+STATE？:获取蓝牙模块工作状态.</span><br><span class="line">15. AT+LINK=NAP,UAP,LAP：与远程设备建立连接。</span><br><span class="line">17. AT+RNAME？NAP，UAP，LAP:获取远程蓝牙设备名称.</span><br><span class="line">18. AT+ADCN?：获取蓝牙配对列表中认证设备数。</span><br><span class="line">19. AT+MRAD？获取最近使用过的蓝牙认证设备地址。</span><br><span class="line">20. AT+INQM:设置查询模式,AT+INQM=1，9，48(1-带RSSI信号强度指示,9-超过9个蓝牙设备响应则终止查询,48-设定超时为48*1.28=61.44秒)</span><br></pre></td></tr></table></figure>
 
 <h2 id="HC-06"><a href="#HC-06" class="headerlink" title="HC-06"></a>HC-06</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>蓝牙模块上有一个LED，LED 指示蓝牙连接状态， 闪烁表示没有蓝牙连接，常亮表示蓝牙已连接并打开了端口</p>
 <h3 id="AT指令-1"><a href="#AT指令-1" class="headerlink" title="AT指令"></a>AT指令</h3><blockquote>
@@ -378,7 +381,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

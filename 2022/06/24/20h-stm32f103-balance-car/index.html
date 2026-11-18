@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -315,7 +318,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Pwm=Kp\*e(k)+Ki\*∑e(k)+Kd\*[e(k)-e(k<span class="number">-1</span>)]</span><br><span class="line"></span><br><span class="line">e(k)：本次偏差</span><br><span class="line"></span><br><span class="line">e(k<span class="number">-1</span>)：上一次的偏差  </span><br><span class="line"></span><br><span class="line">∑e(k)：e(k)以及之前的偏差的累积和;其中k为<span class="number">1</span>,<span class="number">2</span>,,k;</span><br><span class="line"></span><br><span class="line">Pwm代表输出</span><br></pre></td></tr></table></figure>
 
 <p>3.结构框图</p>
-<style>.ksuceekcihmm{zoom:150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps1.jpg" class="ksuceekcihmm" alt="img">
+<style>.ximmgyeeluok{zoom:150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps1.jpg" class="ximmgyeeluok" alt="img">
 
 <ol start="4">
 <li>C语言实现</li>
@@ -334,11 +337,11 @@
 <li><p>结构框图</p>
 </li>
 </ol>
-<style>.qqdtgnkgekjd{zoom:150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps3.jpg" class="qqdtgnkgekjd" alt="img"> 
+<style>.ajvqymaeqfwc{zoom:150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps3.jpg" class="ajvqymaeqfwc" alt="img"> 
 
 <p><strong>直立环：让小车角度趋近0；</strong></p>
 <p><strong>速度环：让电机速度趋近0；</strong></p>
-<h3 id="速度环、串级PID"><a href="#速度环、串级PID" class="headerlink" title="速度环、串级PID"></a>速度环、串级PID</h3><style>.chgtjogajbaq{zoom: 150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps4.jpg" class="chgtjogajbaq" alt="img"> 
+<h3 id="速度环、串级PID"><a href="#速度环、串级PID" class="headerlink" title="速度环、串级PID"></a>速度环、串级PID</h3><style>.kbirfjtqnqsy{zoom: 150%;}</style><img src="/2022/06/24/20h-stm32f103-balance-car/wps4.jpg" class="kbirfjtqnqsy" alt="img"> 
 
 <p>速度环输入：1.给定速度。2.速度反馈。</p>
 <p>输出：<strong>角度值</strong>（直立环的期望速度输入）</p>
@@ -672,7 +675,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

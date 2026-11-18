@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -220,7 +223,7 @@
 <h1 id="ESP32应用"><a href="#ESP32应用" class="headerlink" title="ESP32应用"></a>ESP32应用</h1><p><strong>ESP-IDF 是深度基于 FreeRTOS 构建的，对于绝大多数开发者来说，使用 ESP-IDF 进行开发，就是在隐式或显式地使用 FreeRTOS。</strong></p>
 <p>让我们来详细拆解一下这个关系。</p>
 <h3 id="1-ESP32-的硬件与软件层次"><a href="#1-ESP32-的硬件与软件层次" class="headerlink" title="1. ESP32 的硬件与软件层次"></a>1. ESP32 的硬件与软件层次</h3><p>我们可以把 ESP32 的软件系统看作一个“千层蛋糕”：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">+---------------------------------------------------+</span><br><span class="line">|                  你的应用程序 (Your Application)   |  &lt;-- 你写的代码，比如 uart_echo_task, sniffer_task</span><br><span class="line">+---------------------------------------------------+</span><br><span class="line">|      ESP-IDF 高层组件 (Wi-Fi, Bluetooth, HTTP)      |  &lt;-- 比如 esp_wifi_start(), esp_http_client_perform()</span><br><span class="line">+---------------------------------------------------+</span><br><span class="line">|      ESP-IDF 驱动层 (Driver Layer)                |  &lt;-- 比如 uart_driver_install(), gpio_set_level()</span><br><span class="line">+---------------------------------------------------+</span><br><span class="line">|           FreeRTOS (实时操作系统内核)             |  &lt;-- 任务调度、队列、信号量、定时器等</span><br><span class="line">+---------------------------------------------------+</span><br><span class="line">|      底层硬件抽象层 (HAL) &amp; Bootloader           |  &lt;-- 直接与硬件寄存器打交道的部分</span><br><span class="line">+---------------------------------------------------+</span><br><span class="line">|                   ESP32 硬件 (Hardware)           |  &lt;-- 芯片本身 (CPU, Wi-Fi, GPIO...)</span><br><span class="line">+---------------------------------------------------+</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">+---------------------------------------------------+</span><br><span class="line">|                  你的应用程序 (Your Application)   |  &lt;-- 你写的代码，比如 uart_echo_task, sniffer_task</span><br><span class="line">+---------------------------------------------------+</span><br><span class="line">|      ESP-IDF 高层组件 (Wi-Fi, Bluetooth, HTTP)      |  &lt;-- 比如 esp_wifi_start(), esp_http_client_perform()</span><br><span class="line">+---------------------------------------------------+</span><br><span class="line">|      ESP-IDF 驱动层 (Driver Layer)                |  &lt;-- 比如 uart_driver_install(), gpio_set_level()</span><br><span class="line">+---------------------------------------------------+</span><br><span class="line">|           FreeRTOS (实时操作系统内核)             |  &lt;-- 任务调度、队列、信号量、定时器等</span><br><span class="line">+---------------------------------------------------+</span><br><span class="line">|      底层硬件抽象层 (HAL) &amp; Bootloader           |  &lt;-- 直接与硬件寄存器打交道的部分</span><br><span class="line">+---------------------------------------------------+</span><br><span class="line">|                   ESP32 硬件 (Hardware)           |  &lt;-- 芯片本身 (CPU, Wi-Fi, GPIO...)</span><br><span class="line">+---------------------------------------------------+</span><br></pre></td></tr></table></figure>
 
 <p>从这个结构可以看出：</p>
 <ul>
@@ -449,7 +452,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

@@ -1,0 +1,2587 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      SDR之B210模拟基站 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
+    </script>
+    
+<script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+  <body>
+    
+    <div id="app">
+      
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+<!-- LaTex Display -->
+
+
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  
+  <div class="container post-details has-catalog" id="post-details">
+    <div class="post-content">
+      <div class="post-title">SDR之B210模拟基站</div>
+      <div class="post-attach">
+        
+        
+        
+        <div class="post-meta-line">
+          <span class="post-wordcount">
+            <i class="iconfont icon-edit mr-10" title="Words"></i>
+            12184
+          </span>
+          
+          <span class="post-pubtime">
+            <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span class="post-date-label">Publish time</span>
+            2026-10-13
+          </span>
+          
+          
+          <span class="post-pubtime">
+            <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+            <span class="post-date-label">Update time</span>
+            2026-10-13
+          </span>
+          
+        </div>
+        
+<div class="post-meta-line">
+  
+  
+</div>
+
+      </div>
+      <div class="markdown-body">
+        <h1 id="B210-搭建-LTE-基站"><a href="#B210-搭建-LTE-基站" class="headerlink" title="B210 搭建 LTE 基站"></a>B210 搭建 LTE 基站</h1><p>用 USRP B210 和 srsRAN 4G 搭一个抓 IMSI 的 LTE 基站。一开始在 VMware 虚拟机里怎么都跑不通，折腾了几十个会话；换到物理机后 11 秒就抓到了 IMSI。</p>
+<p>卡点是虚拟机的 USB 虚拟化层，不是配置问题。</p>
+<p>本文涉及两种环境，读的时候对照着看。第 7 节之前的内容都发生在 VMware 虚拟机里，之后是迁到物理机的记录。两边配置完全一样，只有运行环境不同，结果一边永远抓不到、一边 11 秒抓到。</p>
+<hr>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>目标是 IMSI 空口采集。思路是自建一个 LTE 小区，让手机发起 Attach，在空口上截获 IMSI。</p>
+<p>UE 发起 Attach Request 时，IMSI 明文放在 NAS 消息里，鉴权失败不影响截获。不需要让手机真正连上，只要它肯发起接入尝试。</p>
+<p>前提是基站能持续发射。</p>
+<p>一开始实验环境是 VMware 里的 Ubuntu 虚拟机，宿主 Windows。麻烦都出在这。</p>
+<hr>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>让 B210 发一个合法的 LTE 小区信号，广播指定 PLMN。等手机发 PRACH。在空口上抓 IMSI。</p>
+<p>在虚拟机里，前两步没能走通。</p>
+<p>配置前还要弄清四条规则，答案都对着源码查过：</p>
+<ul>
+<li>PRACH 在频域上占哪几个 PRB，跟带宽什么关系</li>
+<li>EARFCN 怎么换算成频率，频段从哪里来</li>
+<li>一个小区能广播几个 PLMN</li>
+<li>手机在什么情况下会去搜一个陌生的频点</li>
+</ul>
+<hr>
+<h2 id="环境对比"><a href="#环境对比" class="headerlink" title="环境对比"></a>环境对比</h2><p>两种环境的完整对照。配置没变，只有运行环境变了。</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>虚拟机</th>
+<th>物理机</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主机</td>
+<td>VMware Workstation 客户机</td>
+<td><code>vibtek-MS-7C96</code></td>
+</tr>
+<tr>
+<td>系统</td>
+<td>Ubuntu 22.04.5，内核 6.8.0-138</td>
+<td>Ubuntu 22.04.5，内核 6.8.0-40</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>8 vCPU（AMD Ryzen 5 5500）</td>
+<td>12 核</td>
+</tr>
+<tr>
+<td>内存</td>
+<td>5.4 GiB</td>
+<td>15 GiB</td>
+</tr>
+<tr>
+<td>CPU governor</td>
+<td>路径不存在，改不了</td>
+<td><code>powersave</code></td>
+</tr>
+<tr>
+<td>UHD</td>
+<td>3.15.0.0（源码编译）</td>
+<td>4.1.0.5（apt 安装）</td>
+</tr>
+<tr>
+<td>srsRAN 4G</td>
+<td>25.10.0，commit <code>bef8680d5</code></td>
+<td>同左，装于 <code>/usr/local/bin</code></td>
+</tr>
+<tr>
+<td>USRP</td>
+<td>B210，serial <code>196907</code>，FW 8.0 &#x2F; FPGA 16.0</td>
+<td>同一台</td>
+</tr>
+<tr>
+<td>USB</td>
+<td>3.0，5000 Mbps，经 VMware 转发</td>
+<td>3.0，直连主板</td>
+</tr>
+<tr>
+<td>工作目录</td>
+<td><code>~/b210-work</code></td>
+<td><code>/home/vibtek/b210</code></td>
+</tr>
+</tbody></table>
+<p>B210 在两种环境下都挂在 USB 3.0 上，5000 Mbps，<code>lsusb -t</code> 显示 SuperSpeed，dmesg 无 USB 报错。硬件这条线一直是干净的，问题从来不在硬件。</p>
+<p>UHD 版本不同，功能都正常。虚拟机用源码编的 3.15，物理机用 apt 装的 4.1.0.5，后者一样能跑。物理机上也不再出现 <code>Could not verify cpu0 scaling governor</code> 告警。</p>
+<p>srsRAN 4G 已经没有 apt 包了。</p>
+<p>网上教程里那句 <code>sudo apt install srsenb</code> 现在会失败。<code>ppa:srslte/releases</code> 在 jammy 上返回 <code>404 Not Found</code>，然后报 <code>Unable to locate package srsenb</code>。官方现在是纯源码发布，只能自己编译。两种环境都一样。</p>
+<hr>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>本节内容在两种环境下通用。编译步骤、配置文件分工、PRACH 规则、EARFCN 换算、PLMN 上限，换到物理机后一条都不用改。</p>
+<p>只有一处差异：UHD 的装法。虚拟机上是源码编的 3.15，物理机上是 apt 装的 4.1.0.5，两者都能用。详见后面「装 UHD」一节。</p>
+<h3 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y cmake libfftw3-dev libmbedtls-dev libboost-program-options-dev \</span><br><span class="line">  libboost-filesystem-dev libboost-thread-dev libboost-system-dev libconfig++-dev \</span><br><span class="line">  libsctp-dev libuhd-dev</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> ~/srsRAN_4G &amp;&amp; <span class="built_in">mkdir</span> -p build &amp;&amp; <span class="built_in">cd</span> build</span><br><span class="line">cmake ../ -DCMAKE_BUILD_TYPE=Release</span><br><span class="line">make -j$(<span class="built_in">nproc</span>)</span><br><span class="line"><span class="built_in">sudo</span> make install</span><br><span class="line"><span class="built_in">sudo</span> ldconfig</span><br></pre></td></tr></table></figure>
+
+<p>三个易错点：不加 <code>-DCMAKE_BUILD_TYPE=Release</code> 会跑得很慢；忘了 <code>ldconfig</code> 运行时会找不到 <code>libsrsran_*</code>；用 apt 装不上。</p>
+<p>装完后 <code>/etc/srsran/</code> 并不存在，很多教程在引用它。配置直接放工作目录。</p>
+<h3 id="配置文件分工"><a href="#配置文件分工" class="headerlink" title="配置文件分工"></a>配置文件分工</h3><table>
+<thead>
+<tr>
+<th>文件</th>
+<th>装什么</th>
+<th>谁读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>enb.conf</code></td>
+<td>RF 参数、设备参数、指向其他配置的路径</td>
+<td>srsenb</td>
+</tr>
+<tr>
+<td><code>sib.conf</code></td>
+<td>SIB1&#x2F;SIB2&#x2F;SIB3，PLMN、PRACH、PUCCH 都在这</td>
+<td>srsenb</td>
+</tr>
+<tr>
+<td><code>rr.conf</code></td>
+<td><code>dl_earfcn</code>、<code>pci</code>、TAC</td>
+<td>srsenb</td>
+</tr>
+<tr>
+<td><code>epc.conf</code></td>
+<td>MME 的 MCC&#x2F;MNC&#x2F;TAC</td>
+<td>srsepc</td>
+</tr>
+</tbody></table>
+<p><code>enb.conf</code> 里用 <code>enb_files</code> 段指过去：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[enb_files]</span></span><br><span class="line"><span class="attr">sib_config</span> = sib.conf</span><br><span class="line"><span class="attr">rr_config</span>  = rr.conf</span><br></pre></td></tr></table></figure>
+
+<p>总有人问 <code>enb.conf</code> 在哪。它不在 <code>/etc/</code> 下。启动脚本会按会话生成到 <code>sessions/&lt;会话名&gt;/enb.conf</code>，模板来自 <code>lab/</code>。</p>
+<h3 id="带宽与采样率"><a href="#带宽与采样率" class="headerlink" title="带宽与采样率"></a>带宽与采样率</h3><p><code>nof_prb</code> 定死采样率，不能乱配。</p>
+<table>
+<thead>
+<tr>
+<th>nof_prb</th>
+<th>采样率</th>
+<th>占用带宽</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>6</td>
+<td>11.52 Msps</td>
+<td>1.4 MHz</td>
+</tr>
+<tr>
+<td>15</td>
+<td>23.04 Msps</td>
+<td>3 MHz</td>
+</tr>
+<tr>
+<td>25</td>
+<td>23.04 Msps</td>
+<td>5 MHz</td>
+</tr>
+<tr>
+<td>50</td>
+<td>15.36 Msps</td>
+<td>10 MHz</td>
+</tr>
+<tr>
+<td>75</td>
+<td>23.04 Msps</td>
+<td>15 MHz</td>
+</tr>
+</tbody></table>
+<p>日志里 <code>Starting RX/TX thread nof_prb=15, sf_len=3840</code> 会打出实际值，<code>sf_len</code> 是每子帧的采样点数。</p>
+<h3 id="PRACH-偏移量"><a href="#PRACH-偏移量" class="headerlink" title="PRACH 偏移量"></a>PRACH 偏移量</h3><p>规则在 <code>srsenb/src/enb_cfg_parser.cc:2069-2095</code>。</p>
+<p><code>prach_config_index</code> 决定 PRACH 占多宽，默认值 3 对应宽度 10。<code>prach_freq_offset</code> 是起始位置。srsENB 按带宽分两套逻辑校验，<code>nrb_pucch</code> 取 <code>max(sr_cfg.nof_prb, pucch_cfg_common.nrb_cqi)</code>，默认都是 1。</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>校验</th>
+<th>合法偏移</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>n_prb &gt; 6</code></td>
+<td><code>nrb_pucch &lt;= offset</code> 且 <code>offset+6 &lt;= n_prb-nrb_pucch</code></td>
+<td>见下</td>
+</tr>
+<tr>
+<td><code>n_prb = 6</code></td>
+<td><code>offset+6 &lt;= 6</code></td>
+<td>只能是 0</td>
+</tr>
+</tbody></table>
+<p>按默认 PUCCH 算出来的实际区间：</p>
+<table>
+<thead>
+<tr>
+<th>nof_prb</th>
+<th>合法偏移</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>6</td>
+<td>只有 0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>15</td>
+<td>1 到 8</td>
+<td>1</td>
+</tr>
+<tr>
+<td>25</td>
+<td>1 到 18</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>三种典型错误，我都撞过。</p>
+<p>默认值 4 用在 6 PRB 上，4+10&#x3D;14 越界：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR: Invalid PRACH configuration - prach=(4, 10) does not fit into the eNB PRBs=(0, 6).</span><br><span class="line">       Consider changing the &quot;prach_freq_offset&quot; value to 0 in the sib.conf file when using 6 PRBs.</span><br></pre></td></tr></table></figure>
+
+<p>srsENB 会直接拒绝启动。</p>
+<p>把偏移一律改成 0，换成 15 PRB 就撞 PUCCH：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR: Invalid PRACH configuration - prach_freq_offset=0 collides with PUCCH.</span><br><span class="line">       Consider changing &quot;prach_freq_offset&quot; in sib.conf to a value between 1 and 14.</span><br></pre></td></tr></table></figure>
+
+<p>注意第二段报错里的 “between 1 and 14” 是针对当时那个带宽的，换带宽数值就变。别当常数用。</p>
+<p>第三条错误最隐蔽：srsENB 对着 6 PRB 的报错建议你「改成 0」，照搬到别的带宽就踩第二个坑。</p>
+<p>正确做法是按带宽算，不要写死：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">nrb_pucch = <span class="built_in">max</span>(nof_prb, nrb_cqi)          <span class="comment"># 默认均为 1</span></span><br><span class="line"><span class="keyword">if</span> n_prb &lt;= <span class="number">6</span>:</span><br><span class="line">    want = <span class="number">0</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    lower = nrb_pucch</span><br><span class="line">    upper = n_prb - nrb_pucch - <span class="number">6</span></span><br><span class="line">    want = lower <span class="keyword">if</span> lower &lt;= upper <span class="keyword">else</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+<p>离线验证：6 得 0，15 得 1，25 得 1。实测两轮会话 <code>PRACHerr=0</code>。</p>
+<h3 id="频段与-EARFCN"><a href="#频段与-EARFCN" class="headerlink" title="频段与 EARFCN"></a>频段与 EARFCN</h3><p>srsRAN 不需要你告诉它用哪个频段，只给 <code>dl_earfcn</code>，频段由内部表推出来。表在 <code>lib/src/phy/common/phy_common.c</code> 的 <code>lte_bands[]</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">lte_band</span> <span class="title">lte_bands</span>[<span class="title">SRSRAN_NOF_LTE_BANDS</span>] =</span> &#123;</span><br><span class="line">    &#123;<span class="number">1</span>, <span class="number">2110</span>, <span class="number">0</span>,     <span class="number">18000</span>, <span class="number">190</span>, ...&#125;,</span><br><span class="line">    &#123;<span class="number">3</span>, <span class="number">1805</span>, <span class="number">1200</span>,  <span class="number">19200</span>,  <span class="number">95</span>, ...&#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 字段: &#123;band, fd_low_mhz, dl_earfcn_offset, ul_earfcn_offset, duplex_mhz, area&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>频率这样算：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">F_DL = fd_low_mhz + 0.1 * (dl_earfcn - dl_earfcn_offset)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>频段</th>
+<th>fd_low</th>
+<th>dl_offset</th>
+<th>化简</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Band 1</td>
+<td>2110</td>
+<td>0</td>
+<td><code>2110 + 0.1*N</code></td>
+</tr>
+<tr>
+<td>Band 3</td>
+<td>1805</td>
+<td>1200</td>
+<td><code>1805 + 0.1*(N-1200)</code></td>
+</tr>
+</tbody></table>
+<p>验算一下。Band 3 的 EARFCN 1300：<code>1805 + 0.1*100 = 1815.0 MHz</code>，日志打出来就是 <code>DL=1815.0 Mhz</code>。Band 1 的 300：<code>2110 + 30 = 2140.0 MHz</code>，日志也是 <code>DL=2140.0 Mhz</code>。</p>
+<p>这里有个常见误解：以为 Band 3 的 1300 对应 1210 MHz。那是漏掉了 <code>dl_earfcn_offset=1200</code>，把 Band 1 的公式套上去了。</p>
+<p>换频段只改一个字段：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[rr]</span><br><span class="line">cell_list = (</span><br><span class="line">  &#123;</span><br><span class="line">    dl_earfcn = <span class="number">300</span>;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>收发频率 srsENB 会自己算对。</p>
+<h3 id="PLMN-上限"><a href="#PLMN-上限" class="headerlink" title="PLMN 上限"></a>PLMN 上限</h3><p>先记住国内运营商的号段。</p>
+<table>
+<thead>
+<tr>
+<th>PLMN</th>
+<th>运营商</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>46000 &#x2F; 46002 &#x2F; 46004 &#x2F; 46007 &#x2F; 46008</td>
+<td>中国移动</td>
+</tr>
+<tr>
+<td>46001 &#x2F; 46006 &#x2F; 46009</td>
+<td>中国联通</td>
+</tr>
+<tr>
+<td>46003 &#x2F; 46005 &#x2F; 46011 &#x2F; 46012</td>
+<td>中国电信</td>
+</tr>
+</tbody></table>
+<p>46001 是联通，不是电信。电信和联通有 5G 共建共享，电信用户接入的 n78 基站可能广播 46001，很容易看错。</p>
+<p>主 PLMN 要在 <code>enb.conf</code> 和 <code>epc.conf</code> 各写一次：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># enb.conf</span><br><span class="line">[enb]</span><br><span class="line">mcc = 460</span><br><span class="line">mnc = 11</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># epc.conf</span><br><span class="line">[mme]</span><br><span class="line">mcc = 460</span><br><span class="line">mnc = 11</span><br></pre></td></tr></table></figure>
+
+<p>想在一个小区里广播多个 PLMN，往 <code>sib.conf</code> 的 <code>sib1</code> 段加 <code>additional_plmns</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sib1 = &#123;</span><br><span class="line">    additional_plmns = (</span><br><span class="line">        &#123;mcc = <span class="string">&quot;460&quot;</span>; mnc = <span class="string">&quot;03&quot;</span>; cell_reserved_for_oper = <span class="string">&quot;notReserved&quot;</span>&#125;,</span><br><span class="line">        &#123;mcc = <span class="string">&quot;460&quot;</span>; mnc = <span class="string">&quot;05&quot;</span>; cell_reserved_for_oper = <span class="string">&quot;notReserved&quot;</span>&#125;</span><br><span class="line">    );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上限是 5 条，不是 6 条。报错会告诉你是 6，那是骗人的。源码在 <code>srsenb/src/enb_cfg_parser.cc:87</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (root.getLength() &gt; ASN1_RRC_MAX_PLMN_MINUS1_R14) &#123;</span><br><span class="line">    ERROR(<span class="string">&quot;PLMN-IdentityList cannot have more than %d entries&quot;</span>, ASN1_RRC_MAX_PLMN_R11);</span><br></pre></td></tr></table></figure>
+
+<p>两个常量在 <code>lib/include/srsran/asn1/rrc/common.h</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> ASN1_RRC_MAX_PLMN_R11        6</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ASN1_RRC_MAX_PLMN_MINUS1_R14 5</span></span><br></pre></td></tr></table></figure>
+
+<p>校验用的是 5，打印出来的是 6。看数字以校验条件为准。</p>
+<p>超了就报：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PLMN-IdentityList cannot have more than 6 entries</span><br><span class="line">Error parsing field additional_plmns in section additional_plmns</span><br></pre></td></tr></table></figure>
+
+<p>想确认加进去没有，看 SIB1 字节数。不加是 21 B，加 5 条变 30 B：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[RRC ] [I] Tx Broadcast PDU - systemInformationBlockType1, cc=0, idx=0 (30 B)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="虚拟机环境的问题"><a href="#虚拟机环境的问题" class="headerlink" title="虚拟机环境的问题"></a>虚拟机环境的问题</h2><p>本节全部内容发生在虚拟机里。目录坑都填平了，但问题不在配置里。</p>
+<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><p>B210 的绿灯在闪，红灯几乎不亮。基站日志反复刷：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Detected RF gap of -107455.0 us. Sending end-of-burst.</span><br></pre></td></tr></table></figure>
+
+<p>手机始终不接入。飞行模式切换、手动选网、贴天线都试过。</p>
+<p>基站日志里搜 <code>PRACH|Random Access|Msg1|Msg3|RRC Connection|Attach|rnti</code> 零命中，手机没发过接入请求。</p>
+<h3 id="红灯"><a href="#红灯" class="headerlink" title="红灯"></a>红灯</h3><p>查了 Ettus 的 B2x0 手册，TRX 指示灯的语义是明确的：灭表示无活动，绿表示接收，红表示发送，橙表示收发切换。</p>
+<p>红灯几乎不亮，说明发射没有连续工作。红灯在跑 benchmark 时是持续亮的，所以硬件没问题。</p>
+<h3 id="排除"><a href="#排除" class="headerlink" title="排除"></a>排除</h3><p>逐项排除：</p>
+<table>
+<thead>
+<tr>
+<th>怀疑对象</th>
+<th>怎么验的</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>srsRAN 版本</td>
+<td>25.10.0 Release 编译，正常启动</td>
+<td>排除</td>
+</tr>
+<tr>
+<td>B210 硬件</td>
+<td>寄存器回环测试通过</td>
+<td>排除</td>
+</tr>
+<tr>
+<td>USB 链路质量</td>
+<td>5000M SuperSpeed，dmesg 干净</td>
+<td>排除</td>
+</tr>
+<tr>
+<td>CPU 算力</td>
+<td>8 核还有 53% 空闲，srsenb 占 246%</td>
+<td>排除</td>
+</tr>
+<tr>
+<td>PRACH 配置</td>
+<td>修完 <code>PRACHerr=0</code></td>
+<td>排除</td>
+</tr>
+<tr>
+<td>接收链路</td>
+<td>MIB 连续 20 多次解码成功</td>
+<td>排除</td>
+</tr>
+<tr>
+<td>降带宽</td>
+<td>6 PRB 实测更差</td>
+<td>排除</td>
+</tr>
+<tr>
+<td>加帧池</td>
+<td>64 改 512，没变化</td>
+<td>排除</td>
+</tr>
+<tr>
+<td>USB 实时性</td>
+<td>官方 benchmark 实测</td>
+<td>确认</td>
+</tr>
+</tbody></table>
+<p>降带宽和加帧池的实测数据：</p>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>RF gap 量级</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>15 PRB + 64 帧</td>
+<td>40 到 115 ms</td>
+</tr>
+<tr>
+<td>6 PRB + 64 帧</td>
+<td>12 到 131 ms</td>
+</tr>
+<tr>
+<td>15 PRB + 512 帧</td>
+<td>73 到 94 ms</td>
+</tr>
+</tbody></table>
+<p>带宽降一半更差，帧池加 8 倍无变化。问题跟吞吐量无关。</p>
+<h3 id="关键测试"><a href="#关键测试" class="headerlink" title="关键测试"></a>关键测试</h3><p>Ettus 官方的 <code>benchmark_rate</code> 不经过 srsRAN，直接测 UHD 和 USB 链路：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/lib/uhd/examples/benchmark_rate \</span><br><span class="line">  --rx_rate 23.04e6 --tx_rate 23.04e6 --duration 30</span><br></pre></td></tr></table></figure>
+
+<p>30 秒的结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Benchmark rate summary:</span><br><span class="line">  Num received samples:     256186842</span><br><span class="line">  Num dropped samples:      2298</span><br><span class="line">  Num overruns detected:    2298</span><br><span class="line">  Num transmitted samples:  179160960</span><br><span class="line">  Num sequence errors (Tx): 0</span><br><span class="line">  Num sequence errors (Rx): 0</span><br><span class="line">  Num underruns detected:   36262</span><br><span class="line">  Num late commands:        0</span><br><span class="line">  Num timeouts (Tx):        2</span><br></pre></td></tr></table></figure>
+
+<p>30 秒内 36262 次发送欠载，全程 <code>UUUUUUUU</code> 刷屏。</p>
+<p>这个测试没碰 srsRAN，纯硬件层。它过不了，srsENB 必然也过不了。</p>
+<p>这也解释了之前的现象：发送缓冲被抽干，UHD 触发 end-of-burst，红灯灭掉。SIB 断续发出，手机拼不出完整的一条。接收能容忍抖动而发射不能，所以 MIB 能连续解出，手机却收不到基站。</p>
+<p>单发和单收分开测：</p>
+<table>
+<thead>
+<tr>
+<th>测试模式</th>
+<th>Underrun</th>
+<th>Overrun</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>只收</td>
+<td>0</td>
+<td>1717</td>
+</tr>
+<tr>
+<td>只发</td>
+<td>26579 &#x2F; 20s</td>
+<td>0</td>
+</tr>
+<tr>
+<td>双向</td>
+<td>36262 &#x2F; 30s</td>
+<td>2298</td>
+</tr>
+</tbody></table>
+<p>只收是完美的。问题全在发射。</p>
+<h3 id="官方立场"><a href="#官方立场" class="headerlink" title="官方立场"></a>官方立场</h3><table>
+<thead>
+<tr>
+<th>来源</th>
+<th>原话</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/srsran/srsRAN_Project/discussions/544">Discussion #544</a></td>
+<td>维护者：”we do not recommend running gnb on a virtual machine, as it will cause a lot of performance issues”</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://docs.srsran.com/projects/project/en/latest/user_manuals/source/troubleshooting.html">Troubleshooting 文档</a></td>
+<td>第一条要求就是 CPU governor 设 performance</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/srsran/srsRAN_Project/issues/94">Issue #94</a></td>
+<td>同类案例换物理机后 “able to run ping for an hour”</td>
+</tr>
+</tbody></table>
+<h3 id="官方调优受阻"><a href="#官方调优受阻" class="headerlink" title="官方调优受阻"></a>官方调优受阻</h3><p>官方脚本 <code>scripts/srsran_performance</code> 做三件事，逐项实测：</p>
+<table>
+<thead>
+<tr>
+<th>优化项</th>
+<th>官方做法</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU governor 设 performance</td>
+<td>写 <code>scaling_governor</code></td>
+<td><code>/sys/devices/system/cpu/cpu0/cpufreq</code> 目录不存在</td>
+</tr>
+<tr>
+<td>禁用 DRM KMS polling</td>
+<td>写 <code>drm_kms_helper/parameters/poll</code></td>
+<td>成功，<code>Y</code> 改成了 <code>N</code></td>
+</tr>
+<tr>
+<td>调优网络缓冲</td>
+<td><code>sysctl net.core.*mem*</code></td>
+<td>成功，四项都设了 33554432</td>
+</tr>
+<tr>
+<td>禁用 C-state（我自己加的）</td>
+<td>写 <code>cpuidle/state*/disable</code></td>
+<td><code>cpuidle</code> 状态数 0</td>
+</tr>
+</tbody></table>
+<p>四项里两项不存在，不是权限问题，是客户机内核没有这些子系统。</p>
+<p>srsenb 启动时一直刷这个：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WARNING: Could not verify cpu0 scaling governor</span><br><span class="line">...（cpu0 到 cpu7 全部告警）</span><br></pre></td></tr></table></figure>
+
+<p><code>/proc/cpuinfo</code> 里 8 个核心的 <code>cpu MHz</code> 完全一样，3593.107，频率由宿主机固定暴露。</p>
+<p>调优后重测 benchmark，无变化：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>调优前 30s</th>
+<th>调优后 20s</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Underrun</td>
+<td>36262</td>
+<td>35274</td>
+</tr>
+<tr>
+<td>Overrun</td>
+<td>2298</td>
+<td>1087</td>
+</tr>
+</tbody></table>
+<p>折算成每秒反而略高。成功的两项跟 USB 传输路径无关。</p>
+<h3 id="直通的真相"><a href="#直通的真相" class="headerlink" title="直通的真相"></a>直通的真相</h3><p>客户机里的 USB 控制器是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">03:00.0 USB controller [0c03]: VMware USB3 xHCI 1.0 Controller [15ad:0779]</span><br><span class="line">                                                          ↑ 厂商和设备 ID 都是 VMware 的</span><br></pre></td></tr></table></figure>
+
+<p><code>15ad</code> 是 VMware 的厂商号，真实硬件直通会显示 Intel 的 <code>8086:</code> 或 AMD 的 <code>1022:</code>。</p>
+<p>两种直通完全不同：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>直通的是什么</th>
+<th>数据怎么走</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>USB 设备直通</td>
+<td>单个 USB 设备</td>
+<td>经宿主机用户态服务转发</td>
+</tr>
+<tr>
+<td>PCIe 直通</td>
+<td>整个 USB 控制器</td>
+<td>客户机直接驱动硬件</td>
+</tr>
+</tbody></table>
+<p>这里用的是第一种。VMware Workstation 不支持第二种。</p>
+<p>dmesg 显示 B210 挂在虚拟 hub 下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[    6.545184] Product: VMware Virtual USB Hub</span><br><span class="line">[    6.545187] Manufacturer: VMware, Inc.</span><br></pre></td></tr></table></figure>
+
+<p>数据路径：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">物理 B210</span><br><span class="line">  → Windows 宿主机 USB 驱动栈</span><br><span class="line">  → VMware USB 仲裁服务（宿主机上的用户态进程）</span><br><span class="line">  → VMware 虚拟 xHCI 控制器</span><br><span class="line">  → Ubuntu 客户机 xhci_hcd</span><br><span class="line">  → usbfs / libusb</span><br><span class="line">  → UHD</span><br></pre></td></tr></table></figure>
+
+<p>每次 USB 传输要过四道边界。<code>lsusb -t</code> 里 B210 各接口的 <code>Driver=</code> 为空，由用户态 libusb 通过 <code>usbfs</code> 操作，每次传输都要走 <code>ioctl</code> 到虚拟机监控器再到宿主机。</p>
+<p>宿主机 Windows 不是实时系统，线程调度粒度约 15.6 ms，LTE 要求每 1 ms 交付一个子帧。</p>
+<p>这个差距在客户机里补不上。</p>
+<h3 id="九项优化全试"><a href="#九项优化全试" class="headerlink" title="九项优化全试"></a>九项优化全试</h3><p>九项全部无效。</p>
+<table>
+<thead>
+<tr>
+<th>优化项</th>
+<th>做法</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>降带宽</td>
+<td>15 PRB 改 6 PRB</td>
+<td>RF gap 12 到 131 ms，更差</td>
+</tr>
+<tr>
+<td>加帧池</td>
+<td>64 改 512</td>
+<td>73 到 94 ms，无改善</td>
+</tr>
+<tr>
+<td>关日志</td>
+<td><code>all_level=warning</code>、<code>phy_level=error</code></td>
+<td>超时照旧</td>
+</tr>
+<tr>
+<td>关 PCAP</td>
+<td><code>pcap.enable=false</code></td>
+<td>照旧</td>
+</tr>
+<tr>
+<td>实时调度</td>
+<td><code>chrt -f 80</code> SCHED_FIFO</td>
+<td>underrun 24671 &#x2F; 20s</td>
+</tr>
+<tr>
+<td>CPU 绑定</td>
+<td><code>taskset -c 2-5</code></td>
+<td>照旧</td>
+</tr>
+<tr>
+<td>禁 USB 自动挂起</td>
+<td><code>autosuspend</code> 从 2 改成 -1</td>
+<td>无改善</td>
+</tr>
+<tr>
+<td>DRM KMS + 网络缓冲</td>
+<td>官方脚本那两项</td>
+<td>无改善</td>
+</tr>
+<tr>
+<td>CPU governor</td>
+<td>写不进去</td>
+<td>子系统不存在</td>
+</tr>
+</tbody></table>
+<p>开销压到最低的那次： 日志级别降到 warning，<code>enb.log</code> 为 0 字节；PCAP 全关；帧池回到官方建议的 64；开启 <code>chrt -f 80</code> 实时调度并绑定 CPU；USB 自动挂起禁用。</p>
+<p>结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[INFO] [UHD RF] Tx while waiting for EOB, timed out... 10.4087 &gt;= 10.3957. Starting new burst...</span><br><span class="line">[INFO] [UHD RF] Tx while waiting for EOB, timed out... 12.833 &gt;= 12.7961. Starting new burst...</span><br><span class="line">[INFO] [UHD RF] Tx while waiting for EOB, timed out... 15.5924 &gt;= 15.5923. Starting new burst...</span><br></pre></td></tr></table></figure>
+
+<p>一项都没起作用。</p>
+<h3 id="同类案例"><a href="#同类案例" class="headerlink" title="同类案例"></a>同类案例</h3><p><a target="_blank" rel="noopener" href="https://github.com/srsran/srsRAN_4G/issues/1334">srsRAN_4G Issue #1334</a> 的标题就是 <code>TX while waiting for EOB, timed out...</code>，与这里的报错一致。</p>
+<p>提问者环境是 B210 + VirtualBox + Ubuntu 22.04 + Open5GS，日志里也有那串 <code>Could not verify cpu0 scaling governor</code>。</p>
+<p>他的结论：</p>
+<blockquote>
+<p>I am resolving the issue by using Ubuntu 22.04 installed natively side by side with Windows OS and it work perfectly fine, as I previously encountered the problem when using a virtual machine. I believe the issue lies with the virtual machine, which cannot provide optimal processor performance. At this time, I have yet to find a solution for using the virtual machine to run srsenb optimally.</p>
+</blockquote>
+<p>意思是用双系统解决了，问题在虚拟机，至今没找到在虚拟机里跑好 srsenb 的办法。</p>
+<p>同一 issue 里另两人：第二个用 X410（以太网），同样报错，靠只跑 25 PRB 才勉强可用；第三个在 LXD 容器里，因同一个 governor 警告失败。</p>
+<table>
+<thead>
+<tr>
+<th>来源</th>
+<th>环境</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Issue #1334 报告者</td>
+<td>B210 + VirtualBox</td>
+<td>换双系统后正常</td>
+</tr>
+<tr>
+<td>同上第二人</td>
+<td>X410（以太网）</td>
+<td>降到 25 PRB 才解决</td>
+</tr>
+<tr>
+<td>同上第三人</td>
+<td>LXD 容器</td>
+<td>同样失败</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/srsran/srsRAN_Project/discussions/544">Discussion #544</a></td>
+<td>官方维护者</td>
+<td>不建议在虚拟机跑 gNB</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://docs.srsran.com/projects/4g/en/next/app_notes/source/pi4/source/">官方 Pi4 笔记</a></td>
+<td>树莓派 4 + B210</td>
+<td>跑通了</td>
+</tr>
+</tbody></table>
+<p>树莓派是关键反证。Pi4 算力远不如这台 8 核虚拟机，但能跑通，因为它是物理机。</p>
+<p>瓶颈不是算力，是虚拟化层。</p>
+<p>没搜到任何「虚拟机里跑通 srsENB 并完成真实 UE 接入」的公开案例，虚拟机用法都是纯接收类实验。</p>
+<h3 id="虚拟机环境的结论"><a href="#虚拟机环境的结论" class="headerlink" title="虚拟机环境的结论"></a>虚拟机环境的结论</h3><p>软件配置是对的。srsRAN 正常，B210 正常，S1 接口也通（<code>Received S1 Setup Request</code> &#x2F; <code>Sending S1 Setup Response</code> 都正常）。断点只有一个：RF 发射不连续。</p>
+<p>调参解决不了。九项优化全试过，包括官方脚本的三项、实时调度、CPU 绑定、关日志关抓包、降到 6 PRB。</p>
+<p>要往下走只有两条路：物理机装 Ubuntu（或 Windows 双系统），或者换 Linux 宿主用 KVM&#x2F;QEMU + VFIO 把整个 USB 控制器做 PCIe 直通，需要主板支持 VT-d 或 AMD-Vi。</p>
+<p>我走了第一条路。下面是结果。</p>
+<hr>
+<h2 id="物理机环境：成功"><a href="#物理机环境：成功" class="headerlink" title="物理机环境：成功"></a>物理机环境：成功</h2><p>迁到物理机后，首轮实测就抓到了 IMSI。这是从 2026-09-28 开始折腾以来的第一次成功，此前 56 个以上会话全部为空。</p>
+<h3 id="迁移后先验链路"><a href="#迁移后先验链路" class="headerlink" title="迁移后先验链路"></a>迁移后先验链路</h3><p>23.04 Msps 双向 benchmark 跑 30 秒：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>虚拟机</th>
+<th>物理机</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Num underruns detected</code></td>
+<td>36262</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>Num overruns detected</code></td>
+<td>2298</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>Num dropped samples</code></td>
+<td>2298</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>Num sequence errors</code></td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>Num timeouts</code></td>
+<td>2</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>不只是 underrun 归零，是每一项都归零。连虚拟机里那 2 次 Tx 超时都没了。根因判断得到证实。</p>
+<h3 id="启动命令"><a href="#启动命令" class="headerlink" title="启动命令"></a>启动命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/vibtek/b210</span><br><span class="line"><span class="built_in">rm</span> -f run/rf.lock*</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">env</span> HOME=/home/vibtek N_PRB=15 TX_GAIN=89 EARFCN=1650 \</span><br><span class="line">  bash scripts/run_ota_enb_attach.sh 300</span><br></pre></td></tr></table></figure>
+
+<p>配置参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PLMN</td>
+<td>460 11（中国电信）</td>
+</tr>
+<tr>
+<td>EARFCN</td>
+<td>1650（Band 3，DL 1850.0 &#x2F; UL 1755.0 MHz）</td>
+</tr>
+<tr>
+<td>带宽</td>
+<td>15 PRB</td>
+</tr>
+<tr>
+<td>PCI</td>
+<td>1</td>
+</tr>
+<tr>
+<td>TX 增益</td>
+<td>89</td>
+</tr>
+</tbody></table>
+<p>脚本会自动把 PRACH 偏移从默认的 4 改成 1：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PRACH guard: n_prb=15 offset 4 -&gt; 1 (pucch=1)</span><br></pre></td></tr></table></figure>
+
+<h3 id="完整接入链"><a href="#完整接入链" class="headerlink" title="完整接入链"></a>完整接入链</h3><p>从基站启动到拿到 IMSI，约 11 秒。日志按顺序：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>日志</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PRACH 检测</td>
+<td><code>[PHY] [7132] PRACH: cc=0, 0/1, preamble=34, offset=1.9 us, peak2avg=712.4, max_offset=30.0 us</code></td>
+</tr>
+<tr>
+<td>分配临时标识</td>
+<td><code>[RRC] Added new user rnti=0x46</code></td>
+</tr>
+<tr>
+<td>Msg3 调度</td>
+<td><code>[MAC] New PRACH tti=7131, preamble=34, temp_crnti=0x46, ta_cmd=3, msg3_size=7</code></td>
+</tr>
+<tr>
+<td>RRC 连接请求</td>
+<td><code>[RRC] Rx SRB0 PDU, rnti=0x46 - rrcConnectionRequest (6 B)</code></td>
+</tr>
+<tr>
+<td>RRC 连接建立</td>
+<td><code>[RRC] Tx SRB0 PDU, rnti=0x46 - rrcConnectionSetup (20 B)</code></td>
+</tr>
+<tr>
+<td>RRC 建立完成</td>
+<td><code>[RRC] Rx SRB1 PDU, rnti=0x46 - rrcConnectionSetupComplete (56 B)</code></td>
+</tr>
+<tr>
+<td>Attach 请求</td>
+<td><code>Initial UE message: LIBLTE_MME_MSG_TYPE_ATTACH_REQUEST</code></td>
+</tr>
+<tr>
+<td>IMSI 上报</td>
+<td><code>ID Response -- IMSI: 460115755458738</code></td>
+</tr>
+</tbody></table>
+<p><code>peak2avg=712.4</code> 说明检测余量充足，<code>offset=1.9 us</code> 落在 <code>max_offset=30 us</code> 内，时序对齐正常。</p>
+<h3 id="成败对比"><a href="#成败对比" class="headerlink" title="成败对比"></a>成败对比</h3><p>同一套脚本、同一套配置，只换运行环境：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>虚拟机</th>
+<th>物理机</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>RF gap</code> 次数</td>
+<td>反复出现</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>end-of-burst</code> 次数</td>
+<td>反复出现</td>
+<td>0</td>
+</tr>
+<tr>
+<td>PRACH 次数</td>
+<td>0</td>
+<td>5</td>
+</tr>
+<tr>
+<td>RRC 连接</td>
+<td>从未建立</td>
+<td>建立</td>
+</tr>
+<tr>
+<td>IMSI</td>
+<td>从未取得</td>
+<td>取得</td>
+</tr>
+</tbody></table>
+<p><code>RF gap</code> 和 <code>end-of-burst</code> 这两个计数，在虚拟机上从来没归零过。</p>
+<h3 id="为什么停在鉴权"><a href="#为什么停在鉴权" class="headerlink" title="为什么停在鉴权"></a>为什么停在鉴权</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User not found at HSS. IMSI: 460115755458738</span><br><span class="line">Integrity check failure. Algorithm=EIA1</span><br></pre></td></tr></table></figure>
+
+<p><code>srsEPC</code> 的 <code>user_db.csv</code> 里没有这张卡的 K 和 OPc，发不出 Authentication Request，手机等待超时后 Detach。</p>
+<p>这不影响采集。UE 在 Attach Request 阶段就要上报 IMSI，此时 NAS 消息还没加密，鉴权发生在之后。要跑通完整接入（分配 IP、ping），需要拿到卡的密钥，普通商用卡拿不到。</p>
+<h3 id="手机侧行为"><a href="#手机侧行为" class="headerlink" title="手机侧行为"></a>手机侧行为</h3><p>手机反复尝试了四次，每次都能走到 IMSI 上报：</p>
+<table>
+<thead>
+<tr>
+<th>时刻</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>06:55:10</td>
+<td>首次 Attach（<code>Attach type: 1</code>）</td>
+</tr>
+<tr>
+<td>06:55:12</td>
+<td>TAU Request，srsEPC 回复不支持</td>
+</tr>
+<tr>
+<td>06:55:12</td>
+<td>二次 Attach（<code>Attach type: 2</code>）</td>
+</tr>
+<tr>
+<td>06:55:15</td>
+<td>Detach Request，原因是没有收到鉴权请求</td>
+</tr>
+<tr>
+<td>06:56:21</td>
+<td>重新 Attach</td>
+</tr>
+<tr>
+<td>06:56:40</td>
+<td>再次 Attach</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="迁移方案"><a href="#迁移方案" class="headerlink" title="迁移方案"></a>迁移方案</h2><p>从虚拟机迁到物理机的顺序。这一节已验证跑通。</p>
+<h3 id="验收标准"><a href="#验收标准" class="headerlink" title="验收标准"></a>验收标准</h3><p>每步有通过条件，不通过不要继续。</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>通过条件</th>
+<th>实测结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>硬件识别</td>
+<td><code>uhd_find_devices</code> 列出 B210</td>
+<td>通过</td>
+</tr>
+<tr>
+<td>链路质量</td>
+<td><code>benchmark_rate</code> 的 <code>Num underruns detected</code> &#x3D; 0</td>
+<td>全项为零</td>
+</tr>
+<tr>
+<td>基站启动</td>
+<td><code>==== eNodeB started ===</code>，日志无 <code>RF gap</code></td>
+<td>通过</td>
+</tr>
+<tr>
+<td>发射连续</td>
+<td>B210 红灯持续亮，无 <code>end-of-burst</code></td>
+<td>通过</td>
+</tr>
+<tr>
+<td>UE 接入</td>
+<td>日志出现 <code>PRACH</code>、<code>Msg3</code>、<code>RRC Connection Request</code></td>
+<td>通过</td>
+</tr>
+<tr>
+<td>IMSI</td>
+<td>日志或抓包出现 IMSI</td>
+<td>11 秒取得</td>
+</tr>
+</tbody></table>
+<p>第二步最关键。underrun 不为 0 时，后面做完也没有意义。虚拟机上这一步就卡死了，36262 次欠载。</p>
+<h3 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h3><p>任意 x86_64，4 核以上，8 GB 内存以上。Ubuntu 22.04 LTS，物理机安装或者 Windows 双系统。USB 口必须是 3.0，蓝色那个，直连主板不要过 hub。笔记本记得插电源。</p>
+<p>双系统的话，先装 Windows 再装 Ubuntu，让 GRUB 引导，给 Ubuntu 留 60 GB 以上。</p>
+<h3 id="系统调优"><a href="#系统调优" class="headerlink" title="系统调优"></a>系统调优</h3><p>这几条在虚拟机里做不了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># CPU governor 设 performance</span></span><br><span class="line"><span class="built_in">sudo</span> apt install -y linux-tools-common linux-tools-generic</span><br><span class="line"><span class="built_in">sudo</span> cpupower frequency-set -g performance</span><br><span class="line"><span class="built_in">cat</span> /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor   <span class="comment"># 应该输出 performance</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 禁 C-state 深度睡眠，要重启生效</span></span><br><span class="line"><span class="built_in">sudo</span> sed -i <span class="string">&#x27;s/GRUB_CMDLINE_LINUX_DEFAULT=&quot;/GRUB_CMDLINE_LINUX_DEFAULT=&quot;processor.max_cstate=1 intel_idle.max_cstate=0 /&#x27;</span> /etc/default/grub</span><br><span class="line"><span class="built_in">sudo</span> update-grub</span><br><span class="line"></span><br><span class="line"><span class="comment"># 禁 USB 自动挂起</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;ACTION==&quot;add&quot;, SUBSYSTEM==&quot;usb&quot;, ATTR&#123;idVendor&#125;==&quot;2500&quot;, ATTR&#123;idProduct&#125;==&quot;0020&quot;, ATTR&#123;power/autosuspend&#125;=&quot;-1&quot;&#x27;</span> \</span><br><span class="line">  | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/udev/rules.d/99-usrp-power.rules</span><br><span class="line"><span class="built_in">sudo</span> udevadm control --reload-rules</span><br></pre></td></tr></table></figure>
+
+<p>虚拟机里 <code>/sys/devices/system/cpu/cpu0/cpufreq</code> 目录根本不存在，写不进去。物理机上这个路径有，但默认是 <code>powersave</code>。</p>
+<p>可以不改。我的物理机在 <code>powersave</code> 下 benchmark 依然全零，就没动它。如果想保险起见，改一下也就一条命令。</p>
+<h3 id="装-UHD"><a href="#装-UHD" class="headerlink" title="装 UHD"></a>装 UHD</h3><p>这是两种环境差异最大的一步。</p>
+<table>
+<thead>
+<tr>
+<th>环境</th>
+<th>做法</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>虚拟机</td>
+<td>源码编译 3.15.0.0</td>
+<td>能用，但没解决根本问题</td>
+</tr>
+<tr>
+<td>物理机</td>
+<td><code>apt install libuhd-dev uhd-host</code> 得到 4.1.0.5</td>
+<td>一样能用</td>
+</tr>
+</tbody></table>
+<p>apt 装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y libuhd-dev uhd-host</span><br><span class="line"><span class="built_in">sudo</span> uhd_images_downloader</span><br><span class="line">uhd_find_devices</span><br></pre></td></tr></table></figure>
+
+<p>能看到 <code>type: b200</code> 和 <code>serial: 196907</code> 即正确。UHD 4.x 和 3.15 都能用，不用纠结版本。</p>
+<p>srsRAN 4G 只能源码编译，前面「操作」那节有完整命令。</p>
+<h3 id="先验链路"><a href="#先验链路" class="headerlink" title="先验链路"></a>先验链路</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pgrep -x srsenb &amp;&amp; <span class="built_in">sudo</span> pkill -9 -x srsenb</span><br><span class="line"></span><br><span class="line">/usr/local/lib/uhd/examples/benchmark_rate \</span><br><span class="line">  --rx_rate 23.04e6 --tx_rate 23.04e6 --duration 30</span><br></pre></td></tr></table></figure>
+
+<p>合格线：underrun 为 0，overrun 接近 0，sequence errors 为 0。</p>
+<table>
+<thead>
+<tr>
+<th>环境</th>
+<th>underrun</th>
+<th>overrun</th>
+<th>丢样</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>虚拟机</td>
+<td>36262</td>
+<td>2298</td>
+<td>2298</td>
+</tr>
+<tr>
+<td>物理机</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>这一步是分水岭。物理机上 underrun 仍不为 0 时，先回头检查系统调优。</p>
+<h3 id="搬目录"><a href="#搬目录" class="headerlink" title="搬目录"></a>搬目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 虚拟机里打包</span></span><br><span class="line"><span class="built_in">cd</span> ~ &amp;&amp; tar czf b210-work.tar.gz b210-work/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 物理机上解压</span></span><br><span class="line">tar xzf b210-work.tar.gz -C ~/</span><br><span class="line"><span class="built_in">chmod</span> -R u+rwX ~/b210-work</span><br><span class="line">find ~/b210-work/sessions -maxdepth 1 -<span class="built_in">type</span> d -<span class="built_in">exec</span> <span class="built_in">chmod</span> 755 &#123;&#125; \; 2&gt;/dev/null</span><br><span class="line"><span class="built_in">rm</span> -f ~/b210-work/run/rf.lock*</span><br></pre></td></tr></table></figure>
+
+<p><code>run/rf.lock*</code> 是运行时锁，异常退出会残留，启动前清掉。</p>
+<p>注意路径要改。虚拟机上是 <code>/home/io</code>，物理机上是 <code>/home/vibtek</code>。搬完检查一遍：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -rn <span class="string">&#x27;home/io&#x27;</span> ~/b210-work/lab ~/b210-work/scripts</span><br></pre></td></tr></table></figure>
+
+<h3 id="跑起来"><a href="#跑起来" class="headerlink" title="跑起来"></a>跑起来</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/b210-work</span><br><span class="line"><span class="built_in">rm</span> -f run/rf.lock*</span><br><span class="line"></span><br><span class="line"><span class="comment"># 先扫频点</span></span><br><span class="line">python3 lte_station.py scan --start 1600 --end 1700</span><br><span class="line"></span><br><span class="line"><span class="comment"># 再启动</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">env</span> HOME=<span class="variable">$HOME</span> N_PRB=15 TX_GAIN=89 EARFCN=1650 \</span><br><span class="line">  bash scripts/run_ota_enb_attach.sh 600</span><br></pre></td></tr></table></figure>
+
+<p>启动后马上看：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">S=$(<span class="built_in">ls</span> -t sessions/ | <span class="built_in">head</span> -1)</span><br><span class="line">grep -c <span class="string">&#x27;RF gap&#x27;</span>     sessions/<span class="variable">$S</span>/enb*.<span class="built_in">log</span>     <span class="comment"># 应该是 0</span></span><br><span class="line">grep -c <span class="string">&#x27;PRACH:&#x27;</span>     sessions/<span class="variable">$S</span>/enb*.<span class="built_in">log</span>     <span class="comment"># 应该大于 0</span></span><br></pre></td></tr></table></figure>
+
+<p>同时观察 B210 红灯。红灯持续亮表示发射连续。</p>
+<p>查日志要用 <code>enb*.log</code> 通配。<code>enb.log</code> 会轮转成 <code>enb.1.log</code>、<code>enb.2.log</code>，只查单个文件会漏掉绝大部分内容。</p>
+<hr>
+<h2 id="选频点"><a href="#选频点" class="headerlink" title="选频点"></a>选频点</h2><p>这部分和运行环境无关，换到物理机一样要面对。下面的数据是在虚拟机里扫的，频点占用情况在物理机上也适用（同一地点、同一台 B210）。</p>
+<h3 id="扫描命令"><a href="#扫描命令" class="headerlink" title="扫描命令"></a>扫描命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 lte_station.py scan --bands 3</span><br><span class="line">python3 lte_station.py scan --start 1600 --end 1700</span><br></pre></td></tr></table></figure>
+
+<h3 id="选点原则"><a href="#选点原则" class="headerlink" title="选点原则"></a>选点原则</h3><p>选手机测不到、或信号极弱的频点。信号最强的是真实运营商基站，同频发射会干扰它；自建基站的功率也远低于真基站，抢不过。</p>
+<p>全频段扫描会漏报。</p>
+<p>首轮扫 Band 3 全段没报出 EARFCN 1650，单独复扫 1600 到 1700 才发现上面有两个 -49 dBm 的强小区：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> [+] Band 3: 3 个有效候选, 最强 -49.1 dBm</span><br><span class="line"></span><br><span class="line"> #  PSS(dBm)  BAND EARFCN  PCI         频率  PRB 端口</span><br><span class="line">----------------------------------------------------------</span><br><span class="line"> 1     -49.1  B3     1650  195   1850.0M  100   2</span><br><span class="line"> 2     -49.5  B3     1650  197   1850.0M  100   2</span><br><span class="line"> 3     -53.2  B3     1649    0   1849.9M    6   1</span><br></pre></td></tr></table></figure>
+
+<p>全频段要扫 750 个 EARFCN，为提速会缩短驻留时间，容易漏。选点前必须做小范围精细复扫。</p>
+<h3 id="手机不接入的原因"><a href="#手机不接入的原因" class="headerlink" title="手机不接入的原因"></a>手机不接入的原因</h3><p>手机不做全频段盲扫。它只测量当前服务小区在 SIB 里广播的邻区频点，这是省电设计。</p>
+<p>手机测量列表里只出现过 1650、1850、2452、1506、50、150、3739 这些频点，全部来自真实网络配置。基站配在 EARFCN 300，这个频点从未出现在手机的测量结果里。</p>
+<p>驻留频段和扫描频段是两回事。手机实测驻留轨迹是 B5(2452) → B3(1850) → B3(1650)，全程没进过 Band 1，而基站配在 Band 1。</p>
+<p>同 PLMN 也不保证接入。手机在真实网络上待机时没有理由切到陌生小区，重选要满足门限，且该小区需在邻区列表内。</p>
+<p>这就是为什么必须切飞行模式。试过不切飞行模式、只做手动选网，手机毫无反应。切一次飞行模式，手机重新搜网，才会去扫它记忆里的频点，这时才能碰到自建小区。</p>
+<p>实测 EARFCN 1650 有效：手机曾经测到过它，配上去 11 秒就完成了接入。</p>
+<p><code>*#*#4636#*#*</code> 能读出这些：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mNetworkType</code></td>
+<td>当前制式，LTE 还是 NR</td>
+</tr>
+<tr>
+<td><code>mBand</code></td>
+<td>服务小区频段</td>
+</tr>
+<tr>
+<td><code>mDownlinkChannelNumber</code></td>
+<td>服务小区 EARFCN</td>
+</tr>
+<tr>
+<td><code>mPhysicalCellId</code></td>
+<td>PCI</td>
+</tr>
+<tr>
+<td><code>mConnectionStatus</code></td>
+<td><code>PrimaryServing</code> 表示正在服务</td>
+</tr>
+<tr>
+<td><code>mCellBandwidthDownlinkKhz</code></td>
+<td>下行带宽，单位 kHz</td>
+</tr>
+</tbody></table>
+<p>ColorOS 15 之后封禁了该工程模式，设置项可能存不进去，其他国产 ROM 也有类似限制。以实测读数为准。</p>
+<hr>
+<h2 id="不切飞行模式怎么让手机接入"><a href="#不切飞行模式怎么让手机接入" class="headerlink" title="不切飞行模式怎么让手机接入"></a>不切飞行模式怎么让手机接入</h2><p>这一节和运行环境无关。前面说过”必须切飞行模式”，这里把原因和替代方案讲透。</p>
+<h3 id="手机为什么不来"><a href="#手机为什么不来" class="headerlink" title="手机为什么不来"></a>手机为什么不来</h3><p>关键在 <code>SIB1</code> 里广播的 TAC（Tracking Area Code）。手机的逻辑是这样：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">开机 / 重新搜网</span><br><span class="line">  → 找到小区，读 SIB1</span><br><span class="line">  → 检查 TAC 是否在&quot;已注册的跟踪区列表&quot;里</span><br><span class="line">  → 在列表里  → 什么都不做（已经是注册状态）</span><br><span class="line">  → 不在列表  → 发起 Attach 或 TAU</span><br></pre></td></tr></table></figure>
+
+<p>手机在真实网络上是注册状态，记着当前的位置区。看到自建小区时，它要判断”值不值得搬过去”。</p>
+<p>这里有三道门，每一道都可能拦住它：</p>
+<table>
+<thead>
+<tr>
+<th>门</th>
+<th>条件</th>
+<th>为什么拦住了</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>频点</td>
+<td>手机只测 SIB 邻区列表里的频点</td>
+<td>EARFCN 不在列表里，手机根本不知道有这个小区</td>
+</tr>
+<tr>
+<td>S 准则</td>
+<td>服务小区信号要低于门限</td>
+<td>手机在真实网络上信号很好，不满足”服务小区变差”</td>
+</tr>
+<tr>
+<td>R 准则</td>
+<td>目标小区排序要优于当前</td>
+<td>自建基站功率低，排不过真基站</td>
+</tr>
+</tbody></table>
+<p>三道门全过，手机才会重选过来。而只要有一道不过，它就一直待在真网络上。</p>
+<h3 id="飞行模式做了什么"><a href="#飞行模式做了什么" class="headerlink" title="飞行模式做了什么"></a>飞行模式做了什么</h3><p>切飞行模式实际上执行了三件事：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">关闭射频 → 清空已注册的跟踪区列表 → 重新开机扫频</span><br></pre></td></tr></table></figure>
+
+<p>关键在第二步。清空列表后手机回到未注册状态，这时它看到任何能用的 PLMN 都会去接入，重选的三道门都不再起作用。飞行模式之所以好使，就是因为它把注册列表清空了，而不是单纯让手机更容易切过来。</p>
+<h3 id="四个替代方向"><a href="#四个替代方向" class="headerlink" title="四个替代方向"></a>四个替代方向</h3><table>
+<thead>
+<tr>
+<th>方向</th>
+<th>原理</th>
+<th>可行性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>屏蔽真实信号</td>
+<td>让服务小区消失，手机被迫重新搜网</td>
+<td>最有效，等同飞行模式但更自然</td>
+</tr>
+<tr>
+<td>调 SIB 重选参数</td>
+<td>让自建小区在 R 准则里排序更高</td>
+<td>可试，纯软件</td>
+</tr>
+<tr>
+<td>撞频点</td>
+<td>把基站配在手机邻区列表里的频点上</td>
+<td>已实现（EARFCN 1650）</td>
+</tr>
+<tr>
+<td>等周期 TAU</td>
+<td>手机的 T3412 定时器到期后主动上报</td>
+<td>不可靠，可能几十分钟</td>
+</tr>
+<tr>
+<td><del>提高功率</del></td>
+<td>信号强度超过真基站</td>
+<td>不现实，真基站 20–40 W</td>
+</tr>
+</tbody></table>
+<p>屏蔽是最实用的。把手机放进屏蔽箱或法拉第袋待一会儿再拿出来，效果和切飞行模式一样，而且更接近真实攻击场景，现实中的 IMSI catcher 也是靠干扰真实信号逼手机掉网。</p>
+<h3 id="调-SIB-重选参数"><a href="#调-SIB-重选参数" class="headerlink" title="调 SIB 重选参数"></a>调 SIB 重选参数</h3><p>这是唯一纯软件、可控制的方向。<code>sib.conf</code> 里相关的字段：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>作用</th>
+<th>调法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>q_rx_lev_min</code></td>
+<td>小区最低接收电平</td>
+<td>调低，让手机觉得”这个小区能用”</td>
+</tr>
+<tr>
+<td><code>q_hyst</code></td>
+<td>重选迟滞</td>
+<td>调低，减少切换阻力</td>
+</tr>
+<tr>
+<td><code>cell_resel_priority</code></td>
+<td>小区重选优先级</td>
+<td>调高，让自建小区更有吸引力</td>
+</tr>
+<tr>
+<td><code>thresh_serving_low</code></td>
+<td>服务小区低门限</td>
+<td>配合使用</td>
+</tr>
+<tr>
+<td><code>q_qual_min</code></td>
+<td>质量门限</td>
+<td>调低</td>
+</tr>
+</tbody></table>
+<p>思路是让自建小区在手机眼里”更值得去”。</p>
+<p>但这有个前提问题： 这些参数生效的前提是手机已经知道有这个小区。如果 EARFCN 不在邻区列表里，手机连测量都不会做，参数调了也没用。</p>
+<p>所以顺序是：先解决”能被测到”，再解决”值得去”。</p>
+<p>EARFCN 1650 已经解决了第一层（实测有效）。第二层就靠这些参数。</p>
+<h3 id="待验证的方向"><a href="#待验证的方向" class="headerlink" title="待验证的方向"></a>待验证的方向</h3><table>
+<thead>
+<tr>
+<th>想法</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>调 SIB 重选参数让手机主动过来</td>
+<td>已试七组，全零，此路不通</td>
+</tr>
+<tr>
+<td>屏蔽真实信号触发重搜</td>
+<td>未验证，需要屏蔽箱</td>
+</tr>
+<tr>
+<td>换手机邻表里的频点</td>
+<td>下一步</td>
+</tr>
+<tr>
+<td>多 PLMN 覆盖不同运营商</td>
+<td>已配置 5 条附加 PLMN</td>
+</tr>
+</tbody></table>
+<p>这一节的核心结论：飞行模式之所以有效，是因为它清空了手机的注册状态。任何能达到同样效果的手段都可以替代它，调参数、屏蔽信号、或者逼手机掉网。</p>
+<hr>
+<h2 id="重选参数扫描脚本"><a href="#重选参数扫描脚本" class="headerlink" title="重选参数扫描脚本"></a>重选参数扫描脚本</h2><p><code>scripts/resel_scan.sh</code>，一次跑七组参数，手机全程不碰，看哪组能触发主动接入。</p>
+<h3 id="参数取值范围"><a href="#参数取值范围" class="headerlink" title="参数取值范围"></a>参数取值范围</h3><p>先纠正一个坑。<code>sib.conf.example</code> 里有句注释说 <code>q_rx_lev_min</code> 要乘 2，那句注释是错的。源码 <code>si.cc:3562</code> 是 <code>pack_integer(bref, cell_sel_info.q_rx_lev_min, (int8_t)-70, (int8_t)-22)</code>，写 -70 就是 -70 dBm，没有缩放。</p>
+<p>第二个坑：<code>q_hyst</code> 是枚举，不是连续整数。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">合法值: &#123;0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24&#125;</span><br></pre></td></tr></table></figure>
+
+<p>写 7、9、11 会让 srsenb 直接拒绝启动，报 <code>Invalid option: for field &quot;q_hyst&quot;</code>，退出码 255。这个坑实测验证过，全值域 0 到 25 扫描的结果和源码白名单逐位一致。</p>
+<p>各字段的合法范围：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>范围</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>q_hyst</code></td>
+<td>见上面枚举</td>
+<td>迟滞，越小越容易重选</td>
+</tr>
+<tr>
+<td><code>q_rx_lev_min</code></td>
+<td>-70 到 -22 dBm</td>
+<td>最低接收电平，调低更容易被选中</td>
+</tr>
+<tr>
+<td><code>s_intra_search</code></td>
+<td>0 到 31</td>
+<td>同频测量门限，调高更容易触发测量</td>
+</tr>
+<tr>
+<td><code>s_non_intra_search</code></td>
+<td>0 到 31</td>
+<td>异频用，同频场景无效</td>
+</tr>
+<tr>
+<td><code>thresh_serving_low</code></td>
+<td>0 到 31</td>
+<td>低优先级用，同频场景无效</td>
+</tr>
+<tr>
+<td><code>cell_resel_prio</code></td>
+<td>0 到 7</td>
+<td>优先级，越大越优先</td>
+</tr>
+<tr>
+<td><code>t_resel_eutra</code></td>
+<td>0 到 7 秒</td>
+<td>重选计时器，调小更快</td>
+</tr>
+<tr>
+<td><code>p_max</code></td>
+<td>-30 到 33 dBm</td>
+<td>最大发射功率</td>
+</tr>
+</tbody></table>
+<p><code>s_non_intra_search</code> 和 <code>thresh_serving_low</code> 是同频场景用不上的，别在这上面浪费时间。</p>
+<h3 id="关键机制"><a href="#关键机制" class="headerlink" title="关键机制"></a>关键机制</h3><p>方向性问题，容易搞反：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>调整方向</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>q_hyst</code></td>
+<td>调小</td>
+<td>服务小区与邻区的排序差变小，邻区更容易胜出</td>
+</tr>
+<tr>
+<td><code>q_rx_lev_min</code></td>
+<td>调低</td>
+<td>门限降低，自建小区更容易被判定为”可用”</td>
+</tr>
+<tr>
+<td><code>s_intra_search</code></td>
+<td>调高</td>
+<td>门限越高越容易满足 <code>Srxlev ≤ S_intra_search</code>，更愿意测量同频邻区</td>
+</tr>
+<tr>
+<td><code>t_resel_eutra</code></td>
+<td>调小</td>
+<td>满足条件后更快执行重选</td>
+</tr>
+<tr>
+<td><code>cell_resel_prio</code></td>
+<td>调大</td>
+<td>绝对优先级更高</td>
+</tr>
+</tbody></table>
+<p><code>s_intra_search</code> 那条最容易理解反。手机只有在服务小区信号低于这个门限时才会去测量邻区，所以门限调高 &#x3D; 更容易触发测量。</p>
+<h3 id="七组参数"><a href="#七组参数" class="headerlink" title="七组参数"></a>七组参数</h3><table>
+<thead>
+<tr>
+<th>组</th>
+<th>q_hyst</th>
+<th>qrx_sib1</th>
+<th>qrx_sib3</th>
+<th>s_intra</th>
+<th>t_resel</th>
+<th>prio</th>
+<th>SIB4</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>G0</td>
+<td>2</td>
+<td>-65</td>
+<td>-61</td>
+<td>5</td>
+<td>1</td>
+<td>6</td>
+<td>否</td>
+<td>基线，原值不动</td>
+</tr>
+<tr>
+<td>G1</td>
+<td>0</td>
+<td>-70</td>
+<td>-70</td>
+<td>31</td>
+<td>0</td>
+<td>7</td>
+<td>否</td>
+<td>激进，全部拉到边界</td>
+</tr>
+<tr>
+<td>G2</td>
+<td>0</td>
+<td>-70</td>
+<td>-70</td>
+<td>31</td>
+<td>0</td>
+<td>7</td>
+<td>是</td>
+<td>激进 + SIB4 同频邻区列表</td>
+</tr>
+<tr>
+<td>G3</td>
+<td>0</td>
+<td>-65</td>
+<td>-61</td>
+<td>5</td>
+<td>1</td>
+<td>6</td>
+<td>否</td>
+<td>只降迟滞</td>
+</tr>
+<tr>
+<td>G4</td>
+<td>2</td>
+<td>-70</td>
+<td>-70</td>
+<td>31</td>
+<td>0</td>
+<td>7</td>
+<td>否</td>
+<td>只调门限，保持迟滞</td>
+</tr>
+<tr>
+<td>G5</td>
+<td>0</td>
+<td>-70</td>
+<td>-70</td>
+<td>10</td>
+<td>0</td>
+<td>7</td>
+<td>否</td>
+<td>温和，s_intra 取中值</td>
+</tr>
+<tr>
+<td>G6</td>
+<td>4</td>
+<td>-70</td>
+<td>-70</td>
+<td>31</td>
+<td>0</td>
+<td>7</td>
+<td>是</td>
+<td>大迟滞 + SIB4，看反效果</td>
+</tr>
+</tbody></table>
+<p>G0 是对照组。它必须保持原值，用来确认”手机本来不会主动接入”这个前提。G1 到 G6 各自只动一部分，方便定位是哪个参数起了作用。</p>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/vibtek/b210</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出所有组</span></span><br><span class="line">bash scripts/resel_scan.sh --list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 跑全部（每组 180 秒，手机不要碰）</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">env</span> HOME=<span class="variable">$HOME</span> bash scripts/resel_scan.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只跑指定组</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">env</span> HOME=<span class="variable">$HOME</span> bash scripts/resel_scan.sh G0 G1 G2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改单组时长</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">env</span> HOME=<span class="variable">$HOME</span> DWELL=300 bash scripts/resel_scan.sh</span><br></pre></td></tr></table></figure>
+
+<p>环境变量和主启动脚本一致：<code>EARFCN</code>、<code>N_PRB</code>、<code>TX_GAIN</code>、<code>MCC</code>、<code>MNC</code>、<code>TAC</code>。另外多了 <code>DWELL</code>（每组秒数）和 <code>SAMPLE_EVERY</code>（采样间隔）。</p>
+<p>脚本会做的事：</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>生成该组 <code>sib.conf</code></td>
+<td>从 <code>lab/sib.conf</code> 复制后按参数改写，原文件不动</td>
+</tr>
+<tr>
+<td>生成 <code>enb.conf</code></td>
+<td>按会话目录现场生成</td>
+</tr>
+<tr>
+<td>启动 <code>srsepc</code> 和 <code>srsenb</code></td>
+<td>每组独立进程，跑完就杀</td>
+</tr>
+<tr>
+<td>每 10 秒采样</td>
+<td>记录 PRACH、RRC、Attach 计数</td>
+</tr>
+<tr>
+<td>出现 Attach 提前结束</td>
+<td>不用等满时长</td>
+</tr>
+<tr>
+<td>汇总对比表</td>
+<td>写入 <code>sessions/resel-summary.txt</code></td>
+</tr>
+</tbody></table>
+<p>关键判据是首次 PRACH 出现的时间。不只是”有没有”，还有”多快”，后者反映参数的说服力。</p>
+<h3 id="两个已验证的坑"><a href="#两个已验证的坑" class="headerlink" title="两个已验证的坑"></a>两个已验证的坑</h3><p>坑一：<code>enb.conf</code> 的 RF 参数必须放在 <code>[rf]</code> 段。</p>
+<p>放 <code>[enb]</code> 段会被拒绝：<code>unrecognised option &#39;enb.tx_gain&#39;</code>。这个错误信息很直白，但很多网上教程把 <code>tx_gain</code> 写在 <code>[enb]</code> 里。</p>
+<p>坑二：SIB4 的列表不要多包一层。</p>
+<p>SIB4 的 <code>intra_freq_neigh_cell_list</code> 下面直接就是列表，不要再包 <code>intra_neigh_cell_list</code>。因为 <code>section::parse</code> 的实现是 <code>f-&gt;parse(root[section 名])</code>，字段名只用于报错，不参与查找。</p>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sib4 =</span><br><span class="line">&#123;</span><br><span class="line">    intra_freq_neigh_cell_list = (</span><br><span class="line">        &#123;</span><br><span class="line">            phys_cell_id = <span class="number">1</span>;</span><br><span class="line">            q_offset_range = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>注意 SIB4 用 <code>q_offset_range</code>，SIB5 才用 <code>q_offset_cell</code>，别写混。抄错会报 <code>Missing field q_offset_range in neigh_cell=0</code>。</p>
+<p>七组配置全部通过 srsenb 解析验证，基站能正常打开 B210：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Opening 1 channels in RF device=uhd with args=type=b200</span><br><span class="line">[INFO] [B200] Detected Device: B210</span><br><span class="line">Opening USRP channels=1, args: type=b200,master_clock_rate=23.04e6</span><br></pre></td></tr></table></figure>
+
+<h3 id="实测结果：七组全是-0"><a href="#实测结果：七组全是-0" class="headerlink" title="实测结果：七组全是 0"></a>实测结果：七组全是 0</h3><p>跑完了。手机正常待机、飞行模式关闭、插着卡，每组 180 秒。</p>
+<table>
+<thead>
+<tr>
+<th>组</th>
+<th>q_hyst</th>
+<th>qrx1</th>
+<th>qrx3</th>
+<th>s_intra</th>
+<th>t_resel</th>
+<th>prio</th>
+<th>SIB4</th>
+<th>RACH</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>G0</td>
+<td>2</td>
+<td>-65</td>
+<td>-61</td>
+<td>5</td>
+<td>1</td>
+<td>6</td>
+<td>否</td>
+<td>0</td>
+</tr>
+<tr>
+<td>G1</td>
+<td>0</td>
+<td>-70</td>
+<td>-70</td>
+<td>31</td>
+<td>0</td>
+<td>7</td>
+<td>否</td>
+<td>0</td>
+</tr>
+<tr>
+<td>G2</td>
+<td>0</td>
+<td>-70</td>
+<td>-70</td>
+<td>31</td>
+<td>0</td>
+<td>7</td>
+<td>是</td>
+<td>0</td>
+</tr>
+<tr>
+<td>G3</td>
+<td>0</td>
+<td>-65</td>
+<td>-61</td>
+<td>5</td>
+<td>1</td>
+<td>6</td>
+<td>否</td>
+<td>0</td>
+</tr>
+<tr>
+<td>G4</td>
+<td>2</td>
+<td>-70</td>
+<td>-70</td>
+<td>31</td>
+<td>0</td>
+<td>7</td>
+<td>否</td>
+<td>0</td>
+</tr>
+<tr>
+<td>G5</td>
+<td>0</td>
+<td>-70</td>
+<td>-70</td>
+<td>10</td>
+<td>0</td>
+<td>7</td>
+<td>否</td>
+<td>0</td>
+</tr>
+<tr>
+<td>G6</td>
+<td>4</td>
+<td>-70</td>
+<td>-70</td>
+<td>31</td>
+<td>0</td>
+<td>7</td>
+<td>是</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>先确认这不是假 0。零值有两种可能：手机真没来，或者基站没起来、检测漏报。逐条排除：</p>
+<table>
+<thead>
+<tr>
+<th>验证项</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>基站是否启动</td>
+<td>七组均见 <code>eNodeB started</code></td>
+</tr>
+<tr>
+<td>B210 是否打开</td>
+<td>七组均见 <code>Detected Device: B210</code></td>
+</tr>
+<tr>
+<td>S1 是否连通</td>
+<td>七组均见 <code>Sending S1 Setup Response</code></td>
+</tr>
+<tr>
+<td>频点是否正确</td>
+<td>七组均见 <code>DL=1850.0 Mhz, UL=1755.0 MHz</code></td>
+</tr>
+<tr>
+<td>发射是否连续</td>
+<td>七组 <code>RF gap</code> 与 <code>end-of-burst</code> 全为 0</td>
+</tr>
+<tr>
+<td>观察是否充分</td>
+<td>每组跑满 180 秒，18 次采样全为 0</td>
+</tr>
+</tbody></table>
+<p>G1 是决定性的那一组。它把七个字段全部推到边界，如果参数这条路走得通，它应该最先见效。它为零，说明参数方向已经没有余地了。</p>
+<p>G2 和 G6 还排除了另一个解释。它们加了 SIB4 同频邻区列表并给最大正偏置，同样为零，不是”邻区列表缺失”的问题。</p>
+<h3 id="三个把结果搞错的坑"><a href="#三个把结果搞错的坑" class="headerlink" title="三个把结果搞错的坑"></a>三个把结果搞错的坑</h3><p>这三个坑是跑了两次才发现的。第一次的七组数据全废了。</p>
+<p>坑一：<code>epc.conf</code> 字段写错会让 S1 悄悄断掉。</p>
+<p>我第一版写了 <code>mme.mme_addr</code>，srsepc 报 <code>unrecognised option</code> 直接退出。但基站侧日志看起来一切正常，B210 打开了、RF 连续、<code>eNodeB started</code>。只有 S1 是断的，手机就算接入 MME 也不会应答。这个错很隐蔽。</p>
+<p>坑二：<code>PRACH:</code> 数不到。</p>
+<p>srsenb 有两路日志，内容不一样：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>含 <code>PRACH:</code></th>
+<th>含 <code>RACH:</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>enb.log</code></td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>enb-run.log</code></td>
+<td>否</td>
+<td>是</td>
+</tr>
+</tbody></table>
+<p>而 <code>enb.log</code> 在短时运行里一直是 0 字节（日志线程没刷盘）。我原来读 <code>enb*.log</code> 通配去数 <code>PRACH:</code>，实际只命中那个空文件，手机接入了也会数出 0。</p>
+<p>改用 <code>RACH:</code>，它在两路日志里都有。</p>
+<p>坑三：Attach 数根本不在 eNB 日志里。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RACH: / rrcConnectionRequest  →  enb*.log</span><br><span class="line">ATTACH_REQUEST / IMSI         →  epc*.log</span><br></pre></td></tr></table></figure>
+
+<p>我原来只读 eNB 侧，Attach 永远是 0。</p>
+<p>验证检测链本身有效。拿那个成功采到 IMSI 的会话回放计数命令：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RACH   = 15    ← 手机确实接入过</span><br><span class="line">RRC    = 5</span><br><span class="line">Attach = 8</span><br><span class="line">IMSI   = 35</span><br></pre></td></tr></table></figure>
+
+<p>四项全非零，说明修好的计数能检出真实接入。阴性样本（手机没动）四项全零。所以这次的 0 是真 0。</p>
+<h3 id="结论：瓶颈在频点，不在参数"><a href="#结论：瓶颈在频点，不在参数" class="headerlink" title="结论：瓶颈在频点，不在参数"></a>结论：瓶颈在频点，不在参数</h3><p>手机驻留到某个小区后进入待机态，此时它只测量当前服务小区 SIB 里列出的邻区频点，不再做全频段搜索。EARFCN 1650 不在邻表内，手机根本不去测，参数再激进也无从生效。</p>
+<p>先澄清一个容易理解反的地方：手机不是从不全扫。开机或失去服务时它会做初始全频段搜索，只有驻留之后才受邻表约束。这也正是绕开限制的方向，想办法让它失去服务。</p>
+<p>还有一点：「周围有同运营商的基站」不等于「进了邻表」。邻表是运营商在 SIB 里下发的短清单，只含它认为你可能需要切换的那几个频点。周围的基站可能几十个，列表外的对手机不存在。</p>
+<h3 id="顺手挖出了真实邻表结构"><a href="#顺手挖出了真实邻表结构" class="headerlink" title="顺手挖出了真实邻表结构"></a>顺手挖出了真实邻表结构</h3><p>查这个问题的过程中，我用 <code>srsue</code> 只接收探测了当地真实小区，意外拿到了硬证据。</p>
+<p>小区信息：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Found Cell: Mode=FDD, PCI=197, PRB=100, Ports=2, CP=Normal, CFO=-0.4 KHz</span><br><span class="line">Found PLMN:  Id=46001, TAC=2819</span><br><span class="line">Found PLMN:  Id=46011, TAC=2819</span><br></pre></td></tr></table></figure>
+
+<p>SIB1 下发的调度表：</p>
+<table>
+<thead>
+<tr>
+<th>SIB</th>
+<th>周期</th>
+<th>干什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>3</td>
+<td>16</td>
+<td>同频重选参数</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>异频邻区列表</td>
+</tr>
+<tr>
+<td>6 &#x2F; 7 &#x2F; 8</td>
+<td>32</td>
+<td>其他制式重选</td>
+</tr>
+</tbody></table>
+<p>SIB4 完全不存在。整份日志里出现 0 次，SIB1 的调度表里也没有它。</p>
+<p>这就是同频重选失败的直接原因。我们自建的 1650 小区和它同频，属于 SIB4 管辖的范围，而这个小区根本没广播 SIB4。手机手上没有任何同频邻区清单，自然不会去测一个列表里不存在的频点。</p>
+<p>SIB5 倒是在广播（周期 16 个无线帧），异频邻区清单在里面。但 srsue 解出来就丢了，它只处理 SIB1&#x2F;2&#x2F;3&#x2F;13，其余全走 <code>SIB%d is not supported</code>。</p>
+<h3 id="srsue-为什么读不到邻表"><a href="#srsue-为什么读不到邻表" class="headerlink" title="srsue 为什么读不到邻表"></a>srsue 为什么读不到邻表</h3><p>不是配置问题，是写死在源码里的：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// srsue/src/stack/rrc/rrc.cc:53-54</span></span><br><span class="line"><span class="type">const</span> <span class="type">static</span> <span class="type">uint32_t</span> NOF_REQUIRED_SIBS                = <span class="number">4</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">static</span> <span class="type">uint32_t</span> required_sibs[NOF_REQUIRED_SIBS] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">12</span>&#125;;</span><br><span class="line"><span class="comment">//                                                          ↑ SIB1/2/3/13</span></span><br></pre></td></tr></table></figure>
+
+<p>SI 分发的 switch 只有三个分支，其余全部落到：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">default</span>:</span><br><span class="line">  logger.warning(<span class="string">&quot;SIB%d is not supported&quot;</span>, get_sib_number(sib_list[i].type()));</span><br></pre></td></tr></table></figure>
+
+<p>邻表恰好就在它不处理的 SIB4 和 SIB5 里。想拿到得改源码重编译，把 <code>required_sibs</code> 改成 <code>&#123;0,1,2,3,4,12&#125;</code>，再加几行打印分支。</p>
+<p>另一个已知问题：<code>cell_search</code> 这台机器上没装。<code>/usr/local/bin</code> 只有 <code>srsenb</code>、<code>srsepc</code>、<code>srsmbms</code>、<code>srsue</code>，但 <code>lte_phone.py:51</code> 期望它在 <code>BUILD/lib/examples/</code> 下，那条「只接收检查」路径现在是坏的。而且就算装上，<code>cell_search</code> 也只报 MIB 级信息，不含任何 SIB 内容。</p>
+<h3 id="这七组数据的价值"><a href="#这七组数据的价值" class="headerlink" title="这七组数据的价值"></a>这七组数据的价值</h3><p>排除了参数这条路径。不用再在 SIB 重选参数上花时间。同时也搞清了邻表的真实结构，知道该往哪找了。</p>
+<p>零值可信不是自说自话。检测链拿采到 IMSI 的那次会话做过阳性验证，四个计数全部非零；七组各自也都确认了基站真的在发射。逐条排除假零的证据见 <a href="/b210-docs/b210-resel-evidence/">重选参数扫描证据索引</a>。</p>
+<p>原始日志在物理机上，不在博客里。想复核得开机，证据索引里列了每条结论该看哪个文件、用什么命令。</p>
+<hr>
+<h2 id="信号检测仪的原理"><a href="#信号检测仪的原理" class="headerlink" title="信号检测仪的原理"></a>信号检测仪的原理</h2><p>这一节和前面是两个不同的东西，先分清。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>干什么</th>
+<th>典型设备</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>频谱仪 &#x2F; 扫频接收机</td>
+<td>只看信号”在不在、多强”，不解协议</td>
+<td>RTL-SDR、HackRF、Keysight N9020</td>
+</tr>
+<tr>
+<td>基站模拟器 &#x2F; 路测仪</td>
+<td>能解协议、能当基站、能登记手机</td>
+<td>罗德与施瓦茨 CMW500、安立 MD8475</td>
+</tr>
+<tr>
+<td>IMSI 检测仪</td>
+<td>主动广播假小区，骗手机来登记</td>
+<td>就是本文在做的东西</td>
+</tr>
+</tbody></table>
+<p>USRP B210 + srsRAN 本质上就是一台 IMSI 检测仪。商用产品叫 IMSI Catcher，3GPP 里的正式术语是 False Base Station（伪基站）。</p>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><p>核心思路：手机看到”更好的小区”会主动搬过去。检测仪造一个假小区，等手机搬过来时自报家门。</p>
+<p>完整链条：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1. 广播假 SIB1</span><br><span class="line">   广播真实运营商相同的 PLMN（如 46011）+ 更高的重选优先级</span><br><span class="line">   → 手机以为&quot;自家基站信号变强了&quot;</span><br><span class="line"></span><br><span class="line">2. 手机发起接入</span><br><span class="line">   PRACH → RRC Connection Request → Attach Request</span><br><span class="line"></span><br><span class="line">3. 关键一步：要 IMSI</span><br><span class="line">   真基站此时会发 Authentication Request（用 K 鉴权）</span><br><span class="line">   检测仪发不出（不知道 K）→ 改为发 Identity Request</span><br><span class="line"></span><br><span class="line">4. 手机乖乖上报</span><br><span class="line">   Identity Response 里明文带 IMSI        ← 目标达成</span><br><span class="line"></span><br><span class="line">5. 结束后&quot;放走&quot;手机</span><br><span class="line">   发 RRC Release 或直接关机</span><br><span class="line">   → 手机回到真网络，用户毫无察觉</span><br></pre></td></tr></table></figure>
+
+<p>第 3 步是关键。真基站不会随便问 IMSI（只在寻呼不到 TMSI 等特定场景），但假基站没得选，只能直接问。</p>
+<p>日志里能看到这个过程：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Packing Identity Request</span><br><span class="line">ID Response -- IMSI: 460115755458738</span><br></pre></td></tr></table></figure>
+
+<p>第 5 步决定隐蔽性。检测仪最怕手机掉网被用户发现。</p>
+<h3 id="四代演进"><a href="#四代演进" class="headerlink" title="四代演进"></a>四代演进</h3><table>
+<thead>
+<tr>
+<th>代际</th>
+<th>原理</th>
+<th>是否暴露</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2G（GSM）</td>
+<td>强制关掉加密，直接要 IMSI</td>
+<td>手机可能显示”无加密”警告</td>
+</tr>
+<tr>
+<td>3G&#x2F;4G</td>
+<td>要 IMSI 后不鉴权，放走</td>
+<td>较隐蔽</td>
+</tr>
+<tr>
+<td>4G 高级</td>
+<td>要完 IMSI 再”中转”到真基站</td>
+<td>很隐蔽</td>
+</tr>
+<tr>
+<td>5G</td>
+<td>SUCI 加密了 IMSI</td>
+<td>基本失效</td>
+</tr>
+</tbody></table>
+<p>5G 的 SUCI 机制就是专门防这个的。手机上报的是加密的 SUPI，检测仪拿不到明文 IMSI。</p>
+<p>这一点在做 5G 之前必须想清楚。</p>
+<h3 id="关于功率"><a href="#关于功率" class="headerlink" title="关于功率"></a>关于功率</h3><p>先说结论：检测仪靠”骗”，不靠功率。</p>
+<p>B210 的功率情况：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B210 标称输出</td>
+<td>约 +20 dBm（10 MHz 以下）</td>
+</tr>
+<tr>
+<td>本文用的 TX 增益</td>
+<td>89（UHD 增益值，不是 dBm）</td>
+</tr>
+<tr>
+<td>估计实际输出</td>
+<td>约 +10 到 +15 dBm</td>
+</tr>
+<tr>
+<td>覆盖范围</td>
+<td>几米到十几米，一个房间</td>
+</tr>
+</tbody></table>
+<p><code>tx_gain = 89</code> 是 UHD 的增益寄存器值，不是功率单位。B210 增益范围 0–89.75 dB，89 已接近满档。真实功率需要仪器实测，本文未校准。</p>
+<p>不同功率的直观概念：</p>
+<table>
+<thead>
+<tr>
+<th>功率</th>
+<th>场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+15 dBm（32 mW）</td>
+<td>几米到十几米</td>
+</tr>
+<tr>
+<td>+20 dBm（100 mW）</td>
+<td>几十米</td>
+</tr>
+<tr>
+<td>+30 dBm（1 W）</td>
+<td>几百米</td>
+</tr>
+<tr>
+<td>+43 dBm（20 W）</td>
+<td>真基站级别</td>
+</tr>
+</tbody></table>
+<p>商用检测仪通常 +30 到 +43 dBm（车载&#x2F;固定式），比 B210 高 20–30 dB，也就是 100–1000 倍。</p>
+<p>但功率大不管用，三个理由：</p>
+<ol>
+<li>干扰合法网络，同频发射会干扰真实基站，这是违法的，官方文档也反复警告</li>
+<li>抢不过真基站，真基站单天线通常 20–40 W（+43 到 +46 dBm），用 +15 dBm 覆盖它等于拿蜡烛照太阳</li>
+<li>手机不看绝对强度，重选要看多个门限，不只是”谁信号强”</li>
+</ol>
+<p>所以让手机过来的正确做法是”伪装”而不是”压制”：</p>
+<table>
+<thead>
+<tr>
+<th>手法</th>
+<th>原理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>模仿真实 PLMN</td>
+<td>广播 46011，手机以为是自家网</td>
+</tr>
+<tr>
+<td>调高重选优先级</td>
+<td>SIB 里 <code>cell_resel_priority</code> 设高</td>
+</tr>
+<tr>
+<td>降低接入门限</td>
+<td><code>q_rx_lev_min</code> 设低</td>
+</tr>
+<tr>
+<td>降低真实信号</td>
+<td>屏蔽箱、法拉第袋</td>
+</tr>
+<tr>
+<td>逼手机重新搜网</td>
+<td>飞行模式、重启、进无信号区</td>
+</tr>
+</tbody></table>
+<h3 id="想测实际功率"><a href="#想测实际功率" class="headerlink" title="想测实际功率"></a>想测实际功率</h3><table>
+<thead>
+<tr>
+<th>设备</th>
+<th>价格</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>功率计（如 ImmersionRC）</td>
+<td>¥300–800</td>
+<td>直接读数</td>
+</tr>
+<tr>
+<td>频谱仪 + 衰减器</td>
+<td>贵</td>
+<td>准确</td>
+</tr>
+<tr>
+<td>简单办法：看距离</td>
+<td>免费</td>
+<td>拿台手机逐步远离，看多远还能扫到</td>
+</tr>
+</tbody></table>
+<p>注意：一定要接天线再发射。不接天线（开路）会损坏功放。</p>
+<h3 id="合规提醒"><a href="#合规提醒" class="headerlink" title="合规提醒"></a>合规提醒</h3><table>
+<thead>
+<tr>
+<th>行为</th>
+<th>法律状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>屏蔽箱 &#x2F; 线缆内实验</td>
+<td>基本安全</td>
+</tr>
+<tr>
+<td>低功率空口发射，短时间</td>
+<td>灰色地带</td>
+</tr>
+<tr>
+<td>高功率广播覆盖公共区域</td>
+<td>违法</td>
+</tr>
+<tr>
+<td>干扰他人通信</td>
+<td>违法，可入刑</td>
+</tr>
+</tbody></table>
+<p>《无线电管理条例》规定，擅自使用无线电频率可处 5 万到 50 万元罚款，情节严重的追究刑责。官方 srsRAN 文档同样警告：</p>
+<blockquote>
+<p>Operating a private 5G SA network on cellular frequency bands may be tightly regulated in your jurisdiction.</p>
+</blockquote>
+<p>本文的做法（低功率、自己的手机、短时间）属于研究性质，但仍建议尽量用屏蔽箱、避免在公共场所长时间发射。</p>
+<h3 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h3><p>检测仪的原理是”假扮基站骗手机自报家门”，不靠功率靠伪装。B210 大概 +15 dBm，覆盖一个房间；商用设备 +43 dBm，差 1000 倍，但核心手法完全相同，<code>Identity Request</code> 那一问才是关键。</p>
+<p>5G 上这招基本失效，因为 SUCI 把 IMSI 加密了。</p>
+<hr>
+<h2 id="待办"><a href="#待办" class="headerlink" title="待办"></a>待办</h2><p>未做和未验证的事项。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IMSI 采集</td>
+<td>已成功。物理机，11 秒取得</td>
+</tr>
+<tr>
+<td>物理机复现</td>
+<td>仅一次成功，没跑第二次验证稳定性</td>
+</tr>
+<tr>
+<td>其他频点</td>
+<td>只试过 EARFCN 1650</td>
+</tr>
+<tr>
+<td>完整接入</td>
+<td>没做。缺 K &#x2F; OPc，过不了鉴权</td>
+</tr>
+<tr>
+<td>PCIe 直通</td>
+<td>没试。VMware Workstation 不支持，得用 ESXi 或 KVM</td>
+</tr>
+<tr>
+<td>ZMQ 虚拟射频</td>
+<td>没跑通。<code>lte_station.py lab</code> 子命令在，没验证</td>
+</tr>
+<tr>
+<td>EG800K-CN</td>
+<td>没接入。规格支持 FDD B1&#x2F;B3&#x2F;B5&#x2F;B8 和 TDD B34&#x2F;B38&#x2F;B39&#x2F;B40&#x2F;B41，无 5G</td>
+</tr>
+<tr>
+<td>定向物联网卡</td>
+<td>没测。能不能过鉴权取决于是否持有 K&#x2F;OPc</td>
+</tr>
+<tr>
+<td><code>time_alignment_calibration</code></td>
+<td>没调整，当前值可用</td>
+</tr>
+<tr>
+<td>不切飞行模式接入</td>
+<td>试过七组参数，全零，本方法无效</td>
+</tr>
+<tr>
+<td>屏蔽真实信号触发重搜</td>
+<td>未验证，需要屏蔽箱</td>
+</tr>
+<tr>
+<td>换频点重试</td>
+<td>下一步，按手机驻留过的频点顺序</td>
+</tr>
+<tr>
+<td>扫描漏报</td>
+<td>确认存在，但规律没量化</td>
+</tr>
+<tr>
+<td>5G</td>
+<td>调研完成，未动手</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><h3 id="本项目文档"><a href="#本项目文档" class="headerlink" title="本项目文档"></a>本项目文档</h3><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/b210-docs/b210-handover/">新会话交接</a></td>
+<td>已拿到的与接下来要做的，一页看完</td>
+</tr>
+<tr>
+<td><a href="/b210-docs/b210-physical-handover/">物理机接手说明</a></td>
+<td>新环境上手速查，含验收顺序与成功判据</td>
+</tr>
+<tr>
+<td><a href="/b210-docs/b210-imsi-success/">IMSI 采集成功记录</a></td>
+<td>完整接入链日志、配置、两种环境对比</td>
+</tr>
+<tr>
+<td><a href="/b210-docs/b210-resel-scan/">重选参数扫描记录</a></td>
+<td>七组参数实测结果与三个日志坑</td>
+</tr>
+<tr>
+<td><a href="/b210-docs/b210-resel-evidence/">重选参数扫描证据索引</a></td>
+<td>每条结论的原始数据位置与复核命令</td>
+</tr>
+<tr>
+<td><a href="/b210-docs/b210-build-log/">B210 搭建实录</a></td>
+<td>从编译到故障定位的全过程</td>
+</tr>
+<tr>
+<td><a href="/b210-docs/b210-devlog/">开发日志</a></td>
+<td>按时间记录的决策与实测数据</td>
+</tr>
+<tr>
+<td><a href="/b210-docs/b210-structure/">项目结构</a></td>
+<td>仓库结构、运行目录、归档约定</td>
+</tr>
+</tbody></table>
+<h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>看什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://docs.srsran.com/projects/project/en/latest/user_manuals/source/troubleshooting.html">srsRAN Project Troubleshooting</a></td>
+<td>性能调优、USRP 配置、时序校准</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://docs.srsran.com/projects/4g/en/next/">srsRAN 4G 文档</a></td>
+<td>4G 全套手册</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://docs.srsran.com/projects/4g/en/next/app_notes/source/pi4/source/">官方 Pi4 应用笔记</a></td>
+<td>树莓派 4 + B210 跑通的案例</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://files.ettus.com/manual/page_usrp_b200.html">Ettus B2x0 手册</a></td>
+<td>LED 含义、硬件规格、主时钟上限</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://kb.ettus.com/USRP_Host_Performance_Tuning_Tips_and_Tricks">USRP 主机性能调优</a></td>
+<td>系统层面调优</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://kb.ettus.com/Verifying_the_Operation_of_the_USRP_Using_UHD_and_GNU_Radio">验证 USRP 工作状态</a></td>
+<td>benchmark_rate 用法</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/srsran/srsRAN_4G">srsRAN 4G 源码</a></td>
+<td>PRACH 规则、频段表、PLMN 上限的出处</td>
+</tr>
+</tbody></table>
+<h3 id="社区案例"><a href="#社区案例" class="headerlink" title="社区案例"></a>社区案例</h3><table>
+<thead>
+<tr>
+<th>来源</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/srsran/srsRAN_Project/discussions/544">Discussion #544</a></td>
+<td>官方维护者明确不建议在虚拟机跑 gNB</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/srsran/srsRAN_Project/issues/94">Issue #94</a></td>
+<td>同类 RF gap 案例，换物理机后正常</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/srsran/srsRAN_4G/issues/1334">Issue #1334</a></td>
+<td>同款报错，报告者改用双系统解决</td>
+</tr>
+</tbody></table>
+<h3 id="5G-调研"><a href="#5G-调研" class="headerlink" title="5G 调研"></a>5G 调研</h3><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/b210-docs/b210-5g-research/">B210 跑 srsRAN Project 5G 调研报告</a></td>
+<td>可行性、带宽边界、频段选择、八个已知坑</td>
+</tr>
+</tbody></table>
+<p>一句话结论： B210 是 srsRAN Project 官方支持的设备，推荐 n78 + 20 MHz 起步（对应 23.04 Msps，和 4G 同率）。100 MHz 物理不可行，B210 主时钟上限 61.44 MHz，射频前端带宽上限 56 MHz。</p>
+<hr>
+<h2 id="srsran"><a href="#srsran" class="headerlink" title="srsran"></a>srsran</h2><h2 id="手机attach测试"><a href="#手机attach测试" class="headerlink" title="手机attach测试"></a>手机attach测试</h2><h3 id="触发方式"><a href="#触发方式" class="headerlink" title="触发方式"></a>触发方式</h3><p>必须切飞行模式，否则手机不会来。原因见上面「手机不接入的原因」，手机在真实网络信号好时没有理由重选到弱小的陌生小区。</p>
+<p>切飞行模式实际做了三件事：关闭射频、清空已注册的跟踪区列表、重新开机扫频。重新开机后手机处于”未注册”状态，看到能用的 PLMN 就会尝试接入。</p>
+<p>理论上还有别的触发方式（调 SIB 重选参数、等周期 TAU、进无信号区），但都不如飞行模式可靠。</p>
+<h3 id="采集结果"><a href="#采集结果" class="headerlink" title="采集结果"></a>采集结果</h3><p> 成功。IMSI 15 位，<code>460 11</code> 开头（中国电信）。从基站启动到取得耗时约 11 秒。</p>
+<p>详细的接入链日志见上面「物理机环境：成功」一节。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+<li><p>USB 3.0 带宽限制</p>
+</li>
+<li><p>我的电信卡接的是联通的网络</p>
+</li>
+</ol>
+<blockquote>
+<p>电信和联通有 5G 共建共享协议。电信用户接入联通的 n78（3.4 GHz）基站是标准行为，不是异常。</p>
+</blockquote>
+<ol start="3">
+<li><p>可在 <code>*#*#4636#*#*</code> 工程模式中，设置网络模式为 lte only</p>
+</li>
+<li><p>卡在虚拟机上折腾了很久</p>
+</li>
+</ol>
+<blockquote>
+<p>根本原因是 VMware 用的是 USB 设备级直通，不是 PCIe 控制器直通。客户机里的 USB 控制器是 VMware 模拟的（<code>15ad:0779</code>），每次传输都要经宿主机用户态服务转发。</p>
+<p>宿主机 Windows 不是实时系统，线程调度粒度约 15.6 ms，而 LTE 要求每 1 ms 交付一个子帧。这个差距在客户机里补不上。</p>
+<p>换物理机后，同样的配置一次就通。</p>
+</blockquote>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2026/08/28/220-shi-bo-qi-fen-jue/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span class="post-date-label">Publish time</span>
+              2026-10-13
+            </span>
+            
+            <span class="post-pubtime">
+              <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
+              <span class="post-date-label">Update time</span>
+              2026-10-13
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
+        </div>
+      
+    </div>
+    <aside class="post-sidebar">
+      
+        <div class="sidebar-author">
+          <img class="sidebar-avatar" src="/images/northcat-avatar.png" alt="Northcat">
+        </div>
+      
+      
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
+  <div class="post-catalog hidden" id="catalog">
+    
+
+  <div class="navbar navbar--rail">
+    
+    <!-- 灯绳导航的悬浮命中区：灯绳本体只有 2px 宽，瞄准很难，
+         这块透明矩形把「灯绳附近」也算进可悬浮范围（样式见 catalog-left.css） -->
+    <span class="rail-hit" aria-hidden="true"></span>
+    
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+  
+<script src="/js/topNav.js"></script>
+
+
+
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#B210-%E6%90%AD%E5%BB%BA-LTE-%E5%9F%BA%E7%AB%99"><span class="toc-text">B210 搭建 LTE 基站</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E6%B1%82"><span class="toc-text">需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%AF%B9%E6%AF%94"><span class="toc-text">环境对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C"><span class="toc-text">操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85"><span class="toc-text">编译安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%88%86%E5%B7%A5"><span class="toc-text">配置文件分工</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%AE%BD%E4%B8%8E%E9%87%87%E6%A0%B7%E7%8E%87"><span class="toc-text">带宽与采样率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PRACH-%E5%81%8F%E7%A7%BB%E9%87%8F"><span class="toc-text">PRACH 偏移量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%91%E6%AE%B5%E4%B8%8E-EARFCN"><span class="toc-text">频段与 EARFCN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PLMN-%E4%B8%8A%E9%99%90"><span class="toc-text">PLMN 上限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%8E%AF%E5%A2%83%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">虚拟机环境的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%B0%E8%B1%A1"><span class="toc-text">现象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%A2%E7%81%AF"><span class="toc-text">红灯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E9%99%A4"><span class="toc-text">排除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%B5%8B%E8%AF%95"><span class="toc-text">关键测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E7%AB%8B%E5%9C%BA"><span class="toc-text">官方立场</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E8%B0%83%E4%BC%98%E5%8F%97%E9%98%BB"><span class="toc-text">官方调优受阻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E9%80%9A%E7%9A%84%E7%9C%9F%E7%9B%B8"><span class="toc-text">直通的真相</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%9D%E9%A1%B9%E4%BC%98%E5%8C%96%E5%85%A8%E8%AF%95"><span class="toc-text">九项优化全试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E7%B1%BB%E6%A1%88%E4%BE%8B"><span class="toc-text">同类案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%8E%AF%E5%A2%83%E7%9A%84%E7%BB%93%E8%AE%BA"><span class="toc-text">虚拟机环境的结论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E6%9C%BA%E7%8E%AF%E5%A2%83%EF%BC%9A%E6%88%90%E5%8A%9F"><span class="toc-text">物理机环境：成功</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%81%E7%A7%BB%E5%90%8E%E5%85%88%E9%AA%8C%E9%93%BE%E8%B7%AF"><span class="toc-text">迁移后先验链路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">启动命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E6%8E%A5%E5%85%A5%E9%93%BE"><span class="toc-text">完整接入链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%90%E8%B4%A5%E5%AF%B9%E6%AF%94"><span class="toc-text">成败对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%81%9C%E5%9C%A8%E9%89%B4%E6%9D%83"><span class="toc-text">为什么停在鉴权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E6%9C%BA%E4%BE%A7%E8%A1%8C%E4%B8%BA"><span class="toc-text">手机侧行为</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%81%E7%A7%BB%E6%96%B9%E6%A1%88"><span class="toc-text">迁移方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E6%94%B6%E6%A0%87%E5%87%86"><span class="toc-text">验收标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6"><span class="toc-text">硬件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98"><span class="toc-text">系统调优</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A3%85-UHD"><span class="toc-text">装 UHD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%88%E9%AA%8C%E9%93%BE%E8%B7%AF"><span class="toc-text">先验链路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%AC%E7%9B%AE%E5%BD%95"><span class="toc-text">搬目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%91%E8%B5%B7%E6%9D%A5"><span class="toc-text">跑起来</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E9%A2%91%E7%82%B9"><span class="toc-text">选频点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F%E5%91%BD%E4%BB%A4"><span class="toc-text">扫描命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E7%82%B9%E5%8E%9F%E5%88%99"><span class="toc-text">选点原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E6%9C%BA%E4%B8%8D%E6%8E%A5%E5%85%A5%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-text">手机不接入的原因</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%88%87%E9%A3%9E%E8%A1%8C%E6%A8%A1%E5%BC%8F%E6%80%8E%E4%B9%88%E8%AE%A9%E6%89%8B%E6%9C%BA%E6%8E%A5%E5%85%A5"><span class="toc-text">不切飞行模式怎么让手机接入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E6%9C%BA%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%9D%A5"><span class="toc-text">手机为什么不来</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A3%9E%E8%A1%8C%E6%A8%A1%E5%BC%8F%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88"><span class="toc-text">飞行模式做了什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E4%B8%AA%E6%9B%BF%E4%BB%A3%E6%96%B9%E5%90%91"><span class="toc-text">四个替代方向</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83-SIB-%E9%87%8D%E9%80%89%E5%8F%82%E6%95%B0"><span class="toc-text">调 SIB 重选参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%85%E9%AA%8C%E8%AF%81%E7%9A%84%E6%96%B9%E5%90%91"><span class="toc-text">待验证的方向</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E9%80%89%E5%8F%82%E6%95%B0%E6%89%AB%E6%8F%8F%E8%84%9A%E6%9C%AC"><span class="toc-text">重选参数扫描脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%8F%96%E5%80%BC%E8%8C%83%E5%9B%B4"><span class="toc-text">参数取值范围</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%9C%BA%E5%88%B6"><span class="toc-text">关键机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%83%E7%BB%84%E5%8F%82%E6%95%B0"><span class="toc-text">七组参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%B3%95"><span class="toc-text">用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AA%E5%B7%B2%E9%AA%8C%E8%AF%81%E7%9A%84%E5%9D%91"><span class="toc-text">两个已验证的坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%B5%8B%E7%BB%93%E6%9E%9C%EF%BC%9A%E4%B8%83%E7%BB%84%E5%85%A8%E6%98%AF-0"><span class="toc-text">实测结果：七组全是 0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E4%B8%AA%E6%8A%8A%E7%BB%93%E6%9E%9C%E6%90%9E%E9%94%99%E7%9A%84%E5%9D%91"><span class="toc-text">三个把结果搞错的坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA%EF%BC%9A%E7%93%B6%E9%A2%88%E5%9C%A8%E9%A2%91%E7%82%B9%EF%BC%8C%E4%B8%8D%E5%9C%A8%E5%8F%82%E6%95%B0"><span class="toc-text">结论：瓶颈在频点，不在参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E6%89%8B%E6%8C%96%E5%87%BA%E4%BA%86%E7%9C%9F%E5%AE%9E%E9%82%BB%E8%A1%A8%E7%BB%93%E6%9E%84"><span class="toc-text">顺手挖出了真实邻表结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#srsue-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%BB%E4%B8%8D%E5%88%B0%E9%82%BB%E8%A1%A8"><span class="toc-text">srsue 为什么读不到邻表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%99%E4%B8%83%E7%BB%84%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BB%B7%E5%80%BC"><span class="toc-text">这七组数据的价值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E6%A3%80%E6%B5%8B%E4%BB%AA%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-text">信号检测仪的原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E4%BB%A3%E6%BC%94%E8%BF%9B"><span class="toc-text">四代演进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%8A%9F%E7%8E%87"><span class="toc-text">关于功率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%83%B3%E6%B5%8B%E5%AE%9E%E9%99%85%E5%8A%9F%E7%8E%87"><span class="toc-text">想测实际功率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E8%A7%84%E6%8F%90%E9%86%92"><span class="toc-text">合规提醒</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="toc-text">一句话总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%85%E5%8A%9E"><span class="toc-text">待办</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3"><span class="toc-text">本项目文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="toc-text">官方文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BE%E5%8C%BA%E6%A1%88%E4%BE%8B"><span class="toc-text">社区案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5G-%E8%B0%83%E7%A0%94"><span class="toc-text">5G 调研</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#srsran"><span class="toc-text">srsran</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E6%9C%BAattach%E6%B5%8B%E8%AF%95"><span class="toc-text">手机attach测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E6%96%B9%E5%BC%8F"><span class="toc-text">触发方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%87%E9%9B%86%E7%BB%93%E6%9E%9C"><span class="toc-text">采集结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    </aside>
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
+        
+    </div>
+  
+  
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
+</div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
+
+      </div>
+
+      <div class="tools-bar">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+  
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)" title="Search">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+  
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)" title="Switch color mode">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+  
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon" title="Share">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + SDR%E4%B9%8BB210%E6%A8%A1%E6%8B%9F%E5%9F%BA%E7%AB%99 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2026%2F10%2F13%2F221-sdr-zhi-b210-mo-ni-ji-zhan%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2026/10/13/221-sdr-zhi-b210-mo-ni-ji-zhan/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+</div>
+
+    </div>
+  </body>
+</html>

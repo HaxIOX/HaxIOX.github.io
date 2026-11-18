@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -263,7 +266,7 @@
 <li></li>
 </ul>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h2 id="关于Ubuntu、Buildroot、Linux-内核、驱动、rootfs-一些混淆"><a href="#关于Ubuntu、Buildroot、Linux-内核、驱动、rootfs-一些混淆" class="headerlink" title="关于Ubuntu、Buildroot、Linux 内核、驱动、rootfs 一些混淆"></a>关于<strong>Ubuntu、Buildroot、Linux 内核、驱动、rootfs</strong> 一些混淆</h2><h3 id="完整-Linux-系统"><a href="#完整-Linux-系统" class="headerlink" title="完整 Linux 系统"></a>完整 Linux 系统</h3><p>一块板子能跑 Linux，通常大致是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">BootROM</span><br><span class="line">  ↓</span><br><span class="line">Bootloader（U-Boot / 厂商 loader）</span><br><span class="line">  ↓</span><br><span class="line">Linux Kernel</span><br><span class="line">  ├─ CPU/内存管理</span><br><span class="line">  ├─ GPIO</span><br><span class="line">  ├─ I2C</span><br><span class="line">  ├─ SPI</span><br><span class="line">  ├─ Wi-Fi</span><br><span class="line">  ├─ LCD</span><br><span class="line">  ├─ USB</span><br><span class="line">  └─ 各种驱动</span><br><span class="line">  ↓</span><br><span class="line">RootFS 根文件系统</span><br><span class="line">  ├─ /bin</span><br><span class="line">  ├─ /sbin</span><br><span class="line">  ├─ /etc</span><br><span class="line">  ├─ /lib</span><br><span class="line">  ├─ shell</span><br><span class="line">  ├─ 网络工具</span><br><span class="line">  └─ 用户程序</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">BootROM</span><br><span class="line">  ↓</span><br><span class="line">Bootloader（U-Boot / 厂商 loader）</span><br><span class="line">  ↓</span><br><span class="line">Linux Kernel</span><br><span class="line">  ├─ CPU/内存管理</span><br><span class="line">  ├─ GPIO</span><br><span class="line">  ├─ I2C</span><br><span class="line">  ├─ SPI</span><br><span class="line">  ├─ Wi-Fi</span><br><span class="line">  ├─ LCD</span><br><span class="line">  ├─ USB</span><br><span class="line">  └─ 各种驱动</span><br><span class="line">  ↓</span><br><span class="line">RootFS 根文件系统</span><br><span class="line">  ├─ /bin</span><br><span class="line">  ├─ /sbin</span><br><span class="line">  ├─ /etc</span><br><span class="line">  ├─ /lib</span><br><span class="line">  ├─ shell</span><br><span class="line">  ├─ 网络工具</span><br><span class="line">  └─ 用户程序</span><br></pre></td></tr></table></figure>
 
 <p>其中：</p>
 <ul>
@@ -275,12 +278,12 @@
 <hr>
 <p><strong>泰山派烧 Ubuntu，不等于 Buildroot</strong></p>
 <p>比如泰山派上烧一个 Ubuntu 镜像，更接近：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">U-Boot</span><br><span class="line">  ↓</span><br><span class="line">Linux Kernel</span><br><span class="line">  ↓</span><br><span class="line">泰山派板级驱动</span><br><span class="line">  ↓</span><br><span class="line">Ubuntu RootFS</span><br><span class="line">      ├─ systemd</span><br><span class="line">      ├─ apt</span><br><span class="line">      ├─ bash</span><br><span class="line">      ├─ libc</span><br><span class="line">      ├─ ssh</span><br><span class="line">      ├─ Python</span><br><span class="line">      └─ 大量 Ubuntu 软件包</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">U-Boot</span><br><span class="line">  ↓</span><br><span class="line">Linux Kernel</span><br><span class="line">  ↓</span><br><span class="line">泰山派板级驱动</span><br><span class="line">  ↓</span><br><span class="line">Ubuntu RootFS</span><br><span class="line">      ├─ systemd</span><br><span class="line">      ├─ apt</span><br><span class="line">      ├─ bash</span><br><span class="line">      ├─ libc</span><br><span class="line">      ├─ ssh</span><br><span class="line">      ├─ Python</span><br><span class="line">      └─ 大量 Ubuntu 软件包</span><br></pre></td></tr></table></figure>
 
 <p>这里 rootfs 是 <strong>Ubuntu 的 rootfs</strong>。</p>
 <p>不是 Buildroot。</p>
 <p>当然厂家在开发 BSP 的过程中，可能会同时提供：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Ubuntu</span><br><span class="line">Debian</span><br><span class="line">Buildroot</span><br><span class="line">Yocto</span><br><span class="line">Android</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Ubuntu</span><br><span class="line">Debian</span><br><span class="line">Buildroot</span><br><span class="line">Yocto</span><br><span class="line">Android</span><br></pre></td></tr></table></figure>
 
 <p>这些是不同用户空间&#x2F;构建方案。</p>
 <hr>
@@ -289,17 +292,17 @@
 <p><strong>一个“做嵌入式 Linux 系统镜像”的自动化工厂。</strong></p>
 </blockquote>
 <p>例如配置：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CPU = Xtensa</span><br><span class="line">Kernel = Linux 6.11</span><br><span class="line">libc = uClibc</span><br><span class="line">Shell = BusyBox hush</span><br><span class="line">启用 = Dropbear</span><br><span class="line">启用 = iproute2</span><br><span class="line">启用 = Wi-Fi工具</span><br><span class="line">RootFS = cramfs</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CPU = Xtensa</span><br><span class="line">Kernel = Linux 6.11</span><br><span class="line">libc = uClibc</span><br><span class="line">Shell = BusyBox hush</span><br><span class="line">启用 = Dropbear</span><br><span class="line">启用 = iproute2</span><br><span class="line">启用 = Wi-Fi工具</span><br><span class="line">RootFS = cramfs</span><br></pre></td></tr></table></figure>
 
 <p>然后 Buildroot 给你生成：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">toolchain</span><br><span class="line">kernel image</span><br><span class="line">rootfs</span><br><span class="line">BusyBox</span><br><span class="line">各种用户态程序</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">toolchain</span><br><span class="line">kernel image</span><br><span class="line">rootfs</span><br><span class="line">BusyBox</span><br><span class="line">各种用户态程序</span><br></pre></td></tr></table></figure>
 
 <p>所以：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Buildroot ≠ Linux系统里的某一层</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Buildroot = 构建这些东西的工具</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Buildroot ≠ Linux系统里的某一层</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Buildroot = 构建这些东西的工具</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h3 id="ESP32-S3-跑的是什么"><a href="#ESP32-S3-跑的是什么" class="headerlink" title="ESP32-S3 跑的是什么"></a>ESP32-S3 跑的是什么</h3><p>你目前这套可以画成：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ESP32-S3</span><br><span class="line">│</span><br><span class="line">├─ Core A</span><br><span class="line">│    ESP-IDF / FreeRTOS</span><br><span class="line">│      └─ Wi-Fi 固件</span><br><span class="line">│</span><br><span class="line">└─ Core B</span><br><span class="line">     Linux Kernel 6.11</span><br><span class="line">       ↓</span><br><span class="line">     Buildroot 生成的 RootFS</span><br><span class="line">       ├─ BusyBox</span><br><span class="line">       ├─ hush shell</span><br><span class="line">       ├─ 网络工具</span><br><span class="line">       ├─ init</span><br><span class="line">       └─ 一些小工具</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ESP32-S3</span><br><span class="line">│</span><br><span class="line">├─ Core A</span><br><span class="line">│    ESP-IDF / FreeRTOS</span><br><span class="line">│      └─ Wi-Fi 固件</span><br><span class="line">│</span><br><span class="line">└─ Core B</span><br><span class="line">     Linux Kernel 6.11</span><br><span class="line">       ↓</span><br><span class="line">     Buildroot 生成的 RootFS</span><br><span class="line">       ├─ BusyBox</span><br><span class="line">       ├─ hush shell</span><br><span class="line">       ├─ 网络工具</span><br><span class="line">       ├─ init</span><br><span class="line">       └─ 一些小工具</span><br></pre></td></tr></table></figure>
 
 <p>所以严格来说：</p>
 <blockquote>
@@ -311,27 +314,27 @@
 </blockquote>
 <hr>
 <h3 id="Wi-Fi"><a href="#Wi-Fi" class="headerlink" title="Wi-Fi"></a>Wi-Fi</h3><p>普通泰山派可能是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Linux Kernel</span><br><span class="line">    ↓</span><br><span class="line">Wi-Fi driver</span><br><span class="line">    ↓</span><br><span class="line">Wi-Fi 芯片</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Linux Kernel</span><br><span class="line">    ↓</span><br><span class="line">Wi-Fi driver</span><br><span class="line">    ↓</span><br><span class="line">Wi-Fi 芯片</span><br></pre></td></tr></table></figure>
 
 <p>而当前 ESP32-S3 比较奇葩：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Linux</span><br><span class="line"> ↓</span><br><span class="line">espsta0</span><br><span class="line"> ↓</span><br><span class="line">共享内存 IPC</span><br><span class="line"> ↓</span><br><span class="line">另一个 CPU Core</span><br><span class="line"> ↓</span><br><span class="line">FreeRTOS / ESP-IDF</span><br><span class="line"> ↓</span><br><span class="line">乐鑫 Wi-Fi 固件</span><br><span class="line"> ↓</span><br><span class="line">Wi-Fi 硬件</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Linux</span><br><span class="line"> ↓</span><br><span class="line">espsta0</span><br><span class="line"> ↓</span><br><span class="line">共享内存 IPC</span><br><span class="line"> ↓</span><br><span class="line">另一个 CPU Core</span><br><span class="line"> ↓</span><br><span class="line">FreeRTOS / ESP-IDF</span><br><span class="line"> ↓</span><br><span class="line">乐鑫 Wi-Fi 固件</span><br><span class="line"> ↓</span><br><span class="line">Wi-Fi 硬件</span><br></pre></td></tr></table></figure>
 
 <p>所以 Wi-Fi 不完全属于 Buildroot。</p>
 <p>Buildroot 只是可能提供：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ip</span><br><span class="line">ping</span><br><span class="line">iw</span><br><span class="line">dhcp client</span><br><span class="line">shell</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ip</span><br><span class="line">ping</span><br><span class="line">iw</span><br><span class="line">dhcp client</span><br><span class="line">shell</span><br></pre></td></tr></table></figure>
 
 <p>真正 Wi-Fi 底层实现是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Linux driver</span><br><span class="line">+</span><br><span class="line">IPC</span><br><span class="line">+</span><br><span class="line">ESP-IDF</span><br><span class="line">+</span><br><span class="line">Wi-Fi firmware</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Linux driver</span><br><span class="line">+</span><br><span class="line">IPC</span><br><span class="line">+</span><br><span class="line">ESP-IDF</span><br><span class="line">+</span><br><span class="line">Wi-Fi firmware</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h3 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">                   Linux 板卡系统</span><br><span class="line">                        │</span><br><span class="line">         ┌──────────────┴──────────────┐</span><br><span class="line">         │                             │</span><br><span class="line">     Linux Kernel                   RootFS</span><br><span class="line">         │                             │</span><br><span class="line">    硬件/驱动层                    用户空间</span><br><span class="line">         │                             │</span><br><span class="line">GPIO SPI I2C LCD WiFi          shell ssh 程序 libc</span><br><span class="line">                                       │</span><br><span class="line">                             ┌─────────┴─────────┐</span><br><span class="line">                             │                   │</span><br><span class="line">                          Ubuntu             Buildroot生成</span><br></pre></td></tr></table></figure>
+<h3 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">                   Linux 板卡系统</span><br><span class="line">                        │</span><br><span class="line">         ┌──────────────┴──────────────┐</span><br><span class="line">         │                             │</span><br><span class="line">     Linux Kernel                   RootFS</span><br><span class="line">         │                             │</span><br><span class="line">    硬件/驱动层                    用户空间</span><br><span class="line">         │                             │</span><br><span class="line">GPIO SPI I2C LCD WiFi          shell ssh 程序 libc</span><br><span class="line">                                       │</span><br><span class="line">                             ┌─────────┴─────────┐</span><br><span class="line">                             │                   │</span><br><span class="line">                          Ubuntu             Buildroot生成</span><br></pre></td></tr></table></figure>
 
 <p>Ubuntu 和 Buildroot <strong>不是上下级关系</strong>。</p>
 <p>更像是两条路线：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Kernel + Ubuntu RootFS</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Kernel + Ubuntu RootFS</span><br></pre></td></tr></table></figure>
 
 <p>或者：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Kernel + Buildroot RootFS</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Kernel + Buildroot RootFS</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h3 id="对比两个项目"><a href="#对比两个项目" class="headerlink" title="对比两个项目"></a>对比两个项目</h3><table>
@@ -555,7 +558,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

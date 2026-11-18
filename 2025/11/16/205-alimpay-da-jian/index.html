@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -209,35 +212,35 @@
       <div class="markdown-body">
         <h3 id="AliMPa-项目搭建笔记"><a href="#AliMPa-项目搭建笔记" class="headerlink" title="AliMPa 项目搭建笔记"></a><strong><a target="_blank" rel="noopener" href="https://github.com/ours1505/AliMPay?tab=readme-ov-file#">AliMPa</a> 项目搭建笔记</strong></h3><hr>
 <h3 id="1-克隆-AliMPay-项目"><a href="#1-克隆-AliMPay-项目" class="headerlink" title="1. 克隆 AliMPay 项目"></a><strong>1. 克隆 AliMPay 项目</strong></h3><p>首先，从 GitHub 上克隆 <strong>AliMPay</strong> 项目到本地。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ours1505/AliMPay.git</span><br><span class="line">cd AliMPay</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/ours1505/AliMPay.git</span><br><span class="line"><span class="built_in">cd</span> AliMPay</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h3 id="2-配置环境"><a href="#2-配置环境" class="headerlink" title="2. 配置环境"></a><strong>2. 配置环境</strong></h3><h4 id="2-1-安装依赖"><a href="#2-1-安装依赖" class="headerlink" title="2.1 安装依赖"></a><strong>2.1 安装依赖</strong></h4><p>AliMPay 项目依赖于 <strong>PHP</strong> 和 <strong>Composer</strong> 来安装和管理依赖。</p>
 <ol>
 <li><p><strong>安装 PHP</strong>：</p>
 <p>确保你的系统安装了 PHP，执行以下命令检查 PHP 版本：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -v</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -v</span><br></pre></td></tr></table></figure>
 
 <p>如果没有安装 PHP，可以通过以下命令安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install php php-cli php-mbstring php-xml php-zip php-curl php-json</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install php php-cli php-mbstring php-xml php-zip php-curl php-json</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>安装 Composer</strong>：</p>
 <p>Composer 是 PHP 的依赖管理工具，用来安装项目的 PHP 依赖。你可以通过以下命令检查是否已安装 Composer：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer --version</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer --version</span><br></pre></td></tr></table></figure>
 
 <p>如果没有安装，可以通过以下命令安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -sS https://getcomposer.org/installer | php</span><br><span class="line">sudo mv composer.phar /usr/local/bin/composer</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -sS https://getcomposer.org/installer | php</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">mv</span> composer.phar /usr/local/bin/composer</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>安装 PHP 依赖</strong>：</p>
 <p>使用 Composer 安装 AliMPay 项目所需的 PHP 依赖：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer install</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer install</span><br></pre></td></tr></table></figure></li>
 </ol>
 <hr>
 <h3 id="3-配置-AliMPay"><a href="#3-配置-AliMPay" class="headerlink" title="3. 配置 AliMPay"></a><strong>3. 配置 AliMPay</strong></h3><h4 id="3-1-配置商户信息"><a href="#3-1-配置商户信息" class="headerlink" title="3.1 配置商户信息"></a><strong>3.1 配置商户信息</strong></h4><p>在 <code>config</code> 目录下，你会看到一个 <code>codepay.example.json</code> 文件。复制它并重命名为 <code>codepay.json</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp config/codepay.example.json config/codepay.json</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> config/codepay.example.json config/codepay.json</span><br></pre></td></tr></table></figure>
 
 <p>然后编辑 <code>config/codepay.json</code> 文件，填入你从支付宝获取的 <strong>商户 ID</strong> 和 <strong>密钥</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;pid&quot;: &quot;你的商户ID&quot;,</span><br><span class="line">  &quot;key&quot;: &quot;你的商户密钥&quot;,</span><br><span class="line">  &quot;notify_url&quot;: &quot;http://你的通知地址&quot;,</span><br><span class="line">  &quot;return_url&quot;: &quot;http://你的返回地址&quot;,</span><br><span class="line">  &quot;type&quot;: &quot;alipay&quot;,</span><br><span class="line">  &quot;sign_type&quot;: &quot;MD5&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;pid&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你的商户ID&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;key&quot;</span><span class="punctuation">:</span> <span class="string">&quot;你的商户密钥&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;notify_url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://你的通知地址&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;return_url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://你的返回地址&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;alipay&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;sign_type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MD5&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><strong>pid</strong>：你的商户 ID。</li>
@@ -248,46 +251,46 @@
 <li><strong>sign_type</strong>：签名类型，通常为 <code>MD5</code>。</li>
 </ul>
 <h4 id="3-2-配置数据库（可选）"><a href="#3-2-配置数据库（可选）" class="headerlink" title="3.2 配置数据库（可选）"></a><strong>3.2 配置数据库（可选）</strong></h4><p>如果你需要使用数据库存储支付数据，可以配置数据库连接。打开 <code>config/database.php</code> 并填写你的数据库配置信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">return [</span><br><span class="line">    &#x27;host&#x27; =&gt; &#x27;localhost&#x27;,</span><br><span class="line">    &#x27;port&#x27; =&gt; &#x27;3306&#x27;,</span><br><span class="line">    &#x27;dbname&#x27; =&gt; &#x27;ali_pay&#x27;,</span><br><span class="line">    &#x27;user&#x27; =&gt; &#x27;root&#x27;,</span><br><span class="line">    &#x27;password&#x27; =&gt; &#x27;your_password&#x27;,</span><br><span class="line">    &#x27;charset&#x27; =&gt; &#x27;utf8&#x27;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">&#x27;host&#x27;</span> =&gt; <span class="string">&#x27;localhost&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;port&#x27;</span> =&gt; <span class="string">&#x27;3306&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;dbname&#x27;</span> =&gt; <span class="string">&#x27;ali_pay&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;user&#x27;</span> =&gt; <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;password&#x27;</span> =&gt; <span class="string">&#x27;your_password&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;charset&#x27;</span> =&gt; <span class="string">&#x27;utf8&#x27;</span></span><br><span class="line">];</span><br></pre></td></tr></table></figure>
 
 <h4 id="3-3-配置支付宝相关信息"><a href="#3-3-配置支付宝相关信息" class="headerlink" title="3.3 配置支付宝相关信息"></a><strong>3.3 配置支付宝相关信息</strong></h4><p>在 <code>config/alipay.php</code> 中，填写支付宝相关信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">return [</span><br><span class="line">    &#x27;partner&#x27;      =&gt; &#x27;你的商户ID&#x27;,</span><br><span class="line">    &#x27;seller_email&#x27; =&gt; &#x27;你的商户邮箱&#x27;,</span><br><span class="line">    &#x27;private_key&#x27;  =&gt; &#x27;你的商户私钥路径&#x27;,</span><br><span class="line">    &#x27;public_key&#x27;   =&gt; &#x27;支付宝公钥路径&#x27;,</span><br><span class="line">    &#x27;notify_url&#x27;   =&gt; &#x27;http://你的通知地址&#x27;,</span><br><span class="line">    &#x27;return_url&#x27;   =&gt; &#x27;http://你的返回地址&#x27;,</span><br><span class="line">    &#x27;sign_type&#x27;    =&gt; &#x27;RSA2&#x27;, // 默认RSA2, 如果你的商户没有配置RSA2则使用RSA</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="string">&#x27;partner&#x27;</span>      =&gt; <span class="string">&#x27;你的商户ID&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;seller_email&#x27;</span> =&gt; <span class="string">&#x27;你的商户邮箱&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;private_key&#x27;</span>  =&gt; <span class="string">&#x27;你的商户私钥路径&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;public_key&#x27;</span>   =&gt; <span class="string">&#x27;支付宝公钥路径&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;notify_url&#x27;</span>   =&gt; <span class="string">&#x27;http://你的通知地址&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;return_url&#x27;</span>   =&gt; <span class="string">&#x27;http://你的返回地址&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;sign_type&#x27;</span>    =&gt; <span class="string">&#x27;RSA2&#x27;</span>, <span class="comment">// 默认RSA2, 如果你的商户没有配置RSA2则使用RSA</span></span><br><span class="line">];</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h3 id="4-配置-Apache"><a href="#4-配置-Apache" class="headerlink" title="4. 配置 Apache"></a><strong>4. 配置 Apache</strong></h3><h4 id="4-1-安装-Apache-Web-服务器"><a href="#4-1-安装-Apache-Web-服务器" class="headerlink" title="4.1 安装 Apache Web 服务器"></a><strong>4.1 安装 Apache Web 服务器</strong></h4><p>如果你没有安装 Apache，可以通过以下命令进行安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install apache2</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install apache2</span><br></pre></td></tr></table></figure>
 
 <h4 id="4-2-启动-Apache-服务"><a href="#4-2-启动-Apache-服务" class="headerlink" title="4.2 启动 Apache 服务"></a><strong>4.2 启动 Apache 服务</strong></h4><p>安装完后，启动 Apache 服务：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start apache2</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start apache2</span><br></pre></td></tr></table></figure>
 
 <h4 id="4-3-启动-Apache-并设置开机自启"><a href="#4-3-启动-Apache-并设置开机自启" class="headerlink" title="4.3 启动 Apache 并设置开机自启"></a><strong>4.3 启动 Apache 并设置开机自启</strong></h4><p>确保 Apache 服务在系统启动时自动启动：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable apache2</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> apache2</span><br></pre></td></tr></table></figure>
 
 <h4 id="4-4-检查-Apache-服务状态"><a href="#4-4-检查-Apache-服务状态" class="headerlink" title="4.4 检查 Apache 服务状态"></a><strong>4.4 检查 Apache 服务状态</strong></h4><p>确保 Apache 正常运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status apache2</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status apache2</span><br></pre></td></tr></table></figure>
 
 <h4 id="4-5-配置-Apache-虚拟主机"><a href="#4-5-配置-Apache-虚拟主机" class="headerlink" title="4.5 配置 Apache 虚拟主机"></a><strong>4.5 配置 Apache 虚拟主机</strong></h4><p>为了让 Apache 指向 <code>AliMPay</code> 项目的目录，我们需要配置虚拟主机。假设你希望将项目部署到 <code>/var/www/html/AliMPay</code>，可以创建一个虚拟主机配置文件。</p>
 <ol>
 <li>创建并编辑虚拟主机配置文件：</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/apache2/sites-available/alimay.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/apache2/sites-available/alimay.conf</span><br></pre></td></tr></table></figure>
 
 <ol>
 <li>添加以下内容：</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;VirtualHost *:80&gt;</span><br><span class="line">    ServerAdmin webmaster@yourdomain.com</span><br><span class="line">    ServerName yourdomain.com</span><br><span class="line">    DocumentRoot /var/www/html/AliMPay</span><br><span class="line"></span><br><span class="line">    ErrorLog $&#123;APACHE_LOG_DIR&#125;/error.log</span><br><span class="line">    CustomLog $&#123;APACHE_LOG_DIR&#125;/access.log combined</span><br><span class="line"></span><br><span class="line">    &lt;Directory /var/www/html/AliMPay&gt;</span><br><span class="line">        AllowOverride All</span><br><span class="line">        Require all granted</span><br><span class="line">    &lt;/Directory&gt;</span><br><span class="line">&lt;/VirtualHost&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;VirtualHost *:80&gt;</span><br><span class="line">    ServerAdmin webmaster@yourdomain.com</span><br><span class="line">    ServerName yourdomain.com</span><br><span class="line">    DocumentRoot /var/www/html/AliMPay</span><br><span class="line"></span><br><span class="line">    ErrorLog $&#123;APACHE_LOG_DIR&#125;/error.log</span><br><span class="line">    CustomLog $&#123;APACHE_LOG_DIR&#125;/access.log combined</span><br><span class="line"></span><br><span class="line">    &lt;Directory /var/www/html/AliMPay&gt;</span><br><span class="line">        AllowOverride All</span><br><span class="line">        Require all granted</span><br><span class="line">    &lt;/Directory&gt;</span><br><span class="line">&lt;/VirtualHost&gt;</span><br></pre></td></tr></table></figure>
 
 <ol>
 <li>启用配置并重启 Apache：</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo a2ensite alimay.conf</span><br><span class="line">sudo systemctl restart apache2</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> a2ensite alimay.conf</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart apache2</span><br></pre></td></tr></table></figure>
 
 <h4 id="4-6-启用-mod-rewrite"><a href="#4-6-启用-mod-rewrite" class="headerlink" title="4.6 启用 mod_rewrite"></a><strong>4.6 启用 <code>mod_rewrite</code></strong></h4><p>如果你需要使用 URL 重写功能（如 <code>.htaccess</code> 配置），确保启用 <code>mod_rewrite</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo a2enmod rewrite</span><br><span class="line">sudo systemctl restart apache2</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> a2enmod rewrite</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart apache2</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h3 id="5-测试支付接口"><a href="#5-测试支付接口" class="headerlink" title="5. 测试支付接口"></a><strong>5. 测试支付接口</strong></h3><h4 id="5-1-配置支付请求"><a href="#5-1-配置支付请求" class="headerlink" title="5.1 配置支付请求"></a><strong>5.1 配置支付请求</strong></h4><p>支付请求的代码可以通过 <code>submit.php</code> 或 <code>mapi.php</code> 发起。以下是一个简单的示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">require_once &#x27;vendor/autoload.php&#x27;;</span><br><span class="line"></span><br><span class="line">use AliMPay\Core\CodePay;</span><br><span class="line">use AliMPay\Utils\Logger;</span><br><span class="line"></span><br><span class="line">// 获取商户信息</span><br><span class="line">$codePay = new CodePay();</span><br><span class="line">$merchantInfo = $codePay-&gt;getMerchantInfo();</span><br><span class="line"></span><br><span class="line">// 生成支付请求</span><br><span class="line">$params = [</span><br><span class="line">    &#x27;pid&#x27; =&gt; $merchantInfo[&#x27;pid&#x27;],</span><br><span class="line">    &#x27;type&#x27; =&gt; &#x27;alipay&#x27;,</span><br><span class="line">    &#x27;out_trade_no&#x27; =&gt; &#x27;订单号&#x27;,</span><br><span class="line">    &#x27;notify_url&#x27; =&gt; $merchantInfo[&#x27;notify_url&#x27;],</span><br><span class="line">    &#x27;return_url&#x27; =&gt; $merchantInfo[&#x27;return_url&#x27;],</span><br><span class="line">    &#x27;name&#x27; =&gt; &#x27;商品名称&#x27;,</span><br><span class="line">    &#x27;money&#x27; =&gt; &#x27;支付金额&#x27;,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">// 签名</span><br><span class="line">$params[&#x27;sign&#x27;] = $codePay-&gt;generateSign($params);</span><br><span class="line"></span><br><span class="line">// 发起支付请求</span><br><span class="line">$response = $codePay-&gt;submitOrder($params);</span><br><span class="line">echo $response;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">require_once</span> <span class="string">&#x27;vendor/autoload.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">AliMPay</span>\<span class="title">Core</span>\<span class="title">CodePay</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">AliMPay</span>\<span class="title">Utils</span>\<span class="title">Logger</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取商户信息</span></span><br><span class="line"><span class="variable">$codePay</span> = <span class="keyword">new</span> <span class="title class_">CodePay</span>();</span><br><span class="line"><span class="variable">$merchantInfo</span> = <span class="variable">$codePay</span>-&gt;<span class="title function_ invoke__">getMerchantInfo</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成支付请求</span></span><br><span class="line"><span class="variable">$params</span> = [</span><br><span class="line">    <span class="string">&#x27;pid&#x27;</span> =&gt; <span class="variable">$merchantInfo</span>[<span class="string">&#x27;pid&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;type&#x27;</span> =&gt; <span class="string">&#x27;alipay&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;out_trade_no&#x27;</span> =&gt; <span class="string">&#x27;订单号&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;notify_url&#x27;</span> =&gt; <span class="variable">$merchantInfo</span>[<span class="string">&#x27;notify_url&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;return_url&#x27;</span> =&gt; <span class="variable">$merchantInfo</span>[<span class="string">&#x27;return_url&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;name&#x27;</span> =&gt; <span class="string">&#x27;商品名称&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;money&#x27;</span> =&gt; <span class="string">&#x27;支付金额&#x27;</span>,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 签名</span></span><br><span class="line"><span class="variable">$params</span>[<span class="string">&#x27;sign&#x27;</span>] = <span class="variable">$codePay</span>-&gt;<span class="title function_ invoke__">generateSign</span>(<span class="variable">$params</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发起支付请求</span></span><br><span class="line"><span class="variable">$response</span> = <span class="variable">$codePay</span>-&gt;<span class="title function_ invoke__">submitOrder</span>(<span class="variable">$params</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$response</span>;</span><br></pre></td></tr></table></figure>
 
 <h4 id="5-2-支付回调处理"><a href="#5-2-支付回调处理" class="headerlink" title="5.2 支付回调处理"></a><strong>5.2 支付回调处理</strong></h4><p>确保你配置的 <strong><code>notify_url</code></strong> 和 <strong><code>return_url</code></strong> 是正确的，并且能够接收支付平台的回调数据。你可以在回调处理函数中处理订单状态的更新。</p>
 <hr>
@@ -474,7 +477,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

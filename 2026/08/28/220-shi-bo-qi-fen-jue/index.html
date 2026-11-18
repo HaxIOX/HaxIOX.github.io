@@ -13,7 +13,7 @@
   
   <title>
     
-      220-示波器焚诀 
+      示波器焚诀 
       
       
       |
@@ -25,9 +25,6 @@
     <link rel="apple-touch-icon" href="/images/favicon.png">
     <link rel="icon" href="/images/favicon.png">
   
-
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
 
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -128,7 +131,7 @@
   
   <div class="container post-details has-catalog" id="post-details">
     <div class="post-content">
-      <div class="post-title">220-示波器焚诀</div>
+      <div class="post-title">示波器焚诀</div>
       <div class="post-attach">
         
         
@@ -149,7 +152,7 @@
           <span class="post-pubtime">
             <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
             <span class="post-date-label">Update time</span>
-            2026-09-22
+            2026-11-17
           </span>
           
         </div>
@@ -282,7 +285,7 @@
 </tr>
 </tbody></table>
 <p><code>Auto</code> 为按键而非状态，按下恢复连续采集，等效 RUN。</p>
-<p><strong>核心限制</strong>：SINGLE&#x2F;NORMAL 武装态与波形回读互斥——</p>
+<p>核心限制：SINGLE&#x2F;NORMAL 武装态与波形回读互斥，</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WAIT（已武装）：采集引擎暂停，:WAV:DATA? 返回空（#9000000000）或超时</span><br><span class="line">STOP（已定格）：仅返回定格死帧，不再捕捉新事件</span><br><span class="line">RUN（连续）：   可读数据，但无法定格瞬态</span><br></pre></td></tr></table></figure>
 
 <p>结论：武装态不可直接轮询波形。应轮询触发状态位 <code>:TRIGger:STATus?</code>（该查询在 WAIT 态可用），状态由 WAIT 变为 STOP 即表示掉电已被硬件定格，随后再读帧存档。</p>
@@ -291,7 +294,7 @@
 <p>Windows 经 USBTMC 驱动连接，设备显示为 “USB Test and Measurement Device (IVI)”。脚本使用默认系统 VISA（<code>pyvisa.ResourceManager()</code>），勿用 <code>@py</code> 后端。</p>
 <h3 id="触发配置"><a href="#触发配置" class="headerlink" title="触发配置"></a>触发配置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">:TRIGger:SWEEp NORMal              # Normal 触发（定格）</span><br><span class="line">:TRIGger:SWEEp AUTO                # Auto 连续</span><br><span class="line">:TRIGger:EDGE:SOURce CHANnel2      # 触发源 CH2（掉电取证场景见下说明）</span><br><span class="line">:TRIGger:EDGE:LEVel 3.3            # 触发电平 3.3V</span><br><span class="line">:TRIGger:EDGE:SLOPe FALL           # 触发沿：下降沿</span><br><span class="line">:TRIGger:STATus?                   # 查询状态：WAIT（武装）/ STOP（定格）</span><br><span class="line">:TRIGger:FORCe                     # 强制触发一次（测试用）</span><br></pre></td></tr></table></figure>
 
-<p>触发源选择说明：本场景主假设为 AO3401 压降大导致 SW_VOUT（CH2）跌落、而 BQ_VOUT（CH1）保持稳定。若触发源设 CH1，则 CH1 不塌时事件被漏掉。设 CH2 可同时覆盖两类故障——前级故障时 CH2 同样会跟随 CH1 跌破电平，必然触发。</p>
+<p>触发源选择说明：本场景主假设为 AO3401 压降大导致 SW_VOUT（CH2）跌落、而 BQ_VOUT（CH1）保持稳定。若触发源设 CH1，则 CH1 不塌时事件被漏掉。设 CH2 可同时覆盖两类故障，前级故障时 CH2 同样会跟随 CH1 跌破电平，必然触发。</p>
 <h3 id="采集与波形回读"><a href="#采集与波形回读" class="headerlink" title="采集与波形回读"></a>采集与波形回读</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">:SINGle                            # 武装单次（掉电自动定格）</span><br><span class="line">:RUN                               # 恢复连续采集</span><br><span class="line">:STOP?                             # 查询运行状态</span><br><span class="line"></span><br><span class="line">:WAVeform:SOURce CHANnel1          # 选择通道</span><br><span class="line">:WAVeform:MODE MAX                 # 回读模式：MAX（大窗口回放）</span><br><span class="line">:WAVeform:MODE NORMal              # 回读模式：NORM（窗口极小，不推荐）</span><br><span class="line">:WAVeform:FORMat ASCii             # 波形格式：ASCII</span><br><span class="line">:WAVeform:DATA?                    # 读取波形本体</span><br><span class="line">:WAVeform:XINCrement?              # 每点时间间隔</span><br><span class="line">:WAVeform:XORigin?                 # 波形起点时间</span><br></pre></td></tr></table></figure>
 
 <h3 id="通道与显示配置"><a href="#通道与显示配置" class="headerlink" title="通道与显示配置"></a>通道与显示配置</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">:CHANnel1:DISPlay ON</span><br><span class="line">:CHANnel1:COUPling DC             # 耦合方式：DC / AC / GND</span><br><span class="line">:CHANnel1:PROBe 10                # 探头衰减比 ×10</span><br><span class="line">:CHANnel1:SCALe 1                 # 垂直挡位 1V/div</span><br><span class="line">:CHANnel2:SCALe 1</span><br><span class="line">:TIMebase:MAIN:SCALe 0.05         # 时基 50ms/div</span><br></pre></td></tr></table></figure>
@@ -333,7 +336,7 @@
 
 <p>配置完成后确认状态栏为 <code>Single</code> 且屏幕静止，方可视作待命就绪。</p>
 <p>触发源须设 CH2 而非 CH1：本场景主假设为 AO3401 压降大→SW_VOUT 跌落而 SYS 稳定，若触发源盯 CH1，则 CH1 不塌时事件被漏掉。设 CH2 可同时覆盖前级故障（CH2 会跟随 CH1 跌破电平仍会触发）。</p>
-<h2 id="8-波形判读"><a href="#8-波形判读" class="headerlink" title="8. 波形判读"></a>8. 波形判读</h2><p>判断依据（两层）：先看<strong>掉电瞬间哪个通道先塌</strong>，再看**两通道压差（D-S 压降）**是否异常，后者用于甄别 AO3401 本身。</p>
+<h2 id="8-波形判读"><a href="#8-波形判读" class="headerlink" title="8. 波形判读"></a>8. 波形判读</h2><p>判断依据（两层）：先看掉电瞬间哪个通道先塌，再看两通道压差（D-S 压降）是否异常，后者用于甄别 AO3401 本身。</p>
 <p>DS 压差正常值 &lt;10mV（导通良好、Rds(on) 小）。若峰值电流（LTE 发射）期间压差明显放大，指向 AO3401 导通问题。</p>
 <table>
 <thead>
@@ -345,7 +348,7 @@
 </thead>
 <tbody><tr>
 <td>CH1 稳定、CH2 单独跌落，且 D-S 压差放大（数百 mV）</td>
-<td><strong>AO3401 导通压降大</strong>（Rds(on) 高 &#x2F; Vgs 不足 &#x2F; 门极受扰）——本场景主嫌疑</td>
+<td>AO3401 导通压降大（Rds(on) 高 &#x2F; Vgs 不足 &#x2F; 门极受扰），本场景主嫌疑</td>
 <td>二阶段加测门极，改版换管并加门极滤波</td>
 </tr>
 <tr>
@@ -365,13 +368,13 @@
 </tr>
 </tbody></table>
 <blockquote>
-<p>注：CH1、CH2 同时跌落且压差保持正常，说明 AO3401 未退化、故障在前级或负载侧，与本场景的“AO3401 压降大”假设不同——两种现象的波形是能够明确区分的。</p>
+<p>注：CH1、CH2 同时跌落且压差保持正常，说明 AO3401 未退化、故障在前级或负载侧，与本场景的“AO3401 压降大”假设不同，两种现象的波形是能够明确区分的。</p>
 </blockquote>
 <h2 id="9-无人值守方案"><a href="#9-无人值守方案" class="headerlink" title="9. 无人值守方案"></a>9. 无人值守方案</h2><p>偶发故障难点在于人无法持续值守，按条件选择：</p>
-<p><strong>方案 A：单次触发冻结</strong>——适合短时有人值守。触发即冻结不丢失，返回时屏幕即判定依据。</p>
-<p><strong>方案 B：Roll 连续滚动（推荐）</strong>——纯示波器即可。时基置于 100ms&#x2F;div，存储深度取最大，Roll 模式连续记录。设备掉电后信号消失，示波器仍保持运行，最后一段历史稳定于屏幕，返回即可回看掉电前电压变化全貌。优点：不惧误触发、无需手动保存、断电前证据常驻。缺点：大时基下微秒级细节分辨率不足。</p>
+<p>方案 A：单次触发冻结，适合短时有人值守。触发即冻结不丢失，返回时屏幕即判定依据。</p>
+<p>方案 B：Roll 连续滚动（推荐），纯示波器即可。时基置于 100ms&#x2F;div，存储深度取最大，Roll 模式连续记录。设备掉电后信号消失，示波器仍保持运行，最后一段历史稳定于屏幕，返回即可回看掉电前电压变化全貌。优点：不惧误触发、无需手动保存、断电前证据常驻。缺点：大时基下微秒级细节分辨率不足。</p>
 <p>建议分两阶段：先以方案 B 确认有无跌落及发生时刻，再以单次触发精修细节。</p>
-<p><strong>方案 C：电脑轮询</strong>——PyVISA 定时读取 CH1，跌破 3.3V 自动存盘并记录时间戳，可连续数日无人值守，代价是需要常开电脑。</p>
+<p>方案 C：电脑轮询，PyVISA 定时读取 CH1，跌破 3.3V 自动存盘并记录时间戳，可连续数日无人值守，代价是需要常开电脑。</p>
 <h2 id="10-电脑接入与自动记录"><a href="#10-电脑接入与自动记录" class="headerlink" title="10. 电脑接入与自动记录"></a>10. 电脑接入与自动记录</h2><p>USBTMC 驱动连接（Windows 自动安装），脚本基于 PyVISA。核心逻辑：不直接轮询波形，改轮询触发状态位。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">武装 SINGLE + NORMAL 触发（CH1 &lt;3.3V 下降沿）</span><br><span class="line">每 5 秒查询状态</span><br><span class="line">  └─ WAIT → 继续等待</span><br><span class="line">  └─ STOP → 掉电已定格</span><br><span class="line">      发 :RUN 恢复采集引擎 → 读 CH1/CH2 存 CSV → 截屏</span><br><span class="line">      → 发 :SINGle 重新武装 → 等待下一次</span><br></pre></td></tr></table></figure>
 
@@ -417,10 +420,10 @@
 </tr>
 </tbody></table>
 <h2 id="12-易误判点"><a href="#12-易误判点" class="headerlink" title="12. 易误判点"></a>12. 易误判点</h2><ol>
-<li>触发方式未设 Normal 时持续刷新，真实事件不可见——确认 <code>Single</code> 且屏幕静止</li>
-<li>LTE 常规纹波可能误触发——若为浅跌落且设备未死机，属误触发，重新按 Single&#x2F;Run</li>
+<li>触发方式未设 Normal 时持续刷新，真实事件不可见，确认 <code>Single</code> 且屏幕静止</li>
+<li>LTE 常规纹波可能误触发，若为浅跌落且设备未死机，属误触发，重新按 Single&#x2F;Run</li>
 <li>探头衰减挡需为 ×10（默认），否则 4V 级信号超量程</li>
-<li>示波器独立供电，禁止从被测板取电——设备掉电时示波器须保持供电</li>
+<li>示波器独立供电，禁止从被测板取电，设备掉电时示波器须保持供电</li>
 <li>UART 录像与波形需保持同一时间轴（以设备时间对齐），方可定位触发场景</li>
 <li>屏幕显示 Wait 时画面静止属正常武装态，非故障</li>
 </ol>
@@ -451,11 +454,16 @@
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
               <span class="post-date-label">Update time</span>
-              2026-09-22
+              2026-11-17
             </span>
             
           </div>
           <div class="post-foot-prev">
+            
+              <a href="/2026/10/13/221-sdr-zhi-b210-mo-ni-ji-zhan/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
             
           </div>
         </div>
@@ -587,7 +595,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>
@@ -850,7 +858,7 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + 220-%E7%A4%BA%E6%B3%A2%E5%99%A8%E7%84%9A%E8%AF%80 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2026%2F08%2F28%2F220-shi-bo-qi-fen-jue%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E7%A4%BA%E6%B3%A2%E5%99%A8%E7%84%9A%E8%AF%80 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2026%2F08%2F28%2F220-shi-bo-qi-fen-jue%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         

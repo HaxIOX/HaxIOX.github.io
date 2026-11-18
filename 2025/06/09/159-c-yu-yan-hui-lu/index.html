@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -187,7 +190,7 @@
 
 <h1 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h1><h2 id="scanf"><a href="#scanf" class="headerlink" title="scanf"></a>scanf</h2><p>python中的input，当遇到第一个空白时就不再输入。</p>
 <h2 id="sscanf"><a href="#sscanf" class="headerlink" title="sscanf"></a>sscanf</h2><p>按照格式提取字符串</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int sscanf(const char *str, const char *format, ...);str：要读取的源字符串。</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">sscanf</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *str, <span class="type">const</span> <span class="type">char</span> *format, ...)</span>;str：要读取的源字符串。</span><br></pre></td></tr></table></figure>
 
 <h2 id="snprintf"><a href="#snprintf" class="headerlink" title="snprintf"></a>snprintf</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// snprintf(char *str, size_t size, const char *format, ...);</span></span><br><span class="line">    <span class="comment">// 安全的格式化输出函数，它会将格式化的结果写入 str，最多写入 size-1 个字符，并自动添加 &#x27;\0&#x27;。</span></span><br><span class="line">    <span class="comment">// %d: 整数, %02X: 两位大写十六进制数 (不足两位前面补0), %s: 字符串。</span></span><br><span class="line">    <span class="comment">// \&quot; 转义双引号，使其作为普通字符出现在输出字符串中。</span></span><br><span class="line">    <span class="comment">// \r\n: 回车换行符。</span></span><br></pre></td></tr></table></figure>
 
@@ -309,29 +312,29 @@
 <p><strong>位移运算 <code>(3 &lt;&lt; 8)</code></strong></p>
 <p><code>&lt;&lt;</code> 是<strong>左移运算符</strong>，意思是把二进制往左移动 8 位。</p>
 <p>3 的二进制是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0000 0011</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0000 0011</span><br></pre></td></tr></table></figure>
 
 <p>左移 8 位后：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0000 0011 0000 0000</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0000 0011 0000 0000</span><br></pre></td></tr></table></figure>
 
 <p>这相当于：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 × 2⁸ = 3 × 256 = 768</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 × 2⁸ = 3 × 256 = 768</span><br></pre></td></tr></table></figure>
 
 <p>所以 <code>(3 &lt;&lt; 8)</code> 的结果是 <strong>768 (十进制)</strong>，也就是 <strong>0x300 (十六进制)</strong>。</p>
 <hr>
 <p><strong>二进制转十进制：</strong><br> <strong>从右数起，第 n 位如果是 1，就加上 2ⁿ。</strong></p>
 <p>所以：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0000 0011 0011 0110</span><br><span class="line">= 2⁹ + 2⁸ + 2⁵ + 2⁴ + 2² + 2¹</span><br><span class="line">= 822</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0000 0011 0011 0110</span><br><span class="line">= 2⁹ + 2⁸ + 2⁵ + 2⁴ + 2² + 2¹</span><br><span class="line">= 822</span><br></pre></td></tr></table></figure>
 
 <h2 id="为什么-0x03-8"><a href="#为什么-0x03-8" class="headerlink" title="为什么 (0x03 &lt;&lt; 8) 等价于 (3 &lt;&lt; 8)"></a>为什么 <code>(0x03 &lt;&lt; 8)</code> 等价于 <code>(3 &lt;&lt; 8)</code></h2><p>因为两者的数值完全一样。<br> <code>0x03</code> 表示的数值就是十进制的 <code>3</code>。</p>
 <p>左移 8 位只看它的<strong>二进制位</strong>，<br> 而二进制相同 → 移位效果当然一样：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0000 0011   ← 0x03 或 3</span><br><span class="line">左移8位 → 0000 0011 0000 0000</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0000 0011   ← 0x03 或 3</span><br><span class="line">左移8位 → 0000 0011 0000 0000</span><br></pre></td></tr></table></figure>
 
 <p>这结果在十进制里是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 × 2⁸ = 768</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 × 2⁸ = 768</span><br></pre></td></tr></table></figure>
 
 <p>也可以写成十六进制：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x03 &lt;&lt; 8 = 0x300</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x03 &lt;&lt; 8 = 0x300</span><br></pre></td></tr></table></figure>
       </div>
       
         <div class="prev-or-next">
@@ -494,7 +497,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

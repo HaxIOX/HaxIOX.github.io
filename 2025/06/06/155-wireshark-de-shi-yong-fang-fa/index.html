@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -194,7 +197,7 @@
 
 
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;netsh wlan show drivers</span><br><span class="line"></span><br><span class="line">接口名称: WLAN</span><br><span class="line"></span><br><span class="line">    驱动程序                  : Realtek 8822CE Wireless LAN 802.11ac PCI-E NIC</span><br><span class="line">    供应商                    : Realtek Semiconductor Corp.</span><br><span class="line">    提供程序                  : Realtek Semiconductor Corp.</span><br><span class="line">    日期                      : 2022/6/24</span><br><span class="line">    版本                      : 2024.10.138.0</span><br><span class="line">    INF 文件                  : oem207.inf</span><br><span class="line">    类型                      : 本机 WLAN 驱动程序</span><br><span class="line">    支持的无线电类型          : 802.11n 802.11g 802.11b 802.11ac 802.11n 802.11a</span><br><span class="line">    支持 FIPS 140-2 模式: 是</span><br><span class="line">    支持 802.11w 管理帧保护 : 是</span><br><span class="line">    支持的承载网络  : 否</span><br><span class="line">    基础结构模式中支持的身份验证和密码:</span><br><span class="line">                                开放式             无</span><br><span class="line">                                WPA2 - 个人       CCMP</span><br><span class="line">                                开放式             WEP-40bit</span><br><span class="line">                                开放式             WEP-104 位</span><br><span class="line">                                开放式             WEP</span><br><span class="line">                                WPA - 企业        TKIP</span><br><span class="line">                                WPA - 个人        TKIP</span><br><span class="line">                                WPA2 - 企业       TKIP</span><br><span class="line">                                WPA2 - 个人       TKIP</span><br><span class="line">                                WPA - 企业        CCMP</span><br><span class="line">                                WPA - 个人        CCMP</span><br><span class="line">                                WPA2 - 企业       CCMP</span><br><span class="line">                                WPA3 - 个人       CCMP</span><br><span class="line">                                WPA3 - 企业       GCMP-256</span><br><span class="line">                                OWE             CCMP</span><br><span class="line">                                供应商定义的          TKIP</span><br><span class="line">                                供应商定义的          CCMP</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">                                WPA2 - 企业       供应商定义的</span><br><span class="line">                                WPA2 - 企业       供应商定义的</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">    支持的无线显示器: 是 (图形驱动程序: 是，WLAN 驱动程序: 是)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;netsh wlan show drivers</span><br><span class="line"></span><br><span class="line">接口名称: WLAN</span><br><span class="line"></span><br><span class="line">    驱动程序                  : Realtek 8822CE Wireless LAN 802.11ac PCI-E NIC</span><br><span class="line">    供应商                    : Realtek Semiconductor Corp.</span><br><span class="line">    提供程序                  : Realtek Semiconductor Corp.</span><br><span class="line">    日期                      : 2022/6/24</span><br><span class="line">    版本                      : 2024.10.138.0</span><br><span class="line">    INF 文件                  : oem207.inf</span><br><span class="line">    类型                      : 本机 WLAN 驱动程序</span><br><span class="line">    支持的无线电类型          : 802.11n 802.11g 802.11b 802.11ac 802.11n 802.11a</span><br><span class="line">    支持 FIPS 140-2 模式: 是</span><br><span class="line">    支持 802.11w 管理帧保护 : 是</span><br><span class="line">    支持的承载网络  : 否</span><br><span class="line">    基础结构模式中支持的身份验证和密码:</span><br><span class="line">                                开放式             无</span><br><span class="line">                                WPA2 - 个人       CCMP</span><br><span class="line">                                开放式             WEP-40bit</span><br><span class="line">                                开放式             WEP-104 位</span><br><span class="line">                                开放式             WEP</span><br><span class="line">                                WPA - 企业        TKIP</span><br><span class="line">                                WPA - 个人        TKIP</span><br><span class="line">                                WPA2 - 企业       TKIP</span><br><span class="line">                                WPA2 - 个人       TKIP</span><br><span class="line">                                WPA - 企业        CCMP</span><br><span class="line">                                WPA - 个人        CCMP</span><br><span class="line">                                WPA2 - 企业       CCMP</span><br><span class="line">                                WPA3 - 个人       CCMP</span><br><span class="line">                                WPA3 - 企业       GCMP-256</span><br><span class="line">                                OWE             CCMP</span><br><span class="line">                                供应商定义的          TKIP</span><br><span class="line">                                供应商定义的          CCMP</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">                                WPA2 - 企业       供应商定义的</span><br><span class="line">                                WPA2 - 企业       供应商定义的</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">                                供应商定义的          供应商定义的</span><br><span class="line">    支持的无线显示器: 是 (图形驱动程序: 是，WLAN 驱动程序: 是)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>没显示<code>支持的网络监视模式: 是</code></p>
 <p>不支持 monitor mode</p>
@@ -431,7 +434,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -83,7 +86,7 @@
         
 
 <div class="header">
-  <div class="avatar">
+  <div class="avatar avatar--motto">
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
@@ -91,6 +94,9 @@
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
+    
+      <div class="motto"><span style="--i:0"><span>干</span></span><span style="--i:1"><span>饭</span></span><span style="--i:2"><span>干</span></span><span style="--i:3"><span>饭</span></span><span style="--i:4"><span>！</span></span></div>
+    
   </div>
 
   <div class="navbar">
@@ -139,12 +145,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -152,7 +156,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -182,8 +188,6 @@
 <div class="container about-index">
   <section class="about-profile-card">
     
-      <img class="about-avatar" src="/images/northcat-avatar.png" alt="南北的猫">
-    
     <div class="about-profile-main">
       <h1>南北的猫</h1>
       <p class="about-bio">懂基础硬件的嵌入式软件工程师</p>
@@ -198,13 +202,13 @@
         </div>
       
     </div>
-  </section>
 
-  <section class="about-stats" aria-label="Blog statistics">
-    <div><strong>217</strong><span>Posts</span></div>
-    <div><strong>67</strong><span>Tags</span></div>
-    <div><strong>6</strong><span>Categories</span></div>
-    <div><strong>1624</strong><span>Runtime days</span></div>
+    <div class="about-stats" role="group" aria-label="Blog statistics">
+      <div><strong>218</strong><span>Posts</span></div>
+      <div><strong>67</strong><span>Tags</span></div>
+      <div><strong>6</strong><span>Categories</span></div>
+      <div><strong>1660</strong><span>Runtime days</span></div>
+    </div>
   </section>
 
   
@@ -370,7 +374,7 @@ linux环境变异(RTL8720DN)</p>
     <section class="about-panel">
       <div class="about-panel-heading">
         <h2>Writing Activity</h2>
-        <span>2026: 11 posts published</span>
+        <span>2026: 12 posts published</span>
       </div>
       <div class="about-activity-scroll">
         <div class="about-activity-grid" role="img" aria-label="Writing activity for the last 365 days">
@@ -386,183 +390,8 @@ linux环境变异(RTL8720DN)</p>
             ></span>
           
             <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-14: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-2"
-              title="2025-10-15: 1 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-16: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-17: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-18: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-19: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-20: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-21: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-2"
-              title="2025-10-22: 1 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-2"
-              title="2025-10-23: 1 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-24: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-25: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-26: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-27: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-28: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-29: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-30: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-10-31: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-01: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-02: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-03: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-04: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-05: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-06: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-07: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-08: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-09: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-10: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-11: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-12: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-2"
-              title="2025-11-13: 1 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-14: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-15: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-4"
-              title="2025-11-16: 2 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-17: 0 posts"
-            ></span>
-          
-            <span
-              class="about-activity-cell about-activity-level-0"
-              title="2025-11-18: 0 posts"
+              class="about-activity-cell about-activity-level-0 is-outside-range"
+              aria-hidden="true"
             ></span>
           
             <span
@@ -2206,13 +2035,188 @@ linux环境变异(RTL8720DN)</p>
             ></span>
           
             <span
-              class="about-activity-cell about-activity-level-0"
-              title="2026-10-13: 0 posts"
+              class="about-activity-cell about-activity-level-2"
+              title="2026-10-13: 1 posts"
             ></span>
           
             <span
-              class="about-activity-cell about-activity-level-0 is-outside-range"
-              aria-hidden="true"
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-14: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-15: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-16: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-17: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-18: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-19: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-20: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-21: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-22: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-23: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-24: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-25: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-26: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-27: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-28: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-29: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-30: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-10-31: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-01: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-02: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-03: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-04: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-05: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-06: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-07: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-08: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-09: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-10: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-11: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-12: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-13: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-14: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-15: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-16: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-17: 0 posts"
+            ></span>
+          
+            <span
+              class="about-activity-cell about-activity-level-0"
+              title="2026-11-18: 0 posts"
             ></span>
           
             <span
@@ -2245,15 +2249,15 @@ linux环境变异(RTL8720DN)</p>
       <h2>Recent Posts</h2>
       <div class="about-recent-posts">
         
-          <a href="/2026/08/28/220-shi-bo-qi-fen-jue/"><time>2026-08-28</time><span>220-示波器焚诀</span></a>
+          <a href="/2026/10/13/221-sdr-zhi-b210-mo-ni-ji-zhan/"><time>2026-10-13</time><span>SDR之B210模拟基站</span></a>
+        
+          <a href="/2026/08/28/220-shi-bo-qi-fen-jue/"><time>2026-08-28</time><span>示波器焚诀</span></a>
         
           <a href="/2026/08/23/219-linux-on-esp32/"><time>2026-08-23</time><span>linux on esp32</span></a>
         
           <a href="/2026/07/18/218-one-kai-ji-qia/"><time>2026-07-18</time><span>one开机卡</span></a>
         
           <a href="/2026/07/14/217-mo-xia-fei-ling-ok1126/"><time>2026-07-14</time><span>摸下飞凌OK1126</span></a>
-        
-          <a href="/2026/04/12/215-mo-xia-llm-ti-yan-xun-lian-yu-tui-li-guo-cheng/"><time>2026-04-12</time><span>摸下LLM体验训练与推理过程</span></a>
         
       </div>
     </section>
@@ -2300,7 +2304,7 @@ linux环境变异(RTL8720DN)</p>
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

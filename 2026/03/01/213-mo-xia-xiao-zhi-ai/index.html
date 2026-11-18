@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -239,7 +242,7 @@
 <li>✅ 完全正确</li>
 <li>补充：项目中有4个队列，<code>audio_encode_queue_</code>连接AudioProcessor→OpusEncoder</li>
 </ul>
-<h2 id="三任务架构"><a href="#三任务架构" class="headerlink" title="三任务架构"></a>三任务架构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AudioInputTask (优先级8)  - 从麦克风读取数据，优先级最高防止丢帧</span><br><span class="line">OpusCodecTask  (优先级5)  - 编解码处理</span><br><span class="line">AudioOutputTask(优先级4)  - 播放音频，优先级最低</span><br></pre></td></tr></table></figure>
+<h2 id="三任务架构"><a href="#三任务架构" class="headerlink" title="三任务架构"></a>三任务架构</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AudioInputTask (优先级8)  - 从麦克风读取数据，优先级最高防止丢帧</span><br><span class="line">OpusCodecTask  (优先级5)  - 编解码处理</span><br><span class="line">AudioOutputTask(优先级4)  - 播放音频，优先级最低</span><br></pre></td></tr></table></figure>
 
 <h2 id="关键数据流"><a href="#关键数据流" class="headerlink" title="关键数据流"></a>关键数据流</h2><p><strong>四个队列</strong>：</p>
 <ul>
@@ -255,10 +258,10 @@
 <li><code>input_resampler_</code>负责转换：48kHz → 16kHz</li>
 </ul>
 <p><strong>计算公式</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">采样点数 = 采样率 × 时间</span><br><span class="line">16kHz × 0.06s = 960个采样点（Opus一帧）</span><br><span class="line">48kHz × 0.01s = 480个采样点（AudioInputTask每次读取）</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">采样点数 = 采样率 × 时间</span><br><span class="line">16kHz × 0.06s = 960个采样点（Opus一帧）</span><br><span class="line">48kHz × 0.01s = 480个采样点（AudioInputTask每次读取）</span><br></pre></td></tr></table></figure>
 
 <h2 id="实际应用场景"><a href="#实际应用场景" class="headerlink" title="实际应用场景"></a>实际应用场景</h2><p><strong>用户说：”帮我开灯”</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. 麦克风采集 → I2S → AudioProcessor → Opus编码 → WebSocket上传</span><br><span class="line">2. 服务器ASR识别：&quot;帮我开灯&quot;</span><br><span class="line">3. LLM理解意图，查找MCP工具列表，找到gpio.write</span><br><span class="line">4. 服务器发送：tools/call &#123;name: &quot;gpio.write&quot;, arguments: &#123;pin: 5, value: 1&#125;&#125;</span><br><span class="line">5. ESP32执行GPIO控制，点亮LED</span><br><span class="line">6. 服务器TTS生成：&quot;好的，已为您开灯&quot;</span><br><span class="line">7. 音频流下发 → Opus解码 → I2S播放</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. 麦克风采集 → I2S → AudioProcessor → Opus编码 → WebSocket上传</span><br><span class="line">2. 服务器ASR识别：&quot;帮我开灯&quot;</span><br><span class="line">3. LLM理解意图，查找MCP工具列表，找到gpio.write</span><br><span class="line">4. 服务器发送：tools/call &#123;name: &quot;gpio.write&quot;, arguments: &#123;pin: 5, value: 1&#125;&#125;</span><br><span class="line">5. ESP32执行GPIO控制，点亮LED</span><br><span class="line">6. 服务器TTS生成：&quot;好的，已为您开灯&quot;</span><br><span class="line">7. 音频流下发 → Opus解码 → I2S播放</span><br></pre></td></tr></table></figure>
 
 <h2 id="易错点总结"><a href="#易错点总结" class="headerlink" title="易错点总结"></a>易错点总结</h2><ol>
 <li>❌ <strong>音频流是MP3</strong> → ✅ 是Opus，延迟更低</li>
@@ -436,7 +439,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

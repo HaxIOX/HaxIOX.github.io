@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -194,58 +197,58 @@
 <p>nmcli d wifi connect “你的WiFi名称” password “你的WiFi密码”</p>
 <p>ls &#x2F;dev&#x2F;ttyUSB*</p>
 <h2 id="2-启动网络接口"><a href="#2-启动网络接口" class="headerlink" title="2. 启动网络接口"></a><strong>2. 启动网络接口</strong></h2><p>如果你是通过 <strong>Wi-Fi</strong> 连接的，检查无线网络是否启用：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig wlan0 up  # 启用 Wi-Fi 接口</span><br><span class="line">sudo dhclient wlan0    # 获取 IP 地址</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ifconfig wlan0 up  <span class="comment"># 启用 Wi-Fi 接口</span></span><br><span class="line"><span class="built_in">sudo</span> dhclient wlan0    <span class="comment"># 获取 IP 地址</span></span><br></pre></td></tr></table></figure>
 
 <p>如果是 <strong>有线</strong> 连接：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig eth0 up  # 启用以太网接口</span><br><span class="line">sudo dhclient eth0    # 获取 IP 地址</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ifconfig eth0 up  <span class="comment"># 启用以太网接口</span></span><br><span class="line"><span class="built_in">sudo</span> dhclient eth0    <span class="comment"># 获取 IP 地址</span></span><br></pre></td></tr></table></figure>
 
 <p>配网</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart networking</span><br><span class="line">nmcli dev wifi  # 列出可用的 Wi-Fi 网络</span><br><span class="line">nmcli dev wifi connect &quot;ssid&quot; password &quot;passward&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart networking</span><br><span class="line">nmcli dev wifi  <span class="comment"># 列出可用的 Wi-Fi 网络</span></span><br><span class="line">nmcli dev wifi connect <span class="string">&quot;ssid&quot;</span> password <span class="string">&quot;passward&quot;</span></span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">auto wlan0</span><br><span class="line">iface wlan0 inet dhcp</span><br><span class="line">    wpa-ssid &quot;VIBTEK-2.4G&quot;</span><br><span class="line">    wpa-psk &quot;vibrantech@1305-1&quot;</span><br><span class="line"></span><br><span class="line">sudo nmcli dev wifi connect &quot;VIBTEK-2.4G&quot; password &quot;vibrantech@1305-1&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">auto wlan0</span><br><span class="line">iface wlan0 inet dhcp</span><br><span class="line">    wpa-ssid &quot;VIBTEK-2.4G&quot;</span><br><span class="line">    wpa-psk &quot;vibrantech@1305-1&quot;</span><br><span class="line"></span><br><span class="line">sudo nmcli dev wifi connect &quot;VIBTEK-2.4G&quot; password &quot;vibrantech@1305-1&quot;</span><br></pre></td></tr></table></figure>
 
 <p><strong>如果你当前使用的是香橙派的 AP（热点）模式</strong>，那么它不会自动连接外部 WiFi，也就 <strong>无法访问互联网</strong>。你需要 <strong>切换回 WiFi 客户端模式</strong> 来连接外网，然后再进行软件安装和更新。</p>
 <hr>
 <h3 id="🚀-1-关闭-AP-模式"><a href="#🚀-1-关闭-AP-模式" class="headerlink" title="🚀 1. 关闭 AP 模式"></a><strong>🚀 1. 关闭 AP 模式</strong></h3><p>你之前使用 <code>create_ap</code> 设置了 AP 模式，现在需要 <strong>关闭它</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop create_ap</span><br><span class="line">sudo systemctl disable create_ap</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop create_ap</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">disable</span> create_ap</span><br></pre></td></tr></table></figure>
 
 <p>然后 <strong>停止 hostapd 和 dnsmasq</strong>（AP 相关服务）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop hostapd</span><br><span class="line">sudo systemctl stop dnsmasq</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop hostapd</span><br><span class="line"><span class="built_in">sudo</span> systemctl stop dnsmasq</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h3 id="🚀-2-连接外部-WiFi"><a href="#🚀-2-连接外部-WiFi" class="headerlink" title="🚀 2. 连接外部 WiFi"></a><strong>🚀 2. 连接外部 WiFi</strong></h3><p>如果你的 Orange Pi 需要连接外部 WiFi 才能访问互联网，运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nmcli d wifi list  # 列出可用 WiFi</span><br><span class="line">nmcli d wifi connect &quot;你的WiFi名称&quot; password &quot;你的WiFi密码&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nmcli d wifi list  <span class="comment"># 列出可用 WiFi</span></span><br><span class="line">nmcli d wifi connect <span class="string">&quot;你的WiFi名称&quot;</span> password <span class="string">&quot;你的WiFi密码&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>然后检查 <strong>是否成功获取 IP</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip addr show wlan0</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip addr show wlan0</span><br></pre></td></tr></table></figure>
 
 <p>如果 IP 仍然是 <code>0.0.0.0</code>，尝试：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dhclient wlan0</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dhclient wlan0</span><br></pre></td></tr></table></figure>
 
 <p><strong>测试网络是否恢复：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping -c 4 8.8.8.8</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping -c 4 8.8.8.8</span><br></pre></td></tr></table></figure>
 
 <p>如果 <code>ping</code> 成功，你的 Orange Pi <strong>已经联网，可以安装 pyserial 了！</strong></p>
 <hr>
 <p><strong>🚀 3. 重新切换回 AP 模式（可选）</strong></p>
 <p>如果安装完成后，你想重新开启 <strong>AP（热点）模式</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable create_ap</span><br><span class="line">sudo systemctl start create_ap</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> create_ap</span><br><span class="line"><span class="built_in">sudo</span> systemctl start create_ap</span><br></pre></td></tr></table></figure>
 
 <p>如果你之前 <strong>手动启动了 hostapd 和 dnsmasq</strong>，也可以手动启动：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start hostapd</span><br><span class="line">sudo systemctl start dnsmasq</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start hostapd</span><br><span class="line"><span class="built_in">sudo</span> systemctl start dnsmasq</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h3 id="🚀-总结"><a href="#🚀-总结" class="headerlink" title="🚀 总结"></a><strong>🚀 总结</strong></h3><p>✅ <strong>关闭 AP 模式，恢复 WiFi 客户端模式</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop create_ap</span><br><span class="line">sudo systemctl disable create_ap</span><br><span class="line">sudo systemctl stop hostapd</span><br><span class="line">sudo systemctl stop dnsmasq</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop create_ap</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">disable</span> create_ap</span><br><span class="line"><span class="built_in">sudo</span> systemctl stop hostapd</span><br><span class="line"><span class="built_in">sudo</span> systemctl stop dnsmasq</span><br></pre></td></tr></table></figure>
 
 <p>✅ <strong>连接外部 WiFi</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmcli d wifi connect &quot;WiFi名称&quot; password &quot;WiFi密码&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmcli d wifi connect <span class="string">&quot;WiFi名称&quot;</span> password <span class="string">&quot;WiFi密码&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>✅ <strong>检查网络</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping -c 4 8.8.8.8</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping -c 4 8.8.8.8</span><br></pre></td></tr></table></figure>
 
 <p>✅恢复 AP（热点）模式**</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start create_ap</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start create_ap</span><br></pre></td></tr></table></figure>
 
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p> <strong>🔍 为什么 nmcli 失败，而 wpa_supplicant 手动连接可以成功？</strong></p>
 <p>ChatGPT 说：</p>
@@ -261,130 +264,130 @@
 <p>🛑 <strong>如果 NetworkManager 没有正确管理 wlan0，那么 nmcli 就会失败！</strong></p>
 <h3 id="AP配网"><a href="#AP配网" class="headerlink" title="AP配网"></a>AP配网</h3><h3 id="问题-1"><a href="#问题-1" class="headerlink" title="问题"></a>问题</h3><p>![1742957043881](Orange Pi&#x2F;1742957043881.png)</p>
 <p>你的 <code>dnsmasq</code> <strong>启动成功</strong>，但日志显示：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Failed to set DNS configuration: Unit dbus-org.freedesktop.network1.service not found.</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Failed to set DNS configuration: Unit dbus-org.freedesktop.network1.service not found.</span><br></pre></td></tr></table></figure>
 
 <p>这个错误意味着 <strong>系统缺少 systemd-networkd 相关的服务</strong>，可能会导致 <strong>连接 WiFi 但无法获取 IP</strong>。</p>
 <p><strong>🔹 2. 修复 systemd-networkd 服务</strong></p>
 <p>如果 <code>dnsmasq</code> 依赖的 <code>dbus-org.freedesktop.network1.service</code> <strong>不存在</strong>，可能是 <code>systemd-networkd</code> <strong>未安装或未启动</strong>。</p>
 <p>检查：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status systemd-networkd</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status systemd-networkd</span><br></pre></td></tr></table></figure>
 
 <p>如果 <strong>未安装</strong>，安装它：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install systemd-networkd -y</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install systemd-networkd -y</span><br></pre></td></tr></table></figure>
 
 <p>如果 <strong>未启动</strong>，启动并设置为开机启动：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable --now systemd-networkd</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now systemd-networkd</span><br></pre></td></tr></table></figure>
 
 <p>然后 <strong>重启 dnsmasq</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart dnsmasq</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart dnsmasq</span><br></pre></td></tr></table></figure>
 
 <p>你的 <code>hostapd</code> 失败的 <strong>核心错误</strong> 是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nl80211: Beacon set failed: -12 (Cannot allocate memory)</span><br><span class="line">Failed to set beacon parameters</span><br><span class="line">wlan0: Unable to setup interface.</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nl80211: Beacon set failed: -12 (Cannot allocate memory)</span><br><span class="line">Failed to set beacon parameters</span><br><span class="line">wlan0: Unable to setup interface.</span><br></pre></td></tr></table></figure>
 
 <p>这意味着 <strong>无线网卡驱动或内存分配问题</strong> 导致 <code>wlan0</code> 无法正常工作。我们可以尝试以下方法解决。</p>
 <h2 id="🚀-在-Ubuntu-上配置-AP（WiFi-热点）"><a href="#🚀-在-Ubuntu-上配置-AP（WiFi-热点）" class="headerlink" title="🚀 在 Ubuntu 上配置 AP（WiFi 热点）"></a><strong>🚀 在 Ubuntu 上配置 AP（WiFi 热点）</strong></h2><p>你已经重装了 Ubuntu，现在我们 <strong>从零开始</strong> 配置 <strong>AP 热点</strong>（即 WiFi 共享）。</p>
 <hr>
 <p><strong>📌 1. 更新系统</strong></p>
 <p>确保系统是最新的：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update &amp;&amp; sudo apt upgrade -y</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update &amp;&amp; <span class="built_in">sudo</span> apt upgrade -y</span><br></pre></td></tr></table></figure>
 
 <hr>
 <p> <strong>📌 2. 安装 AP 相关软件</strong></p>
 <p>我们需要 <strong>hostapd（WiFi 热点管理）</strong> 和 <strong>dnsmasq（DHCP 服务器）</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y hostapd dnsmasq iw</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y hostapd dnsmasq iw</span><br></pre></td></tr></table></figure>
 
 <p>安装后 <strong>先停止 hostapd 和 dnsmasq</strong>（稍后配置）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop hostapd</span><br><span class="line">sudo systemctl stop dnsmasq</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop hostapd</span><br><span class="line"><span class="built_in">sudo</span> systemctl stop dnsmasq</span><br></pre></td></tr></table></figure>
 
 <hr>
 <p><strong>📌 3. 关闭 wpa_supplicant（防止 WiFi 自动连接）</strong></p>
 <p>如果 <code>wpa_supplicant</code> 在运行，它会干扰 AP 模式：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop wpa_supplicant</span><br><span class="line">sudo systemctl disable wpa_supplicant</span><br><span class="line">sudo killall wpa_supplicant</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl stop wpa_supplicant</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">disable</span> wpa_supplicant</span><br><span class="line"><span class="built_in">sudo</span> killall wpa_supplicant</span><br></pre></td></tr></table></figure>
 
 <p>检查是否仍在运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep wpa_supplicant</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep wpa_supplicant</span><br></pre></td></tr></table></figure>
 
 <p>如果仍然有输出，删除：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm -rf /var/run/wpa_supplicant</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">rm</span> -rf /var/run/wpa_supplicant</span><br></pre></td></tr></table></figure>
 
 <hr>
 <p> <strong>📌 4. 配置 hostapd（WiFi 热点）</strong></p>
 <p>编辑 <code>hostapd.conf</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/hostapd/hostapd.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/hostapd/hostapd.conf</span><br></pre></td></tr></table></figure>
 
 <p>粘贴以下内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">interface=wlan0</span><br><span class="line">driver=nl80211</span><br><span class="line">ssid=OrangePi_AP</span><br><span class="line">hw_mode=g</span><br><span class="line">channel=6</span><br><span class="line">ieee80211n=1</span><br><span class="line">wmm_enabled=1</span><br><span class="line">ht_capab=[HT40][SHORT-GI-20][DSSS_CCK-40]</span><br><span class="line">macaddr_acl=0</span><br><span class="line">auth_algs=1</span><br><span class="line">ignore_broadcast_ssid=0</span><br><span class="line">wpa=2</span><br><span class="line">wpa_passphrase=12345678</span><br><span class="line">wpa_key_mgmt=WPA-PSK</span><br><span class="line">rsn_pairwise=CCMP</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">interface=wlan0</span><br><span class="line">driver=nl80211</span><br><span class="line">ssid=OrangePi_AP</span><br><span class="line">hw_mode=g</span><br><span class="line">channel=6</span><br><span class="line">ieee80211n=1</span><br><span class="line">wmm_enabled=1</span><br><span class="line">ht_capab=[HT40][SHORT-GI-20][DSSS_CCK-40]</span><br><span class="line">macaddr_acl=0</span><br><span class="line">auth_algs=1</span><br><span class="line">ignore_broadcast_ssid=0</span><br><span class="line">wpa=2</span><br><span class="line">wpa_passphrase=12345678</span><br><span class="line">wpa_key_mgmt=WPA-PSK</span><br><span class="line">rsn_pairwise=CCMP</span><br></pre></td></tr></table></figure>
 
 <p><strong>保存退出</strong>（按 <code>CTRL + X</code> → <code>Y</code> → <code>Enter</code>）。</p>
 <p>然后告诉 <code>hostapd</code> 读取配置：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/default/hostapd</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/default/hostapd</span><br></pre></td></tr></table></figure>
 
 <p>找到：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#DAEMON_CONF=&quot;&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#DAEMON_CONF=&quot;&quot;</span><br></pre></td></tr></table></figure>
 
 <p>改成：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DAEMON_CONF=&quot;/etc/hostapd/hostapd.conf&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DAEMON_CONF=<span class="string">&quot;/etc/hostapd/hostapd.conf&quot;</span></span><br></pre></td></tr></table></figure>
 
 <hr>
 <p><strong>📌 5. 配置 dnsmasq（DHCP 服务器）</strong></p>
 <p><strong>备份原 dnsmasq 配置</strong>（防止冲突）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.bak</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mv</span> /etc/dnsmasq.conf /etc/dnsmasq.conf.bak</span><br></pre></td></tr></table></figure>
 
 <p><strong>创建新的 dnsmasq.conf</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/dnsmasq.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/dnsmasq.conf</span><br></pre></td></tr></table></figure>
 
 <p>粘贴：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">interface=wlan0</span><br><span class="line">dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">interface=wlan0</span><br><span class="line">dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h</span><br></pre></td></tr></table></figure>
 
 <p><strong>保存退出</strong>（<code>CTRL + X</code> → <code>Y</code> → <code>Enter</code>）。</p>
 <hr>
 <p><strong>📌 6. 配置 wlan0 静态 IP</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/network/interfaces</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/network/interfaces</span><br></pre></td></tr></table></figure>
 
 <p>添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">auto wlan0</span><br><span class="line">iface wlan0 inet static</span><br><span class="line">    address 192.168.4.1</span><br><span class="line">    netmask 255.255.255.0</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">auto wlan0</span><br><span class="line">iface wlan0 inet static</span><br><span class="line">    address 192.168.4.1</span><br><span class="line">    netmask 255.255.255.0</span><br></pre></td></tr></table></figure>
 
 <p><strong>保存退出</strong>。</p>
 <hr>
 <p><strong>📌 7. 手动切换 wlan0 到 AP 模式</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ip link set wlan0 down</span><br><span class="line">sudo iw dev wlan0 set type __ap</span><br><span class="line">sudo ip link set wlan0 up</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> <span class="built_in">set</span> wlan0 down</span><br><span class="line"><span class="built_in">sudo</span> iw dev wlan0 <span class="built_in">set</span> <span class="built_in">type</span> __ap</span><br><span class="line"><span class="built_in">sudo</span> ip <span class="built_in">link</span> <span class="built_in">set</span> wlan0 up</span><br></pre></td></tr></table></figure>
 
 <p>检查 <code>wlan0</code> 是否成功进入 AP 模式：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iw dev wlan0 info</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iw dev wlan0 info</span><br></pre></td></tr></table></figure>
 
 <p>如果输出：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Interface wlan0</span><br><span class="line">        type AP</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Interface wlan0</span><br><span class="line">        type AP</span><br></pre></td></tr></table></figure>
 
 <p>说明 <strong>成功</strong>，可以继续下一步。</p>
 <hr>
 <p><strong>📌 8. 启动 hostapd 和 dnsmasq</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart hostapd</span><br><span class="line">sudo systemctl restart dnsmasq</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl restart hostapd</span><br><span class="line"><span class="built_in">sudo</span> systemctl restart dnsmasq</span><br></pre></td></tr></table></figure>
 
 <p><strong>让它们开机自动启动</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable hostapd</span><br><span class="line">sudo systemctl enable dnsmasq</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> hostapd</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> dnsmasq</span><br></pre></td></tr></table></figure>
 
 <p>检查状态：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status hostapd</span><br><span class="line">sudo systemctl status dnsmasq</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl status hostapd</span><br><span class="line"><span class="built_in">sudo</span> systemctl status dnsmasq</span><br></pre></td></tr></table></figure>
 
 <p>如果 <strong>显示 active (running)</strong>，说明成功！</p>
 <hr>
 <p><strong>📌 9. 启用 NAT（让热点设备可以上网，可选）</strong></p>
 <p>如果你的 <strong>Orange Pi 连接了以太网 eth0</strong>，可以启用 NAT：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line"><span class="built_in">sudo</span> iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line"><span class="built_in">sudo</span> iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT</span><br></pre></td></tr></table></figure>
 
 <p>让规则 <strong>永久生效</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh -c &quot;iptables-save &gt; /etc/iptables.ipv4.nat&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> sh -c <span class="string">&quot;iptables-save &gt; /etc/iptables.ipv4.nat&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>开机自动应用</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/rc.local</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> nano /etc/rc.local</span><br></pre></td></tr></table></figure>
 
 <p>在 <code>exit 0</code> 之前添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-restore &lt; /etc/iptables.ipv4.nat</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-restore &lt; /etc/iptables.ipv4.nat</span><br></pre></td></tr></table></figure>
 
 <p><strong>保存退出</strong>（<code>CTRL + X</code> → <code>Y</code> → <code>Enter</code>）。</p>
 <hr>
 <p><strong>📌 10. 重新启动系统</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> reboot</span><br></pre></td></tr></table></figure>
 
 <hr>
 <p><strong>📌 11. 测试 AP 热点</strong></p>
@@ -401,7 +404,7 @@
 </ul>
 </li>
 <li><p><strong>如果有 eth0 连接，测试能否访问互联网</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping -c 4 8.8.8.8</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping -c 4 8.8.8.8</span><br></pre></td></tr></table></figure>
 
 <p>如果能 ping 通，说明热点设备可以上网。</p>
 </li>
@@ -570,7 +573,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

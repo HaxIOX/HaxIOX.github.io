@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -186,7 +189,7 @@
         <h1 id="IDF"><a href="#IDF" class="headerlink" title="IDF"></a>IDF</h1><p>1.使用命令不一定非要安装环境,可以直接在这里执行</p>
 <img src="/2025/06/10/162-esp-idf-kai-fa-yu-dao-de-yi-xie-xiao-wen-ti/1749547432056.png" class="" width="1749547432056">
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">idf.py fullclean</span><br><span class="line">idf.py build</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">idf.py fullclean</span><br><span class="line">idf.py build</span><br></pre></td></tr></table></figure>
 
 <p>2.库找不到,但是可以正常烧录</p>
 <img src="/2025/06/10/162-esp-idf-kai-fa-yu-dao-de-yi-xie-xiao-wen-ti/1749547477330.png" class="" width="1749547477330">
@@ -220,10 +223,10 @@
 <p>重载完成之后，IntelliSense 就会根据你 <code>compile_commands.json</code> 里的信息，把所有 <code>freertos/task.h</code>、<code>driver/uart.h</code>、<code>esp_event.h</code>……都识别出来，红色波浪线就没了。</p>
 <p>3.如果是直接复制项目进行改动(包括项目名字),容易出现,改动后的固件少录不进去,一直烧录之前的固件</p>
 <h3 id="问题核心：应用程序不匹配，Wi-Fi-代码根本没运行"><a href="#问题核心：应用程序不匹配，Wi-Fi-代码根本没运行" class="headerlink" title="问题核心：应用程序不匹配，Wi-Fi 代码根本没运行"></a>问题核心：应用程序不匹配，Wi-Fi 代码根本没运行</h3><p>您提供的日志中最关键的一条信息是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--- Warning: Checksum mismatch between flashed and built applications. Checksum of built application is e6a935ffbf3d6e1cf8c0abfa80a2d54465a8cf48bdc4a6d8c404aa944e4e5b38</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--- Warning: Checksum mismatch between flashed and built applications. Checksum of built application is e6a935ffbf3d6e1cf8c0abfa80a2d54465a8cf48bdc4a6d8c404aa944e4e5b38</span><br></pre></td></tr></table></figure>
 
 <p>以及：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I (180) app_init: Project name: UART_BLE` `I (184) app_init: App version: 1` `I (189) app_init: Compile time: Jun 9 2025 11:00:38</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I (180) app_init: Project name: UART_BLE` `I (184) app_init: App version: 1` `I (189) app_init: Compile time: Jun 9 2025 11:00:38</span><br></pre></td></tr></table></figure>
 
 <p>而我们期望的日志是 <code>UART_FILTER_FORWARD</code> 和 <code>uav_sniffer</code> 整合后的应用，其 <code>app_main</code> 应该会输出类似：</p>
 <p><code>I (TAG) Starting ESP32 Drone Detection Combo Application...</code> 以及 Wi-Fi 初始化和任务创建的日志。</p>
@@ -434,7 +437,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

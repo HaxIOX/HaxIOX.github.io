@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -49,6 +46,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -87,7 +90,7 @@
         
 
 <div class="header">
-  <div class="avatar">
+  <div class="avatar avatar--motto">
     <a href="/">
       <!-- 头像取消懒加载，添加no-lazy -->
       
@@ -95,6 +98,9 @@
       
     </a>
     <div class="nickname"><a href="/">Northcat</a></div>
+    
+      <div class="motto"><span style="--i:0"><span>干</span></span><span style="--i:1"><span>饭</span></span><span style="--i:2"><span>干</span></span><span style="--i:3"><span>饭</span></span><span style="--i:4"><span>！</span></span></div>
+    
   </div>
 
   <div class="navbar">
@@ -239,7 +245,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

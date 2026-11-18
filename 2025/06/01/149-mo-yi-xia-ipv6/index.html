@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -215,7 +218,7 @@
 <p><strong>临时解决方案：</strong> 如果以上方法都不行，可以使用IPv6隧道服务（如Hurricane Electric的tunnel broker）来获得稳定的IPv6连接。</p>
 <p>你可以先试试重置Teredo，然后测试能否ping通IPv6地址。</p>
 <p>进入路由器的后台管理界面,打开ipv6配置后,<code>ipconfig</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">无线局域网适配器 WLAN:</span><br><span class="line">   连接特定的 DNS 后缀 . . . . . . . :</span><br><span class="line">   IPv6 地址 . . . . . . . . . . . . : 2408:822f:1ab1:67c::255</span><br><span class="line">   IPv6 地址 . . . . . . . . . . . . : 2408:隐藏</span><br><span class="line">   临时 IPv6 地址. . . . . . . . . . : 2408:隐藏</span><br><span class="line">   本地链接 IPv6 地址. . . . . . . . : fe80::9095:5329:2298:180c%3</span><br><span class="line">   IPv4 地址 . . . . . . . . . . . . : 192.168.31.78</span><br><span class="line">   子网掩码  . . . . . . . . . . . . : 255.255.255.0</span><br><span class="line">   默认网关. . . . . . . . . . . . . : fe80::46f7:70ff:fe1e:9728%3</span><br><span class="line">                                       192.168.31.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">无线局域网适配器 WLAN:</span><br><span class="line">   连接特定的 DNS 后缀 . . . . . . . :</span><br><span class="line">   IPv6 地址 . . . . . . . . . . . . : 2408:822f:1ab1:67c::255</span><br><span class="line">   IPv6 地址 . . . . . . . . . . . . : 2408:隐藏</span><br><span class="line">   临时 IPv6 地址. . . . . . . . . . : 2408:隐藏</span><br><span class="line">   本地链接 IPv6 地址. . . . . . . . : fe80::9095:5329:2298:180c%3</span><br><span class="line">   IPv4 地址 . . . . . . . . . . . . : 192.168.31.78</span><br><span class="line">   子网掩码  . . . . . . . . . . . . : 255.255.255.0</span><br><span class="line">   默认网关. . . . . . . . . . . . . : fe80::46f7:70ff:fe1e:9728%3</span><br><span class="line">                                       192.168.31.1</span><br></pre></td></tr></table></figure>
 
 <p><strong>Teredo隧道的作用：</strong> Teredo是微软开发的一种IPv6过渡技术，它的目的是让处于IPv4网络中的设备也能访问IPv6资源。</p>
 <p><strong>为什么之前没开IPv6也有IPv6地址：</strong></p>
@@ -404,7 +407,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -233,10 +236,10 @@
 <p>搜lvgl配置字体大小号</p>
 <p><strong>自定义</strong></p>
 <p>首先在menuconfig中关闭<code>Check this to not use custom lv_conf.h</code>，然后将<code>lv_conf.h</code>移到main文件下，并在项目文件夹下的<code>CMakeLists.txt</code>加上</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add_compile_options(-DLV_CONF_PATH=\&quot;$&#123;CMAKE_SOURCE_DIR&#125;/main/lv_conf.h\&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add_compile_options(-DLV_CONF_PATH=\&quot;$&#123;CMAKE_SOURCE_DIR&#125;/main/lv_conf.h\&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>或者</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_compile_options(&quot;-DLV_CONF_PATH=\&quot;$&#123;CMAKE_SOURCE_DIR&#125;/main/lv_conf.h\&quot;&quot;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_compile_options(&quot;-DLV_CONF_PATH=\&quot;$&#123;CMAKE_SOURCE_DIR&#125;/main/lv_conf.h\&quot;&quot;)</span><br></pre></td></tr></table></figure>
 
 <p><strong>添加自定义字体</strong></p>
 <p>使能lv_conf.h的LV_FONT_FMT_TXT_LARGE :修改代码407行，改0为1</p>
@@ -290,12 +293,12 @@
 <p>3.<strong>提取不到数据</strong></p>
 <ol>
 <li><p><strong>使用 strncpy() 确保 pData 是一个 ‘\0’ 结尾的字符串</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">strncpy(buffer, (char*)pData, length);</span><br><span class="line">buffer[length] = &#x27;\0&#x27;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">strncpy</span>(buffer, (<span class="type">char</span>*)pData, length);</span><br><span class="line">buffer[length] = <span class="string">&#x27;\0&#x27;</span>;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>修正 strstr() 搜索的字符串</strong></p>
 <ul>
 <li><p>你的数据是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+PN = A1-20-00</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+PN = A1-20-00</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>但 <code>strstr(buffer, &quot;+PN=&quot;)</code> <strong>不会匹配</strong>，因为数据中有空格 <code>&quot; &quot;</code>。</p>
 </li>
@@ -304,7 +307,7 @@
 </ul>
 </li>
 <li><p><strong>修正 sscanf() 解析字符串</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sscanf(pnPtr, &quot;+PN = %s&quot;, pnValue);</span><br><span class="line">sscanf(snPtr, &quot;+SN = %s&quot;, snValue);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sscanf</span>(pnPtr, <span class="string">&quot;+PN = %s&quot;</span>, pnValue);</span><br><span class="line"><span class="built_in">sscanf</span>(snPtr, <span class="string">&quot;+SN = %s&quot;</span>, snValue);</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>这样 <code>pnValue</code> 和 <code>snValue</code> <strong>只提取实际数据</strong>，不会包含 <code>&quot;+PN =&quot;</code> <strong>这部分字符串</strong>。</li>
@@ -503,7 +506,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

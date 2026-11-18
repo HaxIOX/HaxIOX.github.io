@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -331,15 +334,15 @@
 
 <p><code>记得每条 SQL 语句都要以分号 </code>;<code> 结尾</code></p>
 <h2 id="（禁用默认站点"><a href="#（禁用默认站点" class="headerlink" title="（禁用默认站点"></a>（禁用默认站点</h2><p>如果你希望所有访问都落到 dujiaoka 上，也可以直接关掉默认配置：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bash复制编辑sudo rm /etc/nginx/sites-enabled/default</span><br><span class="line">sudo nginx -t</span><br><span class="line">sudo systemctl reload nginx</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bash复制编辑sudo rm /etc/nginx/sites-enabled/default</span><br><span class="line">sudo nginx -t</span><br><span class="line">sudo systemctl reload nginx</span><br></pre></td></tr></table></figure>
 
 <p>这样不管访问 IP 还是任何其它 “Host”，都会匹配到你 <code>/etc/nginx/sites-available/dujiaoka</code> 这个块。</p>
 <h2 id="HTTP-请求已经被-Laravel-强制重定向到-HTTPS"><a href="#HTTP-请求已经被-Laravel-强制重定向到-HTTPS" class="headerlink" title="HTTP 请求已经被 Laravel 强制重定向到 HTTPS"></a>HTTP 请求已经被 Laravel 强制重定向到 HTTPS</h2><h2 id="方案一：给站点启用-HTTPS（推荐）"><a href="#方案一：给站点启用-HTTPS（推荐）" class="headerlink" title="方案一：给站点启用 HTTPS（推荐）"></a>方案一：给站点启用 HTTPS（推荐）</h2><ol>
 <li><p><strong>安装 Certbot</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install -y certbot python3-certbot-nginx</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install -y certbot python3-certbot-nginx</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>为你的域名申请并自动配置 SSL</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo certbot --nginx -d onecards.tech -d www.onecards.tech</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> certbot --nginx -d onecards.tech -d www.onecards.tech</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>按提示输入邮箱，勾选同意协议。</li>
@@ -347,12 +350,12 @@
 </ul>
 </li>
 <li><p><strong>验证</strong><br> 申请完成后，Certbot 会自动在 <code>/etc/nginx/sites-enabled/dujiaoka</code> 加入 443 监听配置并重载 Nginx。<br> 再访问：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://onecards.tech/admin</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://onecards.tech/admin</span><br></pre></td></tr></table></figure>
 
 <p>应该能正确看到 <code>/admin/auth/login</code> 登录页。</p>
 </li>
 <li><p><strong>自动续期</strong><br> Certbot 会添加定时任务自动续期，你可以执行一次模拟续期验证：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo certbot renew --dry-run</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> certbot renew --dry-run</span><br></pre></td></tr></table></figure></li>
 </ol>
 <hr>
 <h2 id="方案二：取消-HTTPS-强制，先用-HTTP-访问"><a href="#方案二：取消-HTTPS-强制，先用-HTTP-访问" class="headerlink" title="方案二：取消 HTTPS 强制，先用 HTTP 访问"></a>方案二：取消 HTTPS 强制，先用 HTTP 访问</h2><p>如果短期内不想折腾 SSL，可以临时让 Laravel 不跳转到 HTTPS，回到纯 HTTP：</p>
@@ -538,7 +541,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>

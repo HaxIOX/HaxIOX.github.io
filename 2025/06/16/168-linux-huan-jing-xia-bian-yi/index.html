@@ -26,9 +26,6 @@
     <link rel="icon" href="/images/favicon.png">
   
 
-  <!-- Raleway-Font -->
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-
   <!-- hexo site css -->
   <link rel="stylesheet" href="/css/main.css" />
   
@@ -45,6 +42,12 @@
     </script>
     
 <script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
 
   
 
@@ -85,12 +88,10 @@
         <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
 <!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
 
+<!-- LaTex Display -->
 
-  <!-- LaTex Display -->
 
-  
-    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
-  
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
   <script>
     MathJax = {
       tex: {
@@ -98,7 +99,9 @@
       }
     }
   </script>
-
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
 
 
 
@@ -220,17 +223,17 @@
 <h2 id="无法使用主机代理"><a href="#无法使用主机代理" class="headerlink" title="无法使用主机代理"></a>无法使用主机代理</h2><p>1.<strong>公共网络的防火墙需要关闭</strong></p>
 <p>检查 v2ray 是否监听 0.0.0.0（支持局域网访问）</p>
 <p>打开 v2rayN → 设置 → 代理端口 → 确保监听地址为：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.0.0.0:10808</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.0.0.0:10808</span><br></pre></td></tr></table></figure>
 
 <p>不要是 <code>127.0.0.1:10808</code>（仅限本机）</p>
 <p>你也可以在主机上执行（CMD）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -an | findstr 10808</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -an | findstr 10808</span><br></pre></td></tr></table></figure>
 
 <p>应该能看到：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TCP    0.0.0.0:10808       LISTENING</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TCP    0.0.0.0:10808       LISTENING</span><br></pre></td></tr></table></figure>
 
 <h3 id="添加规则放行-VMware-和-ping"><a href="#添加规则放行-VMware-和-ping" class="headerlink" title="添加规则放行 VMware 和 ping"></a>添加规则放行 VMware 和 ping</h3><p>如果你不希望关闭防火墙，可以用管理员 PowerShell 添加规则：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 放行 v2ray 端口</span><br><span class="line">New-NetFirewallRule -DisplayName &quot;Allow v2ray 10808&quot; -Direction Inbound -Protocol TCP -LocalPort 10808 -Action Allow -InterfaceAlias &quot;VMware Network Adapter VMnet8&quot;</span><br><span class="line"></span><br><span class="line"># 放行 ping（ICMPv4）</span><br><span class="line">New-NetFirewallRule -DisplayName &quot;Allow ICMPv4 ping from VM&quot; -Protocol ICMPv4 -IcmpType 8 -Direction Inbound -Action Allow -InterfaceAlias &quot;VMware Network Adapter VMnet8&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 放行 v2ray 端口</span><br><span class="line">New-NetFirewallRule -DisplayName &quot;Allow v2ray 10808&quot; -Direction Inbound -Protocol TCP -LocalPort 10808 -Action Allow -InterfaceAlias &quot;VMware Network Adapter VMnet8&quot;</span><br><span class="line"></span><br><span class="line"># 放行 ping（ICMPv4）</span><br><span class="line">New-NetFirewallRule -DisplayName &quot;Allow ICMPv4 ping from VM&quot; -Protocol ICMPv4 -IcmpType 8 -Direction Inbound -Action Allow -InterfaceAlias &quot;VMware Network Adapter VMnet8&quot;</span><br></pre></td></tr></table></figure>
 
 <p>运行完之后，<strong>重新测试 ping 和 curl</strong>。</p>
 <p>2.<strong>在虚拟机中的本机ip段需要对应</strong></p>
@@ -398,7 +401,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>217</strong> 文章</span>
+          <span class="footer-stat-item"><strong>218</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>
