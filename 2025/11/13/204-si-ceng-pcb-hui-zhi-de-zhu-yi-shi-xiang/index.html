@@ -13,7 +13,7 @@
   
   <title>
     
-      四层PCB绘制的注意事项 
+      PCB design规则记录 
       
       
       |
@@ -131,7 +131,7 @@
   
   <div class="container post-details has-catalog" id="post-details">
     <div class="post-content">
-      <div class="post-title">四层PCB绘制的注意事项</div>
+      <div class="post-title">PCB design规则记录</div>
       <div class="post-attach">
         
         
@@ -139,7 +139,7 @@
         <div class="post-meta-line">
           <span class="post-wordcount">
             <i class="iconfont icon-edit mr-10" title="Words"></i>
-            629
+            1083
           </span>
           
           <span class="post-pubtime">
@@ -152,7 +152,7 @@
           <span class="post-pubtime">
             <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
             <span class="post-date-label">Update time</span>
-            2026-04-20
+            2026-11-19
           </span>
           
         </div>
@@ -221,6 +221,55 @@
 <li><strong>“护城河”：</strong> 然后，在电源层上，沿着这两个区域的边界绘制分割线（即“护城河”）。</li>
 <li><strong>间隙宽度：</strong> 确保3.3V和3.8V铜皮之间的隔离间隙足够宽（例如，20-40 mils &#x2F; 0.5mm - 1.0mm），以防止耦合和满足制造工艺要求。</li>
 </ul>
+<h2 id="PCB-铺铜方式：直连、热焊盘及-GND-重叠铺铜"><a href="#PCB-铺铜方式：直连、热焊盘及-GND-重叠铺铜" class="headerlink" title="PCB 铺铜方式：直连、热焊盘及 GND 重叠铺铜"></a>PCB 铺铜方式：直连、热焊盘及 GND 重叠铺铜</h2><p>核心结论：</p>
+<ol>
+<li><strong>图 A（直接连接）</strong>：适合射频接地、大电流回流及需要低阻抗连接的位置。</li>
+<li><strong>图 B（热焊盘连接）</strong>：适合普通元件焊盘，可以降低焊接时的散热负担。</li>
+<li><strong>同一层两块 GND 铺铜重叠</strong>：允许，不会叠加铜厚，但需要检查优先级、连接方式及最终 Gerber。</li>
+<li><strong>EG800K-CN 底部 GND</strong>：优先考虑直接连接，特别是射频引脚旁边的 GND。</li>
+</ol>
+<p>这里有一个经过核查的重要区别：移远官方明确要求<strong>射频引脚相邻的 GND 不使用热焊盘，而是完整连接地铜</strong>；其他 GND 全部直连属于进一步的工程建议，并非官方对所有焊盘的统一强制要求</p>
+<ul>
+<li><strong>图 A：直接连接（Solid &#x2F; Direct Connection）</strong>。焊盘边缘与同网络铜皮直接连通，没有刻意缩窄的连接桥。</li>
+<li><strong>图 B：热焊盘连接（Thermal Relief）</strong>。通过几条连接桥把焊盘连到铜皮，中间留出隔热间隙，以减少焊接时铜皮吸热。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>图 A：直连</th>
+<th>图 B：热焊盘</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>电流路径</td>
+<td>截面通常更宽、阻抗更低</td>
+<td>通过较窄连接桥，存在局部瓶颈</td>
+</tr>
+<tr>
+<td>高频接地</td>
+<td>一般更有利于减小连接电感</td>
+<td>连接桥增加寄生电感</td>
+</tr>
+<tr>
+<td>散热</td>
+<td>焊盘与周围铜皮热耦合更强</td>
+<td>热耦合更弱</td>
+</tr>
+<tr>
+<td>手工焊接</td>
+<td>大面积接地铜可能难加热</td>
+<td>通常更易焊接、返修</td>
+</tr>
+<tr>
+<td>典型用途</td>
+<td>RF 邻近 GND、大电流回流、散热端</td>
+<td>普通信号与小电流焊盘</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>选择原则：</strong> 看电气与工艺需求，而不是全板只选 A 或 B。不能把“所有 GND 必须直连”当成普遍规则。</p>
+</blockquote>
 
       </div>
       
@@ -243,7 +292,7 @@
             <span class="post-pubtime">
               <i class="iconfont icon-updatetime mr-10" title="Update time"></i>
               <span class="post-date-label">Update time</span>
-              2026-04-20
+              2026-11-19
             </span>
             
           </div>
@@ -320,7 +369,7 @@
     <div class="title">Contents</div>
     <div class="catalog-content">
       
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#VCC%E5%B1%82"><span class="toc-text">VCC层</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BF%A1%E5%8F%B7%E5%9B%9E%E6%B5%81%E8%B7%AF%E5%BE%84%EF%BC%88%E6%9C%80%E9%87%8D%E8%A6%81%EF%BC%81%EF%BC%89"><span class="toc-text">1. 信号回流路径（最重要！）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%89%A9%E7%90%86%E5%B8%83%E5%B1%80%EF%BC%88%E5%88%86%E5%8C%BA%EF%BC%89"><span class="toc-text">2. 物理布局（分区）</span></a></li></ol></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#VCC%E5%B1%82"><span class="toc-text">VCC层</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BF%A1%E5%8F%B7%E5%9B%9E%E6%B5%81%E8%B7%AF%E5%BE%84%EF%BC%88%E6%9C%80%E9%87%8D%E8%A6%81%EF%BC%81%EF%BC%89"><span class="toc-text">1. 信号回流路径（最重要！）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%89%A9%E7%90%86%E5%B8%83%E5%B1%80%EF%BC%88%E5%88%86%E5%8C%BA%EF%BC%89"><span class="toc-text">2. 物理布局（分区）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PCB-%E9%93%BA%E9%93%9C%E6%96%B9%E5%BC%8F%EF%BC%9A%E7%9B%B4%E8%BF%9E%E3%80%81%E7%83%AD%E7%84%8A%E7%9B%98%E5%8F%8A-GND-%E9%87%8D%E5%8F%A0%E9%93%BA%E9%93%9C"><span class="toc-text">PCB 铺铜方式：直连、热焊盘及 GND 重叠铺铜</span></a></li></ol></li></ol>
       
     </div>
   </div>
@@ -384,7 +433,7 @@
     
       <div class="footer-stats">
         
-          <span class="footer-stat-item"><strong>218</strong> 文章</span>
+          <span class="footer-stat-item"><strong>222</strong> 文章</span>
         
         
           <span class="footer-stats-separator">·</span>
@@ -647,7 +696,7 @@
       </a>
       <div class="share-content hidden">
         
-          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + %E5%9B%9B%E5%B1%82PCB%E7%BB%98%E5%88%B6%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F11%2F13%2F204-si-ceng-pcb-hui-zhi-de-zhu-yi-shi-xiang%2F + '" target="_blank" title="Twitter">
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + PCB%20design%E8%A7%84%E5%88%99%E8%AE%B0%E5%BD%95 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2025%2F11%2F13%2F204-si-ceng-pcb-hui-zhi-de-zhu-yi-shi-xiang%2F + '" target="_blank" title="Twitter">
             <i class="iconfont icon-twitter"></i>
           </a>
         

@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      Build Orangepi 3W Zero Android系统 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
+    </script>
+    
+<script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+  <body>
+    
+    <div id="app">
+      
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+<!-- LaTex Display -->
+
+
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  
+  <div class="container post-details has-catalog" id="post-details">
+    <div class="post-content">
+      <div class="post-title">Build Orangepi 3W Zero Android系统</div>
+      <div class="post-attach">
+        
+        
+        
+        <div class="post-meta-line">
+          <span class="post-wordcount">
+            <i class="iconfont icon-edit mr-10" title="Words"></i>
+            5224
+          </span>
+          
+          <span class="post-pubtime">
+            <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span class="post-date-label">Publish time</span>
+            2026-11-23
+          </span>
+          
+          
+        </div>
+        
+<div class="post-meta-line">
+  
+    <span class="post-tags">
+      <i class="iconfont icon-tags mr-10" title="Tags"></i>
+      
+      <span class="span--tag mr-8">
+        <a href="/tags/Android/" title="Android">
+          #Android
+        </a>
+      </span>
+      
+    </span>
+  
+  
+</div>
+
+      </div>
+      <div class="markdown-body">
+        <h1 id="Orange-Pi-Zero-3W-编译-Android-13"><a href="#Orange-Pi-Zero-3W-编译-Android-13" class="headerlink" title="Orange Pi Zero 3W 编译 Android 13"></a>Orange Pi Zero 3W 编译 Android 13</h1><p>记录这块 Zero 3W 编译 Android 13 的过程和期间遇到的 51 个问题。板子是全志 A733，6GB 内存，内核 5.15。这次改动包括接 RTC 和功放、默认中文、删除预装应用。</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>系统</td>
+<td>Ubuntu 22.04.5 虚拟机</td>
+</tr>
+<tr>
+<td>CPU 和内存</td>
+<td>8 核，19GB</td>
+</tr>
+<tr>
+<td>磁盘</td>
+<td>整套编译完约 200GB</td>
+</tr>
+<tr>
+<td>源码</td>
+<td>官方 SDK，9 个分卷，共约 37GB</td>
+</tr>
+<tr>
+<td>TF 卡</td>
+<td>64GB，<code>/data</code> 约 54GB。之前的 8GB 卡只有 2.9GB</td>
+</tr>
+<tr>
+<td>烧录</td>
+<td>Windows，PhoenixCard 4.2.8</td>
+</tr>
+<tr>
+<td>调试</td>
+<td>USB 转串口，adb，scrcpy 5.0.1</td>
+</tr>
+</tbody></table>
+<p>SDK 放在 <code>~/zero3w/src/a733_android13</code>。排查启动问题时查到全志有篇文档叫「SDK所在目录路径过长引发固件异常无法启动」。</p>
+<p>此环境下编译一共持续了6小时左右。</p>
+<p>解压命令是事后按分卷格式整理的，没有重新跑过：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">md5sum</span> -c <span class="built_in">md5sum</span></span><br><span class="line"><span class="built_in">mkdir</span> -p ~/zero3w/src/a733_android13</span><br><span class="line"><span class="built_in">cat</span> a733_android13.tar.gz0* | tar -xzf - -C ~/zero3w/src/a733_android13</span><br></pre></td></tr></table></figure>
+
+<h2 id="SDK-结构"><a href="#SDK-结构" class="headerlink" title="SDK 结构"></a>SDK 结构</h2><p>SDK 在 AOSP 外面套了一层全志的构建系统：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>位置</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AOSP</td>
+<td>根目录大部分</td>
+<td>框架、系统应用、工具链</td>
+</tr>
+<tr>
+<td>longan</td>
+<td><code>longan/</code></td>
+<td>内核、设备树、boot0、U-Boot、打包</td>
+</tr>
+<tr>
+<td>产品配置</td>
+<td><code>device/softwinner/</code></td>
+<td>属性、overlay、预装应用</td>
+</tr>
+</tbody></table>
+<p>AOSP 的 <code>m</code> 不编内核，只把 <code>longan/out</code> 里的内核和设备树复制过去，所以编译顺序是 longan、<code>m</code>、<code>pack</code>。改完 <code>board.dts</code> 只跑 <code>m</code>，设备树不会更新。</p>
+<p>顶层的 <code>kernel/</code> 只有配置和预编译文件。内核源码在 <code>longan/kernel/linux-5.15/</code>，全志驱动在 <code>longan/bsp/</code>。全项目有 12 个 <code>board.dts</code>，这块板子用的是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">longan/device/config/chips/a733/configs/demo_aiot/linux-5.15/board.dts</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译流程"><a href="#编译流程" class="headerlink" title="编译流程"></a>编译流程</h2><h3 id="1-内核和设备树"><a href="#1-内核和设备树" class="headerlink" title="1. 内核和设备树"></a>1. 内核和设备树</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/zero3w/src/a733_android13/longan</span><br><span class="line">./build.sh         <span class="comment"># 首次，或改了内核</span></span><br><span class="line">./build.sh dts     <span class="comment"># 只改设备树，约 3 秒</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-启动-buildserver"><a href="#2-启动-buildserver" class="headerlink" title="2. 启动 buildserver"></a>2. 启动 buildserver</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">L=~/zero3w/src/a733_android13/longan</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$L</span>/tools/build</span><br><span class="line"><span class="built_in">nohup</span> ./buildserver --path <span class="variable">$L</span> &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line"><span class="built_in">sleep</span> 3</span><br><span class="line">lsof 2&gt;/dev/null | awk -v t=<span class="string">&quot;<span class="variable">$L</span>/tools/build/buildserver&quot;</span> <span class="string">&#x27;$9~t&#123;print $2&#125;&#x27;</span> | <span class="built_in">wc</span> -l</span><br></pre></td></tr></table></figure>
+
+<p><code>pack</code> 要求这里的结果至少是 2。</p>
+<h3 id="3-编译-Android"><a href="#3-编译-Android" class="headerlink" title="3. 编译 Android"></a>3. 编译 Android</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/zero3w/src/a733_android13</span><br><span class="line"><span class="built_in">source</span> build/envsetup.sh</span><br><span class="line">lunch a733_demo_aiot_arm64-userdebug</span><br><span class="line">m -j8</span><br></pre></td></tr></table></figure>
+
+<p><code>m</code> 和 <code>pack</code> 是 <code>envsetup.sh</code> 里的 shell 函数，放在同一个 shell 里执行。根目录没有 Makefile。</p>
+<h3 id="4-打包"><a href="#4-打包" class="headerlink" title="4. 打包"></a>4. 打包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pack</span><br></pre></td></tr></table></figure>
+
+<p>产物是 <code>longan/out/a733/demo_aiot/a733_android13_demo_aiot_uart0.img</code>，约 1.8GB。每次打包文件名相同，我出包后马上改名归档。</p>
+<p>SDK 自带的 <code>b.sh</code> 会一次跑完内核、<code>m</code>、<code>pack</code>。我是分步跑的，打包前多看一眼 buildserver。</p>
+<h3 id="5-烧录"><a href="#5-烧录" class="headerlink" title="5. 烧录"></a>5. 烧录</h3><p>打包后先检查 boot0，再用 PhoenixCard 整卡烧写。镜像是全志的 IMAGEWTY 容器格式。</p>
+<h3 id="各类改动的耗时"><a href="#各类改动的耗时" class="headerlink" title="各类改动的耗时"></a>各类改动的耗时</h3><table>
+<thead>
+<tr>
+<th>改动</th>
+<th>命令</th>
+<th>耗时</th>
+<th>刷机方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内核、defconfig</td>
+<td><code>./build.sh kernel</code>，<code>make bootimage vendorbootimage -j8</code>，<code>pack</code></td>
+<td>约 6 分钟</td>
+<td>增量</td>
+</tr>
+<tr>
+<td>设备树</td>
+<td><code>./build.sh dts</code>，<code>make vendorbootimage -j8</code>，<code>pack</code></td>
+<td>几分钟</td>
+<td>增量</td>
+</tr>
+<tr>
+<td>system 属性</td>
+<td><code>make systemimage -j8</code>，<code>make superimage -j8</code>，<code>pack</code></td>
+<td>约 3.5 分钟</td>
+<td>整卡</td>
+</tr>
+<tr>
+<td>vendor 属性</td>
+<td><code>make vendorimage -j8</code>，<code>make superimage -j8</code>，<code>pack</code></td>
+<td>约 6 分钟</td>
+<td>整卡</td>
+</tr>
+<tr>
+<td>framework 服务</td>
+<td><code>m -j8</code>，<code>pack</code></td>
+<td>约 8 分钟</td>
+<td>整卡</td>
+</tr>
+<tr>
+<td>SystemUI</td>
+<td><code>m -j8</code>，<code>pack</code></td>
+<td>约 26 分钟</td>
+<td>整卡</td>
+</tr>
+</tbody></table>
+<p>设备树打在 <code>vendor_boot</code> 里，板子上没有单独的 dtb 分区。只改内核或设备树时，我用增量刷机，96MB，约 25 秒，<code>/data</code> 保留：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">adb push boot.img vendor_boot.img /data/local/tmp/</span><br><span class="line">adb shell su 0 <span class="built_in">dd</span> <span class="keyword">if</span>=/data/local/tmp/boot.img of=/dev/block/by-name/boot_a bs=1M</span><br><span class="line">adb shell su 0 <span class="built_in">dd</span> <span class="keyword">if</span>=/data/local/tmp/vendor_boot.img of=/dev/block/by-name/vendor_boot_a bs=1M</span><br><span class="line">adb shell su 0 <span class="built_in">sync</span></span><br><span class="line">adb reboot</span><br></pre></td></tr></table></figure>
+
+<p>分区是 A&#x2F;B 双槽，板子跑 <code>_a</code>。<code>system</code>、<code>vendor</code>、<code>product</code> 都在 1.4GB 的 <code>super</code> 里，这部分改动走整卡烧写。</p>
+<h2 id="pack-成功但无法启动"><a href="#pack-成功但无法启动" class="headerlink" title="pack 成功但无法启动"></a>pack 成功但无法启动</h2><p>有一版镜像打包日志正常，刷进去后串口停在：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NOTICE:  BL31: dram size is 4294967296 bytes</span><br><span class="line">NOTICE:  hardware check error1</span><br><span class="line">PANIC in EL3.</span><br></pre></td></tr></table></figure>
+
+<p>板子是 6GB，这里认成了 4GB。</p>
+<p>我逐字节对比了能启动和不能启动的镜像，差异在 3 份 boot0 的各 9 个字节。继续查 <code>longan/build/pack</code>，找到这段：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="variable">$&#123;#runinfo[@]&#125;</span> -lt 2 ]; <span class="keyword">then</span></span><br><span class="line">    pack_error <span class="string">&quot;something is incorrect:please &lt;./build.sh config&gt;.&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>当时 buildserver 没运行，<code>pack_error</code> 打印错误后没有退出，打包继续跑完并显示 <code>run success</code>。boot0 里选内存参数的标记没写进去，启动时退回 4GB 参数，BL31 核对硬件后 panic。</p>
+<p>我把官方镜像 boot0 里的这 9 个字节写回坏镜像，板子恢复启动。之后在 <code>pack_error</code> 后面加了 <code>exit 1</code>，又写了一个烧录前检查标记的脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> annotations</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"></span><br><span class="line">BOOT0_OFFSETS: <span class="built_in">tuple</span>[<span class="built_in">int</span>, ...] = (<span class="number">0x13C00</span>, <span class="number">0x4FC00</span>, <span class="number">0x8BC00</span>)</span><br><span class="line">MARK: <span class="built_in">bytes</span> = <span class="built_in">bytes</span>.fromhex(<span class="string">&quot;524157b6e9&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">has_mark</span>(<span class="params">image: Path</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">    <span class="keyword">with</span> image.<span class="built_in">open</span>(<span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> offset <span class="keyword">in</span> BOOT0_OFFSETS:</span><br><span class="line">            f.seek(offset + <span class="number">0xF1</span>)</span><br><span class="line">            <span class="keyword">if</span> f.read(<span class="built_in">len</span>(MARK)) != MARK:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    ok: <span class="built_in">bool</span> = has_mark(Path(sys.argv[<span class="number">1</span>]))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;可以烧&quot;</span> <span class="keyword">if</span> ok <span class="keyword">else</span> <span class="string">&quot;不要烧&quot;</span>)</span><br><span class="line">    sys.exit(<span class="number">0</span> <span class="keyword">if</span> ok <span class="keyword">else</span> <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这个判据来自 6GB 板子和官方镜像的对比。这 5 个字节由哪段代码写入，我没有查到。</p>
+<h2 id="编译打包问题"><a href="#编译打包问题" class="headerlink" title="编译打包问题"></a>编译打包问题</h2><table>
+<thead>
+<tr>
+<th>现象</th>
+<th>原因</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>longan/build.sh pack</code> 报 <code>no firmware found</code></td>
+<td>打包入口不是它</td>
+<td>改用 <code>lunch</code> 之后的 <code>pack</code> 函数</td>
+</tr>
+<tr>
+<td><code>build.sh -h</code> 直接开编</td>
+<td>未知参数被忽略，走默认动作</td>
+<td>改读 <code>longan/build/mkcmd.sh</code></td>
+</tr>
+<tr>
+<td>改内核 <code>.config</code> 被冲掉</td>
+<td>构建时用 defconfig 覆盖</td>
+<td>改 <code>linux-5.15/android13_arm64_defconfig</code></td>
+</tr>
+<tr>
+<td>文件检查全部 MISS</td>
+<td>找错了 SDK 根目录</td>
+<td>重新定位 <code>build/envsetup.sh</code></td>
+</tr>
+<tr>
+<td><code>find -path &#39;*dist/*.ko&#39;</code> 结果为 0</td>
+<td><code>dist</code> 是符号链接</td>
+<td>换成 <code>find -L</code></td>
+</tr>
+<tr>
+<td>加一个 <code>.ko</code> 要重刷 1.4GB</td>
+<td>模块进 <code>vendor</code>，<code>vendor</code> 在 <code>super</code> 里</td>
+<td>驱动改成 <code>=y</code></td>
+</tr>
+<tr>
+<td>删 makefile 条目后留下悬空的 <code>\</code></td>
+<td>脚本只去了空白</td>
+<td>连反斜杠一起删</td>
+</tr>
+<tr>
+<td><code>No rule to make target</code></td>
+<td>目标名写成了 <code>vendor_bootimage</code></td>
+<td>改成 <code>vendorbootimage</code></td>
+</tr>
+</tbody></table>
+<p>查密度配置时还看到，SDK 的 <code>clone</code> 函数会用 sed 改写 <code>ro.sf.lcd_density</code>，这个函数我没有对本产品跑过。</p>
+<p>改系统属性那次，我只跑了 <code>make vendorbootimage</code>。日志里有 <code>Building system/build.prop</code>，但 <code>system.img</code> 和 <code>super.img</code> 的时间戳没变，<code>pack</code> 打进去的还是旧内容。后来补跑 <code>make systemimage</code> 和 <code>make superimage</code> 才进镜像。</p>
+<p>改 <code>res/values/defaults.xml</code> 时，我在旁边留了 <code>.orig</code> 备份，编译 17 分钟后报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error: invalid file path &#x27;.../res/values/defaults.xml.orig-20261120&#x27;.</span><br></pre></td></tr></table></figure>
+
+<p><code>res/</code> 下的文件都会交给 aapt2，不看扩展名。备份挪到源码树外后编译通过。</p>
+<p>我还试过只改 <code>vendor_boot</code> 里的 <code>prop.default</code> 来切默认语言，刷完没有生效。这个文件是给 recovery 用的，正常启动不读取，默认属性最后还是改进了 <code>super</code>。</p>
+<h2 id="验证记录"><a href="#验证记录" class="headerlink" title="验证记录"></a>验证记录</h2><table>
+<thead>
+<tr>
+<th>检查项</th>
+<th>当时的做法</th>
+<th>后来的做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>改动是否进 <code>system.img</code></td>
+<td>直接 <code>grep</code>，EROFS 压缩后搜不到</td>
+<td><code>out/host/linux-x86/bin/fsck.erofs --extract=/tmp/x system.img</code></td>
+</tr>
+<tr>
+<td>内核配置</td>
+<td>看 <code>/proc/config.gz</code>，内容是旧的</td>
+<td>查 <code>/proc/kallsyms</code> 和 <code>/sys/bus/*/drivers/</code></td>
+</tr>
+<tr>
+<td>函数是否编入</td>
+<td>在 <code>.o</code> 里 <code>nm</code>，LTO 下只有 bitcode</td>
+<td>反汇编 <code>vmlinux</code></td>
+</tr>
+<tr>
+<td>App 方法是否改动</td>
+<td>dex 里搜方法名，已被 R8 内联</td>
+<td>搜方法里的字符串常量</td>
+</tr>
+<tr>
+<td>引脚电平和上拉</td>
+<td>读 <code>Pn_DAT</code> 输出寄存器</td>
+<td>看 <code>pinconf-pins</code> 和 <code>pinmux-pins</code></td>
+</tr>
+<tr>
+<td>两个镜像的功能差异</td>
+<td>逐字节比内核，调试段路径造成大量差异</td>
+<td>比字符串集合和符号数量</td>
+</tr>
+<tr>
+<td>PWM 通道</td>
+<td>按节点名猜</td>
+<td><code>pwm1@2528017</code> 里是 <code>0x10</code> 加通道 7</td>
+</tr>
+</tbody></table>
+<p>有一次 dexdump 搜索写错了格式，方法引用其实是 <code>类名;.方法名</code>。目标和对照项都是 0 条，我才发现是搜索写错了，之后查“不存在”都带一个对照项。</p>
+<p>还有一次把 <code>0xF1</code> 算成 305，读到全零，误判 boot0 损坏。<code>0xF1</code> 是 241。</p>
+<p><code>/data/property/persistent_properties</code> 里已有的键，即使值为空，也会挡住 <code>build.prop</code> 的默认值。这个文件是 protobuf，我一开始按长度前缀解析失败，后来按记录的字节区间删除。</p>
+<p>手工把 <code>vendor_boot</code> 写进镜像后，PhoenixCard 报校验失败。容器里每个分区有一条 <code>V</code> 开头的校验记录，比如 <code>Vboot.fex</code>，内容是分区按 32 位小端累加的和。boot0 不在容器条目里，没有这条记录。</p>
+<h2 id="刷机后"><a href="#刷机后" class="headerlink" title="刷机后"></a>刷机后</h2><p>整卡烧写清空了 <code>/data</code>，WiFi、<code>wm density</code> 和运行时设置都没了。板子只有 WiFi 能联网，所以刷完先走串口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su 0 cmd wifi connect-network &lt;SSID&gt; wpa2 <span class="string">&#x27;&lt;密码&gt;&#x27;</span></span><br><span class="line">ip addr show wlan0</span><br></pre></td></tr></table></figure>
+
+<p><code>connect-network</code> 不在 <code>cmd wifi help</code> 里，但命令存在。它会先断开当前连接，在网络 adb 里执行时会把会话断掉。<code>dhcp.wlan0.ipaddress</code> 有时为空，我改用 <code>ip addr</code> 看 IP。</p>
+<p>需要网络 adb 时临时打开：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su 0 setprop service.adb.tcp.port 5555</span><br><span class="line">su 0 stop adbd &amp;&amp; su 0 start adbd</span><br></pre></td></tr></table></figure>
+
+<p>板子重启后，网络大约两分钟才稳定。</p>
+<h2 id="外设"><a href="#外设" class="headerlink" title="外设"></a>外设</h2><p>板子没有板载 RTC，原理图上只有一颗 32.768kHz 晶振。<code>board.dts</code> 里的 <code>rtc@51</code> 继承自 4 Pro，实际没有这颗芯片，开机报错无影响。我先后接了 DS1302 和 DS3231。</p>
+<h3 id="DS3231"><a href="#DS3231" class="headerlink" title="DS3231"></a>DS3231</h3><p>目前在用，走硬件 I²C：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">&amp;twi0</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">status</span> <span class="operator">=</span> <span class="string">&quot;okay&quot;</span><span class="punctuation">;</span></span><br><span class="line"><span class="symbol">    ds3231:</span> <span class="title class_">rtc@68</span> <span class="punctuation">&#123;</span> <span class="attr">compatible</span> <span class="operator">=</span> <span class="string">&quot;maxim,ds3231&quot;</span><span class="punctuation">;</span> <span class="attr">reg</span> <span class="operator">=</span> <span class="params">&lt;<span class="number">0x68</span>&gt;</span><span class="punctuation">;</span> <span class="punctuation">&#125;;</span></span><br><span class="line"><span class="punctuation">&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONFIG_RTC_DRV_DS1307=y</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>40pin</th>
+<th>SoC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VCC</td>
+<td>1</td>
+<td>3.3V</td>
+</tr>
+<tr>
+<td>GND</td>
+<td>6</td>
+<td></td>
+</tr>
+<tr>
+<td>SDA</td>
+<td>3</td>
+<td>PB3</td>
+</tr>
+<tr>
+<td>SCL</td>
+<td>5</td>
+<td>PB2</td>
+</tr>
+</tbody></table>
+<p>模块的 I²C 上拉接在 VCC 上，所以 VCC 接的是 3.3V。</p>
+<p>开机后 <code>/sys/class/rtc/rtc0/name</code> 是 <code>rtc-ds1307 0-0068</code>，<code>date +%s</code> 和 <code>since_epoch</code> 一致。新芯片第一次开机打印 <code>SET TIME!</code>。驱动绑定后，<code>i2cget</code> 报 <code>Device or resource busy</code>。</p>
+<p>有一次 <code>i2cdetect</code> 全是 <code>--</code>，软件配置都对，最后发现 SDA 和 SCL 两根线忘了插。插好后重启，驱动才绑定上。</p>
+<h3 id="DS1302"><a href="#DS1302" class="headerlink" title="DS1302"></a>DS1302</h3><p>DS1302 报 <code>junk in control register</code>。它要求 LSB 先发，5.15 的 <code>spi-gpio</code> 声明了 <code>SPI_LSB_FIRST</code>，实现里只有 MSB，驱动读控制寄存器时芯片收到的是读 RAM。</p>
+<p>我在 <code>spi-gpio.c</code> 里加了位反转，并给 <code>mode_bits</code> 补上 <code>SPI_LSB_FIRST</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> u32 <span class="title function_">spi_gpio_txrx_lsb_cpha0</span><span class="params">(<span class="keyword">struct</span> spi_device *spi, <span class="type">unsigned</span> nsecs,</span></span><br><span class="line"><span class="params">                                   <span class="type">unsigned</span> cpol, <span class="type">unsigned</span> flags, u32 word, u8 bits)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!(spi-&gt;mode &amp; SPI_LSB_FIRST))</span><br><span class="line">        <span class="keyword">return</span> bitbang_txrx_be_cpha0(spi, nsecs, cpol, flags, word, bits);</span><br><span class="line">    word = spi_gpio_rev_bits(word, bits);</span><br><span class="line">    <span class="keyword">return</span> spi_gpio_rev_bits(</span><br><span class="line">        bitbang_txrx_be_cpha0(spi, nsecs, cpol, flags, word, bits), bits);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">&amp;spi3</span> <span class="punctuation">&#123;</span> <span class="attr">status</span> <span class="operator">=</span> <span class="string">&quot;disabled&quot;</span><span class="punctuation">;</span> <span class="punctuation">&#125;;</span></span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">spi_gpio:</span> <span class="title class_">spi-gpio</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">compatible</span> <span class="operator">=</span> <span class="string">&quot;spi-gpio&quot;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="meta">#address-cells = &lt;1&gt;;</span></span><br><span class="line">    <span class="meta">#size-cells = &lt;0&gt;;</span></span><br><span class="line">    <span class="attr">sck-gpios</span>  <span class="operator">=</span> <span class="params">&lt;<span class="variable">&amp;pio</span> PE <span class="number">1</span> GPIO_ACTIVE_HIGH&gt;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="attr">mosi-gpios</span> <span class="operator">=</span> <span class="params">&lt;<span class="variable">&amp;pio</span> PE <span class="number">2</span> GPIO_ACTIVE_HIGH&gt;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="attr">cs-gpios</span>   <span class="operator">=</span> <span class="params">&lt;<span class="variable">&amp;pio</span> PE <span class="number">0</span> GPIO_ACTIVE_HIGH&gt;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="attr">num-chipselects</span> <span class="operator">=</span> <span class="params">&lt;<span class="number">1</span>&gt;</span><span class="punctuation">;</span></span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">    ds1302:</span> <span class="title class_">rtc@0</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">compatible</span> <span class="operator">=</span> <span class="string">&quot;maxim,ds1302&quot;</span><span class="punctuation">;</span></span><br><span class="line">        <span class="attr">reg</span> <span class="operator">=</span> <span class="params">&lt;<span class="number">0</span>&gt;</span><span class="punctuation">;</span></span><br><span class="line">        <span class="attr">spi-max-frequency</span> <span class="operator">=</span> <span class="params">&lt;<span class="number">500000</span>&gt;</span><span class="punctuation">;</span></span><br><span class="line">        spi<span class="number">-3</span><span class="attr">wire</span><span class="punctuation">;</span></span><br><span class="line">        <span class="attr">spi-lsb-first</span><span class="punctuation">;</span></span><br><span class="line">        <span class="attr">spi-cs-high</span><span class="punctuation">;</span></span><br><span class="line">    <span class="punctuation">&#125;;</span></span><br><span class="line"><span class="punctuation">&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<p>defconfig 打开了 <code>CONFIG_RTC_DRV_DS1302</code>、<code>CONFIG_SPI_GPIO</code>、<code>CONFIG_SPI_BITBANG</code>。CE 接 24 脚 PE0，SCLK 接 23 脚 PE1，I&#x2F;O 接 19 脚 PE2，没有外接上拉。GPIO 复用由驱动切换，pinmux 不用手写。官方 Ubuntu 的 6.6 内核已带这个修复。</p>
+<p>修好位序后我没有先上板，又按「采样撞高阻」的推测改了 SPI 模式和延时。实测这些改动都是多余的，真实延时反而有害，最后退回了 Mode 0。</p>
+<h3 id="MAX98357A"><a href="#MAX98357A" class="headerlink" title="MAX98357A"></a>MAX98357A</h3><table>
+<thead>
+<tr>
+<th>模块</th>
+<th>40pin</th>
+<th>SoC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VIN</td>
+<td>2 或 4</td>
+<td>5V</td>
+</tr>
+<tr>
+<td>GND</td>
+<td>6</td>
+<td></td>
+</tr>
+<tr>
+<td>BCLK</td>
+<td>12</td>
+<td>PB5</td>
+</tr>
+<tr>
+<td>LRC</td>
+<td>35</td>
+<td>PB6</td>
+</tr>
+<tr>
+<td>DIN</td>
+<td>40</td>
+<td>PB7</td>
+</tr>
+</tbody></table>
+<p>设备树里关掉了占用 PB7 的 <code>&amp;twi1</code>，从 pinctrl 组里去掉了 MCLK 用的 PB4。声卡名写成 <code>sndi2s0</code>，HAL 按这个名字匹配。</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">&amp;i2s0_pins_f</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">pins</span> <span class="operator">=</span> <span class="string">&quot;PB5&quot;</span>, <span class="string">&quot;PB6&quot;</span>, <span class="string">&quot;PB7&quot;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="attr">function</span> <span class="operator">=</span> <span class="string">&quot;i2s0&quot;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="attr">drive-strength</span> <span class="operator">=</span> <span class="params">&lt;<span class="number">20</span>&gt;</span><span class="punctuation">;</span></span><br><span class="line"><span class="punctuation">&#125;;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">&amp;i2s0_mach</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">soundcard-mach,name</span> <span class="operator">=</span> <span class="string">&quot;sndi2s0&quot;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="attr">slot-num</span> <span class="operator">=</span> <span class="params">&lt;<span class="number">2</span>&gt;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="attr">slot-width</span> <span class="operator">=</span> <span class="params">&lt;<span class="number">32</span>&gt;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="attr">playback-only</span><span class="punctuation">;</span></span><br><span class="line">    <span class="attr">status</span> <span class="operator">=</span> <span class="string">&quot;okay&quot;</span><span class="punctuation">;</span></span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">    i2s0_cpu:</span> soundcard-mach,<span class="title class_">cpu</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">sound-dai</span> <span class="operator">=</span> <span class="params">&lt;<span class="variable">&amp;i2s0_plat</span>&gt;</span><span class="punctuation">;</span></span><br><span class="line">        <span class="attr">pll-fs</span> <span class="operator">=</span> <span class="params">&lt;<span class="number">1</span>&gt;</span><span class="punctuation">;</span></span><br><span class="line">        <span class="attr">mclk-fs</span> <span class="operator">=</span> <span class="params">&lt;<span class="number">0</span>&gt;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="punctuation">&#125;;</span></span><br><span class="line"><span class="symbol">    i2s0_codec:</span> soundcard-mach,<span class="title class_">codec</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">sound-dai</span> <span class="operator">=</span> <span class="params">&lt;<span class="variable">&amp;max98357a</span>&gt;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="punctuation">&#125;;</span></span><br><span class="line"><span class="punctuation">&#125;;</span></span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">max98357a:</span> <span class="title class_">max98357a</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="meta">#sound-dai-cells = &lt;0&gt;;</span></span><br><span class="line">    <span class="attr">compatible</span> <span class="operator">=</span> <span class="string">&quot;maxim,max98357a&quot;</span><span class="punctuation">;</span></span><br><span class="line">    <span class="attr">status</span> <span class="operator">=</span> <span class="string">&quot;okay&quot;</span><span class="punctuation">;</span></span><br><span class="line"><span class="punctuation">&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<p>defconfig 加了 <code>CONFIG_SND_SOC_MAX98357A=y</code>。放音时 <code>pinmux-pins</code> 里 37 到 39 脚切到 <code>i2s0_*</code>，停止后是 <code>io_disabled</code>。</p>
+<p>SD 脚悬空。查手册后发现它是模拟电平输入，电压决定声道，模块自带的上拉让它落在左右平均区间：</p>
+<table>
+<thead>
+<tr>
+<th>SD 电压</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>低于 0.16V</td>
+<td>关断</td>
+</tr>
+<tr>
+<td>0.16 到 0.77V</td>
+<td>左右平均</td>
+</tr>
+<tr>
+<td>0.77 到 1.4V</td>
+<td>右声道</td>
+</tr>
+<tr>
+<td>高于 1.4V</td>
+<td>左声道</td>
+</tr>
+</tbody></table>
+<p><code>GAIN</code> 有五档：悬空 9dB，接 GND 12dB，接 VIN 6dB，经 100kΩ 接 GND 15dB，经 100kΩ 接 VIN 3dB。芯片没有音量寄存器，音量走软件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su 0 cmd media_session volume --stream 3 --<span class="built_in">set</span> 15</span><br></pre></td></tr></table></figure>
+
+<h3 id="音频测试"><a href="#音频测试" class="headerlink" title="音频测试"></a>音频测试</h3><p>第一次测试声音很小，我先去调了 HAL 音量，后来才发现 ffmpeg 的 <code>sine</code> 只有 -20.8dBFS。换成满幅文件后正常：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i tone.wav -af volumedetect -f null -</span><br><span class="line">ffmpeg -f lavfi -i <span class="string">&quot;aevalsrc=0.99*sin(2*PI*440*t):s=48000:d=3&quot;</span> full.wav</span><br></pre></td></tr></table></figure>
+
+<p>系统里没有 App 处理 WAV 和 MP3，跨应用也传不了 <code>file://</code>。测硬件时我用 <code>tinyplay /sdcard/x.wav -D 0</code>，界面播放时包成 MP4，通过 <code>content://</code> 交给自带播放器。Android 没有 <code>/tmp</code>，日志写到了 <code>/data/local/tmp/</code>。</p>
+<p>媒体库曾把 WAV 标成 <code>audio/cedara</code>，我手动改了 <code>mime_type</code>。批量清理记录时，磁盘上的文件也被删了，丢了 39 个 MP4。</p>
+<h2 id="系统定制"><a href="#系统定制" class="headerlink" title="系统定制"></a>系统定制</h2><h3 id="默认中文和-24-小时制"><a href="#默认中文和-24-小时制" class="headerlink" title="默认中文和 24 小时制"></a>默认中文和 24 小时制</h3><p><code>device/softwinner/jupiter/a733-demo-aiot/device-common.mk</code>：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \</span><br><span class="line">    persist.sys.timezone=Asia/Shanghai \</span><br><span class="line">    persist.sys.country=CN \</span><br><span class="line">    persist.sys.language=zh \</span><br><span class="line">    persist.sys.locale=zh-CN</span><br></pre></td></tr></table></figure>
+
+<p>实际起作用的是 <code>persist.sys.locale</code>。没有改 <code>PRODUCT_LOCALES</code>，它会触发全部系统 App 重编。</p>
+<p>全志 overlay 把 <code>def_time_12_24</code> 从 24 改成了 12，我在板子专属 overlay 里覆盖回 24。默认输入法是厂商 overlay 配的谷歌拼音，没有改动。</p>
+<h3 id="屏幕密度"><a href="#屏幕密度" class="headerlink" title="屏幕密度"></a>屏幕密度</h3><p>面板固定 800×1280，内容大小靠密度调整：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su 0 wm density 160</span><br><span class="line">su 0 wm density reset</span><br></pre></td></tr></table></figure>
+
+<p>镜像里的默认值在 <code>device-common.mk</code> 的 <code>ro.sf.lcd_density</code>，先后改过 240、140、210。<code>wm density</code> 的覆盖值存在 <code>/data</code>，会盖住镜像里的值，验证时先 <code>reset</code>。</p>
+<h3 id="删预装应用"><a href="#删预装应用" class="headerlink" title="删预装应用"></a>删预装应用</h3><p>先在板子上试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb shell pm uninstall --user 0 com.android.messaging</span><br><span class="line">adb shell cmd package install-existing com.android.messaging</span><br></pre></td></tr></table></figure>
+
+<p>捕鱼达人是注释掉 <code>device-common.mk</code> 里的 <code>FishMan2</code> 删除的。全志还留了统一入口，这个写法我只读过源码，没有实测：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GLOBAL_REMOVED_PACKAGES += FishMan2 NpuTest Test_AD</span><br></pre></td></tr></table></figure>
+
+<p>查下来，<code>vendor/aw/</code> 里多是全志自己的应用，<code>packages/apps/</code> 是 AOSP 应用，<code>frameworks/base/packages/</code> 是系统组件。桌面名、包名、模块名是三套名字，改源码时用的是模块名。</p>
+<h3 id="MIPI-屏"><a href="#MIPI-屏" class="headerlink" title="MIPI 屏"></a>MIPI 屏</h3><p>原厂把 <code>board.dts</code> 末尾 7 个覆盖块注释掉了，节点保持 <code>disabled</code>。取消注释后：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">&amp;dsi1combophy</span> <span class="punctuation">&#123;</span> <span class="attr">status</span> <span class="operator">=</span> <span class="string">&quot;okay&quot;</span><span class="punctuation">;</span> <span class="punctuation">&#125;;</span></span><br><span class="line"><span class="variable">&amp;dsi1</span>         <span class="punctuation">&#123;</span> <span class="attr">status</span> <span class="operator">=</span> <span class="string">&quot;okay&quot;</span><span class="punctuation">;</span> <span class="punctuation">&#125;;</span></span><br><span class="line"><span class="variable">&amp;dlcd1</span>        <span class="punctuation">&#123;</span> <span class="attr">status</span> <span class="operator">=</span> <span class="string">&quot;okay&quot;</span><span class="punctuation">;</span> <span class="punctuation">&#125;;</span></span><br><span class="line"><span class="variable">&amp;dsi_panel</span>    <span class="punctuation">&#123;</span> <span class="attr">status</span> <span class="operator">=</span> <span class="string">&quot;okay&quot;</span><span class="punctuation">;</span> <span class="punctuation">&#125;;</span></span><br><span class="line"><span class="variable">&amp;touchscreen</span>  <span class="punctuation">&#123;</span> <span class="attr">status</span> <span class="operator">=</span> <span class="string">&quot;okay&quot;</span><span class="punctuation">;</span> <span class="punctuation">&#125;;</span></span><br><span class="line"><span class="variable">&amp;backlight0</span>   <span class="punctuation">&#123;</span> <span class="attr">status</span> <span class="operator">=</span> <span class="string">&quot;okay&quot;</span><span class="punctuation">;</span> <span class="punctuation">&#125;;</span></span><br><span class="line"><span class="variable">&amp;pwm1_7</span>       <span class="punctuation">&#123;</span> <span class="attr">status</span> <span class="operator">=</span> <span class="string">&quot;okay&quot;</span><span class="punctuation">;</span> <span class="punctuation">&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<p>有一次 <code>sunxi.dtb</code> 已更新，<code>dtb.img</code> 还是旧版，打进镜像的是旧设备树。重新跑 <code>./build.sh dts</code> 和 <code>vendorbootimage</code> 后，用 <code>fdtget</code> 读回确认：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdtget -t s out/target/product/a733-demo-aiot/dtb.img /dsi_panel@1 status</span><br></pre></td></tr></table></figure>
+
+<h3 id="屏幕朝向"><a href="#屏幕朝向" class="headerlink" title="屏幕朝向"></a>屏幕朝向</h3><p>面板横装，系统按竖屏合成，画面是躺着的。运行时这样转，重启后失效：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">settings put system accelerometer_rotation 0</span><br><span class="line">settings put system user_rotation 1</span><br></pre></td></tr></table></figure>
+
+<p>朝向从 <code>dumpsys window displays</code> 的 <code>cur=</code> 看，<code>wm size</code> 一直报物理尺寸。</p>
+<p>编译期方案涉及 <code>ro.surface_flinger.primary_display_orientation</code>、<code>ro.vendor.sf.rotation</code>、<code>ro.primary_display.user_rotation</code>，后两个相加要被 360 整除。90 还是 270 还没烧进去验证。</p>
+<h3 id="风扇温度"><a href="#风扇温度" class="headerlink" title="风扇温度"></a>风扇温度</h3><p>风扇默认 90°C 才转，板子待机 35 到 44°C，所以平时一直不转。<code>board.dts</code> 里有两个相近的节点：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">&amp;cpul_thres</span>     <span class="punctuation">&#123;</span> <span class="attr">temperature</span> <span class="operator">=</span> <span class="params">&lt;<span class="number">70000</span>&gt;</span><span class="punctuation">;</span> <span class="punctuation">&#125;;</span>  <span class="comment">/* idle 降温用，和风扇无关 */</span></span><br><span class="line"><span class="variable">&amp;cpul_threshold</span> <span class="punctuation">&#123;</span> <span class="attr">temperature</span> <span class="operator">=</span> <span class="params">&lt;<span class="number">60000</span>&gt;</span><span class="punctuation">;</span> <span class="attr">hysteresis</span> <span class="operator">=</span> <span class="params">&lt;<span class="number">5000</span>&gt;</span><span class="punctuation">;</span> <span class="punctuation">&#125;;</span>  <span class="comment">/* 风扇用 */</span></span><br></pre></td></tr></table></figure>
+
+<p>风扇挂在 <code>cpul_threshold</code>，从 <code>cooling-device = &lt;&amp;fan0 ...&gt;</code> 上面那行 <code>trip</code> 查到的。我把它和大核的 <code>cpub_threshold</code> 都改成 60°C 起转、55°C 停转。CPU 降频点是 115°C，不受影响。</p>
+<h3 id="SD-卡报错"><a href="#SD-卡报错" class="headerlink" title="SD 卡报错"></a>SD 卡报错</h3><p>系统弹「SD 卡出现问题」。系统装在这张 TF 卡上，原厂 fstab 又把这个卡槽配成了外置 SD 卡，vold 扫到一堆挂不上的分区。</p>
+<p>按分区内容看，点「修正」会格式化存放开机 logo 和字体的分区，我没有点。公共 fstab 有 15 个产品在用，我放了一份产品专属 fstab，注释掉 <code>4020000.sdmmc</code> 那行。调试时执行过 <code>ctl.restart vold</code>，整个系统跟着重启了。</p>
+<h3 id="常驻通知"><a href="#常驻通知" class="headerlink" title="常驻通知"></a>常驻通知</h3><p>「已启用序列控制台」搜文案搜不到。我用 <code>dumpsys notification</code> 拿到 id 55，反查到 <code>NOTE_SERIAL_CONSOLE_ENABLED</code>，再找到 <code>ActivityManagerService</code> 里的 <code>showConsoleNotificationIfActive()</code>。串口还要用，所以只注释了这个调用。</p>
+<p>「正在通过 USB 为连接的设备充电」来自 <code>UsbDeviceManager</code>，这条没有改。</p>
+<h3 id="USB-adb"><a href="#USB-adb" class="headerlink" title="USB adb"></a>USB adb</h3><p>供电口同时是 USB2.0 口，adb 走这个口，另一个 Type-C 手册写只支持 Host。这个口开机后停在 Host，电脑认不到，没接屏幕时也进不了开发者选项。</p>
+<p>查下来有两层原因。内核的自动检测因为设备树配置组合不受支持，没有启动，这个口也没有 ID 脚。随后 SystemUI 读取开发者选项，默认关，把口写成了 Host。</p>
+<p>临时切换走串口，重启后失效：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su 0 sh -c <span class="string">&#x27;echo 2 &gt; /sys/devices/platform/soc@3000000/10.usbc0/otg_role&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>2</code> 是 Device，<code>1</code> 是 Host。sysfs 里叫 <code>10.usbc0</code>，设备树里叫 <code>usbc0@10</code>。<code>/sys/class/usb_role/</code> 和 <code>typec/port0/data_role</code> 都试过，切不了这个口。</p>
+<p>测试镜像里，我把 <code>SettingsProvider</code> 的 <code>def_otg_mode_switch</code> 改成 <code>true</code>，并给 <code>CentralSurfacesImpl.setOtgMode()</code> 补了开机时节点为 <code>null</code> 的分支。</p>
+<h3 id="adb-安全"><a href="#adb-安全" class="headerlink" title="adb 安全"></a>adb 安全</h3><p>userdebug 构建下 <code>ro.adb.secure=0</code>，厂商默认开了 5555 端口，<code>su</code> 不做授权，bootloader 也是解锁的。实测同一局域网可以无凭据拿到 root。</p>
+<p>我删掉了 <code>device-common.mk</code> 里的 <code>service.adb.tcp.port=5555</code>，保留 USB adb。<code>ro.adb.secure</code> 没有改，位置在 <code>device/softwinner/jupiter/common/system/config.mk</code>。</p>
+<h2 id="调试记录"><a href="#调试记录" class="headerlink" title="调试记录"></a>调试记录</h2><h3 id="串口"><a href="#串口" class="headerlink" title="串口"></a>串口</h3><p>参数 115200-8-N-1，无流控。</p>
+<ul>
+<li>Windows 串口是独占的。有一次打开成功但读到 0 字符，是另一个终端占着。</li>
+<li>板子上的 <code>su</code> 不支持 <code>-c</code>，写法是 <code>su 0 &lt;命令&gt;</code>。</li>
+<li>串口里已经在板子上，没有 <code>adb</code> 命令。</li>
+<li>控制台约 80 列折行，内核日志也会插进命令输出。</li>
+</ul>
+<p>板子掉线时，开机日志里有 <code>FAT-fs (mmcblk0p1): Volume was not properly unmounted</code>，判断为硬断电，软重启不会留这条。</p>
+<h3 id="scrcpy"><a href="#scrcpy" class="headerlink" title="scrcpy"></a>scrcpy</h3><p>板子竖屏时的镜像命令：</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrcpy.exe -s &lt;板子IP&gt;:<span class="number">5555</span> --capture-orientation=<span class="number">90</span> --no-audio --stay-awake --window-width=<span class="number">1280</span> --window-height=<span class="number">800</span></span><br></pre></td></tr></table></figure>
+
+<p>虚拟屏命令，密度填系统当前值：</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrcpy.exe -s &lt;板子IP&gt;:<span class="number">5555</span> --new-display=<span class="number">1280</span>x800/&lt;密度&gt; --<span class="built_in">start</span>-app=com.android.launcher3 --no-audio</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>现象</th>
+<th>原因和处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--rotation</code> 报未知选项</td>
+<td>5.x 拆成了多个选项，换成 <code>--capture-orientation</code></td>
+</tr>
+<tr>
+<td>窗口横了，内容还是竖的</td>
+<td><code>--display-orientation</code> 只转窗口，用 <code>-V verbose</code> 看纹理尺寸</td>
+</tr>
+<tr>
+<td>电脑上正了，板子屏还躺着</td>
+<td>scrcpy 只转视频流</td>
+</tr>
+<tr>
+<td>板子横屏后画面又歪了</td>
+<td>多叠了一次 <code>--capture-orientation=90</code></td>
+</tr>
+<tr>
+<td>没有状态栏和导航栏</td>
+<td><code>--new-display</code> 是新屏，系统栏只画在主屏</td>
+</tr>
+<tr>
+<td>误以为屏幕是 1920×1080</td>
+<td>读到了 Writeback 通道的模式表，实际看 <code>card0-DSI-1/modes</code></td>
+</tr>
+<tr>
+<td>新屏控件大小不对</td>
+<td><code>/dpi</code> 填成了面板密度，改成 App 实际密度</td>
+</tr>
+<tr>
+<td>只看到终端窗口</td>
+<td>控制台盖住视频，改用 <code>-WindowStyle Hidden</code></td>
+</tr>
+<tr>
+<td>自己掉线退出</td>
+<td>另一个 adb 抢 server，改用 scrcpy 同目录的 adb</td>
+</tr>
+<tr>
+<td>改了参数没变化</td>
+<td>旧进程还开着，结束后重启</td>
+</tr>
+</tbody></table>
+<h3 id="sshd"><a href="#sshd" class="headerlink" title="sshd"></a>sshd</h3><p>系统不带 sshd，我用了静态编译的 dropbear，过程中改了这几处：</p>
+<ul>
+<li><code>/etc/passwd</code> 是空的，写了一份再 <code>mount -o bind</code> 盖上去。</li>
+<li>shell 写 <code>/system/bin/sh</code> 被拒，改成 <code>/bin/sh</code>。</li>
+<li><code>-D</code> 对目录权限要求太严，去掉了。</li>
+<li>hostkey 换成绝对路径，守护化后工作目录会变成 <code>/</code>。</li>
+<li>adb 里直接起的后台进程随会话退出，改成脚本启动。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/data/local/tmp/sshd/dropbear -E -r /data/local/tmp/sshd/hostkey -p 2222 -s</span><br></pre></td></tr></table></figure>
+
+<p><code>-s</code> 禁用了密码登录。<code>scp</code> 和 <code>sftp</code> 用不了，传文件走 <code>ssh ... &#39;cat &gt; 路径&#39;</code>。</p>
+<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><p>PhoenixCard 双击没反应，当时它在中文目录里，挪到纯英文路径后正常。它只允许一个实例，已有实例时再启动也会静默退出。</p>
+<p>PowerShell 5.1 的 <code>Get-Content</code> 和 <code>Set-Content</code> 默认走 ANSI，一次把踩坑文档损坏了约 1000 个汉字，后来从会话记录重放编辑恢复。重放时 JS 的 <code>replace</code> 把内容里的 <code>$&#39;</code> 当成了特殊替换，改成函数式写法才对。</p>
+<p>其他记录：</p>
+<ul>
+<li><code>.bat</code> 和 <code>.vbs</code> 带中文时解析失败，改成只写 ASCII。<code>.bat</code> 的 echo 里的圆括号也转义了。</li>
+<li>sh 脚本带 CRLF 时报语法错误，改成 LF。中文经 ssh 管道后编码错乱，改用 <code>adb push</code>。</li>
+<li><code>Start-Process -RedirectStandardError</code> 遇到同时存在的 <code>NO_PROXY</code> 和 <code>no_proxy</code> 报错，改用 <code>.cmd</code> 重定向。</li>
+<li><code>adb exec-out screencap -p &gt; a.png</code> 在 PowerShell 里损坏图片，改成存到板子上再 <code>adb pull</code>。</li>
+<li>Git Bash 改写 <code>/home/...</code> 参数，加了 <code>MSYS_NO_PATHCONV=1</code>。</li>
+<li>用 shell 转义判断换行风格出过错，后来改成数字节。</li>
+</ul>
+<h3 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h3><p>排查 DNS 时 <code>114.114.114.114</code> 不通，阿里、腾讯、百度的 DNS 都通。查询不存在的域名返回 <code>unknown host</code>，判断没有劫持。Android 的 <code>resolv.conf</code> 是空的，DNS 从 <code>dumpsys connectivity | grep -i DnsAddresses</code> 看。</p>
+<h2 id="待验证"><a href="#待验证" class="headerlink" title="待验证"></a>待验证</h2><p>最新测试镜像已编译并通过出包检查，下面这些还没上板：</p>
+<ul>
+<li>USB 口默认 Device</li>
+<li>屏幕密度 210</li>
+<li>风扇 60°C 起转</li>
+<li>去掉串口控制台通知</li>
+<li>整包镜像里的 SD 卡修复、删除捕鱼达人、24 小时制</li>
+</ul>
+<p>一直没实测的还有 DS3231 掉电保持、编译期屏幕朝向、<code>GLOBAL_REMOVED_PACKAGES</code>、删除电话框架组件。</p>
+<h2 id="出包检查项"><a href="#出包检查项" class="headerlink" title="出包检查项"></a>出包检查项</h2><ul>
+<li><code>pack</code> 前 buildserver 在运行</li>
+<li>boot0 标记检查通过</li>
+<li>改过设备树时，用 <code>fdtget</code> 从 <code>dtb.img</code> 读回</li>
+<li>改过系统属性或资源时，从产物里解出来确认</li>
+<li>镜像改名归档，记录 MD5</li>
+</ul>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2026/11/22/225-esp32-c3-lan-ya-wang-guan/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span class="post-date-label">Publish time</span>
+              2026-11-23
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+          </div>
+        </div>
+      
+    </div>
+    <aside class="post-sidebar">
+      
+        <div class="sidebar-author">
+          <img class="sidebar-avatar" src="/images/northcat-avatar.png" alt="Northcat">
+        </div>
+      
+      
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
+  <div class="post-catalog hidden" id="catalog">
+    
+
+  <div class="navbar navbar--rail">
+    
+    <!-- 灯绳导航的悬浮命中区：灯绳本体只有 2px 宽，瞄准很难，
+         这块透明矩形把「灯绳附近」也算进可悬浮范围（样式见 catalog-left.css） -->
+    <span class="rail-hit" aria-hidden="true"></span>
+    
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+  
+<script src="/js/topNav.js"></script>
+
+
+
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Orange-Pi-Zero-3W-%E7%BC%96%E8%AF%91-Android-13"><span class="toc-text">Orange Pi Zero 3W 编译 Android 13</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SDK-%E7%BB%93%E6%9E%84"><span class="toc-text">SDK 结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E6%B5%81%E7%A8%8B"><span class="toc-text">编译流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%86%85%E6%A0%B8%E5%92%8C%E8%AE%BE%E5%A4%87%E6%A0%91"><span class="toc-text">1. 内核和设备树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%90%AF%E5%8A%A8-buildserver"><span class="toc-text">2. 启动 buildserver</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%BC%96%E8%AF%91-Android"><span class="toc-text">3. 编译 Android</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%89%93%E5%8C%85"><span class="toc-text">4. 打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%83%A7%E5%BD%95"><span class="toc-text">5. 烧录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E7%B1%BB%E6%94%B9%E5%8A%A8%E7%9A%84%E8%80%97%E6%97%B6"><span class="toc-text">各类改动的耗时</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pack-%E6%88%90%E5%8A%9F%E4%BD%86%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8"><span class="toc-text">pack 成功但无法启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85%E9%97%AE%E9%A2%98"><span class="toc-text">编译打包问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E8%AE%B0%E5%BD%95"><span class="toc-text">验证记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%B7%E6%9C%BA%E5%90%8E"><span class="toc-text">刷机后</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E8%AE%BE"><span class="toc-text">外设</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DS3231"><span class="toc-text">DS3231</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DS1302"><span class="toc-text">DS1302</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MAX98357A"><span class="toc-text">MAX98357A</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9F%B3%E9%A2%91%E6%B5%8B%E8%AF%95"><span class="toc-text">音频测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%AE%9A%E5%88%B6"><span class="toc-text">系统定制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E4%B8%AD%E6%96%87%E5%92%8C-24-%E5%B0%8F%E6%97%B6%E5%88%B6"><span class="toc-text">默认中文和 24 小时制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%8F%E5%B9%95%E5%AF%86%E5%BA%A6"><span class="toc-text">屏幕密度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%A2%84%E8%A3%85%E5%BA%94%E7%94%A8"><span class="toc-text">删预装应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MIPI-%E5%B1%8F"><span class="toc-text">MIPI 屏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%8F%E5%B9%95%E6%9C%9D%E5%90%91"><span class="toc-text">屏幕朝向</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A3%8E%E6%89%87%E6%B8%A9%E5%BA%A6"><span class="toc-text">风扇温度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SD-%E5%8D%A1%E6%8A%A5%E9%94%99"><span class="toc-text">SD 卡报错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E9%A9%BB%E9%80%9A%E7%9F%A5"><span class="toc-text">常驻通知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USB-adb"><span class="toc-text">USB adb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#adb-%E5%AE%89%E5%85%A8"><span class="toc-text">adb 安全</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95"><span class="toc-text">调试记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3"><span class="toc-text">串口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#scrcpy"><span class="toc-text">scrcpy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sshd"><span class="toc-text">sshd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows"><span class="toc-text">Windows</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C"><span class="toc-text">网络</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%85%E9%AA%8C%E8%AF%81"><span class="toc-text">待验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BA%E5%8C%85%E6%A3%80%E6%9F%A5%E9%A1%B9"><span class="toc-text">出包检查项</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    </aside>
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
+        
+    </div>
+  
+  
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>222</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
+</div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
+
+      </div>
+
+      <div class="tools-bar">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+  
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)" title="Search">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+  
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)" title="Switch color mode">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+  
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon" title="Share">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + Build%20Orangepi%203W%20Zero%20Android%E7%B3%BB%E7%BB%9F + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2026%2F11%2F23%2F224-build-orangepi-3w-zero-android-xi-tong%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2026/11/23/224-build-orangepi-3w-zero-android-xi-tong/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+</div>
+
+    </div>
+  </body>
+</html>

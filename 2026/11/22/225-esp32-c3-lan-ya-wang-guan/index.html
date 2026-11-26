@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      ESP32 C3蓝牙网关 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
+    </script>
+    
+<script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+  <body>
+    
+    <div id="app">
+      
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+<!-- LaTex Display -->
+
+
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  
+  <div class="container post-details has-catalog" id="post-details">
+    <div class="post-content">
+      <div class="post-title">ESP32 C3蓝牙网关</div>
+      <div class="post-attach">
+        
+        
+        
+        <div class="post-meta-line">
+          <span class="post-wordcount">
+            <i class="iconfont icon-edit mr-10" title="Words"></i>
+            1167
+          </span>
+          
+          <span class="post-pubtime">
+            <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span class="post-date-label">Publish time</span>
+            2026-11-22
+          </span>
+          
+          
+        </div>
+        
+<div class="post-meta-line">
+  
+  
+</div>
+
+      </div>
+      <div class="markdown-body">
+        <h1 id="ESP32-C3-蓝牙网关接入-Home-Assistant"><a href="#ESP32-C3-蓝牙网关接入-Home-Assistant" class="headerlink" title="ESP32 C3 蓝牙网关接入 Home Assistant"></a>ESP32 C3 蓝牙网关接入 Home Assistant</h1><p>本文记录用 ESP32-C3 把米家温湿度计 3 mini 接入 Home Assistant 的过程。家里要放两个 3 mini，表只发蓝牙 BLE 广播，Home Assistant 装在荷兰的服务器上，蓝牙够不到，所以中间加了一个 ESP32-C3 作蓝牙网关：它在家里收蓝牙广播，通过网络转给 HA。</p>
+<h2 id="链路"><a href="#链路" class="headerlink" title="链路"></a>链路</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">温湿度计 3 mini --BLE--&gt; ESP32-C3 --Wi-Fi--&gt; 泰山派 socat 6053</span><br><span class="line">  --Tailscale--&gt; NL 服务器上的 Home Assistant</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>C3 开发板型号 <code>esp32-c3-devkitm-1</code>，局域网固定 IP 192.168.31.50</li>
+<li>泰山派只做转发，socat 把 6053 端口转给 C3</li>
+<li>HA 跑在 NL 的 Docker 里，地址是 NL 的 Tailscale IP <code>100.79.204.105:8123</code>，8123 只绑 Tailscale，不对外</li>
+<li>NL 到家里的 ping 平均约 757ms，温度约两分钟变一次，这个延迟不影响数据</li>
+</ul>
+<h2 id="网关方案的选择"><a href="#网关方案的选择" class="headerlink" title="网关方案的选择"></a>网关方案的选择</h2><p>ESPHome 接米家表有两种办法：</p>
+<ol>
+<li>直连解码：C3 上跑 <code>xiaomi_ble</code> 等原生平台，直接读出温湿度。之前给米家 Pro（LYWSD02MMC）写过这种配置，需要表的 MAC 和 bindkey。</li>
+<li>蓝牙代理：C3 用 <code>bluetooth_proxy</code> 把广播原样转给 HA，由 HA 的 Xiaomi BLE 集成解码。</li>
+</ol>
+<p>3 mini（MJWSD06MMC）在 ESPHome 里没有解码平台，只能走第二种。C3 的配置核心是两段：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">esp32_ble_tracker:</span></span><br><span class="line">  <span class="attr">scan_parameters:</span></span><br><span class="line">    <span class="attr">active:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">bluetooth_proxy:</span></span><br><span class="line">  <span class="attr">active:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>framework 用的是 <code>esp-idf</code>，Arduino 占内存多，蓝牙代理不稳。Wi-Fi 密码填错时，C3 会开一个名为 <code>C3-Proxy</code> 的热点，连上去可以改密码。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><h3 id="1-HA-装泰山派行不通"><a href="#1-HA-装泰山派行不通" class="headerlink" title="1. HA 装泰山派行不通"></a>1. HA 装泰山派行不通</h3><p>最初打算把 HA 装在泰山派上。板子的 6.1.75 内核没编入 POSIX 消息队列（<code>CONFIG_POSIX_MQUEUE</code>），Docker 起任何容器都会在挂载 <code>/dev/mqueue</code> 时失败。之前 netfilter 和 overlayfs 被裁掉还能绕开，这次没找到绕开的办法。结论是这块板子的内核跑不了 Docker 容器，HA 改装在 NL，板子只做转发。</p>
+<h3 id="2-web-esphome-io-的-Install-框没有-YAML-输入处"><a href="#2-web-esphome-io-的-Install-框没有-YAML-输入处" class="headerlink" title="2. web.esphome.io 的 Install 框没有 YAML 输入处"></a>2. web.esphome.io 的 Install 框没有 YAML 输入处</h3><p>刷机用 Chrome 打开 web.esphome.io 即可。我原以为 Install 框能粘贴 YAML，实际只能选 <code>.bin</code> 文件。最后在本地编译出一个 1.36 MB 的工厂镜像，编译零错误，在 Install 框里选文件刷入。Wi-Fi 配网信息存在 C3 里，重刷后还在。</p>
+<h3 id="3-第一次刷成了默认固件"><a href="#3-第一次刷成了默认固件" class="headerlink" title="3. 第一次刷成了默认固件"></a>3. 第一次刷成了默认固件</h3><p>第一次刷的是 web.esphome.io 的默认固件，设备名 <code>esphome-web-d183d4</code>，不含蓝牙代理。它能连上 HA，HA 里也能看到设备，但温度计的数据收不到。换成上面那份代理配置重刷后，设备名变成 <code>c3-bluetooth-proxy</code>，HA 里原来那台设备掉线，重新配置时填了新的 API key。</p>
+<h3 id="4-mDNS-跨不过-Tailscale"><a href="#4-mDNS-跨不过-Tailscale" class="headerlink" title="4. mDNS 跨不过 Tailscale"></a>4. mDNS 跨不过 Tailscale</h3><p>HA 和 C3 不在同一个局域网，mDNS 发现不起作用，在 HA 里手动添加了 ESPHome 设备：主机填板子的 Tailscale IP <code>100.65.29.115</code>，端口 6053。C3 的固定 IP 192.168.31.50 只在板子上的 socat 转发里用到，HA 那边填的是板子的 Tailscale 地址。</p>
+<h3 id="5-HA-页面报-502"><a href="#5-HA-页面报-502" class="headerlink" title="5. HA 页面报 502"></a>5. HA 页面报 502</h3><p>HA 装好后浏览器打开显示 <code>HTTP ERROR 502</code>。NL 上查过，容器正常，页面返回 200，日志没有报错。原因在电脑端：Clash 把 <code>100.64.0.0/10</code>（Tailscale 网段）也送去了代理节点，远端节点连不到这个内网地址。给 Clash 加一条 <code>100.64.0.0/10</code> 走 DIRECT 的规则后恢复。</p>
+<h2 id="实测结果"><a href="#实测结果" class="headerlink" title="实测结果"></a>实测结果</h2><ul>
+<li>整条链路已通：C3 在 HA 里出现过，socat 转发、Tailscale、HA 添加设备三步都验证过。</li>
+<li>3 mini 的广播间隔约 2 分钟，不是按一下按钮才发一次，但间隔偏长。要更快的话，可以给表刷 pvvx 第三方固件，间隔可调，这一项没有实测。</li>
+<li>3 mini 的广播是加密的。进 HA 后 Xiaomi BLE 集成会要 bindkey，可用 Xiaomi-cloud-tokens-extractor 从小米云端获取，不影响米家 App 使用。刷 C3 固件这一步不需要 bindkey。</li>
+<li>C3 作代理后，蓝牙覆盖范围内的其他蓝牙设备，如门窗传感器、蓝牙锁，HA 一般也能直接发现，不用每个设备配一个网关。这一项没有实测。</li>
+</ul>
+<h2 id="当前状态"><a href="#当前状态" class="headerlink" title="当前状态"></a>当前状态</h2><p>网关侧已就绪，代理固件已编译，链路已验证。3 mini 尚未到货通电，到货后 HA 的 Xiaomi BLE 集成会自动发现，再填 bindkey 即可出数据。3 mini 目前独立使用，看屏幕和米家 App 近场读数。</p>
+<h2 id="附注"><a href="#附注" class="headerlink" title="附注"></a>附注</h2><ul>
+<li>ESP32-C3 只支持 2.4G Wi-Fi，配网时连的是 2.4G SSID。</li>
+<li>刷机用的 USB 线有些只能充电，不能传数据。web.esphome.io 弹不出串口时换过线。</li>
+</ul>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2026/11/19/223-clash-tun-lu-you-pai-chu/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span class="post-date-label">Publish time</span>
+              2026-11-22
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2026/11/23/224-build-orangepi-3w-zero-android-xi-tong/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    <aside class="post-sidebar">
+      
+        <div class="sidebar-author">
+          <img class="sidebar-avatar" src="/images/northcat-avatar.png" alt="Northcat">
+        </div>
+      
+      
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
+  <div class="post-catalog hidden" id="catalog">
+    
+
+  <div class="navbar navbar--rail">
+    
+    <!-- 灯绳导航的悬浮命中区：灯绳本体只有 2px 宽，瞄准很难，
+         这块透明矩形把「灯绳附近」也算进可悬浮范围（样式见 catalog-left.css） -->
+    <span class="rail-hit" aria-hidden="true"></span>
+    
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+  
+<script src="/js/topNav.js"></script>
+
+
+
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ESP32-C3-%E8%93%9D%E7%89%99%E7%BD%91%E5%85%B3%E6%8E%A5%E5%85%A5-Home-Assistant"><span class="toc-text">ESP32 C3 蓝牙网关接入 Home Assistant</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%B7%AF"><span class="toc-text">链路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E5%85%B3%E6%96%B9%E6%A1%88%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-text">网关方案的选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">遇到的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-HA-%E8%A3%85%E6%B3%B0%E5%B1%B1%E6%B4%BE%E8%A1%8C%E4%B8%8D%E9%80%9A"><span class="toc-text">1. HA 装泰山派行不通</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-web-esphome-io-%E7%9A%84-Install-%E6%A1%86%E6%B2%A1%E6%9C%89-YAML-%E8%BE%93%E5%85%A5%E5%A4%84"><span class="toc-text">2. web.esphome.io 的 Install 框没有 YAML 输入处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%88%B7%E6%88%90%E4%BA%86%E9%BB%98%E8%AE%A4%E5%9B%BA%E4%BB%B6"><span class="toc-text">3. 第一次刷成了默认固件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-mDNS-%E8%B7%A8%E4%B8%8D%E8%BF%87-Tailscale"><span class="toc-text">4. mDNS 跨不过 Tailscale</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-HA-%E9%A1%B5%E9%9D%A2%E6%8A%A5-502"><span class="toc-text">5. HA 页面报 502</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E6%B5%8B%E7%BB%93%E6%9E%9C"><span class="toc-text">实测结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E7%8A%B6%E6%80%81"><span class="toc-text">当前状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%84%E6%B3%A8"><span class="toc-text">附注</span></a></li></ol></li></ol>
+      
+    </div>
+  </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    </aside>
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
+        
+    </div>
+  
+  
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>222</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
+</div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
+
+      </div>
+
+      <div class="tools-bar">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+  
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)" title="Search">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+  
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)" title="Switch color mode">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+  
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon" title="Share">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + ESP32%20C3%E8%93%9D%E7%89%99%E7%BD%91%E5%85%B3 + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2026%2F11%2F22%2F225-esp32-c3-lan-ya-wang-guan%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2026/11/22/225-esp32-c3-lan-ya-wang-guan/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+</div>
+
+    </div>
+  </body>
+</html>

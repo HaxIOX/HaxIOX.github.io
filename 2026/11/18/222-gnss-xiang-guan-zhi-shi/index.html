@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="light">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="南北的猫" />
+  <!-- Open Graph Description 简短摘要-->
+  
+  <!-- 用于搜索引擎的文章摘要 -->
+  
+  
+  
+  <title>
+    
+      GNSS相关芝士 
+      
+      
+      |
+    
+     南北的猫
+  </title>
+
+  
+    <link rel="apple-touch-icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/favicon.png">
+  
+
+  <!-- hexo site css -->
+  <link rel="stylesheet" href="/css/main.css" />
+  
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1886449_67xjft27j1l.css" />
+  <!-- 代码块风格 -->
+  
+    
+<link rel="stylesheet" href="/css/figcaption/mac-block.css">
+
+    <script>
+      window.__MAC_BLOCK_LANGUAGE__ = true;
+      window.__CODE_BLOCK_COLLAPSE__ = {"enable":true,"threshold":18,"collapsedLines":10};
+    </script>
+    
+<script src="/js/macBlock.js"></script>
+
+  
+  <!-- 像素点缀：必须排在所有样式之后，覆盖卡片描边、代码窗口圆角与导航当前项 -->
+  
+    
+<link rel="stylesheet" href="/css/pixel.css">
+
+  
+
+  <!-- jquery3.3.1 -->
+  
+    <script defer type="text/javascript" src="/plugins/jquery.min.js"></script>
+  
+
+  <!-- fancybox -->
+  
+    <link href="/plugins/jquery.fancybox.min.css" rel="stylesheet">
+    <script defer type="text/javascript" src="/plugins/jquery.fancybox.min.js"></script>
+  
+  
+<script src="/js/fancybox.js"></script>
+
+
+  
+
+  
+
+  <script>
+    var html = document.documentElement
+    const colorMode = localStorage.getItem('color-mode')
+    if (colorMode) {
+      document.documentElement.setAttribute('color-mode', colorMode)
+    }
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+  <body>
+    
+    <div id="app">
+      
+
+      <div class="flex-container">
+        <!-- 文章详情页，展示文章具体内容，url形式：https://yoursite/文章标题/ -->
+<!-- 同时为「标签tag」，「朋友friend」，「分类categories」，「关于about」页面的承载页面，具体展示取决于page.type -->
+
+<!-- LaTex Display -->
+
+
+  <!-- 配置必须先于 MathJax 脚本：async 脚本命中缓存时可能抢在后面的内联脚本之前执行，行内 $...$ 就会失效 -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    }
+  </script>
+  
+    <script async type="text/javascript" src="/plugins/mathjax/tex-chtml.js"></script>
+  
+
+
+
+
+  <!-- clipboard -->
+
+  
+    <script async type="text/javascript" src="/plugins/clipboard.min.js"></script>
+  
+  
+<script src="/js/codeCopy.js"></script>
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  <!-- 文章内容页 url形式：https://yoursite/文章标题/ -->
+  
+  <div class="container post-details has-catalog" id="post-details">
+    <div class="post-content">
+      <div class="post-title">GNSS相关芝士</div>
+      <div class="post-attach">
+        
+        
+        
+        <div class="post-meta-line">
+          <span class="post-wordcount">
+            <i class="iconfont icon-edit mr-10" title="Words"></i>
+            3428
+          </span>
+          
+          <span class="post-pubtime">
+            <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span class="post-date-label">Publish time</span>
+            2026-11-18
+          </span>
+          
+          
+        </div>
+        
+<div class="post-meta-line">
+  
+  
+</div>
+
+      </div>
+      <div class="markdown-body">
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>卡片式监测设备已经更新到第五个版本了</p>
+<ul>
+<li><p>v1:采用fpc软天线，太长了，塞不下</p>
+</li>
+<li><p>v2:采用max16054作为开关管理器，失效</p>
+</li>
+<li><p>v3:恢复为esp32 io13 hold来保持电源，并开启eg800k低功耗模式</p>
+</li>
+<li><p>v4:改为双面板，并开启esp32 lightsleep来减小体积，但是出现lightsleep模式下，出现的 io13 hold失效问题</p>
+</li>
+<li><p>v5:基本稳定，但是发现gnss相关问题，具体表现为有时候一直有信号，有时候一直没有</p>
+<ul>
+<li><p>发现EG800KCNGCR07A08M04固件，走EG800KCNGCR07A06M04固件的流程，也就是如果没有完成开机就关机可能会出现卡死，这就是一直没有的原因</p>
+</li>
+<li><p>我发现一直没有的现象还是存在，遇上一个不同，上一个gsv的urc输出是0000，这个正常，也能看到一些星，就是无法完成定位，对于a08固件版本但是重启的话必能获取定位</p>
+<blockquote>
+<p>最终确定为，开了agps，模块开机时会通过蜂窝网络获取一次星历，星历一般两到四小时过期，过期后只能从卫星电文里重新解星历，每颗星要连续收约30s，几颗星同时收，见天的话几十秒就够。但贴身放入衣兜信号时有时无，收到一半断了就得等下一轮，十分钟左右的路程确实一直没有，从衣兜里拿出来就有了，最后的处理结果是退出省电模式时，查看4g模块上电时长，超过三小时就重启模块</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="GNSS"><a href="#GNSS" class="headerlink" title="GNSS"></a>GNSS</h1><p>踩完上面的坑回头补课，把这次用到的概念记一下，省得下次又从头查。</p>
+<h2 id="GNSS-和-GPS"><a href="#GNSS-和-GPS" class="headerlink" title="GNSS 和 GPS"></a>GNSS 和 GPS</h2><p>GNSS 是全球卫星导航系统的统称，GPS 只是其中之一。现在常见的有四家：美国 GPS、中国北斗 BDS、俄罗斯 GLONASS、欧洲 Galileo，另外还有日本 QZSS 这类区域系统。EG800K 这种模组一般是多系统联合定位，NMEA 里 <code>$GP</code> 开头的是 GPS，<code>$GB</code> 或 <code>$BD</code> 是北斗，<code>$GL</code> 是 GLONASS，<code>$GA</code> 是 Galileo，<code>$GN</code> 是多系统融合后的结果。</p>
+<h2 id="定位到底需要什么"><a href="#定位到底需要什么" class="headerlink" title="定位到底需要什么"></a>定位到底需要什么</h2><p>接收机测的是信号从卫星到自己花了多久，乘上光速得到伪距。未知数有四个：x、y、z 三个坐标，再加一个接收机自己的钟差，所以至少要 4 颗星才能解出来。</p>
+<p>光有距离还不够，还得知道每颗卫星此刻在哪。这个信息卫星自己会广播，叫导航电文。问题就出在这里，电文的速率低得离谱。</p>
+<h2 id="导航电文：星历和历书"><a href="#导航电文：星历和历书" class="headerlink" title="导航电文：星历和历书"></a>导航电文：星历和历书</h2><p>拿 GPS L1 C&#x2F;A 举例，电文只有 50 bit&#x2F;s：</p>
+<ul>
+<li>一帧 1500 bit，30 秒，分 5 个子帧，每个子帧 6 秒</li>
+<li>子帧 1 到 3 是这颗星自己的钟差和星历，每 30 秒重复一次</li>
+<li>子帧 4、5 是历书，分 25 页轮播，每帧只带一页，收全要 25 × 30s &#x3D; 12.5 分钟</li>
+</ul>
+<p>两者的区别：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>星历 Ephemeris</th>
+<th>历书 Almanac</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内容</td>
+<td>本颗星的精确轨道参数</td>
+<td>全部卫星的粗略轨道</td>
+</tr>
+<tr>
+<td>用途</td>
+<td>真正拿来算位置</td>
+<td>只用来判断哪些星在天上，缩小搜索范围</td>
+</tr>
+<tr>
+<td>有效期</td>
+<td>GPS 约 2 小时更新一次，一般按 4 小时内可用</td>
+<td>几周到几个月</td>
+</tr>
+<tr>
+<td>收全耗时</td>
+<td>每颗星最少约 18 秒，等帧起点最坏约 30 秒</td>
+<td>12.5 分钟</td>
+</tr>
+</tbody></table>
+<p>容易搞混的一点：12.5 分钟是收全历书的时间，定位用的是星历，每颗星 30 秒左右，几颗星并行收。</p>
+<p>北斗的 D1 电文也是 50 bit&#x2F;s，GEO 卫星的 D2 是 500 bit&#x2F;s，思路差不多，不展开了。</p>
+<h2 id="冷启动、温启动、热启动"><a href="#冷启动、温启动、热启动" class="headerlink" title="冷启动、温启动、热启动"></a>冷启动、温启动、热启动</h2><p>区别就在接收机手里已有哪些信息：</p>
+<table>
+<thead>
+<tr>
+<th>启动方式</th>
+<th>已知信息</th>
+<th>典型 TTFF</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>冷启动</td>
+<td>啥都没有，时间、位置、历书、星历全无</td>
+<td>几十秒到几分钟</td>
+</tr>
+<tr>
+<td>温启动</td>
+<td>有大概的时间、位置和历书，星历过期</td>
+<td>几十秒</td>
+</tr>
+<tr>
+<td>热启动</td>
+<td>星历还有效</td>
+<td>1 到几秒</td>
+</tr>
+</tbody></table>
+<p>TTFF 就是首次定位时间，Time To First Fix。EG800K 硬件手册里的数字，都是空旷区域测的：</p>
+<table>
+<thead>
+<tr>
+<th>启动方式</th>
+<th>独立模式</th>
+<th>AGNSS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>冷启动</td>
+<td>28.11 s</td>
+<td>5.96 s</td>
+</tr>
+<tr>
+<td>温启动</td>
+<td>37.37 s</td>
+<td>没给</td>
+</tr>
+<tr>
+<td>热启动</td>
+<td>3.3 s</td>
+<td>没给</td>
+</tr>
+</tbody></table>
+<p>温启动比冷启动还慢，手册原文就是这么写的，我也没想明白。水平精度 CEP-50 是 2 米，意思是一半的定位点落在 2 米以内。信号一弱，这些数字就都不算数了。</p>
+<p>冷热启动的差距，对电池设备来说很要命。热启动开几秒 GNSS 就能关，温冷启动要开几十秒甚至几分钟，GNSS 本身又是耗电大户。</p>
+<h2 id="AGPS"><a href="#AGPS" class="headerlink" title="AGPS"></a>AGPS</h2><p>既然从卫星收星历这么慢，那就从网上下。AGPS 就是通过蜂窝网络拿到星历、历书、粗略时间和位置，相当于把冷启动直接变成热启动。</p>
+<p>辅助数据大致分两种：</p>
+<ul>
+<li>实时星历：就是卫星当前广播的那份，几个小时内有效，精度最好</li>
+<li>预测星历：服务器推算未来几天的轨道，比如高通的 XTRA，有效期长但精度会随时间下降</li>
+</ul>
+<p>EG800K 这边的情况，都是这次实测摸出来的：</p>
+<ul>
+<li><code>AT+QAGPS=1</code> 打开后，模组开机后第一次开 GNSS 时自动下载，之后不再刷新</li>
+<li>下载地址可以用 <code>AT+QAGPSCFG?</code> 读出来，我这里是 <code>agnss.asrmicro.com</code> 的 <code>allstar</code> 文件，物联网卡有白名单的话要放行它</li>
+<li>没找到手动触发下载的指令，<code>QGPSXTRA</code>、<code>QGPSXTRADATA</code>、<code>QAGNSS</code> 都返回 ERROR</li>
+<li>只把 GNSS 关了再开，或者重新发一遍 <code>QAGPS=1</code>，都不会重新下载</li>
+<li><code>AT+QGPSDEL=0</code> 会把现有星历删掉，别乱用</li>
+</ul>
+<p>实测数据也对得上：模组刚重启的 3 小时内，用星 20 到 29 颗，见天一分钟内定位；运行超过 6 小时后只剩 5 到 15 颗。所以最后才是那个比较土的办法，开 GNSS 前看一眼模组上电多久了，超过 3 小时就重启。</p>
+<h2 id="看-NMEA-判断问题"><a href="#看-NMEA-判断问题" class="headerlink" title="看 NMEA 判断问题"></a>看 NMEA 判断问题</h2><p>几条常用语句：</p>
+<table>
+<thead>
+<tr>
+<th>语句</th>
+<th>看什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GSV</td>
+<td>能看到哪些星，每颗星的信噪比 SNR</td>
+</tr>
+<tr>
+<td>GSA</td>
+<td>哪些星真正参与了定位，以及 PDOP、HDOP、VDOP</td>
+</tr>
+<tr>
+<td>GGA</td>
+<td>定位质量、用星数、HDOP、海拔</td>
+</tr>
+<tr>
+<td>RMC</td>
+<td>时间、经纬度、速度、航向，最简的定位结果</td>
+</tr>
+</tbody></table>
+<p>排查时最有用的是对比 GSV 和 GSA。GSV 里有一堆星，SNR 也有三四十，但 GSA 里用上的只有几颗，基本可以断定是缺星历，不是天线收不到信号。我这次就是这个现象，18 颗强星只用上 5 到 7 颗，HDOP 一度到 48。</p>
+<p>反过来如果 GSV 里 SNR 全是 0，那是根本没收到信号，要查天线、供电，或者引擎本身卡住了，也就是背景里 A08 固件那个问题。</p>
+<p>HDOP 是水平精度因子，越小越好，1 左右很好，超过 5 就别太信这个坐标了。</p>
+<h2 id="SNR-其实是-C-N0"><a href="#SNR-其实是-C-N0" class="headerlink" title="SNR 其实是 C&#x2F;N0"></a>SNR 其实是 C&#x2F;N0</h2><p>GSV 里那个叫 SNR 的字段，单位是 dB-Hz，严格说是载噪比 C&#x2F;N0，不是普通意义上的信噪比。换算大概是：</p>
+<p>C&#x2F;N0 ≈ 信号功率 dBm + 174 − 接收机噪声系数</p>
+<p>地面上的 GPS 信号大约 -130 dBm，噪声系数按 2 到 3 dB 算，C&#x2F;N0 在 41 到 42 dB-Hz 左右。所以经验上 40 以上算好，30 左右还能用，掉到 25 以下就难了。</p>
+<h2 id="灵敏度：为什么兜里跟得住却搜不到"><a href="#灵敏度：为什么兜里跟得住却搜不到" class="headerlink" title="灵敏度：为什么兜里跟得住却搜不到"></a>灵敏度：为什么兜里跟得住却搜不到</h2><p>EG800K 硬件手册给的灵敏度：</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>灵敏度</th>
+<th>手册定义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>捕获</td>
+<td>-146 dBm</td>
+<td>冷启动后 3 分钟内搜到星并定位</td>
+</tr>
+<tr>
+<td>重捕</td>
+<td>-159 dBm</td>
+<td>失锁后 3 分钟内重新捕获并定位</td>
+</tr>
+<tr>
+<td>追踪</td>
+<td>-160 dBm</td>
+<td>保持跟踪并持续定位至少 3 分钟</td>
+</tr>
+</tbody></table>
+<p>捕获和追踪差了 14 dB。原因是捕获时接收机不知道信号在哪，要在多普勒频偏和码相位两个维度上盲搜，频偏有几 kHz 的范围，C&#x2F;A 码有 1023 个码片。追踪只要环路一直锁着就行，所以能在弱得多的信号下撑住。</p>
+<p>再对一下数：开阔天空 -130 dBm，离捕获门限只有 16 dB 余量。人体对 1.5 GHz 的衰减，资料里常见的说法是十几到二十几 dB。贴身揣兜正好卡在中间，已经锁住的星还能继续跟，新星搜不到。这是推算，没实测过衰减。</p>
+<p>还有一层，跟踪住了不等于能解出电文。电文 50 bit&#x2F;s，Eb&#x2F;N0 ≈ C&#x2F;N0 − 10lg50 ≈ C&#x2F;N0 − 17 dB。BPSK 要做到 1e-5 的误码率，Eb&#x2F;N0 大约要 9.6 dB，也就是 C&#x2F;N0 要 27 dB-Hz 左右。-146 dBm 换算过来大约 26 dB-Hz，跟这个门限差不多。我猜捕获灵敏度就是被解电文卡住的。</p>
+<h2 id="天线"><a href="#天线" class="headerlink" title="天线"></a>天线</h2><p>EG800K 手册对 GNSS 天线的要求：频率 1559 到 1609 MHz，VSWR ≤ 2，无源天线增益 &gt; 0 dBi。用有源天线的话，噪声系数 &lt; 1.5 dB，内嵌 LNA 增益 &lt; 17 dB。</p>
+<p>手册推荐优先用无源天线。真要用有源天线，强烈建议预留一个 π 型衰减电路，再配一颗高性能 LDO 给天线供电，电压 2.8 到 4.3 V，典型 3.3 V。参考电路在 5.2.3 节，LDO 经过 10 Ω 电阻和 56 nH 电感馈到天线上。LNA 增益设上限、还要留衰减位，我猜是怕信号放得太大，把模组前端压饱和。</p>
+<p>无源和有源的区别在于放大发生在哪。无源天线的信号直接进模组，走线损耗和模组前端的噪声都直接扣在 C&#x2F;N0 上。有源天线在天线端先放大，后面那点走线损耗就不怎么影响了。</p>
+<p>但有源天线救不了人体遮挡。衰减发生在天线之前，放大器把信号和噪声一起放大，C&#x2F;N0 补不回来。它能挽回的只是走线和前端那几 dB。</p>
+<h2 id="坐标系：WGS-84-和-GCJ-02"><a href="#坐标系：WGS-84-和-GCJ-02" class="headerlink" title="坐标系：WGS-84 和 GCJ-02"></a>坐标系：WGS-84 和 GCJ-02</h2><p>GNSS 输出的是 WGS-84。国内地图不能直接用这个坐标，高德、腾讯用的是加了偏移的 GCJ-02，百度在这基础上又加了一层，叫 BD-09。偏差一般有几百米。</p>
+<p>设备上报原始的 WGS-84 最省事，要显示到哪家地图，就在云端或前端转成哪家的坐标。如果发现轨迹整体偏了一截，先查这个。</p>
+<h2 id="经纬度格式"><a href="#经纬度格式" class="headerlink" title="经纬度格式"></a>经纬度格式</h2><p>NMEA 和 <code>AT+QGPSLOC=0</code> 给的经纬度是 <code>ddmm.mmmm</code> 格式，经度是 <code>dddmm.mmmm</code>，不是十进制度数。拿手册里的例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+QGPSLOC: 063416.40,3143.2951N,11713.0655E,...</span><br><span class="line">纬度 = 31 + 43.2951 / 60 = 31.721585</span><br><span class="line">经度 = 117 + 13.0655 / 60 = 117.217758</span><br></pre></td></tr></table></figure>
+
+<p>南纬和西经取负。要是直接把 3143.2951 当成 31.432951 度，纬度就差了 0.29 度，大约 32 公里。不想自己转的话，<code>AT+QGPSLOC=2</code> 直接给十进制度数，只保留 5 位小数，大约 1 米精度，够用。</p>
+<h2 id="AP-Flash-和-QGPSDEL"><a href="#AP-Flash-和-QGPSDEL" class="headerlink" title="AP-Flash 和 QGPSDEL"></a>AP-Flash 和 QGPSDEL</h2><p><code>AT+QGPSCFG=&quot;apflash&quot;,1</code> 是移远的快速热启动功能，打开 GNSS 时把星历导进 GNSS 引擎，星历从哪来手册没说。我这两台都开着。不管从哪来，星历本身几个小时就过期，所以它只对短时间关机有用。关得久了，导不导都一样，替代不了重启模组去刷 AGPS。这条是推算。</p>
+<p><code>AT+QGPSDEL</code> 的三个参数，按移远 GNSS 应用指导：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>删除全部辅助数据，下次强制冷启动</td>
+</tr>
+<tr>
+<td>1</td>
+<td>不删，条件允许时热启动</td>
+</tr>
+<tr>
+<td>2</td>
+<td>删除部分数据，条件允许时温启动</td>
+</tr>
+</tbody></table>
+<p>只能在 GNSS 打开时执行。</p>
+<h2 id="静止漂移和多径"><a href="#静止漂移和多径" class="headerlink" title="静止漂移和多径"></a>静止漂移和多径</h2><p>设备静止时，坐标也会来回跳，开阔地几米，楼边和室内能到几十米。多径是一个原因，信号经墙面反射后才到，测出来的距离偏长。</p>
+<p>对设备的影响是，静止时速度字段也不是 0。单靠 GNSS 速度判断有没有在动，要设门限，或者配合 IMU 一起判断。</p>
+<h2 id="没星的时候：基站和-WiFi-定位"><a href="#没星的时候：基站和-WiFi-定位" class="headerlink" title="没星的时候：基站和 WiFi 定位"></a>没星的时候：基站和 WiFi 定位</h2><p>GNSS 没定上位时，可以拿基站或 WiFi 兜底。模组能读到小区信息，<code>AT+QENG</code>、<code>AT+QCELLINFO</code> 的用法见移远的 QuecCell 应用指导，但真正的定位要拿 Cell ID 去第三方数据库查。城区精度几百米，郊区可能到几公里。</p>
+<p>WiFi 定位是扫周围 AP 的 MAC 去查库，城区能到几十米。ESP32 本身就能扫 WiFi，不用额外加硬件。</p>
+<h2 id="时间"><a href="#时间" class="headerlink" title="时间"></a>时间</h2><p>NMEA 里的时间是 UTC，北京时间要加 8 小时。</p>
+<p>GPS 时从 1980-01-06 开始算，不加闰秒，现在比 UTC 快 18 秒。北斗时从 2006-01-01 开始，比 UTC 快 4 秒。</p>
+<p>GPS 周数只有 10 bit，1024 周，大约 19.6 年翻转一次，上一次是 2019 年 4 月。老模组固件没处理好的话，日期会跳回 20 年前。</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a target="_blank" rel="noopener" href="https://developer.quectel.com/doc/quecpython/FAQ/zh/hardware/gnss.html">GNSS定位相关问题</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/1930633973794571611">GNSS 接收机是如何寻找卫星的</a></p>
+<p><a target="_blank" rel="noopener" href="https://dev.to/applekoiot/gnss-cold-start-vs-hot-start-why-ttff-is-the-silent-battery-killer-in-iot-trackers-5h93">GNSS 冷启动与热启动：为什么 TTFF 是物联网追踪器中电池的隐形杀手</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.gps.gov/technical/icwg/">GPS 接口控制文件 IS-GPS-200，导航电文格式的原始出处</a></p>
+<p>数据手册，均来自移远官方资料：</p>
+<ul>
+<li>《EC800K&amp;EG800K 系列硬件设计手册》V1.1，第 5.2 节 GNSS 性能与参考设计、第 5.4 节天线设计要求</li>
+<li>《EC200N-CN&amp;EC800M-CN&amp;EG915N 系列 GNSS 应用指导》V1.0.0，<code>AT+QGPSCFG=&quot;apflash&quot;</code>、<code>AT+QGPSDEL</code>、<code>AT+QGPSLOC</code> 等指令说明</li>
+<li>《LTE Standard(A) 系列 QuecCell 应用指导》V1.5，<code>AT+QENG</code>、<code>AT+QCELLINFO</code> 小区信息查询</li>
+</ul>
+
+      </div>
+      
+        <div class="prev-or-next">
+          <div class="post-foot-next">
+            
+              <a href="/2026/10/13/221-sdr-zhi-b210-mo-ni-ji-zhan/" target="_self">
+                <i class="iconfont icon-chevronleft"></i>
+                <span>Prev</span>
+              </a>
+            
+          </div>
+          <div class="post-attach">
+            <span class="post-pubtime">
+              <svg class="post-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span class="post-date-label">Publish time</span>
+              2026-11-18
+            </span>
+            
+          </div>
+          <div class="post-foot-prev">
+            
+              <a href="/2026/11/19/223-clash-tun-lu-you-pai-chu/" target="_self">
+                <span>Next</span>
+                <i class="iconfont icon-chevronright"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+    </div>
+    <aside class="post-sidebar">
+      
+        <div class="sidebar-author">
+          <img class="sidebar-avatar" src="/images/northcat-avatar.png" alt="Northcat">
+        </div>
+      
+      
+  <button id="btn-catalog" class="btn-catalog" type="button" aria-controls="catalog" aria-expanded="false" aria-label="Contents" title="Contents">
+    <i class="iconfont icon-catalog" aria-hidden="true"></i>
+  </button>
+  <div class="post-catalog hidden" id="catalog">
+    
+
+  <div class="navbar navbar--rail">
+    
+    <!-- 灯绳导航的悬浮命中区：灯绳本体只有 2px 宽，瞄准很难，
+         这块透明矩形把「灯绳附近」也算进可悬浮范围（样式见 catalog-left.css） -->
+    <span class="rail-hit" aria-hidden="true"></span>
+    
+    <ul>
+      
+        <li class="nav-item" data-path="/">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="nav-item" data-path="/archives/">
+          <a href="/archives/">Archives</a>
+        </li>
+      
+        <li class="nav-item" data-path="/categories/">
+          <a href="/categories/">Categories</a>
+        </li>
+      
+        <li class="nav-item" data-path="/tags/">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="nav-item" data-path="/friends/">
+          <a href="/friends/">Friends</a>
+        </li>
+      
+        <li class="nav-item" data-path="/about/">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+
+<script src="/js/activeNav.js"></script>
+
+
+
+  
+<script src="/js/topNav.js"></script>
+
+
+
+    <div class="title">Contents</div>
+    <div class="catalog-content">
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GNSS"><span class="toc-text">GNSS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GNSS-%E5%92%8C-GPS"><span class="toc-text">GNSS 和 GPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D%E5%88%B0%E5%BA%95%E9%9C%80%E8%A6%81%E4%BB%80%E4%B9%88"><span class="toc-text">定位到底需要什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E8%88%AA%E7%94%B5%E6%96%87%EF%BC%9A%E6%98%9F%E5%8E%86%E5%92%8C%E5%8E%86%E4%B9%A6"><span class="toc-text">导航电文：星历和历书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%B7%E5%90%AF%E5%8A%A8%E3%80%81%E6%B8%A9%E5%90%AF%E5%8A%A8%E3%80%81%E7%83%AD%E5%90%AF%E5%8A%A8"><span class="toc-text">冷启动、温启动、热启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AGPS"><span class="toc-text">AGPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%8B-NMEA-%E5%88%A4%E6%96%AD%E9%97%AE%E9%A2%98"><span class="toc-text">看 NMEA 判断问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SNR-%E5%85%B6%E5%AE%9E%E6%98%AF-C-N0"><span class="toc-text">SNR 其实是 C&#x2F;N0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%81%B5%E6%95%8F%E5%BA%A6%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%9C%E9%87%8C%E8%B7%9F%E5%BE%97%E4%BD%8F%E5%8D%B4%E6%90%9C%E4%B8%8D%E5%88%B0"><span class="toc-text">灵敏度：为什么兜里跟得住却搜不到</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%A9%E7%BA%BF"><span class="toc-text">天线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9D%90%E6%A0%87%E7%B3%BB%EF%BC%9AWGS-84-%E5%92%8C-GCJ-02"><span class="toc-text">坐标系：WGS-84 和 GCJ-02</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%8F%E7%BA%AC%E5%BA%A6%E6%A0%BC%E5%BC%8F"><span class="toc-text">经纬度格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AP-Flash-%E5%92%8C-QGPSDEL"><span class="toc-text">AP-Flash 和 QGPSDEL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%AD%A2%E6%BC%82%E7%A7%BB%E5%92%8C%E5%A4%9A%E5%BE%84"><span class="toc-text">静止漂移和多径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B2%A1%E6%98%9F%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%9A%E5%9F%BA%E7%AB%99%E5%92%8C-WiFi-%E5%AE%9A%E4%BD%8D"><span class="toc-text">没星的时候：基站和 WiFi 定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%97%B4"><span class="toc-text">时间</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol>
+      
+    </div>
+  </div>
+  <div class="catalog-backdrop" id="catalog-backdrop" aria-hidden="true"></div>
+
+  
+<script src="/js/catalog.js"></script>
+
+
+
+
+    </aside>
+    
+      <div class="comments-container">
+        
+
+
+
+
+
+
+
+      </div>
+    
+  </div>
+
+
+        
+<div class="footer">
+  <div class="social">
+    <ul>
+      
+        <li>
+          
+              <a title="github" target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">
+                <i class="iconfont icon-github"></i>
+              </a>
+              
+        </li>
+        
+    </ul>
+  </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Copyright © 2026 HaxOrange</a>
+        
+    </div>
+  
+    
+    <div class="footer-more">
+      
+        <a target="_blank" rel="noopener" href="https://github.com/HaxIOX/hexo-theme-haxorange">Theme by HaxOrange | Powered by Hexo</a>
+        
+    </div>
+  
+  
+  
+    
+    
+      <div class="footer-stats">
+        
+          <span class="footer-stat-item"><strong>222</strong> 文章</span>
+        
+        
+          <span class="footer-stats-separator">·</span>
+        
+        
+          <span class="footer-stat-item" data-runtime-since="2022-05-03">运行时间 <span data-runtime-days>0</span></span>
+        
+      </div>
+    
+  
+</div>
+
+
+  <script>
+    (function () {
+      var node = document.querySelector('[data-runtime-since]')
+      var output = document.querySelector('[data-runtime-days]')
+      if (!node || !output) return
+      var since = new Date(node.getAttribute('data-runtime-since') + 'T00:00:00')
+      if (isNaN(since.getTime())) return
+      var days = Math.max(0, Math.floor((Date.now() - since.getTime()) / 86400000))
+      var years = Math.floor(days / 365)
+      var months = Math.floor((days % 365) / 30)
+      var remaining = days - years * 365 - months * 30
+      var parts = []
+      if (years) parts.push(years + '年')
+      if (months) parts.push(months + '个月')
+      if (remaining || !parts.length) parts.push(remaining + '天')
+      output.textContent = parts.join(' ')
+    })()
+  </script>
+
+
+      </div>
+
+      <div class="tools-bar">
+  <div class="back-to-top tools-bar-item hidden">
+  <a href="javascript: void(0)" title="Back to top">
+    <i class="iconfont icon-chevronup"></i>
+  </a>
+</div>
+
+
+<script src="/js/backtotop.js"></script>
+
+
+
+  
+  <div class="search-icon tools-bar-item" id="search-icon">
+    <a href="javascript: void(0)" title="Search">
+      <i class="iconfont icon-search"></i>
+    </a>
+  </div>
+
+  <div class="search-overlay hidden">
+    <div class="search-content" tabindex="0">
+      <div class="search-title">
+        <span class="search-icon-input">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-search"></i>
+          </a>
+        </span>
+        
+          <input type="text" class="search-input" id="search-input" placeholder="Search...">
+        
+        <span class="search-close-icon" id="search-close-icon">
+          <a href="javascript: void(0)">
+            <i class="iconfont icon-close"></i>
+          </a>
+        </span>
+      </div>
+      <div class="search-result" id="search-result"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var inputArea = document.querySelector("#search-input")
+    var searchOverlayArea = document.querySelector(".search-overlay")
+
+    inputArea.onclick = function() {
+      getSearchFile()
+      this.onclick = null
+    }
+
+    inputArea.onkeydown = function() {
+      if(event.keyCode == 13)
+        return false
+    }
+
+    function openOrHideSearchContent() {
+      let isHidden = searchOverlayArea.classList.contains('hidden')
+      if (isHidden) {
+        searchOverlayArea.classList.remove('hidden')
+        document.body.classList.add('hidden')
+        // inputArea.focus()
+      } else {
+        searchOverlayArea.classList.add('hidden')
+        document.body.classList.remove('hidden')
+      }
+    }
+
+    function blurSearchContent(e) {
+      if (e.target === searchOverlayArea) {
+        openOrHideSearchContent()
+      }
+    }
+
+    document.querySelector("#search-icon").addEventListener("click", openOrHideSearchContent, false)
+    document.querySelector("#search-close-icon").addEventListener("click", openOrHideSearchContent, false)
+    searchOverlayArea.addEventListener("click", blurSearchContent, false)
+
+    var searchFunc = function (path, search_id, content_id) {
+      'use strict';
+      var $input = document.getElementById(search_id);
+      var $resultContent = document.getElementById(content_id);
+      $resultContent.innerHTML = "<ul><span class='local-search-empty'>First search, index file loading, please wait...<span></ul>";
+      $.ajax({
+        // 0x01. load xml file
+        url: path,
+        dataType: "xml",
+        success: function (xmlResponse) {
+          // 0x02. parse xml file
+          var datas = $("entry", xmlResponse).map(function () {
+            return {
+              title: $("title", this).text(),
+              content: $("content", this).text(),
+              url: $("url", this).text()
+            };
+          }).get();
+          $resultContent.innerHTML = "";
+
+          $input.addEventListener('input', function () {
+            // 0x03. parse query to keywords list
+            var str = '<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length <= 0) {
+              return;
+            }
+            // 0x04. perform local searching
+            datas.forEach(function (data) {
+              var isMatch = true;
+              var content_index = [];
+              if (!data.title || data.title.trim() === '') {
+                data.title = "Untitled";
+              }
+              var orig_data_title = data.title.trim();
+              var data_title = orig_data_title.toLowerCase();
+              var orig_data_content = data.content.trim().replace(/<[^>]+>/g, "");
+              var data_content = orig_data_content.toLowerCase();
+              var data_url = data.url;
+              var index_title = -1;
+              var index_content = -1;
+              var first_occur = -1;
+              // only match artiles with not empty contents
+              if (data_content !== '') {
+                keywords.forEach(function (keyword, i) {
+                  index_title = data_title.indexOf(keyword);
+                  index_content = data_content.indexOf(keyword);
+
+                  if (index_title < 0 && index_content < 0) {
+                    isMatch = false;
+                  } else {
+                    if (index_content < 0) {
+                      index_content = 0;
+                    }
+                    if (i == 0) {
+                      first_occur = index_content;
+                    }
+                    // content_index.push({index_content:index_content, keyword_len:keyword_len});
+                  }
+                });
+              } else {
+                isMatch = false;
+              }
+              // 0x05. show search results
+              if (isMatch) {
+                str += "<li><a href='" + data_url + "' class='search-result-title'>" + orig_data_title + "</a>";
+                var content = orig_data_content;
+                if (first_occur >= 0) {
+                  // cut out 100 characters
+                  var start = first_occur - 20;
+                  var end = first_occur + 80;
+
+                  if (start < 0) {
+                    start = 0;
+                  }
+
+                  if (start == 0) {
+                    end = 100;
+                  }
+
+                  if (end > content.length) {
+                    end = content.length;
+                  }
+
+                  var match_content = content.substr(start, end);
+
+                  // highlight all keywords
+                  keywords.forEach(function (keyword) {
+                    var regS = new RegExp(keyword, "gi");
+                    match_content = match_content.replace(regS, "<span class=\"search-keyword\">" + keyword + "</span>");
+                  });
+
+                  str += "<p class=\"search-result-abstract\">" + match_content + "...</p>"
+                }
+                str += "</li>";
+              }
+            });
+            str += "</ul>";
+            if (str.indexOf('<li>') === -1) {
+              return $resultContent.innerHTML = "<ul><span class='local-search-empty'>No result<span></ul>";
+            }
+            $resultContent.innerHTML = str;
+          });
+        },
+        error: function(xhr, status, error) {
+          $resultContent.innerHTML = ""
+          if (xhr.status === 404) {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The search.xml file was not found, please refer to：<a href='https://github.com/zchengsite/hexo-theme-oranges#configuration' target='_black'>configuration</a><span></ul>";
+          } else {
+            $resultContent.innerHTML = "<ul><span class='local-search-empty'>The request failed, Try to refresh the page or try again later.<span></ul>";
+          }
+        }
+      });
+      $(document).on('click', '#search-close-icon', function() {
+        $('#search-input').val('');
+        $('#search-result').html('');
+      });
+    }
+
+    var getSearchFile = function() {
+        var path = "/search.xml";
+        searchFunc(path, 'search-input', 'search-result');
+    }
+  </script>
+
+
+
+
+  
+  <div class="tools-bar-item theme-icon" id="switch-color-scheme">
+    <a href="javascript: void(0)" title="Switch color mode">
+      <i id="theme-icon" class="iconfont icon-moon"></i>
+    </a>
+  </div>
+
+  
+<script src="/js/colorscheme.js"></script>
+
+
+
+
+
+  
+  
+    <div class="share-icon tools-bar-item">
+      <a href="javascript: void(0)" id="share-icon" title="Share">
+        <i class="iconfont iconshare"></i>
+      </a>
+      <div class="share-content hidden">
+        
+          <a class="share-item" href="https://twitter.com/intent/tweet?text=' + GNSS%E7%9B%B8%E5%85%B3%E8%8A%9D%E5%A3%AB + '&url=' + http%3A%2F%2Fblog.isgeek.top%2F2026%2F11%2F18%2F222-gnss-xiang-guan-zhi-shi%2F + '" target="_blank" title="Twitter">
+            <i class="iconfont icon-twitter"></i>
+          </a>
+        
+        
+          <a class="share-item" href="https://www.facebook.com/sharer.php?u=http://blog.isgeek.top/2026/11/18/222-gnss-xiang-guan-zhi-shi/" target="_blank" title="Facebook">
+            <i class="iconfont icon-facebooksquare"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+  
+<script src="/js/shares.js"></script>
+
+
+
+</div>
+
+    </div>
+  </body>
+</html>
